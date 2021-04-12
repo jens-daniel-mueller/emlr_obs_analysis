@@ -12,7 +12,7 @@
 <meta name="author" content="Jens Daniel Müller" />
 
 
-<title>Home</title>
+<title>Comparison of cant estimates to results of Gruber et al 2019</title>
 
 <script src="site_libs/header-attrs-2.5/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
@@ -21,6 +21,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
@@ -277,6 +280,75 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
 
 </head>
 
@@ -284,6 +356,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -339,7 +421,7 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Home</h1>
+<h1 class="title toc-ignore">Comparison of cant estimates to results of Gruber et al 2019</h1>
 <h4 class="author">Jens Daniel Müller</h4>
 <h4 class="date">12 April, 2021</h4>
 
@@ -495,7 +577,7 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <div id="versions" class="tab-pane fade">
 
 <p>
-These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/index.Rmd</code>) and HTML (<code>docs/index.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/Gruber_2019_comparison.Rmd</code>) and HTML (<code>docs/Gruber_2019_comparison.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
 </p>
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
@@ -524,7 +606,7 @@ Message
 Rmd
 </td>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/f4e283cba5621ffea952ccebacc9a39d6b5613a4/analysis/index.Rmd" target="_blank">f4e283c</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/f4e283cba5621ffea952ccebacc9a39d6b5613a4/analysis/Gruber_2019_comparison.Rmd" target="_blank">f4e283c</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -536,74 +618,6 @@ jens-daniel-mueller
 include G19 comparison
 </td>
 </tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/bfcfa12e260bea1130de7fb9f0df2ffd934b4786/docs/index.html" target="_blank">bfcfa12</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-04-12
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/012caf35948e155bfbe2273e615efe857b53d414/docs/index.html" target="_blank">012caf3</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-04-12
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/0be5bda4b1706a8a59037a9c1ed120ab3528436f/docs/index.html" target="_blank">0be5bda</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-04-12
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/739c1fa962e693194dfa72656ebb7303fe991aaf/analysis/index.Rmd" target="_blank">739c1fa</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-04-12
-</td>
-<td>
-Start workflowr project.
-</td>
-</tr>
 </tbody>
 </table>
 </div>
@@ -611,10 +625,36 @@ Start workflowr project.
 </div>
 </div>
 </div>
-<div id="welcome" class="section level1">
-<h1>WELCOME!</h1>
-<p>On this website we present our ongoing ambition to quantify anthropogenic CO<sub>2</sub> in the ocean based on observations.</p>
-<p>Navigate trough the navbar on top to take a look at the various chapters of this project. The links in the upper right corner bring you to the source code of this project and to Jens’ homepage.</p>
+<div id="data-sources" class="section level1" number="1">
+<h1 number="1"><span class="header-section-number">1</span> Data sources</h1>
+<p>Following Cant estimates are used:</p>
+<ul>
+<li>Zonal mean (basin, lat, depth)</li>
+<li>Inventories (lat, lon) ## Gruber 2019</li>
+</ul>
+<p>Results from Gruber et al 2019 are referred to as G19.</p>
+<pre class="r"><code>cant_inv_G19 &lt;-
+  read_csv(paste(path_preprocessing,
+                 &quot;G19_cant_inv.csv&quot;,
+                 sep = &quot;&quot;))
+
+cant_inv_G19 &lt;- cant_inv_G19 %&gt;%
+  select(-eras)
+
+cant_zonal_G19 &lt;-
+  read_csv(paste(path_preprocessing,
+                 &quot;G19_cant_zonal.csv&quot;,
+                 sep = &quot;&quot;))
+
+cant_zonal_G19 &lt;- cant_zonal_G19 %&gt;%
+  filter(eras == &quot;JGOFS_GO&quot;) %&gt;%
+  select(lat,
+         depth,
+         basin_AIP,
+         cant_mean,
+         cant_pos_mean,
+         cant_sd,
+         cant_pos_sd)</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -643,17 +683,35 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] workflowr_1.6.2
+ [1] gt_0.2.2        marelac_2.1.10  shape_1.4.5     scales_1.1.1   
+ [5] metR_0.9.0      scico_1.2.0     patchwork_1.1.1 collapse_1.5.0 
+ [9] forcats_0.5.0   stringr_1.4.0   dplyr_1.0.5     purrr_0.3.4    
+[13] readr_1.4.0     tidyr_1.1.2     tibble_3.0.4    ggplot2_3.3.3  
+[17] tidyverse_1.3.0 workflowr_1.6.2
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.5      rstudioapi_0.13 whisker_0.4     knitr_1.30     
- [5] magrittr_1.5    R6_2.5.0        rlang_0.4.10    stringr_1.4.0  
- [9] tools_4.0.3     xfun_0.18       git2r_0.27.1    htmltools_0.5.0
-[13] ellipsis_0.3.1  rprojroot_2.0.2 yaml_2.2.1      digest_0.6.27  
-[17] tibble_3.0.4    lifecycle_1.0.0 crayon_1.3.4    later_1.1.0.1  
-[21] vctrs_0.3.5     promises_1.1.1  fs_1.5.0        glue_1.4.2     
-[25] evaluate_0.14   rmarkdown_2.5   stringi_1.5.3   compiler_4.0.3 
-[29] pillar_1.4.7    httpuv_1.5.4    pkgconfig_2.0.3</code></pre>
+ [1] httr_1.4.2               jsonlite_1.7.1           modelr_0.1.8            
+ [4] assertthat_0.2.1         blob_1.2.1               cellranger_1.1.0        
+ [7] yaml_2.2.1               pillar_1.4.7             backports_1.1.10        
+[10] lattice_0.20-41          glue_1.4.2               RcppEigen_0.3.3.7.0     
+[13] digest_0.6.27            promises_1.1.1           checkmate_2.0.0         
+[16] rvest_0.3.6              colorspace_1.4-1         htmltools_0.5.0         
+[19] httpuv_1.5.4             Matrix_1.2-18            pkgconfig_2.0.3         
+[22] broom_0.7.5              seacarb_3.2.14           haven_2.3.1             
+[25] whisker_0.4              later_1.1.0.1            git2r_0.27.1            
+[28] generics_0.0.2           ellipsis_0.3.1           withr_2.3.0             
+[31] cli_2.1.0                magrittr_1.5             crayon_1.3.4            
+[34] readxl_1.3.1             evaluate_0.14            fs_1.5.0                
+[37] fansi_0.4.1              xml2_1.3.2               RcppArmadillo_0.10.1.2.0
+[40] oce_1.2-0                tools_4.0.3              data.table_1.13.2       
+[43] hms_0.5.3                lifecycle_1.0.0          munsell_0.5.0           
+[46] reprex_0.3.0             gsw_1.0-5                compiler_4.0.3          
+[49] rlang_0.4.10             grid_4.0.3               rstudioapi_0.13         
+[52] rmarkdown_2.5            testthat_2.3.2           gtable_0.3.0            
+[55] DBI_1.1.0                R6_2.5.0                 lubridate_1.7.9         
+[58] knitr_1.30               rprojroot_2.0.2          stringi_1.5.3           
+[61] parallel_4.0.3           Rcpp_1.0.5               vctrs_0.3.5             
+[64] dbplyr_1.4.4             tidyselect_1.1.0         xfun_0.18               </code></pre>
 </div>
 </div>
 
@@ -673,6 +731,8 @@ footer is added to webpages before the MathJax javascript. -->
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -710,6 +770,32 @@ $(document).ready(function () {
 });
 </script>
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
