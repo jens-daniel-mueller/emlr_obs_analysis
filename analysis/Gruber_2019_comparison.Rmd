@@ -1,5 +1,5 @@
 ---
-title: "Comparison of cant estimates to results of Gruber et al 2019"
+title: "Comparison of Cant estimates to results of Gruber et al 2019"
 author: "Jens Daniel Müller"
 date:  "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
@@ -63,7 +63,7 @@ Following Cant estimates are used:
 
 Results from Gruber et al 2019 are referred to as G19.
 
-```{r read_Gruber_cant_file, eval=FALSE}
+```{r read_Gruber_cant_file}
 
 cant_inv_G19 <-
   read_csv(paste(path_preprocessing,
@@ -90,3 +90,75 @@ cant_zonal_G19 <- cant_zonal_G19 %>%
 
 
 ```
+
+
+# Color scales G19
+
+```{r color_test}
+
+p_map_cant_inv(
+      cant_inv_G19
+)
+
+breaks = params_global$breaks_cant_pos_inv
+breaks = c(seq(0,16,1),Inf)
+breaks_n <- length(breaks) - 1
+
+cant_inv_G19 <- cant_inv_G19 %>%
+  mutate(cant_pos_inv_int = cut(cant_pos_inv,
+                       breaks,
+                       right = FALSE))
+
+map +
+  geom_raster(data = cant_inv_G19,
+              aes(lon, lat, fill = cant_pos_inv_int)) +
+  scale_fill_manual(values = p_gruber_rainbow(breaks_n),
+                    name = expression(atop(Delta * C["ant,pos"],
+                                           (mol ~ m ^ {
+                                             -2
+                                           })))) +
+  guides(fill = guide_colorsteps(barheight = unit(6, "cm"))) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())
+
+ggsave(path = "output/Gruber_2019_comparison",
+       filename = "G19_gruber_rainbow.png",
+       height = 3,
+       width = 8)
+
+map +
+  geom_raster(data = cant_inv_G19,
+              aes(lon, lat, fill = cant_pos_inv_int)) +
+  scale_fill_viridis_d(name = expression(atop(Delta * C["ant,pos"],
+                                           (mol ~ m ^ {
+                                             -2
+                                           })))) +
+  guides(fill = guide_colorsteps(barheight = unit(6, "cm"))) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())
+
+ggsave(path = "output/Gruber_2019_comparison",
+       filename = "G19_viridis.png",
+       height = 3,
+       width = 8)
+
+map +
+  geom_raster(data = cant_inv_G19,
+              aes(lon, lat, fill = cant_pos_inv_int)) +
+  scale_fill_scico_d(palette = "batlow",
+                   name = expression(atop(Delta * C["ant,pos"],
+                                           (mol ~ m ^ {
+                                             -2
+                                           })))) +
+  guides(fill = guide_colorsteps(barheight = unit(6, "cm"))) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())
+
+ggsave(path = "output/Gruber_2019_comparison",
+       filename = "G19_batlow.png",
+       height = 3,
+       width = 8)
+
+
+```
+
