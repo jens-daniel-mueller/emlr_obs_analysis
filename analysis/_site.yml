@@ -1,17 +1,20 @@
-name: "emlr_obs_analysis"
+name: emlr_obs_analysis
 output_dir: ../docs
 navbar:
-  title: "emlr_obs_analysis"
+  title: emlr obs analysis
   left:
   - text: Home
     href: index.html
-  - text: About
-    href: about.html
-  - text: License
-    href: license.html
+  right:
+  - icon: fa-github
+    text: Source code
+    href: https://github.com/jens-daniel-mueller/emlr_obs_analysis
 output:
   workflowr::wflow_html:
     toc: yes
-    toc_float: yes
-    theme: cosmo
+    toc_float:
+      collapsed: no
+    toc_depth: 3
+    theme: flatly
+    code_folding: hide
     highlight: textmate
