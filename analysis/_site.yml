@@ -5,10 +5,15 @@ navbar:
   left:
   - text: Home
     href: index.html
+  - text: Gruber comparison
+    href: Gruber_2019_comparison.html
   right:
   - icon: fa-github
     text: Source code
     href: https://github.com/jens-daniel-mueller/emlr_obs_analysis
+  - icon: fa-home
+    text: Jens' homepage
+    href: https://jens-daniel-mueller.github.io/
 output:
   workflowr::wflow_html:
     toc: yes
