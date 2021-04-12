@@ -12,7 +12,7 @@
 <meta name="author" content="Jens Daniel Müller" />
 
 
-<title>Comparison of cant estimates to results of Gruber et al 2019</title>
+<title>Comparison of Cant estimates to results of Gruber et al 2019</title>
 
 <script src="site_libs/header-attrs-2.5/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
@@ -421,7 +421,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Comparison of cant estimates to results of Gruber et al 2019</h1>
+<h1 class="title toc-ignore">Comparison of Cant estimates to results of Gruber et al 2019</h1>
 <h4 class="author">Jens Daniel Müller</h4>
 <h4 class="date">12 April, 2021</h4>
 
@@ -539,16 +539,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreef4e283cba5621ffea952ccebacc9a39d6b5613a4targetblankf4e283ca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/f4e283cba5621ffea952ccebacc9a39d6b5613a4" target="_blank">f4e283c</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreec27efa89c44092beaf2e6a2f858a87ef5e154489targetblankc27efa8a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/c27efa89c44092beaf2e6a2f858a87ef5e154489" target="_blank">c27efa8</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreef4e283cba5621ffea952ccebacc9a39d6b5613a4targetblankf4e283ca" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreec27efa89c44092beaf2e6a2f858a87ef5e154489targetblankc27efa8a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/f4e283cba5621ffea952ccebacc9a39d6b5613a4" target="_blank">f4e283c</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/c27efa89c44092beaf2e6a2f858a87ef5e154489" target="_blank">c27efa8</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -556,6 +556,7 @@ Note that you need to be careful to ensure that all relevant files for the analy
 <pre><code>
 Ignored files:
     Ignored:    .Rproj.user/
+    Ignored:    output/Gruber_2019_comparison/
 
 Unstaged changes:
     Modified:   .gitignore
@@ -601,6 +602,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/c27efa89c44092beaf2e6a2f858a87ef5e154489/analysis/Gruber_2019_comparison.Rmd" target="_blank">c27efa8</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-04-12
+</td>
+<td>
+include G19 comparison
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/c9eb29b15060165242a8151dba4c5ec82d3a280d/docs/Gruber_2019_comparison.html" target="_blank">c9eb29b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-04-12
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -655,6 +690,71 @@ cant_zonal_G19 &lt;- cant_zonal_G19 %&gt;%
          cant_pos_mean,
          cant_sd,
          cant_pos_sd)</code></pre>
+</div>
+<div id="color-scales-g19" class="section level1" number="2">
+<h1 number="2"><span class="header-section-number">2</span> Color scales G19</h1>
+<pre class="r"><code>p_map_cant_inv(
+      cant_inv_G19
+)</code></pre>
+<p><img src="figure/Gruber_2019_comparison.Rmd/color_test-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>breaks = params_global$breaks_cant_pos_inv
+breaks = c(seq(0,16,1),Inf)
+breaks_n &lt;- length(breaks) - 1
+
+cant_inv_G19 &lt;- cant_inv_G19 %&gt;%
+  mutate(cant_pos_inv_int = cut(cant_pos_inv,
+                       breaks,
+                       right = FALSE))
+
+map +
+  geom_raster(data = cant_inv_G19,
+              aes(lon, lat, fill = cant_pos_inv_int)) +
+  scale_fill_manual(values = p_gruber_rainbow(breaks_n),
+                    name = expression(atop(Delta * C[&quot;ant,pos&quot;],
+                                           (mol ~ m ^ {
+                                             -2
+                                           })))) +
+  guides(fill = guide_colorsteps(barheight = unit(6, &quot;cm&quot;))) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())</code></pre>
+<p><img src="figure/Gruber_2019_comparison.Rmd/color_test-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(path = &quot;output/Gruber_2019_comparison&quot;,
+       filename = &quot;G19_gruber_rainbow.png&quot;,
+       height = 3,
+       width = 8)
+
+map +
+  geom_raster(data = cant_inv_G19,
+              aes(lon, lat, fill = cant_pos_inv_int)) +
+  scale_fill_viridis_d(name = expression(atop(Delta * C[&quot;ant,pos&quot;],
+                                           (mol ~ m ^ {
+                                             -2
+                                           })))) +
+  guides(fill = guide_colorsteps(barheight = unit(6, &quot;cm&quot;))) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())</code></pre>
+<p><img src="figure/Gruber_2019_comparison.Rmd/color_test-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(path = &quot;output/Gruber_2019_comparison&quot;,
+       filename = &quot;G19_viridis.png&quot;,
+       height = 3,
+       width = 8)
+
+map +
+  geom_raster(data = cant_inv_G19,
+              aes(lon, lat, fill = cant_pos_inv_int)) +
+  scale_fill_scico_d(palette = &quot;batlow&quot;,
+                   name = expression(atop(Delta * C[&quot;ant,pos&quot;],
+                                           (mol ~ m ^ {
+                                             -2
+                                           })))) +
+  guides(fill = guide_colorsteps(barheight = unit(6, &quot;cm&quot;))) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())</code></pre>
+<p><img src="figure/Gruber_2019_comparison.Rmd/color_test-4.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(path = &quot;output/Gruber_2019_comparison&quot;,
+       filename = &quot;G19_batlow.png&quot;,
+       height = 3,
+       width = 8)</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -690,28 +790,29 @@ other attached packages:
 [17] tidyverse_1.3.0 workflowr_1.6.2
 
 loaded via a namespace (and not attached):
- [1] httr_1.4.2               jsonlite_1.7.1           modelr_0.1.8            
- [4] assertthat_0.2.1         blob_1.2.1               cellranger_1.1.0        
- [7] yaml_2.2.1               pillar_1.4.7             backports_1.1.10        
-[10] lattice_0.20-41          glue_1.4.2               RcppEigen_0.3.3.7.0     
-[13] digest_0.6.27            promises_1.1.1           checkmate_2.0.0         
-[16] rvest_0.3.6              colorspace_1.4-1         htmltools_0.5.0         
-[19] httpuv_1.5.4             Matrix_1.2-18            pkgconfig_2.0.3         
-[22] broom_0.7.5              seacarb_3.2.14           haven_2.3.1             
-[25] whisker_0.4              later_1.1.0.1            git2r_0.27.1            
-[28] generics_0.0.2           ellipsis_0.3.1           withr_2.3.0             
-[31] cli_2.1.0                magrittr_1.5             crayon_1.3.4            
-[34] readxl_1.3.1             evaluate_0.14            fs_1.5.0                
-[37] fansi_0.4.1              xml2_1.3.2               RcppArmadillo_0.10.1.2.0
-[40] oce_1.2-0                tools_4.0.3              data.table_1.13.2       
-[43] hms_0.5.3                lifecycle_1.0.0          munsell_0.5.0           
-[46] reprex_0.3.0             gsw_1.0-5                compiler_4.0.3          
-[49] rlang_0.4.10             grid_4.0.3               rstudioapi_0.13         
-[52] rmarkdown_2.5            testthat_2.3.2           gtable_0.3.0            
-[55] DBI_1.1.0                R6_2.5.0                 lubridate_1.7.9         
-[58] knitr_1.30               rprojroot_2.0.2          stringi_1.5.3           
-[61] parallel_4.0.3           Rcpp_1.0.5               vctrs_0.3.5             
-[64] dbplyr_1.4.4             tidyselect_1.1.0         xfun_0.18               </code></pre>
+ [1] httr_1.4.2               viridisLite_0.3.0        jsonlite_1.7.1          
+ [4] modelr_0.1.8             assertthat_0.2.1         blob_1.2.1              
+ [7] cellranger_1.1.0         yaml_2.2.1               pillar_1.4.7            
+[10] backports_1.1.10         lattice_0.20-41          glue_1.4.2              
+[13] RcppEigen_0.3.3.7.0      digest_0.6.27            promises_1.1.1          
+[16] checkmate_2.0.0          rvest_0.3.6              colorspace_1.4-1        
+[19] htmltools_0.5.0          httpuv_1.5.4             Matrix_1.2-18           
+[22] pkgconfig_2.0.3          broom_0.7.5              seacarb_3.2.14          
+[25] haven_2.3.1              whisker_0.4              later_1.1.0.1           
+[28] git2r_0.27.1             farver_2.0.3             generics_0.0.2          
+[31] ellipsis_0.3.1           withr_2.3.0              cli_2.1.0               
+[34] magrittr_1.5             crayon_1.3.4             readxl_1.3.1            
+[37] evaluate_0.14            fs_1.5.0                 fansi_0.4.1             
+[40] xml2_1.3.2               RcppArmadillo_0.10.1.2.0 oce_1.2-0               
+[43] tools_4.0.3              data.table_1.13.2        hms_0.5.3               
+[46] lifecycle_1.0.0          munsell_0.5.0            reprex_0.3.0            
+[49] gsw_1.0-5                compiler_4.0.3           rlang_0.4.10            
+[52] grid_4.0.3               rstudioapi_0.13          labeling_0.4.2          
+[55] rmarkdown_2.5            testthat_2.3.2           gtable_0.3.0            
+[58] DBI_1.1.0                R6_2.5.0                 lubridate_1.7.9         
+[61] knitr_1.30               rprojroot_2.0.2          stringi_1.5.3           
+[64] parallel_4.0.3           Rcpp_1.0.5               vctrs_0.3.5             
+[67] dbplyr_1.4.4             tidyselect_1.1.0         xfun_0.18               </code></pre>
 </div>
 </div>
 
