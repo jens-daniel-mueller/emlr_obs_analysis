@@ -12,7 +12,7 @@
 <meta name="author" content="Jens Daniel Müller" />
 
 
-<title>Comparison of Cant estimates to results of Gruber et al 2019</title>
+<title>Materials for publication</title>
 
 <script src="site_libs/header-attrs-2.5/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
@@ -424,7 +424,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Comparison of Cant estimates to results of Gruber et al 2019</h1>
+<h1 class="title toc-ignore">Materials for publication</h1>
 <h4 class="author">Jens Daniel Müller</h4>
 <h4 class="date">14 April, 2021</h4>
 
@@ -582,7 +582,7 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <div id="versions" class="tab-pane fade">
 
 <p>
-These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/Gruber_2019_comparison.Rmd</code>) and HTML (<code>docs/Gruber_2019_comparison.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/publication.Rmd</code>) and HTML (<code>docs/publication.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
 </p>
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
@@ -608,70 +608,19 @@ Message
 <tbody>
 <tr>
 <td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/c9407be94d6b6ff737b771e0f69c56e861d2c908/docs/Gruber_2019_comparison.html" target="_blank">c9407be</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-04-12
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
 Rmd
 </td>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/c27efa89c44092beaf2e6a2f858a87ef5e154489/analysis/Gruber_2019_comparison.Rmd" target="_blank">c27efa8</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/56f179d062e82d8f13d70906306efff05ba9378e/analysis/publication.Rmd" target="_blank">56f179d</a>
 </td>
 <td>
 jens-daniel-mueller
 </td>
 <td>
-2021-04-12
+2021-04-14
 </td>
 <td>
-include G19 comparison
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/c9eb29b15060165242a8151dba4c5ec82d3a280d/docs/Gruber_2019_comparison.html" target="_blank">c9eb29b</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-04-12
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/f4e283cba5621ffea952ccebacc9a39d6b5613a4/analysis/Gruber_2019_comparison.Rmd" target="_blank">f4e283c</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-04-12
-</td>
-<td>
-include G19 comparison
+add publication figures
 </td>
 </tr>
 </tbody>
@@ -686,244 +635,179 @@ include G19 comparison
 <p>Following Cant estimates are used:</p>
 <ul>
 <li>Zonal mean (basin, lat, depth)</li>
-<li>Inventories (lat, lon) ## Gruber 2019</li>
+<li>Inventories (lat, lon)</li>
 </ul>
-<p>Results from Gruber et al 2019 are referred to as G19.</p>
-<pre class="r"><code>cant_inv_G19 &lt;-
-  read_csv(paste(path_preprocessing,
-                 &quot;G19_cant_inv.csv&quot;,
+<pre class="r"><code>cant_inv &lt;-
+  read_csv(paste(path_version_data,
+                 &quot;cant_inv.csv&quot;,
                  sep = &quot;&quot;))
 
-cant_inv_G19 &lt;- cant_inv_G19 %&gt;%
-  select(-eras)
-
-cant_zonal_G19 &lt;-
-  read_csv(paste(path_preprocessing,
-                 &quot;G19_cant_zonal.csv&quot;,
+cant_inv_mod_truth &lt;-
+  read_csv(paste(path_version_data,
+                 &quot;cant_inv_mod_truth.csv&quot;,
                  sep = &quot;&quot;))
 
-cant_zonal_G19 &lt;- cant_zonal_G19 %&gt;%
-  filter(eras == &quot;JGOFS_GO&quot;) %&gt;%
-  select(lat,
-         depth,
-         basin_AIP,
-         cant_mean,
-         cant_pos_mean,
-         cant_sd,
-         cant_pos_sd)</code></pre>
-</div>
-<div id="color-scales-g19" class="section level1" number="2">
-<h1 number="2"><span class="header-section-number">2</span> Color scales G19</h1>
-<pre class="r"><code>p_map_cant_inv(
-      cant_inv_G19
-)</code></pre>
-<p><img src="figure/Gruber_2019_comparison.Rmd/color_test-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-color_test-1">
-Past versions of color_test-1.png
-</button>
-</p>
-<div id="fig-color_test-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/c9407be94d6b6ff737b771e0f69c56e861d2c908/docs/figure/Gruber_2019_comparison.Rmd/color_test-1.png" target="_blank">c9407be</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-04-12
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre class="r"><code>breaks = params_global$breaks_cant_pos_inv
-breaks = c(seq(0,16,1),Inf)
-breaks_n &lt;- length(breaks) - 1
+cant_inv &lt;- bind_rows(cant_inv, cant_inv_mod_truth)
 
-cant_inv_G19 &lt;- cant_inv_G19 %&gt;%
-  mutate(cant_pos_inv_int = cut(cant_pos_inv,
-                       breaks,
-                       right = FALSE))
+GLODAP_clean &lt;-
+  read_csv(paste(path_version_data,
+                 &quot;GLODAPv2.2020_clean.csv&quot;,
+                 sep = &quot;&quot;))
 
-map +
-  geom_raster(data = cant_inv_G19,
-              aes(lon, lat, fill = cant_pos_inv_int)) +
-  scale_fill_manual(values = p_gruber_rainbow(breaks_n),
-                    name = expression(atop(Delta * C[&quot;ant,pos&quot;],
-                                           (mol ~ m ^ {
-                                             -2
-                                           })))) +
-  guides(fill = guide_colorsteps(barheight = unit(6, &quot;cm&quot;))) +
+GLODAP_preprocessed &lt;-
+  read_csv(
+    paste(
+      path_preprocessing_model,
+      &quot;GLODAPv2.2020_preprocessed_model_runA_both.csv&quot;,
+      sep = &quot;&quot;
+    )
+  )</code></pre>
+<pre class="r"><code>cant_inv &lt;- cant_inv %&gt;%
+  filter(inv_depth == params_global$inventory_depth_standard)</code></pre>
+</div>
+<div id="inventory-map" class="section level1" number="2">
+<h1 number="2"><span class="header-section-number">2</span> Inventory map</h1>
+<pre class="r"><code>var_name &lt;- expression(atop(Delta * C[&quot;ant&quot;],
+                            (mol ~ m ^ {
+                              -2
+                            })))
+
+GLODAP_grid &lt;- GLODAP_clean %&gt;% 
+  distinct(lon, lat, era)
+
+GLODAP_grid_both &lt;- GLODAP_grid %&gt;% 
+  count(lon, lat) %&gt;% 
+  mutate(n = as.factor(n))
+
+
+cant_inv %&gt;%
+  filter(data_source == &quot;obs&quot;) %&gt;% 
+  ggplot(aes(cant_pos_inv)) +
+  geom_histogram()</code></pre>
+<p><img src="figure/publication.Rmd/cant_inv_map-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>map +
+  geom_raster(data = cant_inv %&gt;% filter(data_source == &quot;obs&quot;),
+              aes(lon, lat, fill = cant_pos_inv)) +
+  scale_fill_scico(palette = &quot;tokyo&quot;)</code></pre>
+<p><img src="figure/publication.Rmd/cant_inv_map-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>map +
+  geom_contour_filled(data = cant_inv %&gt;% filter(data_source == &quot;obs&quot;),
+              aes(lon, lat, z = cant_inv, fill = stat(level)),
+              breaks = c(-Inf,seq(0,12,2),Inf)) +
+  scale_fill_viridis_d(option = &quot;A&quot;, name = var_name,
+                       guide = guide_colorsteps()) +
+  new_scale_fill() +
+  geom_raster(data = GLODAP_grid_both,
+              aes(lon, lat, fill=n)) +
+  scale_fill_manual(values = c(&quot;grey40&quot;, &quot;gold&quot;),
+                    name = &quot;Eras\noccupied&quot;) +
   theme(axis.text = element_blank(),
         axis.ticks = element_blank())</code></pre>
-<p><img src="figure/Gruber_2019_comparison.Rmd/color_test-2.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-color_test-2">
-Past versions of color_test-2.png
-</button>
-</p>
-<div id="fig-color_test-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/c9407be94d6b6ff737b771e0f69c56e861d2c908/docs/figure/Gruber_2019_comparison.Rmd/color_test-2.png" target="_blank">c9407be</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-04-12
-</td>
-</tr>
-</tbody>
-</table>
+<p><img src="figure/publication.Rmd/cant_inv_map-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(path = &quot;output/publication&quot;,
+       filename = &quot;dCant_inventory_map.png&quot;,
+       height = 4,
+       width = 10)</code></pre>
 </div>
+<div id="data-time-series-histogram" class="section level1" number="3">
+<h1 number="3"><span class="header-section-number">3</span> Data time series histogram</h1>
+<pre class="r"><code>time_histo &lt;- GLODAP_preprocessed %&gt;% 
+  filter(!is.na(tco2)) %&gt;% 
+  count(basin_AIP, year)
+
+time_histo %&gt;% 
+  ggplot(aes(year, n, fill=basin_AIP)) + 
+  geom_col() +
+  scale_fill_brewer(palette = &quot;Dark2&quot;) +
+  scale_x_continuous(breaks = seq(1900,2100,5)) +
+  scale_y_continuous(name = &quot;&quot;) +
+  coord_cartesian(expand = 0) +
+  labs(title = &quot;GLODAPv2.2020 | Observations coverage&quot;)</code></pre>
+<p><img src="figure/publication.Rmd/time_series-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
-<pre class="r"><code>ggsave(path = &quot;output/Gruber_2019_comparison&quot;,
-       filename = &quot;G19_gruber_rainbow.png&quot;,
-       height = 3,
-       width = 8)
+<div id="spatial-time-coverage" class="section level1" number="4">
+<h1 number="4"><span class="header-section-number">4</span> Spatial time coverage</h1>
+<pre class="r"><code>time_histo &lt;- GLODAP_preprocessed %&gt;% 
+  filter(year &gt;= 2000) %&gt;% 
+  distinct(lat, lon, year)
+
+map + 
+  geom_raster(data = time_histo, aes(lon, lat)) +
+  facet_wrap(~ year)</code></pre>
+<p><img src="figure/publication.Rmd/time_series_maps-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="model-offset" class="section level1" number="5">
+<h1 number="5"><span class="header-section-number">5</span> Model offset</h1>
+<pre class="r"><code>GLODAP_sp &lt;- GLODAP %&gt;% 
+  filter(depth == 150)
 
 map +
-  geom_raster(data = cant_inv_G19,
-              aes(lon, lat, fill = cant_pos_inv_int)) +
-  scale_fill_viridis_d(name = expression(atop(Delta * C[&quot;ant,pos&quot;],
-                                           (mol ~ m ^ {
-                                             -2
-                                           })))) +
-  guides(fill = guide_colorsteps(barheight = unit(6, &quot;cm&quot;))) +
-  theme(axis.text = element_blank(),
-        axis.ticks = element_blank())</code></pre>
-<p><img src="figure/Gruber_2019_comparison.Rmd/color_test-3.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-color_test-3">
-Past versions of color_test-3.png
-</button>
-</p>
-<div id="fig-color_test-3" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/c9407be94d6b6ff737b771e0f69c56e861d2c908/docs/figure/Gruber_2019_comparison.Rmd/color_test-3.png" target="_blank">c9407be</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-04-12
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre class="r"><code>ggsave(path = &quot;output/Gruber_2019_comparison&quot;,
-       filename = &quot;G19_viridis.png&quot;,
-       height = 3,
-       width = 8)
+  geom_raster(data = GLODAP_sp,
+              aes(lon, lat, fill = temp)) +
+  scale_fill_viridis_c()
 
-map +
-  geom_raster(data = cant_inv_G19,
-              aes(lon, lat, fill = cant_pos_inv_int)) +
-  scale_fill_scico_d(palette = &quot;batlow&quot;,
-                   name = expression(atop(Delta * C[&quot;ant,pos&quot;],
-                                           (mol ~ m ^ {
-                                             -2
-                                           })))) +
-  guides(fill = guide_colorsteps(barheight = unit(6, &quot;cm&quot;))) +
-  theme(axis.text = element_blank(),
-        axis.ticks = element_blank())</code></pre>
-<p><img src="figure/Gruber_2019_comparison.Rmd/color_test-4.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-color_test-4">
-Past versions of color_test-4.png
-</button>
-</p>
-<div id="fig-color_test-4" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/c9407be94d6b6ff737b771e0f69c56e861d2c908/docs/figure/Gruber_2019_comparison.Rmd/color_test-4.png" target="_blank">c9407be</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-04-12
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre class="r"><code>ggsave(path = &quot;output/Gruber_2019_comparison&quot;,
-       filename = &quot;G19_batlow.png&quot;,
-       height = 3,
-       width = 8)</code></pre>
+class(GLODAP_sp)
+
+GLODAP_sp &lt;- GLODAP_sp %&gt;% 
+  mutate(lon = if_else(lon &gt; 180, lon - 360, lon))
+
+ggplot() +
+  geom_raster(data = GLODAP_sp,
+              aes(lon, lat, fill = temp)) +
+  scale_fill_viridis_c() +
+  coord_quickmap()
+
+GLODAP_sp &lt;- as.data.frame(GLODAP_sp)
+
+library(sp)
+coordinates(GLODAP_sp) = ~lon+lat
+class(GLODAP_sp)
+
+summary(GLODAP_sp)
+
+is.projected(GLODAP_sp)
+proj4string(GLODAP_sp) &lt;-
+  CRS(&quot;+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0&quot;)
+
+
+GLODAP_sp_grid &lt;- GLODAP_sp
+
+gridded(GLODAP_sp_grid) &lt;- TRUE
+
+
+spplot(GLODAP_sp,
+       zcol = &quot;temp&quot;)
+
+spplot(GLODAP_sp_grid,
+       zcol = &quot;temp&quot;)
+
+library(sf)
+library(stars)
+GLODAP_sf &lt;- st_as_sf(GLODAP_sp_grid)
+GLODAP_stars &lt;- st_as_stars(GLODAP_sp_grid)
+class(GLODAP_stars)
+
+plot(GLODAP_stars)
+
+ggplot() +
+  geom_stars(data = GLODAP_stars,
+             aes(x, y, fill = temp)) +
+  scale_fill_viridis_c(na.value = &quot;transparent&quot;) +
+  coord_quickmap(expand = 0)
+
+
+coastlines &lt;- ne_coastline(scale = &quot;small&quot;, returnclass = &quot;sf&quot;)
+
+ggplot() +
+  geom_sf(data = GLODAP_sf,
+             aes(col = temp)) +
+  scale_fill_viridis_c(na.value = &quot;transparent&quot;) +
+  geom_sf(data = st_wrap_dateline(coastlines),
+          colour = &quot;black&quot;) +
+  coord_sf(crs = st_crs(&#39;ESRI:54030&#39;)) +
+  theme_bw()
+
+summary(GLODAP_sp)</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -952,36 +836,39 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] gt_0.2.2        marelac_2.1.10  shape_1.4.5     scales_1.1.1   
- [5] metR_0.9.0      scico_1.2.0     patchwork_1.1.1 collapse_1.5.0 
- [9] forcats_0.5.0   stringr_1.4.0   dplyr_1.0.5     purrr_0.3.4    
-[13] readr_1.4.0     tidyr_1.1.2     tibble_3.0.4    ggplot2_3.3.3  
-[17] tidyverse_1.3.0 workflowr_1.6.2
+ [1] ggnewscale_0.4.5    rnaturalearth_0.1.0 metR_0.9.0         
+ [4] scico_1.2.0         patchwork_1.1.1     collapse_1.5.0     
+ [7] forcats_0.5.0       stringr_1.4.0       dplyr_1.0.5        
+[10] purrr_0.3.4         readr_1.4.0         tidyr_1.1.2        
+[13] tibble_3.0.4        ggplot2_3.3.3       tidyverse_1.3.0    
+[16] workflowr_1.6.2    
 
 loaded via a namespace (and not attached):
  [1] httr_1.4.2               viridisLite_0.3.0        jsonlite_1.7.1          
- [4] modelr_0.1.8             assertthat_0.2.1         blob_1.2.1              
- [7] cellranger_1.1.0         yaml_2.2.1               pillar_1.4.7            
-[10] backports_1.1.10         lattice_0.20-41          glue_1.4.2              
-[13] RcppEigen_0.3.3.7.0      digest_0.6.27            promises_1.1.1          
-[16] checkmate_2.0.0          rvest_0.3.6              colorspace_1.4-1        
-[19] htmltools_0.5.0          httpuv_1.5.4             Matrix_1.2-18           
-[22] pkgconfig_2.0.3          broom_0.7.5              seacarb_3.2.14          
-[25] haven_2.3.1              whisker_0.4              later_1.1.0.1           
-[28] git2r_0.27.1             farver_2.0.3             generics_0.0.2          
-[31] ellipsis_0.3.1           withr_2.3.0              cli_2.1.0               
-[34] magrittr_1.5             crayon_1.3.4             readxl_1.3.1            
-[37] evaluate_0.14            fs_1.5.0                 fansi_0.4.1             
-[40] xml2_1.3.2               RcppArmadillo_0.10.1.2.0 oce_1.2-0               
-[43] tools_4.0.3              data.table_1.13.2        hms_0.5.3               
-[46] lifecycle_1.0.0          munsell_0.5.0            reprex_0.3.0            
-[49] gsw_1.0-5                compiler_4.0.3           rlang_0.4.10            
-[52] grid_4.0.3               rstudioapi_0.13          labeling_0.4.2          
-[55] rmarkdown_2.5            testthat_2.3.2           gtable_0.3.0            
-[58] DBI_1.1.0                R6_2.5.0                 lubridate_1.7.9         
-[61] knitr_1.30               rprojroot_2.0.2          stringi_1.5.3           
-[64] parallel_4.0.3           Rcpp_1.0.5               vctrs_0.3.5             
-[67] dbplyr_1.4.4             tidyselect_1.1.0         xfun_0.18               </code></pre>
+ [4] modelr_0.1.8             assertthat_0.2.1         sp_1.4-4                
+ [7] blob_1.2.1               cellranger_1.1.0         yaml_2.2.1              
+[10] pillar_1.4.7             backports_1.1.10         lattice_0.20-41         
+[13] glue_1.4.2               RcppEigen_0.3.3.7.0      digest_0.6.27           
+[16] RColorBrewer_1.1-2       promises_1.1.1           checkmate_2.0.0         
+[19] rvest_0.3.6              colorspace_1.4-1         htmltools_0.5.0         
+[22] httpuv_1.5.4             Matrix_1.2-18            pkgconfig_2.0.3         
+[25] broom_0.7.5              haven_2.3.1              scales_1.1.1            
+[28] whisker_0.4              later_1.1.0.1            git2r_0.27.1            
+[31] farver_2.0.3             generics_0.0.2           ellipsis_0.3.1          
+[34] withr_2.3.0              cli_2.1.0                magrittr_1.5            
+[37] crayon_1.3.4             readxl_1.3.1             evaluate_0.14           
+[40] fs_1.5.0                 fansi_0.4.1              xml2_1.3.2              
+[43] RcppArmadillo_0.10.1.2.0 class_7.3-17             tools_4.0.3             
+[46] data.table_1.13.2        hms_0.5.3                lifecycle_1.0.0         
+[49] munsell_0.5.0            reprex_0.3.0             isoband_0.2.2           
+[52] compiler_4.0.3           e1071_1.7-4              rlang_0.4.10            
+[55] units_0.6-7              classInt_0.4-3           grid_4.0.3              
+[58] rstudioapi_0.13          labeling_0.4.2           rmarkdown_2.5           
+[61] gtable_0.3.0             DBI_1.1.0                R6_2.5.0                
+[64] lubridate_1.7.9          knitr_1.30               rprojroot_2.0.2         
+[67] KernSmooth_2.23-17       stringi_1.5.3            parallel_4.0.3          
+[70] Rcpp_1.0.5               vctrs_0.3.5              sf_0.9-8                
+[73] dbplyr_1.4.4             tidyselect_1.1.0         xfun_0.18               </code></pre>
 </div>
 </div>
 
