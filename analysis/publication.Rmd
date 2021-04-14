@@ -1,0 +1,255 @@
+---
+title: "Materials for publication"
+author: "Jens Daniel Müller"
+date:  "`r format(Sys.time(), '%d %B, %Y')`"
+output: 
+  workflowr::wflow_html:
+    number_sections: true
+    toc_depth: 3
+    toc_float:
+      collapsed: false
+editor_options:
+  chunk_output_type: console
+---
+
+```{r parent, child = "/nfs/kryo/work/jenmueller/emlr_cant/utilities/setup.Rmd"}
+# this chunk runs the code stored in setup.Rmd
+# if required, please refer to instructions given here:
+# https://jdblischak.github.io/workflowr/articles/wflow-07-common-code.html
+```
+
+```{r define_paths, include = FALSE}
+
+# only path_observations needs to be changed to model
+path_observations <-
+  paste(path_root, "/observations/", sep = "")
+
+path_preprocessing    <-
+  paste(path_observations, "preprocessing/", sep = "")
+
+
+path_preprocessing_model    <-
+  paste(path_root, "/model/preprocessing/", sep = "")
+
+path_version_data     <-
+  paste(path_observations,
+        "v_XXX",
+        "/data/",
+        sep = "")
+
+```
+
+```{r load_libraries_specific, include = FALSE}
+
+library(rnaturalearth)
+library(ggnewscale)
+```
+
+# Data sources
+
+Following Cant estimates are used:
+
+- Zonal mean (basin, lat, depth)
+- Inventories (lat, lon)
+
+```{r read_files}
+
+cant_inv <-
+  read_csv(paste(path_version_data,
+                 "cant_inv.csv",
+                 sep = ""))
+
+cant_inv_mod_truth <-
+  read_csv(paste(path_version_data,
+                 "cant_inv_mod_truth.csv",
+                 sep = ""))
+
+cant_inv <- bind_rows(cant_inv, cant_inv_mod_truth)
+
+GLODAP_clean <-
+  read_csv(paste(path_version_data,
+                 "GLODAPv2.2020_clean.csv",
+                 sep = ""))
+
+GLODAP_preprocessed <-
+  read_csv(
+    paste(
+      path_preprocessing_model,
+      "GLODAPv2.2020_preprocessed_model_runA_both.csv",
+      sep = ""
+    )
+  )
+
+```
+
+
+```{r filter_standard_inventory_depth}
+
+cant_inv <- cant_inv %>%
+  filter(inv_depth == params_global$inventory_depth_standard)
+
+```
+
+# Inventory map
+
+```{r cant_inv_map}
+
+var_name <- expression(atop(Delta * C["ant"],
+                            (mol ~ m ^ {
+                              -2
+                            })))
+
+GLODAP_grid <- GLODAP_clean %>% 
+  distinct(lon, lat, era)
+
+GLODAP_grid_both <- GLODAP_grid %>% 
+  count(lon, lat) %>% 
+  mutate(n = as.factor(n))
+
+
+cant_inv %>%
+  filter(data_source == "obs") %>% 
+  ggplot(aes(cant_pos_inv)) +
+  geom_histogram()
+
+map +
+  geom_raster(data = cant_inv %>% filter(data_source == "obs"),
+              aes(lon, lat, fill = cant_pos_inv)) +
+  scale_fill_scico(palette = "tokyo")
+
+map +
+  geom_contour_filled(data = cant_inv %>% filter(data_source == "obs"),
+              aes(lon, lat, z = cant_inv, fill = stat(level)),
+              breaks = c(-Inf,seq(0,12,2),Inf)) +
+  scale_fill_viridis_d(option = "A", name = var_name,
+                       guide = guide_colorsteps()) +
+  new_scale_fill() +
+  geom_raster(data = GLODAP_grid_both,
+              aes(lon, lat, fill=n)) +
+  scale_fill_manual(values = c("grey40", "gold"),
+                    name = "Eras\noccupied") +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())
+
+
+ggsave(path = "output/publication",
+       filename = "dCant_inventory_map.png",
+       height = 4,
+       width = 10)
+
+```
+
+
+# Data time series histogram
+
+```{r time_series}
+
+time_histo <- GLODAP_preprocessed %>% 
+  filter(!is.na(tco2)) %>% 
+  count(basin_AIP, year)
+
+time_histo %>% 
+  ggplot(aes(year, n, fill=basin_AIP)) + 
+  geom_col() +
+  scale_fill_brewer(palette = "Dark2") +
+  scale_x_continuous(breaks = seq(1900,2100,5)) +
+  scale_y_continuous(name = "") +
+  coord_cartesian(expand = 0) +
+  labs(title = "GLODAPv2.2020 | Observations coverage")
+
+```
+
+# Spatial time coverage
+
+```{r time_series_maps}
+
+time_histo <- GLODAP_preprocessed %>% 
+  filter(year >= 2000) %>% 
+  distinct(lat, lon, year)
+
+map + 
+  geom_raster(data = time_histo, aes(lon, lat)) +
+  facet_wrap(~ year)
+
+```
+
+# Model offset
+
+
+```{r plotting_tools, eval=FALSE}
+
+
+GLODAP_sp <- GLODAP %>% 
+  filter(depth == 150)
+
+map +
+  geom_raster(data = GLODAP_sp,
+              aes(lon, lat, fill = temp)) +
+  scale_fill_viridis_c()
+
+class(GLODAP_sp)
+
+GLODAP_sp <- GLODAP_sp %>% 
+  mutate(lon = if_else(lon > 180, lon - 360, lon))
+
+ggplot() +
+  geom_raster(data = GLODAP_sp,
+              aes(lon, lat, fill = temp)) +
+  scale_fill_viridis_c() +
+  coord_quickmap()
+
+GLODAP_sp <- as.data.frame(GLODAP_sp)
+
+library(sp)
+coordinates(GLODAP_sp) = ~lon+lat
+class(GLODAP_sp)
+
+summary(GLODAP_sp)
+
+is.projected(GLODAP_sp)
+proj4string(GLODAP_sp) <-
+  CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
+
+
+GLODAP_sp_grid <- GLODAP_sp
+
+gridded(GLODAP_sp_grid) <- TRUE
+
+
+spplot(GLODAP_sp,
+       zcol = "temp")
+
+spplot(GLODAP_sp_grid,
+       zcol = "temp")
+
+library(sf)
+library(stars)
+GLODAP_sf <- st_as_sf(GLODAP_sp_grid)
+GLODAP_stars <- st_as_stars(GLODAP_sp_grid)
+class(GLODAP_stars)
+
+plot(GLODAP_stars)
+
+ggplot() +
+  geom_stars(data = GLODAP_stars,
+             aes(x, y, fill = temp)) +
+  scale_fill_viridis_c(na.value = "transparent") +
+  coord_quickmap(expand = 0)
+
+
+coastlines <- ne_coastline(scale = "small", returnclass = "sf")
+
+ggplot() +
+  geom_sf(data = GLODAP_sf,
+             aes(col = temp)) +
+  scale_fill_viridis_c(na.value = "transparent") +
+  geom_sf(data = st_wrap_dateline(coastlines),
+          colour = "black") +
+  coord_sf(crs = st_crs('ESRI:54030')) +
+  theme_bw()
+
+summary(GLODAP_sp)
+
+
+```
+
