@@ -426,7 +426,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Materials for publication</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">14 April, 2021</h4>
+<h4 class="date">15 April, 2021</h4>
 
 </div>
 
@@ -451,7 +451,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-04-14
+<strong>Last updated:</strong> 2021-04-15
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -542,16 +542,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree56f179d062e82d8f13d70906306efff05ba9378etargetblank56f179da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/56f179d062e82d8f13d70906306efff05ba9378e" target="_blank">56f179d</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree71e6c6fb2df70aabde7b749077a2d0ffd4156911targetblank71e6c6fa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/71e6c6fb2df70aabde7b749077a2d0ffd4156911" target="_blank">71e6c6f</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree56f179d062e82d8f13d70906306efff05ba9378etargetblank56f179da" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree71e6c6fb2df70aabde7b749077a2d0ffd4156911targetblank71e6c6fa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/56f179d062e82d8f13d70906306efff05ba9378e" target="_blank">56f179d</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/71e6c6fb2df70aabde7b749077a2d0ffd4156911" target="_blank">71e6c6f</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -606,6 +606,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/71e6c6fb2df70aabde7b749077a2d0ffd4156911/analysis/publication.Rmd" target="_blank">71e6c6f</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-04-15
+</td>
+<td>
+add publication figures
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/117a5c3c1c51b16535ce326f690a6c0b4710da38/docs/publication.html" target="_blank">117a5c3</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-04-14
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -685,25 +719,133 @@ cant_inv %&gt;%
   ggplot(aes(cant_pos_inv)) +
   geom_histogram()</code></pre>
 <p><img src="figure/publication.Rmd/cant_inv_map-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>map +
-  geom_raster(data = cant_inv %&gt;% filter(data_source == &quot;obs&quot;),
-              aes(lon, lat, fill = cant_pos_inv)) +
-  scale_fill_scico(palette = &quot;tokyo&quot;)</code></pre>
-<p><img src="figure/publication.Rmd/cant_inv_map-2.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>map +
-  geom_contour_filled(data = cant_inv %&gt;% filter(data_source == &quot;obs&quot;),
-              aes(lon, lat, z = cant_inv, fill = stat(level)),
-              breaks = c(-Inf,seq(0,12,2),Inf)) +
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cant_inv_map-1">
+Past versions of cant_inv_map-1.png
+</button>
+</p>
+<div id="fig-cant_inv_map-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/117a5c3c1c51b16535ce326f690a6c0b4710da38/docs/figure/publication.Rmd/cant_inv_map-1.png" target="_blank">117a5c3</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-04-14
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>coastlines &lt;- ne_coastline(scale = &quot;small&quot;, returnclass = &quot;sf&quot;)
+coastlines_re &lt;- ne_coastline(scale = &quot;small&quot;, returnclass = &quot;sf&quot;)
+worldmap &lt;- ne_countries(scale = &quot;small&quot;, returnclass = &quot;sf&quot;)
+worldmap_re &lt;- ne_countries(scale = &quot;small&quot;, returnclass = &quot;sf&quot;)
+
+# 
+# ggplot() +
+#   geom_raster(data = cant_inv %&gt;% filter(data_source == &quot;obs&quot;),
+#               aes(lon, lat, fill = cant_pos_inv)) +
+#   geom_sf(data = coastlines, fill=&quot;grey&quot;, color=&quot;black&quot;) +
+#   scale_fill_scico(palette = &quot;tokyo&quot;)
+
+set_breaks &lt;- c(-Inf, seq(0, 20, 2), Inf)
+
+library(sf)
+st_geometry(worldmap_re) &lt;- st_geometry(worldmap_re) + c(360, 0)
+st_crs(worldmap_re) &lt;- st_crs(worldmap)
+st_geometry(coastlines_re) &lt;- st_geometry(coastlines_re) + c(360, 0)
+st_crs(coastlines_re) &lt;- st_crs(coastlines)
+
+# coastline_raster &lt;- stars::st_rasterize(coastlines, options = &quot;ALL_TOUCHED=TRUE&quot;) %&gt;% 
+#   as.tibble()
+
+
+ggplot() +
+  geom_raster(
+    data = cant_inv %&gt;% filter(data_source == &quot;obs&quot;),
+    aes(lon, lat, fill = cut(cant_inv, set_breaks))) +
+  scale_fill_viridis_d(option = &quot;A&quot;, name = var_name,
+                       guide = guide_colorsteps()) +
+  new_scale_fill() +
+  geom_contour_fill(
+    data = cant_inv %&gt;% filter(data_source == &quot;obs&quot;),
+    aes(lon, lat, z = cant_inv, fill = stat(level)),
+    breaks = set_breaks
+    #na.fill = 0
+  ) +
   scale_fill_viridis_d(option = &quot;A&quot;, name = var_name,
                        guide = guide_colorsteps()) +
   new_scale_fill() +
   geom_raster(data = GLODAP_grid_both,
               aes(lon, lat, fill=n)) +
-  scale_fill_manual(values = c(&quot;grey40&quot;, &quot;gold&quot;),
+  scale_fill_manual(values = c(&quot;grey50&quot;, &quot;gold&quot;),
                     name = &quot;Eras\noccupied&quot;) +
   theme(axis.text = element_blank(),
-        axis.ticks = element_blank())</code></pre>
-<p><img src="figure/publication.Rmd/cant_inv_map-3.png" width="672" style="display: block; margin: auto;" /></p>
+        axis.ticks = element_blank(),
+        axis.title = element_blank()) +
+  geom_sf(data = worldmap_re, fill=&quot;grey80&quot;, color=&quot;grey80&quot;) +
+  geom_sf(data = worldmap, fill=&quot;grey80&quot;, color=&quot;grey80&quot;) +
+  geom_sf(data = coastlines, color=&quot;grey20&quot;) +
+  geom_sf(data = coastlines_re, color=&quot;grey20&quot;) +
+  coord_sf(ylim = c(-77,64.5), xlim = c(20.5,379.5), expand = 0)</code></pre>
+<p><img src="figure/publication.Rmd/cant_inv_map-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cant_inv_map-2">
+Past versions of cant_inv_map-2.png
+</button>
+</p>
+<div id="fig-cant_inv_map-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/117a5c3c1c51b16535ce326f690a6c0b4710da38/docs/figure/publication.Rmd/cant_inv_map-2.png" target="_blank">117a5c3</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-04-14
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>ggsave(path = &quot;output/publication&quot;,
        filename = &quot;dCant_inventory_map.png&quot;,
        height = 4,
@@ -724,6 +866,43 @@ time_histo %&gt;%
   coord_cartesian(expand = 0) +
   labs(title = &quot;GLODAPv2.2020 | Observations coverage&quot;)</code></pre>
 <p><img src="figure/publication.Rmd/time_series-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-time_series-1">
+Past versions of time_series-1.png
+</button>
+</p>
+<div id="fig-time_series-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/117a5c3c1c51b16535ce326f690a6c0b4710da38/docs/figure/publication.Rmd/time_series-1.png" target="_blank">117a5c3</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-04-14
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="spatial-time-coverage" class="section level1" number="4">
 <h1 number="4"><span class="header-section-number">4</span> Spatial time coverage</h1>
@@ -735,6 +914,43 @@ map +
   geom_raster(data = time_histo, aes(lon, lat)) +
   facet_wrap(~ year)</code></pre>
 <p><img src="figure/publication.Rmd/time_series_maps-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-time_series_maps-1">
+Past versions of time_series_maps-1.png
+</button>
+</p>
+<div id="fig-time_series_maps-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/117a5c3c1c51b16535ce326f690a6c0b4710da38/docs/figure/publication.Rmd/time_series_maps-1.png" target="_blank">117a5c3</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-04-14
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="model-offset" class="section level1" number="5">
 <h1 number="5"><span class="header-section-number">5</span> Model offset</h1>
@@ -836,39 +1052,40 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] ggnewscale_0.4.5    rnaturalearth_0.1.0 metR_0.9.0         
- [4] scico_1.2.0         patchwork_1.1.1     collapse_1.5.0     
- [7] forcats_0.5.0       stringr_1.4.0       dplyr_1.0.5        
-[10] purrr_0.3.4         readr_1.4.0         tidyr_1.1.2        
-[13] tibble_3.0.4        ggplot2_3.3.3       tidyverse_1.3.0    
-[16] workflowr_1.6.2    
+ [1] sf_0.9-8            ggnewscale_0.4.5    rnaturalearth_0.1.0
+ [4] metR_0.9.0          scico_1.2.0         patchwork_1.1.1    
+ [7] collapse_1.5.0      forcats_0.5.0       stringr_1.4.0      
+[10] dplyr_1.0.5         purrr_0.3.4         readr_1.4.0        
+[13] tidyr_1.1.2         tibble_3.0.4        ggplot2_3.3.3      
+[16] tidyverse_1.3.0     workflowr_1.6.2    
 
 loaded via a namespace (and not attached):
- [1] httr_1.4.2               viridisLite_0.3.0        jsonlite_1.7.1          
- [4] modelr_0.1.8             assertthat_0.2.1         sp_1.4-4                
- [7] blob_1.2.1               cellranger_1.1.0         yaml_2.2.1              
-[10] pillar_1.4.7             backports_1.1.10         lattice_0.20-41         
-[13] glue_1.4.2               RcppEigen_0.3.3.7.0      digest_0.6.27           
-[16] RColorBrewer_1.1-2       promises_1.1.1           checkmate_2.0.0         
-[19] rvest_0.3.6              colorspace_1.4-1         htmltools_0.5.0         
-[22] httpuv_1.5.4             Matrix_1.2-18            pkgconfig_2.0.3         
-[25] broom_0.7.5              haven_2.3.1              scales_1.1.1            
-[28] whisker_0.4              later_1.1.0.1            git2r_0.27.1            
-[31] farver_2.0.3             generics_0.0.2           ellipsis_0.3.1          
-[34] withr_2.3.0              cli_2.1.0                magrittr_1.5            
-[37] crayon_1.3.4             readxl_1.3.1             evaluate_0.14           
-[40] fs_1.5.0                 fansi_0.4.1              xml2_1.3.2              
-[43] RcppArmadillo_0.10.1.2.0 class_7.3-17             tools_4.0.3             
-[46] data.table_1.13.2        hms_0.5.3                lifecycle_1.0.0         
-[49] munsell_0.5.0            reprex_0.3.0             isoband_0.2.2           
-[52] compiler_4.0.3           e1071_1.7-4              rlang_0.4.10            
-[55] units_0.6-7              classInt_0.4-3           grid_4.0.3              
-[58] rstudioapi_0.13          labeling_0.4.2           rmarkdown_2.5           
-[61] gtable_0.3.0             DBI_1.1.0                R6_2.5.0                
-[64] lubridate_1.7.9          knitr_1.30               rprojroot_2.0.2         
-[67] KernSmooth_2.23-17       stringi_1.5.3            parallel_4.0.3          
-[70] Rcpp_1.0.5               vctrs_0.3.5              sf_0.9-8                
-[73] dbplyr_1.4.4             tidyselect_1.1.0         xfun_0.18               </code></pre>
+ [1] fs_1.5.0                 lubridate_1.7.9          RColorBrewer_1.1-2      
+ [4] httr_1.4.2               rprojroot_2.0.2          tools_4.0.3             
+ [7] backports_1.1.10         R6_2.5.0                 KernSmooth_2.23-17      
+[10] rgeos_0.5-5              DBI_1.1.0                colorspace_1.4-1        
+[13] withr_2.3.0              sp_1.4-4                 tidyselect_1.1.0        
+[16] rnaturalearthdata_0.1.0  compiler_4.0.3           git2r_0.27.1            
+[19] cli_2.1.0                rvest_0.3.6              xml2_1.3.2              
+[22] isoband_0.2.2            labeling_0.4.2           scales_1.1.1            
+[25] checkmate_2.0.0          classInt_0.4-3           digest_0.6.27           
+[28] rmarkdown_2.5            pkgconfig_2.0.3          htmltools_0.5.0         
+[31] dbplyr_1.4.4             rlang_0.4.10             readxl_1.3.1            
+[34] rstudioapi_0.13          generics_0.0.2           farver_2.0.3            
+[37] jsonlite_1.7.1           magrittr_1.5             Matrix_1.2-18           
+[40] Rcpp_1.0.5               munsell_0.5.0            fansi_0.4.1             
+[43] lifecycle_1.0.0          stringi_1.5.3            whisker_0.4             
+[46] yaml_2.2.1               plyr_1.8.6               grid_4.0.3              
+[49] blob_1.2.1               parallel_4.0.3           promises_1.1.1          
+[52] crayon_1.3.4             lattice_0.20-41          haven_2.3.1             
+[55] hms_0.5.3                knitr_1.30               pillar_1.4.7            
+[58] reprex_0.3.0             glue_1.4.2               evaluate_0.14           
+[61] RcppArmadillo_0.10.1.2.0 data.table_1.13.2        modelr_0.1.8            
+[64] vctrs_0.3.5              httpuv_1.5.4             cellranger_1.1.0        
+[67] gtable_0.3.0             assertthat_0.2.1         xfun_0.18               
+[70] broom_0.7.5              RcppEigen_0.3.3.7.0      e1071_1.7-4             
+[73] later_1.1.0.1            viridisLite_0.3.0        class_7.3-17            
+[76] units_0.6-7              ellipsis_0.3.1          </code></pre>
 </div>
 </div>
 
