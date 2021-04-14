@@ -112,25 +112,58 @@ cant_inv %>%
   ggplot(aes(cant_pos_inv)) +
   geom_histogram()
 
-map +
-  geom_raster(data = cant_inv %>% filter(data_source == "obs"),
-              aes(lon, lat, fill = cant_pos_inv)) +
-  scale_fill_scico(palette = "tokyo")
+coastlines <- ne_coastline(scale = "small", returnclass = "sf")
+coastlines_re <- ne_coastline(scale = "small", returnclass = "sf")
+worldmap <- ne_countries(scale = "small", returnclass = "sf")
+worldmap_re <- ne_countries(scale = "small", returnclass = "sf")
 
-map +
-  geom_contour_filled(data = cant_inv %>% filter(data_source == "obs"),
-              aes(lon, lat, z = cant_inv, fill = stat(level)),
-              breaks = c(-Inf,seq(0,12,2),Inf)) +
+# 
+# ggplot() +
+#   geom_raster(data = cant_inv %>% filter(data_source == "obs"),
+#               aes(lon, lat, fill = cant_pos_inv)) +
+#   geom_sf(data = coastlines, fill="grey", color="black") +
+#   scale_fill_scico(palette = "tokyo")
+
+set_breaks <- c(-Inf, seq(0, 20, 2), Inf)
+
+library(sf)
+st_geometry(worldmap_re) <- st_geometry(worldmap_re) + c(360, 0)
+st_crs(worldmap_re) <- st_crs(worldmap)
+st_geometry(coastlines_re) <- st_geometry(coastlines_re) + c(360, 0)
+st_crs(coastlines_re) <- st_crs(coastlines)
+
+# coastline_raster <- stars::st_rasterize(coastlines, options = "ALL_TOUCHED=TRUE") %>% 
+#   as.tibble()
+
+
+ggplot() +
+  geom_raster(
+    data = cant_inv %>% filter(data_source == "obs"),
+    aes(lon, lat, fill = cut(cant_inv, set_breaks))) +
+  scale_fill_viridis_d(option = "A", name = var_name,
+                       guide = guide_colorsteps()) +
+  new_scale_fill() +
+  geom_contour_fill(
+    data = cant_inv %>% filter(data_source == "obs"),
+    aes(lon, lat, z = cant_inv, fill = stat(level)),
+    breaks = set_breaks
+    #na.fill = 0
+  ) +
   scale_fill_viridis_d(option = "A", name = var_name,
                        guide = guide_colorsteps()) +
   new_scale_fill() +
   geom_raster(data = GLODAP_grid_both,
               aes(lon, lat, fill=n)) +
-  scale_fill_manual(values = c("grey40", "gold"),
+  scale_fill_manual(values = c("grey50", "gold"),
                     name = "Eras\noccupied") +
   theme(axis.text = element_blank(),
-        axis.ticks = element_blank())
-
+        axis.ticks = element_blank(),
+        axis.title = element_blank()) +
+  geom_sf(data = worldmap_re, fill="grey80", color="grey80") +
+  geom_sf(data = worldmap, fill="grey80", color="grey80") +
+  geom_sf(data = coastlines, color="grey20") +
+  geom_sf(data = coastlines_re, color="grey20") +
+  coord_sf(ylim = c(-77,64.5), xlim = c(20.5,379.5), expand = 0)
 
 ggsave(path = "output/publication",
        filename = "dCant_inventory_map.png",
