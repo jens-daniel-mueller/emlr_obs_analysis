@@ -40,7 +40,7 @@ path_version_data     <-
 ```
 
 ```{r load_libraries_specific, include = FALSE}
-
+library(sf)
 library(rnaturalearth)
 library(ggnewscale)
 ```
@@ -92,6 +92,98 @@ cant_inv <- cant_inv %>%
 
 # Inventory map
 
+```{r mask_and_shape_files}
+
+coastlines <- ne_coastline(scale = "small", returnclass = "sf")
+coastlines_re <- ne_coastline(scale = "small", returnclass = "sf")
+worldmap <- ne_countries(scale = "small", returnclass = "sf")
+worldmap_re <- ne_countries(scale = "small", returnclass = "sf")
+
+crs <- st_crs(coastlines)
+
+st_geometry(worldmap_re) <- st_geometry(worldmap_re) + c(360, 0)
+st_crs(worldmap_re) <- crs
+worldmap <- rbind(worldmap, worldmap_re)
+rm(worldmap_re)
+
+st_geometry(coastlines_re) <- st_geometry(coastlines_re) + c(360, 0)
+st_crs(coastlines_re) <- crs
+coastlines <- rbind(coastlines, coastlines_re)
+rm(coastlines_re)
+
+# coastlines_buffer <- st_buffer(coastlines, dist = 1)
+# coastlines_re_buffer <- st_buffer(coastlines_re, dist = 1)
+
+# coastline_raster <- stars::st_rasterize(coastlines, options = "ALL_TOUCHED=TRUE") %>% 
+#   as.tibble()
+
+
+ggplot() +
+  geom_sf(data = worldmap, col = "transparent") +
+  geom_sf(data = coastlines)
+
+
+for (i_file in list.files("data/iho_marginal_seas")) {
+  iho <- st_read(paste0("data/iho_marginal_seas/", i_file, "/iho.shp"))
+  
+  if (exists("marine_polys")) {
+    marine_polys <- rbind(marine_polys, iho)
+  } else {
+    marine_polys <- iho
+  }
+  
+}
+
+marine_polys_re <- marine_polys
+st_geometry(marine_polys_re) <- st_geometry(marine_polys) + c(360, 0)
+
+st_crs(marine_polys) <- crs
+st_crs(marine_polys_re) <- crs
+
+marine_polys <- rbind(marine_polys, marine_polys_re)
+rm(marine_polys_re)
+
+ggplot() +
+  geom_sf(data = marine_polys, fill = "white")
+
+# marine_polys_simple <- st_simplify(marine_polys, dTolerance = 0.1)
+# ggplot() +
+#   geom_sf(data = marine_polys_simple, fill = "white")
+
+black_sea <- st_read("data/black_sea/provinces.shp")
+black_sea_re <- black_sea
+st_geometry(black_sea_re) <- st_geometry(black_sea) + c(360, 0)
+st_crs(black_sea) <- crs
+st_crs(black_sea_re) <- crs
+black_sea <- rbind(black_sea, black_sea_re)
+rm(black_sea_re)
+
+hudson_bay <- st_read("data/hudson_bay/lme.shp")
+hudson_bay_re <- hudson_bay
+st_geometry(hudson_bay_re) <- st_geometry(hudson_bay) + c(360, 0)
+st_crs(hudson_bay) <- crs
+st_crs(hudson_bay_re) <- crs
+hudson_bay <- rbind(hudson_bay, hudson_bay_re)
+rm(hudson_bay_re)
+
+caspian_sea <- st_read("data/caspian_sea/seavox_v17.shp")
+caspian_sea_re <- caspian_sea
+st_geometry(caspian_sea_re) <- st_geometry(caspian_sea) + c(360, 0)
+st_crs(caspian_sea) <- crs
+st_crs(caspian_sea_re) <- crs
+caspian_sea <- rbind(caspian_sea, caspian_sea_re)
+rm(caspian_sea_re)
+
+ggplot() +
+  geom_sf(data = marine_polys, fill = "white") +
+  geom_sf(data = black_sea, fill = "white") +
+  geom_sf(data = caspian_sea, fill = "white") +
+  geom_sf(data = hudson_bay, fill = "white")
+
+```
+
+
+
 ```{r cant_inv_map}
 
 var_name <- expression(atop(Delta * C["ant"],
@@ -106,64 +198,43 @@ GLODAP_grid_both <- GLODAP_grid %>%
   count(lon, lat) %>% 
   mutate(n = as.factor(n))
 
-
 cant_inv %>%
   filter(data_source == "obs") %>% 
   ggplot(aes(cant_pos_inv)) +
   geom_histogram()
 
-coastlines <- ne_coastline(scale = "small", returnclass = "sf")
-coastlines_re <- ne_coastline(scale = "small", returnclass = "sf")
-worldmap <- ne_countries(scale = "small", returnclass = "sf")
-worldmap_re <- ne_countries(scale = "small", returnclass = "sf")
 
-# 
-# ggplot() +
-#   geom_raster(data = cant_inv %>% filter(data_source == "obs"),
-#               aes(lon, lat, fill = cant_pos_inv)) +
-#   geom_sf(data = coastlines, fill="grey", color="black") +
-#   scale_fill_scico(palette = "tokyo")
-
-set_breaks <- c(-Inf, seq(0, 20, 2), Inf)
-
-library(sf)
-st_geometry(worldmap_re) <- st_geometry(worldmap_re) + c(360, 0)
-st_crs(worldmap_re) <- st_crs(worldmap)
-st_geometry(coastlines_re) <- st_geometry(coastlines_re) + c(360, 0)
-st_crs(coastlines_re) <- st_crs(coastlines)
-
-# coastline_raster <- stars::st_rasterize(coastlines, options = "ALL_TOUCHED=TRUE") %>% 
-#   as.tibble()
-
+set_breaks <- c(-Inf, seq(0, 7, 1), Inf)
 
 ggplot() +
-  geom_raster(
-    data = cant_inv %>% filter(data_source == "obs"),
-    aes(lon, lat, fill = cut(cant_inv, set_breaks))) +
-  scale_fill_viridis_d(option = "A", name = var_name,
-                       guide = guide_colorsteps()) +
-  new_scale_fill() +
+  # geom_raster(
+  #   data = cant_inv %>% filter(data_source == "obs"),
+  #   aes(lon, lat), fill = "green") +
   geom_contour_fill(
     data = cant_inv %>% filter(data_source == "obs"),
     aes(lon, lat, z = cant_inv, fill = stat(level)),
-    breaks = set_breaks
-    #na.fill = 0
+    breaks = set_breaks,
+    na.fill = TRUE
   ) +
-  scale_fill_viridis_d(option = "A", name = var_name,
+  scale_fill_viridis_d(option = "D", name = var_name,
                        guide = guide_colorsteps()) +
   new_scale_fill() +
-  geom_raster(data = GLODAP_grid_both,
-              aes(lon, lat, fill=n)) +
-  scale_fill_manual(values = c("grey50", "gold"),
+  geom_tile(data = GLODAP_grid_both,
+              aes(x = lon, y = lat, height = 0.5, width = 0.5, fill=n)) +
+  scale_fill_manual(values = c("grey70", "white"),
                     name = "Eras\noccupied") +
+  geom_sf(data = marine_polys, fill = "white", col="white") +
+  geom_sf(data = black_sea, fill = "white", col="white") +
+  geom_sf(data = caspian_sea, fill = "white", col="white") +
+  geom_sf(data = hudson_bay, fill = "white", col="white") +
+  geom_sf(data = worldmap, fill="grey60", color="transparent") +
+  geom_sf(data = coastlines, col = "black") +
+  coord_sf(ylim = c(-77.5,64.5), xlim = c(20.5,379.5), expand = 0) +
   theme(axis.text = element_blank(),
         axis.ticks = element_blank(),
-        axis.title = element_blank()) +
-  geom_sf(data = worldmap_re, fill="grey80", color="grey80") +
-  geom_sf(data = worldmap, fill="grey80", color="grey80") +
-  geom_sf(data = coastlines, color="grey20") +
-  geom_sf(data = coastlines_re, color="grey20") +
-  coord_sf(ylim = c(-77,64.5), xlim = c(20.5,379.5), expand = 0)
+        axis.title = element_blank(),
+        legend.key = element_rect(colour = "black"))
+
 
 ggsave(path = "output/publication",
        filename = "dCant_inventory_map.png",
