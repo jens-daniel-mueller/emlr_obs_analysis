@@ -204,9 +204,9 @@ cant_inv %>%
   geom_histogram()
 
 
-set_breaks <- c(-Inf, seq(0, 7, 1), Inf)
+set_breaks <- c(-Inf, seq(0, 12, 2), Inf)
 
-ggplot() +
+p_inv_map <- ggplot() +
   # geom_raster(
   #   data = cant_inv %>% filter(data_source == "obs"),
   #   aes(lon, lat), fill = "green") +
@@ -220,14 +220,14 @@ ggplot() +
                        guide = guide_colorsteps()) +
   new_scale_fill() +
   geom_tile(data = GLODAP_grid_both,
-              aes(x = lon, y = lat, height = 0.5, width = 0.5, fill=n)) +
-  scale_fill_manual(values = c("grey70", "white"),
+              aes(x = lon, y = lat, height = 0.7, width = 0.7, fill=n)) +
+  scale_fill_manual(values = c("deeppink4", "deeppink"),
                     name = "Eras\noccupied") +
   geom_sf(data = marine_polys, fill = "white", col="white") +
   geom_sf(data = black_sea, fill = "white", col="white") +
   geom_sf(data = caspian_sea, fill = "white", col="white") +
   geom_sf(data = hudson_bay, fill = "white", col="white") +
-  geom_sf(data = worldmap, fill="grey60", color="transparent") +
+  geom_sf(data = worldmap, fill="grey80", color="transparent") +
   geom_sf(data = coastlines, col = "black") +
   coord_sf(ylim = c(-77.5,64.5), xlim = c(20.5,379.5), expand = 0) +
   theme(axis.text = element_blank(),
@@ -236,7 +236,8 @@ ggplot() +
         legend.key = element_rect(colour = "black"))
 
 
-ggsave(path = "output/publication",
+ggsave(plot = p_inv_map,
+       path = "output/publication",
        filename = "dCant_inventory_map.png",
        height = 4,
        width = 10)
