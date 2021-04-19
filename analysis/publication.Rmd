@@ -66,6 +66,23 @@ cant_inv_mod_truth <-
 
 cant_inv <- bind_rows(cant_inv, cant_inv_mod_truth)
 
+
+cant_zonal <-
+  read_csv(paste(path_version_data,
+                 "cant_zonal.csv",
+                 sep = ""))
+
+cant_zonal_mod_truth <-
+  read_csv(paste(path_version_data,
+                 "cant_zonal_mod_truth.csv",
+                 sep = ""))
+
+cant_zonal <- bind_rows(cant_zonal,
+                        cant_zonal_mod_truth)
+
+
+
+
 GLODAP_clean <-
   read_csv(paste(path_version_data,
                  "GLODAPv2.2020_clean.csv",
@@ -80,6 +97,11 @@ GLODAP_preprocessed <-
     )
   )
 
+GLODAP_grid_dup <-
+  read_csv(paste(path_version_data,
+                  "GLODAPv2.2020_clean_obs_grid_duplicates.csv",
+                  sep = ""))
+
 ```
 
 
@@ -93,6 +115,8 @@ cant_inv <- cant_inv %>%
 # Inventory map
 
 ```{r mask_and_shape_files}
+
+# coastlines and worldmap
 
 coastlines <- ne_coastline(scale = "small", returnclass = "sf")
 coastlines_re <- ne_coastline(scale = "small", returnclass = "sf")
@@ -118,10 +142,7 @@ rm(coastlines_re)
 #   as.tibble()
 
 
-ggplot() +
-  geom_sf(data = worldmap, col = "transparent") +
-  geom_sf(data = coastlines)
-
+# unmapped regions shape files
 
 for (i_file in list.files("data/iho_marginal_seas")) {
   iho <- st_read(paste0("data/iho_marginal_seas/", i_file, "/iho.shp"))
@@ -143,11 +164,13 @@ st_crs(marine_polys_re) <- crs
 marine_polys <- rbind(marine_polys, marine_polys_re)
 rm(marine_polys_re)
 
-ggplot() +
-  geom_sf(data = marine_polys, fill = "white")
-
-# marine_polys_simple <- st_simplify(marine_polys, dTolerance = 0.1)
+# plot(st_geometry(marine_polys))
 # ggplot() +
+#   geom_sf(data = st_geometry(marine_polys), fill = "white")
+
+# marine_polys_simple <- st_simplify(marine_polys, dTolerance = 0.5)
+# ggplot() +
+#   geom_sf(data = marine_polys, fill = "red") +
 #   geom_sf(data = marine_polys_simple, fill = "white")
 
 black_sea <- st_read("data/black_sea/provinces.shp")
@@ -174,11 +197,11 @@ st_crs(caspian_sea_re) <- crs
 caspian_sea <- rbind(caspian_sea, caspian_sea_re)
 rm(caspian_sea_re)
 
-ggplot() +
-  geom_sf(data = marine_polys, fill = "white") +
-  geom_sf(data = black_sea, fill = "white") +
-  geom_sf(data = caspian_sea, fill = "white") +
-  geom_sf(data = hudson_bay, fill = "white")
+# ggplot() +
+#   geom_sf(data = marine_polys, fill = "white") +
+#   geom_sf(data = black_sea, fill = "white") +
+#   geom_sf(data = caspian_sea, fill = "white") +
+#   geom_sf(data = hudson_bay, fill = "white")
 
 ```
 
@@ -186,30 +209,22 @@ ggplot() +
 
 ```{r cant_inv_map}
 
+set_breaks <- c(-Inf, seq(0, 12, 2), Inf)
+color_land <- "grey80"
+color_unmapped <- "grey90"
+
 var_name <- expression(atop(Delta * C["ant"],
                             (mol ~ m ^ {
                               -2
                             })))
 
-GLODAP_grid <- GLODAP_clean %>% 
-  distinct(lon, lat, era)
-
-GLODAP_grid_both <- GLODAP_grid %>% 
+GLODAP_grid_both <- GLODAP_grid_dup %>%
+  filter(duplicate == "no") %>% 
   count(lon, lat) %>% 
   mutate(n = as.factor(n))
 
-cant_inv %>%
-  filter(data_source == "obs") %>% 
-  ggplot(aes(cant_pos_inv)) +
-  geom_histogram()
-
-
-set_breaks <- c(-Inf, seq(0, 12, 2), Inf)
 
 p_inv_map <- ggplot() +
-  # geom_raster(
-  #   data = cant_inv %>% filter(data_source == "obs"),
-  #   aes(lon, lat), fill = "green") +
   geom_contour_fill(
     data = cant_inv %>% filter(data_source == "obs"),
     aes(lon, lat, z = cant_inv, fill = stat(level)),
@@ -221,13 +236,13 @@ p_inv_map <- ggplot() +
   new_scale_fill() +
   geom_tile(data = GLODAP_grid_both,
               aes(x = lon, y = lat, height = 0.7, width = 0.7, fill=n)) +
-  scale_fill_manual(values = c("deeppink4", "deeppink"),
+  scale_fill_manual(values = c("Deeppink4", "Deeppink"),
                     name = "Eras\noccupied") +
-  geom_sf(data = marine_polys, fill = "white", col="white") +
-  geom_sf(data = black_sea, fill = "white", col="white") +
-  geom_sf(data = caspian_sea, fill = "white", col="white") +
+  geom_sf(data = marine_polys, fill = color_unmapped, col="transparent") +
+  geom_sf(data = black_sea,  fill = color_unmapped, col="transparent") +
+  geom_sf(data = caspian_sea,  fill = color_unmapped, col="transparent") +
   geom_sf(data = hudson_bay, fill = "white", col="white") +
-  geom_sf(data = worldmap, fill="grey80", color="transparent") +
+  geom_sf(data = worldmap,  fill = color_land, col="transparent") +
   geom_sf(data = coastlines, col = "black") +
   coord_sf(ylim = c(-77.5,64.5), xlim = c(20.5,379.5), expand = 0) +
   theme(axis.text = element_blank(),
@@ -244,6 +259,34 @@ ggsave(plot = p_inv_map,
 
 ```
 
+# Spatial time coverage
+
+```{r time_series_maps}
+
+time_histo <- GLODAP_preprocessed %>%
+  filter(year >= 2000) %>%
+  distinct(lat, lon, year)
+
+p_coverage_maps <- 
+map +
+  geom_raster(data = time_histo, aes(lon, lat)) +
+  facet_wrap( ~ year) +
+  theme(
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    axis.title = element_blank()
+  )
+
+
+ggsave(plot = p_coverage_maps,
+       path = "output/publication",
+       filename = "data_coverage_maps_by_year.png",
+       height = 7,
+       width = 16)
+
+```
+
+
 
 # Data time series histogram
 
@@ -254,29 +297,148 @@ time_histo <- GLODAP_preprocessed %>%
   count(basin_AIP, year)
 
 time_histo %>% 
-  ggplot(aes(year, n, fill=basin_AIP)) + 
+  ggplot(aes(year, n)) + 
   geom_col() +
   scale_fill_brewer(palette = "Dark2") +
   scale_x_continuous(breaks = seq(1900,2100,5)) +
   scale_y_continuous(name = "") +
   coord_cartesian(expand = 0) +
-  labs(title = "GLODAPv2.2020 | Observations coverage")
+  labs(title = "GLODAPv2.2020 | Observations coverage") +
+  theme_bw() +
+  theme(axis.title = element_blank())
+
+ggsave(path = "output/publication",
+       filename = "histogram_observations.png",
+       height = 2,
+       width = 10)
 
 ```
 
-# Spatial time coverage
 
-```{r time_series_maps}
 
-time_histo <- GLODAP_preprocessed %>% 
-  filter(year >= 2000) %>% 
-  distinct(lat, lon, year)
+```{r cant_inv_map_color_only, eval=FALSE}
 
-map + 
-  geom_raster(data = time_histo, aes(lon, lat)) +
-  facet_wrap(~ year)
+color_land <- "white"
+color_unmapped <- "white"
+
+p_inv_map <- ggplot() +
+  geom_contour_fill(
+    data = cant_inv %>% filter(data_source == "obs"),
+    aes(lon, lat, z = cant_inv, fill = stat(level)),
+    breaks = set_breaks,
+    na.fill = TRUE
+  ) +
+  scale_fill_viridis_d(option = "D", name = var_name,
+                       guide = FALSE) +
+  geom_sf(data = marine_polys, fill = color_unmapped, col="transparent") +
+  geom_sf(data = black_sea,  fill = color_unmapped, col="transparent") +
+  geom_sf(data = caspian_sea,  fill = color_unmapped, col="transparent") +
+  geom_sf(data = hudson_bay, fill = "white", col="white") +
+  geom_sf(data = worldmap,  fill = color_land, col="transparent") +
+  geom_sf(data = coastlines, col = "white") +
+  coord_sf(ylim = c(-77.5,64.5), xlim = c(20.5,379.5), expand = 0) +
+  theme_void()
+
+
+ggsave(plot = p_inv_map,
+       path = "output/publication",
+       filename = "dCant_inventory_map_color_only.png",
+       height = 4,
+       width = 10)
 
 ```
+
+
+# Zonal mean sections
+
+```{r zonal_mean_sections_obs}
+
+breaks <- c(-Inf, seq(0, 10, 1), Inf)
+breaks_n <- length(breaks) - 1
+
+legend_title = expression(atop(Delta * C[ant, pos],
+                               (mu * mol ~ kg ^ {
+                                 -1
+                               })))
+
+i_basin_AIP <- "Atlantic"
+
+# plot base section
+section <-
+  cant_zonal %>%
+  filter(basin_AIP == i_basin_AIP,
+         data_source == "obs") %>%
+  ggplot() +
+  guides(fill = guide_colorsteps(barheight = unit(8, "cm"))) +
+  scale_y_reverse() +
+  scale_x_continuous(breaks = seq(-100, 100, 20),
+                     limits = c(-85, 85)) +
+  geom_contour_filled(aes(lat, depth, z = cant_mean),
+                      breaks = breaks) +
+  scale_fill_viridis_d(name = legend_title)
+
+
+
+# select slab breaks for plotted basin
+# if (i_basin_AIP == "Atlantic") {
+#   slab_breaks <- params_local$slabs_Atl
+# } else {
+#   slab_breaks <- params_local$slabs_Ind_Pac
+# }
+# 
+# 
+# section <- section  +
+#   geom_hline(yintercept = params_local$depth_min,
+#              col = "white",
+#              linetype = 2) +
+#   geom_contour(aes(lat, depth, z = !!gamma),
+#                breaks = slab_breaks,
+#                col = "black") +
+#   geom_text_contour(
+#     aes(lat, depth, z = !!gamma),
+#     breaks = slab_breaks,
+#     col = "black",
+#     skip = drop_slabs
+#   )
+# }
+
+# cut surface water section
+surface <-
+  section +
+  coord_cartesian(expand = 0,
+                  ylim = c(500, 0)) +
+  labs(y = "Depth (m)",
+       title = i_basin_AIP) +
+  theme(
+    axis.title.x = element_blank(),
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank()
+  )
+
+# cut deep water section
+deep <-
+  section +
+  coord_cartesian(expand = 0,
+                  ylim = c(params_global$plotting_depth, 500)) +
+  labs(x = expression(latitude ~ (degree * N)), y = "Depth (m)")
+
+
+# combine surface and deep water section
+section_combined <-
+  surface / deep +
+  plot_layout(guides = "collect")
+
+
+ggsave(plot = section_combined,
+       path = "output/publication",
+       filename = "zonal_mean_section_obs.png",
+       height = 4,
+       width = 8)
+
+
+```
+
+
 
 # Model offset
 
