@@ -43,6 +43,7 @@ path_version_data     <-
 library(sf)
 library(rnaturalearth)
 library(ggnewscale)
+library(patchwork)
 ```
 
 # Data sources
@@ -245,6 +246,8 @@ p_inv_map <- ggplot() +
   geom_sf(data = worldmap,  fill = color_land, col="transparent") +
   geom_sf(data = coastlines, col = "black") +
   coord_sf(ylim = c(-77.5,64.5), xlim = c(20.5,379.5), expand = 0) +
+  labs(title = expression("Column inventory (0 - 3000m) of the change in anthropogenic CO"[2]~
+                            "from 2006 to 2014")) +
   theme(axis.text = element_blank(),
         axis.ticks = element_blank(),
         axis.title = element_blank(),
@@ -258,6 +261,53 @@ ggsave(plot = p_inv_map,
        width = 10)
 
 ```
+
+
+
+# Data time series histogram
+
+```{r time_series}
+
+time_histo <- GLODAP_preprocessed %>% 
+  filter(!is.na(tco2)) %>% 
+  count(year)
+
+p_time_histo <-
+  ggplot() +
+  geom_col(data = time_histo %>% filter(year >= 2010),
+           aes(year, n),
+           col = "grey20",
+           fill = "grey60") +
+  geom_col(data = time_histo %>% filter(year >= 2000, year < 2010),
+           aes(year, n),
+           col = "grey20",
+           fill = "grey80") +
+  geom_col(data = time_histo %>% filter(year < 2000),
+           aes(year, n),
+           col = "grey20",
+           fill = "white") +
+  scale_fill_brewer(palette = "Dark2") +
+  scale_x_continuous(breaks = seq(1900, 2100, 5)) +
+  scale_y_continuous(name = "") +
+  coord_cartesian(expand = 0) +
+  labs(title = "GLODAPv2.2020 | Observations per year") +
+  theme_bw() +
+  theme(axis.title = element_blank())
+
+
+# p_histo_map <- 
+#   p_time_histo / p_inv_map +
+#     plot_layout(heights = c(1,2))
+
+
+ggsave(plot = p_time_histo,
+       path = "output/publication",
+       filename = "time_histo.png",
+       height = 2,
+       width = 10)
+
+```
+
 
 # Spatial time coverage
 
@@ -283,34 +333,6 @@ ggsave(plot = p_coverage_maps,
        filename = "data_coverage_maps_by_year.png",
        height = 7,
        width = 16)
-
-```
-
-
-
-# Data time series histogram
-
-```{r time_series}
-
-time_histo <- GLODAP_preprocessed %>% 
-  filter(!is.na(tco2)) %>% 
-  count(basin_AIP, year)
-
-time_histo %>% 
-  ggplot(aes(year, n)) + 
-  geom_col() +
-  scale_fill_brewer(palette = "Dark2") +
-  scale_x_continuous(breaks = seq(1900,2100,5)) +
-  scale_y_continuous(name = "") +
-  coord_cartesian(expand = 0) +
-  labs(title = "GLODAPv2.2020 | Observations coverage") +
-  theme_bw() +
-  theme(axis.title = element_blank())
-
-ggsave(path = "output/publication",
-       filename = "histogram_observations.png",
-       height = 2,
-       width = 10)
 
 ```
 
@@ -347,6 +369,9 @@ ggsave(plot = p_inv_map,
        width = 10)
 
 ```
+
+# 
+
 
 
 # Zonal mean sections
