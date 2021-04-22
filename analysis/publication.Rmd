@@ -256,7 +256,7 @@ p_inv_map <- ggplot() +
   geom_tile(data = GLODAP_grid_both,
               aes(x = lon, y = lat, height = 0.7, width = 0.7, fill=n)) +
   scale_fill_manual(values = c("Deeppink4", "Deeppink"),
-                    name = "Eras\noccupied") +
+                    name = "Decades\noccupied") +
   geom_sf(data = marine_polys, fill = color_unmapped, col="transparent") +
   geom_sf(data = black_sea,  fill = color_unmapped, col="transparent") +
   geom_sf(data = caspian_sea,  fill = color_unmapped, col="transparent") +
@@ -329,7 +329,7 @@ ggsave(plot = p_time_histo,
 
 ## Spatial time coverage
 
-```{r time_series_maps}
+```{r annual_coverage_maps}
 
 time_histo <- GLODAP_preprocessed %>%
   filter(year >= 2000) %>%
@@ -345,12 +345,87 @@ map +
     axis.title = element_blank()
   )
 
+p_coverage_maps
 
 ggsave(plot = p_coverage_maps,
        path = "output/publication",
        filename = "data_coverage_maps_by_year.png",
        height = 7,
        width = 16)
+
+```
+
+
+```{r post_2000_coverage_map}
+
+time_histo <- GLODAP_preprocessed %>%
+  filter(year >= 2000) %>%
+  distinct(lat, lon, year)
+
+p_coverage_maps <-
+  ggplot() +
+  geom_raster(data = GLODAP_grid_both,
+              aes(x = lon, y = lat, fill = n)) +
+  scale_fill_brewer(palette = "Set1",
+                    name = "Decades\noccupied",
+                    direction = -1) +
+  geom_sf(data = worldmap,  fill = color_land, col = "transparent") +
+  geom_sf(data = coastlines, col = "black") +
+  coord_sf(
+    ylim = c(-77.5, 64.5),
+    xlim = c(20.5, 379.5),
+    expand = 0
+  ) +
+  labs(title = "GLODAPv2.2020 | Data coverage in the post-2000 era") +
+  theme(
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    axis.title = element_blank(),
+    legend.key = element_rect(colour = "black")
+  )
+
+p_coverage_maps
+
+ggsave(plot = p_coverage_maps,
+       path = "output/publication",
+       filename = "data_coverage_map_post_2000.png",
+       height = 4,
+       width = 10)
+
+```
+
+
+```{r data_duplication_coverage_map}
+
+p_coverage_maps <-
+  ggplot() +
+  geom_raster(data = GLODAP_grid_dup,
+              aes(x = lon, y = lat, fill = duplicate)) +
+  scale_fill_brewer(palette = "Set1",
+                    name = "Duplicated\ndata",
+                    direction = -1) +
+  geom_sf(data = worldmap,  fill = color_land, col = "transparent") +
+  geom_sf(data = coastlines, col = "black") +
+  coord_sf(
+    ylim = c(-77.5, 64.5),
+    xlim = c(20.5, 379.5),
+    expand = 0
+  ) +
+  facet_wrap(~ era, ncol = 1) +
+  theme(
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    axis.title = element_blank(),
+    legend.key = element_rect(colour = "black")
+  )
+
+p_coverage_maps
+
+ggsave(plot = p_coverage_maps,
+       path = "output/publication",
+       filename = "data_coverage_map_duplicated_data.png",
+       height = 6,
+       width = 7)
 
 ```
 
