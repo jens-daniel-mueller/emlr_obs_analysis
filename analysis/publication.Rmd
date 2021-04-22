@@ -853,6 +853,8 @@ ggsave(plot = p_budget_comparison,
 
 ## Zonal mean sections
 
+### eMLR
+
 ```{r zonal_mean_sections_mod}
 
 breaks <- c(-Inf, seq(0, 10, 1), Inf)
@@ -891,6 +893,11 @@ section <-
     breaks = slab_breaks,
     col = "white",
     skip = 2
+  ) +
+  theme(
+    axis.title.x = element_blank(),
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank()
   )
 
 # cut surface water section
@@ -899,12 +906,7 @@ surface <-
   coord_cartesian(expand = 0,
                   ylim = c(500, 0)) +
   labs(y = "Depth (m)",
-       title =paste(i_basin_AIP, "Ocean")) +
-  theme(
-    axis.title.x = element_blank(),
-    axis.text.x = element_blank(),
-    axis.ticks.x = element_blank()
-  )
+       title =paste(i_basin_AIP, "Ocean"))
 
 # cut deep water section
 deep <-
@@ -950,7 +952,13 @@ section <-
     breaks = slab_breaks,
     col = "white",
     skip = 2
+  ) +
+  theme(
+    axis.title = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank()
   )
+
 
 # cut surface water section
 surface <-
@@ -958,13 +966,7 @@ surface <-
   coord_cartesian(expand = 0,
                   ylim = c(500, 0)) +
   labs(y = "Depth (m)",
-       title =paste(i_basin_AIP, "Ocean")) +
-  theme(
-    axis.title = element_blank(),
-    axis.text = element_blank(),
-    axis.ticks = element_blank()
-  )
-
+       title =paste(i_basin_AIP, "Ocean"))
 # cut deep water section
 deep <-
   section +
@@ -996,7 +998,7 @@ section <-
   filter(basin_AIP == i_basin_AIP,
          data_source == i_data_source) %>%
   ggplot() +
-  guides(fill = guide_colorsteps(barheight = unit(6, "cm"))) +
+  guides(fill = guide_colorsteps(barheight = unit(5, "cm"))) +
   scale_y_reverse() +
   scale_x_continuous(breaks = seq(-100, 100, 20),
                      limits = c(min(cant_zonal$lat), max(cant_zonal$lat))) +
@@ -1014,6 +1016,11 @@ section <-
     breaks = slab_breaks,
     col = "white",
     skip = 2
+  ) +
+  theme(
+    axis.title = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank()
   )
 
 # cut surface water section
@@ -1055,14 +1062,7 @@ section_combined_Ind
 section_combined <-
 section_combined_Atl | section_combined_Pac | section_combined_Ind
 
-
-
-ggsave(plot = section_combined,
-       path = "output/publication",
-       filename = "zonal_mean_section_mod.png",
-       height = 4,
-       width = 12)
-
+section_combined
 
 ```
 
@@ -1114,11 +1114,11 @@ section <-
   ) +
   geom_contour(aes(lat, depth, z = gamma_mean),
                breaks = slab_breaks,
-               col = "white") +
+               col = "black") +
   geom_text_contour(
     aes(lat, depth, z = gamma_mean),
     breaks = slab_breaks,
-    col = "white",
+    col = "black",
     skip = 2
   )
 
@@ -1127,8 +1127,7 @@ surface <-
   section +
   coord_cartesian(expand = 0,
                   ylim = c(500, 0)) +
-  labs(y = "Depth (m)",
-       title =paste(i_basin_AIP, "Ocean")) +
+  labs(y = "Depth (m)") +
   theme(
     axis.title.x = element_blank(),
     axis.text.x = element_blank(),
@@ -1171,14 +1170,14 @@ section <-
     direction = -1,
     drop = FALSE,
     name = legend_title,
-    guide = guide_colorsteps(barheight = unit(5, "cm"))
+    guide = guide_colorsteps(barheight = unit(4, "cm"))
   ) +
   geom_hline(yintercept = params_local$depth_min,
-             col = "white",
+             col = "black",
              linetype = 2) +
   geom_contour(aes(lat, depth, z = gamma_mean),
                breaks = slab_breaks,
-               col = "white") +
+               col = "black") +
   geom_text_contour(
     aes(lat, depth, z = gamma_mean),
     breaks = slab_breaks,
@@ -1191,8 +1190,7 @@ surface <-
   section +
   coord_cartesian(expand = 0,
                   ylim = c(500, 0)) +
-  labs(y = "Depth (m)",
-       title =paste(i_basin_AIP, "Ocean")) +
+  labs(y = "Depth (m)") +
   theme(
     axis.title = element_blank(),
     axis.text = element_blank(),
@@ -1247,11 +1245,11 @@ section <-
              linetype = 2) +
   geom_contour(aes(lat, depth, z = gamma_mean),
                breaks = slab_breaks,
-               col = "white") +
+               col = "black") +
   geom_text_contour(
     aes(lat, depth, z = gamma_mean),
     breaks = slab_breaks,
-    col = "white",
+    col = "black",
     skip = 2
   )
 
@@ -1260,8 +1258,7 @@ surface <-
   section +
   coord_cartesian(expand = 0,
                   ylim = c(500, 0)) +
-  labs(y = "Depth (m)",
-       title =paste(i_basin_AIP, "Ocean")) +
+  labs(y = "Depth (m)") +
   theme(
     axis.title = element_blank(),
     axis.text = element_blank(),
