@@ -764,7 +764,7 @@ p_inv_map_bias <- ggplot() +
     direction = -1,
     drop = FALSE,
     name = var_name,
-    guide = guide_colorsteps()
+    guide = guide_colorsteps(barheight = unit(5, "cm"))
   ) +
   geom_sf(data = marine_polys, fill = color_unmapped, col = "transparent") +
   geom_sf(data = black_sea,  fill = color_unmapped, col = "transparent") +
@@ -785,15 +785,68 @@ p_inv_map_bias <- ggplot() +
     legend.key = element_rect(colour = "black")
   )
 
-
+p_inv_map_mod <- 
 p_inv_map / p_inv_map_bias
 
-ggsave(plot = p_inv_map_bias,
+ggsave(plot = p_inv_map_mod,
        path = "output/publication",
        filename = "dCant_inventory_map_mod_bias.png",
-       height = 8,
-       width = 8)
+       height = 7,
+       width = 9)
 
 ```
 
+## Budgets
+
+```{r cant_budget_mod}
+
+cant_inv_budget_mod <- cant_inv_budget %>%
+  filter(
+    inv_depth == params_global$inventory_depth_standard,
+    data_source %in% c("mod", "mod_truth")
+  ) %>%
+  select(-c(cant_pos_total, inv_depth))
+  
+
+cant_inv_budget_mod %>%
+  pivot_wider(names_from = data_source,
+              values_from = cant_total) %>%
+  mutate(abs_bias = mod - mod_truth,
+         rel_bias = ((mod / mod_truth) - 1) * 100)
+
+cant_inv_budget_mod %>%
+  group_by(data_source) %>%
+  summarise(cant_total = sum(cant_total)) %>%
+  ungroup() %>%
+  pivot_wider(names_from = data_source,
+              values_from = cant_total) %>%
+  mutate(abs_bias = mod - mod_truth,
+         rel_bias = ((mod / mod_truth) - 1) * 100)
+
+p_budget_comparison <-
+  cant_inv_budget_mod %>%
+  mutate(
+    data_source = recode(data_source,
+                         mod = "eMLR(C*)\nreconstruction",
+                         mod_truth = "Model\ntruth")
+  ) %>%
+  ggplot(aes(data_source, cant_total, fill = basin_AIP)) +
+  scale_fill_brewer(palette = "Greys", name = "Ocean basin",
+                    direction = -1) +
+  scale_y_continuous(limits = c(0, 18), expand = c(0, 0)) +
+  labs(y = expression(Delta * C["ant"] ~ (PgC)),
+       title = "Regionally integrated budgets") +
+  geom_col(col = "grey20") +
+  theme_bw() +
+  theme(axis.title.x = element_blank())
+
+p_budget_comparison
+
+ggsave(plot = p_budget_comparison,
+       path = "output/publication",
+       filename = "budget_comparison.png",
+       height = 3.5,
+       width = 4)
+
+```
 
