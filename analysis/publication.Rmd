@@ -706,7 +706,7 @@ var_name <- expression(atop(Delta * C["ant"],
 
 p_inv_map <- ggplot() +
   geom_contour_fill(
-    data = cant_inv %>% filter(data_source == "mod_truth"),
+    data = cant_inv %>% filter(data_source == "mod"),
     aes(lon, lat, z = cant_inv, fill = stat(level)),
     breaks = set_breaks,
     na.fill = TRUE
@@ -727,7 +727,7 @@ p_inv_map <- ggplot() +
   coord_sf(ylim = c(-77.5,64.5), xlim = c(20.5,379.5), expand = 0) +
   labs(title = expression("Column inventory (0 - 3000m) of the change in anthropogenic CO"[2]~
                             "from 2006 to 2014"),
-       subtitle = "Model truth") +
+       subtitle = "eMLR(C*) reconstruction") +
   theme(axis.text = element_blank(),
         axis.ticks = element_blank(),
         axis.title = element_blank(),
@@ -849,4 +849,676 @@ ggsave(plot = p_budget_comparison,
        width = 4)
 
 ```
+
+
+## Zonal mean sections
+
+```{r zonal_mean_sections_mod}
+
+breaks <- c(-Inf, seq(0, 10, 1), Inf)
+breaks_n <- length(breaks) - 1
+
+legend_title = expression(atop(Delta * C[ant, pos],
+                               (mu * mol ~ kg ^ {
+                                 -1
+                               })))
+
+i_basin_AIP <- "Atlantic"
+slab_breaks <- params_local$slabs_Atl
+i_data_source <- "mod"
+
+# plot base section
+section <-
+  cant_zonal %>%
+  filter(basin_AIP == i_basin_AIP,
+         data_source == i_data_source) %>%
+  ggplot() +
+  guides(fill = FALSE) +
+  scale_y_reverse() +
+  scale_x_continuous(breaks = seq(-100, 100, 20),
+                     limits = c(min(cant_zonal$lat), max(cant_zonal$lat))) +
+  geom_contour_filled(aes(lat, depth, z = cant_mean),
+                      breaks = breaks) +
+  scale_fill_viridis_d(name = legend_title) +
+  geom_hline(yintercept = params_local$depth_min,
+             col = "white",
+             linetype = 2) +
+  geom_contour(aes(lat, depth, z = gamma_mean),
+               breaks = slab_breaks,
+               col = "white") +
+  geom_text_contour(
+    aes(lat, depth, z = gamma_mean),
+    breaks = slab_breaks,
+    col = "white",
+    skip = 2
+  )
+
+# cut surface water section
+surface <-
+  section +
+  coord_cartesian(expand = 0,
+                  ylim = c(500, 0)) +
+  labs(y = "Depth (m)",
+       title =paste(i_basin_AIP, "Ocean")) +
+  theme(
+    axis.title.x = element_blank(),
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank()
+  )
+
+# cut deep water section
+deep <-
+  section +
+  coord_cartesian(expand = 0,
+                  ylim = c(params_global$inventory_depth_standard, 500)) +
+  labs(x = expression(latitude ~ (degree * N)), y = "Depth (m)")
+
+
+# combine surface and deep water section
+section_combined_Atl <-
+  surface / deep +
+  plot_layout(guides = "collect")
+
+section_combined_Atl
+
+
+
+i_basin_AIP <- "Pacific"
+slab_breaks <- params_local$slabs_Ind_Pac
+
+# plot base section
+section <-
+  cant_zonal %>%
+  filter(basin_AIP == i_basin_AIP,
+         data_source == i_data_source) %>%
+  ggplot() +
+  guides(fill = FALSE) +
+  scale_y_reverse() +
+  scale_x_continuous(breaks = seq(-100, 100, 20),
+                     limits = c(min(cant_zonal$lat), max(cant_zonal$lat))) +
+  geom_contour_filled(aes(lat, depth, z = cant_mean),
+                      breaks = breaks) +
+  scale_fill_viridis_d(name = legend_title) +
+  geom_hline(yintercept = params_local$depth_min,
+             col = "white",
+             linetype = 2) +
+  geom_contour(aes(lat, depth, z = gamma_mean),
+               breaks = slab_breaks,
+               col = "white") +
+  geom_text_contour(
+    aes(lat, depth, z = gamma_mean),
+    breaks = slab_breaks,
+    col = "white",
+    skip = 2
+  )
+
+# cut surface water section
+surface <-
+  section +
+  coord_cartesian(expand = 0,
+                  ylim = c(500, 0)) +
+  labs(y = "Depth (m)",
+       title =paste(i_basin_AIP, "Ocean")) +
+  theme(
+    axis.title = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank()
+  )
+
+# cut deep water section
+deep <-
+  section +
+  coord_cartesian(expand = 0,
+                  ylim = c(params_global$inventory_depth_standard, 500)) +
+  labs(x = expression(latitude ~ (degree * N)), y = "Depth (m)") +
+  theme(
+    axis.title.y = element_blank(),
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank()
+  )
+
+
+# combine surface and deep water section
+section_combined_Pac <-
+  surface / deep +
+  plot_layout(guides = "collect")
+
+section_combined_Pac
+
+
+
+i_basin_AIP <- "Indian"
+slab_breaks <- params_local$slabs_Ind_Pac
+
+# plot base section
+section <-
+  cant_zonal %>%
+  filter(basin_AIP == i_basin_AIP,
+         data_source == i_data_source) %>%
+  ggplot() +
+  guides(fill = guide_colorsteps(barheight = unit(6, "cm"))) +
+  scale_y_reverse() +
+  scale_x_continuous(breaks = seq(-100, 100, 20),
+                     limits = c(min(cant_zonal$lat), max(cant_zonal$lat))) +
+  geom_contour_filled(aes(lat, depth, z = cant_mean),
+                      breaks = breaks) +
+  scale_fill_viridis_d(name = legend_title) +
+  geom_hline(yintercept = params_local$depth_min,
+             col = "white",
+             linetype = 2) +
+  geom_contour(aes(lat, depth, z = gamma_mean),
+               breaks = slab_breaks,
+               col = "white") +
+  geom_text_contour(
+    aes(lat, depth, z = gamma_mean),
+    breaks = slab_breaks,
+    col = "white",
+    skip = 2
+  )
+
+# cut surface water section
+surface <-
+  section +
+  coord_cartesian(expand = 0,
+                  ylim = c(500, 0)) +
+  labs(y = "Depth (m)",
+       title =paste(i_basin_AIP, "Ocean")) +
+  theme(
+    axis.title = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank()
+  )
+
+# cut deep water section
+deep <-
+  section +
+  coord_cartesian(expand = 0,
+                  ylim = c(params_global$inventory_depth_standard, 500)) +
+  labs(x = expression(latitude ~ (degree * N)), y = "Depth (m)") +
+  theme(
+    axis.title.y = element_blank(),
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank()
+  )
+
+
+# combine surface and deep water section
+section_combined_Ind <-
+  surface / deep +
+  plot_layout(guides = "collect")
+
+section_combined_Ind
+
+
+
+
+section_combined <-
+section_combined_Atl | section_combined_Pac | section_combined_Ind
+
+
+
+ggsave(plot = section_combined,
+       path = "output/publication",
+       filename = "zonal_mean_section_mod.png",
+       height = 4,
+       width = 12)
+
+
+```
+
+### Bias
+
+```{r zonal_mean_sections_bias}
+
+breaks <- c(-Inf, seq(-6, 6, 2), Inf)
+breaks_n <- length(breaks) - 1
+
+legend_title = expression(atop(Delta * C[ant]~bias,
+                               (mu * mol ~ kg ^ {
+                                 -1
+                               })))
+
+cant_zonal_bias <- cant_zonal %>%
+  filter(data_source %in% c("mod", "mod_truth")) %>%
+  select(lat, depth, basin_AIP, data_source, cant_mean) %>%
+  pivot_wider(names_from = data_source,
+              values_from = cant_mean) %>%
+  mutate(cant_bias = mod - mod_truth)
+
+cant_zonal_bias <- full_join(
+  cant_zonal_bias,
+  cant_zonal_mod_truth %>% select(lat, depth, basin_AIP, gamma_mean)
+)
+
+
+i_basin_AIP <- "Atlantic"
+slab_breaks <- params_local$slabs_Atl
+
+# plot base section
+section <-
+  cant_zonal_bias %>%
+  filter(basin_AIP == i_basin_AIP) %>%
+  ggplot() +
+  guides(fill = FALSE) +
+  scale_y_reverse() +
+  scale_x_continuous(breaks = seq(-100, 100, 20),
+                     limits = c(min(cant_zonal$lat), max(cant_zonal$lat))) +
+  geom_contour_filled(aes(lat, depth, z = cant_bias),
+                      breaks = breaks) +
+  scale_fill_brewer(
+    palette = "RdBu",
+    direction = -1,
+    drop = FALSE,
+    name = legend_title,
+    guide = guide_colorsteps(barheight = unit(5, "cm"))
+  ) +
+  geom_contour(aes(lat, depth, z = gamma_mean),
+               breaks = slab_breaks,
+               col = "white") +
+  geom_text_contour(
+    aes(lat, depth, z = gamma_mean),
+    breaks = slab_breaks,
+    col = "white",
+    skip = 2
+  )
+
+# cut surface water section
+surface <-
+  section +
+  coord_cartesian(expand = 0,
+                  ylim = c(500, 0)) +
+  labs(y = "Depth (m)",
+       title =paste(i_basin_AIP, "Ocean")) +
+  theme(
+    axis.title.x = element_blank(),
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank()
+  )
+
+# cut deep water section
+deep <-
+  section +
+  coord_cartesian(expand = 0,
+                  ylim = c(params_global$inventory_depth_standard, 500)) +
+  labs(x = expression(latitude ~ (degree * N)), y = "Depth (m)")
+
+
+# combine surface and deep water section
+section_combined_Atl <-
+  surface / deep +
+  plot_layout(guides = "collect")
+
+section_combined_Atl
+
+
+
+i_basin_AIP <- "Pacific"
+slab_breaks <- params_local$slabs_Ind_Pac
+
+# plot base section
+section <-
+  cant_zonal_bias %>%
+  filter(basin_AIP == i_basin_AIP) %>%
+  ggplot() +
+  guides(fill = FALSE) +
+  scale_y_reverse() +
+  scale_x_continuous(breaks = seq(-100, 100, 20),
+                     limits = c(min(cant_zonal$lat), max(cant_zonal$lat))) +
+  geom_contour_filled(aes(lat, depth, z = cant_bias),
+                      breaks = breaks) +
+    scale_fill_brewer(
+    palette = "RdBu",
+    direction = -1,
+    drop = FALSE,
+    name = legend_title,
+    guide = guide_colorsteps(barheight = unit(5, "cm"))
+  ) +
+  geom_hline(yintercept = params_local$depth_min,
+             col = "white",
+             linetype = 2) +
+  geom_contour(aes(lat, depth, z = gamma_mean),
+               breaks = slab_breaks,
+               col = "white") +
+  geom_text_contour(
+    aes(lat, depth, z = gamma_mean),
+    breaks = slab_breaks,
+    col = "white",
+    skip = 2
+  )
+
+# cut surface water section
+surface <-
+  section +
+  coord_cartesian(expand = 0,
+                  ylim = c(500, 0)) +
+  labs(y = "Depth (m)",
+       title =paste(i_basin_AIP, "Ocean")) +
+  theme(
+    axis.title = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank()
+  )
+
+# cut deep water section
+deep <-
+  section +
+  coord_cartesian(expand = 0,
+                  ylim = c(params_global$inventory_depth_standard, 500)) +
+  labs(x = expression(latitude ~ (degree * N)), y = "Depth (m)") +
+  theme(
+    axis.title.y = element_blank(),
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank()
+  )
+
+
+# combine surface and deep water section
+section_combined_Pac <-
+  surface / deep +
+  plot_layout(guides = "collect")
+
+section_combined_Pac
+
+
+
+i_basin_AIP <- "Indian"
+slab_breaks <- params_local$slabs_Ind_Pac
+
+# plot base section
+section <-
+  cant_zonal_bias %>%
+  filter(basin_AIP == i_basin_AIP) %>%
+  ggplot() +
+  guides(fill = guide_colorsteps(barheight = unit(6, "cm"))) +
+  scale_y_reverse() +
+  scale_x_continuous(breaks = seq(-100, 100, 20),
+                     limits = c(min(cant_zonal$lat), max(cant_zonal$lat))) +
+  geom_contour_filled(aes(lat, depth, z = cant_bias),
+                      breaks = breaks) +
+    scale_fill_brewer(
+    palette = "RdBu",
+    direction = -1,
+    drop = FALSE,
+    name = legend_title,
+    guide = guide_colorsteps(barheight = unit(5, "cm"))
+  ) +
+  geom_hline(yintercept = params_local$depth_min,
+             col = "white",
+             linetype = 2) +
+  geom_contour(aes(lat, depth, z = gamma_mean),
+               breaks = slab_breaks,
+               col = "white") +
+  geom_text_contour(
+    aes(lat, depth, z = gamma_mean),
+    breaks = slab_breaks,
+    col = "white",
+    skip = 2
+  )
+
+# cut surface water section
+surface <-
+  section +
+  coord_cartesian(expand = 0,
+                  ylim = c(500, 0)) +
+  labs(y = "Depth (m)",
+       title =paste(i_basin_AIP, "Ocean")) +
+  theme(
+    axis.title = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank()
+  )
+
+# cut deep water section
+deep <-
+  section +
+  coord_cartesian(expand = 0,
+                  ylim = c(params_global$inventory_depth_standard, 500)) +
+  labs(x = expression(latitude ~ (degree * N)), y = "Depth (m)") +
+  theme(
+    axis.title.y = element_blank(),
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank()
+  )
+
+
+# combine surface and deep water section
+section_combined_Ind <-
+  surface / deep +
+  plot_layout(guides = "collect")
+
+section_combined_Ind
+
+
+
+
+section_combined_bias <-
+section_combined_Atl | section_combined_Pac | section_combined_Ind
+
+section_mod_bias <-
+section_combined / section_combined_bias
+
+
+ggsave(plot = section_mod_bias,
+       path = "output/publication",
+       filename = "zonal_mean_section_mod_bias.png",
+       height = 7,
+       width = 12)
+
+
+```
+
+
+```{r zonal_mean_sections_mod_truth, eval=FALSE}
+
+breaks <- c(-Inf, seq(0, 10, 1), Inf)
+breaks_n <- length(breaks) - 1
+
+legend_title = expression(atop(Delta * C[ant, pos],
+                               (mu * mol ~ kg ^ {
+                                 -1
+                               })))
+
+i_basin_AIP <- "Atlantic"
+slab_breaks <- params_local$slabs_Atl
+i_data_source <- "mod_truth"
+
+# plot base section
+section <-
+  cant_zonal %>%
+  filter(basin_AIP == i_basin_AIP,
+         data_source == i_data_source) %>%
+  ggplot() +
+  guides(fill = FALSE) +
+  scale_y_reverse() +
+  scale_x_continuous(breaks = seq(-100, 100, 20),
+                     limits = c(min(cant_zonal$lat), max(cant_zonal$lat))) +
+  geom_contour_filled(aes(lat, depth, z = cant_mean),
+                      breaks = breaks) +
+  scale_fill_viridis_d(name = legend_title) +
+  geom_hline(yintercept = params_local$depth_min,
+             col = "white",
+             linetype = 2) +
+  geom_contour(aes(lat, depth, z = gamma_mean),
+               breaks = slab_breaks,
+               col = "white") +
+  geom_text_contour(
+    aes(lat, depth, z = gamma_mean),
+    breaks = slab_breaks,
+    col = "white",
+    skip = 2
+  )
+
+# cut surface water section
+surface <-
+  section +
+  coord_cartesian(expand = 0,
+                  ylim = c(500, 0)) +
+  labs(y = "Depth (m)",
+       title =paste(i_basin_AIP, "Ocean")) +
+  theme(
+    axis.title.x = element_blank(),
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank()
+  )
+
+# cut deep water section
+deep <-
+  section +
+  coord_cartesian(expand = 0,
+                  ylim = c(params_global$inventory_depth_standard, 500)) +
+  labs(x = expression(latitude ~ (degree * N)), y = "Depth (m)")
+
+
+# combine surface and deep water section
+section_combined_Atl <-
+  surface / deep +
+  plot_layout(guides = "collect")
+
+section_combined_Atl
+
+
+
+i_basin_AIP <- "Pacific"
+slab_breaks <- params_local$slabs_Ind_Pac
+
+# plot base section
+section <-
+  cant_zonal %>%
+  filter(basin_AIP == i_basin_AIP,
+         data_source == i_data_source) %>%
+  ggplot() +
+  guides(fill = FALSE) +
+  scale_y_reverse() +
+  scale_x_continuous(breaks = seq(-100, 100, 20),
+                     limits = c(min(cant_zonal$lat), max(cant_zonal$lat))) +
+  geom_contour_filled(aes(lat, depth, z = cant_mean),
+                      breaks = breaks) +
+  scale_fill_viridis_d(name = legend_title) +
+  geom_hline(yintercept = params_local$depth_min,
+             col = "white",
+             linetype = 2) +
+  geom_contour(aes(lat, depth, z = gamma_mean),
+               breaks = slab_breaks,
+               col = "white") +
+  geom_text_contour(
+    aes(lat, depth, z = gamma_mean),
+    breaks = slab_breaks,
+    col = "white",
+    skip = 2
+  )
+
+# cut surface water section
+surface <-
+  section +
+  coord_cartesian(expand = 0,
+                  ylim = c(500, 0)) +
+  labs(y = "Depth (m)",
+       title =paste(i_basin_AIP, "Ocean")) +
+  theme(
+    axis.title = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank()
+  )
+
+# cut deep water section
+deep <-
+  section +
+  coord_cartesian(expand = 0,
+                  ylim = c(params_global$inventory_depth_standard, 500)) +
+  labs(x = expression(latitude ~ (degree * N)), y = "Depth (m)") +
+  theme(
+    axis.title.y = element_blank(),
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank()
+  )
+
+
+# combine surface and deep water section
+section_combined_Pac <-
+  surface / deep +
+  plot_layout(guides = "collect")
+
+section_combined_Pac
+
+
+
+i_basin_AIP <- "Indian"
+slab_breaks <- params_local$slabs_Ind_Pac
+
+# plot base section
+section <-
+  cant_zonal %>%
+  filter(basin_AIP == i_basin_AIP,
+         data_source == i_data_source) %>%
+  ggplot() +
+  guides(fill = guide_colorsteps(barheight = unit(6, "cm"))) +
+  scale_y_reverse() +
+  scale_x_continuous(breaks = seq(-100, 100, 20),
+                     limits = c(min(cant_zonal$lat), max(cant_zonal$lat))) +
+  geom_contour_filled(aes(lat, depth, z = cant_mean),
+                      breaks = breaks) +
+  scale_fill_viridis_d(name = legend_title) +
+  geom_hline(yintercept = params_local$depth_min,
+             col = "white",
+             linetype = 2) +
+  geom_contour(aes(lat, depth, z = gamma_mean),
+               breaks = slab_breaks,
+               col = "white") +
+  geom_text_contour(
+    aes(lat, depth, z = gamma_mean),
+    breaks = slab_breaks,
+    col = "white",
+    skip = 2
+  )
+
+# cut surface water section
+surface <-
+  section +
+  coord_cartesian(expand = 0,
+                  ylim = c(500, 0)) +
+  labs(y = "Depth (m)",
+       title =paste(i_basin_AIP, "Ocean")) +
+  theme(
+    axis.title = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank()
+  )
+
+# cut deep water section
+deep <-
+  section +
+  coord_cartesian(expand = 0,
+                  ylim = c(params_global$inventory_depth_standard, 500)) +
+  labs(x = expression(latitude ~ (degree * N)), y = "Depth (m)") +
+  theme(
+    axis.title.y = element_blank(),
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank()
+  )
+
+
+# combine surface and deep water section
+section_combined_Ind <-
+  surface / deep +
+  plot_layout(guides = "collect")
+
+section_combined_Ind
+
+
+
+
+section_combined <-
+section_combined_Atl | section_combined_Pac | section_combined_Ind
+
+
+
+ggsave(plot = section_combined,
+       path = "output/publication",
+       filename = "zonal_mean_section_mod_truth.png",
+       height = 4,
+       width = 12)
+
+
+```
+
 
