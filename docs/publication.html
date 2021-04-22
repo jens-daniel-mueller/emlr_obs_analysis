@@ -426,7 +426,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Materials for publication</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">21 April, 2021</h4>
+<h4 class="date">22 April, 2021</h4>
 
 </div>
 
@@ -451,7 +451,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-04-21
+<strong>Last updated:</strong> 2021-04-22
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -542,16 +542,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree728b5c520bdbdecc2d23724e8819901db3a9a39ftargetblank728b5c5a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/728b5c520bdbdecc2d23724e8819901db3a9a39f" target="_blank">728b5c5</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree9da882fc602cba31fdd1aae082af477be6ba01f4targetblank9da882fa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/9da882fc602cba31fdd1aae082af477be6ba01f4" target="_blank">9da882f</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree728b5c520bdbdecc2d23724e8819901db3a9a39ftargetblank728b5c5a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree9da882fc602cba31fdd1aae082af477be6ba01f4targetblank9da882fa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/728b5c520bdbdecc2d23724e8819901db3a9a39f" target="_blank">728b5c5</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/9da882fc602cba31fdd1aae082af477be6ba01f4" target="_blank">9da882f</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -604,6 +604,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9da882fc602cba31fdd1aae082af477be6ba01f4/analysis/publication.Rmd" target="_blank">9da882f</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-04-22
+</td>
+<td>
+zonal mean section added
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/2cc294ac447d869351f455a5ea12da7d01a49944/docs/publication.html" target="_blank">2cc294a</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-04-21
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -851,7 +885,13 @@ GLODAP_preprocessed &lt;-
 GLODAP_grid_dup &lt;-
   read_csv(paste(path_version_data,
                   &quot;GLODAPv2.2020_clean_obs_grid_duplicates.csv&quot;,
-                  sep = &quot;&quot;))</code></pre>
+                  sep = &quot;&quot;))
+
+
+tref &lt;-
+  read_csv(paste(path_version_data,
+                 &quot;tref.csv&quot;,
+                 sep = &quot;&quot;))</code></pre>
 <pre class="r"><code>cant_inv &lt;- cant_inv %&gt;%
   filter(inv_depth == params_global$inventory_depth_standard)</code></pre>
 </div>
@@ -1142,8 +1182,84 @@ ggsave(plot = p_inv_map,
        height = 4,
        width = 10)</code></pre>
 </div>
-<div id="section" class="section level1" number="5">
-<h1 number="5"><span class="header-section-number">5</span> </h1>
+<div id="uptake-rate-comparison" class="section level1" number="5">
+<h1 number="5"><span class="header-section-number">5</span> Uptake rate comparison</h1>
+<pre class="r"><code>cant_inv_budget &lt;- cant_inv %&gt;% 
+  mutate(surface_area = earth_surf(lat, lon),
+         cant_inv_grid = cant_inv*surface_area,
+         cant_pos_inv_grid = cant_pos_inv*surface_area) %&gt;% 
+  group_by(basin_AIP, data_source, inv_depth) %&gt;% 
+  summarise(cant_total = sum(cant_inv_grid)*12*1e-15,
+            cant_total = round(cant_total,1),
+            cant_pos_total = sum(cant_pos_inv_grid)*12*1e-15,
+            cant_pos_total = round(cant_pos_total,1)) %&gt;% 
+  ungroup()
+
+duration &lt;- sort(tref$median_year)[2] - sort(tref$median_year)[1]
+
+cant_inv_budget_obs &lt;- cant_inv_budget %&gt;% 
+  filter(data_source == &quot;obs&quot;,
+         inv_depth == 3000) %&gt;% 
+  summarise(cant_uptake_rate = sum(cant_total)/duration) %&gt;% 
+  mutate(source = &quot;This study&quot;,
+         period = &quot;2006-2014&quot;,
+         uncertainty = 0.3)
+
+cant_inv_budget_lit &lt;-
+  bind_cols(
+    cant_uptake_rate = c(2.6, 2.37 + 0.38, 2.18 + 0.61),
+    source = c(&quot;Gruber et al.\n(2019)&quot;, &quot;GCB\nGOBM&quot;, &quot;GCB\nObserved\nfluxes&quot;),
+    period = c(&quot;1994-2007&quot;, &quot;2006-2014&quot;, &quot;2006-2014&quot;),
+    uncertainty = c(0.3, 0.6, 0.6)
+  )
+
+cant_inv_budget_all &lt;- bind_rows(
+  cant_inv_budget_obs,
+  cant_inv_budget_lit
+)
+
+
+p_budget &lt;-
+  cant_inv_budget_all %&gt;%
+  mutate(source = fct_reorder(source, period)) %&gt;%
+  ggplot() +
+  geom_col(aes(source, cant_uptake_rate),
+           fill = &quot;grey80&quot;,
+           col = &quot;grey20&quot;) +
+  geom_errorbar(
+    aes(
+      x = source,
+      ymin = cant_uptake_rate - uncertainty,
+      ymax = cant_uptake_rate + uncertainty
+    ),
+    width = .2
+  ) +
+  geom_text(
+    aes(
+      x = source,
+      y = 0.8,
+      label = period,
+      angle = 90
+    )
+  ) +
+  scale_y_continuous(limits = c(0, max(cant_inv_budget_all$cant_uptake_rate + 
+                                         cant_inv_budget_all$uncertainty) + 0.1),
+                     expand = c(0, 0)) +
+  labs(title = &quot;Global anthropogenic carbon uptake&quot;,
+       y = expression(Rate ~ (PgC ~ yr ^ {
+         -1
+       }))) +
+  theme_bw() +
+  theme(axis.title.x = element_blank())
+
+
+p_budget</code></pre>
+<p><img src="figure/publication.Rmd/uptake_rates-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(plot = p_budget,
+       path = &quot;output/publication&quot;,
+       filename = &quot;uptake_rate_comparison.png&quot;,
+       height = 3.5,
+       width = 3.5)</code></pre>
 </div>
 <div id="zonal-mean-sections" class="section level1" number="6">
 <h1 number="6"><span class="header-section-number">6</span> Zonal mean sections</h1>
@@ -1155,7 +1271,7 @@ legend_title = expression(atop(Delta * C[ant, pos],
                                  -1
                                })))
 
-i_basin_AIP &lt;- &quot;Atlantic&quot;
+i_basin_AIP &lt;- &quot;Pacific&quot;
 
 # plot base section
 section &lt;-
@@ -1171,30 +1287,27 @@ section &lt;-
                       breaks = breaks) +
   scale_fill_viridis_d(name = legend_title)
 
-
-
 # select slab breaks for plotted basin
-# if (i_basin_AIP == &quot;Atlantic&quot;) {
-#   slab_breaks &lt;- params_local$slabs_Atl
-# } else {
-#   slab_breaks &lt;- params_local$slabs_Ind_Pac
-# }
-# 
-# 
-# section &lt;- section  +
-#   geom_hline(yintercept = params_local$depth_min,
-#              col = &quot;white&quot;,
-#              linetype = 2) +
-#   geom_contour(aes(lat, depth, z = !!gamma),
-#                breaks = slab_breaks,
-#                col = &quot;black&quot;) +
-#   geom_text_contour(
-#     aes(lat, depth, z = !!gamma),
-#     breaks = slab_breaks,
-#     col = &quot;black&quot;,
-#     skip = drop_slabs
-#   )
-# }
+if (i_basin_AIP == &quot;Atlantic&quot;) {
+  slab_breaks &lt;- params_local$slabs_Atl
+} else {
+  slab_breaks &lt;- params_local$slabs_Ind_Pac
+}
+
+section &lt;- section  +
+  geom_hline(yintercept = params_local$depth_min,
+             col = &quot;white&quot;,
+             linetype = 2) +
+  geom_contour(aes(lat, depth, z = gamma_mean),
+               breaks = slab_breaks,
+               col = &quot;white&quot;) +
+  geom_text_contour(
+    aes(lat, depth, z = gamma_mean),
+    breaks = slab_breaks,
+    col = &quot;white&quot;,
+    skip = 0
+  )
+
 
 # cut surface water section
 surface &lt;-
@@ -1222,11 +1335,12 @@ section_combined &lt;-
   surface / deep +
   plot_layout(guides = &quot;collect&quot;)
 
-
-ggsave(plot = section_combined,
+section_combined</code></pre>
+<p><img src="figure/publication.Rmd/zonal_mean_sections_obs-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(plot = section_combined,
        path = &quot;output/publication&quot;,
        filename = &quot;zonal_mean_section_obs.png&quot;,
-       height = 4,
+       height = 5,
        width = 8)</code></pre>
 </div>
 <div id="model-offset" class="section level1" number="7">
@@ -1329,40 +1443,42 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] ggnewscale_0.4.5    rnaturalearth_0.1.0 sf_0.9-8           
- [4] metR_0.9.0          scico_1.2.0         patchwork_1.1.1    
- [7] collapse_1.5.0      forcats_0.5.0       stringr_1.4.0      
-[10] dplyr_1.0.5         purrr_0.3.4         readr_1.4.0        
-[13] tidyr_1.1.2         tibble_3.0.4        ggplot2_3.3.3      
-[16] tidyverse_1.3.0     workflowr_1.6.2    
+ [1] marelac_2.1.10      shape_1.4.5         ggnewscale_0.4.5   
+ [4] rnaturalearth_0.1.0 sf_0.9-8            metR_0.9.0         
+ [7] scico_1.2.0         patchwork_1.1.1     collapse_1.5.0     
+[10] forcats_0.5.0       stringr_1.4.0       dplyr_1.0.5        
+[13] purrr_0.3.4         readr_1.4.0         tidyr_1.1.2        
+[16] tibble_3.0.4        ggplot2_3.3.3       tidyverse_1.3.0    
+[19] workflowr_1.6.2    
 
 loaded via a namespace (and not attached):
- [1] fs_1.5.0                 lubridate_1.7.9          httr_1.4.2              
- [4] rprojroot_2.0.2          tools_4.0.3              backports_1.1.10        
- [7] R6_2.5.0                 KernSmooth_2.23-17       rgeos_0.5-5             
-[10] DBI_1.1.0                colorspace_1.4-1         withr_2.3.0             
-[13] sp_1.4-4                 tidyselect_1.1.0         rnaturalearthdata_0.1.0 
-[16] compiler_4.0.3           git2r_0.27.1             cli_2.1.0               
-[19] rvest_0.3.6              xml2_1.3.2               isoband_0.2.2           
-[22] labeling_0.4.2           scales_1.1.1             checkmate_2.0.0         
-[25] classInt_0.4-3           digest_0.6.27            rmarkdown_2.5           
-[28] pkgconfig_2.0.3          htmltools_0.5.0          dbplyr_1.4.4            
-[31] rlang_0.4.10             readxl_1.3.1             rstudioapi_0.13         
-[34] generics_0.0.2           farver_2.0.3             jsonlite_1.7.1          
-[37] magrittr_1.5             Matrix_1.2-18            Rcpp_1.0.5              
-[40] munsell_0.5.0            fansi_0.4.1              lifecycle_1.0.0         
-[43] stringi_1.5.3            whisker_0.4              yaml_2.2.1              
-[46] plyr_1.8.6               grid_4.0.3               blob_1.2.1              
-[49] parallel_4.0.3           promises_1.1.1           crayon_1.3.4            
-[52] lattice_0.20-41          haven_2.3.1              hms_0.5.3               
-[55] knitr_1.30               pillar_1.4.7             reprex_0.3.0            
-[58] glue_1.4.2               evaluate_0.14            RcppArmadillo_0.10.1.2.0
-[61] data.table_1.13.2        modelr_0.1.8             vctrs_0.3.5             
-[64] httpuv_1.5.4             cellranger_1.1.0         gtable_0.3.0            
-[67] assertthat_0.2.1         xfun_0.18                broom_0.7.5             
-[70] RcppEigen_0.3.3.7.0      e1071_1.7-4              later_1.1.0.1           
-[73] class_7.3-17             viridisLite_0.3.0        units_0.6-7             
-[76] ellipsis_0.3.1          </code></pre>
+ [1] fs_1.5.0                 lubridate_1.7.9          gsw_1.0-5               
+ [4] httr_1.4.2               rprojroot_2.0.2          tools_4.0.3             
+ [7] backports_1.1.10         R6_2.5.0                 KernSmooth_2.23-17      
+[10] rgeos_0.5-5              DBI_1.1.0                colorspace_1.4-1        
+[13] withr_2.3.0              sp_1.4-4                 rnaturalearthdata_0.1.0 
+[16] tidyselect_1.1.0         compiler_4.0.3           git2r_0.27.1            
+[19] cli_2.1.0                rvest_0.3.6              xml2_1.3.2              
+[22] isoband_0.2.2            labeling_0.4.2           scales_1.1.1            
+[25] checkmate_2.0.0          classInt_0.4-3           digest_0.6.27           
+[28] rmarkdown_2.5            oce_1.2-0                pkgconfig_2.0.3         
+[31] htmltools_0.5.0          dbplyr_1.4.4             rlang_0.4.10            
+[34] readxl_1.3.1             rstudioapi_0.13          farver_2.0.3            
+[37] generics_0.0.2           jsonlite_1.7.1           magrittr_1.5            
+[40] Matrix_1.2-18            Rcpp_1.0.5               munsell_0.5.0           
+[43] fansi_0.4.1              lifecycle_1.0.0          stringi_1.5.3           
+[46] whisker_0.4              yaml_2.2.1               plyr_1.8.6              
+[49] grid_4.0.3               blob_1.2.1               parallel_4.0.3          
+[52] promises_1.1.1           crayon_1.3.4             lattice_0.20-41         
+[55] haven_2.3.1              hms_0.5.3                seacarb_3.2.14          
+[58] knitr_1.30               pillar_1.4.7             reprex_0.3.0            
+[61] glue_1.4.2               evaluate_0.14            RcppArmadillo_0.10.1.2.0
+[64] data.table_1.13.2        modelr_0.1.8             vctrs_0.3.5             
+[67] httpuv_1.5.4             testthat_2.3.2           cellranger_1.1.0        
+[70] gtable_0.3.0             assertthat_0.2.1         xfun_0.18               
+[73] broom_0.7.5              RcppEigen_0.3.3.7.0      e1071_1.7-4             
+[76] later_1.1.0.1            viridisLite_0.3.0        class_7.3-17            
+[79] memoise_1.1.0            units_0.6-7              ellipsis_0.3.1          </code></pre>
 </div>
 </div>
 
