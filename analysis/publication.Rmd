@@ -44,6 +44,7 @@ library(sf)
 library(rnaturalearth)
 library(ggnewscale)
 library(patchwork)
+library(marelac)
 ```
 
 # Data sources
@@ -103,6 +104,21 @@ GLODAP_grid_dup <-
                   "GLODAPv2.2020_clean_obs_grid_duplicates.csv",
                   sep = ""))
 
+
+tref <-
+  read_csv(paste(path_version_data,
+                 "tref.csv",
+                 sep = ""))
+
+
+```
+
+
+```{r read_params_local, include = FALSE}
+params_local <-
+  read_rds(
+    "/UP_home/jenmueller/Projects/emlr_cant/observations/emlr_obs_v_XXX/data/auxillary/params_local.rds"
+  )
 ```
 
 
@@ -370,8 +386,89 @@ ggsave(plot = p_inv_map,
 
 ```
 
-# 
+# Uptake rate comparison
 
+```{r uptake_rates}
+
+cant_inv_budget <- cant_inv %>% 
+  mutate(surface_area = earth_surf(lat, lon),
+         cant_inv_grid = cant_inv*surface_area,
+         cant_pos_inv_grid = cant_pos_inv*surface_area) %>% 
+  group_by(basin_AIP, data_source, inv_depth) %>% 
+  summarise(cant_total = sum(cant_inv_grid)*12*1e-15,
+            cant_total = round(cant_total,1),
+            cant_pos_total = sum(cant_pos_inv_grid)*12*1e-15,
+            cant_pos_total = round(cant_pos_total,1)) %>% 
+  ungroup()
+
+duration <- sort(tref$median_year)[2] - sort(tref$median_year)[1]
+
+cant_inv_budget_obs <- cant_inv_budget %>% 
+  filter(data_source == "obs",
+         inv_depth == 3000) %>% 
+  summarise(cant_uptake_rate = sum(cant_total)/duration) %>% 
+  mutate(source = "This study",
+         period = "2006-2014",
+         uncertainty = 0.3)
+
+cant_inv_budget_lit <-
+  bind_cols(
+    cant_uptake_rate = c(2.6, 2.37 + 0.38, 2.18 + 0.61),
+    source = c("Gruber et al.\n(2019)", "GCB\nGOBM", "GCB\nObserved\nfluxes"),
+    period = c("1994-2007", "2006-2014", "2006-2014"),
+    uncertainty = c(0.3, 0.6, 0.6)
+  )
+
+cant_inv_budget_all <- bind_rows(
+  cant_inv_budget_obs,
+  cant_inv_budget_lit
+)
+
+
+p_budget <-
+  cant_inv_budget_all %>%
+  mutate(source = fct_reorder(source, period)) %>%
+  ggplot() +
+  geom_col(aes(source, cant_uptake_rate),
+           fill = "grey80",
+           col = "grey20") +
+  geom_errorbar(
+    aes(
+      x = source,
+      ymin = cant_uptake_rate - uncertainty,
+      ymax = cant_uptake_rate + uncertainty
+    ),
+    width = .2
+  ) +
+  geom_text(
+    aes(
+      x = source,
+      y = 0.8,
+      label = period,
+      angle = 90
+    )
+  ) +
+  scale_y_continuous(limits = c(0, max(cant_inv_budget_all$cant_uptake_rate + 
+                                         cant_inv_budget_all$uncertainty) + 0.1),
+                     expand = c(0, 0)) +
+  labs(title = "Global anthropogenic carbon uptake",
+       y = expression(Rate ~ (PgC ~ yr ^ {
+         -1
+       }))) +
+  theme_bw() +
+  theme(axis.title.x = element_blank())
+
+
+p_budget
+
+ggsave(plot = p_budget,
+       path = "output/publication",
+       filename = "uptake_rate_comparison.png",
+       height = 3.5,
+       width = 3.5)
+
+
+```
 
 
 # Zonal mean sections
@@ -386,7 +483,7 @@ legend_title = expression(atop(Delta * C[ant, pos],
                                  -1
                                })))
 
-i_basin_AIP <- "Atlantic"
+i_basin_AIP <- "Pacific"
 
 # plot base section
 section <-
@@ -402,30 +499,27 @@ section <-
                       breaks = breaks) +
   scale_fill_viridis_d(name = legend_title)
 
-
-
 # select slab breaks for plotted basin
-# if (i_basin_AIP == "Atlantic") {
-#   slab_breaks <- params_local$slabs_Atl
-# } else {
-#   slab_breaks <- params_local$slabs_Ind_Pac
-# }
-# 
-# 
-# section <- section  +
-#   geom_hline(yintercept = params_local$depth_min,
-#              col = "white",
-#              linetype = 2) +
-#   geom_contour(aes(lat, depth, z = !!gamma),
-#                breaks = slab_breaks,
-#                col = "black") +
-#   geom_text_contour(
-#     aes(lat, depth, z = !!gamma),
-#     breaks = slab_breaks,
-#     col = "black",
-#     skip = drop_slabs
-#   )
-# }
+if (i_basin_AIP == "Atlantic") {
+  slab_breaks <- params_local$slabs_Atl
+} else {
+  slab_breaks <- params_local$slabs_Ind_Pac
+}
+
+section <- section  +
+  geom_hline(yintercept = params_local$depth_min,
+             col = "white",
+             linetype = 2) +
+  geom_contour(aes(lat, depth, z = gamma_mean),
+               breaks = slab_breaks,
+               col = "white") +
+  geom_text_contour(
+    aes(lat, depth, z = gamma_mean),
+    breaks = slab_breaks,
+    col = "white",
+    skip = 0
+  )
+
 
 # cut surface water section
 surface <-
@@ -453,11 +547,12 @@ section_combined <-
   surface / deep +
   plot_layout(guides = "collect")
 
+section_combined
 
 ggsave(plot = section_combined,
        path = "output/publication",
        filename = "zonal_mean_section_obs.png",
-       height = 4,
+       height = 5,
        width = 8)
 
 
