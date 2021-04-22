@@ -129,7 +129,9 @@ cant_inv <- cant_inv %>%
 
 ```
 
-# Inventory map
+# Observations
+
+## Inventory map
 
 ```{r mask_and_shape_files}
 
@@ -224,7 +226,7 @@ rm(caspian_sea_re)
 
 
 
-```{r cant_inv_map}
+```{r cant_inv_map_obs}
 
 set_breaks <- c(-Inf, seq(0, 12, 2), Inf)
 color_land <- "grey80"
@@ -280,7 +282,7 @@ ggsave(plot = p_inv_map,
 
 
 
-# Data time series histogram
+## Data time series histogram
 
 ```{r time_series}
 
@@ -325,7 +327,7 @@ ggsave(plot = p_time_histo,
 ```
 
 
-# Spatial time coverage
+## Spatial time coverage
 
 ```{r time_series_maps}
 
@@ -386,7 +388,7 @@ ggsave(plot = p_inv_map,
 
 ```
 
-# Uptake rate comparison
+## Uptake rate comparison
 
 ```{r uptake_rates}
 
@@ -471,7 +473,7 @@ ggsave(plot = p_budget,
 ```
 
 
-# Zonal mean sections
+## Zonal mean sections
 
 ```{r zonal_mean_sections_obs}
 
@@ -483,30 +485,23 @@ legend_title = expression(atop(Delta * C[ant, pos],
                                  -1
                                })))
 
-i_basin_AIP <- "Pacific"
+i_basin_AIP <- "Atlantic"
+slab_breaks <- params_local$slabs_Atl
+i_data_source <- "obs"
 
 # plot base section
 section <-
   cant_zonal %>%
   filter(basin_AIP == i_basin_AIP,
-         data_source == "obs") %>%
+         data_source == i_data_source) %>%
   ggplot() +
-  guides(fill = guide_colorsteps(barheight = unit(8, "cm"))) +
+  guides(fill = FALSE) +
   scale_y_reverse() +
   scale_x_continuous(breaks = seq(-100, 100, 20),
-                     limits = c(-85, 85)) +
+                     limits = c(min(cant_zonal$lat), max(cant_zonal$lat))) +
   geom_contour_filled(aes(lat, depth, z = cant_mean),
                       breaks = breaks) +
-  scale_fill_viridis_d(name = legend_title)
-
-# select slab breaks for plotted basin
-if (i_basin_AIP == "Atlantic") {
-  slab_breaks <- params_local$slabs_Atl
-} else {
-  slab_breaks <- params_local$slabs_Ind_Pac
-}
-
-section <- section  +
+  scale_fill_viridis_d(name = legend_title) +
   geom_hline(yintercept = params_local$depth_min,
              col = "white",
              linetype = 2) +
@@ -517,9 +512,8 @@ section <- section  +
     aes(lat, depth, z = gamma_mean),
     breaks = slab_breaks,
     col = "white",
-    skip = 0
+    skip = 2
   )
-
 
 # cut surface water section
 surface <-
@@ -527,7 +521,7 @@ surface <-
   coord_cartesian(expand = 0,
                   ylim = c(500, 0)) +
   labs(y = "Depth (m)",
-       title = i_basin_AIP) +
+       title =paste(i_basin_AIP, "Ocean")) +
   theme(
     axis.title.x = element_blank(),
     axis.text.x = element_blank(),
@@ -538,105 +532,268 @@ surface <-
 deep <-
   section +
   coord_cartesian(expand = 0,
-                  ylim = c(params_global$plotting_depth, 500)) +
+                  ylim = c(params_global$inventory_depth_standard, 500)) +
   labs(x = expression(latitude ~ (degree * N)), y = "Depth (m)")
 
 
 # combine surface and deep water section
-section_combined <-
+section_combined_Atl <-
   surface / deep +
   plot_layout(guides = "collect")
 
-section_combined
+section_combined_Atl
+
+
+
+i_basin_AIP <- "Pacific"
+slab_breaks <- params_local$slabs_Ind_Pac
+
+# plot base section
+section <-
+  cant_zonal %>%
+  filter(basin_AIP == i_basin_AIP,
+         data_source == i_data_source) %>%
+  ggplot() +
+  guides(fill = FALSE) +
+  scale_y_reverse() +
+  scale_x_continuous(breaks = seq(-100, 100, 20),
+                     limits = c(min(cant_zonal$lat), max(cant_zonal$lat))) +
+  geom_contour_filled(aes(lat, depth, z = cant_mean),
+                      breaks = breaks) +
+  scale_fill_viridis_d(name = legend_title) +
+  geom_hline(yintercept = params_local$depth_min,
+             col = "white",
+             linetype = 2) +
+  geom_contour(aes(lat, depth, z = gamma_mean),
+               breaks = slab_breaks,
+               col = "white") +
+  geom_text_contour(
+    aes(lat, depth, z = gamma_mean),
+    breaks = slab_breaks,
+    col = "white",
+    skip = 2
+  )
+
+# cut surface water section
+surface <-
+  section +
+  coord_cartesian(expand = 0,
+                  ylim = c(500, 0)) +
+  labs(y = "Depth (m)",
+       title =paste(i_basin_AIP, "Ocean")) +
+  theme(
+    axis.title = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank()
+  )
+
+# cut deep water section
+deep <-
+  section +
+  coord_cartesian(expand = 0,
+                  ylim = c(params_global$inventory_depth_standard, 500)) +
+  labs(x = expression(latitude ~ (degree * N)), y = "Depth (m)") +
+  theme(
+    axis.title.y = element_blank(),
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank()
+  )
+
+
+# combine surface and deep water section
+section_combined_Pac <-
+  surface / deep +
+  plot_layout(guides = "collect")
+
+section_combined_Pac
+
+
+
+i_basin_AIP <- "Indian"
+slab_breaks <- params_local$slabs_Ind_Pac
+
+# plot base section
+section <-
+  cant_zonal %>%
+  filter(basin_AIP == i_basin_AIP,
+         data_source == i_data_source) %>%
+  ggplot() +
+  guides(fill = guide_colorsteps(barheight = unit(6, "cm"))) +
+  scale_y_reverse() +
+  scale_x_continuous(breaks = seq(-100, 100, 20),
+                     limits = c(min(cant_zonal$lat), max(cant_zonal$lat))) +
+  geom_contour_filled(aes(lat, depth, z = cant_mean),
+                      breaks = breaks) +
+  scale_fill_viridis_d(name = legend_title) +
+  geom_hline(yintercept = params_local$depth_min,
+             col = "white",
+             linetype = 2) +
+  geom_contour(aes(lat, depth, z = gamma_mean),
+               breaks = slab_breaks,
+               col = "white") +
+  geom_text_contour(
+    aes(lat, depth, z = gamma_mean),
+    breaks = slab_breaks,
+    col = "white",
+    skip = 2
+  )
+
+# cut surface water section
+surface <-
+  section +
+  coord_cartesian(expand = 0,
+                  ylim = c(500, 0)) +
+  labs(y = "Depth (m)",
+       title =paste(i_basin_AIP, "Ocean")) +
+  theme(
+    axis.title = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank()
+  )
+
+# cut deep water section
+deep <-
+  section +
+  coord_cartesian(expand = 0,
+                  ylim = c(params_global$inventory_depth_standard, 500)) +
+  labs(x = expression(latitude ~ (degree * N)), y = "Depth (m)") +
+  theme(
+    axis.title.y = element_blank(),
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank()
+  )
+
+
+# combine surface and deep water section
+section_combined_Ind <-
+  surface / deep +
+  plot_layout(guides = "collect")
+
+section_combined_Ind
+
+
+
+
+section_combined <-
+section_combined_Atl | section_combined_Pac | section_combined_Ind
+
+
 
 ggsave(plot = section_combined,
        path = "output/publication",
        filename = "zonal_mean_section_obs.png",
-       height = 5,
+       height = 4,
+       width = 12)
+
+
+```
+
+# Synthetic data
+
+## Inventory map
+
+```{r cant_inv_map_mod}
+
+set_breaks <- c(-Inf, seq(0, 12, 2), Inf)
+color_land <- "grey80"
+color_unmapped <- "grey90"
+
+var_name <- expression(atop(Delta * C["ant"],
+                            (mol ~ m ^ {
+                              -2
+                            })))
+
+
+p_inv_map <- ggplot() +
+  geom_contour_fill(
+    data = cant_inv %>% filter(data_source == "mod_truth"),
+    aes(lon, lat, z = cant_inv, fill = stat(level)),
+    breaks = set_breaks,
+    na.fill = TRUE
+  ) +
+  scale_fill_viridis_d(option = "D", name = var_name,
+                       guide = guide_colorsteps()) +
+  new_scale_fill() +
+  geom_tile(data = GLODAP_grid_both,
+              aes(x = lon, y = lat, height = 0.7, width = 0.7, fill=n)) +
+  scale_fill_manual(values = c("Deeppink4", "Deeppink"),
+                    name = "Eras\noccupied") +
+  geom_sf(data = marine_polys, fill = color_unmapped, col="transparent") +
+  geom_sf(data = black_sea,  fill = color_unmapped, col="transparent") +
+  geom_sf(data = caspian_sea,  fill = color_unmapped, col="transparent") +
+  geom_sf(data = hudson_bay, fill = "white", col="white") +
+  geom_sf(data = worldmap,  fill = color_land, col="transparent") +
+  geom_sf(data = coastlines, col = "black") +
+  coord_sf(ylim = c(-77.5,64.5), xlim = c(20.5,379.5), expand = 0) +
+  labs(title = expression("Column inventory (0 - 3000m) of the change in anthropogenic CO"[2]~
+                            "from 2006 to 2014"),
+       subtitle = "Model truth") +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        axis.title = element_blank(),
+        legend.key = element_rect(colour = "black"))
+
+# bias map
+
+set_breaks <- c(-Inf, seq(-4, 4, 1), Inf)
+var_name <- expression(atop(Delta * C["ant"]~bias,
+                            (mol ~ m ^ {
+                              -2
+                            })))
+
+
+cant_inv_bias <- cant_inv %>%
+  filter(data_source %in% c("mod", "mod_truth")) %>%
+  select(lat, lon, data_source, cant_inv) %>%
+  pivot_wider(names_from = data_source,
+              values_from = cant_inv) %>%
+  mutate(cant_inv_bias = mod - mod_truth) %>% 
+  drop_na()
+
+
+
+p_inv_map_bias <- ggplot() +
+  geom_contour_fill(
+    data = cant_inv_bias,
+    aes(lon, lat, z = cant_inv_bias, fill = stat(level)),
+    breaks = set_breaks,
+    na.fill = TRUE
+  ) +
+  scale_fill_brewer(
+    palette = "RdBu",
+    direction = -1,
+    drop = FALSE,
+    name = var_name,
+    guide = guide_colorsteps()
+  ) +
+  geom_sf(data = marine_polys, fill = color_unmapped, col = "transparent") +
+  geom_sf(data = black_sea,  fill = color_unmapped, col = "transparent") +
+  geom_sf(data = caspian_sea,  fill = color_unmapped, col = "transparent") +
+  geom_sf(data = hudson_bay, fill = "white", col = "white") +
+  geom_sf(data = worldmap,  fill = color_land, col = "transparent") +
+  geom_sf(data = coastlines, col = "black") +
+  coord_sf(
+    ylim = c(-77.5, 64.5),
+    xlim = c(20.5, 379.5),
+    expand = 0
+  ) +
+  labs(subtitle = "eMLR(C*) reconstruction - model truth")+
+  theme(
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    axis.title = element_blank(),
+    legend.key = element_rect(colour = "black")
+  )
+
+
+p_inv_map / p_inv_map_bias
+
+ggsave(plot = p_inv_map_bias,
+       path = "output/publication",
+       filename = "dCant_inventory_map_mod_bias.png",
+       height = 8,
        width = 8)
 
-
 ```
 
-
-
-# Model offset
-
-
-```{r plotting_tools, eval=FALSE}
-
-
-GLODAP_sp <- GLODAP %>% 
-  filter(depth == 150)
-
-map +
-  geom_raster(data = GLODAP_sp,
-              aes(lon, lat, fill = temp)) +
-  scale_fill_viridis_c()
-
-class(GLODAP_sp)
-
-GLODAP_sp <- GLODAP_sp %>% 
-  mutate(lon = if_else(lon > 180, lon - 360, lon))
-
-ggplot() +
-  geom_raster(data = GLODAP_sp,
-              aes(lon, lat, fill = temp)) +
-  scale_fill_viridis_c() +
-  coord_quickmap()
-
-GLODAP_sp <- as.data.frame(GLODAP_sp)
-
-library(sp)
-coordinates(GLODAP_sp) = ~lon+lat
-class(GLODAP_sp)
-
-summary(GLODAP_sp)
-
-is.projected(GLODAP_sp)
-proj4string(GLODAP_sp) <-
-  CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
-
-
-GLODAP_sp_grid <- GLODAP_sp
-
-gridded(GLODAP_sp_grid) <- TRUE
-
-
-spplot(GLODAP_sp,
-       zcol = "temp")
-
-spplot(GLODAP_sp_grid,
-       zcol = "temp")
-
-library(sf)
-library(stars)
-GLODAP_sf <- st_as_sf(GLODAP_sp_grid)
-GLODAP_stars <- st_as_stars(GLODAP_sp_grid)
-class(GLODAP_stars)
-
-plot(GLODAP_stars)
-
-ggplot() +
-  geom_stars(data = GLODAP_stars,
-             aes(x, y, fill = temp)) +
-  scale_fill_viridis_c(na.value = "transparent") +
-  coord_quickmap(expand = 0)
-
-
-coastlines <- ne_coastline(scale = "small", returnclass = "sf")
-
-ggplot() +
-  geom_sf(data = GLODAP_sf,
-             aes(col = temp)) +
-  scale_fill_viridis_c(na.value = "transparent") +
-  geom_sf(data = st_wrap_dateline(coastlines),
-          colour = "black") +
-  coord_sf(crs = st_crs('ESRI:54030')) +
-  theme_bw()
-
-summary(GLODAP_sp)
-
-
-```
 
