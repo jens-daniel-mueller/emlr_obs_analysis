@@ -239,8 +239,7 @@ var_name <- expression(atop(Delta * C["ant"],
 
 GLODAP_grid_both <- GLODAP_grid_dup %>%
   filter(duplicate == "no") %>% 
-  count(lon, lat) %>% 
-  mutate(n = as.factor(n))
+  distinct(lon, lat, era)
 
 
 p_inv_map <- ggplot() +
@@ -254,9 +253,9 @@ p_inv_map <- ggplot() +
                        guide = guide_colorsteps()) +
   new_scale_fill() +
   geom_tile(data = GLODAP_grid_both,
-              aes(x = lon, y = lat, height = 0.7, width = 0.7, fill=n)) +
+              aes(x = lon, y = lat, height = 0.7, width = 0.7, fill=era)) +
   scale_fill_manual(values = c("Deeppink4", "Deeppink"),
-                    name = "Decades\noccupied") +
+                    name = "Decade") +
   geom_sf(data = marine_polys, fill = color_unmapped, col="transparent") +
   geom_sf(data = black_sea,  fill = color_unmapped, col="transparent") +
   geom_sf(data = caspian_sea,  fill = color_unmapped, col="transparent") +
@@ -292,30 +291,29 @@ time_histo <- GLODAP_preprocessed %>%
 
 p_time_histo <-
   ggplot() +
-  geom_col(data = time_histo %>% filter(year >= 2010),
-           aes(year, n),
-           col = "grey20",
-           fill = "grey60") +
-  geom_col(data = time_histo %>% filter(year >= 2000, year < 2010),
-           aes(year, n),
-           col = "grey20",
-           fill = "grey80") +
   geom_col(data = time_histo %>% filter(year < 2000),
-           aes(year, n),
-           col = "grey20",
-           fill = "white") +
-  scale_fill_brewer(palette = "Dark2") +
+           aes(year, n, fill = "era1"),
+           col = "grey20") +
+  geom_col(
+    data = time_histo %>% filter(year >= 2000, year < 2010),
+    aes(year, n, fill = "era2"),
+    col = "grey20"
+  ) +
+  geom_col(data = time_histo %>% filter(year >= 2010),
+           aes(year, n, fill = "era3"),
+           col = "grey20") +
+  scale_fill_manual(values = c("grey", "Deeppink4", "Deeppink"),
+                    name = "Decade", guide = FALSE) +
   scale_x_continuous(breaks = seq(1900, 2100, 5)) +
-  scale_y_continuous(name = "") +
+  scale_y_continuous(limits = c(0, max(time_histo$n)+500)) +
   coord_cartesian(expand = 0) +
   labs(title = "GLODAPv2.2020 | Observations per year") +
   theme_bw() +
-  theme(axis.title = element_blank())
+  theme(axis.title = element_blank(),
+        panel.grid = element_blank())
 
 
-# p_histo_map <- 
-#   p_time_histo / p_inv_map +
-#     plot_layout(heights = c(1,2))
+p_time_histo
 
 
 ggsave(plot = p_time_histo,
@@ -362,6 +360,11 @@ time_histo <- GLODAP_preprocessed %>%
   filter(year >= 2000) %>%
   distinct(lat, lon, year)
 
+GLODAP_grid_both <- GLODAP_grid_dup %>%
+  filter(duplicate == "no") %>% 
+  count(lon, lat) %>% 
+  mutate(n = as.factor(n))
+
 p_coverage_maps <-
   ggplot() +
   geom_raster(data = GLODAP_grid_both,
@@ -381,7 +384,8 @@ p_coverage_maps <-
     axis.text = element_blank(),
     axis.ticks = element_blank(),
     axis.title = element_blank(),
-    legend.key = element_rect(colour = "black")
+    legend.key = element_rect(colour = "black"),
+    panel.grid = element_blank()
   )
 
 p_coverage_maps
@@ -416,7 +420,8 @@ p_coverage_maps <-
     axis.text = element_blank(),
     axis.ticks = element_blank(),
     axis.title = element_blank(),
-    legend.key = element_rect(colour = "black")
+    legend.key = element_rect(colour = "black"),
+    panel.grid = element_blank()
   )
 
 p_coverage_maps
@@ -484,16 +489,16 @@ cant_inv_budget_obs <- cant_inv_budget %>%
   filter(data_source == "obs",
          inv_depth == 3000) %>% 
   summarise(cant_uptake_rate = sum(cant_total)/duration) %>% 
-  mutate(source = "This study",
-         period = "2006-2014",
+  mutate(source = "Interior\nstorage",
+         period = "This study",
          uncertainty = 0.3)
 
 cant_inv_budget_lit <-
   bind_cols(
-    cant_uptake_rate = c(2.6, 2.37 + 0.38, 2.18 + 0.61),
-    source = c("Gruber et al.\n(2019)", "GCB\nGOBM", "GCB\nObserved\nfluxes"),
-    period = c("1994-2007", "2006-2014", "2006-2014"),
-    uncertainty = c(0.3, 0.6, 0.6)
+    cant_uptake_rate = c(2.37, 2.18 + 0.61),
+    source = c("Ocean\nmodels", "Observed\nfluxes"),
+    period = c("Global\nCarbon Budget", "Global\nCarbon Budget"),
+    uncertainty = c(0.6, 0.6)
   )
 
 cant_inv_budget_all <- bind_rows(
@@ -502,9 +507,9 @@ cant_inv_budget_all <- bind_rows(
 )
 
 
+
 p_budget <-
   cant_inv_budget_all %>%
-  mutate(source = fct_reorder(source, period)) %>%
   ggplot() +
   geom_col(aes(source, cant_uptake_rate),
            fill = "grey80",
@@ -517,7 +522,7 @@ p_budget <-
     ),
     width = .2
   ) +
-  geom_text(
+    geom_text(
     aes(
       x = source,
       y = 0.8,
@@ -525,15 +530,19 @@ p_budget <-
       angle = 90
     )
   ) +
-  scale_y_continuous(limits = c(0, max(cant_inv_budget_all$cant_uptake_rate + 
-                                         cant_inv_budget_all$uncertainty) + 0.1),
-                     expand = c(0, 0)) +
-  labs(title = "Global anthropogenic carbon uptake",
-       y = expression(Rate ~ (PgC ~ yr ^ {
-         -1
-       }))) +
+  scale_y_continuous(limits = c(
+    0,
+    max(
+      cant_inv_budget_all$cant_uptake_rate +
+        cant_inv_budget_all$uncertainty
+    ) + 0.1
+  ),
+  expand = c(0, 0)) +
+  labs(title = "Ocean carbon sink 2006 - 2014",
+       y = expression(Average~rate ~ (PgC ~ yr ^ {-1}))) +
   theme_bw() +
-  theme(axis.title.x = element_blank())
+  theme(axis.title.x = element_blank(),
+        panel.grid = element_blank())
 
 
 p_budget
