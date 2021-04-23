@@ -228,7 +228,7 @@ rm(caspian_sea_re)
 
 ```{r cant_inv_map_obs}
 
-set_breaks <- c(-Inf, seq(0, 12, 2), Inf)
+set_breaks <- c(-Inf, seq(0, 10, 2), Inf)
 color_land <- "grey80"
 color_unmapped <- "grey90"
 
@@ -250,12 +250,12 @@ p_inv_map <- ggplot() +
     na.fill = TRUE
   ) +
   scale_fill_viridis_d(option = "D", name = var_name,
-                       guide = guide_colorsteps()) +
+                       guide = guide_colorsteps(barheight = 10)) +
   new_scale_fill() +
   geom_tile(data = GLODAP_grid_both,
               aes(x = lon, y = lat, height = 0.7, width = 0.7, fill=era)) +
   scale_fill_manual(values = c("Deeppink4", "Deeppink"),
-                    name = "Decade") +
+                    name = "Decade", guide = FALSE) +
   geom_sf(data = marine_polys, fill = color_unmapped, col="transparent") +
   geom_sf(data = black_sea,  fill = color_unmapped, col="transparent") +
   geom_sf(data = caspian_sea,  fill = color_unmapped, col="transparent") +
@@ -281,7 +281,7 @@ ggsave(plot = p_inv_map,
 
 
 
-## Data time series histogram
+## Time series histogram
 
 ```{r time_series}
 
@@ -308,9 +308,8 @@ p_time_histo <-
   scale_y_continuous(limits = c(0, max(time_histo$n)+500)) +
   coord_cartesian(expand = 0) +
   labs(title = "GLODAPv2.2020 | Observations per year") +
-  theme_bw() +
-  theme(axis.title = element_blank(),
-        panel.grid = element_blank())
+  theme_classic() +
+  theme(axis.title = element_blank())
 
 
 p_time_histo
@@ -540,7 +539,7 @@ p_budget <-
   expand = c(0, 0)) +
   labs(title = "Ocean carbon sink 2006 - 2014",
        y = expression(Average~rate ~ (PgC ~ yr ^ {-1}))) +
-  theme_bw() +
+  theme_classic() +
   theme(axis.title.x = element_blank(),
         panel.grid = element_blank())
 
