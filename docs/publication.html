@@ -542,16 +542,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeb6e91792eb5938f12d64710058fc9eb39e3be29btargetblankb6e9179a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/b6e91792eb5938f12d64710058fc9eb39e3be29b" target="_blank">b6e9179</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree63e2c99cc71e6f3c7c0e218fa0f681e138a2ac35targetblank63e2c99a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/63e2c99cc71e6f3c7c0e218fa0f681e138a2ac35" target="_blank">63e2c99</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeb6e91792eb5938f12d64710058fc9eb39e3be29btargetblankb6e9179a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree63e2c99cc71e6f3c7c0e218fa0f681e138a2ac35targetblank63e2c99a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/b6e91792eb5938f12d64710058fc9eb39e3be29b" target="_blank">b6e9179</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/63e2c99cc71e6f3c7c0e218fa0f681e138a2ac35" target="_blank">63e2c99</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -604,6 +604,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/63e2c99cc71e6f3c7c0e218fa0f681e138a2ac35/analysis/publication.Rmd" target="_blank">63e2c99</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-04-23
+</td>
+<td>
+implement UP feedback
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/7488bdd891fb8d0b8eb40afc5a9f05ec57b41746/docs/publication.html" target="_blank">7488bdd</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-04-23
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1282,7 +1316,7 @@ rm(caspian_sea_re)
 #   geom_sf(data = black_sea, fill = &quot;white&quot;) +
 #   geom_sf(data = caspian_sea, fill = &quot;white&quot;) +
 #   geom_sf(data = hudson_bay, fill = &quot;white&quot;)</code></pre>
-<pre class="r"><code>set_breaks &lt;- c(-Inf, seq(0, 12, 2), Inf)
+<pre class="r"><code>set_breaks &lt;- c(-Inf, seq(0, 10, 2), Inf)
 color_land &lt;- &quot;grey80&quot;
 color_unmapped &lt;- &quot;grey90&quot;
 
@@ -1304,12 +1338,12 @@ p_inv_map &lt;- ggplot() +
     na.fill = TRUE
   ) +
   scale_fill_viridis_d(option = &quot;D&quot;, name = var_name,
-                       guide = guide_colorsteps()) +
+                       guide = guide_colorsteps(barheight = 10)) +
   new_scale_fill() +
   geom_tile(data = GLODAP_grid_both,
               aes(x = lon, y = lat, height = 0.7, width = 0.7, fill=era)) +
   scale_fill_manual(values = c(&quot;Deeppink4&quot;, &quot;Deeppink&quot;),
-                    name = &quot;Decade&quot;) +
+                    name = &quot;Decade&quot;, guide = FALSE) +
   geom_sf(data = marine_polys, fill = color_unmapped, col=&quot;transparent&quot;) +
   geom_sf(data = black_sea,  fill = color_unmapped, col=&quot;transparent&quot;) +
   geom_sf(data = caspian_sea,  fill = color_unmapped, col=&quot;transparent&quot;) +
@@ -1331,8 +1365,8 @@ ggsave(plot = p_inv_map,
        height = 4,
        width = 10)</code></pre>
 </div>
-<div id="data-time-series-histogram" class="section level2" number="2.2">
-<h2 number="2.2"><span class="header-section-number">2.2</span> Data time series histogram</h2>
+<div id="time-series-histogram" class="section level2" number="2.2">
+<h2 number="2.2"><span class="header-section-number">2.2</span> Time series histogram</h2>
 <pre class="r"><code>time_histo &lt;- GLODAP_preprocessed %&gt;% 
   filter(!is.na(tco2)) %&gt;% 
   count(year)
@@ -1356,9 +1390,8 @@ p_time_histo &lt;-
   scale_y_continuous(limits = c(0, max(time_histo$n)+500)) +
   coord_cartesian(expand = 0) +
   labs(title = &quot;GLODAPv2.2020 | Observations per year&quot;) +
-  theme_bw() +
-  theme(axis.title = element_blank(),
-        panel.grid = element_blank())
+  theme_classic() +
+  theme(axis.title = element_blank())
 
 
 p_time_histo</code></pre>
@@ -1385,6 +1418,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/7488bdd891fb8d0b8eb40afc5a9f05ec57b41746/docs/figure/publication.Rmd/time_series-1.png" target="_blank">7488bdd</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-04-23
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2cc294ac447d869351f455a5ea12da7d01a49944/docs/figure/publication.Rmd/time_series-1.png" target="_blank">2cc294a</a>
@@ -1546,6 +1590,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/7488bdd891fb8d0b8eb40afc5a9f05ec57b41746/docs/figure/publication.Rmd/post_2000_coverage_map-1.png" target="_blank">7488bdd</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-04-23
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6cebef7946af47210b576a3b2673ed0e8bd8893c/docs/figure/publication.Rmd/post_2000_coverage_map-1.png" target="_blank">6cebef7</a>
 </td>
 <td>
@@ -1611,6 +1666,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/7488bdd891fb8d0b8eb40afc5a9f05ec57b41746/docs/figure/publication.Rmd/data_duplication_coverage_map-1.png" target="_blank">7488bdd</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-04-23
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6cebef7946af47210b576a3b2673ed0e8bd8893c/docs/figure/publication.Rmd/data_duplication_coverage_map-1.png" target="_blank">6cebef7</a>
@@ -1729,7 +1795,7 @@ p_budget &lt;-
   expand = c(0, 0)) +
   labs(title = &quot;Ocean carbon sink 2006 - 2014&quot;,
        y = expression(Average~rate ~ (PgC ~ yr ^ {-1}))) +
-  theme_bw() +
+  theme_classic() +
   theme(axis.title.x = element_blank(),
         panel.grid = element_blank())
 
@@ -1758,6 +1824,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/7488bdd891fb8d0b8eb40afc5a9f05ec57b41746/docs/figure/publication.Rmd/uptake_rates-1.png" target="_blank">7488bdd</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-04-23
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/3bb60c7f36b2edb982472597e967b97c1ed2e100/docs/figure/publication.Rmd/uptake_rates-1.png" target="_blank">3bb60c7</a>
