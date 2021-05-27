@@ -164,7 +164,8 @@ cant_inv_all_bias %>%
 ```{r column_inventory_maps_output, fig.asp=1.2}
 
 cant_inv_all_bias %>%
-  p_map_cant_inv(var = "obs") +
+  p_map_cant_inv(var = "obs",
+                 col = "divergent") +
   facet_grid(MLR_basins ~ dup_era1)
 
 
