@@ -118,7 +118,6 @@ cant_inv_all <- cant_inv_all %>%
 ```{r column_inventory_maps}
 
 cant_inv_all_bias <- cant_inv_all %>%
-  # filter(data_source %in% c("mod", "mod_truth")) %>%
   select(lat, lon, data_source, Version_ID, cant_inv) %>%
   pivot_wider(names_from = data_source,
               values_from = cant_inv) %>%
@@ -145,13 +144,23 @@ cant_inv_all_bias %>%
       var = "cant_bias",
       col = "divergent",
       subtitle_text = "data_source: mod - mod_truth"
-    ),
-    ~ p_map_cant_inv(
-    df = .x,
-    var = "obs",
-    subtitle_text = paste("Version_ID:", unique(.x$Version_ID))
+    )
   )
-  )
+
+```
+
+```{r column_inventory_maps_output}
+
+cant_inv_all_bias %>%
+  p_map_cant_inv(var = "obs") +
+  facet_wrap( ~ Version_ID, ncol = 2)
+
+
+cant_inv_all_bias %>%
+  p_map_cant_inv(var = "cant_bias",
+                 col = "divergent",
+                 subtitle_text = "data_source: mod - mod_truth") +
+  facet_wrap( ~ Version_ID, ncol = 2)
 
 ```
 
