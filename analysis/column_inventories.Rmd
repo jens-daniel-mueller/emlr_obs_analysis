@@ -77,6 +77,18 @@ for (i_Version_IDs in Version_IDs) {
   cant_inv <- cant_inv %>% 
     mutate(Version_ID = i_Version_IDs)
   
+  params_local <-
+    read_rds(paste(path_version_data,
+                   "params_local.rds",
+                   sep = ""))
+  
+  params_local <- bind_cols(Version_ID = i_Version_IDs,
+            MLR_basins = params_local$MLR_basins,
+            dup_era1 = str_c(params_local$dup_era1, collapse = "-"))
+  
+  cant_inv <- full_join(cant_inv, params_local)
+  
+  
   if (exists("cant_inv_all")) {
     cant_inv_all <- bind_rows(cant_inv_all, cant_inv)
   }
@@ -118,7 +130,7 @@ cant_inv_all <- cant_inv_all %>%
 ```{r column_inventory_maps}
 
 cant_inv_all_bias <- cant_inv_all %>%
-  select(lat, lon, data_source, Version_ID, cant_inv) %>%
+  select(lat, lon, data_source, Version_ID, dup_era1, MLR_basins, cant_inv) %>%
   pivot_wider(names_from = data_source,
               values_from = cant_inv) %>%
   mutate(cant_bias = mod - mod_truth) %>%
@@ -149,18 +161,18 @@ cant_inv_all_bias %>%
 
 ```
 
-```{r column_inventory_maps_output}
+```{r column_inventory_maps_output, fig.asp=1.2}
 
 cant_inv_all_bias %>%
   p_map_cant_inv(var = "obs") +
-  facet_wrap( ~ Version_ID, ncol = 2)
+  facet_grid(MLR_basins ~ dup_era1)
 
 
 cant_inv_all_bias %>%
   p_map_cant_inv(var = "cant_bias",
                  col = "divergent",
                  subtitle_text = "data_source: mod - mod_truth") +
-  facet_wrap( ~ Version_ID, ncol = 2)
+  facet_grid(MLR_basins ~ dup_era1)
 
 ```
 
