@@ -429,7 +429,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Column inventories</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">27 May, 2021</h4>
+<h4 class="date">28 May, 2021</h4>
 
 </div>
 
@@ -454,7 +454,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-05-27
+<strong>Last updated:</strong> 2021-05-28
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -545,16 +545,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree83f3e37e18646a8ca3899464edafb7c6eea59027targetblank83f3e37a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/83f3e37e18646a8ca3899464edafb7c6eea59027" target="_blank">83f3e37</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreecdd2cc866e0566f4e5238583cce9eb1ba14cac97targetblankcdd2cc8a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/cdd2cc866e0566f4e5238583cce9eb1ba14cac97" target="_blank">cdd2cc8</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree83f3e37e18646a8ca3899464edafb7c6eea59027targetblank83f3e37a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreecdd2cc866e0566f4e5238583cce9eb1ba14cac97targetblankcdd2cc8a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/83f3e37e18646a8ca3899464edafb7c6eea59027" target="_blank">83f3e37</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/cdd2cc866e0566f4e5238583cce9eb1ba14cac97" target="_blank">cdd2cc8</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -607,6 +607,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/cdd2cc866e0566f4e5238583cce9eb1ba14cac97/analysis/column_inventories.Rmd" target="_blank">cdd2cc8</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-05-28
+</td>
+<td>
+plot global budgets
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/ee5b15d3237b3677dd452dfe116911b9a292a4c8/docs/column_inventories.html" target="_blank">ee5b15d</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-05-27
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -778,6 +812,7 @@ sensitivity case comparison included
   path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
   pattern = &quot;v_1&quot;)
 
+Version_IDs &lt;- Version_IDs[1:8]
 
 for (i_Version_IDs in Version_IDs) {
   # i_Version_IDs &lt;- Version_IDs[1]
@@ -848,665 +883,7 @@ for (i_Version_IDs in Version_IDs) {
   mutate(cant_bias = mod - mod_truth) %&gt;%
   drop_na()
 
-
-cant_inv_all %&gt;%
-  filter(data_source == &quot;obs&quot;) %&gt;% 
-  group_split(Version_ID) %&gt;%
-  map(
-    ~ p_map_cant_inv(
-    df = .x,
-    var = &quot;cant_inv&quot;,
-    subtitle_text = paste(&quot;Version_ID:&quot;, unique(.x$Version_ID))
-  ))</code></pre>
-<pre><code>[[1]]</code></pre>
-<p><img src="figure/column_inventories.Rmd/column_inventory_maps-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-column_inventory_maps-1">
-Past versions of column_inventory_maps-1.png
-</button>
-</p>
-<div id="fig-column_inventory_maps-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/57ddd1f4d776e4fda1d31d26473b48e9d3217b50/docs/figure/column_inventories.Rmd/column_inventory_maps-1.png" target="_blank">57ddd1f</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-05-27
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre><code>
-[[2]]</code></pre>
-<p><img src="figure/column_inventories.Rmd/column_inventory_maps-2.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-column_inventory_maps-2">
-Past versions of column_inventory_maps-2.png
-</button>
-</p>
-<div id="fig-column_inventory_maps-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/57ddd1f4d776e4fda1d31d26473b48e9d3217b50/docs/figure/column_inventories.Rmd/column_inventory_maps-2.png" target="_blank">57ddd1f</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-05-27
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre><code>
-[[3]]</code></pre>
-<p><img src="figure/column_inventories.Rmd/column_inventory_maps-3.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-column_inventory_maps-3">
-Past versions of column_inventory_maps-3.png
-</button>
-</p>
-<div id="fig-column_inventory_maps-3" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/57ddd1f4d776e4fda1d31d26473b48e9d3217b50/docs/figure/column_inventories.Rmd/column_inventory_maps-3.png" target="_blank">57ddd1f</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-05-27
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre><code>
-[[4]]</code></pre>
-<p><img src="figure/column_inventories.Rmd/column_inventory_maps-4.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-column_inventory_maps-4">
-Past versions of column_inventory_maps-4.png
-</button>
-</p>
-<div id="fig-column_inventory_maps-4" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/57ddd1f4d776e4fda1d31d26473b48e9d3217b50/docs/figure/column_inventories.Rmd/column_inventory_maps-4.png" target="_blank">57ddd1f</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-05-27
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre><code>
-[[5]]</code></pre>
-<p><img src="figure/column_inventories.Rmd/column_inventory_maps-5.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-column_inventory_maps-5">
-Past versions of column_inventory_maps-5.png
-</button>
-</p>
-<div id="fig-column_inventory_maps-5" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/57ddd1f4d776e4fda1d31d26473b48e9d3217b50/docs/figure/column_inventories.Rmd/column_inventory_maps-5.png" target="_blank">57ddd1f</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-05-27
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre><code>
-[[6]]</code></pre>
-<p><img src="figure/column_inventories.Rmd/column_inventory_maps-6.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-column_inventory_maps-6">
-Past versions of column_inventory_maps-6.png
-</button>
-</p>
-<div id="fig-column_inventory_maps-6" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/57ddd1f4d776e4fda1d31d26473b48e9d3217b50/docs/figure/column_inventories.Rmd/column_inventory_maps-6.png" target="_blank">57ddd1f</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-05-27
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre><code>
-[[7]]</code></pre>
-<p><img src="figure/column_inventories.Rmd/column_inventory_maps-7.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-column_inventory_maps-7">
-Past versions of column_inventory_maps-7.png
-</button>
-</p>
-<div id="fig-column_inventory_maps-7" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/57ddd1f4d776e4fda1d31d26473b48e9d3217b50/docs/figure/column_inventories.Rmd/column_inventory_maps-7.png" target="_blank">57ddd1f</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-05-27
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre><code>
-[[8]]</code></pre>
-<p><img src="figure/column_inventories.Rmd/column_inventory_maps-8.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-column_inventory_maps-8">
-Past versions of column_inventory_maps-8.png
-</button>
-</p>
-<div id="fig-column_inventory_maps-8" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/57ddd1f4d776e4fda1d31d26473b48e9d3217b50/docs/figure/column_inventories.Rmd/column_inventory_maps-8.png" target="_blank">57ddd1f</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-05-27
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre class="r"><code>cant_inv_all_bias %&gt;%
-  group_split(Version_ID) %&gt;%
-  map(
-    ~ p_map_cant_inv(
-      df = .x,
-      var = &quot;cant_bias&quot;,
-      col = &quot;divergent&quot;,
-      subtitle_text = &quot;data_source: mod - mod_truth&quot;
-    )
-  )</code></pre>
-<pre><code>[[1]]</code></pre>
-<p><img src="figure/column_inventories.Rmd/column_inventory_maps-9.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-column_inventory_maps-9">
-Past versions of column_inventory_maps-9.png
-</button>
-</p>
-<div id="fig-column_inventory_maps-9" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/cf3365adcb309d3176ca55b201390a0dc16ecced/docs/figure/column_inventories.Rmd/column_inventory_maps-9.png" target="_blank">cf3365a</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-05-27
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre><code>
-[[2]]</code></pre>
-<p><img src="figure/column_inventories.Rmd/column_inventory_maps-10.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-column_inventory_maps-10">
-Past versions of column_inventory_maps-10.png
-</button>
-</p>
-<div id="fig-column_inventory_maps-10" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/cf3365adcb309d3176ca55b201390a0dc16ecced/docs/figure/column_inventories.Rmd/column_inventory_maps-10.png" target="_blank">cf3365a</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-05-27
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre><code>
-[[3]]</code></pre>
-<p><img src="figure/column_inventories.Rmd/column_inventory_maps-11.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-column_inventory_maps-11">
-Past versions of column_inventory_maps-11.png
-</button>
-</p>
-<div id="fig-column_inventory_maps-11" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/cf3365adcb309d3176ca55b201390a0dc16ecced/docs/figure/column_inventories.Rmd/column_inventory_maps-11.png" target="_blank">cf3365a</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-05-27
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre><code>
-[[4]]</code></pre>
-<p><img src="figure/column_inventories.Rmd/column_inventory_maps-12.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-column_inventory_maps-12">
-Past versions of column_inventory_maps-12.png
-</button>
-</p>
-<div id="fig-column_inventory_maps-12" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/cf3365adcb309d3176ca55b201390a0dc16ecced/docs/figure/column_inventories.Rmd/column_inventory_maps-12.png" target="_blank">cf3365a</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-05-27
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre><code>
-[[5]]</code></pre>
-<p><img src="figure/column_inventories.Rmd/column_inventory_maps-13.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-column_inventory_maps-13">
-Past versions of column_inventory_maps-13.png
-</button>
-</p>
-<div id="fig-column_inventory_maps-13" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/cf3365adcb309d3176ca55b201390a0dc16ecced/docs/figure/column_inventories.Rmd/column_inventory_maps-13.png" target="_blank">cf3365a</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-05-27
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre><code>
-[[6]]</code></pre>
-<p><img src="figure/column_inventories.Rmd/column_inventory_maps-14.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-column_inventory_maps-14">
-Past versions of column_inventory_maps-14.png
-</button>
-</p>
-<div id="fig-column_inventory_maps-14" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/cf3365adcb309d3176ca55b201390a0dc16ecced/docs/figure/column_inventories.Rmd/column_inventory_maps-14.png" target="_blank">cf3365a</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-05-27
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre><code>
-[[7]]</code></pre>
-<p><img src="figure/column_inventories.Rmd/column_inventory_maps-15.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-column_inventory_maps-15">
-Past versions of column_inventory_maps-15.png
-</button>
-</p>
-<div id="fig-column_inventory_maps-15" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/cf3365adcb309d3176ca55b201390a0dc16ecced/docs/figure/column_inventories.Rmd/column_inventory_maps-15.png" target="_blank">cf3365a</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-05-27
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre><code>
-[[8]]</code></pre>
-<p><img src="figure/column_inventories.Rmd/column_inventory_maps-16.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-column_inventory_maps-16">
-Past versions of column_inventory_maps-16.png
-</button>
-</p>
-<div id="fig-column_inventory_maps-16" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/cf3365adcb309d3176ca55b201390a0dc16ecced/docs/figure/column_inventories.Rmd/column_inventory_maps-16.png" target="_blank">cf3365a</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-05-27
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre class="r"><code>cant_inv_all_bias %&gt;%
+cant_inv_all_bias %&gt;%
   p_map_cant_inv(var = &quot;obs&quot;,
                  col = &quot;divergent&quot;) +
   facet_grid(MLR_basins ~ dup_era1)</code></pre>
@@ -1533,6 +910,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ee5b15d3237b3677dd452dfe116911b9a292a4c8/docs/figure/column_inventories.Rmd/column_inventory_maps_output-1.png" target="_blank">ee5b15d</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-05-27
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e8bd251378925a96adffdbf2a7f707676c1e7258/docs/figure/column_inventories.Rmd/column_inventory_maps_output-1.png" target="_blank">e8bd251</a>
@@ -1613,6 +1001,54 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
+<pre class="r"><code>cant_inv_budget &lt;- cant_inv_all %&gt;% 
+  mutate(surface_area = earth_surf(lat, lon),
+         cant_inv_grid = cant_inv*surface_area,
+         cant_pos_inv_grid = cant_pos_inv*surface_area) %&gt;% 
+  group_by(basin_AIP, data_source, Version_ID, MLR_basins, dup_era1) %&gt;% 
+  summarise(cant_total = sum(cant_inv_grid)*12*1e-15,
+            cant_total = round(cant_total,1),
+            cant_pos_total = sum(cant_pos_inv_grid)*12*1e-15,
+            cant_pos_total = round(cant_pos_total,1)) %&gt;% 
+  ungroup()
+
+# cant_inv_budget %&gt;%  
+#   group_by(data_source, Version_ID) %&gt;% 
+#   summarise(cant_total = sum(cant_total),
+#             cant_total = round(cant_total,1),
+#             cant_pos_total = sum(cant_pos_total),
+#             cant_pos_total = round(cant_pos_total,1),
+#             cant_total_rate = cant_total / duration,
+#             cant_pos_total_rate = cant_pos_total / duration) %&gt;% 
+#   ungroup()
+
+cant_inv_budget %&gt;%
+  ggplot(aes(data_source, cant_total, fill = basin_AIP)) +
+  scale_fill_brewer(palette = &quot;Dark2&quot;) +
+  geom_col() +
+  facet_grid(MLR_basins ~ dup_era1)</code></pre>
+<p><img src="figure/column_inventories.Rmd/budgets-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>cant_inv_all %&gt;%
+  filter(data_source == &quot;obs&quot;) %&gt;% 
+  group_split(Version_ID) %&gt;%
+  map(
+    ~ p_map_cant_inv(
+    df = .x,
+    var = &quot;cant_inv&quot;,
+    subtitle_text = paste(&quot;Version_ID:&quot;, unique(.x$Version_ID))
+  ))
+
+
+cant_inv_all_bias %&gt;%
+  group_split(Version_ID) %&gt;%
+  map(
+    ~ p_map_cant_inv(
+      df = .x,
+      var = &quot;cant_bias&quot;,
+      col = &quot;divergent&quot;,
+      subtitle_text = &quot;data_source: mod - mod_truth&quot;
+    )
+  )</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1641,34 +1077,36 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] metR_0.9.0      scico_1.2.0     patchwork_1.1.1 collapse_1.5.0 
- [5] forcats_0.5.0   stringr_1.4.0   dplyr_1.0.5     purrr_0.3.4    
- [9] readr_1.4.0     tidyr_1.1.2     tibble_3.0.4    ggplot2_3.3.3  
-[13] tidyverse_1.3.0 workflowr_1.6.2
+ [1] marelac_2.1.10  shape_1.4.5     metR_0.9.0      scico_1.2.0    
+ [5] patchwork_1.1.1 collapse_1.5.0  forcats_0.5.0   stringr_1.4.0  
+ [9] dplyr_1.0.5     purrr_0.3.4     readr_1.4.0     tidyr_1.1.2    
+[13] tibble_3.0.4    ggplot2_3.3.3   tidyverse_1.3.0 workflowr_1.6.2
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.5               lattice_0.20-41          lubridate_1.7.9         
- [4] assertthat_0.2.1         rprojroot_2.0.2          digest_0.6.27           
- [7] R6_2.5.0                 cellranger_1.1.0         backports_1.1.10        
-[10] reprex_0.3.0             evaluate_0.14            httr_1.4.2              
-[13] pillar_1.4.7             rlang_0.4.10             readxl_1.3.1            
-[16] data.table_1.13.2        rstudioapi_0.11          whisker_0.4             
-[19] blob_1.2.1               Matrix_1.2-18            checkmate_2.0.0         
-[22] rmarkdown_2.5            labeling_0.4.2           RcppEigen_0.3.3.7.0     
-[25] munsell_0.5.0            broom_0.7.5              compiler_4.0.3          
-[28] httpuv_1.5.4             modelr_0.1.8             xfun_0.18               
-[31] pkgconfig_2.0.3          htmltools_0.5.0          tidyselect_1.1.0        
-[34] fansi_0.4.1              crayon_1.3.4             dbplyr_1.4.4            
-[37] withr_2.3.0              later_1.1.0.1            grid_4.0.3              
-[40] jsonlite_1.7.1           gtable_0.3.0             lifecycle_1.0.0         
-[43] DBI_1.1.0                git2r_0.27.1             magrittr_1.5            
-[46] scales_1.1.1             cli_2.1.0                stringi_1.5.3           
-[49] farver_2.0.3             fs_1.5.0                 promises_1.1.1          
-[52] RcppArmadillo_0.10.1.2.0 xml2_1.3.2               ellipsis_0.3.1          
-[55] generics_0.0.2           vctrs_0.3.5              tools_4.0.3             
-[58] glue_1.4.2               hms_0.5.3                parallel_4.0.3          
-[61] yaml_2.2.1               colorspace_1.4-1         rvest_0.3.6             
-[64] knitr_1.30               haven_2.3.1             </code></pre>
+ [1] httr_1.4.2               jsonlite_1.7.1           modelr_0.1.8            
+ [4] assertthat_0.2.1         blob_1.2.1               cellranger_1.1.0        
+ [7] yaml_2.2.1               pillar_1.4.7             backports_1.1.10        
+[10] lattice_0.20-41          glue_1.4.2               RcppEigen_0.3.3.7.0     
+[13] digest_0.6.27            RColorBrewer_1.1-2       promises_1.1.1          
+[16] checkmate_2.0.0          rvest_0.3.6              colorspace_1.4-1        
+[19] htmltools_0.5.0          httpuv_1.5.4             Matrix_1.2-18           
+[22] pkgconfig_2.0.3          broom_0.7.5              seacarb_3.2.14          
+[25] haven_2.3.1              scales_1.1.1             whisker_0.4             
+[28] later_1.1.0.1            git2r_0.27.1             farver_2.0.3            
+[31] generics_0.0.2           ellipsis_0.3.1           withr_2.3.0             
+[34] cli_2.1.0                magrittr_1.5             crayon_1.3.4            
+[37] readxl_1.3.1             evaluate_0.14            fs_1.5.0                
+[40] fansi_0.4.1              xml2_1.3.2               RcppArmadillo_0.10.1.2.0
+[43] oce_1.2-0                tools_4.0.3              data.table_1.13.2       
+[46] hms_0.5.3                lifecycle_1.0.0          munsell_0.5.0           
+[49] reprex_0.3.0             gsw_1.0-5                compiler_4.0.3          
+[52] rlang_0.4.10             grid_4.0.3               rstudioapi_0.11         
+[55] labeling_0.4.2           rmarkdown_2.5            testthat_2.3.2          
+[58] gtable_0.3.0             DBI_1.1.0                R6_2.5.0                
+[61] lubridate_1.7.9          knitr_1.30               rprojroot_2.0.2         
+[64] stringi_1.5.3            parallel_4.0.3           Rcpp_1.0.5              
+[67] vctrs_0.3.5              dbplyr_1.4.4             tidyselect_1.1.0        
+[70] xfun_0.18               </code></pre>
 </div>
 </div>
 
