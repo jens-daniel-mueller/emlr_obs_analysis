@@ -37,12 +37,7 @@ path_preprocessing_model    <-
 library(marelac)
 ```
 
-# Data sources
-
-Following Cant estimates are used:
-
-- Zonal mean (basin, lat, depth)
-- Inventories (lat, lon)
+# Load data
 
 ```{r read_files}
 
@@ -50,7 +45,7 @@ Version_IDs <- list.files(
   path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
   pattern = "v_1")
 
-Version_IDs <- Version_IDs[1:8]
+# Version_IDs <- Version_IDs[1:8]
 
 for (i_Version_IDs in Version_IDs) {
   # i_Version_IDs <- Version_IDs[1]
@@ -86,7 +81,10 @@ for (i_Version_IDs in Version_IDs) {
   params_local <- bind_cols(
     Version_ID = i_Version_IDs,
     MLR_basins = params_local$MLR_basins,
-    dup_era1 = str_c(params_local$dup_era1, collapse = "-")
+    dup_era1 = str_c(params_local$dup_era1, collapse = "-"),
+    MLR_target = params_local$MLR_target,
+    CANYON_B_max = params_local$CANYON_B_max,
+    vif_max = params_local$vif_max
   )
   
   cant_inv <- full_join(cant_inv, params_local)
@@ -127,38 +125,29 @@ cant_inv_all <- cant_inv_all %>%
 
 ```
 
-
-```{r column_inventory_maps_output, fig.asp=1}
+```{r calc_column_inventories}
 
 cant_inv_all_bias <- cant_inv_all %>%
-  select(lat, lon, data_source, Version_ID, era_duplication, MLR_basins, cant_inv) %>%
+  select(lat, lon, data_source, cant_inv, Version_ID, 
+         era_duplication, MLR_basins,
+         MLR_target, CANYON_B_max, vif_max) %>%
   pivot_wider(names_from = data_source,
               values_from = cant_inv) %>%
   mutate(cant_bias = mod - mod_truth) %>%
   drop_na()
 
-cant_inv_all_bias %>%
-  p_map_cant_inv(var = "obs",
-                 col = "divergent",
-                 subtitle_text = "data_source: observations") +
-  facet_grid(MLR_basins ~ era_duplication)
-
-
-cant_inv_all_bias %>%
-  p_map_cant_inv(var = "cant_bias",
-                 col = "bias",
-                 subtitle_text = "data_source: mod - mod_truth") +
-  facet_grid(MLR_basins ~ era_duplication)
-
 ```
 
-```{r budgets_regional, fig.asp=1}
+```{r calc_budgets}
 
 cant_inv_budget <- cant_inv_all %>% 
   mutate(surface_area = earth_surf(lat, lon),
          cant_inv_grid = cant_inv*surface_area,
          cant_pos_inv_grid = cant_pos_inv*surface_area) %>% 
-  group_by(basin_AIP, data_source, Version_ID, MLR_basins, era_duplication, duration) %>% 
+  group_by(basin_AIP, data_source,
+           Version_ID, MLR_basins,
+           era_duplication, duration,
+           MLR_target, CANYON_B_max, vif_max) %>% 
   summarise(cant_total = sum(cant_inv_grid)*12*1e-15,
             cant_total = round(cant_total,1),
             cant_pos_total = sum(cant_pos_inv_grid)*12*1e-15,
@@ -175,7 +164,45 @@ cant_inv_budget %>%
             cant_pos_total_rate = cant_pos_total / duration) %>%
   ungroup()
 
-cant_inv_budget %>%
+```
+
+
+# MLR regions and era overlap
+
+## Column inventories
+
+```{r column_inventory_maps_output, fig.asp=1}
+
+cant_inv_all_bias_sub <- cant_inv_all_bias %>%
+  filter(Version_ID %in% Version_IDs[1:8])
+
+cant_inv_all_bias_sub %>% 
+  p_map_cant_inv(var = "obs",
+                 col = "divergent",
+                 subtitle_text = "data_source: observations") +
+  facet_grid(MLR_basins ~ era_duplication)
+
+
+cant_inv_all_bias_sub %>%
+  p_map_cant_inv(var = "cant_bias",
+                 col = "bias",
+                 subtitle_text = "data_source: mod - mod_truth") +
+  facet_grid(MLR_basins ~ era_duplication)
+
+rm(cant_inv_all_bias_sub)
+
+```
+
+## Budgets
+
+### Regional
+
+```{r budgets_regional, fig.asp=1}
+
+cant_inv_budget_sub <- cant_inv_budget %>%
+  filter(Version_ID %in% Version_IDs[1:8])
+
+cant_inv_budget_sub %>%
   ggplot(aes(data_source, cant_total/duration, fill = basin_AIP)) +
   scale_fill_brewer(palette = "Dark2") +
   geom_col() +
@@ -184,10 +211,11 @@ cant_inv_budget %>%
 
 ```
 
+### Global
 
 ```{r budget_global}
 
-cant_inv_budget %>%
+cant_inv_budget_sub %>%
   filter(data_source == "obs") %>% 
   group_by(MLR_basins, era_duplication) %>% 
   summarise(rate = sum(cant_total/duration)) %>% 
@@ -197,122 +225,14 @@ cant_inv_budget %>%
   scale_y_continuous() +
   labs(y = expression(Uptake~rate ~ (PgC ~ yr ^ {-1})),
        x = "") +
-  scale_fill_brewer(palette = "Set1")
+  scale_fill_brewer(palette = "PuBuGn")
+
+rm(cant_inv_all_bias_sub)
 
 ```
 
 
-# Data sources
+# Cleaning operations
 
-Following Cant estimates are used:
-
-- Zonal mean (basin, lat, depth)
-- Inventories (lat, lon)
-
-```{r read_files_subsetting}
-
-Version_IDs <- list.files(
-  path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-  pattern = "v_1")
-
-Version_IDs <- Version_IDs[9:16]
-
-for (i_Version_IDs in Version_IDs) {
-  # i_Version_IDs <- Version_IDs[1]
-  
-  print(i_Version_IDs)
-  
-  path_version_data     <-
-  paste(path_observations,
-        i_Version_IDs,
-        "/data/",
-        sep = "")
-  
-  cant_inv <-
-    read_csv(paste(path_version_data,
-                   "cant_inv.csv",
-                   sep = ""))
-  
-  cant_inv_mod_truth <-
-    read_csv(paste(path_version_data,
-                   "cant_inv_mod_truth.csv",
-                   sep = ""))
-  
-  cant_inv <- bind_rows(cant_inv, cant_inv_mod_truth)
-  
-  cant_inv <- cant_inv %>% 
-    mutate(Version_ID = i_Version_IDs)
-  
-  params_local <-
-    read_rds(paste(path_version_data,
-                   "params_local.rds",
-                   sep = ""))
-  
-  params_local <- bind_cols(
-    Version_ID = i_Version_IDs,
-    MLR_target = params_local$MLR_target,
-    CANYON_B_max = params_local$CANYON_B_max,
-    vif_max = params_local$vif_max
-  )
-  
-  cant_inv <- full_join(cant_inv, params_local)
-  
-  tref <- read_csv(paste(path_version_data,
-                         "tref.csv",
-                         sep = ""))
-  
-  duration <- sort(tref$median_year)[2] - sort(tref$median_year)[1]
-  
-  cant_inv <- cant_inv %>% 
-    mutate(duration = duration)
-  
-  if (exists("cant_inv_all")) {
-    cant_inv_all <- bind_rows(cant_inv_all, cant_inv)
-  }
-  
-  if (!exists("cant_inv_all")) {
-    cant_inv_all <- cant_inv
-  }
-  
-  
-}
-
-rm(cant_inv)
-
-```
-
-
-```{r filter_standard_inventory_depth_subsetting}
-
-cant_inv_all <- cant_inv_all %>%
-  filter(inv_depth == params_global$inventory_depth_standard)
-
-```
-
-
-```{r column_inventory_maps_output_subsetting, fig.asp=1}
-
-cant_inv_all_bias <- cant_inv_all %>%
-  select(lat, lon, data_source, Version_ID, cant_inv) %>%
-  pivot_wider(names_from = data_source,
-              values_from = cant_inv) %>%
-  mutate(cant_bias = mod - mod_truth) %>%
-  drop_na()
-
-cant_inv_all_bias %>%
-  p_map_cant_inv(var = "obs",
-                 col = "divergent",
-                 subtitle_text = "data_source: observations") +
-  facet_wrap(~ Version_ID)
-  # facet_grid(MLR_basins ~ era_duplication)
-
-
-cant_inv_all_bias %>%
-  p_map_cant_inv(var = "cant_bias",
-                 col = "bias",
-                 subtitle_text = "data_source: mod - mod_truth") +
-  # facet_grid(MLR_basins ~ era_duplication) +
-  facet_wrap(~ Version_ID)
-
-```
+## CANYON-B
 
