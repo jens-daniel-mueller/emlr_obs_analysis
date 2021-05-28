@@ -202,31 +202,117 @@ cant_inv_budget %>%
 ```
 
 
+# Data sources
 
-```{r column_inventory_maps, eval=FALSE}
+Following Cant estimates are used:
 
-cant_inv_all %>%
-  filter(data_source == "obs") %>% 
-  group_split(Version_ID) %>%
-  map(
-    ~ p_map_cant_inv(
-    df = .x,
-    var = "cant_inv",
-    subtitle_text = paste("Version_ID:", unique(.x$Version_ID))
-  ))
+- Zonal mean (basin, lat, depth)
+- Inventories (lat, lon)
 
+```{r read_files_subsetting}
 
-cant_inv_all_bias %>%
-  group_split(Version_ID) %>%
-  map(
-    ~ p_map_cant_inv(
-      df = .x,
-      var = "cant_bias",
-      col = "divergent",
-      subtitle_text = "data_source: mod - mod_truth"
-    )
+Version_IDs <- list.files(
+  path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+  pattern = "v_1")
+
+Version_IDs <- Version_IDs[9:16]
+
+for (i_Version_IDs in Version_IDs) {
+  # i_Version_IDs <- Version_IDs[1]
+  
+  print(i_Version_IDs)
+  
+  path_version_data     <-
+  paste(path_observations,
+        i_Version_IDs,
+        "/data/",
+        sep = "")
+  
+  cant_inv <-
+    read_csv(paste(path_version_data,
+                   "cant_inv.csv",
+                   sep = ""))
+  
+  cant_inv_mod_truth <-
+    read_csv(paste(path_version_data,
+                   "cant_inv_mod_truth.csv",
+                   sep = ""))
+  
+  cant_inv <- bind_rows(cant_inv, cant_inv_mod_truth)
+  
+  cant_inv <- cant_inv %>% 
+    mutate(Version_ID = i_Version_IDs)
+  
+  params_local <-
+    read_rds(paste(path_version_data,
+                   "params_local.rds",
+                   sep = ""))
+  
+  params_local <- bind_cols(
+    Version_ID = i_Version_IDs,
+    MLR_target = params_local$MLR_target,
+    CANYON_B_max = params_local$CANYON_B_max,
+    vif_max = params_local$vif_max
   )
+  
+  cant_inv <- full_join(cant_inv, params_local)
+  
+  tref <- read_csv(paste(path_version_data,
+                         "tref.csv",
+                         sep = ""))
+  
+  duration <- sort(tref$median_year)[2] - sort(tref$median_year)[1]
+  
+  cant_inv <- cant_inv %>% 
+    mutate(duration = duration)
+  
+  if (exists("cant_inv_all")) {
+    cant_inv_all <- bind_rows(cant_inv_all, cant_inv)
+  }
+  
+  if (!exists("cant_inv_all")) {
+    cant_inv_all <- cant_inv
+  }
+  
+  
+}
+
+rm(cant_inv)
 
 ```
 
+
+```{r filter_standard_inventory_depth_subsetting}
+
+cant_inv_all <- cant_inv_all %>%
+  filter(inv_depth == params_global$inventory_depth_standard)
+
+```
+
+
+```{r column_inventory_maps_output_subsetting, fig.asp=1}
+
+cant_inv_all_bias <- cant_inv_all %>%
+  select(lat, lon, data_source, Version_ID, cant_inv) %>%
+  pivot_wider(names_from = data_source,
+              values_from = cant_inv) %>%
+  mutate(cant_bias = mod - mod_truth) %>%
+  drop_na()
+
+cant_inv_all_bias %>%
+  p_map_cant_inv(var = "obs",
+                 col = "divergent",
+                 subtitle_text = "data_source: observations") +
+  facet_wrap(~ Version_ID)
+  # facet_grid(MLR_basins ~ era_duplication)
+
+
+cant_inv_all_bias %>%
+  p_map_cant_inv(var = "cant_bias",
+                 col = "bias",
+                 subtitle_text = "data_source: mod - mod_truth") +
+  # facet_grid(MLR_basins ~ era_duplication) +
+  facet_wrap(~ Version_ID)
+
+```
 
