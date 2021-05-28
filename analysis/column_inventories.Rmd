@@ -86,6 +86,7 @@ for (i_Version_IDs in Version_IDs) {
     dup_era1 = str_c(params_local$dup_era1, collapse = "-"),
     MLR_target = params_local$MLR_target,
     CANYON_B_max = params_local$CANYON_B_max,
+    c_star_rmse_max = params_local$c_star_rmse_max,
     vif_max = params_local$vif_max
   )
   
@@ -133,7 +134,7 @@ cant_inv_all <- cant_inv_all %>%
 cant_inv_all_bias <- cant_inv_all %>%
   select(lat, lon, data_source, cant_inv, Version_ID, 
          era_duplication, MLR_basins,
-         MLR_target, CANYON_B_max, vif_max) %>%
+         MLR_target, CANYON_B_max, vif_max, c_star_rmse_max) %>%
   pivot_wider(names_from = data_source,
               values_from = cant_inv) %>%
   mutate(cant_bias = mod - mod_truth) %>%
@@ -152,7 +153,7 @@ cant_inv_budget <- cant_inv_all %>%
   group_by(basin_AIP, data_source,
            Version_ID, MLR_basins,
            era_duplication, duration,
-           MLR_target, CANYON_B_max, vif_max) %>% 
+           MLR_target, CANYON_B_max, vif_max, c_star_rmse_max) %>% 
   summarise(cant_total = sum(cant_inv_grid)*12*1e-15,
             cant_total = round(cant_total,1),
             cant_pos_total = sum(cant_pos_inv_grid)*12*1e-15,
@@ -232,7 +233,7 @@ cant_inv_budget_sub %>%
        x = "") +
   scale_fill_brewer(palette = "PuBuGn")
 
-rm(cant_inv_all_bias_sub)
+rm(cant_inv_budget_sub)
 
 ```
 
@@ -241,7 +242,7 @@ rm(cant_inv_all_bias_sub)
 
 ## Column inventories
 
-```{r column_inventory_maps_CANYON_B_max, fig.asp=1}
+```{r column_inventory_maps_CANYON_B_max}
 
 cant_inv_all_bias_sub <- cant_inv_all_bias %>%
   filter(Version_ID %in% Version_IDs[c(1,11,12)])
@@ -300,7 +301,211 @@ cant_inv_budget_sub %>%
         axis.title.x = element_blank(),
         axis.ticks.x = element_blank())
 
+rm(cant_inv_budget_sub)
+
+```
+
+
+# C* RMSE threshold
+
+## Column inventories
+
+```{r column_inventory_maps_c_star_rmse_max}
+
+cant_inv_all_bias_sub <- cant_inv_all_bias %>%
+  filter(Version_ID %in% Version_IDs[c(1,13,14)])
+
+cant_inv_all_bias_sub %>% 
+  p_map_cant_inv(var = "obs",
+                 col = "divergent",
+                 subtitle_text = "data_source: observations") +
+  facet_grid(c_star_rmse_max ~ .)
+
+
+cant_inv_all_bias_sub %>%
+  p_map_cant_inv(var = "cant_bias",
+                 col = "bias",
+                 subtitle_text = "data_source: mod - mod_truth") +
+  facet_grid(c_star_rmse_max ~ .)
+
 rm(cant_inv_all_bias_sub)
+
+```
+
+## Budgets
+
+### Regional
+
+```{r budgets_regional_c_star_rmse_max, fig.asp=1}
+
+cant_inv_budget_sub <- cant_inv_budget %>%
+  filter(Version_ID %in% Version_IDs[c(1,13,14)]) %>% 
+  mutate(c_star_rmse_max = as.factor(c_star_rmse_max))
+
+cant_inv_budget_sub %>%
+  ggplot(aes(data_source, cant_total/duration, fill = basin_AIP)) +
+  scale_fill_brewer(palette = "PuBuGn") +
+  geom_col(col = "black") +
+  labs(y = expression(Uptake~rate ~ (PgC ~ yr ^ {-1}))) +
+  facet_grid(c_star_rmse_max ~ .)
+
+```
+
+### Global
+
+```{r budget_global_c_star_rmse_max}
+
+cant_inv_budget_sub %>%
+  filter(data_source == "obs") %>% 
+  group_by(c_star_rmse_max) %>% 
+  summarise(rate = sum(cant_total/duration)) %>% 
+  ungroup() %>% 
+  ggplot(aes(NA, rate, fill = c_star_rmse_max)) +
+  geom_bar(stat="identity", position=position_dodge(), col="black") +
+  scale_y_continuous() +
+  labs(y = expression(Uptake~rate ~ (PgC ~ yr ^ {-1}))) +
+  scale_fill_brewer(palette = "PuBuGn") +
+  theme(axis.text.x = element_blank(),
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank())
+
+rm(cant_inv_budget_sub)
+
+```
+
+
+# VIF max
+
+## Column inventories
+
+```{r column_inventory_maps_vif_max}
+
+cant_inv_all_bias_sub <- cant_inv_all_bias %>%
+  filter(Version_ID %in% Version_IDs[c(1,15,16)])
+
+cant_inv_all_bias_sub %>% 
+  p_map_cant_inv(var = "obs",
+                 col = "divergent",
+                 subtitle_text = "data_source: observations") +
+  facet_grid(vif_max ~ .)
+
+
+cant_inv_all_bias_sub %>%
+  p_map_cant_inv(var = "cant_bias",
+                 col = "bias",
+                 subtitle_text = "data_source: mod - mod_truth") +
+  facet_grid(vif_max ~ .)
+
+rm(cant_inv_all_bias_sub)
+
+```
+
+## Budgets
+
+### Regional
+
+```{r budgets_regional_vif_max, fig.asp=1}
+
+cant_inv_budget_sub <- cant_inv_budget %>%
+  filter(Version_ID %in% Version_IDs[c(1,15,16)]) %>% 
+  mutate(vif_max = as.factor(vif_max))
+
+cant_inv_budget_sub %>%
+  ggplot(aes(data_source, cant_total/duration, fill = basin_AIP)) +
+  scale_fill_brewer(palette = "PuBuGn") +
+  geom_col(col = "black") +
+  labs(y = expression(Uptake~rate ~ (PgC ~ yr ^ {-1}))) +
+  facet_grid(vif_max ~ .)
+
+```
+
+### Global
+
+```{r budget_global_vif_max}
+
+cant_inv_budget_sub %>%
+  filter(data_source == "obs") %>% 
+  group_by(vif_max) %>% 
+  summarise(rate = sum(cant_total/duration)) %>% 
+  ungroup() %>% 
+  ggplot(aes(NA, rate, fill = vif_max)) +
+  geom_bar(stat="identity", position=position_dodge(), col="black") +
+  scale_y_continuous() +
+  labs(y = expression(Uptake~rate ~ (PgC ~ yr ^ {-1}))) +
+  scale_fill_brewer(palette = "PuBuGn") +
+  theme(axis.text.x = element_blank(),
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank())
+
+rm(cant_inv_budget_sub)
+
+```
+
+
+# MLR target variable
+
+## Column inventories
+
+```{r column_inventory_maps_MLR_target}
+
+cant_inv_all_bias_sub <- cant_inv_all_bias %>%
+  filter(Version_ID %in% Version_IDs[c(1,9,10)])
+
+cant_inv_all_bias_sub %>% 
+  p_map_cant_inv(var = "obs",
+                 col = "divergent",
+                 subtitle_text = "data_source: observations") +
+  facet_grid(MLR_target ~ .)
+
+
+cant_inv_all_bias_sub %>%
+  p_map_cant_inv(var = "cant_bias",
+                 col = "bias",
+                 subtitle_text = "data_source: mod - mod_truth") +
+  facet_grid(MLR_target ~ .)
+
+rm(cant_inv_all_bias_sub)
+
+```
+
+## Budgets
+
+### Regional
+
+```{r budgets_regional_MLR_target, fig.asp=1}
+
+cant_inv_budget_sub <- cant_inv_budget %>%
+  filter(Version_ID %in% Version_IDs[c(1,9,10)]) %>% 
+  mutate(MLR_target = as.factor(MLR_target))
+
+cant_inv_budget_sub %>%
+  ggplot(aes(data_source, cant_total/duration, fill = basin_AIP)) +
+  scale_fill_brewer(palette = "PuBuGn") +
+  geom_col(col = "black") +
+  labs(y = expression(Uptake~rate ~ (PgC ~ yr ^ {-1}))) +
+  facet_grid(MLR_target ~ .)
+
+```
+
+### Global
+
+```{r budget_global_MLR_target}
+
+cant_inv_budget_sub %>%
+  filter(data_source == "obs") %>% 
+  group_by(MLR_target) %>% 
+  summarise(rate = sum(cant_total/duration)) %>% 
+  ungroup() %>% 
+  ggplot(aes(NA, rate, fill = MLR_target)) +
+  geom_bar(stat="identity", position=position_dodge(), col="black") +
+  scale_y_continuous() +
+  labs(y = expression(Uptake~rate ~ (PgC ~ yr ^ {-1}))) +
+  scale_fill_brewer(palette = "PuBuGn") +
+  theme(axis.text.x = element_blank(),
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank())
+
+rm(cant_inv_budget_sub)
 
 ```
 
