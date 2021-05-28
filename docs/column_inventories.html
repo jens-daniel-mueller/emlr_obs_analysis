@@ -545,16 +545,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree87a8c49216411e226b96d9a8a7450f71aa573513targetblank87a8c49a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/87a8c49216411e226b96d9a8a7450f71aa573513" target="_blank">87a8c49</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree2c347cd13f09ea47237d32f4f2ae927ba22eff20targetblank2c347cda"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/2c347cd13f09ea47237d32f4f2ae927ba22eff20" target="_blank">2c347cd</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree87a8c49216411e226b96d9a8a7450f71aa573513targetblank87a8c49a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree2c347cd13f09ea47237d32f4f2ae927ba22eff20targetblank2c347cda" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/87a8c49216411e226b96d9a8a7450f71aa573513" target="_blank">87a8c49</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/2c347cd13f09ea47237d32f4f2ae927ba22eff20" target="_blank">2c347cd</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -607,6 +607,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2c347cd13f09ea47237d32f4f2ae927ba22eff20/analysis/column_inventories.Rmd" target="_blank">2c347cd</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-05-28
+</td>
+<td>
+plotted C* rmse, MLR target, vif max
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/92cae2ec6e815270ef107097b8879f9314673183/docs/column_inventories.html" target="_blank">92cae2e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-05-28
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1052,6 +1086,7 @@ for (i_Version_IDs in Version_IDs) {
     dup_era1 = str_c(params_local$dup_era1, collapse = &quot;-&quot;),
     MLR_target = params_local$MLR_target,
     CANYON_B_max = params_local$CANYON_B_max,
+    c_star_rmse_max = params_local$c_star_rmse_max,
     vif_max = params_local$vif_max
   )
   
@@ -1105,7 +1140,7 @@ cant_inv_all &lt;- cant_inv_all %&gt;%
 <pre class="r"><code>cant_inv_all_bias &lt;- cant_inv_all %&gt;%
   select(lat, lon, data_source, cant_inv, Version_ID, 
          era_duplication, MLR_basins,
-         MLR_target, CANYON_B_max, vif_max) %&gt;%
+         MLR_target, CANYON_B_max, vif_max, c_star_rmse_max) %&gt;%
   pivot_wider(names_from = data_source,
               values_from = cant_inv) %&gt;%
   mutate(cant_bias = mod - mod_truth) %&gt;%
@@ -1120,7 +1155,7 @@ cant_inv_all &lt;- cant_inv_all %&gt;%
   group_by(basin_AIP, data_source,
            Version_ID, MLR_basins,
            era_duplication, duration,
-           MLR_target, CANYON_B_max, vif_max) %&gt;% 
+           MLR_target, CANYON_B_max, vif_max, c_star_rmse_max) %&gt;% 
   summarise(cant_total = sum(cant_inv_grid)*12*1e-15,
             cant_total = round(cant_total,1),
             cant_pos_total = sum(cant_pos_inv_grid)*12*1e-15,
@@ -1285,6 +1320,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/92cae2ec6e815270ef107097b8879f9314673183/docs/figure/column_inventories.Rmd/budgets_regional_regions_eras-1.png" target="_blank">92cae2e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-05-28
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/998f4a66995b08afa6f44770cc46bb5545f80213/docs/figure/column_inventories.Rmd/budgets_regional_regions_eras-1.png" target="_blank">998f4a6</a>
 </td>
 <td>
@@ -1350,7 +1396,7 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
-<pre class="r"><code>rm(cant_inv_all_bias_sub)</code></pre>
+<pre class="r"><code>rm(cant_inv_budget_sub)</code></pre>
 </div>
 </div>
 </div>
@@ -1367,12 +1413,86 @@ cant_inv_all_bias_sub %&gt;%
                  subtitle_text = &quot;data_source: observations&quot;) +
   facet_grid(CANYON_B_max ~ .)</code></pre>
 <p><img src="figure/column_inventories.Rmd/column_inventory_maps_CANYON_B_max-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-column_inventory_maps_CANYON_B_max-1">
+Past versions of column_inventory_maps_CANYON_B_max-1.png
+</button>
+</p>
+<div id="fig-column_inventory_maps_CANYON_B_max-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/92cae2ec6e815270ef107097b8879f9314673183/docs/figure/column_inventories.Rmd/column_inventory_maps_CANYON_B_max-1.png" target="_blank">92cae2e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-05-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>cant_inv_all_bias_sub %&gt;%
   p_map_cant_inv(var = &quot;cant_bias&quot;,
                  col = &quot;bias&quot;,
                  subtitle_text = &quot;data_source: mod - mod_truth&quot;) +
   facet_grid(CANYON_B_max ~ .)</code></pre>
 <p><img src="figure/column_inventories.Rmd/column_inventory_maps_CANYON_B_max-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-column_inventory_maps_CANYON_B_max-2">
+Past versions of column_inventory_maps_CANYON_B_max-2.png
+</button>
+</p>
+<div id="fig-column_inventory_maps_CANYON_B_max-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/92cae2ec6e815270ef107097b8879f9314673183/docs/figure/column_inventories.Rmd/column_inventory_maps_CANYON_B_max-2.png" target="_blank">92cae2e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-05-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>rm(cant_inv_all_bias_sub)</code></pre>
 </div>
 <div id="budgets-1" class="section level2" number="3.2">
@@ -1390,6 +1510,43 @@ cant_inv_budget_sub %&gt;%
   labs(y = expression(Uptake~rate ~ (PgC ~ yr ^ {-1}))) +
   facet_grid(CANYON_B_max ~ .)</code></pre>
 <p><img src="figure/column_inventories.Rmd/budgets_regional_CANYON_B_max-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-budgets_regional_CANYON_B_max-1">
+Past versions of budgets_regional_CANYON_B_max-1.png
+</button>
+</p>
+<div id="fig-budgets_regional_CANYON_B_max-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/92cae2ec6e815270ef107097b8879f9314673183/docs/figure/column_inventories.Rmd/budgets_regional_CANYON_B_max-1.png" target="_blank">92cae2e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-05-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="global-1" class="section level3" number="3.2.2">
 <h3 number="3.2.2"><span class="header-section-number">3.2.2</span> Global</h3>
@@ -1407,7 +1564,215 @@ cant_inv_budget_sub %&gt;%
         axis.title.x = element_blank(),
         axis.ticks.x = element_blank())</code></pre>
 <p><img src="figure/column_inventories.Rmd/budget_global_CANYON_B_max-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-budget_global_CANYON_B_max-1">
+Past versions of budget_global_CANYON_B_max-1.png
+</button>
+</p>
+<div id="fig-budget_global_CANYON_B_max-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/92cae2ec6e815270ef107097b8879f9314673183/docs/figure/column_inventories.Rmd/budget_global_CANYON_B_max-1.png" target="_blank">92cae2e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-05-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>rm(cant_inv_budget_sub)</code></pre>
+</div>
+</div>
+</div>
+<div id="c-rmse-threshold" class="section level1" number="4">
+<h1 number="4"><span class="header-section-number">4</span> C* RMSE threshold</h1>
+<div id="column-inventories-2" class="section level2" number="4.1">
+<h2 number="4.1"><span class="header-section-number">4.1</span> Column inventories</h2>
+<pre class="r"><code>cant_inv_all_bias_sub &lt;- cant_inv_all_bias %&gt;%
+  filter(Version_ID %in% Version_IDs[c(1,13,14)])
+
+cant_inv_all_bias_sub %&gt;% 
+  p_map_cant_inv(var = &quot;obs&quot;,
+                 col = &quot;divergent&quot;,
+                 subtitle_text = &quot;data_source: observations&quot;) +
+  facet_grid(c_star_rmse_max ~ .)</code></pre>
+<p><img src="figure/column_inventories.Rmd/column_inventory_maps_c_star_rmse_max-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>cant_inv_all_bias_sub %&gt;%
+  p_map_cant_inv(var = &quot;cant_bias&quot;,
+                 col = &quot;bias&quot;,
+                 subtitle_text = &quot;data_source: mod - mod_truth&quot;) +
+  facet_grid(c_star_rmse_max ~ .)</code></pre>
+<p><img src="figure/column_inventories.Rmd/column_inventory_maps_c_star_rmse_max-2.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>rm(cant_inv_all_bias_sub)</code></pre>
+</div>
+<div id="budgets-2" class="section level2" number="4.2">
+<h2 number="4.2"><span class="header-section-number">4.2</span> Budgets</h2>
+<div id="regional-2" class="section level3" number="4.2.1">
+<h3 number="4.2.1"><span class="header-section-number">4.2.1</span> Regional</h3>
+<pre class="r"><code>cant_inv_budget_sub &lt;- cant_inv_budget %&gt;%
+  filter(Version_ID %in% Version_IDs[c(1,13,14)]) %&gt;% 
+  mutate(c_star_rmse_max = as.factor(c_star_rmse_max))
+
+cant_inv_budget_sub %&gt;%
+  ggplot(aes(data_source, cant_total/duration, fill = basin_AIP)) +
+  scale_fill_brewer(palette = &quot;PuBuGn&quot;) +
+  geom_col(col = &quot;black&quot;) +
+  labs(y = expression(Uptake~rate ~ (PgC ~ yr ^ {-1}))) +
+  facet_grid(c_star_rmse_max ~ .)</code></pre>
+<p><img src="figure/column_inventories.Rmd/budgets_regional_c_star_rmse_max-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="global-2" class="section level3" number="4.2.2">
+<h3 number="4.2.2"><span class="header-section-number">4.2.2</span> Global</h3>
+<pre class="r"><code>cant_inv_budget_sub %&gt;%
+  filter(data_source == &quot;obs&quot;) %&gt;% 
+  group_by(c_star_rmse_max) %&gt;% 
+  summarise(rate = sum(cant_total/duration)) %&gt;% 
+  ungroup() %&gt;% 
+  ggplot(aes(NA, rate, fill = c_star_rmse_max)) +
+  geom_bar(stat=&quot;identity&quot;, position=position_dodge(), col=&quot;black&quot;) +
+  scale_y_continuous() +
+  labs(y = expression(Uptake~rate ~ (PgC ~ yr ^ {-1}))) +
+  scale_fill_brewer(palette = &quot;PuBuGn&quot;) +
+  theme(axis.text.x = element_blank(),
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank())</code></pre>
+<p><img src="figure/column_inventories.Rmd/budget_global_c_star_rmse_max-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>rm(cant_inv_budget_sub)</code></pre>
+</div>
+</div>
+</div>
+<div id="vif-max" class="section level1" number="5">
+<h1 number="5"><span class="header-section-number">5</span> VIF max</h1>
+<div id="column-inventories-3" class="section level2" number="5.1">
+<h2 number="5.1"><span class="header-section-number">5.1</span> Column inventories</h2>
+<pre class="r"><code>cant_inv_all_bias_sub &lt;- cant_inv_all_bias %&gt;%
+  filter(Version_ID %in% Version_IDs[c(1,15,16)])
+
+cant_inv_all_bias_sub %&gt;% 
+  p_map_cant_inv(var = &quot;obs&quot;,
+                 col = &quot;divergent&quot;,
+                 subtitle_text = &quot;data_source: observations&quot;) +
+  facet_grid(vif_max ~ .)</code></pre>
+<p><img src="figure/column_inventories.Rmd/column_inventory_maps_vif_max-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>cant_inv_all_bias_sub %&gt;%
+  p_map_cant_inv(var = &quot;cant_bias&quot;,
+                 col = &quot;bias&quot;,
+                 subtitle_text = &quot;data_source: mod - mod_truth&quot;) +
+  facet_grid(vif_max ~ .)</code></pre>
+<p><img src="figure/column_inventories.Rmd/column_inventory_maps_vif_max-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>rm(cant_inv_all_bias_sub)</code></pre>
+</div>
+<div id="budgets-3" class="section level2" number="5.2">
+<h2 number="5.2"><span class="header-section-number">5.2</span> Budgets</h2>
+<div id="regional-3" class="section level3" number="5.2.1">
+<h3 number="5.2.1"><span class="header-section-number">5.2.1</span> Regional</h3>
+<pre class="r"><code>cant_inv_budget_sub &lt;- cant_inv_budget %&gt;%
+  filter(Version_ID %in% Version_IDs[c(1,15,16)]) %&gt;% 
+  mutate(vif_max = as.factor(vif_max))
+
+cant_inv_budget_sub %&gt;%
+  ggplot(aes(data_source, cant_total/duration, fill = basin_AIP)) +
+  scale_fill_brewer(palette = &quot;PuBuGn&quot;) +
+  geom_col(col = &quot;black&quot;) +
+  labs(y = expression(Uptake~rate ~ (PgC ~ yr ^ {-1}))) +
+  facet_grid(vif_max ~ .)</code></pre>
+<p><img src="figure/column_inventories.Rmd/budgets_regional_vif_max-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="global-3" class="section level3" number="5.2.2">
+<h3 number="5.2.2"><span class="header-section-number">5.2.2</span> Global</h3>
+<pre class="r"><code>cant_inv_budget_sub %&gt;%
+  filter(data_source == &quot;obs&quot;) %&gt;% 
+  group_by(vif_max) %&gt;% 
+  summarise(rate = sum(cant_total/duration)) %&gt;% 
+  ungroup() %&gt;% 
+  ggplot(aes(NA, rate, fill = vif_max)) +
+  geom_bar(stat=&quot;identity&quot;, position=position_dodge(), col=&quot;black&quot;) +
+  scale_y_continuous() +
+  labs(y = expression(Uptake~rate ~ (PgC ~ yr ^ {-1}))) +
+  scale_fill_brewer(palette = &quot;PuBuGn&quot;) +
+  theme(axis.text.x = element_blank(),
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank())</code></pre>
+<p><img src="figure/column_inventories.Rmd/budget_global_vif_max-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>rm(cant_inv_budget_sub)</code></pre>
+</div>
+</div>
+</div>
+<div id="mlr-target-variable" class="section level1" number="6">
+<h1 number="6"><span class="header-section-number">6</span> MLR target variable</h1>
+<div id="column-inventories-4" class="section level2" number="6.1">
+<h2 number="6.1"><span class="header-section-number">6.1</span> Column inventories</h2>
+<pre class="r"><code>cant_inv_all_bias_sub &lt;- cant_inv_all_bias %&gt;%
+  filter(Version_ID %in% Version_IDs[c(1,9,10)])
+
+cant_inv_all_bias_sub %&gt;% 
+  p_map_cant_inv(var = &quot;obs&quot;,
+                 col = &quot;divergent&quot;,
+                 subtitle_text = &quot;data_source: observations&quot;) +
+  facet_grid(MLR_target ~ .)</code></pre>
+<p><img src="figure/column_inventories.Rmd/column_inventory_maps_MLR_target-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>cant_inv_all_bias_sub %&gt;%
+  p_map_cant_inv(var = &quot;cant_bias&quot;,
+                 col = &quot;bias&quot;,
+                 subtitle_text = &quot;data_source: mod - mod_truth&quot;) +
+  facet_grid(MLR_target ~ .)</code></pre>
+<p><img src="figure/column_inventories.Rmd/column_inventory_maps_MLR_target-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>rm(cant_inv_all_bias_sub)</code></pre>
+</div>
+<div id="budgets-4" class="section level2" number="6.2">
+<h2 number="6.2"><span class="header-section-number">6.2</span> Budgets</h2>
+<div id="regional-4" class="section level3" number="6.2.1">
+<h3 number="6.2.1"><span class="header-section-number">6.2.1</span> Regional</h3>
+<pre class="r"><code>cant_inv_budget_sub &lt;- cant_inv_budget %&gt;%
+  filter(Version_ID %in% Version_IDs[c(1,9,10)]) %&gt;% 
+  mutate(MLR_target = as.factor(MLR_target))
+
+cant_inv_budget_sub %&gt;%
+  ggplot(aes(data_source, cant_total/duration, fill = basin_AIP)) +
+  scale_fill_brewer(palette = &quot;PuBuGn&quot;) +
+  geom_col(col = &quot;black&quot;) +
+  labs(y = expression(Uptake~rate ~ (PgC ~ yr ^ {-1}))) +
+  facet_grid(MLR_target ~ .)</code></pre>
+<p><img src="figure/column_inventories.Rmd/budgets_regional_MLR_target-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="global-4" class="section level3" number="6.2.2">
+<h3 number="6.2.2"><span class="header-section-number">6.2.2</span> Global</h3>
+<pre class="r"><code>cant_inv_budget_sub %&gt;%
+  filter(data_source == &quot;obs&quot;) %&gt;% 
+  group_by(MLR_target) %&gt;% 
+  summarise(rate = sum(cant_total/duration)) %&gt;% 
+  ungroup() %&gt;% 
+  ggplot(aes(NA, rate, fill = MLR_target)) +
+  geom_bar(stat=&quot;identity&quot;, position=position_dodge(), col=&quot;black&quot;) +
+  scale_y_continuous() +
+  labs(y = expression(Uptake~rate ~ (PgC ~ yr ^ {-1}))) +
+  scale_fill_brewer(palette = &quot;PuBuGn&quot;) +
+  theme(axis.text.x = element_blank(),
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank())</code></pre>
+<p><img src="figure/column_inventories.Rmd/budget_global_MLR_target-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>rm(cant_inv_budget_sub)</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
