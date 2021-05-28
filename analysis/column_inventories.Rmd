@@ -35,6 +35,7 @@ path_preprocessing_model    <-
 
 ```{r load_libraries_specific, include = FALSE}
 library(patchwork)
+library(marelac)
 ```
 
 # Data sources
@@ -50,6 +51,7 @@ Version_IDs <- list.files(
   path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
   pattern = "v_1")
 
+Version_IDs <- Version_IDs[1:8]
 
 for (i_Version_IDs in Version_IDs) {
   # i_Version_IDs <- Version_IDs[1]
@@ -111,14 +113,6 @@ for (i_Version_IDs in Version_IDs) {
 ```
 
 
-```{r read_params_local, include = FALSE, eval=FALSE}
-params_local <-
-  read_rds(
-    "/UP_home/jenmueller/Projects/emlr_cant/observations/emlr_obs_v_XXX/data/auxillary/params_local.rds"
-  )
-```
-
-
 ```{r filter_standard_inventory_depth}
 
 cant_inv_all <- cant_inv_all %>%
@@ -127,7 +121,7 @@ cant_inv_all <- cant_inv_all %>%
 ```
 
 
-```{r column_inventory_maps}
+```{r column_inventory_maps_output, fig.asp=1.2}
 
 cant_inv_all_bias <- cant_inv_all %>%
   select(lat, lon, data_source, Version_ID, dup_era1, MLR_basins, cant_inv) %>%
@@ -136,6 +130,54 @@ cant_inv_all_bias <- cant_inv_all %>%
   mutate(cant_bias = mod - mod_truth) %>%
   drop_na()
 
+cant_inv_all_bias %>%
+  p_map_cant_inv(var = "obs",
+                 col = "divergent") +
+  facet_grid(MLR_basins ~ dup_era1)
+
+
+cant_inv_all_bias %>%
+  p_map_cant_inv(var = "cant_bias",
+                 col = "divergent",
+                 subtitle_text = "data_source: mod - mod_truth") +
+  facet_grid(MLR_basins ~ dup_era1)
+
+```
+
+```{r budgets, fig.asp=1.2}
+
+cant_inv_budget <- cant_inv_all %>% 
+  mutate(surface_area = earth_surf(lat, lon),
+         cant_inv_grid = cant_inv*surface_area,
+         cant_pos_inv_grid = cant_pos_inv*surface_area) %>% 
+  group_by(basin_AIP, data_source, Version_ID, MLR_basins, dup_era1) %>% 
+  summarise(cant_total = sum(cant_inv_grid)*12*1e-15,
+            cant_total = round(cant_total,1),
+            cant_pos_total = sum(cant_pos_inv_grid)*12*1e-15,
+            cant_pos_total = round(cant_pos_total,1)) %>% 
+  ungroup()
+
+# cant_inv_budget %>%  
+#   group_by(data_source, Version_ID) %>% 
+#   summarise(cant_total = sum(cant_total),
+#             cant_total = round(cant_total,1),
+#             cant_pos_total = sum(cant_pos_total),
+#             cant_pos_total = round(cant_pos_total,1),
+#             cant_total_rate = cant_total / duration,
+#             cant_pos_total_rate = cant_pos_total / duration) %>% 
+#   ungroup()
+
+cant_inv_budget %>%
+  ggplot(aes(data_source, cant_total, fill = basin_AIP)) +
+  scale_fill_brewer(palette = "Dark2") +
+  geom_col() +
+  facet_grid(MLR_basins ~ dup_era1)
+
+```
+
+
+
+```{r column_inventory_maps, eval=FALSE}
 
 cant_inv_all %>%
   filter(data_source == "obs") %>% 
@@ -161,19 +203,4 @@ cant_inv_all_bias %>%
 
 ```
 
-```{r column_inventory_maps_output, fig.asp=1.2}
-
-cant_inv_all_bias %>%
-  p_map_cant_inv(var = "obs",
-                 col = "divergent") +
-  facet_grid(MLR_basins ~ dup_era1)
-
-
-cant_inv_all_bias %>%
-  p_map_cant_inv(var = "cant_bias",
-                 col = "divergent",
-                 subtitle_text = "data_source: mod - mod_truth") +
-  facet_grid(MLR_basins ~ dup_era1)
-
-```
 
