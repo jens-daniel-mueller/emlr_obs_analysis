@@ -84,12 +84,22 @@ for (i_Version_IDs in Version_IDs) {
                    "params_local.rds",
                    sep = ""))
   
-  params_local <- bind_cols(Version_ID = i_Version_IDs,
-            MLR_basins = params_local$MLR_basins,
-            dup_era1 = str_c(params_local$dup_era1, collapse = "-"))
+  params_local <- bind_cols(
+    Version_ID = i_Version_IDs,
+    MLR_basins = params_local$MLR_basins,
+    dup_era1 = str_c(params_local$dup_era1, collapse = "-")
+  )
   
   cant_inv <- full_join(cant_inv, params_local)
   
+  tref <- read_csv(paste(path_version_data,
+                         "tref.csv",
+                         sep = ""))
+  
+  duration <- sort(tref$median_year)[2] - sort(tref$median_year)[1]
+  
+  cant_inv <- cant_inv %>% 
+    mutate(duration = duration)
   
   if (exists("cant_inv_all")) {
     cant_inv_all <- bind_rows(cant_inv_all, cant_inv)
@@ -103,13 +113,6 @@ for (i_Version_IDs in Version_IDs) {
 }
 
 
-
-# tref <-
-#   read_csv(paste(path_version_data,
-#                  "tref.csv",
-#                  sep = ""))
-
-
 ```
 
 
@@ -121,7 +124,7 @@ cant_inv_all <- cant_inv_all %>%
 ```
 
 
-```{r column_inventory_maps_output, fig.asp=1.2}
+```{r column_inventory_maps_output, fig.asp=1}
 
 cant_inv_all_bias <- cant_inv_all %>%
   select(lat, lon, data_source, Version_ID, dup_era1, MLR_basins, cant_inv) %>%
@@ -144,34 +147,49 @@ cant_inv_all_bias %>%
 
 ```
 
-```{r budgets, fig.asp=1.2}
+```{r budgets_regional, fig.asp=1}
 
 cant_inv_budget <- cant_inv_all %>% 
   mutate(surface_area = earth_surf(lat, lon),
          cant_inv_grid = cant_inv*surface_area,
          cant_pos_inv_grid = cant_pos_inv*surface_area) %>% 
-  group_by(basin_AIP, data_source, Version_ID, MLR_basins, dup_era1) %>% 
+  group_by(basin_AIP, data_source, Version_ID, MLR_basins, dup_era1, duration) %>% 
   summarise(cant_total = sum(cant_inv_grid)*12*1e-15,
             cant_total = round(cant_total,1),
             cant_pos_total = sum(cant_pos_inv_grid)*12*1e-15,
             cant_pos_total = round(cant_pos_total,1)) %>% 
   ungroup()
 
-# cant_inv_budget %>%  
-#   group_by(data_source, Version_ID) %>% 
-#   summarise(cant_total = sum(cant_total),
-#             cant_total = round(cant_total,1),
-#             cant_pos_total = sum(cant_pos_total),
-#             cant_pos_total = round(cant_pos_total,1),
-#             cant_total_rate = cant_total / duration,
-#             cant_pos_total_rate = cant_pos_total / duration) %>% 
-#   ungroup()
+cant_inv_budget %>%
+  group_by(data_source, Version_ID) %>%
+  summarise(cant_total = sum(cant_total),
+            cant_total = round(cant_total,1),
+            cant_pos_total = sum(cant_pos_total),
+            cant_pos_total = round(cant_pos_total,1),
+            cant_total_rate = cant_total / duration,
+            cant_pos_total_rate = cant_pos_total / duration) %>%
+  ungroup()
 
 cant_inv_budget %>%
-  ggplot(aes(data_source, cant_total, fill = basin_AIP)) +
+  ggplot(aes(data_source, cant_total/duration, fill = basin_AIP)) +
   scale_fill_brewer(palette = "Dark2") +
   geom_col() +
   facet_grid(MLR_basins ~ dup_era1)
+
+```
+
+
+```{r budget_global}
+
+cant_inv_budget %>%
+  filter(data_source == "obs") %>% 
+  group_by(MLR_basins, dup_era1) %>% 
+  summarise(rate = sum(cant_total/duration)) %>% 
+  ungroup() %>% 
+  ggplot(aes(dup_era1, rate, fill=MLR_basins)) +
+  geom_bar(stat="identity", position=position_dodge()) +
+  scale_y_continuous() +
+  scale_fill_brewer(palette = "Set1")
 
 ```
 
