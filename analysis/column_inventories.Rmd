@@ -37,7 +37,9 @@ path_preprocessing_model    <-
 library(marelac)
 ```
 
-# Load data
+# Data preparation
+
+## Load data
 
 ```{r read_files}
 
@@ -117,6 +119,7 @@ cant_inv_all <- cant_inv_all %>%
 
 ```
 
+## Format column inventories
 
 ```{r filter_standard_inventory_depth}
 
@@ -137,6 +140,8 @@ cant_inv_all_bias <- cant_inv_all %>%
   drop_na()
 
 ```
+
+## Calculate budgets
 
 ```{r calc_budgets}
 
@@ -171,7 +176,7 @@ cant_inv_budget %>%
 
 ## Column inventories
 
-```{r column_inventory_maps_output, fig.asp=1}
+```{r column_inventory_maps_regions_eras, fig.asp=1}
 
 cant_inv_all_bias_sub <- cant_inv_all_bias %>%
   filter(Version_ID %in% Version_IDs[1:8])
@@ -197,14 +202,14 @@ rm(cant_inv_all_bias_sub)
 
 ### Regional
 
-```{r budgets_regional, fig.asp=1}
+```{r budgets_regional_regions_eras, fig.asp=1}
 
 cant_inv_budget_sub <- cant_inv_budget %>%
   filter(Version_ID %in% Version_IDs[1:8])
 
 cant_inv_budget_sub %>%
   ggplot(aes(data_source, cant_total/duration, fill = basin_AIP)) +
-  scale_fill_brewer(palette = "Dark2") +
+  scale_fill_brewer(palette = "PuBuGn") +
   geom_col() +
   labs(y = expression(Uptake~rate ~ (PgC ~ yr ^ {-1}))) +
   facet_grid(MLR_basins ~ era_duplication)
@@ -213,7 +218,7 @@ cant_inv_budget_sub %>%
 
 ### Global
 
-```{r budget_global}
+```{r budget_global_regions_eras}
 
 cant_inv_budget_sub %>%
   filter(data_source == "obs") %>% 
