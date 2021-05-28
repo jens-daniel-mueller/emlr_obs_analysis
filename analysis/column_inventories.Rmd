@@ -34,7 +34,6 @@ path_preprocessing_model    <-
 ```
 
 ```{r load_libraries_specific, include = FALSE}
-library(patchwork)
 library(marelac)
 ```
 
@@ -112,6 +111,11 @@ for (i_Version_IDs in Version_IDs) {
   
 }
 
+rm(cant_inv)
+
+cant_inv_all <- cant_inv_all %>% 
+  rename(era_duplication = dup_era1) %>% 
+  mutate(era_duplication = if_else(era_duplication == "2009-2009", "non-overlapping eras", "overlapping eras"))
 
 ```
 
@@ -127,7 +131,7 @@ cant_inv_all <- cant_inv_all %>%
 ```{r column_inventory_maps_output, fig.asp=1}
 
 cant_inv_all_bias <- cant_inv_all %>%
-  select(lat, lon, data_source, Version_ID, dup_era1, MLR_basins, cant_inv) %>%
+  select(lat, lon, data_source, Version_ID, era_duplication, MLR_basins, cant_inv) %>%
   pivot_wider(names_from = data_source,
               values_from = cant_inv) %>%
   mutate(cant_bias = mod - mod_truth) %>%
@@ -135,15 +139,16 @@ cant_inv_all_bias <- cant_inv_all %>%
 
 cant_inv_all_bias %>%
   p_map_cant_inv(var = "obs",
-                 col = "divergent") +
-  facet_grid(MLR_basins ~ dup_era1)
+                 col = "divergent",
+                 subtitle_text = "data_source: observations") +
+  facet_grid(MLR_basins ~ era_duplication)
 
 
 cant_inv_all_bias %>%
   p_map_cant_inv(var = "cant_bias",
-                 col = "divergent",
+                 col = "bias",
                  subtitle_text = "data_source: mod - mod_truth") +
-  facet_grid(MLR_basins ~ dup_era1)
+  facet_grid(MLR_basins ~ era_duplication)
 
 ```
 
@@ -153,7 +158,7 @@ cant_inv_budget <- cant_inv_all %>%
   mutate(surface_area = earth_surf(lat, lon),
          cant_inv_grid = cant_inv*surface_area,
          cant_pos_inv_grid = cant_pos_inv*surface_area) %>% 
-  group_by(basin_AIP, data_source, Version_ID, MLR_basins, dup_era1, duration) %>% 
+  group_by(basin_AIP, data_source, Version_ID, MLR_basins, era_duplication, duration) %>% 
   summarise(cant_total = sum(cant_inv_grid)*12*1e-15,
             cant_total = round(cant_total,1),
             cant_pos_total = sum(cant_pos_inv_grid)*12*1e-15,
@@ -174,7 +179,8 @@ cant_inv_budget %>%
   ggplot(aes(data_source, cant_total/duration, fill = basin_AIP)) +
   scale_fill_brewer(palette = "Dark2") +
   geom_col() +
-  facet_grid(MLR_basins ~ dup_era1)
+  labs(y = expression(Uptake~rate ~ (PgC ~ yr ^ {-1}))) +
+  facet_grid(MLR_basins ~ era_duplication)
 
 ```
 
@@ -183,12 +189,14 @@ cant_inv_budget %>%
 
 cant_inv_budget %>%
   filter(data_source == "obs") %>% 
-  group_by(MLR_basins, dup_era1) %>% 
+  group_by(MLR_basins, era_duplication) %>% 
   summarise(rate = sum(cant_total/duration)) %>% 
   ungroup() %>% 
-  ggplot(aes(dup_era1, rate, fill=MLR_basins)) +
-  geom_bar(stat="identity", position=position_dodge()) +
+  ggplot(aes(era_duplication, rate, fill=MLR_basins)) +
+  geom_bar(stat="identity", position=position_dodge(), col="black") +
   scale_y_continuous() +
+  labs(y = expression(Uptake~rate ~ (PgC ~ yr ^ {-1})),
+       x = "") +
   scale_fill_brewer(palette = "Set1")
 
 ```
