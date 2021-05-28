@@ -545,16 +545,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree3c6f0f492558327d022845264c474fabc914db9ftargetblank3c6f0f4a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/3c6f0f492558327d022845264c474fabc914db9f" target="_blank">3c6f0f4</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree87a8c49216411e226b96d9a8a7450f71aa573513targetblank87a8c49a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/87a8c49216411e226b96d9a8a7450f71aa573513" target="_blank">87a8c49</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree3c6f0f492558327d022845264c474fabc914db9ftargetblank3c6f0f4a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree87a8c49216411e226b96d9a8a7450f71aa573513targetblank87a8c49a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/3c6f0f492558327d022845264c474fabc914db9f" target="_blank">3c6f0f4</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/87a8c49216411e226b96d9a8a7450f71aa573513" target="_blank">87a8c49</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -607,6 +607,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/87a8c49216411e226b96d9a8a7450f71aa573513/analysis/column_inventories.Rmd" target="_blank">87a8c49</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-05-28
+</td>
+<td>
+plotted Canyon B max
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/998f4a66995b08afa6f44770cc46bb5545f80213/docs/column_inventories.html" target="_blank">998f4a6</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-05-28
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1131,12 +1165,86 @@ cant_inv_all_bias_sub %&gt;%
                  subtitle_text = &quot;data_source: observations&quot;) +
   facet_grid(MLR_basins ~ era_duplication)</code></pre>
 <p><img src="figure/column_inventories.Rmd/column_inventory_maps_regions_eras-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-column_inventory_maps_regions_eras-1">
+Past versions of column_inventory_maps_regions_eras-1.png
+</button>
+</p>
+<div id="fig-column_inventory_maps_regions_eras-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/998f4a66995b08afa6f44770cc46bb5545f80213/docs/figure/column_inventories.Rmd/column_inventory_maps_regions_eras-1.png" target="_blank">998f4a6</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-05-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>cant_inv_all_bias_sub %&gt;%
   p_map_cant_inv(var = &quot;cant_bias&quot;,
                  col = &quot;bias&quot;,
                  subtitle_text = &quot;data_source: mod - mod_truth&quot;) +
   facet_grid(MLR_basins ~ era_duplication)</code></pre>
 <p><img src="figure/column_inventories.Rmd/column_inventory_maps_regions_eras-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-column_inventory_maps_regions_eras-2">
+Past versions of column_inventory_maps_regions_eras-2.png
+</button>
+</p>
+<div id="fig-column_inventory_maps_regions_eras-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/998f4a66995b08afa6f44770cc46bb5545f80213/docs/figure/column_inventories.Rmd/column_inventory_maps_regions_eras-2.png" target="_blank">998f4a6</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-05-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>rm(cant_inv_all_bias_sub)</code></pre>
 </div>
 <div id="budgets" class="section level2" number="2.2">
@@ -1149,10 +1257,47 @@ cant_inv_all_bias_sub %&gt;%
 cant_inv_budget_sub %&gt;%
   ggplot(aes(data_source, cant_total/duration, fill = basin_AIP)) +
   scale_fill_brewer(palette = &quot;PuBuGn&quot;) +
-  geom_col() +
+  geom_col(col = &quot;black&quot;) +
   labs(y = expression(Uptake~rate ~ (PgC ~ yr ^ {-1}))) +
   facet_grid(MLR_basins ~ era_duplication)</code></pre>
 <p><img src="figure/column_inventories.Rmd/budgets_regional_regions_eras-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-budgets_regional_regions_eras-1">
+Past versions of budgets_regional_regions_eras-1.png
+</button>
+</p>
+<div id="fig-budgets_regional_regions_eras-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/998f4a66995b08afa6f44770cc46bb5545f80213/docs/figure/column_inventories.Rmd/budgets_regional_regions_eras-1.png" target="_blank">998f4a6</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-05-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="global" class="section level3" number="2.2.2">
 <h3 number="2.2.2"><span class="header-section-number">2.2.2</span> Global</h3>
@@ -1168,14 +1313,101 @@ cant_inv_budget_sub %&gt;%
        x = &quot;&quot;) +
   scale_fill_brewer(palette = &quot;PuBuGn&quot;)</code></pre>
 <p><img src="figure/column_inventories.Rmd/budget_global_regions_eras-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-budget_global_regions_eras-1">
+Past versions of budget_global_regions_eras-1.png
+</button>
+</p>
+<div id="fig-budget_global_regions_eras-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/998f4a66995b08afa6f44770cc46bb5545f80213/docs/figure/column_inventories.Rmd/budget_global_regions_eras-1.png" target="_blank">998f4a6</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-05-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>rm(cant_inv_all_bias_sub)</code></pre>
 </div>
 </div>
 </div>
-<div id="cleaning-operations" class="section level1" number="3">
-<h1 number="3"><span class="header-section-number">3</span> Cleaning operations</h1>
-<div id="canyon-b" class="section level2" number="3.1">
-<h2 number="3.1"><span class="header-section-number">3.1</span> CANYON-B</h2>
+<div id="canyon-b-threshold" class="section level1" number="3">
+<h1 number="3"><span class="header-section-number">3</span> CANYON-B threshold</h1>
+<div id="column-inventories-1" class="section level2" number="3.1">
+<h2 number="3.1"><span class="header-section-number">3.1</span> Column inventories</h2>
+<pre class="r"><code>cant_inv_all_bias_sub &lt;- cant_inv_all_bias %&gt;%
+  filter(Version_ID %in% Version_IDs[c(1,11,12)])
+
+cant_inv_all_bias_sub %&gt;% 
+  p_map_cant_inv(var = &quot;obs&quot;,
+                 col = &quot;divergent&quot;,
+                 subtitle_text = &quot;data_source: observations&quot;) +
+  facet_grid(CANYON_B_max ~ .)</code></pre>
+<p><img src="figure/column_inventories.Rmd/column_inventory_maps_CANYON_B_max-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>cant_inv_all_bias_sub %&gt;%
+  p_map_cant_inv(var = &quot;cant_bias&quot;,
+                 col = &quot;bias&quot;,
+                 subtitle_text = &quot;data_source: mod - mod_truth&quot;) +
+  facet_grid(CANYON_B_max ~ .)</code></pre>
+<p><img src="figure/column_inventories.Rmd/column_inventory_maps_CANYON_B_max-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>rm(cant_inv_all_bias_sub)</code></pre>
+</div>
+<div id="budgets-1" class="section level2" number="3.2">
+<h2 number="3.2"><span class="header-section-number">3.2</span> Budgets</h2>
+<div id="regional-1" class="section level3" number="3.2.1">
+<h3 number="3.2.1"><span class="header-section-number">3.2.1</span> Regional</h3>
+<pre class="r"><code>cant_inv_budget_sub &lt;- cant_inv_budget %&gt;%
+  filter(Version_ID %in% Version_IDs[c(1,11,12)]) %&gt;% 
+  mutate(CANYON_B_max = as.factor(CANYON_B_max))
+
+cant_inv_budget_sub %&gt;%
+  ggplot(aes(data_source, cant_total/duration, fill = basin_AIP)) +
+  scale_fill_brewer(palette = &quot;PuBuGn&quot;) +
+  geom_col(col = &quot;black&quot;) +
+  labs(y = expression(Uptake~rate ~ (PgC ~ yr ^ {-1}))) +
+  facet_grid(CANYON_B_max ~ .)</code></pre>
+<p><img src="figure/column_inventories.Rmd/budgets_regional_CANYON_B_max-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="global-1" class="section level3" number="3.2.2">
+<h3 number="3.2.2"><span class="header-section-number">3.2.2</span> Global</h3>
+<pre class="r"><code>cant_inv_budget_sub %&gt;%
+  filter(data_source == &quot;obs&quot;) %&gt;% 
+  group_by(CANYON_B_max) %&gt;% 
+  summarise(rate = sum(cant_total/duration)) %&gt;% 
+  ungroup() %&gt;% 
+  ggplot(aes(NA, rate, fill = CANYON_B_max)) +
+  geom_bar(stat=&quot;identity&quot;, position=position_dodge(), col=&quot;black&quot;) +
+  scale_y_continuous() +
+  labs(y = expression(Uptake~rate ~ (PgC ~ yr ^ {-1}))) +
+  scale_fill_brewer(palette = &quot;PuBuGn&quot;) +
+  theme(axis.text.x = element_blank(),
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank())</code></pre>
+<p><img src="figure/column_inventories.Rmd/budget_global_CANYON_B_max-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>rm(cant_inv_all_bias_sub)</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1234,6 +1466,7 @@ loaded via a namespace (and not attached):
 [64] rprojroot_2.0.2          stringi_1.5.3            parallel_4.0.3          
 [67] Rcpp_1.0.5               vctrs_0.3.5              dbplyr_1.4.4            
 [70] tidyselect_1.1.0         xfun_0.18               </code></pre>
+</div>
 </div>
 </div>
 </div>
