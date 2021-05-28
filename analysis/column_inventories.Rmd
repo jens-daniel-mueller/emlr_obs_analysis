@@ -210,7 +210,7 @@ cant_inv_budget_sub <- cant_inv_budget %>%
 cant_inv_budget_sub %>%
   ggplot(aes(data_source, cant_total/duration, fill = basin_AIP)) +
   scale_fill_brewer(palette = "PuBuGn") +
-  geom_col() +
+  geom_col(col = "black") +
   labs(y = expression(Uptake~rate ~ (PgC ~ yr ^ {-1}))) +
   facet_grid(MLR_basins ~ era_duplication)
 
@@ -237,7 +237,72 @@ rm(cant_inv_all_bias_sub)
 ```
 
 
-# Cleaning operations
+# CANYON-B threshold
 
-## CANYON-B
+## Column inventories
+
+```{r column_inventory_maps_CANYON_B_max, fig.asp=1}
+
+cant_inv_all_bias_sub <- cant_inv_all_bias %>%
+  filter(Version_ID %in% Version_IDs[c(1,11,12)])
+
+cant_inv_all_bias_sub %>% 
+  p_map_cant_inv(var = "obs",
+                 col = "divergent",
+                 subtitle_text = "data_source: observations") +
+  facet_grid(CANYON_B_max ~ .)
+
+
+cant_inv_all_bias_sub %>%
+  p_map_cant_inv(var = "cant_bias",
+                 col = "bias",
+                 subtitle_text = "data_source: mod - mod_truth") +
+  facet_grid(CANYON_B_max ~ .)
+
+rm(cant_inv_all_bias_sub)
+
+```
+
+## Budgets
+
+### Regional
+
+```{r budgets_regional_CANYON_B_max, fig.asp=1}
+
+cant_inv_budget_sub <- cant_inv_budget %>%
+  filter(Version_ID %in% Version_IDs[c(1,11,12)]) %>% 
+  mutate(CANYON_B_max = as.factor(CANYON_B_max))
+
+cant_inv_budget_sub %>%
+  ggplot(aes(data_source, cant_total/duration, fill = basin_AIP)) +
+  scale_fill_brewer(palette = "PuBuGn") +
+  geom_col(col = "black") +
+  labs(y = expression(Uptake~rate ~ (PgC ~ yr ^ {-1}))) +
+  facet_grid(CANYON_B_max ~ .)
+
+```
+
+### Global
+
+```{r budget_global_CANYON_B_max}
+
+cant_inv_budget_sub %>%
+  filter(data_source == "obs") %>% 
+  group_by(CANYON_B_max) %>% 
+  summarise(rate = sum(cant_total/duration)) %>% 
+  ungroup() %>% 
+  ggplot(aes(NA, rate, fill = CANYON_B_max)) +
+  geom_bar(stat="identity", position=position_dodge(), col="black") +
+  scale_y_continuous() +
+  labs(y = expression(Uptake~rate ~ (PgC ~ yr ^ {-1}))) +
+  scale_fill_brewer(palette = "PuBuGn") +
+  theme(axis.text.x = element_blank(),
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank())
+
+rm(cant_inv_all_bias_sub)
+
+```
+
+
 
