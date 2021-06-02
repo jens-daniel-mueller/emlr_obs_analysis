@@ -37,6 +37,8 @@ path_preprocessing_model    <-
 library(marelac)
 ```
 
+# GLODAPv2.2020
+
 # Data preparation
 
 ## Load data
@@ -518,7 +520,9 @@ rm(cant_inv_budget_sub)
 
 ```{r read_files_2021_beta}
 
-rm("cant_inv_all")
+cant_inv_all <- cant_inv_all %>% 
+  select(-era_duplication) %>% 
+  mutate(GLODAPv2_version = "2020")
 
 Version_IDs <- list.files(
   path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
@@ -560,11 +564,11 @@ for (i_Version_IDs in Version_IDs) {
   params_local <- bind_cols(
     Version_ID = i_Version_IDs,
     MLR_basins = params_local$MLR_basins,
-    dup_era1 = str_c(params_local$dup_era1, collapse = "-"),
     MLR_target = params_local$MLR_target,
     CANYON_B_max = params_local$CANYON_B_max,
     c_star_rmse_max = params_local$c_star_rmse_max,
-    vif_max = params_local$vif_max
+    vif_max = params_local$vif_max,
+    GLODAPv2_version = params_local$GLODAPv2_version
   )
   
   cant_inv <- full_join(cant_inv, params_local)
@@ -591,10 +595,6 @@ for (i_Version_IDs in Version_IDs) {
 
 rm(cant_inv)
 
-cant_inv_all <- cant_inv_all %>% 
-  rename(era_duplication = dup_era1) %>% 
-  mutate(era_duplication = if_else(era_duplication == "2009-2009", "non-overlapping eras", "overlapping eras"))
-
 ```
 
 ## Format column inventories
@@ -610,7 +610,7 @@ cant_inv_all <- cant_inv_all %>%
 
 cant_inv_all_bias <- cant_inv_all %>%
   select(lat, lon, data_source, cant_inv, Version_ID, 
-         era_duplication, MLR_basins,
+         GLODAPv2_version, MLR_basins,
          MLR_target, CANYON_B_max, vif_max, c_star_rmse_max) %>%
   pivot_wider(names_from = data_source,
               values_from = cant_inv) %>%
@@ -629,7 +629,7 @@ cant_inv_budget <- cant_inv_all %>%
          cant_pos_inv_grid = cant_pos_inv*surface_area) %>% 
   group_by(basin_AIP, data_source,
            Version_ID, MLR_basins,
-           era_duplication, duration,
+           GLODAPv2_version, duration,
            MLR_target, CANYON_B_max, vif_max, c_star_rmse_max) %>% 
   summarise(cant_total = sum(cant_inv_grid)*12*1e-15,
             cant_total = round(cant_total,1),
@@ -657,22 +657,23 @@ cant_inv_budget %>%
 ```{r column_inventory_maps_regions_eras_2021_beta, fig.asp=1}
 
 cant_inv_all_bias_sub <- cant_inv_all_bias %>%
-  filter(Version_ID %in% Version_IDs[1:8])
+  filter(Version_ID %in% c("v_101", "v_102", "v_103", "v_104",
+                           "v_201", "v_202", "v_203", "v_204"))
+
 
 cant_inv_all_bias_sub %>% 
   p_map_cant_inv(var = "obs",
                  col = "divergent",
                  subtitle_text = "data_source: observations") +
-  facet_grid(MLR_basins ~ era_duplication)
+  facet_grid(MLR_basins ~ GLODAPv2_version)
 
 
 cant_inv_all_bias_sub %>%
   p_map_cant_inv(var = "cant_bias",
                  col = "divergent",
                  subtitle_text = "data_source: mod - mod_truth") +
-  facet_grid(MLR_basins ~ era_duplication)
+  facet_grid(MLR_basins ~ GLODAPv2_version)
 
-rm(cant_inv_all_bias_sub)
 
 ```
 
@@ -683,14 +684,14 @@ rm(cant_inv_all_bias_sub)
 ```{r budgets_regional_regions_eras_2021_beta, fig.asp=1}
 
 cant_inv_budget_sub <- cant_inv_budget %>%
-  filter(Version_ID %in% Version_IDs[1:8])
+  filter(Version_ID %in% unique(cant_inv_all_bias_sub$Version_ID))
 
 cant_inv_budget_sub %>%
   ggplot(aes(data_source, cant_total/duration, fill = basin_AIP)) +
   scale_fill_brewer(palette = "PuBuGn") +
   geom_col(col = "black") +
   labs(y = expression(Uptake~rate ~ (PgC ~ yr ^ {-1}))) +
-  facet_grid(MLR_basins ~ era_duplication)
+  facet_grid(MLR_basins ~ GLODAPv2_version)
 
 ```
 
@@ -700,10 +701,10 @@ cant_inv_budget_sub %>%
 
 cant_inv_budget_sub %>%
   filter(data_source == "obs") %>% 
-  group_by(MLR_basins, era_duplication) %>% 
+  group_by(MLR_basins, GLODAPv2_version) %>% 
   summarise(rate = sum(cant_total/duration)) %>% 
   ungroup() %>% 
-  ggplot(aes(era_duplication, rate, fill=MLR_basins)) +
+  ggplot(aes(GLODAPv2_version, rate, fill=MLR_basins)) +
   geom_bar(stat="identity", position=position_dodge(), col="black") +
   scale_y_continuous() +
   labs(y = expression(Uptake~rate ~ (PgC ~ yr ^ {-1})),
