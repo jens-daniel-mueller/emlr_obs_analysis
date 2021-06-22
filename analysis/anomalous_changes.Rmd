@@ -1,0 +1,188 @@
+---
+title: "Anomalous changes"
+author: "Jens Daniel Müller"
+date:  "`r format(Sys.time(), '%d %B, %Y')`"
+output: 
+  workflowr::wflow_html:
+    number_sections: true
+    toc_depth: 3
+    toc_float:
+      collapsed: false
+editor_options:
+  chunk_output_type: console
+---
+
+```{r parent, child = "/nfs/kryo/work/jenmueller/emlr_cant/utilities/setup.Rmd"}
+# this chunk runs the code stored in setup.Rmd
+# if required, please refer to instructions given here:
+# https://jdblischak.github.io/workflowr/articles/wflow-07-common-code.html
+```
+
+```{r define_paths, include = FALSE}
+
+# only path_observations needs to be changed to model
+path_observations <-
+  paste(path_root, "/observations/", sep = "")
+
+path_preprocessing    <-
+  paste(path_observations, "preprocessing/", sep = "")
+
+
+path_preprocessing_model    <-
+  paste(path_root, "/model/preprocessing/", sep = "")
+
+```
+
+```{r load_libraries_specific, include = FALSE}
+library(marelac)
+```
+
+# Data preparation
+
+## Load data
+
+```{r read_cant_inv_files}
+
+Version_IDs <- list.files(
+  path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+  pattern = "v_2")
+
+Version_IDs <- Version_IDs[5:12]
+
+for (i_Version_IDs in Version_IDs) {
+  # i_Version_IDs <- Version_IDs[1]
+  
+  print(i_Version_IDs)
+  
+  path_version_data     <-
+  paste(path_observations,
+        i_Version_IDs,
+        "/data/",
+        sep = "")
+  
+  cant_inv <-
+    read_csv(paste(path_version_data,
+                   "anom_cant_mod_inv_bias.csv",
+                   sep = ""))
+  
+  cant_inv <- cant_inv %>% 
+    mutate(Version_ID = i_Version_IDs)
+  
+  params_local <-
+    read_rds(paste(path_version_data,
+                   "params_local.rds",
+                   sep = ""))
+  
+  params_local <- bind_cols(
+    Version_ID = i_Version_IDs,
+    MLR_basins = params_local$MLR_basins
+  )
+  
+  cant_inv <- full_join(cant_inv, params_local)
+  
+  tref <- read_csv(paste(path_version_data,
+                         "tref.csv",
+                         sep = ""))
+  
+  duration <- sort(tref$median_year)[2] - sort(tref$median_year)[1]
+  eras <- paste0(sort(tref$median_year)[1],"-", sort(tref$median_year)[2])
+  
+  cant_inv <- cant_inv %>% 
+    mutate(duration = duration,
+           eras = eras)
+  
+  if (exists("cant_inv_all")) {
+    cant_inv_all <- bind_rows(cant_inv_all, cant_inv)
+  }
+  
+  if (!exists("cant_inv_all")) {
+    cant_inv_all <- cant_inv
+  }
+  
+  
+}
+
+rm(cant_inv)
+
+```
+
+## Format column inventories
+
+```{r filter_standard_inventory_depth, eval=FALSE}
+
+cant_inv_all <- cant_inv_all %>%
+  filter(inv_depth == params_global$inventory_depth_standard)
+
+```
+
+```{r calc_column_inventories_2021_beta}
+
+cant_inv_all_long <- cant_inv_all %>%
+  pivot_longer(emlr_VS_ss_tss:nss_mod_truth_VS_ss_tss,
+               names_to = "estimate",
+               values_to = "delta_cant_offset")
+```
+
+
+## Column inventories
+
+```{r column_inventory_maps_regions_eras}
+
+cant_inv_all_long %>%
+  group_split(eras) %>%
+  # head(1) %>%
+  map(
+    ~ p_map_cant_inv_offset(
+      df = .x,
+      var = "delta_cant_offset",
+      # col = "divergent",
+      subtitle_text = paste("Eras:", unique(.x$eras)),
+      breaks = seq(-8,8,1)
+    ) +
+      facet_grid(MLR_basins ~ estimate)
+  )
+
+
+```
+
+## Budgets
+
+### Regional
+
+```{r budgets_regional_regions_eras_2021_beta, eval=FALSE, fig.asp=1}
+
+cant_inv_budget_sub <- cant_inv_budget %>%
+  filter(Version_ID %in% unique(cant_inv_all_bias_sub$Version_ID))
+
+cant_inv_budget_sub %>%
+  ggplot(aes(data_source, cant_total/duration, fill = basin_AIP)) +
+  scale_fill_brewer(palette = "PuBuGn") +
+  geom_col(col = "black") +
+  labs(y = expression(Uptake~rate ~ (PgC ~ yr ^ {-1}))) +
+  facet_grid(MLR_basins ~ GLODAPv2_version)
+
+```
+
+### Global
+
+```{r budget_global_regions_eras_2021_beta, eval=FALSE}
+
+cant_inv_budget_sub %>%
+  filter(data_source == "obs") %>% 
+  group_by(MLR_basins, GLODAPv2_version) %>% 
+  summarise(rate = sum(cant_total/duration)) %>% 
+  ungroup() %>% 
+  ggplot(aes(GLODAPv2_version, rate, fill=MLR_basins)) +
+  geom_bar(stat="identity", position=position_dodge(), col="black") +
+  scale_y_continuous() +
+  labs(y = expression(Uptake~rate ~ (PgC ~ yr ^ {-1})),
+       x = "") +
+  scale_fill_brewer(palette = "PuBuGn")
+
+rm(cant_inv_budget_sub)
+
+```
+
+
+
+
