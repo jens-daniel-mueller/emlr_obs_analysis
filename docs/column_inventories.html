@@ -392,6 +392,9 @@ div.tocify {
   <a href="column_inventories.html">Column inventories</a>
 </li>
 <li>
+  <a href="anomalous_changes.html">Anomalous Changes</a>
+</li>
+<li>
   <a href="publication.html">Publication</a>
 </li>
       </ul>
@@ -429,7 +432,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Column inventories</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">02 June, 2021</h4>
+<h4 class="date">22 June, 2021</h4>
 
 </div>
 
@@ -454,7 +457,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-06-02
+<strong>Last updated:</strong> 2021-06-22
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -545,16 +548,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree9881e984f533fb123835277d5c07cc2f8f33c569targetblank9881e98a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/9881e984f533fb123835277d5c07cc2f8f33c569" target="_blank">9881e98</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree2d9fe3753ce2932815a70e90d82d9f3678047912targetblank2d9fe37a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/2d9fe3753ce2932815a70e90d82d9f3678047912" target="_blank">2d9fe37</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree9881e984f533fb123835277d5c07cc2f8f33c569targetblank9881e98a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree2d9fe3753ce2932815a70e90d82d9f3678047912targetblank2d9fe37a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/9881e984f533fb123835277d5c07cc2f8f33c569" target="_blank">9881e98</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/2d9fe3753ce2932815a70e90d82d9f3678047912" target="_blank">2d9fe37</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -569,6 +572,9 @@ Ignored files:
 
 Untracked files:
     Untracked:  code/Workflowr_project_managment.R
+
+Unstaged changes:
+    Modified:   analysis/_site.yml
 
 </code></pre>
 <p>
@@ -607,6 +613,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/8756c6f99df70a15cd629b89b1bc9b3ceb4f17cc/docs/column_inventories.html" target="_blank">8756c6f</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-06-02
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -2406,7 +2429,15 @@ for (i_Version_IDs in Version_IDs) {
 <pre><code>[1] &quot;v_201&quot;
 [1] &quot;v_202&quot;
 [1] &quot;v_203&quot;
-[1] &quot;v_204&quot;</code></pre>
+[1] &quot;v_204&quot;
+[1] &quot;v_205&quot;
+[1] &quot;v_206&quot;
+[1] &quot;v_207&quot;
+[1] &quot;v_208&quot;
+[1] &quot;v_209&quot;
+[1] &quot;v_210&quot;
+[1] &quot;v_211&quot;
+[1] &quot;v_212&quot;</code></pre>
 <pre class="r"><code>rm(cant_inv)</code></pre>
 </div>
 <div id="format-column-inventories-1" class="section level2" number="9.2">
@@ -2447,7 +2478,7 @@ cant_inv_budget %&gt;%
             cant_total_rate = cant_total / duration,
             cant_pos_total_rate = cant_pos_total / duration) %&gt;%
   ungroup()</code></pre>
-<pre><code># A tibble: 180 x 6
+<pre><code># A tibble: 252 x 6
    data_source Version_ID cant_total cant_pos_total cant_total_rate
    &lt;chr&gt;       &lt;chr&gt;           &lt;dbl&gt;          &lt;dbl&gt;           &lt;dbl&gt;
  1 mod         v_101            14.3           16              1.79
@@ -2460,7 +2491,7 @@ cant_inv_budget %&gt;%
  8 mod         v_103            18.8           20.1            2.35
  9 mod         v_103            18.8           20.1            2.35
 10 mod         v_104            17.2           18              2.15
-# … with 170 more rows, and 1 more variable: cant_pos_total_rate &lt;dbl&gt;</code></pre>
+# … with 242 more rows, and 1 more variable: cant_pos_total_rate &lt;dbl&gt;</code></pre>
 </div>
 </div>
 <div id="mlr-regions-and-era-overlap-1" class="section level1" number="10">
@@ -2500,6 +2531,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/8756c6f99df70a15cd629b89b1bc9b3ceb4f17cc/docs/figure/column_inventories.Rmd/column_inventory_maps_regions_eras_2021_beta-1.png" target="_blank">8756c6f</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-06-02
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/4d8b4e7fce49735901d368d7995bd55d422e50bc/docs/figure/column_inventories.Rmd/column_inventory_maps_regions_eras_2021_beta-1.png" target="_blank">4d8b4e7</a>
@@ -2543,6 +2585,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/8756c6f99df70a15cd629b89b1bc9b3ceb4f17cc/docs/figure/column_inventories.Rmd/column_inventory_maps_regions_eras_2021_beta-2.png" target="_blank">8756c6f</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-06-02
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/4d8b4e7fce49735901d368d7995bd55d422e50bc/docs/figure/column_inventories.Rmd/column_inventory_maps_regions_eras_2021_beta-2.png" target="_blank">4d8b4e7</a>
@@ -2597,6 +2650,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/8756c6f99df70a15cd629b89b1bc9b3ceb4f17cc/docs/figure/column_inventories.Rmd/budgets_regional_regions_eras_2021_beta-1.png" target="_blank">8756c6f</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-06-02
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/4d8b4e7fce49735901d368d7995bd55d422e50bc/docs/figure/column_inventories.Rmd/budgets_regional_regions_eras_2021_beta-1.png" target="_blank">4d8b4e7</a>
 </td>
 <td>
@@ -2647,6 +2711,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/8756c6f99df70a15cd629b89b1bc9b3ceb4f17cc/docs/figure/column_inventories.Rmd/budget_global_regions_eras_2021_beta-1.png" target="_blank">8756c6f</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-06-02
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/4d8b4e7fce49735901d368d7995bd55d422e50bc/docs/figure/column_inventories.Rmd/budget_global_regions_eras_2021_beta-1.png" target="_blank">4d8b4e7</a>
