@@ -254,7 +254,7 @@ legend_title <- expression(atop(Delta * C[ant, pos],
 
 cant_section_all_long %>%
   group_split(eras) %>% 
-  head(1) %>%
+  # head(1) %>%
   map(
     ~ ggplot(data = .x) +
       geom_contour_filled(aes(lat, depth, z = delta_cant_offset),
