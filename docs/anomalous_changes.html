@@ -548,16 +548,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree47093ed854adf59c9c24c6886101732430047090targetblank47093eda"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/47093ed854adf59c9c24c6886101732430047090" target="_blank">47093ed</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree26c67546ddb8edacab667da065343344d310d7aatargetblank26c6754a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/26c67546ddb8edacab667da065343344d310d7aa" target="_blank">26c6754</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree47093ed854adf59c9c24c6886101732430047090targetblank47093eda" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree26c67546ddb8edacab667da065343344d310d7aatargetblank26c6754a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/47093ed854adf59c9c24c6886101732430047090" target="_blank">47093ed</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/26c67546ddb8edacab667da065343344d310d7aa" target="_blank">26c6754</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -610,6 +610,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/26c67546ddb8edacab667da065343344d310d7aa/analysis/anomalous_changes.Rmd" target="_blank">26c6754</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-06-23
+</td>
+<td>
+new bias labels
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/4d6ce3e859a8d90c5ea85fdfb2ad8c7704d2622a/docs/anomalous_changes.html" target="_blank">4d6ce3e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-06-23
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -927,12 +961,12 @@ test build
 <h1 number="1"><span class="header-section-number">1</span> Data preparation</h1>
 <pre class="r"><code>Version_IDs &lt;- list.files(
   path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
-  pattern = &quot;v_2&quot;)</code></pre>
+  pattern = &quot;v_2&quot;)
+
+Version_IDs &lt;- Version_IDs[1:4]</code></pre>
 <div id="load-data" class="section level2" number="1.1">
 <h2 number="1.1"><span class="header-section-number">1.1</span> Load data</h2>
-<pre class="r"><code># Version_IDs &lt;- Version_IDs[5:12]
-
-for (i_Version_IDs in Version_IDs) {
+<pre class="r"><code>for (i_Version_IDs in Version_IDs) {
   # i_Version_IDs &lt;- Version_IDs[1]
   
   print(i_Version_IDs)
@@ -987,21 +1021,13 @@ for (i_Version_IDs in Version_IDs) {
 <pre><code>[1] &quot;v_201&quot;
 [1] &quot;v_202&quot;
 [1] &quot;v_203&quot;
-[1] &quot;v_204&quot;
-[1] &quot;v_205&quot;
-[1] &quot;v_206&quot;
-[1] &quot;v_207&quot;
-[1] &quot;v_208&quot;
-[1] &quot;v_209&quot;
-[1] &quot;v_210&quot;
-[1] &quot;v_211&quot;
-[1] &quot;v_212&quot;</code></pre>
+[1] &quot;v_204&quot;</code></pre>
 <pre class="r"><code>rm(cant_inv)</code></pre>
 </div>
 <div id="format-column-inventories" class="section level2" number="1.2">
 <h2 number="1.2"><span class="header-section-number">1.2</span> Format column inventories</h2>
 <pre class="r"><code>cant_inv_all_long &lt;- cant_inv_all %&gt;%
-  pivot_longer(emlr_VS_ss_tss:nss_mod_truth_VS_ss_tss,
+  pivot_longer(emlr_anom:nss_projection,
                names_to = &quot;estimate&quot;,
                values_to = &quot;delta_cant_offset&quot;)</code></pre>
 </div>
@@ -1009,7 +1035,7 @@ for (i_Version_IDs in Version_IDs) {
 <h2 number="1.3"><span class="header-section-number">1.3</span> Column inventories</h2>
 <pre class="r"><code>cant_inv_all_long %&gt;%
   group_split(eras) %&gt;%
-  # head(1) %&gt;%
+  head(1) %&gt;%
   map(
     ~ p_map_cant_inv_offset(
       df = .x,
@@ -1053,86 +1079,6 @@ jens-daniel-mueller
 </td>
 <td>
 2021-06-22
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre><code>
-[[2]]</code></pre>
-<p><img src="figure/anomalous_changes.Rmd/column_inventory_maps_regions_eras-2.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-column_inventory_maps_regions_eras-2">
-Past versions of column_inventory_maps_regions_eras-2.png
-</button>
-</p>
-<div id="fig-column_inventory_maps_regions_eras-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2d9fe3753ce2932815a70e90d82d9f3678047912/docs/figure/anomalous_changes.Rmd/column_inventory_maps_regions_eras-2.png" target="_blank">2d9fe37</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-06-22
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre><code>
-[[3]]</code></pre>
-<p><img src="figure/anomalous_changes.Rmd/column_inventory_maps_regions_eras-3.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-column_inventory_maps_regions_eras-3">
-Past versions of column_inventory_maps_regions_eras-3.png
-</button>
-</p>
-<div id="fig-column_inventory_maps_regions_eras-3" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/45279c228d106b034e4d591c089484fbfec8e570/docs/figure/anomalous_changes.Rmd/column_inventory_maps_regions_eras-3.png" target="_blank">45279c2</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-06-23
 </td>
 </tr>
 </tbody>
@@ -1200,21 +1146,13 @@ jens-daniel-mueller
 <pre><code>[1] &quot;v_201&quot;
 [1] &quot;v_202&quot;
 [1] &quot;v_203&quot;
-[1] &quot;v_204&quot;
-[1] &quot;v_205&quot;
-[1] &quot;v_206&quot;
-[1] &quot;v_207&quot;
-[1] &quot;v_208&quot;
-[1] &quot;v_209&quot;
-[1] &quot;v_210&quot;
-[1] &quot;v_211&quot;
-[1] &quot;v_212&quot;</code></pre>
+[1] &quot;v_204&quot;</code></pre>
 <pre class="r"><code>rm(cant_section)</code></pre>
 </div>
 <div id="format-column-inventories-1" class="section level2" number="2.2">
 <h2 number="2.2"><span class="header-section-number">2.2</span> Format column inventories</h2>
 <pre class="r"><code>cant_section_all_long &lt;- cant_section_all %&gt;%
-  pivot_longer(emlr_VS_ss_tss:nss_mod_truth_VS_ss_tss,
+  pivot_longer(emlr_anom:nss_projection,
                names_to = &quot;estimate&quot;,
                values_to = &quot;delta_cant_offset&quot;)</code></pre>
 </div>
@@ -1311,110 +1249,8 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
-<pre><code>
-[[2]]</code></pre>
-<p><img src="figure/anomalous_changes.Rmd/cant_sections_regions_eras_facet-2.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cant_sections_regions_eras_facet-2">
-Past versions of cant_sections_regions_eras_facet-2.png
-</button>
-</p>
-<div id="fig-cant_sections_regions_eras_facet-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d285c6f566a683c99c4a7fb5df1ab75f0bd5db75/docs/figure/anomalous_changes.Rmd/cant_sections_regions_eras_facet-2.png" target="_blank">d285c6f</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-06-23
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/47a9f1f6ba16f1cfb0a3876bcdc6f1c8090cc0e8/docs/figure/anomalous_changes.Rmd/cant_sections_regions_eras_facet-2.png" target="_blank">47a9f1f</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-06-23
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre><code>
-[[3]]</code></pre>
-<p><img src="figure/anomalous_changes.Rmd/cant_sections_regions_eras_facet-3.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cant_sections_regions_eras_facet-3">
-Past versions of cant_sections_regions_eras_facet-3.png
-</button>
-</p>
-<div id="fig-cant_sections_regions_eras_facet-3" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d285c6f566a683c99c4a7fb5df1ab75f0bd5db75/docs/figure/anomalous_changes.Rmd/cant_sections_regions_eras_facet-3.png" target="_blank">d285c6f</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-06-23
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/47a9f1f6ba16f1cfb0a3876bcdc6f1c8090cc0e8/docs/figure/anomalous_changes.Rmd/cant_sections_regions_eras_facet-3.png" target="_blank">47a9f1f</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-06-23
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
 <pre class="r"><code>axis_limit &lt;- cant_section_all %&gt;% 
-  pivot_longer(emlr_VS_ss_tss:nss_mod_truth_VS_ss_tss,
+  pivot_longer(emlr_anom:nss_projection,
                names_to = &quot;estimate&quot;,
                values_to = &quot;bias&quot;) %&gt;% 
   pull(bias) %&gt;% 
@@ -1425,7 +1261,7 @@ cant_section_all %&gt;%
   group_split(eras) %&gt;%
   # head(1) %&gt;% 
   map(
-    ~ ggplot(data = .x, aes(emlr_VS_nss_mod_truth, emlr_VS_ss_tss)) +
+    ~ ggplot(data = .x, aes(emlr_bias, emlr_anom)) +
       geom_hline(yintercept = 0) +
       geom_vline(xintercept = 0) +
       geom_bin2d(binwidth = 1) +
@@ -1476,8 +1312,23 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
-<pre><code>
-[[2]]</code></pre>
+<pre class="r"><code>cant_section_all %&gt;%
+  group_split(eras) %&gt;%
+  # head(1) %&gt;% 
+  map(
+    ~ ggplot(data = .x, aes(emlr_anom, nss_mod_truth)) +
+      geom_hline(yintercept = 0) +
+      geom_vline(xintercept = 0) +
+      geom_bin2d(binwidth = 1) +
+      scale_fill_viridis_c(trans = &quot;log10&quot;) +
+      coord_equal(
+        xlim = c(-axis_limit, axis_limit),
+        ylim = c(-axis_limit, axis_limit)
+      ) +
+      labs(title = paste(&quot;Eras:&quot;, unique(.x$eras))) +
+      facet_grid(MLR_basins ~ basin_AIP)
+  )</code></pre>
+<pre><code>[[1]]</code></pre>
 <p><img src="figure/anomalous_changes.Rmd/section_bias_plots-2.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-section_bias_plots-2">
@@ -1516,8 +1367,23 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
-<pre><code>
-[[3]]</code></pre>
+<pre class="r"><code>cant_section_all %&gt;%
+  group_split(eras) %&gt;%
+  # head(1) %&gt;% 
+  map(
+    ~ ggplot(data = .x, aes(nss_mod_truth, nss_projection)) +
+      geom_hline(yintercept = 0) +
+      geom_vline(xintercept = 0) +
+      geom_bin2d(binwidth = 1) +
+      scale_fill_viridis_c(trans = &quot;log10&quot;) +
+      coord_equal(
+        xlim = c(-axis_limit, axis_limit),
+        ylim = c(-axis_limit, axis_limit)
+      ) +
+      labs(title = paste(&quot;Eras:&quot;, unique(.x$eras))) +
+      facet_grid(MLR_basins ~ basin_AIP)
+  )</code></pre>
+<pre><code>[[1]]</code></pre>
 <p><img src="figure/anomalous_changes.Rmd/section_bias_plots-3.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-section_bias_plots-3">
@@ -1544,276 +1410,6 @@ Date
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1916d7076b337ef6cdb982ff95f044054f220ad5/docs/figure/anomalous_changes.Rmd/section_bias_plots-3.png" target="_blank">1916d70</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-06-23
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre class="r"><code>cant_section_all %&gt;%
-  group_split(eras) %&gt;%
-  # head(1) %&gt;% 
-  map(
-    ~ ggplot(data = .x, aes(emlr_VS_ss_tss, nss_mod_truth_VS_ss_mod_truth)) +
-      geom_hline(yintercept = 0) +
-      geom_vline(xintercept = 0) +
-      geom_bin2d(binwidth = 1) +
-      scale_fill_viridis_c(trans = &quot;log10&quot;) +
-      coord_equal(
-        xlim = c(-axis_limit, axis_limit),
-        ylim = c(-axis_limit, axis_limit)
-      ) +
-      labs(title = paste(&quot;Eras:&quot;, unique(.x$eras))) +
-      facet_grid(MLR_basins ~ basin_AIP)
-  )</code></pre>
-<pre><code>[[1]]</code></pre>
-<p><img src="figure/anomalous_changes.Rmd/section_bias_plots-4.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-section_bias_plots-4">
-Past versions of section_bias_plots-4.png
-</button>
-</p>
-<div id="fig-section_bias_plots-4" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1916d7076b337ef6cdb982ff95f044054f220ad5/docs/figure/anomalous_changes.Rmd/section_bias_plots-4.png" target="_blank">1916d70</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-06-23
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre><code>
-[[2]]</code></pre>
-<p><img src="figure/anomalous_changes.Rmd/section_bias_plots-5.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-section_bias_plots-5">
-Past versions of section_bias_plots-5.png
-</button>
-</p>
-<div id="fig-section_bias_plots-5" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1916d7076b337ef6cdb982ff95f044054f220ad5/docs/figure/anomalous_changes.Rmd/section_bias_plots-5.png" target="_blank">1916d70</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-06-23
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre><code>
-[[3]]</code></pre>
-<p><img src="figure/anomalous_changes.Rmd/section_bias_plots-6.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-section_bias_plots-6">
-Past versions of section_bias_plots-6.png
-</button>
-</p>
-<div id="fig-section_bias_plots-6" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1916d7076b337ef6cdb982ff95f044054f220ad5/docs/figure/anomalous_changes.Rmd/section_bias_plots-6.png" target="_blank">1916d70</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-06-23
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre class="r"><code>cant_section_all %&gt;%
-  group_split(eras) %&gt;%
-  # head(1) %&gt;% 
-  map(
-    ~ ggplot(data = .x, aes(nss_mod_truth_VS_ss_mod_truth, nss_mod_truth_VS_ss_tss)) +
-      geom_hline(yintercept = 0) +
-      geom_vline(xintercept = 0) +
-      geom_bin2d(binwidth = 1) +
-      scale_fill_viridis_c(trans = &quot;log10&quot;) +
-      coord_equal(
-        xlim = c(-axis_limit, axis_limit),
-        ylim = c(-axis_limit, axis_limit)
-      ) +
-      labs(title = paste(&quot;Eras:&quot;, unique(.x$eras))) +
-      facet_grid(MLR_basins ~ basin_AIP)
-  )</code></pre>
-<pre><code>[[1]]</code></pre>
-<p><img src="figure/anomalous_changes.Rmd/section_bias_plots-7.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-section_bias_plots-7">
-Past versions of section_bias_plots-7.png
-</button>
-</p>
-<div id="fig-section_bias_plots-7" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1916d7076b337ef6cdb982ff95f044054f220ad5/docs/figure/anomalous_changes.Rmd/section_bias_plots-7.png" target="_blank">1916d70</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-06-23
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre><code>
-[[2]]</code></pre>
-<p><img src="figure/anomalous_changes.Rmd/section_bias_plots-8.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-section_bias_plots-8">
-Past versions of section_bias_plots-8.png
-</button>
-</p>
-<div id="fig-section_bias_plots-8" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1916d7076b337ef6cdb982ff95f044054f220ad5/docs/figure/anomalous_changes.Rmd/section_bias_plots-8.png" target="_blank">1916d70</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-06-23
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre><code>
-[[3]]</code></pre>
-<p><img src="figure/anomalous_changes.Rmd/section_bias_plots-9.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-section_bias_plots-9">
-Past versions of section_bias_plots-9.png
-</button>
-</p>
-<div id="fig-section_bias_plots-9" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1916d7076b337ef6cdb982ff95f044054f220ad5/docs/figure/anomalous_changes.Rmd/section_bias_plots-9.png" target="_blank">1916d70</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -1887,15 +1483,7 @@ jens-daniel-mueller
 <pre><code>[1] &quot;v_201&quot;
 [1] &quot;v_202&quot;
 [1] &quot;v_203&quot;
-[1] &quot;v_204&quot;
-[1] &quot;v_205&quot;
-[1] &quot;v_206&quot;
-[1] &quot;v_207&quot;
-[1] &quot;v_208&quot;
-[1] &quot;v_209&quot;
-[1] &quot;v_210&quot;
-[1] &quot;v_211&quot;
-[1] &quot;v_212&quot;</code></pre>
+[1] &quot;v_204&quot;</code></pre>
 <pre class="r"><code>rm(cant_budget)</code></pre>
 <div id="regional" class="section level3" number="3.1.1">
 <h3 number="3.1.1"><span class="header-section-number">3.1.1</span> Regional</h3>
@@ -1907,6 +1495,43 @@ jens-daniel-mueller
   facet_grid(MLR_basins ~ eras) +
   theme(axis.text.x = element_text(angle = 90))</code></pre>
 <p><img src="figure/anomalous_changes.Rmd/budgets_regional_regions_eras_2021_beta-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-budgets_regional_regions_eras_2021_beta-1">
+Past versions of budgets_regional_regions_eras_2021_beta-1.png
+</button>
+</p>
+<div id="fig-budgets_regional_regions_eras_2021_beta-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/4d6ce3e859a8d90c5ea85fdfb2ad8c7704d2622a/docs/figure/anomalous_changes.Rmd/budgets_regional_regions_eras_2021_beta-1.png" target="_blank">4d6ce3e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-06-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
