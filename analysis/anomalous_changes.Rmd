@@ -220,7 +220,7 @@ cant_section_all_long <- cant_section_all %>%
 
 cant_section_all_long %>%
   group_split(eras, MLR_basins, estimate) %>%
-  head(1) %>%
+  # head(1) %>%
   map(
     ~ p_section_zonal(
       df = .x,
