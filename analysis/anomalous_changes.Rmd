@@ -276,6 +276,69 @@ cant_section_all_long %>%
 
 ```
 
+```{r section_bias_plots, fig.asp=1}
+
+axis_limit <- cant_section_all %>% 
+  pivot_longer(emlr_VS_ss_tss:nss_mod_truth_VS_ss_tss,
+               names_to = "estimate",
+               values_to = "bias") %>% 
+  pull(bias) %>% 
+  abs() %>% 
+  max()
+
+cant_section_all %>%
+  group_split(eras) %>%
+  # head(1) %>% 
+  map(
+    ~ ggplot(data = .x, aes(emlr_VS_nss_mod_truth, emlr_VS_ss_tss)) +
+      geom_hline(yintercept = 0) +
+      geom_vline(xintercept = 0) +
+      geom_bin2d(binwidth = 1) +
+      scale_fill_viridis_c(trans = "log10") +
+      coord_equal(
+        xlim = c(-axis_limit, axis_limit),
+        ylim = c(-axis_limit, axis_limit)
+      ) +
+      labs(title = paste("Eras:", unique(.x$eras))) +
+      facet_grid(MLR_basins ~ basin_AIP)
+  )
+
+
+cant_section_all %>%
+  group_split(eras) %>%
+  # head(1) %>% 
+  map(
+    ~ ggplot(data = .x, aes(emlr_VS_ss_tss, nss_mod_truth_VS_ss_mod_truth)) +
+      geom_hline(yintercept = 0) +
+      geom_vline(xintercept = 0) +
+      geom_bin2d(binwidth = 1) +
+      scale_fill_viridis_c(trans = "log10") +
+      coord_equal(
+        xlim = c(-axis_limit, axis_limit),
+        ylim = c(-axis_limit, axis_limit)
+      ) +
+      labs(title = paste("Eras:", unique(.x$eras))) +
+      facet_grid(MLR_basins ~ basin_AIP)
+  )
+
+cant_section_all %>%
+  group_split(eras) %>%
+  # head(1) %>% 
+  map(
+    ~ ggplot(data = .x, aes(nss_mod_truth_VS_ss_mod_truth, nss_mod_truth_VS_ss_tss)) +
+      geom_hline(yintercept = 0) +
+      geom_vline(xintercept = 0) +
+      geom_bin2d(binwidth = 1) +
+      scale_fill_viridis_c(trans = "log10") +
+      coord_equal(
+        xlim = c(-axis_limit, axis_limit),
+        ylim = c(-axis_limit, axis_limit)
+      ) +
+      labs(title = paste("Eras:", unique(.x$eras))) +
+      facet_grid(MLR_basins ~ basin_AIP)
+  )
+
+```
 
 
 
