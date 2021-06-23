@@ -147,7 +147,6 @@ cant_inv_all_long %>%
 
 # Zonal sections
 
-
 ## Load data
 
 ```{r read_cant_section_files}
@@ -342,41 +341,82 @@ cant_section_all %>%
 
 
 
-## Budgets
+# Budgets
 
-### Regional
+## Load data
 
-```{r budgets_regional_regions_eras_2021_beta, eval=FALSE, fig.asp=1}
+```{r read_cant_budget_files}
 
-cant_inv_budget_sub <- cant_inv_budget %>%
-  filter(Version_ID %in% unique(cant_inv_all_bias_sub$Version_ID))
+for (i_Version_IDs in Version_IDs) {
+  # i_Version_IDs <- Version_IDs[1]
+  
+  print(i_Version_IDs)
+  
+  path_version_data     <-
+  paste(path_observations,
+        i_Version_IDs,
+        "/data/",
+        sep = "")
+  
+  cant_budget <-
+    read_csv(paste(path_version_data,
+                   "anom_cant_mod_inv_budget.csv",
+                   sep = ""))
+  
+  cant_budget <- cant_budget %>% 
+    mutate(Version_ID = i_Version_IDs)
+  
+  params_local <-
+    read_rds(paste(path_version_data,
+                   "params_local.rds",
+                   sep = ""))
+  
+  params_local <- bind_cols(
+    Version_ID = i_Version_IDs,
+    MLR_basins = params_local$MLR_basins
+  )
+  
+  cant_budget <- full_join(cant_budget, params_local)
+  
+  tref <- read_csv(paste(path_version_data,
+                         "tref.csv",
+                         sep = ""))
+  
+  duration <- sort(tref$median_year)[2] - sort(tref$median_year)[1]
+  eras <- paste0(sort(tref$median_year)[1],"-", sort(tref$median_year)[2])
+  
+  cant_budget <- cant_budget %>% 
+    mutate(duration = duration,
+           eras = eras)
+  
+  if (exists("cant_budget_all")) {
+    cant_budget_all <- bind_rows(cant_budget_all, cant_budget)
+  }
+  
+  if (!exists("cant_budget_all")) {
+    cant_budget_all <- cant_budget
+  }
+  
+  
+}
 
-cant_inv_budget_sub %>%
-  ggplot(aes(data_source, cant_total/duration, fill = basin_AIP)) +
-  scale_fill_brewer(palette = "PuBuGn") +
-  geom_col(col = "black") +
-  labs(y = expression(Uptake~rate ~ (PgC ~ yr ^ {-1}))) +
-  facet_grid(MLR_basins ~ GLODAPv2_version)
+rm(cant_budget)
 
 ```
 
-### Global
 
-```{r budget_global_regions_eras_2021_beta, eval=FALSE}
 
-cant_inv_budget_sub %>%
-  filter(data_source == "obs") %>% 
-  group_by(MLR_basins, GLODAPv2_version) %>% 
-  summarise(rate = sum(cant_total/duration)) %>% 
-  ungroup() %>% 
-  ggplot(aes(GLODAPv2_version, rate, fill=MLR_basins)) +
-  geom_bar(stat="identity", position=position_dodge(), col="black") +
-  scale_y_continuous() +
-  labs(y = expression(Uptake~rate ~ (PgC ~ yr ^ {-1})),
-       x = "") +
-  scale_fill_brewer(palette = "PuBuGn")
+### Regional
 
-rm(cant_inv_budget_sub)
+```{r budgets_regional_regions_eras_2021_beta, fig.asp=1}
+
+cant_budget_all %>%
+  filter(inv_depth == params_global$inventory_depth_standard) %>% 
+  ggplot(aes(estimate, cant_pos_total, fill = basin_AIP)) +
+  scale_fill_brewer(palette = "PuBuGn") +
+  geom_col(col = "black") +
+  facet_grid(MLR_basins ~ eras) +
+  theme(axis.text.x = element_text(angle = 90))
 
 ```
 
