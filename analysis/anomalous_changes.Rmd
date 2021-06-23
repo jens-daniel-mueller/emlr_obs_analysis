@@ -108,13 +108,6 @@ rm(cant_inv)
 
 ## Format column inventories
 
-```{r filter_standard_inventory_depth, eval=FALSE}
-
-cant_inv_all <- cant_inv_all %>%
-  filter(inv_depth == params_global$inventory_depth_standard)
-
-```
-
 ```{r calc_column_inventories_2021_beta}
 
 cant_inv_all_long <- cant_inv_all %>%
@@ -144,6 +137,108 @@ cant_inv_all_long %>%
 
 
 ```
+
+
+# Zonal sections
+
+
+## Load data
+
+```{r read_cant_section_files}
+
+for (i_Version_IDs in Version_IDs) {
+  # i_Version_IDs <- Version_IDs[1]
+  
+  print(i_Version_IDs)
+  
+  path_version_data     <-
+  paste(path_observations,
+        i_Version_IDs,
+        "/data/",
+        sep = "")
+  
+  cant_section <-
+    read_csv(paste(path_version_data,
+                   "anom_cant_mod_section_bias.csv",
+                   sep = ""))
+  
+  cant_section <- cant_section %>% 
+    mutate(Version_ID = i_Version_IDs)
+  
+  params_local <-
+    read_rds(paste(path_version_data,
+                   "params_local.rds",
+                   sep = ""))
+  
+  params_local <- bind_cols(
+    Version_ID = i_Version_IDs,
+    MLR_basins = params_local$MLR_basins
+  )
+  
+  cant_section <- full_join(cant_section, params_local)
+  
+  tref <- read_csv(paste(path_version_data,
+                         "tref.csv",
+                         sep = ""))
+  
+  duration <- sort(tref$median_year)[2] - sort(tref$median_year)[1]
+  eras <- paste0(sort(tref$median_year)[1],"-", sort(tref$median_year)[2])
+  
+  cant_section <- cant_section %>% 
+    mutate(duration = duration,
+           eras = eras)
+  
+  if (exists("cant_section_all")) {
+    cant_section_all <- bind_rows(cant_section_all, cant_section)
+  }
+  
+  if (!exists("cant_section_all")) {
+    cant_section_all <- cant_section
+  }
+  
+  
+}
+
+rm(cant_section)
+
+```
+
+## Format column inventories
+
+```{r format_cant_section}
+
+cant_section_all_long <- cant_section_all %>%
+  pivot_longer(emlr_VS_ss_tss:nss_mod_truth_VS_ss_tss,
+               names_to = "estimate",
+               values_to = "delta_cant_offset")
+```
+
+
+## Plots
+
+```{r cant_sections_regions_eras, fig.asp=0.5}
+
+cant_section_all_long %>%
+  group_split(eras, MLR_basins, estimate) %>%
+  head(1) %>%
+  map(
+    ~ p_section_zonal(
+      df = .x,
+      var = "delta_cant_offset",
+      plot_slabs = "n",
+      col = "divergent",
+      subtitle_text = paste("Eras:", unique(.x$eras),
+                            "MLR Basins:", unique(.x$MLR_basins),
+                            "Estimate:", unique(.x$estimate)),
+      breaks = seq(-8,8,1)
+    )
+  )
+
+
+```
+
+
+
 
 ## Budgets
 
