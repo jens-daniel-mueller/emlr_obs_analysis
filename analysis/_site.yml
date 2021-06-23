@@ -9,6 +9,8 @@ navbar:
     href: Gruber_2019_comparison.html
   - text: Column inventories
     href: column_inventories.html
+  - text: Anomalous Changes
+    href: anomalous_changes.html
   - text: Publication
     href: publication.html
   right:
