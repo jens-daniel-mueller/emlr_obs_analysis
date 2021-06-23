@@ -45,7 +45,7 @@ Version_IDs <- list.files(
   path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
   pattern = "v_2")
 
-Version_IDs <- Version_IDs[1:4]
+# Version_IDs <- Version_IDs[1:4]
 
 ```
 
