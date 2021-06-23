@@ -244,7 +244,7 @@ cant_section_all_long %>%
 ```
 
 
-```{r cant_sections_regions_eras_facet, fig.asp=0.5}
+```{r cant_sections_regions_eras_facet}
 
 legend_title <- expression(atop(Delta * C[ant, pos],
                                (mu * mol ~ kg ^ {
@@ -266,7 +266,7 @@ cant_section_all_long %>%
       ) +
       guides(fill = guide_colorsteps(barheight = unit(8, "cm"))) +
       scale_y_reverse() +
-      scale_x_continuous(breaks = seq(-100, 100, 20),
+      scale_x_continuous(breaks = seq(-100, 100, 40),
                          limits = c(-85, 85)) +
       facet_grid(MLR_basins ~ estimate) +
       coord_cartesian(expand = 0) +
