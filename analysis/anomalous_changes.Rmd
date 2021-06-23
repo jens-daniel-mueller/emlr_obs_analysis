@@ -41,10 +41,11 @@ library(marelac)
 
 ```{r read_version_IDs}
 
-
 Version_IDs <- list.files(
   path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
   pattern = "v_2")
+
+Version_IDs <- Version_IDs[1:4]
 
 ```
 
@@ -52,8 +53,6 @@ Version_IDs <- list.files(
 ## Load data
 
 ```{r read_cant_inv_files}
-
-# Version_IDs <- Version_IDs[5:12]
 
 for (i_Version_IDs in Version_IDs) {
   # i_Version_IDs <- Version_IDs[1]
@@ -117,7 +116,7 @@ rm(cant_inv)
 ```{r calc_column_inventories_2021_beta}
 
 cant_inv_all_long <- cant_inv_all %>%
-  pivot_longer(emlr_VS_ss_tss:nss_mod_truth_VS_ss_tss,
+  pivot_longer(emlr_anom:nss_projection,
                names_to = "estimate",
                values_to = "delta_cant_offset")
 ```
@@ -129,7 +128,7 @@ cant_inv_all_long <- cant_inv_all %>%
 
 cant_inv_all_long %>%
   group_split(eras) %>%
-  # head(1) %>%
+  head(1) %>%
   map(
     ~ p_map_cant_inv_offset(
       df = .x,
@@ -213,7 +212,7 @@ rm(cant_section)
 ```{r format_cant_section}
 
 cant_section_all_long <- cant_section_all %>%
-  pivot_longer(emlr_VS_ss_tss:nss_mod_truth_VS_ss_tss,
+  pivot_longer(emlr_anom:nss_projection,
                names_to = "estimate",
                values_to = "delta_cant_offset")
 ```
@@ -278,7 +277,7 @@ cant_section_all_long %>%
 ```{r section_bias_plots, fig.asp=1}
 
 axis_limit <- cant_section_all %>% 
-  pivot_longer(emlr_VS_ss_tss:nss_mod_truth_VS_ss_tss,
+  pivot_longer(emlr_anom:nss_projection,
                names_to = "estimate",
                values_to = "bias") %>% 
   pull(bias) %>% 
@@ -289,7 +288,7 @@ cant_section_all %>%
   group_split(eras) %>%
   # head(1) %>% 
   map(
-    ~ ggplot(data = .x, aes(emlr_VS_nss_mod_truth, emlr_VS_ss_tss)) +
+    ~ ggplot(data = .x, aes(emlr_bias, emlr_anom)) +
       geom_hline(yintercept = 0) +
       geom_vline(xintercept = 0) +
       geom_bin2d(binwidth = 1) +
@@ -307,7 +306,7 @@ cant_section_all %>%
   group_split(eras) %>%
   # head(1) %>% 
   map(
-    ~ ggplot(data = .x, aes(emlr_VS_ss_tss, nss_mod_truth_VS_ss_mod_truth)) +
+    ~ ggplot(data = .x, aes(emlr_anom, nss_mod_truth)) +
       geom_hline(yintercept = 0) +
       geom_vline(xintercept = 0) +
       geom_bin2d(binwidth = 1) +
@@ -324,7 +323,7 @@ cant_section_all %>%
   group_split(eras) %>%
   # head(1) %>% 
   map(
-    ~ ggplot(data = .x, aes(nss_mod_truth_VS_ss_mod_truth, nss_mod_truth_VS_ss_tss)) +
+    ~ ggplot(data = .x, aes(nss_mod_truth, nss_projection)) +
       geom_hline(yintercept = 0) +
       geom_vline(xintercept = 0) +
       geom_bin2d(binwidth = 1) +
