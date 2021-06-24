@@ -276,13 +276,15 @@ cant_section_all_long %>%
 
 ```{r section_bias_plots, fig.asp=1}
 
-axis_limit <- cant_section_all %>% 
-  pivot_longer(emlr_anom:nss_projection,
-               names_to = "estimate",
-               values_to = "bias") %>% 
-  pull(bias) %>% 
-  abs() %>% 
-  max()
+axis_limit <- 20
+
+# axis_limit <- cant_section_all %>% 
+#   pivot_longer(emlr_anom:nss_projection,
+#                names_to = "estimate",
+#                values_to = "bias") %>% 
+#   pull(bias) %>% 
+#   abs() %>% 
+#   max()
 
 cant_section_all %>%
   group_split(eras) %>%
