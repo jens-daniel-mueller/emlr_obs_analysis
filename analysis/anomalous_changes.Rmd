@@ -128,7 +128,7 @@ cant_inv_all_long <- cant_inv_all %>%
 
 cant_inv_all_long %>%
   group_split(eras) %>%
-  head(1) %>%
+  # head(1) %>%
   map(
     ~ p_map_cant_inv_offset(
       df = .x,
