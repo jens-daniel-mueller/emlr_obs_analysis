@@ -548,16 +548,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreee09bf25ee0881ad296c4d4b739da29b9a8a55d7atargetblanke09bf25a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/e09bf25ee0881ad296c4d4b739da29b9a8a55d7a" target="_blank">e09bf25</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreec551d550d0c82f06df18e0ed2b7b995b11e505cctargetblankc551d55a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/c551d550d0c82f06df18e0ed2b7b995b11e505cc" target="_blank">c551d55</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreee09bf25ee0881ad296c4d4b739da29b9a8a55d7atargetblanke09bf25a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreec551d550d0c82f06df18e0ed2b7b995b11e505cctargetblankc551d55a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/e09bf25ee0881ad296c4d4b739da29b9a8a55d7a" target="_blank">e09bf25</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/c551d550d0c82f06df18e0ed2b7b995b11e505cc" target="_blank">c551d55</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -610,6 +610,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/c551d550d0c82f06df18e0ed2b7b995b11e505cc/analysis/anomalous_changes.Rmd" target="_blank">c551d55</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-06-24
+</td>
+<td>
+bias correlation for column inventory
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/ea6d3bbccd776a46a16e8dfeaf9eee29839682da/docs/anomalous_changes.html" target="_blank">ea6d3bb</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-06-24
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1342,6 +1376,91 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
+<div id="bias-correlation" class="section level2" number="1.4">
+<h2 number="1.4"><span class="header-section-number">1.4</span> Bias correlation</h2>
+<pre class="r"><code>axis_limit &lt;- 10
+
+# axis_limit &lt;- cant_inv_all %&gt;%
+#   pivot_longer(emlr_anom:nss_projection,
+#                names_to = &quot;estimate&quot;,
+#                values_to = &quot;bias&quot;) %&gt;%
+#   pull(bias) %&gt;%
+#   abs() %&gt;%
+#   max()
+
+cant_inv_all %&gt;%
+  group_split(eras) %&gt;%
+  # head(1) %&gt;% 
+  map(
+    ~ ggplot(data = .x, aes(emlr_bias, emlr_anom)) +
+      geom_hline(yintercept = 0) +
+      geom_vline(xintercept = 0) +
+      geom_bin2d(binwidth = 1) +
+      scale_fill_viridis_c(trans = &quot;log10&quot;) +
+      coord_equal(
+        xlim = c(-axis_limit, axis_limit),
+        ylim = c(-axis_limit, axis_limit)
+      ) +
+      labs(title = paste(&quot;Eras:&quot;, unique(.x$eras))) +
+      facet_grid(MLR_basins ~ basin_AIP)
+  )</code></pre>
+<pre><code>[[1]]</code></pre>
+<p><img src="figure/anomalous_changes.Rmd/inv_bias_plots-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[2]]</code></pre>
+<p><img src="figure/anomalous_changes.Rmd/inv_bias_plots-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[3]]</code></pre>
+<p><img src="figure/anomalous_changes.Rmd/inv_bias_plots-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>cant_inv_all %&gt;%
+  group_split(eras) %&gt;%
+  # head(1) %&gt;% 
+  map(
+    ~ ggplot(data = .x, aes(emlr_anom, nss_mod_truth)) +
+      geom_hline(yintercept = 0) +
+      geom_vline(xintercept = 0) +
+      geom_bin2d(binwidth = 1) +
+      scale_fill_viridis_c(trans = &quot;log10&quot;) +
+      coord_equal(
+        xlim = c(-axis_limit, axis_limit),
+        ylim = c(-axis_limit, axis_limit)
+      ) +
+      labs(title = paste(&quot;Eras:&quot;, unique(.x$eras))) +
+      facet_grid(MLR_basins ~ basin_AIP)
+  )</code></pre>
+<pre><code>[[1]]</code></pre>
+<p><img src="figure/anomalous_changes.Rmd/inv_bias_plots-4.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[2]]</code></pre>
+<p><img src="figure/anomalous_changes.Rmd/inv_bias_plots-5.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[3]]</code></pre>
+<p><img src="figure/anomalous_changes.Rmd/inv_bias_plots-6.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>cant_inv_all %&gt;%
+  group_split(eras) %&gt;%
+  # head(1) %&gt;% 
+  map(
+    ~ ggplot(data = .x, aes(nss_mod_truth, nss_projection)) +
+      geom_hline(yintercept = 0) +
+      geom_vline(xintercept = 0) +
+      geom_bin2d(binwidth = 1) +
+      scale_fill_viridis_c(trans = &quot;log10&quot;) +
+      coord_equal(
+        xlim = c(-axis_limit, axis_limit),
+        ylim = c(-axis_limit, axis_limit)
+      ) +
+      labs(title = paste(&quot;Eras:&quot;, unique(.x$eras))) +
+      facet_grid(MLR_basins ~ basin_AIP)
+  )</code></pre>
+<pre><code>[[1]]</code></pre>
+<p><img src="figure/anomalous_changes.Rmd/inv_bias_plots-7.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[2]]</code></pre>
+<p><img src="figure/anomalous_changes.Rmd/inv_bias_plots-8.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[3]]</code></pre>
+<p><img src="figure/anomalous_changes.Rmd/inv_bias_plots-9.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
 </div>
 <div id="zonal-sections" class="section level1" number="2">
 <h1 number="2"><span class="header-section-number">2</span> Zonal sections</h1>
@@ -1420,8 +1539,8 @@ jens-daniel-mueller
                names_to = &quot;estimate&quot;,
                values_to = &quot;delta_cant_offset&quot;)</code></pre>
 </div>
-<div id="plots" class="section level2" number="2.3">
-<h2 number="2.3"><span class="header-section-number">2.3</span> Plots</h2>
+<div id="section-plots" class="section level2" number="2.3">
+<h2 number="2.3"><span class="header-section-number">2.3</span> Section plots</h2>
 <pre class="r"><code>cant_section_all_long %&gt;%
   group_split(eras, MLR_basins, estimate) %&gt;%
   # head(1) %&gt;%
@@ -1681,6 +1800,9 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
+</div>
+<div id="bias-correlation-1" class="section level2" number="2.4">
+<h2 number="2.4"><span class="header-section-number">2.4</span> Bias correlation</h2>
 <pre class="r"><code>axis_limit &lt;- 20
 
 # axis_limit &lt;- cant_section_all %&gt;% 
@@ -1731,6 +1853,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ea6d3bbccd776a46a16e8dfeaf9eee29839682da/docs/figure/anomalous_changes.Rmd/section_bias_plots-1.png" target="_blank">ea6d3bb</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-06-24
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e12c681d15122d83a057745e6d77efbce085f794/docs/figure/anomalous_changes.Rmd/section_bias_plots-1.png" target="_blank">e12c681</a>
@@ -1795,6 +1928,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ea6d3bbccd776a46a16e8dfeaf9eee29839682da/docs/figure/anomalous_changes.Rmd/section_bias_plots-2.png" target="_blank">ea6d3bb</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-06-24
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e12c681d15122d83a057745e6d77efbce085f794/docs/figure/anomalous_changes.Rmd/section_bias_plots-2.png" target="_blank">e12c681</a>
 </td>
 <td>
@@ -1855,6 +1999,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ea6d3bbccd776a46a16e8dfeaf9eee29839682da/docs/figure/anomalous_changes.Rmd/section_bias_plots-3.png" target="_blank">ea6d3bb</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-06-24
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e12c681d15122d83a057745e6d77efbce085f794/docs/figure/anomalous_changes.Rmd/section_bias_plots-3.png" target="_blank">e12c681</a>
@@ -1934,6 +2089,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ea6d3bbccd776a46a16e8dfeaf9eee29839682da/docs/figure/anomalous_changes.Rmd/section_bias_plots-4.png" target="_blank">ea6d3bb</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-06-24
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e12c681d15122d83a057745e6d77efbce085f794/docs/figure/anomalous_changes.Rmd/section_bias_plots-4.png" target="_blank">e12c681</a>
 </td>
 <td>
@@ -1996,6 +2162,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ea6d3bbccd776a46a16e8dfeaf9eee29839682da/docs/figure/anomalous_changes.Rmd/section_bias_plots-5.png" target="_blank">ea6d3bb</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-06-24
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e12c681d15122d83a057745e6d77efbce085f794/docs/figure/anomalous_changes.Rmd/section_bias_plots-5.png" target="_blank">e12c681</a>
 </td>
 <td>
@@ -2056,6 +2233,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ea6d3bbccd776a46a16e8dfeaf9eee29839682da/docs/figure/anomalous_changes.Rmd/section_bias_plots-6.png" target="_blank">ea6d3bb</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-06-24
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e12c681d15122d83a057745e6d77efbce085f794/docs/figure/anomalous_changes.Rmd/section_bias_plots-6.png" target="_blank">e12c681</a>
@@ -2135,6 +2323,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ea6d3bbccd776a46a16e8dfeaf9eee29839682da/docs/figure/anomalous_changes.Rmd/section_bias_plots-7.png" target="_blank">ea6d3bb</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-06-24
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e12c681d15122d83a057745e6d77efbce085f794/docs/figure/anomalous_changes.Rmd/section_bias_plots-7.png" target="_blank">e12c681</a>
 </td>
 <td>
@@ -2197,6 +2396,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ea6d3bbccd776a46a16e8dfeaf9eee29839682da/docs/figure/anomalous_changes.Rmd/section_bias_plots-8.png" target="_blank">ea6d3bb</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-06-24
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e12c681d15122d83a057745e6d77efbce085f794/docs/figure/anomalous_changes.Rmd/section_bias_plots-8.png" target="_blank">e12c681</a>
 </td>
 <td>
@@ -2257,6 +2467,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ea6d3bbccd776a46a16e8dfeaf9eee29839682da/docs/figure/anomalous_changes.Rmd/section_bias_plots-9.png" target="_blank">ea6d3bb</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-06-24
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e12c681d15122d83a057745e6d77efbce085f794/docs/figure/anomalous_changes.Rmd/section_bias_plots-9.png" target="_blank">e12c681</a>
