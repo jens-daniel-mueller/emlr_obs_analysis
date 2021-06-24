@@ -322,8 +322,8 @@ legend_title <- expression(atop(Delta * C[ant, pos],
 
 
 cant_section_all_long %>%
-  group_split(eras) %>% 
-  # head(1) %>%
+  group_split(eras, basin_AIP) %>% 
+  head(1) %>%
   map(
     ~ ggplot(data = .x) +
       geom_contour_filled(aes(lat, depth, z = delta_cant_offset),
@@ -339,7 +339,8 @@ cant_section_all_long %>%
                          limits = c(-85, 85)) +
       facet_grid(MLR_basins ~ estimate) +
       coord_cartesian(expand = 0) +
-      labs(title = paste("Eras", unique(.x$eras)))
+      labs(title = paste("Eras", unique(.x$eras),
+                         "| Basin:", unique(.x$basin_AIP)))
   )
 
 
