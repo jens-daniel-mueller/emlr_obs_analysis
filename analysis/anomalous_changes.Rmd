@@ -144,6 +144,77 @@ cant_inv_all_long %>%
 ```
 
 
+## Bias correlation
+
+```{r inv_bias_plots, fig.asp=1}
+
+axis_limit <- 10
+
+# axis_limit <- cant_inv_all %>%
+#   pivot_longer(emlr_anom:nss_projection,
+#                names_to = "estimate",
+#                values_to = "bias") %>%
+#   pull(bias) %>%
+#   abs() %>%
+#   max()
+
+cant_inv_all %>%
+  group_split(eras) %>%
+  # head(1) %>% 
+  map(
+    ~ ggplot(data = .x, aes(emlr_bias, emlr_anom)) +
+      geom_hline(yintercept = 0) +
+      geom_vline(xintercept = 0) +
+      geom_bin2d(binwidth = 1) +
+      scale_fill_viridis_c(trans = "log10") +
+      coord_equal(
+        xlim = c(-axis_limit, axis_limit),
+        ylim = c(-axis_limit, axis_limit)
+      ) +
+      labs(title = paste("Eras:", unique(.x$eras))) +
+      facet_grid(MLR_basins ~ basin_AIP)
+  )
+
+
+cant_inv_all %>%
+  group_split(eras) %>%
+  # head(1) %>% 
+  map(
+    ~ ggplot(data = .x, aes(emlr_anom, nss_mod_truth)) +
+      geom_hline(yintercept = 0) +
+      geom_vline(xintercept = 0) +
+      geom_bin2d(binwidth = 1) +
+      scale_fill_viridis_c(trans = "log10") +
+      coord_equal(
+        xlim = c(-axis_limit, axis_limit),
+        ylim = c(-axis_limit, axis_limit)
+      ) +
+      labs(title = paste("Eras:", unique(.x$eras))) +
+      facet_grid(MLR_basins ~ basin_AIP)
+  )
+
+cant_inv_all %>%
+  group_split(eras) %>%
+  # head(1) %>% 
+  map(
+    ~ ggplot(data = .x, aes(nss_mod_truth, nss_projection)) +
+      geom_hline(yintercept = 0) +
+      geom_vline(xintercept = 0) +
+      geom_bin2d(binwidth = 1) +
+      scale_fill_viridis_c(trans = "log10") +
+      coord_equal(
+        xlim = c(-axis_limit, axis_limit),
+        ylim = c(-axis_limit, axis_limit)
+      ) +
+      labs(title = paste("Eras:", unique(.x$eras))) +
+      facet_grid(MLR_basins ~ basin_AIP)
+  )
+
+```
+
+
+
+
 # Zonal sections
 
 ## Load data
@@ -218,7 +289,7 @@ cant_section_all_long <- cant_section_all %>%
 ```
 
 
-## Plots
+## Section plots
 
 ```{r cant_sections_regions_eras, fig.asp=0.5, eval=FALSE}
 
@@ -273,6 +344,8 @@ cant_section_all_long %>%
 
 
 ```
+
+## Bias correlation
 
 ```{r section_bias_plots, fig.asp=1}
 
