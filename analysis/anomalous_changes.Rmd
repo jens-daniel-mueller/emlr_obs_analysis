@@ -490,7 +490,7 @@ cant_budget_all_sub <- cant_budget_all %>%
 
 ## Column inventories
 
-### Maps
+### Maps rarefication
 
 ```{r column_inventory_maps_rarefication}
 
@@ -514,6 +514,7 @@ cant_inv_all_long_sub %>%
 
 ```
 
+### Maps VIF
 
 ```{r column_inventory_maps_vif}
 
@@ -526,7 +527,7 @@ cant_inv_all_long_sub %>%
       df = .x,
       var = "delta_cant_offset",
       # col = "divergent",
-      subtitle_text = paste("Rarefication test | Eras:", unique(.x$eras)),
+      subtitle_text = paste("VIF test | Eras:", unique(.x$eras)),
       breaks = seq(-8,8,1)
     ) +
       facet_grid(vif_max ~ estimate) +
