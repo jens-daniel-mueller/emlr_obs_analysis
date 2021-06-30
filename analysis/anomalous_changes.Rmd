@@ -469,22 +469,22 @@ cant_budget_all_sub_long %>%
 
 # Rarefication and VIF
 
-```{r subset_era_basin_split}
+```{r subset_rarefication_vif}
 
 cant_inv_all_sub <- cant_inv_all %>% 
     filter(rarefication == "coarse_grid")
 
 cant_inv_all_long_sub <- cant_inv_all_long %>% 
-    filter(rarefication == "none")
+    filter(rarefication == "coarse_grid")
 
 cant_section_all_sub <- cant_section_all %>% 
-    filter(rarefication == "none")
+    filter(rarefication == "coarse_grid")
 
 cant_section_all_long_sub <- cant_section_all_long %>% 
-    filter(rarefication == "none")
+    filter(rarefication == "coarse_grid")
 
 cant_budget_all_sub <- cant_budget_all %>% 
-    filter(rarefication == "none")
+    filter(rarefication == "coarse_grid")
 
 ```
 
@@ -492,9 +492,10 @@ cant_budget_all_sub <- cant_budget_all %>%
 
 ### Maps
 
-```{r column_inventory_maps_era_basin_split}
+```{r column_inventory_maps_rarefication}
 
 cant_inv_all_long_sub %>%
+  filter(vif_max == 1000) %>% 
   group_split(eras) %>%
   # head(1) %>%
   map(
@@ -502,10 +503,33 @@ cant_inv_all_long_sub %>%
       df = .x,
       var = "delta_cant_offset",
       # col = "divergent",
-      subtitle_text = paste("Eras:", unique(.x$eras)),
+      subtitle_text = paste("Rarefication test | Eras:", unique(.x$eras)),
       breaks = seq(-8,8,1)
     ) +
-      facet_grid(MLR_basins ~ estimate) +
+      facet_grid(rarefication_threshold ~ estimate) +
+      theme(axis.text = element_blank(),
+            axis.ticks = element_blank())
+  )
+
+
+```
+
+
+```{r column_inventory_maps_vif}
+
+cant_inv_all_long_sub %>%
+  filter(rarefication_threshold == 10) %>% 
+  group_split(eras) %>%
+  # head(1) %>%
+  map(
+    ~ p_map_cant_inv_offset(
+      df = .x,
+      var = "delta_cant_offset",
+      # col = "divergent",
+      subtitle_text = paste("Rarefication test | Eras:", unique(.x$eras)),
+      breaks = seq(-8,8,1)
+    ) +
+      facet_grid(vif_max ~ estimate) +
       theme(axis.text = element_blank(),
             axis.ticks = element_blank())
   )
@@ -516,11 +540,12 @@ cant_inv_all_long_sub %>%
 
 ### Bias correlation
 
-```{r inv_bias_plots_era_basin_split, fig.asp=1}
+```{r inv_bias_plots_rarefication, fig.asp=1}
 
 axis_limit <- 10
 
 cant_inv_all_sub %>%
+  filter(vif_max == 1000) %>% 
   group_split(eras) %>%
   # head(1) %>%
   map(
@@ -534,11 +559,12 @@ cant_inv_all_sub %>%
         ylim = c(-axis_limit, axis_limit)
       ) +
       labs(title = paste("Eras:", unique(.x$eras))) +
-      facet_grid(MLR_basins ~ basin_AIP)
+      facet_grid(rarefication_threshold ~ basin_AIP)
   )
 
 
 cant_inv_all_sub %>%
+  filter(vif_max == 1000) %>% 
   group_split(eras) %>%
   # head(1) %>% 
   map(
@@ -552,10 +578,11 @@ cant_inv_all_sub %>%
         ylim = c(-axis_limit, axis_limit)
       ) +
       labs(title = paste("Eras:", unique(.x$eras))) +
-      facet_grid(MLR_basins ~ basin_AIP)
+      facet_grid(rarefication_threshold ~ basin_AIP)
   )
 
 cant_inv_all_sub %>%
+  filter(vif_max == 1000) %>% 
   group_split(eras) %>%
   # head(1) %>% 
   map(
@@ -569,7 +596,7 @@ cant_inv_all_sub %>%
         ylim = c(-axis_limit, axis_limit)
       ) +
       labs(title = paste("Eras:", unique(.x$eras))) +
-      facet_grid(MLR_basins ~ basin_AIP)
+      facet_grid(rarefication_threshold ~ basin_AIP)
   )
 
 ```
@@ -579,11 +606,12 @@ cant_inv_all_sub %>%
 
 ### Sections
 
-```{r cant_sections_era_basin_split, fig.asp=0.5, eval=FALSE}
+```{r cant_sections_rarefication_vif, fig.asp=0.5, eval=FALSE}
 
 cant_section_all_long_sub %>%
-  group_split(eras, MLR_basins, estimate) %>%
-  # head(1) %>%
+  filter(vif_max == 1000) %>% 
+  group_split(eras, rarefication_threshold, estimate) %>%
+  head(1) %>%
   map(
     ~ p_section_zonal(
       df = .x,
@@ -601,7 +629,7 @@ cant_section_all_long_sub %>%
 ```
 
 
-```{r cant_sections_era_basin_split_facet}
+```{r cant_sections_rarefication_facet}
 
 legend_title <- expression(atop(Delta * C[ant, pos],
                                (mu * mol ~ kg ^ {
@@ -609,6 +637,7 @@ legend_title <- expression(atop(Delta * C[ant, pos],
                                })))
 
 cant_section_all_long_sub %>%
+  filter(vif_max == 1000) %>% 
   group_split(eras, basin_AIP) %>% 
   # head(1) %>%
   map(
@@ -628,9 +657,41 @@ cant_section_all_long_sub %>%
       #scale_y_reverse() +
       scale_x_continuous(breaks = seq(-100, 100, 40),
                          limits = c(-85, 85)) +
-      facet_grid(MLR_basins ~ estimate) +
+      facet_grid(rarefication_threshold ~ estimate) +
       coord_cartesian(expand = 0) +
-      labs(title = paste("Eras", unique(.x$eras),
+      labs(title = paste("Rarefication test | Eras", unique(.x$eras),
+                         "| Basin:", unique(.x$basin_AIP)))
+  )
+
+
+```
+
+```{r cant_sections_vif_facet}
+
+cant_section_all_long_sub %>%
+  filter(rarefication_threshold == 10) %>% 
+  group_split(eras, basin_AIP) %>% 
+  # head(1) %>%
+  map(
+    ~ ggplot(data = .x) +
+      geom_contour_filled(aes(lat, depth, z = delta_cant_offset),
+                          breaks =c(-Inf,seq(-8,8,1), Inf)) +
+      scale_fill_scico_d(
+        palette = "vik",
+        drop = FALSE,
+        name = legend_title
+      ) +
+      guides(fill = guide_colorsteps(barheight = unit(8, "cm"),
+                                     show.limits = TRUE)) +
+      # scale_y_sqrt() +
+      scale_y_continuous(trans = trans_reverser("sqrt"),
+                         breaks = c(100,500,seq(1000,5000,1000))) +
+      #scale_y_reverse() +
+      scale_x_continuous(breaks = seq(-100, 100, 40),
+                         limits = c(-85, 85)) +
+      facet_grid(vif_max ~ estimate) +
+      coord_cartesian(expand = 0) +
+      labs(title = paste("VIF test | Eras", unique(.x$eras),
                          "| Basin:", unique(.x$basin_AIP)))
   )
 
@@ -639,11 +700,12 @@ cant_section_all_long_sub %>%
 
 ### Bias correlation
 
-```{r section_bias_plots_era_basin_split, fig.asp=1}
+```{r section_bias_plots_rarefication, fig.asp=1}
 
 axis_limit <- 20
 
 cant_section_all_sub %>%
+  filter(vif_max == 1000) %>% 
   group_split(eras) %>%
   # head(1) %>%
   map(
@@ -657,11 +719,12 @@ cant_section_all_sub %>%
         ylim = c(-axis_limit, axis_limit)
       ) +
       labs(title = paste("Eras:", unique(.x$eras))) +
-      facet_grid(MLR_basins ~ basin_AIP)
+      facet_grid(rarefication_threshold ~ basin_AIP)
   )
 
 
 cant_section_all_sub %>%
+  filter(vif_max == 1000) %>% 
   group_split(eras) %>%
   # head(1) %>% 
   map(
@@ -675,10 +738,11 @@ cant_section_all_sub %>%
         ylim = c(-axis_limit, axis_limit)
       ) +
       labs(title = paste("Eras:", unique(.x$eras))) +
-      facet_grid(MLR_basins ~ basin_AIP)
+      facet_grid(rarefication_threshold ~ basin_AIP)
   )
 
 cant_section_all_sub %>%
+  filter(vif_max == 1000) %>% 
   group_split(eras) %>%
   # head(1) %>% 
   map(
@@ -692,7 +756,7 @@ cant_section_all_sub %>%
         ylim = c(-axis_limit, axis_limit)
       ) +
       labs(title = paste("Eras:", unique(.x$eras))) +
-      facet_grid(MLR_basins ~ basin_AIP)
+      facet_grid(rarefication_threshold ~ basin_AIP)
   )
 
 ```
@@ -703,46 +767,30 @@ cant_section_all_sub %>%
 
 ### Regional
 
-```{r budgets_regional_era_basin_split, fig.asp=1}
+```{r budgets_regional_rarefication, fig.asp=1}
 
 cant_budget_all_sub %>%
-  filter(inv_depth == params_global$inventory_depth_standard) %>% 
-  ggplot(aes(estimate, cant_pos_total, fill = basin_AIP)) +
+  filter(vif_max == 1000,
+         inv_depth == params_global$inventory_depth_standard) %>% 
+  ggplot(aes(as.factor(rarefication_threshold), cant_pos_total, fill = basin_AIP)) +
   scale_fill_brewer(palette = "PuBuGn") +
   geom_col(col = "black") +
-  facet_grid(MLR_basins ~ eras) +
-  theme(axis.text.x = element_text(angle = 90))
-
-```
-
-### Era additive
-
-```{r budgets_regional_era_basin_split_era_additive, fig.asp=1}
-
-cant_budget_all_sub_wide <- cant_budget_all_sub %>%
-  filter(inv_depth == params_global$inventory_depth_standard) %>% 
-  select(-c(duration, Version_ID)) %>% 
-  pivot_wider(names_from = eras,
-              values_from = cant_pos_total)
-
-cant_budget_all_sub_wide <- cant_budget_all_sub_wide %>%
-  mutate(`1994-2014 (sum)` = `1994-2006` + `2006-2014`)
-
-cant_budget_all_sub_long <- cant_budget_all_sub_wide %>%
-  select(-c(`1994-2006`, `2006-2014`)) %>% 
-  pivot_longer(c(`1994-2014`, `1994-2014 (sum)`),
-               names_to = "eras",
-               values_to = "cant_pos_total")
-
-cant_budget_all_sub_long %>% 
-  ggplot(aes(eras, cant_pos_total, fill = basin_AIP)) +
-  scale_fill_brewer(palette = "PuBuGn") +
-  geom_col(col = "black") +
-  facet_grid(MLR_basins ~ estimate) +
+  facet_grid(estimate ~ eras) +
   theme(axis.text.x = element_text(angle = 90))
 
 ```
 
 
+```{r budgets_regional_vif, fig.asp=1}
 
+cant_budget_all_sub %>%
+  filter(rarefication_threshold == 10,
+         inv_depth == params_global$inventory_depth_standard) %>% 
+  ggplot(aes(as.factor(vif_max), cant_pos_total, fill = basin_AIP)) +
+  scale_fill_brewer(palette = "PuBuGn") +
+  geom_col(col = "black") +
+  facet_grid(estimate ~ eras) +
+  theme(axis.text.x = element_text(angle = 90))
+
+```
 
