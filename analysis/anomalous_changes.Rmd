@@ -189,6 +189,8 @@ cant_section_all_long <- cant_section_all %>%
 
 # Eras vs basin split
 
+Here we compare the impact of the basin separation approach on the anomaly detection, separately for each compared eras.
+
 ```{r subset_era_basin_split}
 
 cant_inv_all_sub <- cant_inv_all %>% 
