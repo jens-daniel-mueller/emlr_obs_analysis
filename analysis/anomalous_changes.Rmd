@@ -18,7 +18,7 @@ editor_options:
 # https://jdblischak.github.io/workflowr/articles/wflow-07-common-code.html
 ```
 
-```{r define_paths, include = FALSE}
+```{r define_path, include = FALSE}
 
 # only path_observations needs to be changed to model
 path_observations <-
