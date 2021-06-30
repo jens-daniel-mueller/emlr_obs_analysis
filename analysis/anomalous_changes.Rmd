@@ -35,6 +35,7 @@ path_preprocessing_model    <-
 
 ```{r load_libraries_specific, include = FALSE}
 library(marelac)
+library(ggforce)
 ```
 
 # Data preparation
@@ -49,10 +50,11 @@ Version_IDs <- list.files(
 
 ```
 
+## Read files
 
-## Load data
+Following sensitivity cases were considered:
 
-```{r read_cant_inv_files}
+```{r read_cant_files}
 
 for (i_Version_IDs in Version_IDs) {
   # i_Version_IDs <- Version_IDs[1]
@@ -65,6 +67,7 @@ for (i_Version_IDs in Version_IDs) {
         "/data/",
         sep = "")
   
+  # read inventory file
   cant_inv <-
     read_csv(paste(path_version_data,
                    "anom_cant_mod_inv_bias.csv",
@@ -73,6 +76,25 @@ for (i_Version_IDs in Version_IDs) {
   cant_inv <- cant_inv %>% 
     mutate(Version_ID = i_Version_IDs)
   
+  # read section file
+  cant_section <-
+    read_csv(paste(path_version_data,
+                   "anom_cant_mod_section_bias.csv",
+                   sep = ""))
+  
+  cant_section <- cant_section %>% 
+    mutate(Version_ID = i_Version_IDs)
+  
+  # read budget file
+  cant_budget <-
+    read_csv(paste(path_version_data,
+                   "anom_cant_mod_inv_budget.csv",
+                   sep = ""))
+  
+  cant_budget <- cant_budget %>% 
+    mutate(Version_ID = i_Version_IDs)
+  
+  # read local parametrization files
   params_local <-
     read_rds(paste(path_version_data,
                    "params_local.rds",
@@ -80,11 +102,17 @@ for (i_Version_IDs in Version_IDs) {
   
   params_local <- bind_cols(
     Version_ID = i_Version_IDs,
-    MLR_basins = params_local$MLR_basins
+    MLR_basins = params_local$MLR_basins,
+    rarefication = params_local$rarefication,
+    rarefication_threshold = params_local$rarefication_threshold,
+    vif_max = params_local$vif_max
   )
   
   cant_inv <- full_join(cant_inv, params_local)
-  
+  cant_section <- full_join(cant_section, params_local)
+  cant_budget <- full_join(cant_budget, params_local)
+
+  # read tref file
   tref <- read_csv(paste(path_version_data,
                          "tref.csv",
                          sep = ""))
@@ -96,6 +124,15 @@ for (i_Version_IDs in Version_IDs) {
     mutate(duration = duration,
            eras = eras)
   
+  cant_section <- cant_section %>%
+    mutate(duration = duration,
+           eras = eras)
+  
+  cant_budget <- cant_budget %>%
+    mutate(duration = duration,
+           eras = eras)
+  
+  # bind inv files
   if (exists("cant_inv_all")) {
     cant_inv_all <- bind_rows(cant_inv_all, cant_inv)
   }
@@ -103,30 +140,81 @@ for (i_Version_IDs in Version_IDs) {
   if (!exists("cant_inv_all")) {
     cant_inv_all <- cant_inv
   }
+
+  # bind section files
+  if (exists("cant_section_all")) {
+    cant_section_all <- bind_rows(cant_section_all, cant_section)
+  }
+  
+  if (!exists("cant_section_all")) {
+    cant_section_all <- cant_section
+  }
+  
+  # bind budget files
+  if (exists("cant_budget_all")) {
+    cant_budget_all <- bind_rows(cant_budget_all, cant_budget)
+  }
+  
+  if (!exists("cant_budget_all")) {
+    cant_budget_all <- cant_budget
+  }
   
   
 }
 
-rm(cant_inv)
+rm(cant_inv, cant_section, cant_budget)
 
 ```
 
-## Format column inventories
 
-```{r calc_column_inventories_2021_beta}
+### Format
+
+```{r format_cant_files}
 
 cant_inv_all_long <- cant_inv_all %>%
   pivot_longer(emlr_anom:nss_projection,
                names_to = "estimate",
                values_to = "delta_cant_offset")
+
+
+cant_section_all_long <- cant_section_all %>%
+  pivot_longer(emlr_anom:nss_projection,
+               names_to = "estimate",
+               values_to = "delta_cant_offset")
+
+# unique(cant_inv_all$Version_ID)
+
 ```
 
 
+# Eras vs basin split
+
+```{r subset}
+
+cant_inv_all_sub <- cant_inv_all %>% 
+    filter(rarefication == "none")
+
+cant_inv_all_long_sub <- cant_inv_all_long %>% 
+    filter(rarefication == "none")
+
+cant_section_all_sub <- cant_section_all %>% 
+    filter(rarefication == "none")
+
+cant_section_all_long_sub <- cant_section_all_long %>% 
+    filter(rarefication == "none")
+
+cant_budget_all_sub <- cant_budget_all %>% 
+    filter(rarefication == "none")
+
+```
+
 ## Column inventories
+
+### Maps
 
 ```{r column_inventory_maps_regions_eras}
 
-cant_inv_all_long %>%
+cant_inv_all_long_sub %>%
   group_split(eras) %>%
   # head(1) %>%
   map(
@@ -137,30 +225,24 @@ cant_inv_all_long %>%
       subtitle_text = paste("Eras:", unique(.x$eras)),
       breaks = seq(-8,8,1)
     ) +
-      facet_grid(MLR_basins ~ estimate)
+      facet_grid(MLR_basins ~ estimate) +
+      theme(axis.text = element_blank(),
+            axis.ticks = element_blank())
   )
 
 
 ```
 
 
-## Bias correlation
+### Bias correlation
 
 ```{r inv_bias_plots, fig.asp=1}
 
 axis_limit <- 10
 
-# axis_limit <- cant_inv_all %>%
-#   pivot_longer(emlr_anom:nss_projection,
-#                names_to = "estimate",
-#                values_to = "bias") %>%
-#   pull(bias) %>%
-#   abs() %>%
-#   max()
-
-cant_inv_all %>%
+cant_inv_all_sub %>%
   group_split(eras) %>%
-  # head(1) %>% 
+  # head(1) %>%
   map(
     ~ ggplot(data = .x, aes(emlr_bias, emlr_anom)) +
       geom_hline(yintercept = 0) +
@@ -176,7 +258,7 @@ cant_inv_all %>%
   )
 
 
-cant_inv_all %>%
+cant_inv_all_sub %>%
   group_split(eras) %>%
   # head(1) %>% 
   map(
@@ -193,7 +275,7 @@ cant_inv_all %>%
       facet_grid(MLR_basins ~ basin_AIP)
   )
 
-cant_inv_all %>%
+cant_inv_all_sub %>%
   group_split(eras) %>%
   # head(1) %>% 
   map(
@@ -213,87 +295,13 @@ cant_inv_all %>%
 ```
 
 
+## Zonal sections
 
-
-# Zonal sections
-
-## Load data
-
-```{r read_cant_section_files}
-
-for (i_Version_IDs in Version_IDs) {
-  # i_Version_IDs <- Version_IDs[1]
-  
-  print(i_Version_IDs)
-  
-  path_version_data     <-
-  paste(path_observations,
-        i_Version_IDs,
-        "/data/",
-        sep = "")
-  
-  cant_section <-
-    read_csv(paste(path_version_data,
-                   "anom_cant_mod_section_bias.csv",
-                   sep = ""))
-  
-  cant_section <- cant_section %>% 
-    mutate(Version_ID = i_Version_IDs)
-  
-  params_local <-
-    read_rds(paste(path_version_data,
-                   "params_local.rds",
-                   sep = ""))
-  
-  params_local <- bind_cols(
-    Version_ID = i_Version_IDs,
-    MLR_basins = params_local$MLR_basins
-  )
-  
-  cant_section <- full_join(cant_section, params_local)
-  
-  tref <- read_csv(paste(path_version_data,
-                         "tref.csv",
-                         sep = ""))
-  
-  duration <- sort(tref$median_year)[2] - sort(tref$median_year)[1]
-  eras <- paste0(sort(tref$median_year)[1],"-", sort(tref$median_year)[2])
-  
-  cant_section <- cant_section %>% 
-    mutate(duration = duration,
-           eras = eras)
-  
-  if (exists("cant_section_all")) {
-    cant_section_all <- bind_rows(cant_section_all, cant_section)
-  }
-  
-  if (!exists("cant_section_all")) {
-    cant_section_all <- cant_section
-  }
-  
-  
-}
-
-rm(cant_section)
-
-```
-
-## Format column inventories
-
-```{r format_cant_section}
-
-cant_section_all_long <- cant_section_all %>%
-  pivot_longer(emlr_anom:nss_projection,
-               names_to = "estimate",
-               values_to = "delta_cant_offset")
-```
-
-
-## Section plots
+### Sections
 
 ```{r cant_sections_regions_eras, fig.asp=0.5, eval=FALSE}
 
-cant_section_all_long %>%
+cant_section_all_long_sub %>%
   group_split(eras, MLR_basins, estimate) %>%
   # head(1) %>%
   map(
@@ -303,9 +311,9 @@ cant_section_all_long %>%
       plot_slabs = "n",
       col = "divergent",
       subtitle_text = paste("Eras:", unique(.x$eras),
-                            "MLR Basins:", unique(.x$MLR_basins),
-                            "Estimate:", unique(.x$estimate)),
-      breaks = seq(-8,8,1)
+                            "| MLR Basins:", unique(.x$MLR_basins),
+                            "| Estimate:", unique(.x$estimate)),
+      breaks = c(-Inf,seq(-8,8,1), Inf)
     )
   )
 
@@ -320,21 +328,24 @@ legend_title <- expression(atop(Delta * C[ant, pos],
                                  -1
                                })))
 
-
-cant_section_all_long %>%
+cant_section_all_long_sub %>%
   group_split(eras, basin_AIP) %>% 
   # head(1) %>%
   map(
     ~ ggplot(data = .x) +
       geom_contour_filled(aes(lat, depth, z = delta_cant_offset),
-                          breaks = seq(-8, 8, 1)) +
+                          breaks =c(-Inf,seq(-8,8,1), Inf)) +
       scale_fill_scico_d(
         palette = "vik",
         drop = FALSE,
         name = legend_title
       ) +
-      guides(fill = guide_colorsteps(barheight = unit(8, "cm"))) +
-      scale_y_reverse() +
+      guides(fill = guide_colorsteps(barheight = unit(8, "cm"),
+                                     show.limits = TRUE)) +
+      # scale_y_sqrt() +
+      scale_y_continuous(trans = trans_reverser("sqrt"),
+                         breaks = c(100,500,seq(1000,5000,1000))) +
+      #scale_y_reverse() +
       scale_x_continuous(breaks = seq(-100, 100, 40),
                          limits = c(-85, 85)) +
       facet_grid(MLR_basins ~ estimate) +
@@ -346,23 +357,15 @@ cant_section_all_long %>%
 
 ```
 
-## Bias correlation
+### Bias correlation
 
 ```{r section_bias_plots, fig.asp=1}
 
 axis_limit <- 20
 
-# axis_limit <- cant_section_all %>% 
-#   pivot_longer(emlr_anom:nss_projection,
-#                names_to = "estimate",
-#                values_to = "bias") %>% 
-#   pull(bias) %>% 
-#   abs() %>% 
-#   max()
-
-cant_section_all %>%
+cant_section_all_sub %>%
   group_split(eras) %>%
-  # head(1) %>% 
+  # head(1) %>%
   map(
     ~ ggplot(data = .x, aes(emlr_bias, emlr_anom)) +
       geom_hline(yintercept = 0) +
@@ -378,7 +381,7 @@ cant_section_all %>%
   )
 
 
-cant_section_all %>%
+cant_section_all_sub %>%
   group_split(eras) %>%
   # head(1) %>% 
   map(
@@ -395,7 +398,7 @@ cant_section_all %>%
       facet_grid(MLR_basins ~ basin_AIP)
   )
 
-cant_section_all %>%
+cant_section_all_sub %>%
   group_split(eras) %>%
   # head(1) %>% 
   map(
@@ -416,76 +419,13 @@ cant_section_all %>%
 
 
 
-# Budgets
-
-## Load data
-
-```{r read_cant_budget_files}
-
-for (i_Version_IDs in Version_IDs) {
-  # i_Version_IDs <- Version_IDs[1]
-  
-  print(i_Version_IDs)
-  
-  path_version_data     <-
-  paste(path_observations,
-        i_Version_IDs,
-        "/data/",
-        sep = "")
-  
-  cant_budget <-
-    read_csv(paste(path_version_data,
-                   "anom_cant_mod_inv_budget.csv",
-                   sep = ""))
-  
-  cant_budget <- cant_budget %>% 
-    mutate(Version_ID = i_Version_IDs)
-  
-  params_local <-
-    read_rds(paste(path_version_data,
-                   "params_local.rds",
-                   sep = ""))
-  
-  params_local <- bind_cols(
-    Version_ID = i_Version_IDs,
-    MLR_basins = params_local$MLR_basins
-  )
-  
-  cant_budget <- full_join(cant_budget, params_local)
-  
-  tref <- read_csv(paste(path_version_data,
-                         "tref.csv",
-                         sep = ""))
-  
-  duration <- sort(tref$median_year)[2] - sort(tref$median_year)[1]
-  eras <- paste0(sort(tref$median_year)[1],"-", sort(tref$median_year)[2])
-  
-  cant_budget <- cant_budget %>% 
-    mutate(duration = duration,
-           eras = eras)
-  
-  if (exists("cant_budget_all")) {
-    cant_budget_all <- bind_rows(cant_budget_all, cant_budget)
-  }
-  
-  if (!exists("cant_budget_all")) {
-    cant_budget_all <- cant_budget
-  }
-  
-  
-}
-
-rm(cant_budget)
-
-```
-
-
+## Budgets
 
 ### Regional
 
-```{r budgets_regional_regions_eras_2021_beta, fig.asp=1}
+```{r budgets_regional, fig.asp=1}
 
-cant_budget_all %>%
+cant_budget_all_sub %>%
   filter(inv_depth == params_global$inventory_depth_standard) %>% 
   ggplot(aes(estimate, cant_pos_total, fill = basin_AIP)) +
   scale_fill_brewer(palette = "PuBuGn") +
