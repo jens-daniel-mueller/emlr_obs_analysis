@@ -473,20 +473,70 @@ cant_budget_all_sub_long %>%
 
 ```{r subset_rarefication_vif}
 
-cant_inv_all_sub <- cant_inv_all %>% 
-    filter(rarefication == "coarse_grid")
+cant_inv_all_sub <- cant_inv_all %>%
+  filter(rarefication == "coarse_grid" |
+           Version_ID == "v_202") %>%
+  mutate(
+    rarefication_threshold = as.character(rarefication_threshold),
+    rarefication_threshold = if_else(rarefication == "none",
+                                     "none",
+                                     rarefication_threshold),
+    rarefication_threshold = if_else(rarefication_threshold == "5",
+                                     "05",
+                                     rarefication_threshold)
+  )
 
-cant_inv_all_long_sub <- cant_inv_all_long %>% 
-    filter(rarefication == "coarse_grid")
+cant_inv_all_long_sub <- cant_inv_all_long  %>%
+  filter(rarefication == "coarse_grid" |
+           Version_ID == "v_202") %>%
+  mutate(
+    rarefication_threshold = as.character(rarefication_threshold),
+    rarefication_threshold = if_else(rarefication == "none",
+                                     "none",
+                                     rarefication_threshold),
+    rarefication_threshold = if_else(rarefication_threshold == "5",
+                                     "05",
+                                     rarefication_threshold)
+  )
 
 cant_section_all_sub <- cant_section_all %>% 
-    filter(rarefication == "coarse_grid")
+  filter(rarefication == "coarse_grid" |
+           Version_ID == "v_202") %>%
+  mutate(
+    rarefication_threshold = as.character(rarefication_threshold),
+    rarefication_threshold = if_else(rarefication == "none",
+                                     "none",
+                                     rarefication_threshold),
+    rarefication_threshold = if_else(rarefication_threshold == "5",
+                                     "05",
+                                     rarefication_threshold)
+  )
 
 cant_section_all_long_sub <- cant_section_all_long %>% 
-    filter(rarefication == "coarse_grid")
+  filter(rarefication == "coarse_grid" |
+           Version_ID == "v_202") %>%
+  mutate(
+    rarefication_threshold = as.character(rarefication_threshold),
+    rarefication_threshold = if_else(rarefication == "none",
+                                     "none",
+                                     rarefication_threshold),
+    rarefication_threshold = if_else(rarefication_threshold == "5",
+                                     "05",
+                                     rarefication_threshold)
+  )
 
 cant_budget_all_sub <- cant_budget_all %>% 
-    filter(rarefication == "coarse_grid")
+  filter(rarefication == "coarse_grid" |
+           Version_ID == "v_202") %>%
+  mutate(
+    rarefication_threshold = as.character(rarefication_threshold),
+    rarefication_threshold = if_else(rarefication == "none",
+                                     "none",
+                                     rarefication_threshold),
+    rarefication_threshold = if_else(rarefication_threshold == "5",
+                                     "05",
+                                     rarefication_threshold)
+  )
 
 ```
 
