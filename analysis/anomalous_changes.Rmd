@@ -166,7 +166,6 @@ rm(cant_inv, cant_section, cant_budget)
 
 ```
 
-
 ### Format
 
 ```{r format_cant_files}
@@ -223,7 +222,6 @@ cant_inv_all_long_sub %>%
     ~ p_map_cant_inv_offset(
       df = .x,
       var = "delta_cant_offset",
-      # col = "divergent",
       subtitle_text = paste("Eras:", unique(.x$eras)),
       breaks = seq(-8,8,1)
     ) +
