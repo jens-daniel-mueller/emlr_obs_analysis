@@ -44,7 +44,7 @@ library(ggforce)
 
 Version_IDs <- list.files(
   path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-  pattern = "v_2")
+  pattern = "v_3")
 
 # Version_IDs <- Version_IDs[1:4]
 
@@ -437,7 +437,7 @@ cant_budget_all_sub %>%
 
 ### Era additive
 
-```{r budgets_regional_era_basin_split_era_additive, fig.asp=1}
+```{r budgets_regional_era_basin_split_era_additive, fig.asp=1, eval=FALSE}
 
 cant_budget_all_sub_wide <- cant_budget_all_sub %>%
   filter(inv_depth == params_global$inventory_depth_standard) %>% 
