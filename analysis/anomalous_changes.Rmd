@@ -437,7 +437,7 @@ cant_budget_all_sub %>%
 
 ### Era additive
 
-```{r budgets_regional_era_basin_split_era_additive, fig.asp=1, eval=FALSE}
+```{r budgets_regional_era_basin_split_era_additive, fig.asp=1}
 
 cant_budget_all_sub_wide <- cant_budget_all_sub %>%
   filter(inv_depth == params_global$inventory_depth_standard) %>% 
@@ -446,10 +446,10 @@ cant_budget_all_sub_wide <- cant_budget_all_sub %>%
               values_from = cant_pos_total)
 
 cant_budget_all_sub_wide <- cant_budget_all_sub_wide %>%
-  mutate(`1994-2014 (sum)` = `1994-2006` + `2006-2014`)
+  mutate(`1994-2014 (sum)` = `1994-2005` + `2005-2014`)
 
 cant_budget_all_sub_long <- cant_budget_all_sub_wide %>%
-  select(-c(`1994-2006`, `2006-2014`)) %>% 
+  select(-c(`1994-2005`, `2005-2014`)) %>% 
   pivot_longer(c(`1994-2014`, `1994-2014 (sum)`),
                names_to = "eras",
                values_to = "cant_pos_total")
