@@ -42,9 +42,16 @@ library(ggforce)
 
 ```{r read_version_IDs}
 
-Version_IDs <- list.files(
+Version_IDs_2 <- list.files(
   path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-  pattern = "v_3")
+  pattern = c("v_2"))
+
+Version_IDs_3 <- list.files(
+  path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+  pattern = c("v_3"))
+
+Version_IDs <- c(Version_IDs_2, Version_IDs_3)
+rm(Version_IDs_2, Version_IDs_3)
 
 # Version_IDs <- Version_IDs[1:4]
 
@@ -242,16 +249,23 @@ Here we compare the impact of the basin separation approach on the anomaly detec
 
 ```{r subset_era_basin_split}
 
-cant_inv_all_sub <- cant_inv_all %>% 
-    filter(rarefication == "none",
-           inv_depth == params_global$inventory_depth_standard)
+cant_inv_all_sub <- cant_inv_all %>%
+  filter(
+    rarefication == "none",
+    inv_depth == params_global$inventory_depth_standard,
+    data_source == "obs"
+  )
+
+cant_inv_all_sub <- cant_inv_all_sub %>%
+  mutate(gap_filling = if_else(str_starts(Version_ID, "v_2"), "none", "CANYON-B"))
 
 # unique(cant_inv_all_sub$Version_ID)
 
 
-
-cant_section_all_sub <- cant_section_all %>% 
-    filter(rarefication == "none")
+cant_section_all_sub <- cant_section_all %>%
+  filter(rarefication == "none",
+         data_source == "obs") %>%
+  mutate(gap_filling = if_else(str_starts(Version_ID, "v_2"), "none", "CANYON-B"))
 
 # unique(cant_section_all_sub$Version_ID)
 
@@ -274,7 +288,7 @@ cant_inv_all_sub %>%
       var = "cant_inv",
       subtitle_text = paste("Eras:", unique(.x$eras))
     ) +
-      facet_grid(MLR_basins ~ data_source) +
+      facet_grid(MLR_basins ~ gap_filling) +
       theme(axis.text = element_blank(),
             axis.ticks = element_blank())
   )
@@ -285,26 +299,6 @@ cant_inv_all_sub %>%
 ## Zonal sections
 
 ### Sections
-
-```{r cant_sections_era_basin_split, eval=FALSE, fig.asp=0.5}
-
-cant_section_all_sub %>%
-  group_split(eras, data_source, MLR_basins) %>%
-  # head(1) %>%
-  map(
-    ~ p_section_zonal(
-      df = .x,
-      var = "cant_mean",
-      plot_slabs = "n",
-      col = "continuous",
-      subtitle_text = paste("Eras:", unique(.x$eras),
-                            "| data source:", unique(.x$data_source),
-                            "| MLR Basins:", unique(.x$MLR_basins))
-    )
-  )
-
-
-```
 
 
 ```{r cant_sections_era_basin_split_facet}
@@ -328,13 +322,11 @@ cant_section_all_sub %>%
       ) +
       guides(fill = guide_colorsteps(barheight = unit(8, "cm"),
                                      show.limits = TRUE)) +
-      # scale_y_sqrt() +
       scale_y_continuous(trans = trans_reverser("sqrt"),
                          breaks = c(100,500,seq(1000,5000,1000))) +
-      #scale_y_reverse() +
       scale_x_continuous(breaks = seq(-100, 100, 40),
                          limits = c(-85, 85)) +
-      facet_grid(MLR_basins ~ data_source) +
+      facet_grid(MLR_basins ~ gap_filling) +
       coord_cartesian(expand = 0) +
       labs(title = paste("Eras", unique(.x$eras),
                          "| Basin:", unique(.x$basin_AIP)))

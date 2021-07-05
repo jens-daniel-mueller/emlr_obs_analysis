@@ -11,6 +11,8 @@ navbar:
     href: column_inventories.html
   - text: Anomalous Changes
     href: anomalous_changes.html
+  - text: Observations
+    href: observations.html
   - text: Publication
     href: publication.html
   right:

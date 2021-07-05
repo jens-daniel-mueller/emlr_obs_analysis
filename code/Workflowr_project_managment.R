@@ -5,7 +5,7 @@
 
 
 # commit regular changes (locally) and rebuild site
-wflow_publish(all = TRUE, message = "test gap filled output")
+wflow_publish(all = TRUE, message = "compare gap filled vs regular output")
 
 # commit changes including _site.yml (locally) and rebuild site
 wflow_publish(c("analysis/*Rmd"), message = "XXX", republish = TRUE)
@@ -18,10 +18,11 @@ wflow_publish(here::here(
     "Gruber_2019_comparison.Rmd",
     "column_inventories.Rmd",
     "anomalous_changes.Rmd",
+    "observations.Rmd",
     "publication.Rmd"
   )
 ),
-message = "include test on anomlous changes",
+message = "rerun with observations",
 republish = TRUE)
 
 
