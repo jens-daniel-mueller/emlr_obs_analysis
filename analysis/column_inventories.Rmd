@@ -242,7 +242,7 @@ p_map_cant_inv(df = dcant_inv_ensemble,
 dcant_inv_ensemble_bias <- full_join(
   dcant_inv_ensemble %>%
     filter(data_source == "mod") %>% 
-    select(lat, lon, period, dcant_mean),
+    select(lat, lon, period, dcant_mean, dcant_sd),
   dcant_inv_all %>%
     filter(data_source == "mod_truth",
            MLR_basins == "2") %>% 
@@ -267,13 +267,45 @@ dcant_inv_ensemble_bias %>%
 
 p_map_cant_inv(
   df = dcant_inv_ensemble,
-  var = "dcant_range",
-  breaks = c(seq(0,8,0.8), Inf),
-  subtitle_text = paste("Ensemble range")
+  var = "dcant_sd",
+  breaks = c(seq(0,4,0.4), Inf),
+  subtitle_text = paste("Ensemble SD")
 ) +
   facet_grid(period ~ data_source)
 
 
+
+```
+
+
+## SD vs bias
+
+```{r ensemble_sd_vs_bias, fig.asp=0.5}
+
+dcant_inv_ensemble_bias %>% 
+  ggplot(aes(dcant_mean_bias, dcant_sd)) +
+  geom_bin2d() +
+  scale_fill_viridis_c() +
+  facet_grid(. ~ period)
+
+dcant_inv_ensemble_bias %>% 
+  ggplot(aes(dcant_mean_bias)) +
+  geom_histogram() +
+  facet_grid(. ~ period)
+
+dcant_inv_ensemble_bias %>% 
+  ggplot(aes(dcant_mean)) +
+  geom_histogram() +
+  facet_grid(. ~ period)
+
+dcant_inv_ensemble_bias %>% 
+  select(dcant_mean, dcant_mean_bias, period) %>% 
+  pivot_longer(dcant_mean:dcant_mean_bias,
+               names_to = "estimate",
+               values_to = "value") %>% 
+  ggplot(aes(value, col=estimate, linetype = period)) +
+  scale_color_brewer(palette = "Set1") +
+  geom_density()
 
 ```
 
