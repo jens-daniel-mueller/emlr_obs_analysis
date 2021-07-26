@@ -5,25 +5,17 @@
 
 
 # commit regular changes (locally) and rebuild site
-wflow_publish(all = TRUE, message = "compare gap filled vs regular output")
+wflow_publish(all = TRUE, message = "cleaned code and output")
 
 # commit changes including _site.yml (locally) and rebuild site
 wflow_publish(c("analysis/*Rmd"), message = "XXX", republish = TRUE)
 
 # commit changes including _site.yml (locally) and rebuild site in the specified order
-wflow_publish(here::here(
-  "analysis",
-  c(
-    "index.Rmd",
-    "Gruber_2019_comparison.Rmd",
-    "column_inventories.Rmd",
-    "anomalous_changes.Rmd",
-    "observations.Rmd",
-    "publication.Rmd"
-  )
-),
-message = "rerun with observations",
-republish = TRUE)
+wflow_publish(here::here("analysis",
+                         c("index.Rmd",
+                           "column_inventories.Rmd")),
+              message = "rebuildt with latest results",
+              republish = TRUE)
 
 
 # Push latest version to GitHub

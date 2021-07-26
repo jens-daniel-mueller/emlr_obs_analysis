@@ -5,16 +5,10 @@ navbar:
   left:
   - text: Home
     href: index.html
-  - text: Gruber comparison
-    href: Gruber_2019_comparison.html
-  - text: Column inventories
-    href: column_inventories.html
-  - text: Anomalous Changes
-    href: anomalous_changes.html
-  - text: Observations
-    href: observations.html
-  - text: Publication
-    href: publication.html
+  - text: Standard cases
+    menu:
+    - text: Column inventories
+      href: column_inventories.html
   right:
   - icon: fa-github
     text: Source code
