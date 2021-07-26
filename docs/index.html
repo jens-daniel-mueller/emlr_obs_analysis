@@ -303,20 +303,17 @@ $(document).ready(function () {
         <li>
   <a href="index.html">Home</a>
 </li>
-<li>
-  <a href="Gruber_2019_comparison.html">Gruber comparison</a>
-</li>
-<li>
-  <a href="column_inventories.html">Column inventories</a>
-</li>
-<li>
-  <a href="anomalous_changes.html">Anomalous Changes</a>
-</li>
-<li>
-  <a href="observations.html">Observations</a>
-</li>
-<li>
-  <a href="publication.html">Publication</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Standard cases
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="column_inventories.html">Column inventories</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -353,7 +350,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Home</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">05 July, 2021</h4>
+<h4 class="date">26 July, 2021</h4>
 
 </div>
 
@@ -378,7 +375,7 @@ $(document).ready(function () {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-07-05
+<strong>Last updated:</strong> 2021-07-26
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -469,16 +466,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreec330a096e2f93e4a0f9111baaa1c2f252971b120targetblankc330a09a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/c330a096e2f93e4a0f9111baaa1c2f252971b120" target="_blank">c330a09</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreef0004666fec3ab697cdf0a394a27ef84b61dc365targetblankf000466a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/f0004666fec3ab697cdf0a394a27ef84b61dc365" target="_blank">f000466</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreec330a096e2f93e4a0f9111baaa1c2f252971b120targetblankc330a09a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreef0004666fec3ab697cdf0a394a27ef84b61dc365targetblankf000466a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/c330a096e2f93e4a0f9111baaa1c2f252971b120" target="_blank">c330a09</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/f0004666fec3ab697cdf0a394a27ef84b61dc365" target="_blank">f000466</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -491,8 +488,19 @@ Ignored files:
     Ignored:    output/Gruber_2019_comparison/
     Ignored:    output/publication/
 
+Untracked files:
+    Untracked:  code/Gruber_2019_comparison.Rmd
+    Untracked:  code/anomalous_changes.Rmd
+    Untracked:  code/budgets.Rmd
+    Untracked:  code/observations.Rmd
+    Untracked:  code/publication.Rmd
+
 Unstaged changes:
+    Deleted:    analysis/Gruber_2019_comparison.Rmd
     Modified:   analysis/_site.yml
+    Deleted:    analysis/anomalous_changes.Rmd
+    Deleted:    analysis/observations.Rmd
+    Deleted:    analysis/publication.Rmd
     Modified:   code/Workflowr_project_managment.R
 
 </code></pre>
@@ -532,6 +540,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/7493389448c53ccfbe36129b13958405274ffff9/docs/index.html" target="_blank">7493389</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-07-05
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
