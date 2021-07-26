@@ -1,0 +1,750 @@
+---
+title: "Column inventories"
+author: "Jens Daniel Müller"
+date:  "`r format(Sys.time(), '%d %B, %Y')`"
+output: 
+  workflowr::wflow_html:
+    number_sections: true
+    toc_depth: 3
+    toc_float:
+      collapsed: false
+editor_options:
+  chunk_output_type: console
+---
+
+```{r parent, child = "/nfs/kryo/work/jenmueller/emlr_cant/utilities/setup_obs.Rmd"}
+# this chunk runs the code stored in setup.Rmd
+# if required, please refer to instructions given here:
+# https://jdblischak.github.io/workflowr/articles/wflow-07-common-code.html
+```
+
+```{r define_paths, include = FALSE}
+
+# only path_observations needs to be changed to model
+path_observations <-
+  paste(path_root, "/observations/", sep = "")
+
+path_preprocessing    <-
+  paste(path_observations, "preprocessing/", sep = "")
+
+
+path_preprocessing_model    <-
+  paste(path_root, "/model/preprocessing/", sep = "")
+
+```
+
+```{r load_libraries_specific, include = FALSE}
+library(marelac)
+```
+
+# GLODAPv2.2020
+
+# Data preparation
+
+## Load data
+
+```{r read_files}
+
+# Version_IDs <- list.files(
+#   path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+#   pattern = "v_")[1:34]
+
+Version_IDs_1 <- list.files(
+  path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+  pattern = "v_10")[1:4]
+
+Version_IDs_2 <- list.files(
+  path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+  pattern = "v_20")[1:4]
+
+Version_IDs <- c(Version_IDs_1, Version_IDs_2)
+rm(Version_IDs_1, Version_IDs_2)
+
+# Version_IDs <- Version_IDs[1:length(Version_IDs)-1]
+
+for (i_Version_IDs in Version_IDs) {
+  # i_Version_IDs <- Version_IDs[1]
+  
+  print(i_Version_IDs)
+  
+  path_version_data     <-
+  paste(path_observations,
+        i_Version_IDs,
+        "/data/",
+        sep = "")
+  
+  dcant_inv <-
+    read_csv(paste(path_version_data,
+                   "dcant_inv.csv",
+                   sep = ""))
+  
+  dcant_inv_mod_truth <-
+    read_csv(paste(path_version_data,
+                   "dcant_inv_mod_truth.csv",
+                   sep = "")) %>% 
+    filter(method == "total") %>% 
+    select(-method)
+  
+  dcant_inv_bias <-
+    read_csv(paste(path_version_data,
+                   "dcant_inv_bias.csv",
+                   sep = ""))
+  
+  dcant_inv <- bind_rows(dcant_inv,
+                         dcant_inv_mod_truth)
+  
+  dcant_inv <- dcant_inv %>% 
+    mutate(Version_ID = i_Version_IDs)
+  
+  dcant_inv_bias <- dcant_inv_bias %>% 
+    mutate(Version_ID = i_Version_IDs)
+  
+  params_local <-
+    read_rds(paste(path_version_data,
+                   "params_local.rds",
+                   sep = ""))
+  
+  params_local <- bind_cols(
+    Version_ID = i_Version_IDs,
+    MLR_basins = params_local$MLR_basins,
+    tref1 = params_local$tref1,
+    tref2 = params_local$tref2,
+    gap_filling = params_local$gap_filling,
+    rarefication = params_local$rarefication,
+    vif_max = params_local$vif_max
+  )
+  
+  # dcant_inv <- full_join(dcant_inv, params_local)
+  
+  tref <- read_csv(paste(path_version_data,
+                         "tref.csv",
+                         sep = ""))
+  
+  params_local <- params_local %>% 
+    mutate(median_year_1 = sort(tref$median_year)[1],
+           median_year_2 = sort(tref$median_year)[2],
+           duration = median_year_2 - median_year_1)
+  
+  # dcant_inv <- dcant_inv %>% 
+  #   mutate(duration = duration)
+  
+  if (exists("dcant_inv_all")) {
+    dcant_inv_all <- bind_rows(dcant_inv_all, dcant_inv)
+  }
+  
+  if (!exists("dcant_inv_all")) {
+    dcant_inv_all <- dcant_inv
+  }
+
+  if (exists("dcant_inv_bias_all")) {
+    dcant_inv_bias_all <- bind_rows(dcant_inv_bias_all, dcant_inv_bias)
+  }
+  
+  if (!exists("dcant_inv_bias_all")) {
+    dcant_inv_bias_all <- dcant_inv_bias
+  }
+
+  if (exists("params_local_all")) {
+    params_local_all <- bind_rows(params_local_all, params_local)
+  }
+  
+  if (!exists("params_local_all")) {
+    params_local_all <- params_local
+  }
+  
+  
+}
+
+rm(dcant_inv, dcant_inv_bias, dcant_inv_mod_truth,
+   params_local, tref)
+
+dcant_inv_all <- full_join(dcant_inv_all,
+                           params_local_all)
+
+dcant_inv_bias_all <- full_join(dcant_inv_bias_all,
+                                params_local_all)
+
+```
+
+## Format column inventories
+
+```{r filter_standard_inventory_depth}
+
+dcant_inv_all <- dcant_inv_all %>%
+  filter(inv_depth == params_global$inventory_depth_standard)
+
+```
+
+# MLR regions
+
+## Column inventories
+
+```{r column_inventory_maps_regions_eras, fig.asp=1}
+
+dcant_inv_all %>%
+  filter(data_source %in% c("mod", "obs")) %>%
+  group_by(tref1) %>%
+  group_split() %>%
+  head(1) %>% 
+  map(
+    ~ p_map_cant_inv(df = .x,
+                     var = "dcant",
+                     subtitle_text = paste("data_source: observations | period:",
+                                           unique(.x$tref1))) +
+      facet_grid(MLR_basins ~ data_source)
+  )
+
+dcant_inv_ensemble <- dcant_inv_all %>% 
+  filter(data_source %in% c("mod", "obs")) %>% 
+  group_by(lat, lon, data_source, tref1) %>% 
+  summarise(dcant_mean = mean(dcant),
+            dcant_sd = sd(dcant),
+            dcant_range = max(dcant)- min(dcant)) %>% 
+  ungroup()
+
+p_map_cant_inv(df = dcant_inv_ensemble,
+                     var = "dcant_mean",
+                     subtitle_text = paste("data_source: observations")) +
+      facet_grid(tref1 ~ data_source)
+
+p_map_cant_inv(
+  df = dcant_inv_ensemble,
+  var = "dcant_sd",
+  breaks = c(seq(0,4,0.4), Inf),
+  subtitle_text = paste("data_source: observations")
+) +
+  facet_grid(tref1 ~ data_source)
+
+p_map_cant_inv(
+  df = dcant_inv_ensemble,
+  var = "dcant_range",
+  breaks = c(seq(0,8,0.8), Inf),
+  subtitle_text = paste("data_source: observations")
+) +
+  facet_grid(tref1 ~ data_source)
+
+dcant_inv_bias_all %>%
+  p_map_cant_inv(var = "dcant_bias",
+                 col = "bias",
+                 subtitle_text = "data_source: mod - mod_truth") +
+  facet_grid(MLR_basins ~ .)
+
+```
+
+## Budgets
+
+### Regional
+
+```{r budgets_regional_regions_eras, fig.asp=1}
+
+dcant_inv_budget_sub <- dcant_inv_budget %>%
+  filter(Version_ID %in% Version_IDs[1:8])
+
+dcant_inv_budget_sub %>%
+  ggplot(aes(data_source, dcant_total/duration, fill = basin_AIP)) +
+  scale_fill_brewer(palette = "PuBuGn") +
+  geom_col(col = "black") +
+  labs(y = expression(Uptake~rate ~ (PgC ~ yr ^ {-1}))) +
+  facet_grid(MLR_basins ~ era_duplication)
+
+```
+
+### Global
+
+```{r budget_global_regions_eras}
+
+dcant_inv_budget_sub %>%
+  filter(data_source == "obs") %>% 
+  group_by(MLR_basins, era_duplication) %>% 
+  summarise(rate = sum(dcant_total/duration)) %>% 
+  ungroup() %>% 
+  ggplot(aes(era_duplication, rate, fill=MLR_basins)) +
+  geom_bar(stat="identity", position=position_dodge(), col="black") +
+  scale_y_continuous() +
+  labs(y = expression(Uptake~rate ~ (PgC ~ yr ^ {-1})),
+       x = "") +
+  scale_fill_brewer(palette = "PuBuGn")
+
+rm(dcant_inv_budget_sub)
+
+```
+
+
+# CANYON-B threshold
+
+## Column inventories
+
+```{r column_inventory_maps_CANYON_B_max}
+
+dcant_inv_all_bias_sub <- dcant_inv_all_bias %>%
+  filter(Version_ID %in% Version_IDs[c(1,11,12)])
+
+dcant_inv_all_bias_sub %>% 
+  p_map_dcant_inv(var = "obs",
+                 col = "divergent",
+                 subtitle_text = "data_source: observations") +
+  facet_grid(CANYON_B_max ~ .)
+
+
+dcant_inv_all_bias_sub %>%
+  p_map_dcant_inv(var = "dcant_bias",
+                 col = "bias",
+                 subtitle_text = "data_source: mod - mod_truth") +
+  facet_grid(CANYON_B_max ~ .)
+
+rm(dcant_inv_all_bias_sub)
+
+```
+
+## Budgets
+
+### Regional
+
+```{r budgets_regional_CANYON_B_max, fig.asp=1}
+
+dcant_inv_budget_sub <- dcant_inv_budget %>%
+  filter(Version_ID %in% Version_IDs[c(1,11,12)]) %>% 
+  mutate(CANYON_B_max = as.factor(CANYON_B_max))
+
+dcant_inv_budget_sub %>%
+  ggplot(aes(data_source, dcant_total/duration, fill = basin_AIP)) +
+  scale_fill_brewer(palette = "PuBuGn") +
+  geom_col(col = "black") +
+  labs(y = expression(Uptake~rate ~ (PgC ~ yr ^ {-1}))) +
+  facet_grid(CANYON_B_max ~ .)
+
+```
+
+### Global
+
+```{r budget_global_CANYON_B_max}
+
+dcant_inv_budget_sub %>%
+  filter(data_source == "obs") %>% 
+  group_by(CANYON_B_max) %>% 
+  summarise(rate = sum(dcant_total/duration)) %>% 
+  ungroup() %>% 
+  ggplot(aes(NA, rate, fill = CANYON_B_max)) +
+  geom_bar(stat="identity", position=position_dodge(), col="black") +
+  scale_y_continuous() +
+  labs(y = expression(Uptake~rate ~ (PgC ~ yr ^ {-1}))) +
+  scale_fill_brewer(palette = "PuBuGn") +
+  theme(axis.text.x = element_blank(),
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank())
+
+rm(dcant_inv_budget_sub)
+
+```
+
+
+# C* RMSE threshold
+
+## Column inventories
+
+```{r column_inventory_maps_c_star_rmse_max}
+
+dcant_inv_all_bias_sub <- dcant_inv_all_bias %>%
+  filter(Version_ID %in% Version_IDs[c(1,13,14)])
+
+dcant_inv_all_bias_sub %>% 
+  p_map_dcant_inv(var = "obs",
+                 col = "divergent",
+                 subtitle_text = "data_source: observations") +
+  facet_grid(c_star_rmse_max ~ .)
+
+
+dcant_inv_all_bias_sub %>%
+  p_map_dcant_inv(var = "dcant_bias",
+                 col = "bias",
+                 subtitle_text = "data_source: mod - mod_truth") +
+  facet_grid(c_star_rmse_max ~ .)
+
+rm(dcant_inv_all_bias_sub)
+
+```
+
+## Budgets
+
+### Regional
+
+```{r budgets_regional_c_star_rmse_max, fig.asp=1}
+
+dcant_inv_budget_sub <- dcant_inv_budget %>%
+  filter(Version_ID %in% Version_IDs[c(1,13,14)]) %>% 
+  mutate(c_star_rmse_max = as.factor(c_star_rmse_max))
+
+dcant_inv_budget_sub %>%
+  ggplot(aes(data_source, dcant_total/duration, fill = basin_AIP)) +
+  scale_fill_brewer(palette = "PuBuGn") +
+  geom_col(col = "black") +
+  labs(y = expression(Uptake~rate ~ (PgC ~ yr ^ {-1}))) +
+  facet_grid(c_star_rmse_max ~ .)
+
+```
+
+### Global
+
+```{r budget_global_c_star_rmse_max}
+
+dcant_inv_budget_sub %>%
+  filter(data_source == "obs") %>% 
+  group_by(c_star_rmse_max) %>% 
+  summarise(rate = sum(dcant_total/duration)) %>% 
+  ungroup() %>% 
+  ggplot(aes(NA, rate, fill = c_star_rmse_max)) +
+  geom_bar(stat="identity", position=position_dodge(), col="black") +
+  scale_y_continuous() +
+  labs(y = expression(Uptake~rate ~ (PgC ~ yr ^ {-1}))) +
+  scale_fill_brewer(palette = "PuBuGn") +
+  theme(axis.text.x = element_blank(),
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank())
+
+rm(dcant_inv_budget_sub)
+
+```
+
+
+# VIF max
+
+## Column inventories
+
+```{r column_inventory_maps_vif_max}
+
+dcant_inv_all_bias_sub <- dcant_inv_all_bias %>%
+  filter(Version_ID %in% Version_IDs[c(1,15,16)])
+
+dcant_inv_all_bias_sub %>% 
+  p_map_dcant_inv(var = "obs",
+                 col = "divergent",
+                 subtitle_text = "data_source: observations") +
+  facet_grid(vif_max ~ .)
+
+
+dcant_inv_all_bias_sub %>%
+  p_map_dcant_inv(var = "dcant_bias",
+                 col = "bias",
+                 subtitle_text = "data_source: mod - mod_truth") +
+  facet_grid(vif_max ~ .)
+
+rm(dcant_inv_all_bias_sub)
+
+```
+
+## Budgets
+
+### Regional
+
+```{r budgets_regional_vif_max, fig.asp=1}
+
+dcant_inv_budget_sub <- dcant_inv_budget %>%
+  filter(Version_ID %in% Version_IDs[c(1,15,16)]) %>% 
+  mutate(vif_max = as.factor(vif_max))
+
+dcant_inv_budget_sub %>%
+  ggplot(aes(data_source, dcant_total/duration, fill = basin_AIP)) +
+  scale_fill_brewer(palette = "PuBuGn") +
+  geom_col(col = "black") +
+  labs(y = expression(Uptake~rate ~ (PgC ~ yr ^ {-1}))) +
+  facet_grid(vif_max ~ .)
+
+```
+
+### Global
+
+```{r budget_global_vif_max}
+
+dcant_inv_budget_sub %>%
+  filter(data_source == "obs") %>% 
+  group_by(vif_max) %>% 
+  summarise(rate = sum(dcant_total/duration)) %>% 
+  ungroup() %>% 
+  ggplot(aes(NA, rate, fill = vif_max)) +
+  geom_bar(stat="identity", position=position_dodge(), col="black") +
+  scale_y_continuous() +
+  labs(y = expression(Uptake~rate ~ (PgC ~ yr ^ {-1}))) +
+  scale_fill_brewer(palette = "PuBuGn") +
+  theme(axis.text.x = element_blank(),
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank())
+
+rm(dcant_inv_budget_sub)
+
+```
+
+
+# MLR target variable
+
+## Column inventories
+
+```{r column_inventory_maps_MLR_target}
+
+dcant_inv_all_bias_sub <- dcant_inv_all_bias %>%
+  filter(Version_ID %in% Version_IDs[c(1,9,10)])
+
+dcant_inv_all_bias_sub %>% 
+  p_map_dcant_inv(var = "obs",
+                 col = "divergent",
+                 subtitle_text = "data_source: observations") +
+  facet_grid(MLR_target ~ .)
+
+
+dcant_inv_all_bias_sub %>%
+  p_map_dcant_inv(var = "dcant_bias",
+                 col = "bias",
+                 subtitle_text = "data_source: mod - mod_truth") +
+  facet_grid(MLR_target ~ .)
+
+rm(dcant_inv_all_bias_sub)
+
+```
+
+## Budgets
+
+### Regional
+
+```{r budgets_regional_MLR_target, fig.asp=1}
+
+dcant_inv_budget_sub <- dcant_inv_budget %>%
+  filter(Version_ID %in% Version_IDs[c(1,9,10)]) %>% 
+  mutate(MLR_target = as.factor(MLR_target))
+
+dcant_inv_budget_sub %>%
+  ggplot(aes(data_source, dcant_total/duration, fill = basin_AIP)) +
+  scale_fill_brewer(palette = "PuBuGn") +
+  geom_col(col = "black") +
+  labs(y = expression(Uptake~rate ~ (PgC ~ yr ^ {-1}))) +
+  facet_grid(MLR_target ~ .)
+
+```
+
+### Global
+
+```{r budget_global_MLR_target}
+
+dcant_inv_budget_sub %>%
+  filter(data_source == "obs") %>% 
+  group_by(MLR_target) %>% 
+  summarise(rate = sum(dcant_total/duration)) %>% 
+  ungroup() %>% 
+  ggplot(aes(NA, rate, fill = MLR_target)) +
+  geom_bar(stat="identity", position=position_dodge(), col="black") +
+  scale_y_continuous() +
+  labs(y = expression(Uptake~rate ~ (PgC ~ yr ^ {-1}))) +
+  scale_fill_brewer(palette = "PuBuGn") +
+  theme(axis.text.x = element_blank(),
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank())
+
+rm(dcant_inv_budget_sub)
+
+```
+
+
+# GLODAPv2.2021 prerelease
+
+# Data preparation
+
+## Load data
+
+```{r read_files_2021_beta}
+
+dcant_inv_all <- dcant_inv_all %>% 
+  select(-era_duplication) %>% 
+  mutate(GLODAPv2_version = "2020")
+
+Version_IDs <- list.files(
+  path = "/nfs/kryo/work/jenmueller/emlr_dcant/observations",
+  pattern = "v_2")
+
+# Version_IDs <- Version_IDs[1:length(Version_IDs)-1]
+
+for (i_Version_IDs in Version_IDs) {
+  # i_Version_IDs <- Version_IDs[1]
+  
+  print(i_Version_IDs)
+  
+  path_version_data     <-
+  paste(path_observations,
+        i_Version_IDs,
+        "/data/",
+        sep = "")
+  
+  dcant_inv <-
+    read_csv(paste(path_version_data,
+                   "dcant_inv.csv",
+                   sep = ""))
+  
+  dcant_inv_mod_truth <-
+    read_csv(paste(path_version_data,
+                   "dcant_inv_mod_truth.csv",
+                   sep = ""))
+  
+  dcant_inv <- bind_rows(dcant_inv, dcant_inv_mod_truth)
+  
+  dcant_inv <- dcant_inv %>% 
+    mutate(Version_ID = i_Version_IDs)
+  
+  params_local <-
+    read_rds(paste(path_version_data,
+                   "params_local.rds",
+                   sep = ""))
+  
+  params_local <- bind_cols(
+    Version_ID = i_Version_IDs,
+    MLR_basins = params_local$MLR_basins,
+    MLR_target = params_local$MLR_target,
+    CANYON_B_max = params_local$CANYON_B_max,
+    c_star_rmse_max = params_local$c_star_rmse_max,
+    vif_max = params_local$vif_max,
+    GLODAPv2_version = params_local$GLODAPv2_version
+  )
+  
+  dcant_inv <- full_join(dcant_inv, params_local)
+  
+  tref <- read_csv(paste(path_version_data,
+                         "tref.csv",
+                         sep = ""))
+  
+  duration <- sort(tref$median_year)[2] - sort(tref$median_year)[1]
+  
+  dcant_inv <- dcant_inv %>% 
+    mutate(duration = duration)
+  
+  if (exists("dcant_inv_all")) {
+    dcant_inv_all <- bind_rows(dcant_inv_all, dcant_inv)
+  }
+  
+  if (!exists("dcant_inv_all")) {
+    dcant_inv_all <- dcant_inv
+  }
+  
+  
+}
+
+rm(dcant_inv)
+
+```
+
+## Format column inventories
+
+```{r filter_standard_inventory_depth_2021_beta}
+
+dcant_inv_all <- dcant_inv_all %>%
+  filter(inv_depth == params_global$inventory_depth_standard)
+
+```
+
+```{r calc_column_inventories_2021_beta}
+
+dcant_inv_all_bias <- dcant_inv_all %>%
+  select(lat, lon, data_source, dcant_inv, Version_ID, 
+         GLODAPv2_version, MLR_basins,
+         MLR_target, CANYON_B_max, vif_max, c_star_rmse_max) %>%
+  pivot_wider(names_from = data_source,
+              values_from = dcant_inv) %>%
+  mutate(dcant_bias = mod - mod_truth) %>%
+  drop_na()
+
+```
+
+## Calculate budgets
+
+```{r calc_budgets_2021_beta}
+
+dcant_inv_budget <- dcant_inv_all %>% 
+  mutate(surface_area = earth_surf(lat, lon),
+         dcant_inv_grid = dcant_inv*surface_area,
+         dcant_pos_inv_grid = dcant_pos_inv*surface_area) %>% 
+  group_by(basin_AIP, data_source,
+           Version_ID, MLR_basins,
+           GLODAPv2_version, duration,
+           MLR_target, CANYON_B_max, vif_max, c_star_rmse_max) %>% 
+  summarise(dcant_total = sum(dcant_inv_grid)*12*1e-15,
+            dcant_total = round(dcant_total,1),
+            dcant_pos_total = sum(dcant_pos_inv_grid)*12*1e-15,
+            dcant_pos_total = round(dcant_pos_total,1)) %>% 
+  ungroup()
+
+dcant_inv_budget %>%
+  group_by(data_source, Version_ID) %>%
+  summarise(dcant_total = sum(dcant_total),
+            dcant_total = round(dcant_total,1),
+            dcant_pos_total = sum(dcant_pos_total),
+            dcant_pos_total = round(dcant_pos_total,1),
+            dcant_total_rate = dcant_total / duration,
+            dcant_pos_total_rate = dcant_pos_total / duration) %>%
+  ungroup()
+
+```
+
+
+# MLR regions and era overlap
+
+## Column inventories
+
+```{r column_inventory_maps_regions_eras_2021_beta, fig.asp=1}
+
+dcant_inv_all_bias_sub <- dcant_inv_all_bias %>%
+  filter(Version_ID %in% c("v_101", "v_102", "v_103", "v_104",
+                           "v_201", "v_202", "v_203", "v_204"))
+
+
+dcant_inv_all_bias_sub %>% 
+  p_map_dcant_inv(var = "obs",
+                 col = "divergent",
+                 subtitle_text = "data_source: observations") +
+  facet_grid(MLR_basins ~ GLODAPv2_version)
+
+
+dcant_inv_all_bias_sub %>%
+  p_map_dcant_inv(var = "dcant_bias",
+                 col = "divergent",
+                 subtitle_text = "data_source: mod - mod_truth") +
+  facet_grid(MLR_basins ~ GLODAPv2_version)
+
+
+```
+
+## Budgets
+
+### Regional
+
+```{r budgets_regional_regions_eras_2021_beta, fig.asp=1}
+
+dcant_inv_budget_sub <- dcant_inv_budget %>%
+  filter(Version_ID %in% unique(dcant_inv_all_bias_sub$Version_ID))
+
+dcant_inv_budget_sub %>%
+  ggplot(aes(data_source, dcant_total/duration, fill = basin_AIP)) +
+  scale_fill_brewer(palette = "PuBuGn") +
+  geom_col(col = "black") +
+  labs(y = expression(Uptake~rate ~ (PgC ~ yr ^ {-1}))) +
+  facet_grid(MLR_basins ~ GLODAPv2_version)
+
+```
+
+### Global
+
+```{r budget_global_regions_eras_2021_beta}
+
+dcant_inv_budget_sub %>%
+  filter(data_source == "obs") %>% 
+  group_by(MLR_basins, GLODAPv2_version) %>% 
+  summarise(rate = sum(dcant_total/duration)) %>% 
+  ungroup() %>% 
+  ggplot(aes(GLODAPv2_version, rate, fill=MLR_basins)) +
+  geom_bar(stat="identity", position=position_dodge(), col="black") +
+  scale_y_continuous() +
+  labs(y = expression(Uptake~rate ~ (PgC ~ yr ^ {-1})),
+       x = "") +
+  scale_fill_brewer(palette = "PuBuGn")
+
+rm(dcant_inv_budget_sub)
+
+```
+
+
+
+

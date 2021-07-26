@@ -1,0 +1,763 @@
+---
+title: "Anomalous changes"
+author: "Jens Daniel Müller"
+date:  "`r format(Sys.time(), '%d %B, %Y')`"
+output: 
+  workflowr::wflow_html:
+    number_sections: true
+    toc_depth: 3
+    toc_float:
+      collapsed: false
+editor_options:
+  chunk_output_type: console
+---
+
+```{r parent, child = "/nfs/kryo/work/jenmueller/emlr_cant/utilities/setup.Rmd"}
+# this chunk runs the code stored in setup.Rmd
+# if required, please refer to instructions given here:
+# https://jdblischak.github.io/workflowr/articles/wflow-07-common-code.html
+```
+
+```{r define_path, include = FALSE}
+
+# only path_observations needs to be changed to model
+path_observations <-
+  paste(path_root, "/observations/", sep = "")
+
+path_preprocessing    <-
+  paste(path_observations, "preprocessing/", sep = "")
+
+
+path_preprocessing_model    <-
+  paste(path_root, "/model/preprocessing/", sep = "")
+
+```
+
+```{r load_libraries_specific, include = FALSE}
+library(marelac)
+library(ggforce)
+```
+
+# Data preparation
+
+```{r read_version_IDs}
+
+Version_IDs_2 <- list.files(
+  path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+  pattern = c("v_2"))
+
+Version_IDs_3 <- list.files(
+  path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+  pattern = c("v_3"))
+
+Version_IDs <- c(Version_IDs_2, Version_IDs_3)
+rm(Version_IDs_2, Version_IDs_3)
+
+# Version_IDs <- Version_IDs[1:4]
+
+```
+
+## Read files
+
+Following sensitivity cases were considered:
+
+```{r read_cant_files}
+
+for (i_Version_IDs in Version_IDs) {
+  # i_Version_IDs <- Version_IDs[1]
+  
+  print(i_Version_IDs)
+  
+  path_version_data     <-
+  paste(path_observations,
+        i_Version_IDs,
+        "/data/",
+        sep = "")
+  
+  # read inventory file
+  cant_inv <-
+    read_csv(paste(path_version_data,
+                   "cant_inv.csv",
+                   sep = ""))
+  
+  cant_inv <- cant_inv %>% 
+    mutate(Version_ID = i_Version_IDs)
+
+  # read anomaly inventory file
+  anom_cant_inv <-
+    read_csv(paste(path_version_data,
+                   "anom_cant_obs_inv_bias.csv",
+                   sep = ""))
+  
+  anom_cant_inv <- anom_cant_inv %>% 
+    mutate(Version_ID = i_Version_IDs)
+  
+  # read section file
+  cant_section <-
+    read_csv(paste(path_version_data,
+                   "cant_zonal.csv",
+                   sep = ""))
+  
+  cant_section <- cant_section %>% 
+    mutate(Version_ID = i_Version_IDs)
+  
+  # read section file
+  anom_cant_section <-
+    read_csv(paste(path_version_data,
+                   "anom_cant_obs_section_bias.csv",
+                   sep = ""))
+  
+  anom_cant_section <- anom_cant_section %>% 
+    mutate(Version_ID = i_Version_IDs)
+  
+  # read budget file
+  anom_cant_budget <-
+    read_csv(paste(path_version_data,
+                   "anom_cant_obs_inv_budget.csv",
+                   sep = ""))
+  
+  anom_cant_budget <- anom_cant_budget %>% 
+    mutate(Version_ID = i_Version_IDs)
+  
+  # read local parametrization files
+  params_local <-
+    read_rds(paste(path_version_data,
+                   "params_local.rds",
+                   sep = ""))
+  
+  params_local <- bind_cols(
+    Version_ID = i_Version_IDs,
+    MLR_basins = params_local$MLR_basins,
+    rarefication = params_local$rarefication,
+    rarefication_threshold = params_local$rarefication_threshold,
+    vif_max = params_local$vif_max
+  )
+  
+  cant_inv <- full_join(cant_inv, params_local)
+  cant_section <- full_join(cant_section, params_local)
+
+  anom_cant_inv <- full_join(anom_cant_inv, params_local)
+  anom_cant_section <- full_join(anom_cant_section, params_local)
+  anom_cant_budget <- full_join(anom_cant_budget, params_local)
+
+  # read tref file
+  tref <- read_csv(paste(path_version_data,
+                         "tref.csv",
+                         sep = ""))
+  
+  duration <- sort(tref$median_year)[2] - sort(tref$median_year)[1]
+  eras <- paste0(sort(tref$median_year)[1],"-", sort(tref$median_year)[2])
+  
+  cant_inv <- cant_inv %>% 
+    mutate(duration = duration,
+           eras = eras)
+  
+  cant_section <- cant_section %>%
+    mutate(duration = duration,
+           eras = eras)
+  
+  anom_cant_inv <- anom_cant_inv %>% 
+    mutate(duration = duration,
+           eras = eras)
+  
+  anom_cant_section <- anom_cant_section %>%
+    mutate(duration = duration,
+           eras = eras)
+  
+  anom_cant_budget <- anom_cant_budget %>%
+    mutate(duration = duration,
+           eras = eras)
+  
+  # bind inv files
+  if (exists("cant_inv_all")) {
+    cant_inv_all <- bind_rows(cant_inv_all, cant_inv)
+  }
+  
+  if (!exists("cant_inv_all")) {
+    cant_inv_all <- cant_inv
+  }
+
+  # bind section files
+  if (exists("cant_section_all")) {
+    cant_section_all <- bind_rows(cant_section_all, cant_section)
+  }
+  
+  if (!exists("cant_section_all")) {
+    cant_section_all <- cant_section
+  }
+  
+  ### for anomalies
+
+  # bind inv files
+  if (exists("anom_cant_inv_all")) {
+    anom_cant_inv_all <- bind_rows(anom_cant_inv_all, anom_cant_inv)
+  }
+  
+  if (!exists("anom_cant_inv_all")) {
+    anom_cant_inv_all <- anom_cant_inv
+  }
+
+  # bind section files
+  if (exists("anom_cant_section_all")) {
+    anom_cant_section_all <- bind_rows(anom_cant_section_all, anom_cant_section)
+  }
+  
+  if (!exists("anom_cant_section_all")) {
+    anom_cant_section_all <- anom_cant_section
+  }
+  
+  # bind budget files
+  if (exists("anom_cant_budget_all")) {
+    anom_cant_budget_all <- bind_rows(anom_cant_budget_all, anom_cant_budget)
+  }
+  
+  if (!exists("anom_cant_budget_all")) {
+    anom_cant_budget_all <- anom_cant_budget
+  }
+  
+  
+}
+
+rm(cant_inv, cant_section)
+rm(anom_cant_inv, anom_cant_section, anom_cant_budget)
+
+```
+
+### Format
+
+```{r format_cant_files}
+
+# cant_inv_all_long <- cant_inv_all %>%
+#   pivot_longer(emlr_anom:nss_projection,
+#                names_to = "estimate",
+#                values_to = "delta_cant_offset")
+# 
+# 
+# cant_section_all_long <- cant_section_all %>%
+#   pivot_longer(emlr_anom:nss_projection,
+#                names_to = "estimate",
+#                values_to = "delta_cant_offset")
+
+# unique(cant_inv_all$Version_ID)
+
+```
+
+
+# Eras vs basin split
+
+Here we compare the impact of the basin separation approach on the anomaly detection, separately for each compared eras.
+
+```{r subset_era_basin_split}
+
+cant_inv_all_sub <- cant_inv_all %>%
+  filter(
+    rarefication == "none",
+    inv_depth == params_global$inventory_depth_standard,
+    data_source == "obs"
+  )
+
+cant_inv_all_sub <- cant_inv_all_sub %>%
+  mutate(gap_filling = if_else(str_starts(Version_ID, "v_2"), "none", "CANYON-B"))
+
+# unique(cant_inv_all_sub$Version_ID)
+
+
+cant_section_all_sub <- cant_section_all %>%
+  filter(rarefication == "none",
+         data_source == "obs") %>%
+  mutate(gap_filling = if_else(str_starts(Version_ID, "v_2"), "none", "CANYON-B"))
+
+# unique(cant_section_all_sub$Version_ID)
+
+
+
+```
+
+## Column inventories
+
+### Maps
+
+```{r column_inventory_maps_era_basin_split, fig.asp=1}
+
+cant_inv_all_sub %>%
+  group_split(eras) %>%
+  # head(1) %>%
+  map(
+    ~ p_map_cant_inv(
+      df = .x,
+      var = "cant_inv",
+      subtitle_text = paste("Eras:", unique(.x$eras))
+    ) +
+      facet_grid(MLR_basins ~ gap_filling) +
+      theme(axis.text = element_blank(),
+            axis.ticks = element_blank())
+  )
+
+
+```
+
+## Zonal sections
+
+### Sections
+
+
+```{r cant_sections_era_basin_split_facet}
+
+legend_title <- expression(atop(Delta * C[ant, pos],
+                               (mu * mol ~ kg ^ {
+                                 -1
+                               })))
+
+cant_section_all_sub %>%
+  group_split(eras, basin_AIP) %>% 
+  # head(1) %>%
+  map(
+    ~ ggplot(data = .x) +
+      geom_contour_filled(aes(lat, depth, z = cant_mean),
+                          breaks = c(params_global$breaks_cant_pos)) +
+      scale_fill_scico_d(
+        palette = "acton",
+        drop = FALSE,
+        name = legend_title
+      ) +
+      guides(fill = guide_colorsteps(barheight = unit(8, "cm"),
+                                     show.limits = TRUE)) +
+      scale_y_continuous(trans = trans_reverser("sqrt"),
+                         breaks = c(100,500,seq(1000,5000,1000))) +
+      scale_x_continuous(breaks = seq(-100, 100, 40),
+                         limits = c(-85, 85)) +
+      facet_grid(MLR_basins ~ gap_filling) +
+      coord_cartesian(expand = 0) +
+      labs(title = paste("Eras", unique(.x$eras),
+                         "| Basin:", unique(.x$basin_AIP)))
+  )
+
+
+```
+
+## Budgets
+
+### Regional
+
+```{r budgets_regional_era_basin_split, fig.asp=1, eval=FALSE}
+
+cant_budget_all_sub %>%
+  filter(inv_depth == params_global$inventory_depth_standard) %>% 
+  ggplot(aes(estimate, cant_pos_total, fill = basin_AIP)) +
+  scale_fill_brewer(palette = "PuBuGn") +
+  geom_col(col = "black") +
+  facet_grid(MLR_basins ~ eras) +
+  theme(axis.text.x = element_text(angle = 90))
+
+```
+
+### Era additive
+
+```{r budgets_regional_era_basin_split_era_additive, fig.asp=1, eval=FALSE}
+
+cant_budget_all_sub_wide <- cant_budget_all_sub %>%
+  filter(inv_depth == params_global$inventory_depth_standard) %>% 
+  select(-c(duration, Version_ID)) %>% 
+  pivot_wider(names_from = eras,
+              values_from = cant_pos_total)
+
+cant_budget_all_sub_wide <- cant_budget_all_sub_wide %>%
+  mutate(`1994-2014 (sum)` = `1994-2005` + `2005-2014`)
+
+cant_budget_all_sub_long <- cant_budget_all_sub_wide %>%
+  select(-c(`1994-2005`, `2005-2014`)) %>% 
+  pivot_longer(c(`1994-2014`, `1994-2014 (sum)`),
+               names_to = "eras",
+               values_to = "cant_pos_total")
+
+cant_budget_all_sub_long %>% 
+  ggplot(aes(eras, cant_pos_total, fill = basin_AIP)) +
+  scale_fill_brewer(palette = "PuBuGn") +
+  geom_col(col = "black") +
+  facet_grid(MLR_basins ~ estimate) +
+  theme(axis.text.x = element_text(angle = 90))
+
+```
+
+
+
+
+
+# Rarefication and VIF
+
+```{r subset_rarefication_vif, eval=FALSE}
+
+cant_inv_all_sub <- cant_inv_all %>%
+  filter(rarefication == "coarse_grid" |
+           Version_ID == "v_202") %>%
+  mutate(
+    rarefication_threshold = as.character(rarefication_threshold),
+    rarefication_threshold = if_else(rarefication == "none",
+                                     "none",
+                                     rarefication_threshold),
+    rarefication_threshold = if_else(rarefication_threshold == "5",
+                                     "05",
+                                     rarefication_threshold)
+  )
+
+cant_inv_all_long_sub <- cant_inv_all_long  %>%
+  filter(rarefication == "coarse_grid" |
+           Version_ID == "v_202") %>%
+  mutate(
+    rarefication_threshold = as.character(rarefication_threshold),
+    rarefication_threshold = if_else(rarefication == "none",
+                                     "none",
+                                     rarefication_threshold),
+    rarefication_threshold = if_else(rarefication_threshold == "5",
+                                     "05",
+                                     rarefication_threshold)
+  )
+
+cant_section_all_sub <- cant_section_all %>% 
+  filter(rarefication == "coarse_grid" |
+           Version_ID == "v_202") %>%
+  mutate(
+    rarefication_threshold = as.character(rarefication_threshold),
+    rarefication_threshold = if_else(rarefication == "none",
+                                     "none",
+                                     rarefication_threshold),
+    rarefication_threshold = if_else(rarefication_threshold == "5",
+                                     "05",
+                                     rarefication_threshold)
+  )
+
+cant_section_all_long_sub <- cant_section_all_long %>% 
+  filter(rarefication == "coarse_grid" |
+           Version_ID == "v_202") %>%
+  mutate(
+    rarefication_threshold = as.character(rarefication_threshold),
+    rarefication_threshold = if_else(rarefication == "none",
+                                     "none",
+                                     rarefication_threshold),
+    rarefication_threshold = if_else(rarefication_threshold == "5",
+                                     "05",
+                                     rarefication_threshold)
+  )
+
+cant_budget_all_sub <- cant_budget_all %>% 
+  filter(rarefication == "coarse_grid" |
+           Version_ID == "v_202") %>%
+  mutate(
+    rarefication_threshold = as.character(rarefication_threshold),
+    rarefication_threshold = if_else(rarefication == "none",
+                                     "none",
+                                     rarefication_threshold),
+    rarefication_threshold = if_else(rarefication_threshold == "5",
+                                     "05",
+                                     rarefication_threshold)
+  )
+
+```
+
+## Column inventories
+
+### Maps rarefication
+
+```{r column_inventory_maps_rarefication, eval=FALSE}
+
+cant_inv_all_long_sub %>%
+  filter(vif_max == 1000) %>% 
+  group_split(eras) %>%
+  # head(1) %>%
+  map(
+    ~ p_map_cant_inv_offset(
+      df = .x,
+      var = "delta_cant_offset",
+      # col = "divergent",
+      subtitle_text = paste("Rarefication test | Eras:", unique(.x$eras)),
+      breaks = seq(-8,8,1)
+    ) +
+      facet_grid(rarefication_threshold ~ estimate) +
+      theme(axis.text = element_blank(),
+            axis.ticks = element_blank())
+  )
+
+
+```
+
+### Maps VIF
+
+```{r column_inventory_maps_vif, eval=FALSE}
+
+cant_inv_all_long_sub %>%
+  filter(rarefication_threshold == 10) %>% 
+  group_split(eras) %>%
+  # head(1) %>%
+  map(
+    ~ p_map_cant_inv_offset(
+      df = .x,
+      var = "delta_cant_offset",
+      # col = "divergent",
+      subtitle_text = paste("VIF test | Eras:", unique(.x$eras)),
+      breaks = seq(-8,8,1)
+    ) +
+      facet_grid(vif_max ~ estimate) +
+      theme(axis.text = element_blank(),
+            axis.ticks = element_blank())
+  )
+
+
+```
+
+
+### Bias correlation
+
+```{r inv_bias_plots_rarefication, fig.asp=1, eval=FALSE}
+
+axis_limit <- 10
+
+cant_inv_all_sub %>%
+  filter(vif_max == 1000) %>% 
+  group_split(eras) %>%
+  # head(1) %>%
+  map(
+    ~ ggplot(data = .x, aes(emlr_bias, emlr_anom)) +
+      geom_hline(yintercept = 0) +
+      geom_vline(xintercept = 0) +
+      geom_bin2d(binwidth = 1) +
+      scale_fill_viridis_c(trans = "log10") +
+      coord_equal(
+        xlim = c(-axis_limit, axis_limit),
+        ylim = c(-axis_limit, axis_limit)
+      ) +
+      labs(title = paste("Eras:", unique(.x$eras))) +
+      facet_grid(rarefication_threshold ~ basin_AIP)
+  )
+
+
+cant_inv_all_sub %>%
+  filter(vif_max == 1000) %>% 
+  group_split(eras) %>%
+  # head(1) %>% 
+  map(
+    ~ ggplot(data = .x, aes(emlr_anom, nss_mod_truth)) +
+      geom_hline(yintercept = 0) +
+      geom_vline(xintercept = 0) +
+      geom_bin2d(binwidth = 1) +
+      scale_fill_viridis_c(trans = "log10") +
+      coord_equal(
+        xlim = c(-axis_limit, axis_limit),
+        ylim = c(-axis_limit, axis_limit)
+      ) +
+      labs(title = paste("Eras:", unique(.x$eras))) +
+      facet_grid(rarefication_threshold ~ basin_AIP)
+  )
+
+cant_inv_all_sub %>%
+  filter(vif_max == 1000) %>% 
+  group_split(eras) %>%
+  # head(1) %>% 
+  map(
+    ~ ggplot(data = .x, aes(nss_mod_truth, nss_projection)) +
+      geom_hline(yintercept = 0) +
+      geom_vline(xintercept = 0) +
+      geom_bin2d(binwidth = 1) +
+      scale_fill_viridis_c(trans = "log10") +
+      coord_equal(
+        xlim = c(-axis_limit, axis_limit),
+        ylim = c(-axis_limit, axis_limit)
+      ) +
+      labs(title = paste("Eras:", unique(.x$eras))) +
+      facet_grid(rarefication_threshold ~ basin_AIP)
+  )
+
+```
+
+
+## Zonal sections
+
+### Sections
+
+```{r cant_sections_rarefication_vif, fig.asp=0.5, eval=FALSE}
+
+cant_section_all_long_sub %>%
+  filter(vif_max == 1000) %>% 
+  group_split(eras, rarefication_threshold, estimate) %>%
+  head(1) %>%
+  map(
+    ~ p_section_zonal(
+      df = .x,
+      var = "delta_cant_offset",
+      plot_slabs = "n",
+      col = "divergent",
+      subtitle_text = paste("Eras:", unique(.x$eras),
+                            "| MLR Basins:", unique(.x$MLR_basins),
+                            "| Estimate:", unique(.x$estimate)),
+      breaks = c(-Inf,seq(-8,8,1), Inf)
+    )
+  )
+
+
+```
+
+
+```{r cant_sections_rarefication_facet, eval=FALSE}
+
+legend_title <- expression(atop(Delta * C[ant, pos],
+                               (mu * mol ~ kg ^ {
+                                 -1
+                               })))
+
+cant_section_all_long_sub %>%
+  filter(vif_max == 1000) %>% 
+  group_split(eras, basin_AIP) %>% 
+  # head(1) %>%
+  map(
+    ~ ggplot(data = .x) +
+      geom_contour_filled(aes(lat, depth, z = delta_cant_offset),
+                          breaks =c(-Inf,seq(-8,8,1), Inf)) +
+      scale_fill_scico_d(
+        palette = "vik",
+        drop = FALSE,
+        name = legend_title
+      ) +
+      guides(fill = guide_colorsteps(barheight = unit(8, "cm"),
+                                     show.limits = TRUE)) +
+      # scale_y_sqrt() +
+      scale_y_continuous(trans = trans_reverser("sqrt"),
+                         breaks = c(100,500,seq(1000,5000,1000))) +
+      #scale_y_reverse() +
+      scale_x_continuous(breaks = seq(-100, 100, 40),
+                         limits = c(-85, 85)) +
+      facet_grid(rarefication_threshold ~ estimate) +
+      coord_cartesian(expand = 0) +
+      labs(title = paste("Rarefication test | Eras", unique(.x$eras),
+                         "| Basin:", unique(.x$basin_AIP)))
+  )
+
+
+```
+
+```{r cant_sections_vif_facet, eval=FALSE}
+
+cant_section_all_long_sub %>%
+  filter(rarefication_threshold == 10) %>% 
+  group_split(eras, basin_AIP) %>% 
+  # head(1) %>%
+  map(
+    ~ ggplot(data = .x) +
+      geom_contour_filled(aes(lat, depth, z = delta_cant_offset),
+                          breaks =c(-Inf,seq(-8,8,1), Inf)) +
+      scale_fill_scico_d(
+        palette = "vik",
+        drop = FALSE,
+        name = legend_title
+      ) +
+      guides(fill = guide_colorsteps(barheight = unit(8, "cm"),
+                                     show.limits = TRUE)) +
+      # scale_y_sqrt() +
+      scale_y_continuous(trans = trans_reverser("sqrt"),
+                         breaks = c(100,500,seq(1000,5000,1000))) +
+      #scale_y_reverse() +
+      scale_x_continuous(breaks = seq(-100, 100, 40),
+                         limits = c(-85, 85)) +
+      facet_grid(vif_max ~ estimate) +
+      coord_cartesian(expand = 0) +
+      labs(title = paste("VIF test | Eras", unique(.x$eras),
+                         "| Basin:", unique(.x$basin_AIP)))
+  )
+
+
+```
+
+### Bias correlation
+
+```{r section_bias_plots_rarefication, fig.asp=1, eval=FALSE}
+
+axis_limit <- 20
+
+cant_section_all_sub %>%
+  filter(vif_max == 1000) %>% 
+  group_split(eras) %>%
+  # head(1) %>%
+  map(
+    ~ ggplot(data = .x, aes(emlr_bias, emlr_anom)) +
+      geom_hline(yintercept = 0) +
+      geom_vline(xintercept = 0) +
+      geom_bin2d(binwidth = 1) +
+      scale_fill_viridis_c(trans = "log10") +
+      coord_equal(
+        xlim = c(-axis_limit, axis_limit),
+        ylim = c(-axis_limit, axis_limit)
+      ) +
+      labs(title = paste("Eras:", unique(.x$eras))) +
+      facet_grid(rarefication_threshold ~ basin_AIP)
+  )
+
+
+cant_section_all_sub %>%
+  filter(vif_max == 1000) %>% 
+  group_split(eras) %>%
+  # head(1) %>% 
+  map(
+    ~ ggplot(data = .x, aes(emlr_anom, nss_mod_truth)) +
+      geom_hline(yintercept = 0) +
+      geom_vline(xintercept = 0) +
+      geom_bin2d(binwidth = 1) +
+      scale_fill_viridis_c(trans = "log10") +
+      coord_equal(
+        xlim = c(-axis_limit, axis_limit),
+        ylim = c(-axis_limit, axis_limit)
+      ) +
+      labs(title = paste("Eras:", unique(.x$eras))) +
+      facet_grid(rarefication_threshold ~ basin_AIP)
+  )
+
+cant_section_all_sub %>%
+  filter(vif_max == 1000) %>% 
+  group_split(eras) %>%
+  # head(1) %>% 
+  map(
+    ~ ggplot(data = .x, aes(nss_mod_truth, nss_projection)) +
+      geom_hline(yintercept = 0) +
+      geom_vline(xintercept = 0) +
+      geom_bin2d(binwidth = 1) +
+      scale_fill_viridis_c(trans = "log10") +
+      coord_equal(
+        xlim = c(-axis_limit, axis_limit),
+        ylim = c(-axis_limit, axis_limit)
+      ) +
+      labs(title = paste("Eras:", unique(.x$eras))) +
+      facet_grid(rarefication_threshold ~ basin_AIP)
+  )
+
+```
+
+
+
+## Budgets
+
+### Regional
+
+```{r budgets_regional_rarefication, fig.asp=1, eval=FALSE}
+
+cant_budget_all_sub %>%
+  filter(vif_max == 1000,
+         inv_depth == params_global$inventory_depth_standard) %>% 
+  ggplot(aes(as.factor(rarefication_threshold), cant_pos_total, fill = basin_AIP)) +
+  scale_fill_brewer(palette = "PuBuGn") +
+  geom_col(col = "black") +
+  facet_grid(estimate ~ eras) +
+  theme(axis.text.x = element_text(angle = 90))
+
+```
+
+
+```{r budgets_regional_vif, fig.asp=1, eval=FALSE}
+
+cant_budget_all_sub %>%
+  filter(rarefication_threshold == 10,
+         inv_depth == params_global$inventory_depth_standard) %>% 
+  ggplot(aes(as.factor(vif_max), cant_pos_total, fill = basin_AIP)) +
+  scale_fill_brewer(palette = "PuBuGn") +
+  geom_col(col = "black") +
+  facet_grid(estimate ~ eras) +
+  theme(axis.text.x = element_text(angle = 90))
+
+```
+
