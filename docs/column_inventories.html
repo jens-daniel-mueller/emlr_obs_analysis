@@ -548,16 +548,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree51e22f659cb213b5cb35661c9f25b14707287deatargetblank51e22f6a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/51e22f659cb213b5cb35661c9f25b14707287dea" target="_blank">51e22f6</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreed298b242fe223bccf40a35890e27525b3b74a5batargetblankd298b24a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/d298b242fe223bccf40a35890e27525b3b74a5ba" target="_blank">d298b24</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree51e22f659cb213b5cb35661c9f25b14707287deatargetblank51e22f6a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreed298b242fe223bccf40a35890e27525b3b74a5batargetblankd298b24a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/51e22f659cb213b5cb35661c9f25b14707287dea" target="_blank">51e22f6</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/d298b242fe223bccf40a35890e27525b3b74a5ba" target="_blank">d298b24</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -614,6 +614,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d298b242fe223bccf40a35890e27525b3b74a5ba/analysis/column_inventories.Rmd" target="_blank">d298b24</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-07-26
+</td>
+<td>
+added ensemble analysis
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/7a1b3581f3fea871dfffa32b062c9952cad77fdb/docs/column_inventories.html" target="_blank">7a1b358</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-07-26
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1634,7 +1668,7 @@ jens-daniel-mueller
 <pre class="r"><code>dcant_inv_ensemble_bias &lt;- full_join(
   dcant_inv_ensemble %&gt;%
     filter(data_source == &quot;mod&quot;) %&gt;% 
-    select(lat, lon, period, dcant_mean),
+    select(lat, lon, period, dcant_mean, dcant_sd),
   dcant_inv_all %&gt;%
     filter(data_source == &quot;mod_truth&quot;,
            MLR_basins == &quot;2&quot;) %&gt;% 
@@ -1650,14 +1684,51 @@ dcant_inv_ensemble_bias %&gt;%
                  subtitle_text = &quot;Ensemble mean - mod_truth&quot;) +
   facet_grid(. ~ period)</code></pre>
 <p><img src="figure/column_inventories.Rmd/ensemble_mean_bias-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_mean_bias-1">
+Past versions of ensemble_mean_bias-1.png
+</button>
+</p>
+<div id="fig-ensemble_mean_bias-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/7a1b3581f3fea871dfffa32b062c9952cad77fdb/docs/figure/column_inventories.Rmd/ensemble_mean_bias-1.png" target="_blank">7a1b358</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-07-26
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="standard-deviation" class="section level2" number="4.3">
 <h2 number="4.3"><span class="header-section-number">4.3</span> Standard deviation</h2>
 <pre class="r"><code>p_map_cant_inv(
   df = dcant_inv_ensemble,
-  var = &quot;dcant_range&quot;,
-  breaks = c(seq(0,8,0.8), Inf),
-  subtitle_text = paste(&quot;Ensemble range&quot;)
+  var = &quot;dcant_sd&quot;,
+  breaks = c(seq(0,4,0.4), Inf),
+  subtitle_text = paste(&quot;Ensemble SD&quot;)
 ) +
   facet_grid(period ~ data_source)</code></pre>
 <p><img src="figure/column_inventories.Rmd/ensemble_sd-1.png" width="672" style="display: block; margin: auto;" /></p>
@@ -1699,8 +1770,36 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="range" class="section level2" number="4.4">
-<h2 number="4.4"><span class="header-section-number">4.4</span> Range</h2>
+<div id="sd-vs-bias" class="section level2" number="4.4">
+<h2 number="4.4"><span class="header-section-number">4.4</span> SD vs bias</h2>
+<pre class="r"><code>dcant_inv_ensemble_bias %&gt;% 
+  ggplot(aes(dcant_mean_bias, dcant_sd)) +
+  geom_bin2d() +
+  scale_fill_viridis_c() +
+  facet_grid(. ~ period)</code></pre>
+<p><img src="figure/column_inventories.Rmd/ensemble_sd_vs_bias-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dcant_inv_ensemble_bias %&gt;% 
+  ggplot(aes(dcant_mean_bias)) +
+  geom_histogram() +
+  facet_grid(. ~ period)</code></pre>
+<p><img src="figure/column_inventories.Rmd/ensemble_sd_vs_bias-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dcant_inv_ensemble_bias %&gt;% 
+  ggplot(aes(dcant_mean)) +
+  geom_histogram() +
+  facet_grid(. ~ period)</code></pre>
+<p><img src="figure/column_inventories.Rmd/ensemble_sd_vs_bias-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dcant_inv_ensemble_bias %&gt;% 
+  select(dcant_mean, dcant_mean_bias, period) %&gt;% 
+  pivot_longer(dcant_mean:dcant_mean_bias,
+               names_to = &quot;estimate&quot;,
+               values_to = &quot;value&quot;) %&gt;% 
+  ggplot(aes(value, col=estimate, linetype = period)) +
+  scale_color_brewer(palette = &quot;Set1&quot;) +
+  geom_density()</code></pre>
+<p><img src="figure/column_inventories.Rmd/ensemble_sd_vs_bias-4.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="range" class="section level2" number="4.5">
+<h2 number="4.5"><span class="header-section-number">4.5</span> Range</h2>
 <pre class="r"><code>p_map_cant_inv(
   df = dcant_inv_ensemble,
   var = &quot;dcant_range&quot;,
@@ -1773,9 +1872,83 @@ dcant_inv_all %&gt;%
   )</code></pre>
 <pre><code>[[1]]</code></pre>
 <p><img src="figure/column_inventories.Rmd/ensemble_deviation_from_mean-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_deviation_from_mean-1">
+Past versions of ensemble_deviation_from_mean-1.png
+</button>
+</p>
+<div id="fig-ensemble_deviation_from_mean-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/7a1b3581f3fea871dfffa32b062c9952cad77fdb/docs/figure/column_inventories.Rmd/ensemble_deviation_from_mean-1.png" target="_blank">7a1b358</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-07-26
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>
 [[2]]</code></pre>
 <p><img src="figure/column_inventories.Rmd/ensemble_deviation_from_mean-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_deviation_from_mean-2">
+Past versions of ensemble_deviation_from_mean-2.png
+</button>
+</p>
+<div id="fig-ensemble_deviation_from_mean-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/7a1b3581f3fea871dfffa32b062c9952cad77fdb/docs/figure/column_inventories.Rmd/ensemble_deviation_from_mean-2.png" target="_blank">7a1b358</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-07-26
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1811,31 +1984,31 @@ other attached packages:
 [17] workflowr_1.6.2
 
 loaded via a namespace (and not attached):
- [1] httr_1.4.2               viridisLite_0.3.0        jsonlite_1.7.1          
- [4] modelr_0.1.8             assertthat_0.2.1         blob_1.2.1              
- [7] cellranger_1.1.0         yaml_2.2.1               pillar_1.4.7            
-[10] backports_1.1.10         lattice_0.20-41          glue_1.4.2              
-[13] RcppEigen_0.3.3.7.0      digest_0.6.27            promises_1.1.1          
-[16] polyclip_1.10-0          checkmate_2.0.0          rvest_0.3.6             
-[19] colorspace_1.4-1         htmltools_0.5.0          httpuv_1.5.4            
-[22] Matrix_1.2-18            pkgconfig_2.0.3          broom_0.7.5             
-[25] seacarb_3.2.14           haven_2.3.1              scales_1.1.1            
-[28] tweenr_1.0.2             whisker_0.4              later_1.1.0.1           
-[31] git2r_0.27.1             generics_0.0.2           farver_2.0.3            
-[34] ellipsis_0.3.1           withr_2.3.0              cli_2.1.0               
-[37] magrittr_1.5             crayon_1.3.4             readxl_1.3.1            
-[40] evaluate_0.14            fs_1.5.0                 fansi_0.4.1             
-[43] MASS_7.3-53              xml2_1.3.2               RcppArmadillo_0.10.1.2.0
-[46] oce_1.2-0                tools_4.0.3              data.table_1.13.2       
-[49] hms_0.5.3                lifecycle_1.0.0          munsell_0.5.0           
-[52] reprex_0.3.0             gsw_1.0-5                compiler_4.0.3          
-[55] rlang_0.4.10             grid_4.0.3               rstudioapi_0.11         
-[58] labeling_0.4.2           rmarkdown_2.5            testthat_2.3.2          
-[61] gtable_0.3.0             DBI_1.1.0                R6_2.5.0                
-[64] lubridate_1.7.9          knitr_1.30               rprojroot_2.0.2         
-[67] stringi_1.5.3            parallel_4.0.3           Rcpp_1.0.5              
-[70] vctrs_0.3.5              dbplyr_1.4.4             tidyselect_1.1.0        
-[73] xfun_0.18               </code></pre>
+ [1] fs_1.5.0                 lubridate_1.7.9          gsw_1.0-5               
+ [4] RColorBrewer_1.1-2       httr_1.4.2               rprojroot_2.0.2         
+ [7] tools_4.0.3              backports_1.1.10         R6_2.5.0                
+[10] DBI_1.1.0                colorspace_1.4-1         withr_2.3.0             
+[13] tidyselect_1.1.0         compiler_4.0.3           git2r_0.27.1            
+[16] cli_2.1.0                rvest_0.3.6              xml2_1.3.2              
+[19] labeling_0.4.2           scales_1.1.1             checkmate_2.0.0         
+[22] digest_0.6.27            rmarkdown_2.5            oce_1.2-0               
+[25] pkgconfig_2.0.3          htmltools_0.5.0          dbplyr_1.4.4            
+[28] rlang_0.4.10             readxl_1.3.1             rstudioapi_0.11         
+[31] farver_2.0.3             generics_0.0.2           jsonlite_1.7.1          
+[34] magrittr_1.5             Matrix_1.2-18            Rcpp_1.0.5              
+[37] munsell_0.5.0            fansi_0.4.1              lifecycle_1.0.0         
+[40] stringi_1.5.3            whisker_0.4              yaml_2.2.1              
+[43] MASS_7.3-53              grid_4.0.3               blob_1.2.1              
+[46] parallel_4.0.3           promises_1.1.1           crayon_1.3.4            
+[49] lattice_0.20-41          haven_2.3.1              hms_0.5.3               
+[52] seacarb_3.2.14           knitr_1.30               pillar_1.4.7            
+[55] reprex_0.3.0             glue_1.4.2               evaluate_0.14           
+[58] RcppArmadillo_0.10.1.2.0 data.table_1.13.2        modelr_0.1.8            
+[61] vctrs_0.3.5              tweenr_1.0.2             httpuv_1.5.4            
+[64] testthat_2.3.2           cellranger_1.1.0         gtable_0.3.0            
+[67] polyclip_1.10-0          assertthat_0.2.1         xfun_0.18               
+[70] broom_0.7.5              RcppEigen_0.3.3.7.0      later_1.1.0.1           
+[73] viridisLite_0.3.0        ellipsis_0.3.1          </code></pre>
 </div>
 </div>
 </div>
