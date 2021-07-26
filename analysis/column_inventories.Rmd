@@ -222,20 +222,36 @@ dcant_inv_ensemble <- dcant_inv_all %>%
 
 ```
 
-```{r ensemble_mean}
+## Mean
+
+```{r ensemble_mean, fig.asp=0.5}
 
 p_map_cant_inv(df = dcant_inv_ensemble,
                      var = "dcant_mean",
                      subtitle_text = paste("Ensemble means")) +
       facet_grid(period ~ data_source)
 
+```
+
+## Standard deviation
+
+```{r ensemble_sd, fig.asp=0.5}
+
 p_map_cant_inv(
   df = dcant_inv_ensemble,
-  var = "dcant_sd",
-  breaks = c(seq(0,4,0.4), Inf),
-  subtitle_text = paste("Ensemble standard deviation")
+  var = "dcant_range",
+  breaks = c(seq(0,8,0.8), Inf),
+  subtitle_text = paste("Ensemble range")
 ) +
   facet_grid(period ~ data_source)
+
+
+
+```
+
+## Range
+
+```{r ensemble_range, fig.asp=0.5}
 
 p_map_cant_inv(
   df = dcant_inv_ensemble,
