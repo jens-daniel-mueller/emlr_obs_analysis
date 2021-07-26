@@ -288,15 +288,6 @@ dcant_inv_ensemble_bias %>%
   scale_fill_viridis_c() +
   facet_grid(. ~ period)
 
-dcant_inv_ensemble_bias %>% 
-  ggplot(aes(dcant_mean_bias)) +
-  geom_histogram() +
-  facet_grid(. ~ period)
-
-dcant_inv_ensemble_bias %>% 
-  ggplot(aes(dcant_mean)) +
-  geom_histogram() +
-  facet_grid(. ~ period)
 
 dcant_inv_ensemble_bias %>% 
   select(dcant_mean, dcant_mean_bias, period) %>% 
@@ -306,6 +297,12 @@ dcant_inv_ensemble_bias %>%
   ggplot(aes(value, col=estimate, linetype = period)) +
   scale_color_brewer(palette = "Set1") +
   geom_density()
+
+dcant_inv_ensemble %>% 
+  ggplot(aes(dcant_sd)) +
+  geom_histogram() +
+  facet_grid(data_source ~ period) +
+  coord_cartesian(ylim = c(0,50))
 
 ```
 
