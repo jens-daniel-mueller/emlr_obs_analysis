@@ -196,6 +196,8 @@ dcant_inv_all %>%
 
 ```
 
+## Biases
+
 ```{r cases_bias, fig.asp=0.9}
 
 dcant_inv_bias_all %>%
@@ -233,6 +235,32 @@ p_map_cant_inv(df = dcant_inv_ensemble,
 
 ```
 
+## Mean bias
+
+```{r ensemble_mean_bias}
+
+dcant_inv_ensemble_bias <- full_join(
+  dcant_inv_ensemble %>%
+    filter(data_source == "mod") %>% 
+    select(lat, lon, period, dcant_mean),
+  dcant_inv_all %>%
+    filter(data_source == "mod_truth",
+           MLR_basins == "2") %>% 
+    select(lat, lon, period, dcant)
+)
+
+dcant_inv_ensemble_bias <- dcant_inv_ensemble_bias %>% 
+  mutate(dcant_mean_bias = dcant_mean - dcant)
+
+dcant_inv_ensemble_bias %>%
+  p_map_cant_inv(var = "dcant_mean_bias",
+                 col = "bias",
+                 subtitle_text = "Ensemble mean - mod_truth") +
+  facet_grid(. ~ period)
+
+```
+
+
 ## Standard deviation
 
 ```{r ensemble_sd, fig.asp=0.5}
@@ -264,4 +292,35 @@ p_map_cant_inv(
 
 
 ```
+
+# Cases vs ensemble
+
+## Offset from mean
+
+```{r ensemble_deviation_from_mean}
+
+dcant_inv_all <- full_join(dcant_inv_all,
+                           dcant_inv_ensemble)
+
+dcant_inv_all <- dcant_inv_all %>% 
+  mutate(dcant_offset = dcant - dcant_mean)
+
+dcant_inv_all %>%
+  filter(data_source %in% c("mod", "obs")) %>%
+  group_by(period) %>%
+  group_split() %>%
+  # head(1) %>%
+  map(
+    ~ p_map_cant_inv(df = .x,
+                     var = "dcant_offset",
+                     col = "bias",
+                     subtitle_text = paste("period:",
+                                           unique(.x$period))) +
+      facet_grid(MLR_basins ~ data_source)
+  )
+
+
+```
+
+
 
