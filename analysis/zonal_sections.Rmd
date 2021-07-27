@@ -165,7 +165,7 @@ dcant_zonal_bias_all <- full_join(dcant_zonal_bias_all,
 
 ## Absoulte values
 
-```{r cases_absolute, fig.asp=1.5}
+```{r cases_absolute, fig.asp=1.2}
 
 
 legend_title <- expression(atop(Delta * C[ant],
@@ -204,7 +204,7 @@ dcant_zonal_all %>%
 
 ## Biases
 
-```{r cases_bias, fig.asp=0.9}
+```{r cases_bias, fig.asp=1.2}
 
 dcant_zonal_bias_all %>%
   group_by(basin_AIP) %>%
@@ -237,7 +237,7 @@ dcant_zonal_bias_all %>%
 
 ## Bias correlation
 
-```{r cases_bias_correlation, fig.asp=0.9}
+```{r cases_bias_correlation}
 
 dcant_zonal_bias_all_corr <- dcant_zonal_bias_all %>%
   select(lat, depth, basin_AIP, dcant_bias, MLR_basins, period) %>% 
@@ -274,8 +274,7 @@ dcant_zonal_ensemble <- dcant_zonal_all %>%
 
 ## Mean
 
-```{r ensemble_mean, fig.asp=0.5}
-
+```{r ensemble_mean}
 
 dcant_zonal_ensemble %>%
   group_by(basin_AIP) %>%
@@ -306,7 +305,7 @@ dcant_zonal_ensemble %>%
 
 ## Mean bias
 
-```{r ensemble_mean_bias}
+```{r ensemble_mean_bias, fig.asp=0.5}
 
 dcant_zonal_ensemble_bias <- full_join(
   dcant_zonal_ensemble %>%
@@ -351,7 +350,7 @@ dcant_zonal_ensemble_bias %>%
 
 ## Standard deviation
 
-```{r ensemble_sd, fig.asp=0.5}
+```{r ensemble_sd, fig.asp=0.9}
 
 dcant_zonal_ensemble %>%
   group_by(basin_AIP) %>%
@@ -413,7 +412,7 @@ dcant_zonal_ensemble %>%
 
 ## Offset from mean
 
-```{r ensemble_deviation_from_mean}
+```{r ensemble_deviation_from_mean, fig.asp=1.2}
 
 dcant_zonal_all <- full_join(dcant_zonal_all %>% select(-dcant_sd),
                            dcant_zonal_ensemble)
