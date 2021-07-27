@@ -34,16 +34,13 @@ path_preprocessing_model    <-
 ```
 
 ```{r load_libraries_specific, include = FALSE}
-library(marelac)
 ```
 
-# GLODAPv2.2020
-
-# Data preparation
-
-## Load data
+# Read files
 
 ```{r read_files}
+
+# identify required version IDs
 
 # Version_IDs <- list.files(
 #   path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
@@ -72,6 +69,8 @@ for (i_Version_IDs in Version_IDs) {
         i_Version_IDs,
         "/data/",
         sep = "")
+  
+  # load and join data files
   
   dcant_inv <-
     read_csv(paste(path_version_data,
@@ -111,10 +110,10 @@ for (i_Version_IDs in Version_IDs) {
     tref2 = params_local$tref2,
     gap_filling = params_local$gap_filling,
     rarefication = params_local$rarefication,
+    rarefication_threshold = params_local$rarefication_threshold,
+    MLR_predictors = str_c(params_local$MLR_predictors, collapse = "+"),
     vif_max = params_local$vif_max
   )
-  
-  # dcant_inv <- full_join(dcant_inv, params_local)
   
   tref <- read_csv(paste(path_version_data,
                          "tref.csv",
@@ -125,9 +124,6 @@ for (i_Version_IDs in Version_IDs) {
            median_year_2 = sort(tref$median_year)[2],
            duration = median_year_2 - median_year_1,
            period = paste(median_year_1, "-", median_year_2))
-  
-  # dcant_inv <- dcant_inv %>% 
-  #   mutate(duration = duration)
   
   if (exists("dcant_inv_all")) {
     dcant_inv_all <- bind_rows(dcant_inv_all, dcant_inv)
