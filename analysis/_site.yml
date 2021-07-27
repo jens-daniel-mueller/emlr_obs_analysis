@@ -11,6 +11,8 @@ navbar:
       href: budgets.html
     - text: Column inventories
       href: column_inventories.html
+    - text: Zonal sections
+      href: zonal_sections.html
   right:
   - icon: fa-github
     text: Source code

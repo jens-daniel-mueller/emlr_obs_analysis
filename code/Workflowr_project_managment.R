@@ -5,7 +5,7 @@
 
 
 # commit regular changes (locally) and rebuild site
-wflow_publish(all = TRUE, message = "vertical bias patterns")
+wflow_publish(all = TRUE, message = "update zonal section analysis")
 
 # commit changes including _site.yml (locally) and rebuild site
 wflow_publish(c("analysis/*Rmd"), message = "XXX", republish = TRUE)
@@ -13,9 +13,11 @@ wflow_publish(c("analysis/*Rmd"), message = "XXX", republish = TRUE)
 # commit changes including _site.yml (locally) and rebuild site in the specified order
 wflow_publish(here::here("analysis",
                          c("index.Rmd",
+                           "budgets.Rmd",
                            "column_inventories.Rmd",
-                           "budgets.Rmd")),
-              message = "rebuildt with budget analysis",
+                           "zonal_sections.Rmd"
+                           )),
+              message = "rebuildt with zonal sections",
               republish = TRUE)
 
 

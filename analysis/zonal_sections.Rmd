@@ -1,5 +1,5 @@
 ---
-title: "Column inventories"
+title: "Zonal sections"
 author: "Jens Daniel Müller"
 date:  "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
@@ -72,30 +72,28 @@ for (i_Version_IDs in Version_IDs) {
   
   # load and join data files
   
-  dcant_inv <-
+  dcant_zonal <-
     read_csv(paste(path_version_data,
-                   "dcant_inv.csv",
+                   "dcant_zonal.csv",
                    sep = ""))
   
-  dcant_inv_mod_truth <-
+  dcant_zonal_mod_truth <-
     read_csv(paste(path_version_data,
-                   "dcant_inv_mod_truth.csv",
-                   sep = "")) %>% 
-    filter(method == "total") %>% 
-    select(-method)
-  
-  dcant_inv_bias <-
-    read_csv(paste(path_version_data,
-                   "dcant_inv_bias.csv",
+                   "dcant_zonal_mod_truth.csv",
                    sep = ""))
   
-  dcant_inv <- bind_rows(dcant_inv,
-                         dcant_inv_mod_truth)
+  dcant_zonal_bias <-
+    read_csv(paste(path_version_data,
+                   "dcant_zonal_bias.csv",
+                   sep = ""))
   
-  dcant_inv <- dcant_inv %>% 
+  dcant_zonal <- bind_rows(dcant_zonal,
+                         dcant_zonal_mod_truth)
+  
+  dcant_zonal <- dcant_zonal %>% 
     mutate(Version_ID = i_Version_IDs)
   
-  dcant_inv_bias <- dcant_inv_bias %>% 
+  dcant_zonal_bias <- dcant_zonal_bias %>% 
     mutate(Version_ID = i_Version_IDs)
   
   params_local <-
@@ -125,20 +123,20 @@ for (i_Version_IDs in Version_IDs) {
            duration = median_year_2 - median_year_1,
            period = paste(median_year_1, "-", median_year_2))
   
-  if (exists("dcant_inv_all")) {
-    dcant_inv_all <- bind_rows(dcant_inv_all, dcant_inv)
+  if (exists("dcant_zonal_all")) {
+    dcant_zonal_all <- bind_rows(dcant_zonal_all, dcant_zonal)
   }
   
-  if (!exists("dcant_inv_all")) {
-    dcant_inv_all <- dcant_inv
+  if (!exists("dcant_zonal_all")) {
+    dcant_zonal_all <- dcant_zonal
   }
 
-  if (exists("dcant_inv_bias_all")) {
-    dcant_inv_bias_all <- bind_rows(dcant_inv_bias_all, dcant_inv_bias)
+  if (exists("dcant_zonal_bias_all")) {
+    dcant_zonal_bias_all <- bind_rows(dcant_zonal_bias_all, dcant_zonal_bias)
   }
   
-  if (!exists("dcant_inv_bias_all")) {
-    dcant_inv_bias_all <- dcant_inv_bias
+  if (!exists("dcant_zonal_bias_all")) {
+    dcant_zonal_bias_all <- dcant_zonal_bias
   }
 
   if (exists("params_local_all")) {
@@ -152,21 +150,14 @@ for (i_Version_IDs in Version_IDs) {
   
 }
 
-rm(dcant_inv, dcant_inv_bias, dcant_inv_mod_truth,
-   params_local, tref)
+rm(dcant_zonal, dcant_zonal_bias, dcant_zonal_mod_truth,
+   tref)
 
-dcant_inv_all <- full_join(dcant_inv_all,
+dcant_zonal_all <- full_join(dcant_zonal_all,
                            params_local_all)
 
-dcant_inv_bias_all <- full_join(dcant_inv_bias_all,
+dcant_zonal_bias_all <- full_join(dcant_zonal_bias_all,
                                 params_local_all)
-
-```
-
-```{r filter_standard_inventory_depth}
-
-dcant_inv_all <- dcant_inv_all %>%
-  filter(inv_depth == params_global$inventory_depth_standard)
 
 ```
 
@@ -174,19 +165,38 @@ dcant_inv_all <- dcant_inv_all %>%
 
 ## Absoulte values
 
-```{r cases_absolute, fig.asp=0.9}
+```{r cases_absolute, fig.asp=1.5}
 
-dcant_inv_all %>%
+
+legend_title <- expression(atop(Delta * C[ant],
+                               (mu * mol ~ kg ^ {
+                                 -1
+                               })))
+
+dcant_zonal_all %>%
   filter(data_source %in% c("mod", "obs")) %>%
-  group_by(period) %>%
+  group_by(basin_AIP, data_source) %>%
   group_split() %>%
-  # head(1) %>% 
+  # head(1) %>%
   map(
-    ~ p_map_cant_inv(df = .x,
-                     var = "dcant",
-                     subtitle_text = paste("period:",
-                                           unique(.x$period))) +
-      facet_grid(MLR_basins ~ data_source)
+    ~ ggplot(data = .x) +
+      geom_contour_filled(aes(lat, depth, z = dcant_mean),
+                          breaks = c(-Inf, seq(-2,16,2), Inf)) +
+      scale_fill_viridis_d(
+        drop = FALSE,
+        name = legend_title
+      ) +
+      guides(fill = guide_colorsteps(barheight = unit(8, "cm"),
+                                     show.limits = TRUE)) +
+      scale_y_continuous(trans = trans_reverser("sqrt"),
+                         breaks = c(100,500,seq(1000,5000,1000))) +
+      # scale_y_reverse(breaks = c(100,500,seq(1000,5000,1000))) +
+      scale_x_continuous(breaks = seq(-100, 100, 40),
+                         limits = c(-80, 65)) +
+      facet_grid(MLR_basins ~ period) +
+      coord_cartesian(expand = 0) +
+      labs(title = paste("data_source", unique(.x$data_source),
+                         "| basin:", unique(.x$basin_AIP)))
   )
 
 
@@ -196,25 +206,67 @@ dcant_inv_all %>%
 
 ```{r cases_bias, fig.asp=0.9}
 
-dcant_inv_bias_all %>%
-  p_map_cant_inv(var = "dcant_bias",
-                 col = "bias",
-                 subtitle_text = "data_source: mod - mod_truth") +
-  facet_grid(MLR_basins ~ period)
+dcant_zonal_bias_all %>%
+  group_by(basin_AIP) %>%
+  group_split() %>%
+  # head(1) %>%
+  map(
+    ~ ggplot(data = .x) +
+      geom_contour_filled(aes(lat, depth, z = dcant_bias),
+                          breaks = c(-Inf, seq(-6,6,1), Inf)) +
+      scale_fill_scico_d(
+        palette = "vik",
+        drop = FALSE,
+        name = legend_title
+      ) +
+      guides(fill = guide_colorsteps(barheight = unit(8, "cm"),
+                                     show.limits = TRUE)) +
+      scale_y_continuous(trans = trans_reverser("sqrt"),
+                         breaks = c(100,500,seq(1000,5000,1000))) +
+      # scale_y_reverse(breaks = c(100,500,seq(1000,5000,1000))) +
+      scale_x_continuous(breaks = seq(-100, 100, 40),
+                         limits = c(-80, 65)) +
+      facet_grid(MLR_basins ~ period) +
+      coord_cartesian(expand = 0) +
+      labs(title = paste("basin:", unique(.x$basin_AIP)))
+  )
 
 
 ```
+
+
+## Bias correlation
+
+```{r cases_bias_correlation, fig.asp=0.9}
+
+dcant_zonal_bias_all_corr <- dcant_zonal_bias_all %>%
+  select(lat, depth, basin_AIP, dcant_bias, MLR_basins, period) %>% 
+  pivot_wider(names_from = period,
+              values_from = dcant_bias, 
+              names_prefix = "dcant_bias ")
+
+dcant_zonal_bias_all_corr %>% 
+  ggplot(aes(`dcant_bias 1994 - 2004`, `dcant_bias 2004 - 2014`)) +
+  geom_vline(xintercept = 0) +
+  geom_hline(yintercept = 0) +
+  geom_bin2d() +
+  facet_grid(basin_AIP ~ MLR_basins) +
+  scale_fill_viridis_c()
+
+```
+
+
 
 # Ensemble
 
 ```{r calc_ensemble_metrics}
 
-dcant_inv_ensemble <- dcant_inv_all %>% 
+dcant_zonal_ensemble <- dcant_zonal_all %>% 
   filter(data_source %in% c("mod", "obs")) %>% 
-  group_by(lat, lon, data_source, period) %>% 
-  summarise(dcant_mean = mean(dcant),
-            dcant_sd = sd(dcant),
-            dcant_range = max(dcant)- min(dcant)) %>% 
+  group_by(lat, depth, basin_AIP, data_source, period) %>% 
+  summarise(dcant_ensemble_mean = mean(dcant_mean),
+            dcant_sd = sd(dcant_mean),
+            dcant_range = max(dcant_mean)- min(dcant_mean)) %>% 
   ungroup()
 
 
@@ -224,10 +276,31 @@ dcant_inv_ensemble <- dcant_inv_all %>%
 
 ```{r ensemble_mean, fig.asp=0.5}
 
-p_map_cant_inv(df = dcant_inv_ensemble,
-                     var = "dcant_mean",
-                     subtitle_text = paste("Ensemble means")) +
-      facet_grid(period ~ data_source)
+
+dcant_zonal_ensemble %>%
+  group_by(basin_AIP) %>%
+  group_split() %>%
+  # head(1) %>%
+  map(
+    ~ ggplot(data = .x) +
+      geom_contour_filled(aes(lat, depth, z = dcant_ensemble_mean),
+                          breaks = c(-Inf, seq(-2,16,2), Inf)) +
+      scale_fill_viridis_d(
+        drop = FALSE,
+        name = legend_title
+      ) +
+      guides(fill = guide_colorsteps(barheight = unit(8, "cm"),
+                                     show.limits = TRUE)) +
+      scale_y_continuous(trans = trans_reverser("sqrt"),
+                         breaks = c(100,500,seq(1000,5000,1000))) +
+      # scale_y_reverse(breaks = c(100,500,seq(1000,5000,1000))) +
+      scale_x_continuous(breaks = seq(-100, 100, 40),
+                         limits = c(-80, 65)) +
+      facet_grid(data_source ~ period) +
+      coord_cartesian(expand = 0) +
+      labs(title = paste("basin:", unique(.x$basin_AIP)))
+  )
+
 
 ```
 
@@ -235,24 +308,43 @@ p_map_cant_inv(df = dcant_inv_ensemble,
 
 ```{r ensemble_mean_bias}
 
-dcant_inv_ensemble_bias <- full_join(
-  dcant_inv_ensemble %>%
+dcant_zonal_ensemble_bias <- full_join(
+  dcant_zonal_ensemble %>%
     filter(data_source == "mod") %>% 
-    select(lat, lon, period, dcant_mean, dcant_sd),
-  dcant_inv_all %>%
+    select(lat, depth, basin_AIP, period, dcant_ensemble_mean, dcant_sd),
+  dcant_zonal_all %>%
     filter(data_source == "mod_truth",
            MLR_basins == "2") %>% 
-    select(lat, lon, period, dcant)
+    select(lat, depth, basin_AIP, period, dcant_mod_truth = dcant_mean)
 )
 
-dcant_inv_ensemble_bias <- dcant_inv_ensemble_bias %>% 
-  mutate(dcant_mean_bias = dcant_mean - dcant)
+dcant_zonal_ensemble_bias <- dcant_zonal_ensemble_bias %>% 
+  mutate(dcant_mean_bias = dcant_ensemble_mean - dcant_mod_truth)
 
-dcant_inv_ensemble_bias %>%
-  p_map_cant_inv(var = "dcant_mean_bias",
-                 col = "bias",
-                 subtitle_text = "Ensemble mean - mod_truth") +
-  facet_grid(. ~ period)
+dcant_zonal_ensemble_bias %>%
+  group_by(basin_AIP) %>%
+  group_split() %>%
+  # head(1) %>%
+  map(
+    ~ ggplot(data = .x) +
+      geom_contour_filled(aes(lat, depth, z = dcant_mean_bias),
+                          breaks = c(-Inf, seq(-6,6,1), Inf)) +
+      scale_fill_scico_d(
+        palette = "vik",
+        drop = FALSE,
+        name = legend_title
+      ) +
+      guides(fill = guide_colorsteps(barheight = unit(8, "cm"),
+                                     show.limits = TRUE)) +
+      scale_y_continuous(trans = trans_reverser("sqrt"),
+                         breaks = c(100,500,seq(1000,5000,1000))) +
+      # scale_y_reverse(breaks = c(100,500,seq(1000,5000,1000))) +
+      scale_x_continuous(breaks = seq(-100, 100, 40),
+                         limits = c(-80, 65)) +
+      facet_grid(. ~ period) +
+      coord_cartesian(expand = 0) +
+      labs(title = paste("basin:", unique(.x$basin_AIP)))
+  )
 
 ```
 
@@ -261,14 +353,29 @@ dcant_inv_ensemble_bias %>%
 
 ```{r ensemble_sd, fig.asp=0.5}
 
-p_map_cant_inv(
-  df = dcant_inv_ensemble,
-  var = "dcant_sd",
-  breaks = c(seq(0,4,0.4), Inf),
-  subtitle_text = paste("Ensemble SD")
-) +
-  facet_grid(period ~ data_source)
-
+dcant_zonal_ensemble %>%
+  group_by(basin_AIP) %>%
+  group_split() %>%
+  # head(1) %>%
+  map(
+    ~ ggplot(data = .x) +
+      geom_contour_filled(aes(lat, depth, z = dcant_sd),
+                          breaks = c(seq(0,4,0.4), Inf)) +
+      scale_fill_viridis_d(
+        drop = FALSE,
+        name = legend_title
+      ) +
+      guides(fill = guide_colorsteps(barheight = unit(8, "cm"),
+                                     show.limits = TRUE)) +
+      scale_y_continuous(trans = trans_reverser("sqrt"),
+                         breaks = c(100,500,seq(1000,5000,1000))) +
+      # scale_y_reverse(breaks = c(100,500,seq(1000,5000,1000))) +
+      scale_x_continuous(breaks = seq(-100, 100, 40),
+                         limits = c(-80, 65)) +
+      facet_grid(data_source ~ period) +
+      coord_cartesian(expand = 0) +
+      labs(title = paste("basin:", unique(.x$basin_AIP)))
+  )
 
 
 ```
@@ -278,43 +385,27 @@ p_map_cant_inv(
 
 ```{r ensemble_sd_vs_bias, fig.asp=0.5}
 
-dcant_inv_ensemble_bias %>% 
+dcant_zonal_ensemble_bias %>% 
   ggplot(aes(dcant_mean_bias, dcant_sd)) +
   geom_bin2d() +
   scale_fill_viridis_c() +
-  facet_grid(. ~ period)
+  facet_grid(basin_AIP ~ period)
 
 
-dcant_inv_ensemble_bias %>% 
-  select(dcant_mean, dcant_mean_bias, period) %>% 
-  pivot_longer(dcant_mean:dcant_mean_bias,
+dcant_zonal_ensemble_bias %>% 
+  select(dcant_ensemble_mean, dcant_mean_bias, period) %>% 
+  pivot_longer(dcant_ensemble_mean:dcant_mean_bias,
                names_to = "estimate",
                values_to = "value") %>% 
   ggplot(aes(value, col=estimate, linetype = period)) +
   scale_color_brewer(palette = "Set1") +
   geom_density()
 
-dcant_inv_ensemble %>% 
+dcant_zonal_ensemble %>% 
   ggplot(aes(dcant_sd)) +
   geom_histogram() +
   facet_grid(data_source ~ period) +
   coord_cartesian(ylim = c(0,50))
-
-```
-
-## Range
-
-```{r ensemble_range, fig.asp=0.5}
-
-p_map_cant_inv(
-  df = dcant_inv_ensemble,
-  var = "dcant_range",
-  breaks = c(seq(0,8,0.8), Inf),
-  subtitle_text = paste("Ensemble range")
-) +
-  facet_grid(period ~ data_source)
-
-
 
 ```
 
@@ -324,26 +415,44 @@ p_map_cant_inv(
 
 ```{r ensemble_deviation_from_mean}
 
-dcant_inv_all <- full_join(dcant_inv_all,
-                           dcant_inv_ensemble)
+dcant_zonal_all <- full_join(dcant_zonal_all %>% select(-dcant_sd),
+                           dcant_zonal_ensemble)
 
-dcant_inv_all <- dcant_inv_all %>% 
-  mutate(dcant_offset = dcant - dcant_mean)
+dcant_zonal_all <- dcant_zonal_all %>% 
+  mutate(dcant_offset = dcant_mean - dcant_ensemble_mean)
 
-dcant_inv_all %>%
+
+legend_title <- expression(atop(Delta * C[ant,offset],
+                               (mu * mol ~ kg ^ {
+                                 -1
+                               })))
+
+dcant_zonal_all %>%
   filter(data_source %in% c("mod", "obs")) %>%
-  group_by(period) %>%
+  group_by(basin_AIP, data_source) %>%
   group_split() %>%
-  # head(1) %>%
+  head(1) %>%
   map(
-    ~ p_map_cant_inv(df = .x,
-                     var = "dcant_offset",
-                     col = "bias",
-                     subtitle_text = paste("period:",
-                                           unique(.x$period))) +
-      facet_grid(MLR_basins ~ data_source)
+    ~ ggplot(data = .x) +
+      geom_contour_filled(aes(lat, depth, z = dcant_offset),
+                          breaks = c(-Inf, seq(-6,6,1), Inf)) +
+      scale_fill_scico_d(
+        palette = "vik",
+        drop = FALSE,
+        name = legend_title
+      ) +
+      guides(fill = guide_colorsteps(barheight = unit(8, "cm"),
+                                     show.limits = TRUE)) +
+      scale_y_continuous(trans = trans_reverser("sqrt"),
+                         breaks = c(100,500,seq(1000,5000,1000))) +
+      # scale_y_reverse(breaks = c(100,500,seq(1000,5000,1000))) +
+      scale_x_continuous(breaks = seq(-100, 100, 40),
+                         limits = c(-80, 65)) +
+      facet_grid(MLR_basins ~ period) +
+      coord_cartesian(expand = 0) +
+      labs(title = paste("data_source", unique(.x$data_source),
+                         "| basin:", unique(.x$basin_AIP)))
   )
-
 
 ```
 
