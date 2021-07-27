@@ -304,7 +304,7 @@ dcant_budget_basin_AIP_ensemble_bias %>%
 dcant_budget_basin_AIP_all_depth %>%
   group_by(data_source) %>%
   group_split() %>%
-  head(1) %>%
+  # head(1) %>%
   map(
     ~  ggplot(data = .x,
               aes(dcant, MLR_basins, fill = basin_AIP)) +
@@ -315,6 +315,30 @@ dcant_budget_basin_AIP_all_depth %>%
       labs(title = paste("data_source:", unique(.x$data_source)))
   )
 
+
+```
+
+## Biases
+
+```{r cases_bias_depth, fig.asp=0.9}
+
+dcant_budget_basin_AIP_bias_all_depth %>%
+  ggplot(aes(dcant_bias, MLR_basins, fill = basin_AIP)) +
+  geom_vline(xintercept = 0) +
+  geom_col() +
+  scale_fill_brewer(palette = "Dark2") +
+  facet_grid(inv_depth ~ period)
+
+```
+
+```{r cases_bias_rel_depth, fig.asp=0.9}
+
+dcant_budget_basin_AIP_bias_all_depth %>%
+  ggplot(aes(dcant_bias_rel, MLR_basins, fill = basin_AIP)) +
+  geom_vline(xintercept = 0) +
+  geom_col() +
+  scale_fill_brewer(palette = "Dark2") +
+  facet_grid(inv_depth ~ period)
 
 ```
 

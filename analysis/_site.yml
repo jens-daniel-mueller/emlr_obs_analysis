@@ -7,6 +7,8 @@ navbar:
     href: index.html
   - text: Standard cases
     menu:
+    - text: Budgets
+      href: budgets.html
     - text: Column inventories
       href: column_inventories.html
   right:
