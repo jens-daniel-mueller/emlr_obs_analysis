@@ -209,7 +209,7 @@ dcant_budget_global_bias_all <- dcant_budget_global_bias_all %>%
 
 ### Absoulte values
 
-```{r cases_absolute_global, fig.asp=0.9}
+```{r cases_absolute_global}
 
 dcant_budget_global_all %>%
   ggplot(aes(period, dcant, col=MLR_basins)) +
@@ -221,7 +221,7 @@ dcant_budget_global_all %>%
 
 ### Biases
 
-```{r cases_bias_global, fig.asp=0.9}
+```{r cases_bias_global}
 
 dcant_budget_global_bias_all %>%
   ggplot(aes(period, dcant_bias, col=MLR_basins)) +
