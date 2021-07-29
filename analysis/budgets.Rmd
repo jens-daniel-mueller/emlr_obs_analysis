@@ -358,6 +358,13 @@ dcant_budget_global_bias_all_depth %>%
 
 ```{r read_files}
 
+rm(dcant_budget_global_all,
+   dcant_budget_global_all_depth,
+   dcant_budget_global_bias_all,
+   dcant_budget_global_bias_all_depth,
+   dcant_budget_global_ensemble,
+   dcant_budget_global_ensemble_bias)
+
 # Version_IDs <- Version_IDs[1:length(Version_IDs)-1]
 
 for (i_Version_IDs in Version_IDs) {
