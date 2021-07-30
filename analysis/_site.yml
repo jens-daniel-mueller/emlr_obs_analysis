@@ -13,6 +13,8 @@ navbar:
       href: column_inventories.html
     - text: Zonal sections
       href: zonal_sections.html
+    - text: Slab inventories
+      href: slab_inventories.html
   right:
   - icon: fa-github
     text: Source code

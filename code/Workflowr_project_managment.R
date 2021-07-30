@@ -5,7 +5,7 @@
 
 
 # commit regular changes (locally) and rebuild site
-wflow_publish(all = TRUE, message = "update regional budget analysis")
+wflow_publish(all = TRUE, message = "update slab inventories")
 
 # commit changes including _site.yml (locally) and rebuild site
 wflow_publish(c("analysis/*Rmd"), message = "XXX", republish = TRUE)
@@ -15,9 +15,10 @@ wflow_publish(here::here("analysis",
                          c("index.Rmd",
                            "budgets.Rmd",
                            "column_inventories.Rmd",
-                           "zonal_sections.Rmd"
+                           "zonal_sections.Rmd",
+                           "slab_inventories.Rmd"
                            )),
-              message = "rebuildt with zonal sections",
+              message = "rebuildt with slab inventories",
               republish = TRUE)
 
 

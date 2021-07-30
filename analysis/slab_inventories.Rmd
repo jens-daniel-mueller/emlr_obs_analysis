@@ -237,7 +237,7 @@ dcant_slab_ensemble %>%
 
 ## Mean bias
 
-```{r ensemble_mean_bias, fig.asp=2}
+```{r ensemble_mean_bias, fig.asp=3}
 
 dcant_slab_ensemble_bias <- full_join(
   dcant_slab_ensemble %>%
@@ -269,7 +269,7 @@ dcant_slab_ensemble_bias %>%
 dcant_slab_ensemble %>%
   group_by(gamma_slab) %>%
   group_split() %>%
-  head(1) %>%
+  # head(1) %>%
   map(
     ~ p_map_dcant_slab(
       df = .x,
@@ -340,8 +340,9 @@ p_map_cant_inv(
 
 ```{r ensemble_deviation_from_mean}
 
-dcant_slab_all <- full_join(dcant_slab_all,
-                            dcant_slab_ensemble)
+dcant_slab_all <- full_join(
+  dcant_slab_all %>% select(-dcant_sd),
+  dcant_slab_ensemble)
 
 dcant_slab_all <- dcant_slab_all %>% 
   mutate(dcant_offset = dcant - dcant_mean)
