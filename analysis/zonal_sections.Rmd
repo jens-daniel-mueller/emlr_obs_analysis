@@ -42,10 +42,6 @@ path_preprocessing_model    <-
 
 # identify required version IDs
 
-# Version_IDs <- list.files(
-#   path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-#   pattern = "v_")[1:34]
-
 Version_IDs_1 <- list.files(
   path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
   pattern = "v_10")[1:4]
@@ -168,35 +164,24 @@ dcant_zonal_bias_all <- full_join(dcant_zonal_bias_all,
 ```{r cases_absolute, fig.asp=1.2}
 
 
-legend_title <- expression(atop(Delta * C[ant],
-                               (mu * mol ~ kg ^ {
-                                 -1
-                               })))
-
 dcant_zonal_all %>%
   filter(data_source %in% c("mod", "obs")) %>%
   group_by(basin_AIP, data_source) %>%
   group_split() %>%
   # head(1) %>%
   map(
-    ~ ggplot(data = .x) +
-      geom_contour_filled(aes(lat, depth, z = dcant_mean),
-                          breaks = c(-Inf, seq(-2,16,2), Inf)) +
-      scale_fill_viridis_d(
-        drop = FALSE,
-        name = legend_title
-      ) +
-      guides(fill = guide_colorsteps(barheight = unit(8, "cm"),
-                                     show.limits = TRUE)) +
-      scale_y_continuous(trans = trans_reverser("sqrt"),
-                         breaks = c(100,500,seq(1000,5000,1000))) +
-      # scale_y_reverse(breaks = c(100,500,seq(1000,5000,1000))) +
-      scale_x_continuous(breaks = seq(-100, 100, 40),
-                         limits = c(-80, 65)) +
-      facet_grid(MLR_basins ~ period) +
-      coord_cartesian(expand = 0) +
-      labs(title = paste("data_source", unique(.x$data_source),
-                         "| basin:", unique(.x$basin_AIP)))
+    ~ p_section_zonal_continous_depth(
+      df = .x,
+      var = "dcant_mean",
+      plot_slabs = "n",
+      subtitle_text = paste(
+        "data_source",
+        unique(.x$data_source),
+        "| basin:",
+        unique(.x$basin_AIP)
+      )
+    ) +
+      facet_grid(MLR_basins ~ period)
   )
 
 
@@ -211,24 +196,16 @@ dcant_zonal_bias_all %>%
   group_split() %>%
   # head(1) %>%
   map(
-    ~ ggplot(data = .x) +
-      geom_contour_filled(aes(lat, depth, z = dcant_bias),
-                          breaks = c(-Inf, seq(-6,6,1), Inf)) +
-      scale_fill_scico_d(
-        palette = "vik",
-        drop = FALSE,
-        name = legend_title
-      ) +
-      guides(fill = guide_colorsteps(barheight = unit(8, "cm"),
-                                     show.limits = TRUE)) +
-      scale_y_continuous(trans = trans_reverser("sqrt"),
-                         breaks = c(100,500,seq(1000,5000,1000))) +
-      # scale_y_reverse(breaks = c(100,500,seq(1000,5000,1000))) +
-      scale_x_continuous(breaks = seq(-100, 100, 40),
-                         limits = c(-80, 65)) +
-      facet_grid(MLR_basins ~ period) +
-      coord_cartesian(expand = 0) +
-      labs(title = paste("basin:", unique(.x$basin_AIP)))
+    ~ p_section_zonal_continous_depth(
+      df = .x,
+      var = "dcant_bias",
+      col = "divergent",
+      plot_slabs = "n",
+      subtitle_text = paste("basin:",
+        unique(.x$basin_AIP)
+      )
+    ) +
+      facet_grid(MLR_basins ~ period)
   )
 
 
@@ -281,23 +258,14 @@ dcant_zonal_ensemble %>%
   group_split() %>%
   # head(1) %>%
   map(
-    ~ ggplot(data = .x) +
-      geom_contour_filled(aes(lat, depth, z = dcant_ensemble_mean),
-                          breaks = c(-Inf, seq(-2,16,2), Inf)) +
-      scale_fill_viridis_d(
-        drop = FALSE,
-        name = legend_title
-      ) +
-      guides(fill = guide_colorsteps(barheight = unit(8, "cm"),
-                                     show.limits = TRUE)) +
-      scale_y_continuous(trans = trans_reverser("sqrt"),
-                         breaks = c(100,500,seq(1000,5000,1000))) +
-      # scale_y_reverse(breaks = c(100,500,seq(1000,5000,1000))) +
-      scale_x_continuous(breaks = seq(-100, 100, 40),
-                         limits = c(-80, 65)) +
-      facet_grid(data_source ~ period) +
-      coord_cartesian(expand = 0) +
-      labs(title = paste("basin:", unique(.x$basin_AIP)))
+    ~ p_section_zonal_continous_depth(
+      df = .x,
+      var = "dcant_ensemble_mean",
+      plot_slabs = "n",
+      subtitle_text = paste("basin:",
+                            unique(.x$basin_AIP))
+    ) +
+      facet_grid(data_source ~ period)
   )
 
 
@@ -325,24 +293,16 @@ dcant_zonal_ensemble_bias %>%
   group_split() %>%
   # head(1) %>%
   map(
-    ~ ggplot(data = .x) +
-      geom_contour_filled(aes(lat, depth, z = dcant_mean_bias),
-                          breaks = c(-Inf, seq(-6,6,1), Inf)) +
-      scale_fill_scico_d(
-        palette = "vik",
-        drop = FALSE,
-        name = legend_title
-      ) +
-      guides(fill = guide_colorsteps(barheight = unit(8, "cm"),
-                                     show.limits = TRUE)) +
-      scale_y_continuous(trans = trans_reverser("sqrt"),
-                         breaks = c(100,500,seq(1000,5000,1000))) +
-      # scale_y_reverse(breaks = c(100,500,seq(1000,5000,1000))) +
-      scale_x_continuous(breaks = seq(-100, 100, 40),
-                         limits = c(-80, 65)) +
-      facet_grid(. ~ period) +
-      coord_cartesian(expand = 0) +
-      labs(title = paste("basin:", unique(.x$basin_AIP)))
+    ~ p_section_zonal_continous_depth(
+      df = .x,
+      var = "dcant_mean_bias",
+      col = "divergent",
+      plot_slabs = "n",
+      subtitle_text = paste("basin:",
+        unique(.x$basin_AIP)
+      )
+    ) +
+      facet_grid(. ~ period)
   )
 
 ```
@@ -357,23 +317,15 @@ dcant_zonal_ensemble %>%
   group_split() %>%
   # head(1) %>%
   map(
-    ~ ggplot(data = .x) +
-      geom_contour_filled(aes(lat, depth, z = dcant_sd),
-                          breaks = c(seq(0,4,0.4), Inf)) +
-      scale_fill_viridis_d(
-        drop = FALSE,
-        name = legend_title
-      ) +
-      guides(fill = guide_colorsteps(barheight = unit(8, "cm"),
-                                     show.limits = TRUE)) +
-      scale_y_continuous(trans = trans_reverser("sqrt"),
-                         breaks = c(100,500,seq(1000,5000,1000))) +
-      # scale_y_reverse(breaks = c(100,500,seq(1000,5000,1000))) +
-      scale_x_continuous(breaks = seq(-100, 100, 40),
-                         limits = c(-80, 65)) +
-      facet_grid(data_source ~ period) +
-      coord_cartesian(expand = 0) +
-      labs(title = paste("basin:", unique(.x$basin_AIP)))
+    ~ p_section_zonal_continous_depth(
+      df = .x,
+      var = "dcant_sd",
+      breaks = c(seq(0,4,0.4), Inf),
+      plot_slabs = "n",
+      subtitle_text = paste("basin:",
+                            unique(.x$basin_AIP))
+    ) +
+      facet_grid(data_source ~ period)
   )
 
 
@@ -430,27 +382,18 @@ dcant_zonal_all %>%
   filter(data_source %in% c("mod", "obs")) %>%
   group_by(basin_AIP, data_source) %>%
   group_split() %>%
-  head(1) %>%
+  # head(1) %>%
   map(
-    ~ ggplot(data = .x) +
-      geom_contour_filled(aes(lat, depth, z = dcant_offset),
-                          breaks = c(-Inf, seq(-6,6,1), Inf)) +
-      scale_fill_scico_d(
-        palette = "vik",
-        drop = FALSE,
-        name = legend_title
-      ) +
-      guides(fill = guide_colorsteps(barheight = unit(8, "cm"),
-                                     show.limits = TRUE)) +
-      scale_y_continuous(trans = trans_reverser("sqrt"),
-                         breaks = c(100,500,seq(1000,5000,1000))) +
-      # scale_y_reverse(breaks = c(100,500,seq(1000,5000,1000))) +
-      scale_x_continuous(breaks = seq(-100, 100, 40),
-                         limits = c(-80, 65)) +
-      facet_grid(MLR_basins ~ period) +
-      coord_cartesian(expand = 0) +
-      labs(title = paste("data_source", unique(.x$data_source),
-                         "| basin:", unique(.x$basin_AIP)))
+    ~ p_section_zonal_continous_depth(
+      df = .x,
+      var = "dcant_offset",
+      col = "divergent",
+      plot_slabs = "n",
+      subtitle_text = paste("basin:",
+        unique(.x$basin_AIP)
+      )
+    ) +
+      facet_grid(MLR_basins ~ period)
   )
 
 ```

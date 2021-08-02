@@ -15,6 +15,40 @@ navbar:
       href: zonal_sections.html
     - text: Slab inventories
       href: slab_inventories.html
+  - text: Gap filling
+    menu:
+    - text: Budgets
+      href: gap_filling_budgets.html
+    - text: Column inventories
+      href: gap_filling_column_inventories.html
+    - text: Zonal sections
+      href: gap_filling_zonal_sections.html
+    - text: Slab inventories
+      href: gap_filling_slab_inventories.html
+  - text: Rarefication
+    menu:
+    - text: Budgets
+      href: rarefication_budgets.html
+    - text: Column inventories
+      href: rarefication_column_inventories.html
+    - text: Zonal sections
+      href: rarefication_zonal_sections.html
+    - text: Slab inventories
+      href: rarefication_slab_inventories.html
+  - text: VIF
+    menu:
+    - text: Budgets
+      href: vif_budgets.html
+    - text: Column inventories
+      href: vif_column_inventories.html
+    - text: Zonal sections
+      href: vif_zonal_sections.html
+    - text: Slab inventories
+      href: vif_slab_inventories.html
+  - text: tref
+    menu:
+    - text: Zonal sections
+      href: tref_zonal_sections.html
   right:
   - icon: fa-github
     text: Source code

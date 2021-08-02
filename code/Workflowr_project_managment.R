@@ -5,7 +5,7 @@
 
 
 # commit regular changes (locally) and rebuild site
-wflow_publish(all = TRUE, message = "update slab inventories")
+wflow_publish(all = TRUE, message = "implemented zonal mean plot function with continous y axis")
 
 # commit changes including _site.yml (locally) and rebuild site
 wflow_publish(c("analysis/*Rmd"), message = "XXX", republish = TRUE)
@@ -13,12 +13,25 @@ wflow_publish(c("analysis/*Rmd"), message = "XXX", republish = TRUE)
 # commit changes including _site.yml (locally) and rebuild site in the specified order
 wflow_publish(here::here("analysis",
                          c("index.Rmd",
+                           "vif_budgets.Rmd",
+                           "vif_column_inventories.Rmd",
+                           "vif_zonal_sections.Rmd",
+                           "vif_slab_inventories.Rmd",
                            "budgets.Rmd",
                            "column_inventories.Rmd",
                            "zonal_sections.Rmd",
-                           "slab_inventories.Rmd"
+                           "slab_inventories.Rmd",
+                           "gap_filling_budgets.Rmd",
+                           "gap_filling_column_inventories.Rmd",
+                           "gap_filling_zonal_sections.Rmd",
+                           "gap_filling_slab_inventories.Rmd",
+                           "rarefication_budgets.Rmd",
+                           "rarefication_column_inventories.Rmd",
+                           "rarefication_zonal_sections.Rmd",
+                           "rarefication_slab_inventories.Rmd",
+                           "tref_zonal_sections.Rmd"
                            )),
-              message = "rebuildt with slab inventories",
+              message = "rebuildt with vif analysis",
               republish = TRUE)
 
 
