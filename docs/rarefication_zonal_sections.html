@@ -516,7 +516,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Rarefication: Zonal sections</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">02 August, 2021</h4>
+<h4 class="date">11 August, 2021</h4>
 
 </div>
 
@@ -541,7 +541,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-08-02
+<strong>Last updated:</strong> 2021-08-11
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -632,16 +632,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree29564fb565295cc63c28b0d76431e70b6f4de025targetblank29564fba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/29564fb565295cc63c28b0d76431e70b6f4de025" target="_blank">29564fb</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreea054a40a730bb79edc084963ed4d89a54354bf50targetblanka054a40a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/a054a40a730bb79edc084963ed4d89a54354bf50" target="_blank">a054a40</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree29564fb565295cc63c28b0d76431e70b6f4de025targetblank29564fba" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreea054a40a730bb79edc084963ed4d89a54354bf50targetblanka054a40a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/29564fb565295cc63c28b0d76431e70b6f4de025" target="_blank">29564fb</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/a054a40a730bb79edc084963ed4d89a54354bf50" target="_blank">a054a40</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -655,7 +655,6 @@ Ignored files:
     Ignored:    output/publication/
 
 Unstaged changes:
-    Modified:   analysis/_site.yml
     Modified:   code/Workflowr_project_managment.R
 
 </code></pre>
@@ -695,6 +694,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a054a40a730bb79edc084963ed4d89a54354bf50/analysis/rarefication_zonal_sections.Rmd" target="_blank">a054a40</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-11
+</td>
+<td>
+rebuildt with rarefication analysis
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/bd9ce6b16b55517d1793a2a63a8d259a077c22ce/docs/rarefication_zonal_sections.html" target="_blank">bd9ce6b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-02
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -740,17 +773,13 @@ rebuildt with rarefication analysis
 <h1 number="1"><span class="header-section-number">1</span> Read files</h1>
 <pre class="r"><code># identify required version IDs
 
-# Version_IDs &lt;- list.files(
-#   path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
-#   pattern = &quot;v_&quot;)[1:34]
-
 Version_IDs_1 &lt;- list.files(
   path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
-  pattern = &quot;v_12&quot;)
+  pattern = &quot;v_11&quot;)
 
 Version_IDs_2 &lt;- list.files(
   path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
-  pattern = &quot;v_22&quot;)
+  pattern = &quot;v_21&quot;)
 
 Version_IDs &lt;- c(Version_IDs_1, Version_IDs_2)
 rm(Version_IDs_1, Version_IDs_2)
@@ -847,16 +876,21 @@ for (i_Version_IDs in Version_IDs) {
   
   
 }</code></pre>
-<pre><code>[1] &quot;v_121&quot;
-[1] &quot;v_122&quot;
-[1] &quot;v_123&quot;
-[1] &quot;v_124&quot;
-[1] &quot;v_221&quot;
-[1] &quot;v_222&quot;
-[1] &quot;v_223&quot;
-[1] &quot;v_224&quot;</code></pre>
+<pre><code>[1] &quot;v_111&quot;
+[1] &quot;v_112&quot;
+[1] &quot;v_113&quot;
+[1] &quot;v_114&quot;
+[1] &quot;v_115&quot;
+[1] &quot;v_211&quot;
+[1] &quot;v_212&quot;
+[1] &quot;v_213&quot;
+[1] &quot;v_214&quot;
+[1] &quot;v_215&quot;</code></pre>
 <pre class="r"><code>rm(dcant_zonal, dcant_zonal_bias, dcant_zonal_mod_truth,
    tref)
+
+params_local_all &lt;- params_local_all %&gt;% 
+  mutate(rarefication_threshold = fct_inseq(as.factor(as.character(rarefication_threshold))))
 
 dcant_zonal_all &lt;- full_join(dcant_zonal_all,
                            params_local_all)
@@ -880,7 +914,7 @@ dcant_zonal_all %&gt;%
   # head(1) %&gt;%
   map(
     ~ ggplot(data = .x) +
-      geom_contour_filled(aes(lat, depth, z = dcant_mean),
+      geom_contour_filled(aes(lat, depth, z = dcant),
                           breaks = c(-Inf, seq(-2,16,2), Inf)) +
       scale_fill_viridis_d(
         drop = FALSE,
@@ -893,7 +927,7 @@ dcant_zonal_all %&gt;%
       # scale_y_reverse(breaks = c(100,500,seq(1000,5000,1000))) +
       scale_x_continuous(breaks = seq(-100, 100, 40),
                          limits = c(-80, 65)) +
-      facet_grid(MLR_basins ~ period) +
+      facet_grid(rarefication_threshold ~ period) +
       coord_cartesian(expand = 0) +
       labs(title = paste(&quot;data_source&quot;, unique(.x$data_source),
                          &quot;| basin:&quot;, unique(.x$basin_AIP)))
@@ -1160,7 +1194,7 @@ jens-daniel-mueller
       # scale_y_reverse(breaks = c(100,500,seq(1000,5000,1000))) +
       scale_x_continuous(breaks = seq(-100, 100, 40),
                          limits = c(-80, 65)) +
-      facet_grid(MLR_basins ~ period) +
+      facet_grid(rarefication_threshold ~ period) +
       coord_cartesian(expand = 0) +
       labs(title = paste(&quot;basin:&quot;, unique(.x$basin_AIP)))
   )</code></pre>
@@ -1287,17 +1321,17 @@ jens-daniel-mueller
 <div id="bias-correlation" class="section level2" number="2.3">
 <h2 number="2.3"><span class="header-section-number">2.3</span> Bias correlation</h2>
 <pre class="r"><code>dcant_zonal_bias_all_corr &lt;- dcant_zonal_bias_all %&gt;%
-  select(lat, depth, basin_AIP, dcant_bias, MLR_basins, period) %&gt;% 
+  select(lat, depth, basin_AIP, dcant_bias, rarefication_threshold, period) %&gt;% 
   pivot_wider(names_from = period,
               values_from = dcant_bias, 
-              names_prefix = &quot;dcant_bias &quot;)
+              names_prefix = &quot;dcant_bias_&quot;)
 
 dcant_zonal_bias_all_corr %&gt;% 
-  ggplot(aes(`dcant_bias 1994 - 2004`, `dcant_bias 2004 - 2014`)) +
+  ggplot(aes(`dcant_bias_1994 - 2004`, `dcant_bias_2004 - 2014`)) +
   geom_vline(xintercept = 0) +
   geom_hline(yintercept = 0) +
   geom_bin2d() +
-  facet_grid(basin_AIP ~ MLR_basins) +
+  facet_grid(basin_AIP ~ rarefication_threshold) +
   scale_fill_viridis_c()</code></pre>
 <p><img src="figure/rarefication_zonal_sections.Rmd/cases_bias_correlation-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
@@ -1344,9 +1378,9 @@ jens-daniel-mueller
 <pre class="r"><code>dcant_zonal_ensemble &lt;- dcant_zonal_all %&gt;% 
   filter(data_source %in% c(&quot;mod&quot;, &quot;obs&quot;)) %&gt;% 
   group_by(lat, depth, basin_AIP, data_source, period) %&gt;% 
-  summarise(dcant_ensemble_mean = mean(dcant_mean),
-            dcant_sd = sd(dcant_mean),
-            dcant_range = max(dcant_mean)- min(dcant_mean)) %&gt;% 
+  summarise(dcant_ensemble_mean = mean(dcant),
+            dcant_sd = sd(dcant),
+            dcant_range = max(dcant)- min(dcant)) %&gt;% 
   ungroup()</code></pre>
 <div id="mean" class="section level2" number="3.1">
 <h2 number="3.1"><span class="header-section-number">3.1</span> Mean</h2>
@@ -1501,12 +1535,12 @@ jens-daniel-mueller
     select(lat, depth, basin_AIP, period, dcant_ensemble_mean, dcant_sd),
   dcant_zonal_all %&gt;%
     filter(data_source == &quot;mod_truth&quot;,
-           MLR_basins == &quot;2&quot;) %&gt;% 
-    select(lat, depth, basin_AIP, period, dcant_mod_truth = dcant_mean)
+           MLR_basins == unique(dcant_zonal_all$MLR_basins[1])) %&gt;% 
+    select(lat, depth, basin_AIP, period, dcant_mod_truth = dcant)
 )
 
 dcant_zonal_ensemble_bias &lt;- dcant_zonal_ensemble_bias %&gt;% 
-  mutate(dcant_mean_bias = dcant_ensemble_mean - dcant_mod_truth)
+  mutate(dcant_bias = dcant_ensemble_mean - dcant_mod_truth)
 
 dcant_zonal_ensemble_bias %&gt;%
   group_by(basin_AIP) %&gt;%
@@ -1514,7 +1548,7 @@ dcant_zonal_ensemble_bias %&gt;%
   # head(1) %&gt;%
   map(
     ~ ggplot(data = .x) +
-      geom_contour_filled(aes(lat, depth, z = dcant_mean_bias),
+      geom_contour_filled(aes(lat, depth, z = dcant_bias),
                           breaks = c(-Inf, seq(-6,6,1), Inf)) +
       scale_fill_scico_d(
         palette = &quot;vik&quot;,
@@ -1800,7 +1834,7 @@ jens-daniel-mueller
 <div id="sd-vs-bias" class="section level2" number="3.4">
 <h2 number="3.4"><span class="header-section-number">3.4</span> SD vs bias</h2>
 <pre class="r"><code>dcant_zonal_ensemble_bias %&gt;% 
-  ggplot(aes(dcant_mean_bias, dcant_sd)) +
+  ggplot(aes(dcant_bias, dcant_sd)) +
   geom_bin2d() +
   scale_fill_viridis_c() +
   facet_grid(basin_AIP ~ period)</code></pre>
@@ -1843,8 +1877,8 @@ jens-daniel-mueller
 </div>
 </div>
 <pre class="r"><code>dcant_zonal_ensemble_bias %&gt;% 
-  select(dcant_ensemble_mean, dcant_mean_bias, period) %&gt;% 
-  pivot_longer(dcant_ensemble_mean:dcant_mean_bias,
+  select(dcant_ensemble_mean, dcant_bias, period) %&gt;% 
+  pivot_longer(dcant_ensemble_mean:dcant_bias,
                names_to = &quot;estimate&quot;,
                values_to = &quot;value&quot;) %&gt;% 
   ggplot(aes(value, col=estimate, linetype = period)) +
@@ -1941,7 +1975,7 @@ jens-daniel-mueller
                            dcant_zonal_ensemble)
 
 dcant_zonal_all &lt;- dcant_zonal_all %&gt;% 
-  mutate(dcant_offset = dcant_mean - dcant_ensemble_mean)
+  mutate(dcant_offset = dcant - dcant_ensemble_mean)
 
 
 legend_title &lt;- expression(atop(Delta * C[ant,offset],
@@ -1970,7 +2004,7 @@ dcant_zonal_all %&gt;%
       # scale_y_reverse(breaks = c(100,500,seq(1000,5000,1000))) +
       scale_x_continuous(breaks = seq(-100, 100, 40),
                          limits = c(-80, 65)) +
-      facet_grid(MLR_basins ~ period) +
+      facet_grid(rarefication_threshold ~ period) +
       coord_cartesian(expand = 0) +
       labs(title = paste(&quot;data_source&quot;, unique(.x$data_source),
                          &quot;| basin:&quot;, unique(.x$basin_AIP)))
