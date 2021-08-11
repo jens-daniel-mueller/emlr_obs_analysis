@@ -185,13 +185,6 @@ dcant_budget_global_all <- dcant_budget_global_all %>%
   select(-c(estimate, method)) %>% 
   rename(dcant = value)
 
-# dcant_budget_global_bias_all <- dcant_budget_global_all %>%
-#   filter(data_source %in% c("mod", "mod_truth")) %>%
-#   pivot_wider(values_from = dcant,
-#               names_from = data_source) %>% 
-#   mutate(dcant_bias = mod - mod_truth,
-#          dcant_bias_rel = 100 * dcant_bias / mod_truth)
-
 dcant_budget_global_all_depth <- dcant_budget_global_all
 
 dcant_budget_global_all <- dcant_budget_global_all %>%
@@ -277,7 +270,7 @@ dcant_budget_global_ensemble_bias <- full_join(
     select(period, dcant_mean, dcant_sd),
   dcant_budget_global_all %>%
     filter(data_source == "mod_truth",
-           MLR_basins == "2") %>% 
+           MLR_basins == unique(dcant_budget_global_all$MLR_basins[1])) %>% 
     select(period, dcant)
 )
 
@@ -369,8 +362,6 @@ rm(dcant_budget_global_all,
 ## Read files
 
 ```{r read_files}
-
-# Version_IDs <- Version_IDs[1:length(Version_IDs)-1]
 
 for (i_Version_IDs in Version_IDs) {
   # i_Version_IDs <- Version_IDs[1]
@@ -478,6 +469,9 @@ rm(
   tref
 )
 
+params_local_all <- params_local_all %>% 
+  mutate(rarefication_threshold = fct_inseq(as.factor(as.character(rarefication_threshold))))
+
 dcant_budget_basin_AIP_all <- full_join(dcant_budget_basin_AIP_all,
                                         params_local_all)
 
@@ -582,7 +576,7 @@ dcant_budget_basin_AIP_ensemble_bias <- full_join(
     select(basin_AIP, period, dcant_mean, dcant_sd),
   dcant_budget_basin_AIP_all %>%
     filter(data_source == "mod_truth",
-           MLR_basins == "2") %>% 
+           MLR_basins == unique(dcant_budget_basin_AIP_all$MLR_basins[1])) %>% 
     select(basin_AIP, period, dcant)
 )
 

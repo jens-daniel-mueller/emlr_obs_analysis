@@ -42,17 +42,13 @@ path_preprocessing_model    <-
 
 # identify required version IDs
 
-# Version_IDs <- list.files(
-#   path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-#   pattern = "v_")[1:34]
-
 Version_IDs_1 <- list.files(
   path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-  pattern = "v_12")
+  pattern = "v_11")
 
 Version_IDs_2 <- list.files(
   path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-  pattern = "v_22")
+  pattern = "v_21")
 
 Version_IDs <- c(Version_IDs_1, Version_IDs_2)
 rm(Version_IDs_1, Version_IDs_2)
@@ -155,6 +151,9 @@ for (i_Version_IDs in Version_IDs) {
 rm(dcant_inv, dcant_inv_bias, dcant_inv_mod_truth,
    params_local, tref)
 
+params_local_all <- params_local_all %>% 
+  mutate(rarefication_threshold = fct_inseq(as.factor(as.character(rarefication_threshold))))
+
 dcant_inv_all <- full_join(dcant_inv_all,
                            params_local_all)
 
@@ -174,19 +173,19 @@ dcant_inv_all <- dcant_inv_all %>%
 
 ## Absoulte values
 
-```{r cases_absolute, fig.asp=0.9}
+```{r cases_absolute, fig.asp=1}
 
 dcant_inv_all %>%
   filter(data_source %in% c("mod", "obs")) %>%
   group_by(period) %>%
   group_split() %>%
-  # head(1) %>% 
+  # head(1) %>%
   map(
     ~ p_map_cant_inv(df = .x,
                      var = "dcant",
                      subtitle_text = paste("period:",
                                            unique(.x$period))) +
-      facet_grid(MLR_basins ~ data_source)
+      facet_grid(rarefication_threshold ~ data_source)
   )
 
 
@@ -194,13 +193,13 @@ dcant_inv_all %>%
 
 ## Biases
 
-```{r cases_bias, fig.asp=0.9}
+```{r cases_bias, fig.asp=1}
 
 dcant_inv_bias_all %>%
   p_map_cant_inv(var = "dcant_bias",
                  col = "bias",
                  subtitle_text = "data_source: mod - mod_truth") +
-  facet_grid(MLR_basins ~ period)
+  facet_grid(rarefication_threshold ~ period)
 
 
 ```
@@ -241,7 +240,7 @@ dcant_inv_ensemble_bias <- full_join(
     select(lat, lon, period, dcant_mean, dcant_sd),
   dcant_inv_all %>%
     filter(data_source == "mod_truth",
-           MLR_basins == "2") %>% 
+           MLR_basins == unique(dcant_inv_all$MLR_basins[1])) %>% 
     select(lat, lon, period, dcant)
 )
 
@@ -341,7 +340,7 @@ dcant_inv_all %>%
                      col = "bias",
                      subtitle_text = paste("period:",
                                            unique(.x$period))) +
-      facet_grid(MLR_basins ~ data_source)
+      facet_grid(rarefication_threshold ~ data_source)
   )
 
 
