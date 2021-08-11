@@ -42,17 +42,13 @@ path_preprocessing_model    <-
 
 # identify required version IDs
 
-# Version_IDs <- list.files(
-#   path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-#   pattern = "v_")[1:34]
-
 Version_IDs_1 <- list.files(
   path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-  pattern = "v_12")
+  pattern = "v_11")
 
 Version_IDs_2 <- list.files(
   path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-  pattern = "v_22")
+  pattern = "v_21")
 
 Version_IDs <- c(Version_IDs_1, Version_IDs_2)
 rm(Version_IDs_1, Version_IDs_2)
@@ -145,6 +141,9 @@ for (i_Version_IDs in Version_IDs) {
 rm(dcant_slab, dcant_slab_bias,
    params_local, tref)
 
+params_local_all <- params_local_all %>% 
+  mutate(rarefication_threshold = fct_inseq(as.factor(as.character(rarefication_threshold))))
+
 dcant_slab_all <- full_join(dcant_slab_all,
                            params_local_all)
 
@@ -157,7 +156,7 @@ dcant_slab_bias_all <- full_join(dcant_slab_bias_all,
 
 ## Absoulte values
 
-```{r cases_absolute, fig.asp=0.9}
+```{r cases_absolute, fig.asp=1}
 
 dcant_slab_all %>%
   filter(data_source %in% c("mod", "obs")) %>%
@@ -172,7 +171,7 @@ dcant_slab_all %>%
                             unique(.x$period),
                             "| gamma_slab:", .x$gamma_slab)
     ) +
-      facet_grid(MLR_basins ~ data_source)
+      facet_grid(rarefication_threshold ~ data_source)
   )
 
 
@@ -180,7 +179,7 @@ dcant_slab_all %>%
 
 ## Biases
 
-```{r cases_bias, fig.asp=0.9}
+```{r cases_bias, fig.asp=1}
 
 dcant_slab_bias_all %>%
   group_by(gamma_slab) %>%
@@ -193,7 +192,7 @@ dcant_slab_bias_all %>%
       col = "divergent",
       subtitle_text = paste("gamma_slab:", .x$gamma_slab)
     ) +
-      facet_grid(MLR_basins ~ period)
+      facet_grid(rarefication_threshold ~ period)
   )
 
 ```
@@ -245,7 +244,7 @@ dcant_slab_ensemble_bias <- full_join(
     select(lat, lon, period, gamma_slab, dcant_mean, dcant_sd),
   dcant_slab_all %>%
     filter(data_source == "mod_truth",
-           MLR_basins == "2") %>% 
+           MLR_basins == unique(dcant_slab_all$MLR_basins[1])) %>% 
     select(lat, lon, period, gamma_slab, dcant)
 )
 
@@ -311,12 +310,6 @@ dcant_slab_ensemble_bias %>%
   facet_grid(gamma_slab ~ .) +
   coord_cartesian(xlim = c(dcant_min, dcant_max))
 
-# dcant_slab_ensemble %>% 
-#   ggplot(aes(dcant_sd)) +
-#   geom_histogram() +
-#   facet_grid(data_source ~ period) +
-#   coord_cartesian(ylim = c(0,50))
-
 ```
 
 ## Range
@@ -360,7 +353,7 @@ dcant_slab_all %>%
       subtitle_text = paste("gamma_slab:", .x$gamma_slab,
                             "| data_source:", .x$data_source)
     ) +
-      facet_grid(MLR_basins ~ period)
+      facet_grid(rarefication_threshold ~ period)
   )
 
 

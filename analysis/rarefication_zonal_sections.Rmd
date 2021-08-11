@@ -42,17 +42,13 @@ path_preprocessing_model    <-
 
 # identify required version IDs
 
-# Version_IDs <- list.files(
-#   path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-#   pattern = "v_")[1:34]
-
 Version_IDs_1 <- list.files(
   path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-  pattern = "v_12")
+  pattern = "v_11")
 
 Version_IDs_2 <- list.files(
   path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-  pattern = "v_22")
+  pattern = "v_21")
 
 Version_IDs <- c(Version_IDs_1, Version_IDs_2)
 rm(Version_IDs_1, Version_IDs_2)
@@ -153,6 +149,9 @@ for (i_Version_IDs in Version_IDs) {
 rm(dcant_zonal, dcant_zonal_bias, dcant_zonal_mod_truth,
    tref)
 
+params_local_all <- params_local_all %>% 
+  mutate(rarefication_threshold = fct_inseq(as.factor(as.character(rarefication_threshold))))
+
 dcant_zonal_all <- full_join(dcant_zonal_all,
                            params_local_all)
 
@@ -180,7 +179,7 @@ dcant_zonal_all %>%
   # head(1) %>%
   map(
     ~ ggplot(data = .x) +
-      geom_contour_filled(aes(lat, depth, z = dcant_mean),
+      geom_contour_filled(aes(lat, depth, z = dcant),
                           breaks = c(-Inf, seq(-2,16,2), Inf)) +
       scale_fill_viridis_d(
         drop = FALSE,
@@ -193,7 +192,7 @@ dcant_zonal_all %>%
       # scale_y_reverse(breaks = c(100,500,seq(1000,5000,1000))) +
       scale_x_continuous(breaks = seq(-100, 100, 40),
                          limits = c(-80, 65)) +
-      facet_grid(MLR_basins ~ period) +
+      facet_grid(rarefication_threshold ~ period) +
       coord_cartesian(expand = 0) +
       labs(title = paste("data_source", unique(.x$data_source),
                          "| basin:", unique(.x$basin_AIP)))
@@ -226,7 +225,7 @@ dcant_zonal_bias_all %>%
       # scale_y_reverse(breaks = c(100,500,seq(1000,5000,1000))) +
       scale_x_continuous(breaks = seq(-100, 100, 40),
                          limits = c(-80, 65)) +
-      facet_grid(MLR_basins ~ period) +
+      facet_grid(rarefication_threshold ~ period) +
       coord_cartesian(expand = 0) +
       labs(title = paste("basin:", unique(.x$basin_AIP)))
   )
@@ -240,17 +239,17 @@ dcant_zonal_bias_all %>%
 ```{r cases_bias_correlation}
 
 dcant_zonal_bias_all_corr <- dcant_zonal_bias_all %>%
-  select(lat, depth, basin_AIP, dcant_bias, MLR_basins, period) %>% 
+  select(lat, depth, basin_AIP, dcant_bias, rarefication_threshold, period) %>% 
   pivot_wider(names_from = period,
               values_from = dcant_bias, 
-              names_prefix = "dcant_bias ")
+              names_prefix = "dcant_bias_")
 
 dcant_zonal_bias_all_corr %>% 
-  ggplot(aes(`dcant_bias 1994 - 2004`, `dcant_bias 2004 - 2014`)) +
+  ggplot(aes(`dcant_bias_1994 - 2004`, `dcant_bias_2004 - 2014`)) +
   geom_vline(xintercept = 0) +
   geom_hline(yintercept = 0) +
   geom_bin2d() +
-  facet_grid(basin_AIP ~ MLR_basins) +
+  facet_grid(basin_AIP ~ rarefication_threshold) +
   scale_fill_viridis_c()
 
 ```
@@ -264,9 +263,9 @@ dcant_zonal_bias_all_corr %>%
 dcant_zonal_ensemble <- dcant_zonal_all %>% 
   filter(data_source %in% c("mod", "obs")) %>% 
   group_by(lat, depth, basin_AIP, data_source, period) %>% 
-  summarise(dcant_ensemble_mean = mean(dcant_mean),
-            dcant_sd = sd(dcant_mean),
-            dcant_range = max(dcant_mean)- min(dcant_mean)) %>% 
+  summarise(dcant_ensemble_mean = mean(dcant),
+            dcant_sd = sd(dcant),
+            dcant_range = max(dcant)- min(dcant)) %>% 
   ungroup()
 
 
@@ -313,12 +312,12 @@ dcant_zonal_ensemble_bias <- full_join(
     select(lat, depth, basin_AIP, period, dcant_ensemble_mean, dcant_sd),
   dcant_zonal_all %>%
     filter(data_source == "mod_truth",
-           MLR_basins == "2") %>% 
-    select(lat, depth, basin_AIP, period, dcant_mod_truth = dcant_mean)
+           MLR_basins == unique(dcant_zonal_all$MLR_basins[1])) %>% 
+    select(lat, depth, basin_AIP, period, dcant_mod_truth = dcant)
 )
 
 dcant_zonal_ensemble_bias <- dcant_zonal_ensemble_bias %>% 
-  mutate(dcant_mean_bias = dcant_ensemble_mean - dcant_mod_truth)
+  mutate(dcant_bias = dcant_ensemble_mean - dcant_mod_truth)
 
 dcant_zonal_ensemble_bias %>%
   group_by(basin_AIP) %>%
@@ -326,7 +325,7 @@ dcant_zonal_ensemble_bias %>%
   # head(1) %>%
   map(
     ~ ggplot(data = .x) +
-      geom_contour_filled(aes(lat, depth, z = dcant_mean_bias),
+      geom_contour_filled(aes(lat, depth, z = dcant_bias),
                           breaks = c(-Inf, seq(-6,6,1), Inf)) +
       scale_fill_scico_d(
         palette = "vik",
@@ -385,15 +384,15 @@ dcant_zonal_ensemble %>%
 ```{r ensemble_sd_vs_bias, fig.asp=0.5}
 
 dcant_zonal_ensemble_bias %>% 
-  ggplot(aes(dcant_mean_bias, dcant_sd)) +
+  ggplot(aes(dcant_bias, dcant_sd)) +
   geom_bin2d() +
   scale_fill_viridis_c() +
   facet_grid(basin_AIP ~ period)
 
 
 dcant_zonal_ensemble_bias %>% 
-  select(dcant_ensemble_mean, dcant_mean_bias, period) %>% 
-  pivot_longer(dcant_ensemble_mean:dcant_mean_bias,
+  select(dcant_ensemble_mean, dcant_bias, period) %>% 
+  pivot_longer(dcant_ensemble_mean:dcant_bias,
                names_to = "estimate",
                values_to = "value") %>% 
   ggplot(aes(value, col=estimate, linetype = period)) +
@@ -418,7 +417,7 @@ dcant_zonal_all <- full_join(dcant_zonal_all %>% select(-dcant_sd),
                            dcant_zonal_ensemble)
 
 dcant_zonal_all <- dcant_zonal_all %>% 
-  mutate(dcant_offset = dcant_mean - dcant_ensemble_mean)
+  mutate(dcant_offset = dcant - dcant_ensemble_mean)
 
 
 legend_title <- expression(atop(Delta * C[ant,offset],
@@ -447,7 +446,7 @@ dcant_zonal_all %>%
       # scale_y_reverse(breaks = c(100,500,seq(1000,5000,1000))) +
       scale_x_continuous(breaks = seq(-100, 100, 40),
                          limits = c(-80, 65)) +
-      facet_grid(MLR_basins ~ period) +
+      facet_grid(rarefication_threshold ~ period) +
       coord_cartesian(expand = 0) +
       labs(title = paste("data_source", unique(.x$data_source),
                          "| basin:", unique(.x$basin_AIP)))
