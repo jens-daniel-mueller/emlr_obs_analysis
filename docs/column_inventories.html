@@ -516,7 +516,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Column inventories</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">02 August, 2021</h4>
+<h4 class="date">11 August, 2021</h4>
 
 </div>
 
@@ -541,7 +541,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-08-02
+<strong>Last updated:</strong> 2021-08-11
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -632,16 +632,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree29564fb565295cc63c28b0d76431e70b6f4de025targetblank29564fba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/29564fb565295cc63c28b0d76431e70b6f4de025" target="_blank">29564fb</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreebe0c98f179a39fd22ef384eb6ce038ce5fdf2262targetblankbe0c98fa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/be0c98f179a39fd22ef384eb6ce038ce5fdf2262" target="_blank">be0c98f</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree29564fb565295cc63c28b0d76431e70b6f4de025targetblank29564fba" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreebe0c98f179a39fd22ef384eb6ce038ce5fdf2262targetblankbe0c98fa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/29564fb565295cc63c28b0d76431e70b6f4de025" target="_blank">29564fb</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/be0c98f179a39fd22ef384eb6ce038ce5fdf2262" target="_blank">be0c98f</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -655,7 +655,9 @@ Ignored files:
     Ignored:    output/publication/
 
 Unstaged changes:
-    Modified:   analysis/_site.yml
+    Modified:   analysis/rarefication_column_inventories.Rmd
+    Modified:   analysis/rarefication_slab_inventories.Rmd
+    Modified:   analysis/rarefication_zonal_sections.Rmd
     Modified:   code/Workflowr_project_managment.R
 
 </code></pre>
@@ -695,6 +697,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/be0c98f179a39fd22ef384eb6ce038ce5fdf2262/analysis/column_inventories.Rmd" target="_blank">be0c98f</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-11
+</td>
+<td>
+rebuildt with vif analysis
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/bd9ce6b16b55517d1793a2a63a8d259a077c22ce/docs/column_inventories.html" target="_blank">bd9ce6b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-02
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -1556,17 +1592,13 @@ sensitivity case comparison included
 <h1 number="1"><span class="header-section-number">1</span> Read files</h1>
 <pre class="r"><code># identify required version IDs
 
-# Version_IDs &lt;- list.files(
-#   path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
-#   pattern = &quot;v_&quot;)[1:34]
-
 Version_IDs_1 &lt;- list.files(
   path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
-  pattern = &quot;v_10&quot;)[1:4]
+  pattern = &quot;v_10&quot;)
 
 Version_IDs_2 &lt;- list.files(
   path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
-  pattern = &quot;v_20&quot;)[1:4]
+  pattern = &quot;v_20&quot;)
 
 Version_IDs &lt;- c(Version_IDs_1, Version_IDs_2)
 rm(Version_IDs_1, Version_IDs_2)
@@ -1669,10 +1701,16 @@ for (i_Version_IDs in Version_IDs) {
 [1] &quot;v_102&quot;
 [1] &quot;v_103&quot;
 [1] &quot;v_104&quot;
+[1] &quot;v_105&quot;
+[1] &quot;v_106&quot;
+[1] &quot;v_107&quot;
 [1] &quot;v_201&quot;
 [1] &quot;v_202&quot;
 [1] &quot;v_203&quot;
-[1] &quot;v_204&quot;</code></pre>
+[1] &quot;v_204&quot;
+[1] &quot;v_205&quot;
+[1] &quot;v_206&quot;
+[1] &quot;v_207&quot;</code></pre>
 <pre class="r"><code>rm(dcant_inv, dcant_inv_bias, dcant_inv_mod_truth,
    params_local, tref)
 
@@ -1692,7 +1730,7 @@ dcant_inv_bias_all &lt;- full_join(dcant_inv_bias_all,
   filter(data_source %in% c(&quot;mod&quot;, &quot;obs&quot;)) %&gt;%
   group_by(period) %&gt;%
   group_split() %&gt;%
-  # head(1) %&gt;% 
+  # head(1) %&gt;%
   map(
     ~ p_map_cant_inv(df = .x,
                      var = &quot;dcant&quot;,

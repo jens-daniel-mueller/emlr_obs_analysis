@@ -516,7 +516,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Rarefication: Budgets</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">02 August, 2021</h4>
+<h4 class="date">11 August, 2021</h4>
 
 </div>
 
@@ -541,7 +541,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-08-02
+<strong>Last updated:</strong> 2021-08-11
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -632,16 +632,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree29564fb565295cc63c28b0d76431e70b6f4de025targetblank29564fba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/29564fb565295cc63c28b0d76431e70b6f4de025" target="_blank">29564fb</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreebe0c98f179a39fd22ef384eb6ce038ce5fdf2262targetblankbe0c98fa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/be0c98f179a39fd22ef384eb6ce038ce5fdf2262" target="_blank">be0c98f</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree29564fb565295cc63c28b0d76431e70b6f4de025targetblank29564fba" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreebe0c98f179a39fd22ef384eb6ce038ce5fdf2262targetblankbe0c98fa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/29564fb565295cc63c28b0d76431e70b6f4de025" target="_blank">29564fb</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/be0c98f179a39fd22ef384eb6ce038ce5fdf2262" target="_blank">be0c98f</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -655,7 +655,9 @@ Ignored files:
     Ignored:    output/publication/
 
 Unstaged changes:
-    Modified:   analysis/_site.yml
+    Modified:   analysis/rarefication_column_inventories.Rmd
+    Modified:   analysis/rarefication_slab_inventories.Rmd
+    Modified:   analysis/rarefication_zonal_sections.Rmd
     Modified:   code/Workflowr_project_managment.R
 
 </code></pre>
@@ -695,6 +697,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/be0c98f179a39fd22ef384eb6ce038ce5fdf2262/analysis/rarefication_budgets.Rmd" target="_blank">be0c98f</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-11
+</td>
+<td>
+rebuildt with vif analysis
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/bd9ce6b16b55517d1793a2a63a8d259a077c22ce/docs/rarefication_budgets.html" target="_blank">bd9ce6b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-02
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -747,10 +783,10 @@ rebuildt with rarefication analysis
 #   pattern = &quot;v_&quot;)[1:34]
 
 Version_IDs_1 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
-                            pattern = &quot;v_12&quot;)
+                            pattern = &quot;v_11&quot;)
 
 Version_IDs_2 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
-                            pattern = &quot;v_22&quot;)
+                            pattern = &quot;v_21&quot;)
 
 Version_IDs &lt;- c(Version_IDs_1, Version_IDs_2)
 rm(Version_IDs_1, Version_IDs_2)
@@ -782,10 +818,10 @@ for (i_Version_IDs in Version_IDs) {
       sep = &quot;&quot;
     ))
   
-  # dcant_budget_global_bias &lt;-
-  #   read_csv(paste(path_version_data,
-  #                  &quot;dcant_budget_global_bias.csv&quot;,
-  #                  sep = &quot;&quot;))
+  dcant_budget_global_bias &lt;-
+    read_csv(paste(path_version_data,
+                   &quot;dcant_budget_global_bias.csv&quot;,
+                   sep = &quot;&quot;))
   
   dcant_budget_global &lt;- bind_rows(dcant_budget_global,
                                       dcant_budget_global_mod_truth)
@@ -793,8 +829,8 @@ for (i_Version_IDs in Version_IDs) {
   dcant_budget_global &lt;- dcant_budget_global %&gt;%
     mutate(Version_ID = i_Version_IDs)
   
-  # dcant_budget_global_bias &lt;- dcant_budget_global_bias %&gt;%
-  #   mutate(Version_ID = i_Version_IDs)
+  dcant_budget_global_bias &lt;- dcant_budget_global_bias %&gt;%
+    mutate(Version_ID = i_Version_IDs)
 
   params_local &lt;-
     read_rds(paste(path_version_data,
@@ -834,15 +870,15 @@ for (i_Version_IDs in Version_IDs) {
     dcant_budget_global_all &lt;- dcant_budget_global
   }
   
-  # if (exists(&quot;dcant_budget_global_bias_all&quot;)) {
-  #   dcant_budget_global_bias_all &lt;-
-  #     bind_rows(dcant_budget_global_bias_all,
-  #               dcant_budget_global_bias)
-  # }
-  # 
-  # if (!exists(&quot;dcant_budget_global_bias_all&quot;)) {
-  #   dcant_budget_global_bias_all &lt;- dcant_budget_global_bias
-  # }
+  if (exists(&quot;dcant_budget_global_bias_all&quot;)) {
+    dcant_budget_global_bias_all &lt;-
+      bind_rows(dcant_budget_global_bias_all,
+                dcant_budget_global_bias)
+  }
+
+  if (!exists(&quot;dcant_budget_global_bias_all&quot;)) {
+    dcant_budget_global_bias_all &lt;- dcant_budget_global_bias
+  }
   
   if (exists(&quot;params_local_all&quot;)) {
     params_local_all &lt;- bind_rows(params_local_all, params_local)
@@ -854,14 +890,16 @@ for (i_Version_IDs in Version_IDs) {
   
   
 }</code></pre>
-<pre><code>[1] &quot;v_121&quot;
-[1] &quot;v_122&quot;
-[1] &quot;v_123&quot;
-[1] &quot;v_124&quot;
-[1] &quot;v_221&quot;
-[1] &quot;v_222&quot;
-[1] &quot;v_223&quot;
-[1] &quot;v_224&quot;</code></pre>
+<pre><code>[1] &quot;v_111&quot;
+[1] &quot;v_112&quot;
+[1] &quot;v_113&quot;
+[1] &quot;v_114&quot;
+[1] &quot;v_115&quot;
+[1] &quot;v_211&quot;
+[1] &quot;v_212&quot;
+[1] &quot;v_213&quot;
+[1] &quot;v_214&quot;
+[1] &quot;v_215&quot;</code></pre>
 <pre class="r"><code>rm(
   dcant_budget_global,
   dcant_budget_global_bias,
@@ -870,33 +908,36 @@ for (i_Version_IDs in Version_IDs) {
   tref
 )
 
+params_local_all &lt;- params_local_all %&gt;% 
+  mutate(rarefication_threshold = fct_inseq(as.factor(as.character(rarefication_threshold))))
+
 dcant_budget_global_all &lt;- full_join(dcant_budget_global_all,
                                         params_local_all)
 
-# dcant_budget_global_bias_all &lt;-
-#   full_join(dcant_budget_global_bias_all,
-#             params_local_all)</code></pre>
+dcant_budget_global_bias_all &lt;-
+  full_join(dcant_budget_global_bias_all,
+            params_local_all)</code></pre>
 <pre class="r"><code>dcant_budget_global_all &lt;- dcant_budget_global_all %&gt;%
   filter(estimate == &quot;dcant&quot;, 
          method == &quot;total&quot;) %&gt;% 
   select(-c(estimate, method)) %&gt;% 
   rename(dcant = value)
 
-dcant_budget_global_bias_all &lt;- dcant_budget_global_all %&gt;%
-  filter(data_source %in% c(&quot;mod&quot;, &quot;mod_truth&quot;)) %&gt;%
-  pivot_wider(values_from = dcant,
-              names_from = data_source) %&gt;% 
-  mutate(dcant_bias = mod - mod_truth,
-         dcant_bias_rel = 100 * dcant_bias / mod_truth)
+# dcant_budget_global_bias_all &lt;- dcant_budget_global_all %&gt;%
+#   filter(data_source %in% c(&quot;mod&quot;, &quot;mod_truth&quot;)) %&gt;%
+#   pivot_wider(values_from = dcant,
+#               names_from = data_source) %&gt;% 
+#   mutate(dcant_bias = mod - mod_truth,
+#          dcant_bias_rel = 100 * dcant_bias / mod_truth)
 
 dcant_budget_global_all_depth &lt;- dcant_budget_global_all
 
 dcant_budget_global_all &lt;- dcant_budget_global_all %&gt;%
   filter(inv_depth == params_global$inventory_depth_standard)
 
-# dcant_budget_global_bias_all &lt;- dcant_budget_global_bias_all %&gt;%
-#   filter(estimate == &quot;dcant&quot;) %&gt;% 
-#   select(-c(estimate))
+dcant_budget_global_bias_all &lt;- dcant_budget_global_bias_all %&gt;%
+  filter(estimate == &quot;dcant&quot;) %&gt;%
+  select(-c(estimate))
 
 dcant_budget_global_bias_all_depth &lt;- dcant_budget_global_bias_all
 
@@ -908,7 +949,7 @@ dcant_budget_global_bias_all &lt;- dcant_budget_global_bias_all %&gt;%
 <div id="absoulte-values" class="section level3" number="1.2.1">
 <h3 number="1.2.1"><span class="header-section-number">1.2.1</span> Absoulte values</h3>
 <pre class="r"><code>dcant_budget_global_all %&gt;%
-  ggplot(aes(period, dcant, col=MLR_basins)) +
+  ggplot(aes(period, dcant, col=rarefication_threshold)) +
   geom_point() +
   facet_grid(. ~ data_source)</code></pre>
 <p><img src="figure/rarefication_budgets.Rmd/cases_absolute_global-1.png" width="672" style="display: block; margin: auto;" /></p>
@@ -953,7 +994,7 @@ jens-daniel-mueller
 <div id="biases" class="section level3" number="1.2.2">
 <h3 number="1.2.2"><span class="header-section-number">1.2.2</span> Biases</h3>
 <pre class="r"><code>dcant_budget_global_bias_all %&gt;%
-  ggplot(aes(period, dcant_bias, col=MLR_basins)) +
+  ggplot(aes(period, dcant_bias, col=rarefication_threshold)) +
   geom_hline(yintercept = 0) +
   geom_point()</code></pre>
 <p><img src="figure/rarefication_budgets.Rmd/cases_bias_global-1.png" width="672" style="display: block; margin: auto;" /></p>
@@ -995,7 +1036,7 @@ jens-daniel-mueller
 </div>
 </div>
 <pre class="r"><code>dcant_budget_global_bias_all %&gt;%
-  ggplot(aes(period, dcant_bias_rel, col=MLR_basins)) +
+  ggplot(aes(period, dcant_bias_rel, col=rarefication_threshold)) +
   geom_hline(yintercept = 0) +
   geom_point()</code></pre>
 <p><img src="figure/rarefication_budgets.Rmd/cases_bias_global-2.png" width="672" style="display: block; margin: auto;" /></p>
@@ -1250,7 +1291,7 @@ jens-daniel-mueller
   head(1) %&gt;%
   map(
     ~  ggplot(data = .x,
-              aes(dcant, MLR_basins, fill=period)) +
+              aes(dcant, rarefication_threshold, fill=period)) +
       geom_vline(xintercept = 0) +
       geom_col(position = &quot;dodge&quot;) +
       scale_fill_brewer(palette = &quot;Dark2&quot;) +
@@ -1300,7 +1341,7 @@ jens-daniel-mueller
 <div id="biases-1" class="section level3" number="1.4.2">
 <h3 number="1.4.2"><span class="header-section-number">1.4.2</span> Biases</h3>
 <pre class="r"><code>dcant_budget_global_bias_all_depth %&gt;%
-  ggplot(aes(dcant_bias, MLR_basins, fill=period)) +
+  ggplot(aes(dcant_bias, rarefication_threshold, fill=period)) +
   geom_vline(xintercept = 0) +
   geom_col(position = &quot;dodge&quot;) +
   scale_fill_brewer(palette = &quot;Dark2&quot;) +
@@ -1344,7 +1385,7 @@ jens-daniel-mueller
 </div>
 </div>
 <pre class="r"><code>dcant_budget_global_bias_all_depth %&gt;%
-  ggplot(aes(dcant_bias_rel, MLR_basins, fill = period)) +
+  ggplot(aes(dcant_bias_rel, rarefication_threshold, fill = period)) +
   geom_vline(xintercept = 0) +
   geom_col(position = &quot;dodge&quot;) +
   scale_fill_brewer(palette = &quot;Dark2&quot;) +
@@ -1500,14 +1541,16 @@ for (i_Version_IDs in Version_IDs) {
   
   
 }</code></pre>
-<pre><code>[1] &quot;v_121&quot;
-[1] &quot;v_122&quot;
-[1] &quot;v_123&quot;
-[1] &quot;v_124&quot;
-[1] &quot;v_221&quot;
-[1] &quot;v_222&quot;
-[1] &quot;v_223&quot;
-[1] &quot;v_224&quot;</code></pre>
+<pre><code>[1] &quot;v_111&quot;
+[1] &quot;v_112&quot;
+[1] &quot;v_113&quot;
+[1] &quot;v_114&quot;
+[1] &quot;v_115&quot;
+[1] &quot;v_211&quot;
+[1] &quot;v_212&quot;
+[1] &quot;v_213&quot;
+[1] &quot;v_214&quot;
+[1] &quot;v_215&quot;</code></pre>
 <pre class="r"><code>rm(
   dcant_budget_basin_AIP,
   dcant_budget_basin_AIP_bias,
@@ -1547,7 +1590,7 @@ dcant_budget_basin_AIP_bias_all &lt;- dcant_budget_basin_AIP_bias_all %&gt;%
 <div id="absoulte-values-2" class="section level3" number="2.2.1">
 <h3 number="2.2.1"><span class="header-section-number">2.2.1</span> Absoulte values</h3>
 <pre class="r"><code>dcant_budget_basin_AIP_all %&gt;%
-  ggplot(aes(period, dcant, col=MLR_basins)) +
+  ggplot(aes(period, dcant, col=rarefication_threshold)) +
   geom_point() +
   facet_grid(basin_AIP ~ data_source)</code></pre>
 <p><img src="figure/rarefication_budgets.Rmd/cases_absolute-1.png" width="672" style="display: block; margin: auto;" /></p>
@@ -1592,7 +1635,7 @@ jens-daniel-mueller
 <div id="biases-2" class="section level3" number="2.2.2">
 <h3 number="2.2.2"><span class="header-section-number">2.2.2</span> Biases</h3>
 <pre class="r"><code>dcant_budget_basin_AIP_bias_all %&gt;%
-  ggplot(aes(period, dcant_bias, col=MLR_basins)) +
+  ggplot(aes(period, dcant_bias, col=rarefication_threshold)) +
   geom_hline(yintercept = 0) +
   geom_point() +
   facet_grid(basin_AIP ~ .)</code></pre>
@@ -1635,7 +1678,7 @@ jens-daniel-mueller
 </div>
 </div>
 <pre class="r"><code>dcant_budget_basin_AIP_bias_all %&gt;%
-  ggplot(aes(period, dcant_bias_rel, col=MLR_basins)) +
+  ggplot(aes(period, dcant_bias_rel, col=rarefication_threshold)) +
   geom_hline(yintercept = 0) +
   geom_point() +
   facet_grid(basin_AIP ~ .)</code></pre>
@@ -1844,15 +1887,15 @@ jens-daniel-mueller
 <div id="absoulte-values-3" class="section level3" number="2.4.1">
 <h3 number="2.4.1"><span class="header-section-number">2.4.1</span> Absoulte values</h3>
 <pre class="r"><code>unique(
-dcant_budget_basin_AIP_all_depth$MLR_basins)</code></pre>
-<pre><code>[1] &quot;2&quot;   &quot;AIP&quot; &quot;5&quot;   &quot;SO&quot; </code></pre>
+dcant_budget_basin_AIP_all_depth$rarefication_threshold)</code></pre>
+<pre><code>[1]   5  10  50 100 500</code></pre>
 <pre class="r"><code>dcant_budget_basin_AIP_all_depth %&gt;%
   group_by(data_source) %&gt;%
   group_split() %&gt;%
   head(1) %&gt;%
   map(
     ~  ggplot(data = .x,
-              aes(dcant, MLR_basins, fill = basin_AIP)) +
+              aes(dcant, rarefication_threshold, fill = basin_AIP)) +
       geom_vline(xintercept = 0) +
       geom_col() +
       scale_fill_brewer(palette = &quot;Dark2&quot;) +
@@ -1902,7 +1945,7 @@ jens-daniel-mueller
 <div id="biases-3" class="section level3" number="2.4.2">
 <h3 number="2.4.2"><span class="header-section-number">2.4.2</span> Biases</h3>
 <pre class="r"><code>dcant_budget_basin_AIP_bias_all_depth %&gt;%
-  ggplot(aes(dcant_bias, MLR_basins, fill = basin_AIP)) +
+  ggplot(aes(dcant_bias, rarefication_threshold, fill = basin_AIP)) +
   geom_vline(xintercept = 0) +
   geom_col() +
   scale_fill_brewer(palette = &quot;Dark2&quot;) +
@@ -1946,7 +1989,7 @@ jens-daniel-mueller
 </div>
 </div>
 <pre class="r"><code>dcant_budget_basin_AIP_bias_all_depth %&gt;%
-  ggplot(aes(dcant_bias_rel, MLR_basins, fill = basin_AIP)) +
+  ggplot(aes(dcant_bias_rel, rarefication_threshold, fill = basin_AIP)) +
   geom_vline(xintercept = 0) +
   geom_col() +
   scale_fill_brewer(palette = &quot;Dark2&quot;) +
