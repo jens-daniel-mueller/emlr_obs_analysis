@@ -632,16 +632,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreea054a40a730bb79edc084963ed4d89a54354bf50targetblanka054a40a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/a054a40a730bb79edc084963ed4d89a54354bf50" target="_blank">a054a40</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree5ec80bd4fed0e905d4261ea4b5ff0c77719e812dtargetblank5ec80bda"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/5ec80bd4fed0e905d4261ea4b5ff0c77719e812d" target="_blank">5ec80bd</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreea054a40a730bb79edc084963ed4d89a54354bf50targetblanka054a40a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree5ec80bd4fed0e905d4261ea4b5ff0c77719e812dtargetblank5ec80bda" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/a054a40a730bb79edc084963ed4d89a54354bf50" target="_blank">a054a40</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/5ec80bd4fed0e905d4261ea4b5ff0c77719e812d" target="_blank">5ec80bd</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -650,12 +650,10 @@ Note that you need to be careful to ensure that all relevant files for the analy
 Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
+    Ignored:    analysis/figure/
     Ignored:    data/
     Ignored:    output/Gruber_2019_comparison/
     Ignored:    output/publication/
-
-Unstaged changes:
-    Modified:   code/Workflowr_project_managment.R
 
 </code></pre>
 <p>
@@ -694,6 +692,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/5ec80bd4fed0e905d4261ea4b5ff0c77719e812d/analysis/rarefication_zonal_sections.Rmd" target="_blank">5ec80bd</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-11
+</td>
+<td>
+SDs vs rarefication threshold
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/6fd82032142870694ac57a01e25d81ac76e4321b/docs/rarefication_zonal_sections.html" target="_blank">6fd8203</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-11
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -902,35 +934,24 @@ dcant_zonal_bias_all &lt;- full_join(dcant_zonal_bias_all,
 <h1 number="2"><span class="header-section-number">2</span> Individual cases</h1>
 <div id="absoulte-values" class="section level2" number="2.1">
 <h2 number="2.1"><span class="header-section-number">2.1</span> Absoulte values</h2>
-<pre class="r"><code>legend_title &lt;- expression(atop(Delta * C[ant],
-                               (mu * mol ~ kg ^ {
-                                 -1
-                               })))
-
-dcant_zonal_all %&gt;%
+<pre class="r"><code>dcant_zonal_all %&gt;%
   filter(data_source %in% c(&quot;mod&quot;, &quot;obs&quot;)) %&gt;%
   group_by(basin_AIP, data_source) %&gt;%
   group_split() %&gt;%
   # head(1) %&gt;%
   map(
-    ~ ggplot(data = .x) +
-      geom_contour_filled(aes(lat, depth, z = dcant),
-                          breaks = c(-Inf, seq(-2,16,2), Inf)) +
-      scale_fill_viridis_d(
-        drop = FALSE,
-        name = legend_title
-      ) +
-      guides(fill = guide_colorsteps(barheight = unit(8, &quot;cm&quot;),
-                                     show.limits = TRUE)) +
-      scale_y_continuous(trans = trans_reverser(&quot;sqrt&quot;),
-                         breaks = c(100,500,seq(1000,5000,1000))) +
-      # scale_y_reverse(breaks = c(100,500,seq(1000,5000,1000))) +
-      scale_x_continuous(breaks = seq(-100, 100, 40),
-                         limits = c(-80, 65)) +
-      facet_grid(rarefication_threshold ~ period) +
-      coord_cartesian(expand = 0) +
-      labs(title = paste(&quot;data_source&quot;, unique(.x$data_source),
-                         &quot;| basin:&quot;, unique(.x$basin_AIP)))
+    ~ p_section_zonal_continous_depth(
+      df = .x,
+      var = &quot;dcant&quot;,
+      plot_slabs = &quot;n&quot;,
+      subtitle_text = paste(
+        &quot;data_source&quot;,
+        unique(.x$data_source),
+        &quot;| basin:&quot;,
+        unique(.x$basin_AIP)
+      )
+    ) +
+      facet_grid(rarefication_threshold ~ period)
   )</code></pre>
 <pre><code>[[1]]</code></pre>
 <p><img src="figure/rarefication_zonal_sections.Rmd/cases_absolute-1.png" width="672" style="display: block; margin: auto;" /></p>
@@ -956,6 +977,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6fd82032142870694ac57a01e25d81ac76e4321b/docs/figure/rarefication_zonal_sections.Rmd/cases_absolute-1.png" target="_blank">6fd8203</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-11
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e66fc02be4ca3a538681bf0f5ff11a5f60d6d34f/docs/figure/rarefication_zonal_sections.Rmd/cases_absolute-1.png" target="_blank">e66fc02</a>
@@ -998,6 +1030,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6fd82032142870694ac57a01e25d81ac76e4321b/docs/figure/rarefication_zonal_sections.Rmd/cases_absolute-2.png" target="_blank">6fd8203</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e66fc02be4ca3a538681bf0f5ff11a5f60d6d34f/docs/figure/rarefication_zonal_sections.Rmd/cases_absolute-2.png" target="_blank">e66fc02</a>
 </td>
 <td>
@@ -1036,6 +1079,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6fd82032142870694ac57a01e25d81ac76e4321b/docs/figure/rarefication_zonal_sections.Rmd/cases_absolute-3.png" target="_blank">6fd8203</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-11
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e66fc02be4ca3a538681bf0f5ff11a5f60d6d34f/docs/figure/rarefication_zonal_sections.Rmd/cases_absolute-3.png" target="_blank">e66fc02</a>
@@ -1078,6 +1132,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6fd82032142870694ac57a01e25d81ac76e4321b/docs/figure/rarefication_zonal_sections.Rmd/cases_absolute-4.png" target="_blank">6fd8203</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e66fc02be4ca3a538681bf0f5ff11a5f60d6d34f/docs/figure/rarefication_zonal_sections.Rmd/cases_absolute-4.png" target="_blank">e66fc02</a>
 </td>
 <td>
@@ -1116,6 +1181,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6fd82032142870694ac57a01e25d81ac76e4321b/docs/figure/rarefication_zonal_sections.Rmd/cases_absolute-5.png" target="_blank">6fd8203</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-11
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e66fc02be4ca3a538681bf0f5ff11a5f60d6d34f/docs/figure/rarefication_zonal_sections.Rmd/cases_absolute-5.png" target="_blank">e66fc02</a>
@@ -1158,6 +1234,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6fd82032142870694ac57a01e25d81ac76e4321b/docs/figure/rarefication_zonal_sections.Rmd/cases_absolute-6.png" target="_blank">6fd8203</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e66fc02be4ca3a538681bf0f5ff11a5f60d6d34f/docs/figure/rarefication_zonal_sections.Rmd/cases_absolute-6.png" target="_blank">e66fc02</a>
 </td>
 <td>
@@ -1172,31 +1259,76 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="biases" class="section level2" number="2.2">
-<h2 number="2.2"><span class="header-section-number">2.2</span> Biases</h2>
+<div id="mlr-sd" class="section level2" number="2.2">
+<h2 number="2.2"><span class="header-section-number">2.2</span> MLR SD</h2>
+<pre class="r"><code>dcant_zonal_all %&gt;%
+  filter(data_source %in% c(&quot;mod&quot;, &quot;obs&quot;)) %&gt;%
+  group_by(basin_AIP, data_source) %&gt;%
+  group_split() %&gt;%
+  # head(1) %&gt;%
+  map(
+    ~ p_section_zonal_continous_depth(
+      df = .x,
+      breaks = c(seq(0,6,0.5), Inf),
+      var = &quot;dcant_sd_mean&quot;,
+      plot_slabs = &quot;n&quot;,
+      subtitle_text = paste(
+        &quot;data_source&quot;,
+        unique(.x$data_source),
+        &quot;| basin:&quot;,
+        unique(.x$basin_AIP)
+      )
+    ) +
+      facet_grid(rarefication_threshold ~ period)
+  )</code></pre>
+<pre><code>[[1]]</code></pre>
+<p><img src="figure/rarefication_zonal_sections.Rmd/cases_SD_MLR-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[2]]</code></pre>
+<p><img src="figure/rarefication_zonal_sections.Rmd/cases_SD_MLR-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[3]]</code></pre>
+<p><img src="figure/rarefication_zonal_sections.Rmd/cases_SD_MLR-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[4]]</code></pre>
+<p><img src="figure/rarefication_zonal_sections.Rmd/cases_SD_MLR-4.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[5]]</code></pre>
+<p><img src="figure/rarefication_zonal_sections.Rmd/cases_SD_MLR-5.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[6]]</code></pre>
+<p><img src="figure/rarefication_zonal_sections.Rmd/cases_SD_MLR-6.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dcant_zonal_all %&gt;% 
+  ggplot(aes(dcant_sd_mean, col=rarefication_threshold)) +
+  geom_density() +
+  coord_cartesian(xlim = c(0, 3)) +
+  facet_grid(period ~ basin_AIP)</code></pre>
+<p><img src="figure/rarefication_zonal_sections.Rmd/cases_SD_MLR_density-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dcant_zonal_all %&gt;% 
+  group_by(period, basin_AIP, rarefication_threshold) %&gt;% 
+  summarise(dcant_sd_mean = mean(dcant_sd_mean, na.rm = TRUE)) %&gt;% 
+  ggplot(aes(rarefication_threshold, dcant_sd_mean)) +
+  geom_point() +
+  facet_grid(period ~ basin_AIP)</code></pre>
+<p><img src="figure/rarefication_zonal_sections.Rmd/cases_sd_density-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="biases" class="section level2" number="2.3">
+<h2 number="2.3"><span class="header-section-number">2.3</span> Biases</h2>
 <pre class="r"><code>dcant_zonal_bias_all %&gt;%
   group_by(basin_AIP) %&gt;%
   group_split() %&gt;%
   # head(1) %&gt;%
   map(
-    ~ ggplot(data = .x) +
-      geom_contour_filled(aes(lat, depth, z = dcant_bias),
-                          breaks = c(-Inf, seq(-6,6,1), Inf)) +
-      scale_fill_scico_d(
-        palette = &quot;vik&quot;,
-        drop = FALSE,
-        name = legend_title
-      ) +
-      guides(fill = guide_colorsteps(barheight = unit(8, &quot;cm&quot;),
-                                     show.limits = TRUE)) +
-      scale_y_continuous(trans = trans_reverser(&quot;sqrt&quot;),
-                         breaks = c(100,500,seq(1000,5000,1000))) +
-      # scale_y_reverse(breaks = c(100,500,seq(1000,5000,1000))) +
-      scale_x_continuous(breaks = seq(-100, 100, 40),
-                         limits = c(-80, 65)) +
-      facet_grid(rarefication_threshold ~ period) +
-      coord_cartesian(expand = 0) +
-      labs(title = paste(&quot;basin:&quot;, unique(.x$basin_AIP)))
+    ~ p_section_zonal_continous_depth(
+      df = .x,
+      var = &quot;dcant_bias&quot;,
+      col = &quot;divergent&quot;,
+      plot_slabs = &quot;n&quot;,
+      subtitle_text = paste(&quot;basin:&quot;,
+        unique(.x$basin_AIP)
+      )
+    ) +
+      facet_grid(rarefication_threshold ~ period)
   )</code></pre>
 <pre><code>[[1]]</code></pre>
 <p><img src="figure/rarefication_zonal_sections.Rmd/cases_bias-1.png" width="672" style="display: block; margin: auto;" /></p>
@@ -1222,6 +1354,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6fd82032142870694ac57a01e25d81ac76e4321b/docs/figure/rarefication_zonal_sections.Rmd/cases_bias-1.png" target="_blank">6fd8203</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-11
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e66fc02be4ca3a538681bf0f5ff11a5f60d6d34f/docs/figure/rarefication_zonal_sections.Rmd/cases_bias-1.png" target="_blank">e66fc02</a>
@@ -1264,6 +1407,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6fd82032142870694ac57a01e25d81ac76e4321b/docs/figure/rarefication_zonal_sections.Rmd/cases_bias-2.png" target="_blank">6fd8203</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e66fc02be4ca3a538681bf0f5ff11a5f60d6d34f/docs/figure/rarefication_zonal_sections.Rmd/cases_bias-2.png" target="_blank">e66fc02</a>
 </td>
 <td>
@@ -1304,6 +1458,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6fd82032142870694ac57a01e25d81ac76e4321b/docs/figure/rarefication_zonal_sections.Rmd/cases_bias-3.png" target="_blank">6fd8203</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e66fc02be4ca3a538681bf0f5ff11a5f60d6d34f/docs/figure/rarefication_zonal_sections.Rmd/cases_bias-3.png" target="_blank">e66fc02</a>
 </td>
 <td>
@@ -1317,9 +1482,8 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
-</div>
-<div id="bias-correlation" class="section level2" number="2.3">
-<h2 number="2.3"><span class="header-section-number">2.3</span> Bias correlation</h2>
+<div id="period-correlation" class="section level3" number="2.3.1">
+<h3 number="2.3.1"><span class="header-section-number">2.3.1</span> Period correlation</h3>
 <pre class="r"><code>dcant_zonal_bias_all_corr &lt;- dcant_zonal_bias_all %&gt;%
   select(lat, depth, basin_AIP, dcant_bias, rarefication_threshold, period) %&gt;% 
   pivot_wider(names_from = period,
@@ -1358,6 +1522,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6fd82032142870694ac57a01e25d81ac76e4321b/docs/figure/rarefication_zonal_sections.Rmd/cases_bias_correlation-1.png" target="_blank">6fd8203</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e66fc02be4ca3a538681bf0f5ff11a5f60d6d34f/docs/figure/rarefication_zonal_sections.Rmd/cases_bias_correlation-1.png" target="_blank">e66fc02</a>
 </td>
 <td>
@@ -1370,6 +1545,23 @@ jens-daniel-mueller
 </tbody>
 </table>
 </div>
+</div>
+</div>
+<div id="density" class="section level3" number="2.3.2">
+<h3 number="2.3.2"><span class="header-section-number">2.3.2</span> Density</h3>
+<pre class="r"><code>dcant_zonal_bias_all %&gt;% 
+  ggplot(aes(dcant_bias, col=rarefication_threshold)) +
+  geom_density() +
+  coord_cartesian(xlim = c(-5, 5)) +
+  facet_grid(period ~ basin_AIP)</code></pre>
+<p><img src="figure/rarefication_zonal_sections.Rmd/bias_density_distribution-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dcant_zonal_bias_all %&gt;% 
+  group_by(period, basin_AIP, rarefication_threshold) %&gt;% 
+  summarise(dcant_bias_sd = sd(dcant_bias)) %&gt;% 
+  ggplot(aes(rarefication_threshold, dcant_bias_sd)) +
+  geom_point() +
+  facet_grid(period ~ basin_AIP)</code></pre>
+<p><img src="figure/rarefication_zonal_sections.Rmd/bias_sd-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 </div>
@@ -1387,25 +1579,20 @@ jens-daniel-mueller
 <pre class="r"><code>dcant_zonal_ensemble %&gt;%
   group_by(basin_AIP) %&gt;%
   group_split() %&gt;%
-  # head(1) %&gt;%
+  head(1) %&gt;%
   map(
-    ~ ggplot(data = .x) +
-      geom_contour_filled(aes(lat, depth, z = dcant_ensemble_mean),
-                          breaks = c(-Inf, seq(-2,16,2), Inf)) +
-      scale_fill_viridis_d(
-        drop = FALSE,
-        name = legend_title
-      ) +
-      guides(fill = guide_colorsteps(barheight = unit(8, &quot;cm&quot;),
-                                     show.limits = TRUE)) +
-      scale_y_continuous(trans = trans_reverser(&quot;sqrt&quot;),
-                         breaks = c(100,500,seq(1000,5000,1000))) +
-      # scale_y_reverse(breaks = c(100,500,seq(1000,5000,1000))) +
-      scale_x_continuous(breaks = seq(-100, 100, 40),
-                         limits = c(-80, 65)) +
-      facet_grid(data_source ~ period) +
-      coord_cartesian(expand = 0) +
-      labs(title = paste(&quot;basin:&quot;, unique(.x$basin_AIP)))
+    ~ p_section_zonal_continous_depth(
+      df = .x,
+      var = &quot;dcant_ensemble_mean&quot;,
+      plot_slabs = &quot;n&quot;,
+      subtitle_text = paste(
+        &quot;data_source&quot;,
+        unique(.x$data_source),
+        &quot;| basin:&quot;,
+        unique(.x$basin_AIP)
+      )
+    ) +
+      facet_grid(data_source ~ period)
   )</code></pre>
 <pre><code>[[1]]</code></pre>
 <p><img src="figure/rarefication_zonal_sections.Rmd/ensemble_mean-1.png" width="672" style="display: block; margin: auto;" /></p>
@@ -1433,87 +1620,18 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6fd82032142870694ac57a01e25d81ac76e4321b/docs/figure/rarefication_zonal_sections.Rmd/ensemble_mean-1.png" target="_blank">6fd8203</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e66fc02be4ca3a538681bf0f5ff11a5f60d6d34f/docs/figure/rarefication_zonal_sections.Rmd/ensemble_mean-1.png" target="_blank">e66fc02</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-07-30
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre><code>
-[[2]]</code></pre>
-<p><img src="figure/rarefication_zonal_sections.Rmd/ensemble_mean-2.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_mean-2">
-Past versions of ensemble_mean-2.png
-</button>
-</p>
-<div id="fig-ensemble_mean-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e66fc02be4ca3a538681bf0f5ff11a5f60d6d34f/docs/figure/rarefication_zonal_sections.Rmd/ensemble_mean-2.png" target="_blank">e66fc02</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-07-30
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre><code>
-[[3]]</code></pre>
-<p><img src="figure/rarefication_zonal_sections.Rmd/ensemble_mean-3.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_mean-3">
-Past versions of ensemble_mean-3.png
-</button>
-</p>
-<div id="fig-ensemble_mean-3" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e66fc02be4ca3a538681bf0f5ff11a5f60d6d34f/docs/figure/rarefication_zonal_sections.Rmd/ensemble_mean-3.png" target="_blank">e66fc02</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -1542,29 +1660,23 @@ jens-daniel-mueller
 dcant_zonal_ensemble_bias &lt;- dcant_zonal_ensemble_bias %&gt;% 
   mutate(dcant_bias = dcant_ensemble_mean - dcant_mod_truth)
 
+
 dcant_zonal_ensemble_bias %&gt;%
   group_by(basin_AIP) %&gt;%
   group_split() %&gt;%
-  # head(1) %&gt;%
+  head(1) %&gt;%
   map(
-    ~ ggplot(data = .x) +
-      geom_contour_filled(aes(lat, depth, z = dcant_bias),
-                          breaks = c(-Inf, seq(-6,6,1), Inf)) +
-      scale_fill_scico_d(
-        palette = &quot;vik&quot;,
-        drop = FALSE,
-        name = legend_title
-      ) +
-      guides(fill = guide_colorsteps(barheight = unit(8, &quot;cm&quot;),
-                                     show.limits = TRUE)) +
-      scale_y_continuous(trans = trans_reverser(&quot;sqrt&quot;),
-                         breaks = c(100,500,seq(1000,5000,1000))) +
-      # scale_y_reverse(breaks = c(100,500,seq(1000,5000,1000))) +
-      scale_x_continuous(breaks = seq(-100, 100, 40),
-                         limits = c(-80, 65)) +
-      facet_grid(. ~ period) +
-      coord_cartesian(expand = 0) +
-      labs(title = paste(&quot;basin:&quot;, unique(.x$basin_AIP)))
+    ~ p_section_zonal_continous_depth(
+      df = .x,
+      var = &quot;dcant_bias&quot;,
+      col = &quot;bias&quot;,
+      plot_slabs = &quot;n&quot;,
+      subtitle_text = paste(
+        &quot;basin:&quot;,
+        unique(.x$basin_AIP)
+      )
+    ) +
+      facet_grid(. ~ period)
   )</code></pre>
 <pre><code>[[1]]</code></pre>
 <p><img src="figure/rarefication_zonal_sections.Rmd/ensemble_mean_bias-1.png" width="672" style="display: block; margin: auto;" /></p>
@@ -1592,87 +1704,18 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6fd82032142870694ac57a01e25d81ac76e4321b/docs/figure/rarefication_zonal_sections.Rmd/ensemble_mean_bias-1.png" target="_blank">6fd8203</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e66fc02be4ca3a538681bf0f5ff11a5f60d6d34f/docs/figure/rarefication_zonal_sections.Rmd/ensemble_mean_bias-1.png" target="_blank">e66fc02</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-07-30
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre><code>
-[[2]]</code></pre>
-<p><img src="figure/rarefication_zonal_sections.Rmd/ensemble_mean_bias-2.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_mean_bias-2">
-Past versions of ensemble_mean_bias-2.png
-</button>
-</p>
-<div id="fig-ensemble_mean_bias-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e66fc02be4ca3a538681bf0f5ff11a5f60d6d34f/docs/figure/rarefication_zonal_sections.Rmd/ensemble_mean_bias-2.png" target="_blank">e66fc02</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-07-30
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre><code>
-[[3]]</code></pre>
-<p><img src="figure/rarefication_zonal_sections.Rmd/ensemble_mean_bias-3.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_mean_bias-3">
-Past versions of ensemble_mean_bias-3.png
-</button>
-</p>
-<div id="fig-ensemble_mean_bias-3" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e66fc02be4ca3a538681bf0f5ff11a5f60d6d34f/docs/figure/rarefication_zonal_sections.Rmd/ensemble_mean_bias-3.png" target="_blank">e66fc02</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -1691,25 +1734,21 @@ jens-daniel-mueller
 <pre class="r"><code>dcant_zonal_ensemble %&gt;%
   group_by(basin_AIP) %&gt;%
   group_split() %&gt;%
-  # head(1) %&gt;%
+  head(1) %&gt;%
   map(
-    ~ ggplot(data = .x) +
-      geom_contour_filled(aes(lat, depth, z = dcant_sd),
-                          breaks = c(seq(0,4,0.4), Inf)) +
-      scale_fill_viridis_d(
-        drop = FALSE,
-        name = legend_title
-      ) +
-      guides(fill = guide_colorsteps(barheight = unit(8, &quot;cm&quot;),
-                                     show.limits = TRUE)) +
-      scale_y_continuous(trans = trans_reverser(&quot;sqrt&quot;),
-                         breaks = c(100,500,seq(1000,5000,1000))) +
-      # scale_y_reverse(breaks = c(100,500,seq(1000,5000,1000))) +
-      scale_x_continuous(breaks = seq(-100, 100, 40),
-                         limits = c(-80, 65)) +
-      facet_grid(data_source ~ period) +
-      coord_cartesian(expand = 0) +
-      labs(title = paste(&quot;basin:&quot;, unique(.x$basin_AIP)))
+    ~ p_section_zonal_continous_depth(
+      df = .x,
+      var = &quot;dcant_sd&quot;,
+      breaks = c(seq(0,4,0.4), Inf),
+      plot_slabs = &quot;n&quot;,
+      subtitle_text = paste(
+        &quot;data_source&quot;,
+        unique(.x$data_source),
+        &quot;| basin:&quot;,
+        unique(.x$basin_AIP)
+      )
+    ) +
+      facet_grid(data_source ~ period)
   )</code></pre>
 <pre><code>[[1]]</code></pre>
 <p><img src="figure/rarefication_zonal_sections.Rmd/ensemble_sd-1.png" width="672" style="display: block; margin: auto;" /></p>
@@ -1737,87 +1776,18 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6fd82032142870694ac57a01e25d81ac76e4321b/docs/figure/rarefication_zonal_sections.Rmd/ensemble_sd-1.png" target="_blank">6fd8203</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e66fc02be4ca3a538681bf0f5ff11a5f60d6d34f/docs/figure/rarefication_zonal_sections.Rmd/ensemble_sd-1.png" target="_blank">e66fc02</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-07-30
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre><code>
-[[2]]</code></pre>
-<p><img src="figure/rarefication_zonal_sections.Rmd/ensemble_sd-2.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_sd-2">
-Past versions of ensemble_sd-2.png
-</button>
-</p>
-<div id="fig-ensemble_sd-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e66fc02be4ca3a538681bf0f5ff11a5f60d6d34f/docs/figure/rarefication_zonal_sections.Rmd/ensemble_sd-2.png" target="_blank">e66fc02</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-07-30
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre><code>
-[[3]]</code></pre>
-<p><img src="figure/rarefication_zonal_sections.Rmd/ensemble_sd-3.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_sd-3">
-Past versions of ensemble_sd-3.png
-</button>
-</p>
-<div id="fig-ensemble_sd-3" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e66fc02be4ca3a538681bf0f5ff11a5f60d6d34f/docs/figure/rarefication_zonal_sections.Rmd/ensemble_sd-3.png" target="_blank">e66fc02</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -1861,6 +1831,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6fd82032142870694ac57a01e25d81ac76e4321b/docs/figure/rarefication_zonal_sections.Rmd/ensemble_sd_vs_bias-1.png" target="_blank">6fd8203</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-11
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e66fc02be4ca3a538681bf0f5ff11a5f60d6d34f/docs/figure/rarefication_zonal_sections.Rmd/ensemble_sd_vs_bias-1.png" target="_blank">e66fc02</a>
@@ -1909,6 +1890,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6fd82032142870694ac57a01e25d81ac76e4321b/docs/figure/rarefication_zonal_sections.Rmd/ensemble_sd_vs_bias-2.png" target="_blank">6fd8203</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e66fc02be4ca3a538681bf0f5ff11a5f60d6d34f/docs/figure/rarefication_zonal_sections.Rmd/ensemble_sd_vs_bias-2.png" target="_blank">e66fc02</a>
 </td>
 <td>
@@ -1952,6 +1944,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6fd82032142870694ac57a01e25d81ac76e4321b/docs/figure/rarefication_zonal_sections.Rmd/ensemble_sd_vs_bias-3.png" target="_blank">6fd8203</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e66fc02be4ca3a538681bf0f5ff11a5f60d6d34f/docs/figure/rarefication_zonal_sections.Rmd/ensemble_sd_vs_bias-3.png" target="_blank">e66fc02</a>
 </td>
 <td>
@@ -1978,36 +1981,22 @@ dcant_zonal_all &lt;- dcant_zonal_all %&gt;%
   mutate(dcant_offset = dcant - dcant_ensemble_mean)
 
 
-legend_title &lt;- expression(atop(Delta * C[ant,offset],
-                               (mu * mol ~ kg ^ {
-                                 -1
-                               })))
-
 dcant_zonal_all %&gt;%
   filter(data_source %in% c(&quot;mod&quot;, &quot;obs&quot;)) %&gt;%
   group_by(basin_AIP, data_source) %&gt;%
   group_split() %&gt;%
-  head(1) %&gt;%
+  # head(1) %&gt;%
   map(
-    ~ ggplot(data = .x) +
-      geom_contour_filled(aes(lat, depth, z = dcant_offset),
-                          breaks = c(-Inf, seq(-6,6,1), Inf)) +
-      scale_fill_scico_d(
-        palette = &quot;vik&quot;,
-        drop = FALSE,
-        name = legend_title
-      ) +
-      guides(fill = guide_colorsteps(barheight = unit(8, &quot;cm&quot;),
-                                     show.limits = TRUE)) +
-      scale_y_continuous(trans = trans_reverser(&quot;sqrt&quot;),
-                         breaks = c(100,500,seq(1000,5000,1000))) +
-      # scale_y_reverse(breaks = c(100,500,seq(1000,5000,1000))) +
-      scale_x_continuous(breaks = seq(-100, 100, 40),
-                         limits = c(-80, 65)) +
-      facet_grid(rarefication_threshold ~ period) +
-      coord_cartesian(expand = 0) +
-      labs(title = paste(&quot;data_source&quot;, unique(.x$data_source),
-                         &quot;| basin:&quot;, unique(.x$basin_AIP)))
+    ~ p_section_zonal_continous_depth(
+      df = .x,
+      var = &quot;dcant_offset&quot;,
+      col = &quot;divergent&quot;,
+      plot_slabs = &quot;n&quot;,
+      subtitle_text = paste(&quot;basin:&quot;,
+        unique(.x$basin_AIP)
+      )
+    ) +
+      facet_grid(rarefication_threshold ~ period)
   )</code></pre>
 <pre><code>[[1]]</code></pre>
 <p><img src="figure/rarefication_zonal_sections.Rmd/ensemble_deviation_from_mean-1.png" width="672" style="display: block; margin: auto;" /></p>
@@ -2035,6 +2024,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6fd82032142870694ac57a01e25d81ac76e4321b/docs/figure/rarefication_zonal_sections.Rmd/ensemble_deviation_from_mean-1.png" target="_blank">6fd8203</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e66fc02be4ca3a538681bf0f5ff11a5f60d6d34f/docs/figure/rarefication_zonal_sections.Rmd/ensemble_deviation_from_mean-1.png" target="_blank">e66fc02</a>
 </td>
 <td>
@@ -2048,6 +2048,21 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
+<pre><code>
+[[2]]</code></pre>
+<p><img src="figure/rarefication_zonal_sections.Rmd/ensemble_deviation_from_mean-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[3]]</code></pre>
+<p><img src="figure/rarefication_zonal_sections.Rmd/ensemble_deviation_from_mean-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[4]]</code></pre>
+<p><img src="figure/rarefication_zonal_sections.Rmd/ensemble_deviation_from_mean-4.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[5]]</code></pre>
+<p><img src="figure/rarefication_zonal_sections.Rmd/ensemble_deviation_from_mean-5.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[6]]</code></pre>
+<p><img src="figure/rarefication_zonal_sections.Rmd/ensemble_deviation_from_mean-6.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
