@@ -204,6 +204,30 @@ dcant_inv_bias_all %>%
 
 ```
 
+### Density
+
+```{r bias_density_distribution}
+
+dcant_inv_bias_all %>% 
+  ggplot(aes(dcant_bias, col=rarefication_threshold)) +
+  geom_density() +
+  coord_cartesian(xlim = c(-5, 5)) +
+  facet_grid(period ~ .)
+
+```
+
+```{r bias_sd}
+
+dcant_inv_bias_all %>% 
+  group_by(period, rarefication_threshold) %>% 
+  summarise(dcant_bias_sd = sd(dcant_bias)) %>% 
+  ggplot(aes(rarefication_threshold, dcant_bias_sd)) +
+  geom_point() +
+  facet_grid(period ~ .)
+
+```
+
+
 # Ensemble
 
 ```{r calc_ensemble_metrics}
