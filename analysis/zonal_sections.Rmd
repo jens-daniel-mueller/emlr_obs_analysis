@@ -44,11 +44,11 @@ path_preprocessing_model    <-
 
 Version_IDs_1 <- list.files(
   path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-  pattern = "v_10")[1:4]
+  pattern = "v_10")
 
 Version_IDs_2 <- list.files(
   path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-  pattern = "v_20")[1:4]
+  pattern = "v_20")
 
 Version_IDs <- c(Version_IDs_1, Version_IDs_2)
 rm(Version_IDs_1, Version_IDs_2)
@@ -172,7 +172,7 @@ dcant_zonal_all %>%
   map(
     ~ p_section_zonal_continous_depth(
       df = .x,
-      var = "dcant_mean",
+      var = "dcant",
       plot_slabs = "n",
       subtitle_text = paste(
         "data_source",
@@ -241,9 +241,9 @@ dcant_zonal_bias_all_corr %>%
 dcant_zonal_ensemble <- dcant_zonal_all %>% 
   filter(data_source %in% c("mod", "obs")) %>% 
   group_by(lat, depth, basin_AIP, data_source, period) %>% 
-  summarise(dcant_ensemble_mean = mean(dcant_mean),
-            dcant_sd = sd(dcant_mean),
-            dcant_range = max(dcant_mean)- min(dcant_mean)) %>% 
+  summarise(dcant_ensemble_mean = mean(dcant),
+            dcant_sd = sd(dcant),
+            dcant_range = max(dcant)- min(dcant)) %>% 
   ungroup()
 
 
@@ -282,11 +282,11 @@ dcant_zonal_ensemble_bias <- full_join(
   dcant_zonal_all %>%
     filter(data_source == "mod_truth",
            MLR_basins == "2") %>% 
-    select(lat, depth, basin_AIP, period, dcant_mod_truth = dcant_mean)
+    select(lat, depth, basin_AIP, period, dcant_mod_truth = dcant)
 )
 
 dcant_zonal_ensemble_bias <- dcant_zonal_ensemble_bias %>% 
-  mutate(dcant_mean_bias = dcant_ensemble_mean - dcant_mod_truth)
+  mutate(dcant_bias = dcant_ensemble_mean - dcant_mod_truth)
 
 dcant_zonal_ensemble_bias %>%
   group_by(basin_AIP) %>%
@@ -295,7 +295,7 @@ dcant_zonal_ensemble_bias %>%
   map(
     ~ p_section_zonal_continous_depth(
       df = .x,
-      var = "dcant_mean_bias",
+      var = "dcant_bias",
       col = "divergent",
       plot_slabs = "n",
       subtitle_text = paste("basin:",
@@ -337,15 +337,15 @@ dcant_zonal_ensemble %>%
 ```{r ensemble_sd_vs_bias, fig.asp=0.5}
 
 dcant_zonal_ensemble_bias %>% 
-  ggplot(aes(dcant_mean_bias, dcant_sd)) +
+  ggplot(aes(dcant_bias, dcant_sd)) +
   geom_bin2d() +
   scale_fill_viridis_c() +
   facet_grid(basin_AIP ~ period)
 
 
 dcant_zonal_ensemble_bias %>% 
-  select(dcant_ensemble_mean, dcant_mean_bias, period) %>% 
-  pivot_longer(dcant_ensemble_mean:dcant_mean_bias,
+  select(dcant_ensemble_mean, dcant_bias, period) %>% 
+  pivot_longer(dcant_ensemble_mean:dcant_bias,
                names_to = "estimate",
                values_to = "value") %>% 
   ggplot(aes(value, col=estimate, linetype = period)) +
@@ -370,7 +370,7 @@ dcant_zonal_all <- full_join(dcant_zonal_all %>% select(-dcant_sd),
                            dcant_zonal_ensemble)
 
 dcant_zonal_all <- dcant_zonal_all %>% 
-  mutate(dcant_offset = dcant_mean - dcant_ensemble_mean)
+  mutate(dcant_offset = dcant - dcant_ensemble_mean)
 
 
 legend_title <- expression(atop(Delta * C[ant,offset],

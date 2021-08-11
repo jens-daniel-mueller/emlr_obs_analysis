@@ -44,15 +44,11 @@ path_preprocessing_model    <-
 
 # identify required version IDs
 
-# Version_IDs <- list.files(
-#   path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-#   pattern = "v_")[1:34]
-
 Version_IDs_1 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-                            pattern = "v_10")[1:4]
+                            pattern = "v_10")
 
 Version_IDs_2 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-                            pattern = "v_20")[1:4]
+                            pattern = "v_20")
 
 Version_IDs <- c(Version_IDs_1, Version_IDs_2)
 rm(Version_IDs_1, Version_IDs_2)
@@ -84,10 +80,10 @@ for (i_Version_IDs in Version_IDs) {
       sep = ""
     ))
   
-  # dcant_budget_global_bias <-
-  #   read_csv(paste(path_version_data,
-  #                  "dcant_budget_global_bias.csv",
-  #                  sep = ""))
+  dcant_budget_global_bias <-
+    read_csv(paste(path_version_data,
+                   "dcant_budget_global_bias.csv",
+                   sep = ""))
   
   dcant_budget_global <- bind_rows(dcant_budget_global,
                                       dcant_budget_global_mod_truth)
@@ -95,8 +91,8 @@ for (i_Version_IDs in Version_IDs) {
   dcant_budget_global <- dcant_budget_global %>%
     mutate(Version_ID = i_Version_IDs)
   
-  # dcant_budget_global_bias <- dcant_budget_global_bias %>%
-  #   mutate(Version_ID = i_Version_IDs)
+  dcant_budget_global_bias <- dcant_budget_global_bias %>%
+    mutate(Version_ID = i_Version_IDs)
 
   params_local <-
     read_rds(paste(path_version_data,
@@ -136,15 +132,15 @@ for (i_Version_IDs in Version_IDs) {
     dcant_budget_global_all <- dcant_budget_global
   }
   
-  # if (exists("dcant_budget_global_bias_all")) {
-  #   dcant_budget_global_bias_all <-
-  #     bind_rows(dcant_budget_global_bias_all,
-  #               dcant_budget_global_bias)
-  # }
-  # 
-  # if (!exists("dcant_budget_global_bias_all")) {
-  #   dcant_budget_global_bias_all <- dcant_budget_global_bias
-  # }
+  if (exists("dcant_budget_global_bias_all")) {
+    dcant_budget_global_bias_all <-
+      bind_rows(dcant_budget_global_bias_all,
+                dcant_budget_global_bias)
+  }
+
+  if (!exists("dcant_budget_global_bias_all")) {
+    dcant_budget_global_bias_all <- dcant_budget_global_bias
+  }
   
   if (exists("params_local_all")) {
     params_local_all <- bind_rows(params_local_all, params_local)
@@ -168,9 +164,9 @@ rm(
 dcant_budget_global_all <- full_join(dcant_budget_global_all,
                                         params_local_all)
 
-# dcant_budget_global_bias_all <-
-#   full_join(dcant_budget_global_bias_all,
-#             params_local_all)
+dcant_budget_global_bias_all <-
+  full_join(dcant_budget_global_bias_all,
+            params_local_all)
 
 ```
 
@@ -182,21 +178,21 @@ dcant_budget_global_all <- dcant_budget_global_all %>%
   select(-c(estimate, method)) %>% 
   rename(dcant = value)
 
-dcant_budget_global_bias_all <- dcant_budget_global_all %>%
-  filter(data_source %in% c("mod", "mod_truth")) %>%
-  pivot_wider(values_from = dcant,
-              names_from = data_source) %>% 
-  mutate(dcant_bias = mod - mod_truth,
-         dcant_bias_rel = 100 * dcant_bias / mod_truth)
+# dcant_budget_global_bias_all <- dcant_budget_global_all %>%
+#   filter(data_source %in% c("mod", "mod_truth")) %>%
+#   pivot_wider(values_from = dcant,
+#               names_from = data_source) %>% 
+#   mutate(dcant_bias = mod - mod_truth,
+#          dcant_bias_rel = 100 * dcant_bias / mod_truth)
 
 dcant_budget_global_all_depth <- dcant_budget_global_all
 
 dcant_budget_global_all <- dcant_budget_global_all %>%
   filter(inv_depth == params_global$inventory_depth_standard)
 
-# dcant_budget_global_bias_all <- dcant_budget_global_bias_all %>%
-#   filter(estimate == "dcant") %>% 
-#   select(-c(estimate))
+dcant_budget_global_bias_all <- dcant_budget_global_bias_all %>%
+  filter(estimate == "dcant") %>%
+  select(-c(estimate))
 
 dcant_budget_global_bias_all_depth <- dcant_budget_global_bias_all
 

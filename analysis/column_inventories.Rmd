@@ -42,17 +42,13 @@ path_preprocessing_model    <-
 
 # identify required version IDs
 
-# Version_IDs <- list.files(
-#   path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-#   pattern = "v_")[1:34]
-
 Version_IDs_1 <- list.files(
   path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-  pattern = "v_10")[1:4]
+  pattern = "v_10")
 
 Version_IDs_2 <- list.files(
   path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-  pattern = "v_20")[1:4]
+  pattern = "v_20")
 
 Version_IDs <- c(Version_IDs_1, Version_IDs_2)
 rm(Version_IDs_1, Version_IDs_2)
@@ -174,13 +170,13 @@ dcant_inv_all <- dcant_inv_all %>%
 
 ## Absoulte values
 
-```{r cases_absolute, fig.asp=0.9}
+```{r cases_absolute, fig.asp=1.2}
 
 dcant_inv_all %>%
   filter(data_source %in% c("mod", "obs")) %>%
   group_by(period) %>%
   group_split() %>%
-  # head(1) %>% 
+  # head(1) %>%
   map(
     ~ p_map_cant_inv(df = .x,
                      var = "dcant",
@@ -194,7 +190,7 @@ dcant_inv_all %>%
 
 ## Biases
 
-```{r cases_bias, fig.asp=0.9}
+```{r cases_bias, fig.asp=1.2}
 
 dcant_inv_bias_all %>%
   p_map_cant_inv(var = "dcant_bias",

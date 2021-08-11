@@ -49,10 +49,10 @@ path_preprocessing_model    <-
 #   pattern = "v_")[1:34]
 
 Version_IDs_1 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-                            pattern = "v_12")
+                            pattern = "v_11")
 
 Version_IDs_2 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-                            pattern = "v_22")
+                            pattern = "v_21")
 
 Version_IDs <- c(Version_IDs_1, Version_IDs_2)
 rm(Version_IDs_1, Version_IDs_2)
@@ -84,10 +84,10 @@ for (i_Version_IDs in Version_IDs) {
       sep = ""
     ))
   
-  # dcant_budget_global_bias <-
-  #   read_csv(paste(path_version_data,
-  #                  "dcant_budget_global_bias.csv",
-  #                  sep = ""))
+  dcant_budget_global_bias <-
+    read_csv(paste(path_version_data,
+                   "dcant_budget_global_bias.csv",
+                   sep = ""))
   
   dcant_budget_global <- bind_rows(dcant_budget_global,
                                       dcant_budget_global_mod_truth)
@@ -95,8 +95,8 @@ for (i_Version_IDs in Version_IDs) {
   dcant_budget_global <- dcant_budget_global %>%
     mutate(Version_ID = i_Version_IDs)
   
-  # dcant_budget_global_bias <- dcant_budget_global_bias %>%
-  #   mutate(Version_ID = i_Version_IDs)
+  dcant_budget_global_bias <- dcant_budget_global_bias %>%
+    mutate(Version_ID = i_Version_IDs)
 
   params_local <-
     read_rds(paste(path_version_data,
@@ -136,15 +136,15 @@ for (i_Version_IDs in Version_IDs) {
     dcant_budget_global_all <- dcant_budget_global
   }
   
-  # if (exists("dcant_budget_global_bias_all")) {
-  #   dcant_budget_global_bias_all <-
-  #     bind_rows(dcant_budget_global_bias_all,
-  #               dcant_budget_global_bias)
-  # }
-  # 
-  # if (!exists("dcant_budget_global_bias_all")) {
-  #   dcant_budget_global_bias_all <- dcant_budget_global_bias
-  # }
+  if (exists("dcant_budget_global_bias_all")) {
+    dcant_budget_global_bias_all <-
+      bind_rows(dcant_budget_global_bias_all,
+                dcant_budget_global_bias)
+  }
+
+  if (!exists("dcant_budget_global_bias_all")) {
+    dcant_budget_global_bias_all <- dcant_budget_global_bias
+  }
   
   if (exists("params_local_all")) {
     params_local_all <- bind_rows(params_local_all, params_local)
@@ -165,12 +165,15 @@ rm(
   tref
 )
 
+params_local_all <- params_local_all %>% 
+  mutate(rarefication_threshold = fct_inseq(as.factor(as.character(rarefication_threshold))))
+
 dcant_budget_global_all <- full_join(dcant_budget_global_all,
                                         params_local_all)
 
-# dcant_budget_global_bias_all <-
-#   full_join(dcant_budget_global_bias_all,
-#             params_local_all)
+dcant_budget_global_bias_all <-
+  full_join(dcant_budget_global_bias_all,
+            params_local_all)
 
 ```
 
@@ -182,21 +185,21 @@ dcant_budget_global_all <- dcant_budget_global_all %>%
   select(-c(estimate, method)) %>% 
   rename(dcant = value)
 
-dcant_budget_global_bias_all <- dcant_budget_global_all %>%
-  filter(data_source %in% c("mod", "mod_truth")) %>%
-  pivot_wider(values_from = dcant,
-              names_from = data_source) %>% 
-  mutate(dcant_bias = mod - mod_truth,
-         dcant_bias_rel = 100 * dcant_bias / mod_truth)
+# dcant_budget_global_bias_all <- dcant_budget_global_all %>%
+#   filter(data_source %in% c("mod", "mod_truth")) %>%
+#   pivot_wider(values_from = dcant,
+#               names_from = data_source) %>% 
+#   mutate(dcant_bias = mod - mod_truth,
+#          dcant_bias_rel = 100 * dcant_bias / mod_truth)
 
 dcant_budget_global_all_depth <- dcant_budget_global_all
 
 dcant_budget_global_all <- dcant_budget_global_all %>%
   filter(inv_depth == params_global$inventory_depth_standard)
 
-# dcant_budget_global_bias_all <- dcant_budget_global_bias_all %>%
-#   filter(estimate == "dcant") %>% 
-#   select(-c(estimate))
+dcant_budget_global_bias_all <- dcant_budget_global_bias_all %>%
+  filter(estimate == "dcant") %>%
+  select(-c(estimate))
 
 dcant_budget_global_bias_all_depth <- dcant_budget_global_bias_all
 
@@ -212,7 +215,7 @@ dcant_budget_global_bias_all <- dcant_budget_global_bias_all %>%
 ```{r cases_absolute_global}
 
 dcant_budget_global_all %>%
-  ggplot(aes(period, dcant, col=MLR_basins)) +
+  ggplot(aes(period, dcant, col=rarefication_threshold)) +
   geom_point() +
   facet_grid(. ~ data_source)
 
@@ -224,12 +227,12 @@ dcant_budget_global_all %>%
 ```{r cases_bias_global}
 
 dcant_budget_global_bias_all %>%
-  ggplot(aes(period, dcant_bias, col=MLR_basins)) +
+  ggplot(aes(period, dcant_bias, col=rarefication_threshold)) +
   geom_hline(yintercept = 0) +
   geom_point()
 
 dcant_budget_global_bias_all %>%
-  ggplot(aes(period, dcant_bias_rel, col=MLR_basins)) +
+  ggplot(aes(period, dcant_bias_rel, col=rarefication_threshold)) +
   geom_hline(yintercept = 0) +
   geom_point()
 
@@ -317,7 +320,7 @@ dcant_budget_global_all_depth %>%
   head(1) %>%
   map(
     ~  ggplot(data = .x,
-              aes(dcant, MLR_basins, fill=period)) +
+              aes(dcant, rarefication_threshold, fill=period)) +
       geom_vline(xintercept = 0) +
       geom_col(position = "dodge") +
       scale_fill_brewer(palette = "Dark2") +
@@ -333,7 +336,7 @@ dcant_budget_global_all_depth %>%
 ```{r cases_bias_depth_global, fig.asp=0.9}
 
 dcant_budget_global_bias_all_depth %>%
-  ggplot(aes(dcant_bias, MLR_basins, fill=period)) +
+  ggplot(aes(dcant_bias, rarefication_threshold, fill=period)) +
   geom_vline(xintercept = 0) +
   geom_col(position = "dodge") +
   scale_fill_brewer(palette = "Dark2") +
@@ -344,7 +347,7 @@ dcant_budget_global_bias_all_depth %>%
 ```{r cases_bias_rel_depth_global, fig.asp=0.9}
 
 dcant_budget_global_bias_all_depth %>%
-  ggplot(aes(dcant_bias_rel, MLR_basins, fill = period)) +
+  ggplot(aes(dcant_bias_rel, rarefication_threshold, fill = period)) +
   geom_vline(xintercept = 0) +
   geom_col(position = "dodge") +
   scale_fill_brewer(palette = "Dark2") +
@@ -515,7 +518,7 @@ dcant_budget_basin_AIP_bias_all <- dcant_budget_basin_AIP_bias_all %>%
 ```{r cases_absolute, fig.asp=0.9}
 
 dcant_budget_basin_AIP_all %>%
-  ggplot(aes(period, dcant, col=MLR_basins)) +
+  ggplot(aes(period, dcant, col=rarefication_threshold)) +
   geom_point() +
   facet_grid(basin_AIP ~ data_source)
 
@@ -527,13 +530,13 @@ dcant_budget_basin_AIP_all %>%
 ```{r cases_bias, fig.asp=0.9}
 
 dcant_budget_basin_AIP_bias_all %>%
-  ggplot(aes(period, dcant_bias, col=MLR_basins)) +
+  ggplot(aes(period, dcant_bias, col=rarefication_threshold)) +
   geom_hline(yintercept = 0) +
   geom_point() +
   facet_grid(basin_AIP ~ .)
 
 dcant_budget_basin_AIP_bias_all %>%
-  ggplot(aes(period, dcant_bias_rel, col=MLR_basins)) +
+  ggplot(aes(period, dcant_bias_rel, col=rarefication_threshold)) +
   geom_hline(yintercept = 0) +
   geom_point() +
   facet_grid(basin_AIP ~ .)
@@ -613,7 +616,7 @@ dcant_budget_basin_AIP_ensemble_bias %>%
 ```{r cases_absolute_depth, fig.asp=0.9}
 
 unique(
-dcant_budget_basin_AIP_all_depth$MLR_basins)
+dcant_budget_basin_AIP_all_depth$rarefication_threshold)
 
 dcant_budget_basin_AIP_all_depth %>%
   group_by(data_source) %>%
@@ -621,7 +624,7 @@ dcant_budget_basin_AIP_all_depth %>%
   head(1) %>%
   map(
     ~  ggplot(data = .x,
-              aes(dcant, MLR_basins, fill = basin_AIP)) +
+              aes(dcant, rarefication_threshold, fill = basin_AIP)) +
       geom_vline(xintercept = 0) +
       geom_col() +
       scale_fill_brewer(palette = "Dark2") +
@@ -637,7 +640,7 @@ dcant_budget_basin_AIP_all_depth %>%
 ```{r cases_bias_depth, fig.asp=0.9}
 
 dcant_budget_basin_AIP_bias_all_depth %>%
-  ggplot(aes(dcant_bias, MLR_basins, fill = basin_AIP)) +
+  ggplot(aes(dcant_bias, rarefication_threshold, fill = basin_AIP)) +
   geom_vline(xintercept = 0) +
   geom_col() +
   scale_fill_brewer(palette = "Dark2") +
@@ -648,7 +651,7 @@ dcant_budget_basin_AIP_bias_all_depth %>%
 ```{r cases_bias_rel_depth, fig.asp=0.9}
 
 dcant_budget_basin_AIP_bias_all_depth %>%
-  ggplot(aes(dcant_bias_rel, MLR_basins, fill = basin_AIP)) +
+  ggplot(aes(dcant_bias_rel, rarefication_threshold, fill = basin_AIP)) +
   geom_vline(xintercept = 0) +
   geom_col() +
   scale_fill_brewer(palette = "Dark2") +
