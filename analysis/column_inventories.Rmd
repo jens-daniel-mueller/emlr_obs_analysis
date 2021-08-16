@@ -201,6 +201,30 @@ dcant_inv_bias_all %>%
 
 ```
 
+```{r filter_ensemble_member}
+
+
+dcant_inv_bias_all %>%  
+  ggplot(aes(dcant_bias)) +
+  scale_color_brewer(palette = "Set1") +
+  geom_density() +
+  facet_grid(MLR_basins ~ period) +
+  coord_cartesian(xlim = c(-10,10))
+
+
+dcant_inv_ensemble_member <- dcant_inv_bias_all %>% 
+  group_by(period, MLR_basins) %>% 
+  summarise(dcant_sd = sd(dcant_bias)) %>% 
+  ungroup()
+
+dcant_inv_ensemble_member %>% 
+  ggplot(aes(MLR_basins, dcant_sd, col = period)) +
+  geom_point()
+
+```
+
+
+
 # Ensemble
 
 ```{r calc_ensemble_metrics}
