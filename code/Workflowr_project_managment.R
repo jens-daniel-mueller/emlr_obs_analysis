@@ -35,6 +35,17 @@ wflow_publish(here::here("analysis",
               republish = TRUE)
 
 
+wflow_publish(here::here("analysis",
+                         c("index.Rmd",
+                           "budgets.Rmd",
+                           "column_inventories.Rmd",
+                           "zonal_sections.Rmd",
+                           "slab_inventories.Rmd"
+                           )),
+              message = "rebuildt with ensemble filter",
+              republish = TRUE)
+
+
 # Push latest version to GitHub
 wflow_git_push()
 jens-daniel-mueller
