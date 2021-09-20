@@ -1,0 +1,693 @@
+---
+title: "Budgets"
+author: "Jens Daniel Müller"
+date:  "`r format(Sys.time(), '%d %B, %Y')`"
+output: 
+  workflowr::wflow_html:
+    number_sections: true
+    toc_depth: 3
+    toc_float:
+      collapsed: false
+editor_options:
+  chunk_output_type: console
+---
+
+```{r parent, child = "/nfs/kryo/work/jenmueller/emlr_cant/utilities/setup_obs.Rmd"}
+# this chunk runs the code stored in setup.Rmd
+# if required, please refer to instructions given here:
+# https://jdblischak.github.io/workflowr/articles/wflow-07-common-code.html
+```
+
+```{r define_paths, include = FALSE}
+
+# only path_observations needs to be changed to model
+path_observations <-
+  paste(path_root, "/observations/", sep = "")
+
+path_preprocessing    <-
+  paste(path_observations, "preprocessing/", sep = "")
+
+
+path_preprocessing_model    <-
+  paste(path_root, "/model/preprocessing/", sep = "")
+
+```
+
+```{r load_libraries_specific, include = FALSE}
+```
+
+# Global
+
+## Read files
+
+```{r read_files_global}
+
+# identify required version IDs
+
+Version_IDs_1 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = "v_11")
+
+Version_IDs_2 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = "v_21")
+
+Version_IDs <- c(Version_IDs_1, Version_IDs_2)
+rm(Version_IDs_1, Version_IDs_2)
+
+for (i_Version_IDs in Version_IDs) {
+  # i_Version_IDs <- Version_IDs[1]
+  
+  print(i_Version_IDs)
+  
+  path_version_data     <-
+    paste(path_observations,
+          i_Version_IDs,
+          "/data/",
+          sep = "")
+  
+  # load and join data files
+  
+  dcant_budget_global <-
+    read_csv(paste(path_version_data,
+                   "dcant_budget_global.csv",
+                   sep = ""))
+  
+  dcant_budget_global_mod_truth <-
+    read_csv(paste(
+      path_version_data,
+      "dcant_budget_global_mod_truth.csv",
+      sep = ""
+    ))
+  
+  dcant_budget_global_bias <-
+    read_csv(paste(path_version_data,
+                   "dcant_budget_global_bias.csv",
+                   sep = ""))
+  
+  dcant_budget_global <- bind_rows(dcant_budget_global,
+                                      dcant_budget_global_mod_truth)
+  
+  dcant_budget_global <- dcant_budget_global %>%
+    mutate(Version_ID = i_Version_IDs)
+  
+  dcant_budget_global_bias <- dcant_budget_global_bias %>%
+    mutate(Version_ID = i_Version_IDs)
+
+  params_local <-
+    read_rds(paste(path_version_data,
+                   "params_local.rds",
+                   sep = ""))
+  
+  params_local <- bind_cols(
+    Version_ID = i_Version_IDs,
+    CANYON_B_sample_SD = as.character(params_local$CANYON_B_sample_SD)
+  )
+  
+  tref <- read_csv(paste(path_version_data,
+                         "tref.csv",
+                         sep = ""))
+  
+  params_local <- params_local %>%
+    mutate(
+      median_year_1 = sort(tref$median_year)[1],
+      median_year_2 = sort(tref$median_year)[2],
+      duration = median_year_2 - median_year_1,
+      period = paste(median_year_1, "-", median_year_2)
+    )
+  
+  if (exists("dcant_budget_global_all")) {
+    dcant_budget_global_all <-
+      bind_rows(dcant_budget_global_all, dcant_budget_global)
+  }
+  
+  if (!exists("dcant_budget_global_all")) {
+    dcant_budget_global_all <- dcant_budget_global
+  }
+  
+  if (exists("dcant_budget_global_bias_all")) {
+    dcant_budget_global_bias_all <-
+      bind_rows(dcant_budget_global_bias_all,
+                dcant_budget_global_bias)
+  }
+
+  if (!exists("dcant_budget_global_bias_all")) {
+    dcant_budget_global_bias_all <- dcant_budget_global_bias
+  }
+  
+  if (exists("params_local_all")) {
+    params_local_all <- bind_rows(params_local_all, params_local)
+  }
+  
+  if (!exists("params_local_all")) {
+    params_local_all <- params_local
+  }
+  
+  
+}
+
+rm(
+  dcant_budget_global,
+  dcant_budget_global_bias,
+  dcant_budget_global_mod_truth,
+  params_local,
+  tref
+)
+
+dcant_budget_global_all <- full_join(dcant_budget_global_all,
+                                     params_local_all)
+
+dcant_budget_global_bias_all <-
+  full_join(dcant_budget_global_bias_all,
+            params_local_all)
+
+```
+
+```{r filter_standard_inventory_depth_global}
+
+dcant_budget_global_all <- dcant_budget_global_all %>%
+  filter(estimate == "dcant", 
+         method == "total") %>% 
+  select(-c(estimate, method)) %>% 
+  rename(dcant = value)
+
+dcant_budget_global_all_depth <- dcant_budget_global_all
+
+dcant_budget_global_all <- dcant_budget_global_all %>%
+  filter(inv_depth == params_global$inventory_depth_standard)
+
+dcant_budget_global_bias_all <- dcant_budget_global_bias_all %>%
+  filter(estimate == "dcant") %>%
+  select(-c(estimate))
+
+dcant_budget_global_bias_all_depth <- dcant_budget_global_bias_all
+
+dcant_budget_global_bias_all <- dcant_budget_global_bias_all %>%
+  filter(inv_depth == params_global$inventory_depth_standard)
+
+```
+
+## Thresholds
+
+```{r define_threshold}
+
+global_bias_rel_max <- 10
+regional_bias_rel_max <- 20
+
+global_bias_rel_max
+regional_bias_rel_max
+
+```
+
+
+## Individual cases
+
+### Absoulte values
+
+```{r cases_absolute_global}
+
+dcant_budget_global_all %>%
+  ggplot(aes(period, dcant, col=CANYON_B_sample_SD)) +
+  geom_point() +
+  facet_grid(. ~ data_source)
+
+
+```
+
+### Biases
+
+```{r cases_bias_global}
+
+dcant_budget_global_bias_all %>%
+  ggplot(aes(period, dcant_bias, col=CANYON_B_sample_SD)) +
+  geom_hline(yintercept = 0) +
+  geom_point()
+
+dcant_budget_global_bias_all %>%
+  ggplot(aes(period, dcant_bias_rel, col=CANYON_B_sample_SD)) +
+  geom_hline(yintercept = 0) +
+  geom_point()
+
+
+```
+
+```{r filter_ensemble_members_global}
+
+ensemble_CANYON_B_sample_SD_global <- dcant_budget_global_bias_all %>% 
+  filter(dcant_bias_rel < global_bias_rel_max) %>% 
+  count(CANYON_B_sample_SD) %>% 
+  filter(n == 2) %>% 
+  pull(CANYON_B_sample_SD)
+
+```
+
+
+
+## Ensemble
+
+```{r calc_ensemble_metrics_global}
+
+dcant_budget_global_ensemble <- dcant_budget_global_all %>% 
+  filter(data_source %in% c("mod", "obs"),
+         CANYON_B_sample_SD %in% ensemble_CANYON_B_sample_SD_global) %>% 
+  group_by(data_source, period) %>% 
+  summarise(dcant_mean = mean(dcant),
+            dcant_sd = sd(dcant),
+            dcant_range = max(dcant)- min(dcant)) %>% 
+  ungroup()
+
+
+```
+
+### Mean
+
+```{r ensemble_mean_global, fig.asp=0.5}
+
+dcant_budget_global_ensemble %>%
+  ggplot(aes(period, dcant_mean)) +
+  geom_pointrange(aes(ymax = dcant_mean + dcant_sd,
+                      ymin = dcant_mean - dcant_sd),
+                  shape = 21) +
+  facet_grid(. ~ data_source)
+
+```
+
+### Mean bias
+
+```{r ensemble_mean_bias_global}
+
+dcant_budget_global_ensemble_bias <- full_join(
+  dcant_budget_global_ensemble %>%
+    filter(data_source == "mod") %>% 
+    select(period, dcant_mean, dcant_sd),
+  dcant_budget_global_all %>%
+    filter(data_source == "mod_truth",
+           CANYON_B_sample_SD == "2") %>% 
+    select(period, dcant)
+)
+
+dcant_budget_global_ensemble_bias <- dcant_budget_global_ensemble_bias %>% 
+  mutate(dcant_mean_bias = dcant_mean - dcant,
+         dcant_mean_bias_rel = 100 * dcant_mean_bias / dcant)
+
+dcant_budget_global_ensemble_bias %>%
+  ggplot(aes(period, dcant_mean_bias)) +
+  geom_hline(yintercept = 0) +
+  geom_point()
+
+dcant_budget_global_ensemble_bias %>%
+  ggplot(aes(period, dcant_mean_bias_rel)) +
+  geom_hline(yintercept = 0) +
+  geom_point()
+
+```
+
+### SD vs bias
+
+```{r ensemble_sd_vs_bias_global, fig.asp=0.5}
+
+dcant_budget_global_ensemble_bias %>% 
+  ggplot(aes(dcant_mean_bias, dcant_sd, col = period)) +
+  geom_point()
+
+```
+
+
+## Vertical patterns
+
+### Absoulte values
+
+```{r cases_absolute_depth_global, fig.asp=0.9}
+
+dcant_budget_global_all_depth %>%
+  filter(CANYON_B_sample_SD %in% ensemble_CANYON_B_sample_SD_global) %>% 
+  group_by(data_source) %>%
+  group_split() %>%
+  # head(1) %>%
+  map(
+    ~  ggplot(data = .x,
+              aes(dcant, CANYON_B_sample_SD, fill=period)) +
+      geom_vline(xintercept = 0) +
+      geom_col(position = "dodge") +
+      scale_fill_brewer(palette = "Dark2") +
+      facet_grid(inv_depth ~ .) +
+      labs(title = paste("data_source:", unique(.x$data_source)))
+  )
+
+
+```
+
+### Biases
+
+```{r cases_bias_depth_global, fig.asp=0.9}
+
+dcant_budget_global_bias_all_depth %>%
+  filter(CANYON_B_sample_SD %in% ensemble_CANYON_B_sample_SD_global) %>%
+  ggplot(aes(dcant_bias, CANYON_B_sample_SD, fill = period)) +
+  geom_vline(xintercept = 0) +
+  geom_col(position = "dodge") +
+  scale_fill_brewer(palette = "Dark2") +
+  facet_grid(inv_depth ~ .)
+
+```
+
+```{r cases_bias_rel_depth_global, fig.asp=0.9}
+
+dcant_budget_global_bias_all_depth %>%
+  filter(CANYON_B_sample_SD %in% ensemble_CANYON_B_sample_SD_global) %>%
+  ggplot(aes(dcant_bias_rel, CANYON_B_sample_SD, fill = period)) +
+  geom_vline(xintercept = 0) +
+  geom_col(position = "dodge") +
+  scale_fill_brewer(palette = "Dark2") +
+  facet_grid(inv_depth ~ .)
+
+
+rm(dcant_budget_global_all,
+   dcant_budget_global_all_depth,
+   dcant_budget_global_bias_all,
+   dcant_budget_global_bias_all_depth,
+   dcant_budget_global_ensemble,
+   dcant_budget_global_ensemble_bias,
+   params_local_all)
+
+```
+
+# Regional
+
+## Read files
+
+```{r read_files}
+
+# Version_IDs <- Version_IDs[1:length(Version_IDs)-1]
+
+for (i_Version_IDs in Version_IDs) {
+  # i_Version_IDs <- Version_IDs[1]
+  
+  print(i_Version_IDs)
+  
+  path_version_data     <-
+    paste(path_observations,
+          i_Version_IDs,
+          "/data/",
+          sep = "")
+  
+  # load and join data files
+  
+  dcant_budget_basin_AIP <-
+    read_csv(paste(path_version_data,
+                   "dcant_budget_basin_AIP.csv",
+                   sep = ""))
+  
+  dcant_budget_basin_AIP_mod_truth <-
+    read_csv(paste(
+      path_version_data,
+      "dcant_budget_basin_AIP_mod_truth.csv",
+      sep = ""
+    ))
+  
+  dcant_budget_basin_AIP_bias <-
+    read_csv(paste(path_version_data,
+                   "dcant_budget_basin_AIP_bias.csv",
+                   sep = ""))
+  
+  dcant_budget_basin_AIP <- bind_rows(dcant_budget_basin_AIP,
+                                      dcant_budget_basin_AIP_mod_truth)
+  
+  dcant_budget_basin_AIP <- dcant_budget_basin_AIP %>%
+    mutate(Version_ID = i_Version_IDs)
+  
+  dcant_budget_basin_AIP_bias <- dcant_budget_basin_AIP_bias %>%
+    mutate(Version_ID = i_Version_IDs)
+  
+  params_local <-
+    read_rds(paste(path_version_data,
+                   "params_local.rds",
+                   sep = ""))
+  
+  params_local <- bind_cols(
+    Version_ID = i_Version_IDs,
+    CANYON_B_sample_SD = as.character(params_local$CANYON_B_sample_SD)
+  )
+  
+  tref <- read_csv(paste(path_version_data,
+                         "tref.csv",
+                         sep = ""))
+  
+  params_local <- params_local %>%
+    mutate(
+      median_year_1 = sort(tref$median_year)[1],
+      median_year_2 = sort(tref$median_year)[2],
+      duration = median_year_2 - median_year_1,
+      period = paste(median_year_1, "-", median_year_2)
+    )
+  
+  if (exists("dcant_budget_basin_AIP_all")) {
+    dcant_budget_basin_AIP_all <-
+      bind_rows(dcant_budget_basin_AIP_all, dcant_budget_basin_AIP)
+  }
+  
+  if (!exists("dcant_budget_basin_AIP_all")) {
+    dcant_budget_basin_AIP_all <- dcant_budget_basin_AIP
+  }
+  
+  if (exists("dcant_budget_basin_AIP_bias_all")) {
+    dcant_budget_basin_AIP_bias_all <-
+      bind_rows(dcant_budget_basin_AIP_bias_all,
+                dcant_budget_basin_AIP_bias)
+  }
+  
+  if (!exists("dcant_budget_basin_AIP_bias_all")) {
+    dcant_budget_basin_AIP_bias_all <- dcant_budget_basin_AIP_bias
+  }
+  
+  if (exists("params_local_all")) {
+    params_local_all <- bind_rows(params_local_all, params_local)
+  }
+  
+  if (!exists("params_local_all")) {
+    params_local_all <- params_local
+  }
+  
+  
+}
+
+rm(
+  dcant_budget_basin_AIP,
+  dcant_budget_basin_AIP_bias,
+  dcant_budget_basin_AIP_mod_truth,
+  params_local,
+  tref
+)
+
+dcant_budget_basin_AIP_all <- full_join(dcant_budget_basin_AIP_all,
+                                        params_local_all)
+
+dcant_budget_basin_AIP_bias_all <-
+  full_join(dcant_budget_basin_AIP_bias_all,
+            params_local_all)
+
+```
+
+```{r filter_standard_inventory_depth}
+
+dcant_budget_basin_AIP_all <- dcant_budget_basin_AIP_all %>%
+  filter(estimate == "dcant", 
+         method == "total") %>% 
+  select(-c(estimate, method)) %>% 
+  rename(dcant = value)
+
+dcant_budget_basin_AIP_all_depth <- dcant_budget_basin_AIP_all
+
+dcant_budget_basin_AIP_all <- dcant_budget_basin_AIP_all %>%
+  filter(inv_depth == params_global$inventory_depth_standard)
+
+dcant_budget_basin_AIP_bias_all <- dcant_budget_basin_AIP_bias_all %>%
+  filter(estimate == "dcant") %>% 
+  select(-c(estimate))
+
+dcant_budget_basin_AIP_bias_all_depth <- dcant_budget_basin_AIP_bias_all
+
+dcant_budget_basin_AIP_bias_all <- dcant_budget_basin_AIP_bias_all %>%
+  filter(inv_depth == params_global$inventory_depth_standard)
+
+```
+
+## Individual cases
+
+### Absoulte values
+
+```{r cases_absolute, fig.asp=0.9}
+
+dcant_budget_basin_AIP_all %>%
+  ggplot(aes(period, dcant, col=CANYON_B_sample_SD)) +
+  geom_point() +
+  facet_grid(basin_AIP ~ data_source)
+
+
+```
+
+### Biases
+
+```{r cases_bias, fig.asp=0.9}
+
+dcant_budget_basin_AIP_bias_all %>%
+  ggplot(aes(period, dcant_bias, col=CANYON_B_sample_SD)) +
+  geom_hline(yintercept = 0) +
+  geom_point() +
+  facet_grid(basin_AIP ~ .)
+
+dcant_budget_basin_AIP_bias_all %>%
+  ggplot(aes(period, dcant_bias_rel, col=CANYON_B_sample_SD)) +
+  geom_hline(yintercept = 0) +
+  geom_point() +
+  facet_grid(basin_AIP ~ .)
+
+
+```
+
+
+```{r filter_ensemble_members_regional}
+
+dcant_budget_basin_AIP_bias_all %>% 
+  filter(dcant_bias_rel < regional_bias_rel_max) %>% 
+  distinct(period, CANYON_B_sample_SD, basin_AIP)
+
+ensemble_CANYON_B_sample_SD_regional <- dcant_budget_basin_AIP_bias_all %>% 
+  filter(dcant_bias_rel < regional_bias_rel_max) %>% 
+  count(CANYON_B_sample_SD) %>% 
+  filter(n == 6) %>% 
+  pull(CANYON_B_sample_SD)
+
+```
+
+
+
+## Ensemble
+
+```{r calc_ensemble_metrics}
+
+dcant_budget_basin_AIP_ensemble <- dcant_budget_basin_AIP_all %>% 
+  filter(data_source %in% c("mod", "obs"),
+         CANYON_B_sample_SD %in% ensemble_CANYON_B_sample_SD_global,
+         CANYON_B_sample_SD %in% ensemble_CANYON_B_sample_SD_regional) %>% 
+  group_by(basin_AIP, data_source, period) %>% 
+  summarise(dcant_mean = mean(dcant),
+            dcant_sd = sd(dcant),
+            dcant_range = max(dcant)- min(dcant)) %>% 
+  ungroup()
+
+
+```
+
+### Mean
+
+```{r ensemble_mean, fig.asp=0.5}
+
+dcant_budget_basin_AIP_ensemble %>%
+  ggplot(aes(period, dcant_mean, col=basin_AIP)) +
+  geom_pointrange(aes(ymax = dcant_mean + dcant_sd,
+                      ymin = dcant_mean - dcant_sd),
+                  shape = 21) +
+  facet_grid(. ~ data_source)
+
+```
+
+### Mean bias
+
+```{r ensemble_mean_bias}
+
+dcant_budget_basin_AIP_ensemble_bias <- full_join(
+  dcant_budget_basin_AIP_ensemble %>%
+    filter(data_source == "mod") %>% 
+    select(basin_AIP, period, dcant_mean, dcant_sd),
+  dcant_budget_basin_AIP_all %>%
+    filter(data_source == "mod_truth",
+           CANYON_B_sample_SD == "2") %>% 
+    select(basin_AIP, period, dcant)
+)
+
+dcant_budget_basin_AIP_ensemble_bias <- dcant_budget_basin_AIP_ensemble_bias %>% 
+  mutate(dcant_mean_bias = dcant_mean - dcant)
+
+dcant_budget_basin_AIP_ensemble_bias %>%
+  ggplot(aes(period, dcant_mean_bias, col = basin_AIP)) +
+  geom_hline(yintercept = 0) +
+  geom_point()
+
+```
+
+### SD vs bias
+
+```{r ensemble_sd_vs_bias, fig.asp=0.5}
+
+dcant_budget_basin_AIP_ensemble_bias %>% 
+  ggplot(aes(dcant_mean_bias, dcant_sd, col=basin_AIP)) +
+  geom_point() +
+  facet_grid(. ~ period)
+
+
+```
+
+
+## Vertical patterns
+
+### Absoulte values
+
+```{r cases_absolute_depth, fig.asp=0.9}
+
+unique(
+dcant_budget_basin_AIP_all_depth$CANYON_B_sample_SD)
+
+
+
+dcant_budget_basin_AIP_all_depth %>%
+  filter(
+    CANYON_B_sample_SD %in% ensemble_CANYON_B_sample_SD_global,
+    CANYON_B_sample_SD %in% ensemble_CANYON_B_sample_SD_regional
+  ) %>%
+  group_by(data_source) %>%
+  group_split() %>%
+  head(1) %>%
+  map(
+    ~  ggplot(data = .x,
+              aes(dcant, CANYON_B_sample_SD, fill = basin_AIP)) +
+      geom_vline(xintercept = 0) +
+      geom_col() +
+      scale_fill_brewer(palette = "Dark2") +
+      facet_grid(inv_depth ~ period) +
+      labs(title = paste("data_source:", unique(.x$data_source)))
+  )
+
+
+```
+
+### Biases
+
+```{r cases_bias_depth, fig.asp=0.9}
+
+dcant_budget_basin_AIP_bias_all_depth %>%
+  filter(
+    CANYON_B_sample_SD %in% ensemble_CANYON_B_sample_SD_global,
+    CANYON_B_sample_SD %in% ensemble_CANYON_B_sample_SD_regional
+  ) %>%
+  ggplot(aes(dcant_bias, CANYON_B_sample_SD, fill = basin_AIP)) +
+  geom_vline(xintercept = 0) +
+  geom_col() +
+  scale_fill_brewer(palette = "Dark2") +
+  facet_grid(inv_depth ~ period)
+
+```
+
+```{r cases_bias_rel_depth, fig.asp=0.9}
+
+dcant_budget_basin_AIP_bias_all_depth %>%
+  filter(
+    CANYON_B_sample_SD %in% ensemble_CANYON_B_sample_SD_global,
+    CANYON_B_sample_SD %in% ensemble_CANYON_B_sample_SD_regional
+  ) %>%
+  ggplot(aes(dcant_bias_rel, CANYON_B_sample_SD, fill = basin_AIP)) +
+  geom_vline(xintercept = 0) +
+  geom_col() +
+  scale_fill_brewer(palette = "Dark2") +
+  facet_grid(inv_depth ~ period)
+
+```
+
