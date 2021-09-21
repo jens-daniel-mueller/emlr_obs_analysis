@@ -12,7 +12,7 @@
 <meta name="author" content="Jens Daniel Müller" />
 
 
-<title>Home</title>
+<title>Column inventories</title>
 
 <script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
@@ -30,6 +30,9 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
@@ -235,6 +238,75 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
 
 </head>
 
@@ -242,6 +314,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -351,7 +433,7 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Home</h1>
+<h1 class="title toc-ignore">Column inventories</h1>
 <h4 class="author">Jens Daniel Müller</h4>
 <h4 class="date">21 September, 2021</h4>
 
@@ -487,7 +569,6 @@ Note that you need to be careful to ensure that all relevant files for the analy
 Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
-    Ignored:    analysis/figure/
     Ignored:    data/
     Ignored:    output/Gruber_2019_comparison/
     Ignored:    output/publication/
@@ -513,7 +594,7 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <div id="versions" class="tab-pane fade">
 
 <p>
-These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/index.Rmd</code>) and HTML (<code>docs/index.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/global_MLR_cleaning_column_inventories.Rmd</code>) and HTML (<code>docs/global_MLR_cleaning_column_inventories.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
 </p>
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
@@ -539,10 +620,10 @@ Message
 <tbody>
 <tr>
 <td>
-html
+Rmd
 </td>
 <td>
-<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/499c9d5dfce0aee0cae658f5fc7a134476a0387e/docs/index.html" target="_blank">499c9d5</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1245ec8d633eefa8e9e0971a5312b9cc799a698c/analysis/global_MLR_cleaning_column_inventories.Rmd" target="_blank">1245ec8</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -551,449 +632,7 @@ jens-daniel-mueller
 2021-09-21
 </td>
 <td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/271a3acbf43f16020723dd6210e3cdb99e827a12/docs/index.html" target="_blank">271a3ac</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-21
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/35ad8b5f21422505d0d05ee312155902eeccf030/docs/index.html" target="_blank">35ad8b5</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-20
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/0189ffe7a1f11c0a7baef74286d254807de27884/docs/index.html" target="_blank">0189ffe</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-08-30
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/731c2fa4020e593d8601768e1a39eb757d051ed5/docs/index.html" target="_blank">731c2fa</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-08-17
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/6fd82032142870694ac57a01e25d81ac76e4321b/docs/index.html" target="_blank">6fd8203</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-08-11
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/77ab07cdbce27db804bd556c46c2af26040abc87/docs/index.html" target="_blank">77ab07c</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-08-11
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/6d4b1397a853e40945392f2cd00d2214e906b36a/docs/index.html" target="_blank">6d4b139</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-08-11
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/bd9ce6b16b55517d1793a2a63a8d259a077c22ce/docs/index.html" target="_blank">bd9ce6b</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-08-02
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/e66fc02be4ca3a538681bf0f5ff11a5f60d6d34f/docs/index.html" target="_blank">e66fc02</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-07-30
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/964b616e0545ff8c9ddf2f6a1dc755d6a6985ab8/docs/index.html" target="_blank">964b616</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-07-30
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/0a09f3e629dfb1c4e70163bb84f9434a963a7498/docs/index.html" target="_blank">0a09f3e</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-07-30
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/3a48c916b403de5d78b6f2f3cb17421fdf838b1f/docs/index.html" target="_blank">3a48c91</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-07-27
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/b32149b89909fd6eab9a5124914af4b56669d905/docs/index.html" target="_blank">b32149b</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-07-27
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/93a27dde341d897d9672026eebad038b30110f68/docs/index.html" target="_blank">93a27dd</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-07-26
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/7493389448c53ccfbe36129b13958405274ffff9/docs/index.html" target="_blank">7493389</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-07-05
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/8b2e4d3aee2a5bc949e1d909005d46b34f7267c0/docs/index.html" target="_blank">8b2e4d3</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-06-22
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/57ddd1f4d776e4fda1d31d26473b48e9d3217b50/docs/index.html" target="_blank">57ddd1f</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-05-27
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/7be394f496bb69346de63d093cb1521a60eaeac7/docs/index.html" target="_blank">7be394f</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-04-15
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/117a5c3c1c51b16535ce326f690a6c0b4710da38/docs/index.html" target="_blank">117a5c3</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-04-14
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/c9407be94d6b6ff737b771e0f69c56e861d2c908/docs/index.html" target="_blank">c9407be</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-04-12
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/c9eb29b15060165242a8151dba4c5ec82d3a280d/docs/index.html" target="_blank">c9eb29b</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-04-12
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/f4e283cba5621ffea952ccebacc9a39d6b5613a4/analysis/index.Rmd" target="_blank">f4e283c</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-04-12
-</td>
-<td>
-include G19 comparison
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/bfcfa12e260bea1130de7fb9f0df2ffd934b4786/docs/index.html" target="_blank">bfcfa12</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-04-12
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/012caf35948e155bfbe2273e615efe857b53d414/docs/index.html" target="_blank">012caf3</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-04-12
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/0be5bda4b1706a8a59037a9c1ed120ab3528436f/docs/index.html" target="_blank">0be5bda</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-04-12
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/739c1fa962e693194dfa72656ebb7303fe991aaf/analysis/index.Rmd" target="_blank">739c1fa</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-04-12
-</td>
-<td>
-Start workflowr project.
+rebuildt with global MLR cleaning
 </td>
 </tr>
 </tbody>
@@ -1003,10 +642,289 @@ Start workflowr project.
 </div>
 </div>
 </div>
-<div id="welcome" class="section level1">
-<h1>WELCOME!</h1>
-<p>On this website we present our ongoing ambition to quantify anthropogenic CO<sub>2</sub> in the ocean based on observations.</p>
-<p>Navigate trough the navbar on top to take a look at the various chapters of this project. The links in the upper right corner bring you to the source code of this project and to Jens’ homepage.</p>
+<div id="read-files" class="section level1" number="1">
+<h1 number="1"><span class="header-section-number">1</span> Read files</h1>
+<pre class="r"><code># identify required version IDs
+
+Version_IDs_1 &lt;- list.files(
+  path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
+  pattern = &quot;v_12&quot;)
+
+Version_IDs_2 &lt;- list.files(
+  path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
+  pattern = &quot;v_22&quot;)
+
+Version_IDs &lt;- c(Version_IDs_1, Version_IDs_2)
+rm(Version_IDs_1, Version_IDs_2)
+
+# Version_IDs &lt;- Version_IDs[1:length(Version_IDs)-1]
+
+for (i_Version_IDs in Version_IDs) {
+  # i_Version_IDs &lt;- Version_IDs[1]
+  
+  print(i_Version_IDs)
+  
+  path_version_data     &lt;-
+  paste(path_observations,
+        i_Version_IDs,
+        &quot;/data/&quot;,
+        sep = &quot;&quot;)
+  
+  # load and join data files
+  
+  dcant_inv &lt;-
+    read_csv(paste(path_version_data,
+                   &quot;dcant_inv.csv&quot;,
+                   sep = &quot;&quot;))
+  
+  dcant_inv_mod_truth &lt;-
+    read_csv(paste(path_version_data,
+                   &quot;dcant_inv_mod_truth.csv&quot;,
+                   sep = &quot;&quot;)) %&gt;% 
+    filter(method == &quot;total&quot;) %&gt;% 
+    select(-method)
+  
+  dcant_inv_bias &lt;-
+    read_csv(paste(path_version_data,
+                   &quot;dcant_inv_bias.csv&quot;,
+                   sep = &quot;&quot;))
+  
+  dcant_inv &lt;- bind_rows(dcant_inv,
+                         dcant_inv_mod_truth)
+  
+  dcant_inv &lt;- dcant_inv %&gt;% 
+    mutate(Version_ID = i_Version_IDs)
+  
+  dcant_inv_bias &lt;- dcant_inv_bias %&gt;% 
+    mutate(Version_ID = i_Version_IDs)
+  
+  params_local &lt;-
+    read_rds(paste(path_version_data,
+                   &quot;params_local.rds&quot;,
+                   sep = &quot;&quot;))
+  
+  params_local &lt;- bind_cols(
+    Version_ID = i_Version_IDs,
+    target_global_rmse_max = as.character(params_local$target_global_rmse_max)
+  )
+  
+  tref &lt;- read_csv(paste(path_version_data,
+                         &quot;tref.csv&quot;,
+                         sep = &quot;&quot;))
+  
+  params_local &lt;- params_local %&gt;% 
+    mutate(median_year_1 = sort(tref$median_year)[1],
+           median_year_2 = sort(tref$median_year)[2],
+           duration = median_year_2 - median_year_1,
+           period = paste(median_year_1, &quot;-&quot;, median_year_2))
+  
+  if (exists(&quot;dcant_inv_all&quot;)) {
+    dcant_inv_all &lt;- bind_rows(dcant_inv_all, dcant_inv)
+  }
+  
+  if (!exists(&quot;dcant_inv_all&quot;)) {
+    dcant_inv_all &lt;- dcant_inv
+  }
+
+  if (exists(&quot;dcant_inv_bias_all&quot;)) {
+    dcant_inv_bias_all &lt;- bind_rows(dcant_inv_bias_all, dcant_inv_bias)
+  }
+  
+  if (!exists(&quot;dcant_inv_bias_all&quot;)) {
+    dcant_inv_bias_all &lt;- dcant_inv_bias
+  }
+
+  if (exists(&quot;params_local_all&quot;)) {
+    params_local_all &lt;- bind_rows(params_local_all, params_local)
+  }
+  
+  if (!exists(&quot;params_local_all&quot;)) {
+    params_local_all &lt;- params_local
+  }
+  
+  
+}</code></pre>
+<pre><code>[1] &quot;v_1201&quot;
+[1] &quot;v_1202&quot;
+[1] &quot;v_1203&quot;
+[1] &quot;v_1204&quot;
+[1] &quot;v_2201&quot;
+[1] &quot;v_2202&quot;
+[1] &quot;v_2203&quot;
+[1] &quot;v_2204&quot;</code></pre>
+<pre class="r"><code>rm(dcant_inv, dcant_inv_bias, dcant_inv_mod_truth,
+   params_local, tref)
+
+dcant_inv_all &lt;- full_join(dcant_inv_all,
+                           params_local_all)
+
+dcant_inv_bias_all &lt;- full_join(dcant_inv_bias_all,
+                                params_local_all)</code></pre>
+<pre class="r"><code>dcant_inv_all &lt;- dcant_inv_all %&gt;%
+  filter(inv_depth == params_global$inventory_depth_standard)</code></pre>
+</div>
+<div id="individual-cases" class="section level1" number="2">
+<h1 number="2"><span class="header-section-number">2</span> Individual cases</h1>
+<div id="absoulte-values" class="section level2" number="2.1">
+<h2 number="2.1"><span class="header-section-number">2.1</span> Absoulte values</h2>
+<pre class="r"><code>dcant_inv_all %&gt;%
+  filter(data_source %in% c(&quot;mod&quot;, &quot;obs&quot;)) %&gt;%
+  group_by(period) %&gt;%
+  group_split() %&gt;%
+  # head(1) %&gt;%
+  map(
+    ~ p_map_cant_inv(df = .x,
+                     var = &quot;dcant&quot;,
+                     subtitle_text = paste(&quot;period:&quot;,
+                                           unique(.x$period))) +
+      facet_grid(target_global_rmse_max ~ data_source)
+  )</code></pre>
+<pre><code>[[1]]</code></pre>
+<p><img src="figure/global_MLR_cleaning_column_inventories.Rmd/cases_absolute-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[2]]</code></pre>
+<p><img src="figure/global_MLR_cleaning_column_inventories.Rmd/cases_absolute-2.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="biases" class="section level2" number="2.2">
+<h2 number="2.2"><span class="header-section-number">2.2</span> Biases</h2>
+<pre class="r"><code>dcant_inv_bias_all %&gt;%
+  p_map_cant_inv(var = &quot;dcant_bias&quot;,
+                 col = &quot;bias&quot;,
+                 subtitle_text = &quot;data_source: mod - mod_truth&quot;) +
+  facet_grid(target_global_rmse_max ~ period)</code></pre>
+<p><img src="figure/global_MLR_cleaning_column_inventories.Rmd/cases_bias-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dcant_inv_bias_all %&gt;%  
+  ggplot(aes(dcant_bias)) +
+  scale_color_brewer(palette = &quot;Set1&quot;) +
+  geom_density() +
+  facet_grid(target_global_rmse_max ~ period) +
+  coord_cartesian(xlim = c(-10,10))</code></pre>
+<p><img src="figure/global_MLR_cleaning_column_inventories.Rmd/filter_ensemble_member-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dcant_inv_ensemble_member &lt;- dcant_inv_bias_all %&gt;% 
+  group_by(period, target_global_rmse_max) %&gt;% 
+  summarise(dcant_sd = sd(dcant_bias)) %&gt;% 
+  ungroup()
+
+dcant_inv_ensemble_member %&gt;% 
+  ggplot(aes(target_global_rmse_max, dcant_sd, col = period)) +
+  geom_point()</code></pre>
+<p><img src="figure/global_MLR_cleaning_column_inventories.Rmd/filter_ensemble_member-2.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="ensemble" class="section level1" number="3">
+<h1 number="3"><span class="header-section-number">3</span> Ensemble</h1>
+<pre class="r"><code>dcant_inv_ensemble &lt;- dcant_inv_all %&gt;% 
+  filter(data_source %in% c(&quot;mod&quot;, &quot;obs&quot;)) %&gt;% 
+  group_by(lat, lon, data_source, period) %&gt;% 
+  summarise(dcant_mean = mean(dcant),
+            dcant_sd = sd(dcant),
+            dcant_range = max(dcant)- min(dcant)) %&gt;% 
+  ungroup()</code></pre>
+<div id="mean" class="section level2" number="3.1">
+<h2 number="3.1"><span class="header-section-number">3.1</span> Mean</h2>
+<pre class="r"><code>p_map_cant_inv(df = dcant_inv_ensemble,
+                     var = &quot;dcant_mean&quot;,
+                     subtitle_text = paste(&quot;Ensemble means&quot;)) +
+      facet_grid(period ~ data_source)</code></pre>
+<p><img src="figure/global_MLR_cleaning_column_inventories.Rmd/ensemble_mean-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="mean-bias" class="section level2" number="3.2">
+<h2 number="3.2"><span class="header-section-number">3.2</span> Mean bias</h2>
+<pre class="r"><code>dcant_inv_ensemble_bias &lt;- full_join(
+  dcant_inv_ensemble %&gt;%
+    filter(data_source == &quot;mod&quot;) %&gt;% 
+    select(lat, lon, period, dcant_mean, dcant_sd),
+  dcant_inv_all %&gt;%
+    filter(data_source == &quot;mod_truth&quot;,
+           Version_ID %in% c(&quot;v_1201&quot;, &quot;v_2201&quot;)) %&gt;% 
+    select(lat, lon, period, dcant)
+)
+
+dcant_inv_ensemble_bias &lt;- dcant_inv_ensemble_bias %&gt;% 
+  mutate(dcant_mean_bias = dcant_mean - dcant)
+
+dcant_inv_ensemble_bias %&gt;%
+  p_map_cant_inv(var = &quot;dcant_mean_bias&quot;,
+                 col = &quot;bias&quot;,
+                 subtitle_text = &quot;Ensemble mean - mod_truth&quot;) +
+  facet_grid(. ~ period)</code></pre>
+<p><img src="figure/global_MLR_cleaning_column_inventories.Rmd/ensemble_mean_bias-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="standard-deviation" class="section level2" number="3.3">
+<h2 number="3.3"><span class="header-section-number">3.3</span> Standard deviation</h2>
+<pre class="r"><code>p_map_cant_inv(
+  df = dcant_inv_ensemble,
+  var = &quot;dcant_sd&quot;,
+  breaks = c(seq(0, 4, 0.4), Inf),
+  subtitle_text = paste(&quot;Ensemble SD&quot;)
+) +
+  facet_grid(period ~ data_source)</code></pre>
+<p><img src="figure/global_MLR_cleaning_column_inventories.Rmd/ensemble_sd-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="sd-vs-bias" class="section level2" number="3.4">
+<h2 number="3.4"><span class="header-section-number">3.4</span> SD vs bias</h2>
+<pre class="r"><code>dcant_inv_ensemble_bias %&gt;% 
+  ggplot(aes(dcant_mean_bias, dcant_sd)) +
+  geom_bin2d() +
+  scale_fill_viridis_c() +
+  facet_grid(. ~ period)</code></pre>
+<p><img src="figure/global_MLR_cleaning_column_inventories.Rmd/ensemble_sd_vs_bias-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dcant_inv_ensemble_bias %&gt;% 
+  select(dcant_mean, dcant_mean_bias, period) %&gt;% 
+  pivot_longer(dcant_mean:dcant_mean_bias,
+               names_to = &quot;estimate&quot;,
+               values_to = &quot;value&quot;) %&gt;% 
+  ggplot(aes(value, col=estimate, linetype = period)) +
+  scale_color_brewer(palette = &quot;Set1&quot;) +
+  geom_density()</code></pre>
+<p><img src="figure/global_MLR_cleaning_column_inventories.Rmd/ensemble_sd_vs_bias-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dcant_inv_ensemble %&gt;% 
+  ggplot(aes(dcant_sd)) +
+  geom_histogram() +
+  facet_grid(data_source ~ period) +
+  coord_cartesian(ylim = c(0,50))</code></pre>
+<p><img src="figure/global_MLR_cleaning_column_inventories.Rmd/ensemble_sd_vs_bias-3.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="range" class="section level2" number="3.5">
+<h2 number="3.5"><span class="header-section-number">3.5</span> Range</h2>
+<pre class="r"><code>p_map_cant_inv(
+  df = dcant_inv_ensemble,
+  var = &quot;dcant_range&quot;,
+  breaks = c(seq(0,8,0.8), Inf),
+  subtitle_text = paste(&quot;Ensemble range&quot;)
+) +
+  facet_grid(period ~ data_source)</code></pre>
+<p><img src="figure/global_MLR_cleaning_column_inventories.Rmd/ensemble_range-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="cases-vs-ensemble" class="section level1" number="4">
+<h1 number="4"><span class="header-section-number">4</span> Cases vs ensemble</h1>
+<div id="offset-from-mean" class="section level2" number="4.1">
+<h2 number="4.1"><span class="header-section-number">4.1</span> Offset from mean</h2>
+<pre class="r"><code>dcant_inv_all &lt;- full_join(dcant_inv_all,
+                           dcant_inv_ensemble)
+
+dcant_inv_all &lt;- dcant_inv_all %&gt;% 
+  mutate(dcant_offset = dcant - dcant_mean)
+
+dcant_inv_all %&gt;%
+  filter(data_source %in% c(&quot;mod&quot;, &quot;obs&quot;)) %&gt;%
+  group_by(period) %&gt;%
+  group_split() %&gt;%
+  # head(1) %&gt;%
+  map(
+    ~ p_map_cant_inv(df = .x,
+                     var = &quot;dcant_offset&quot;,
+                     col = &quot;bias&quot;,
+                     subtitle_text = paste(&quot;period:&quot;,
+                                           unique(.x$period))) +
+      facet_grid(target_global_rmse_max ~ data_source)
+  )</code></pre>
+<pre><code>[[1]]</code></pre>
+<p><img src="figure/global_MLR_cleaning_column_inventories.Rmd/ensemble_deviation_from_mean-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[2]]</code></pre>
+<p><img src="figure/global_MLR_cleaning_column_inventories.Rmd/ensemble_deviation_from_mean-2.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1035,19 +953,38 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] workflowr_1.6.2
+ [1] ggforce_0.3.3   metR_0.9.0      scico_1.2.0     patchwork_1.1.1
+ [5] collapse_1.5.0  forcats_0.5.0   stringr_1.4.0   dplyr_1.0.5    
+ [9] purrr_0.3.4     readr_1.4.0     tidyr_1.1.3     tibble_3.1.3   
+[13] ggplot2_3.3.5   tidyverse_1.3.0 workflowr_1.6.2
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.5        rstudioapi_0.13   whisker_0.4       knitr_1.33       
- [5] magrittr_1.5      R6_2.5.0          rlang_0.4.11      fansi_0.4.1      
- [9] stringr_1.4.0     tools_4.0.3       xfun_0.25         utf8_1.1.4       
-[13] git2r_0.27.1      jquerylib_0.1.4   htmltools_0.5.1.1 ellipsis_0.3.2   
-[17] rprojroot_2.0.2   yaml_2.2.1        digest_0.6.27     tibble_3.1.3     
-[21] lifecycle_1.0.0   crayon_1.3.4      later_1.2.0       sass_0.4.0       
-[25] vctrs_0.3.8       promises_1.1.1    fs_1.5.0          glue_1.4.2       
-[29] evaluate_0.14     rmarkdown_2.10    stringi_1.5.3     bslib_0.2.5.1    
-[33] compiler_4.0.3    pillar_1.6.2      jsonlite_1.7.1    httpuv_1.5.4     
-[37] pkgconfig_2.0.3  </code></pre>
+ [1] httr_1.4.2               sass_0.4.0               viridisLite_0.3.0       
+ [4] jsonlite_1.7.1           modelr_0.1.8             bslib_0.2.5.1           
+ [7] assertthat_0.2.1         highr_0.8                blob_1.2.1              
+[10] cellranger_1.1.0         yaml_2.2.1               pillar_1.6.2            
+[13] backports_1.1.10         lattice_0.20-41          glue_1.4.2              
+[16] RcppEigen_0.3.3.7.0      digest_0.6.27            RColorBrewer_1.1-2      
+[19] promises_1.1.1           polyclip_1.10-0          checkmate_2.0.0         
+[22] rvest_0.3.6              colorspace_2.0-2         htmltools_0.5.1.1       
+[25] httpuv_1.5.4             Matrix_1.2-18            pkgconfig_2.0.3         
+[28] broom_0.7.9              haven_2.3.1              scales_1.1.1            
+[31] tweenr_1.0.2             whisker_0.4              later_1.2.0             
+[34] git2r_0.27.1             farver_2.0.3             generics_0.1.0          
+[37] ellipsis_0.3.2           withr_2.3.0              cli_3.0.1               
+[40] magrittr_1.5             crayon_1.3.4             readxl_1.3.1            
+[43] evaluate_0.14            fs_1.5.0                 fansi_0.4.1             
+[46] MASS_7.3-53              xml2_1.3.2               RcppArmadillo_0.10.1.2.0
+[49] tools_4.0.3              data.table_1.14.0        hms_0.5.3               
+[52] lifecycle_1.0.0          munsell_0.5.0            reprex_0.3.0            
+[55] compiler_4.0.3           jquerylib_0.1.4          rlang_0.4.11            
+[58] grid_4.0.3               rstudioapi_0.13          labeling_0.4.2          
+[61] rmarkdown_2.10           gtable_0.3.0             DBI_1.1.0               
+[64] R6_2.5.0                 lubridate_1.7.9          knitr_1.33              
+[67] utf8_1.1.4               rprojroot_2.0.2          stringi_1.5.3           
+[70] parallel_4.0.3           Rcpp_1.0.5               vctrs_0.3.8             
+[73] dbplyr_1.4.4             tidyselect_1.1.0         xfun_0.25               </code></pre>
+</div>
 </div>
 </div>
 
@@ -1067,6 +1004,8 @@ footer is added to webpages before the MathJax javascript. -->
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -1104,6 +1043,35 @@ $(document).ready(function () {
 });
 </script>
 
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
