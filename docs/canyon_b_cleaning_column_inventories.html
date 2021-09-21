@@ -576,7 +576,7 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <div id="versions" class="tab-pane fade">
 
 <p>
-These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/classic_column_inventories.Rmd</code>) and HTML (<code>docs/classic_column_inventories.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/canyon_b_cleaning_column_inventories.Rmd</code>) and HTML (<code>docs/canyon_b_cleaning_column_inventories.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
 </p>
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
@@ -602,33 +602,16 @@ Message
 <tbody>
 <tr>
 <td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/35ad8b5f21422505d0d05ee312155902eeccf030/docs/classic_column_inventories.html" target="_blank">35ad8b5</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-20
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
 Rmd
 </td>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/919f74b6f976a653c2bedd8b9fef3d01a5c48c9d/analysis/classic_column_inventories.Rmd" target="_blank">919f74b</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a0420f3c900e6f443d09f9a35ade78cc0a6b80a8/analysis/canyon_b_cleaning_column_inventories.Rmd" target="_blank">a0420f3</a>
 </td>
 <td>
 jens-daniel-mueller
 </td>
 <td>
-2021-09-20
+2021-09-21
 </td>
 <td>
 rebuildt with canyon b cleaning analysis
@@ -647,11 +630,11 @@ rebuildt with canyon b cleaning analysis
 
 Version_IDs_1 &lt;- list.files(
   path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
-  pattern = &quot;v_10&quot;)
+  pattern = &quot;v_11&quot;)
 
 Version_IDs_2 &lt;- list.files(
   path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
-  pattern = &quot;v_20&quot;)
+  pattern = &quot;v_21&quot;)
 
 Version_IDs &lt;- c(Version_IDs_1, Version_IDs_2)
 rm(Version_IDs_1, Version_IDs_2)
@@ -704,14 +687,7 @@ for (i_Version_IDs in Version_IDs) {
   
   params_local &lt;- bind_cols(
     Version_ID = i_Version_IDs,
-    MLR_basins = params_local$MLR_basins,
-    tref1 = params_local$tref1,
-    tref2 = params_local$tref2,
-    gap_filling = params_local$gap_filling,
-    rarefication = params_local$rarefication,
-    rarefication_threshold = params_local$rarefication_threshold,
-    MLR_predictors = str_c(params_local$MLR_predictors, collapse = &quot;+&quot;),
-    vif_max = params_local$vif_max
+    CANYON_B_sample_SD = as.character(params_local$CANYON_B_sample_SD)
   )
   
   tref &lt;- read_csv(paste(path_version_data,
@@ -750,20 +726,14 @@ for (i_Version_IDs in Version_IDs) {
   
   
 }</code></pre>
-<pre><code>[1] &quot;v_1001&quot;
-[1] &quot;v_1002&quot;
-[1] &quot;v_1003&quot;
-[1] &quot;v_1004&quot;
-[1] &quot;v_1005&quot;
-[1] &quot;v_1006&quot;
-[1] &quot;v_1007&quot;
-[1] &quot;v_2001&quot;
-[1] &quot;v_2002&quot;
-[1] &quot;v_2003&quot;
-[1] &quot;v_2004&quot;
-[1] &quot;v_2005&quot;
-[1] &quot;v_2006&quot;
-[1] &quot;v_2007&quot;</code></pre>
+<pre><code>[1] &quot;v_1101&quot;
+[1] &quot;v_1102&quot;
+[1] &quot;v_1103&quot;
+[1] &quot;v_1104&quot;
+[1] &quot;v_2101&quot;
+[1] &quot;v_2102&quot;
+[1] &quot;v_2103&quot;
+[1] &quot;v_2104&quot;</code></pre>
 <pre class="r"><code>rm(dcant_inv, dcant_inv_bias, dcant_inv_mod_truth,
    params_local, tref)
 
@@ -789,87 +759,13 @@ dcant_inv_bias_all &lt;- full_join(dcant_inv_bias_all,
                      var = &quot;dcant&quot;,
                      subtitle_text = paste(&quot;period:&quot;,
                                            unique(.x$period))) +
-      facet_grid(MLR_basins ~ data_source)
+      facet_grid(CANYON_B_sample_SD ~ data_source)
   )</code></pre>
 <pre><code>[[1]]</code></pre>
-<p><img src="figure/classic_column_inventories.Rmd/cases_absolute-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_absolute-1">
-Past versions of cases_absolute-1.png
-</button>
-</p>
-<div id="fig-cases_absolute-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/35ad8b5f21422505d0d05ee312155902eeccf030/docs/figure/classic_column_inventories.Rmd/cases_absolute-1.png" target="_blank">35ad8b5</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-20
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/canyon_b_cleaning_column_inventories.Rmd/cases_absolute-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>
 [[2]]</code></pre>
-<p><img src="figure/classic_column_inventories.Rmd/cases_absolute-2.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_absolute-2">
-Past versions of cases_absolute-2.png
-</button>
-</p>
-<div id="fig-cases_absolute-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/35ad8b5f21422505d0d05ee312155902eeccf030/docs/figure/classic_column_inventories.Rmd/cases_absolute-2.png" target="_blank">35ad8b5</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-20
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/canyon_b_cleaning_column_inventories.Rmd/cases_absolute-2.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="biases" class="section level2" number="2.2">
 <h2 number="2.2"><span class="header-section-number">2.2</span> Biases</h2>
@@ -877,135 +773,24 @@ jens-daniel-mueller
   p_map_cant_inv(var = &quot;dcant_bias&quot;,
                  col = &quot;bias&quot;,
                  subtitle_text = &quot;data_source: mod - mod_truth&quot;) +
-  facet_grid(MLR_basins ~ period)</code></pre>
-<p><img src="figure/classic_column_inventories.Rmd/cases_bias-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_bias-1">
-Past versions of cases_bias-1.png
-</button>
-</p>
-<div id="fig-cases_bias-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/35ad8b5f21422505d0d05ee312155902eeccf030/docs/figure/classic_column_inventories.Rmd/cases_bias-1.png" target="_blank">35ad8b5</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-20
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+  facet_grid(CANYON_B_sample_SD ~ period)</code></pre>
+<p><img src="figure/canyon_b_cleaning_column_inventories.Rmd/cases_bias-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>dcant_inv_bias_all %&gt;%  
   ggplot(aes(dcant_bias)) +
   scale_color_brewer(palette = &quot;Set1&quot;) +
   geom_density() +
-  facet_grid(MLR_basins ~ period) +
+  facet_grid(CANYON_B_sample_SD ~ period) +
   coord_cartesian(xlim = c(-10,10))</code></pre>
-<p><img src="figure/classic_column_inventories.Rmd/filter_ensemble_member-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-filter_ensemble_member-1">
-Past versions of filter_ensemble_member-1.png
-</button>
-</p>
-<div id="fig-filter_ensemble_member-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/35ad8b5f21422505d0d05ee312155902eeccf030/docs/figure/classic_column_inventories.Rmd/filter_ensemble_member-1.png" target="_blank">35ad8b5</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-20
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/canyon_b_cleaning_column_inventories.Rmd/filter_ensemble_member-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>dcant_inv_ensemble_member &lt;- dcant_inv_bias_all %&gt;% 
-  group_by(period, MLR_basins) %&gt;% 
+  group_by(period, CANYON_B_sample_SD) %&gt;% 
   summarise(dcant_sd = sd(dcant_bias)) %&gt;% 
   ungroup()
 
 dcant_inv_ensemble_member %&gt;% 
-  ggplot(aes(MLR_basins, dcant_sd, col = period)) +
+  ggplot(aes(CANYON_B_sample_SD, dcant_sd, col = period)) +
   geom_point()</code></pre>
-<p><img src="figure/classic_column_inventories.Rmd/filter_ensemble_member-2.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-filter_ensemble_member-2">
-Past versions of filter_ensemble_member-2.png
-</button>
-</p>
-<div id="fig-filter_ensemble_member-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/35ad8b5f21422505d0d05ee312155902eeccf030/docs/figure/classic_column_inventories.Rmd/filter_ensemble_member-2.png" target="_blank">35ad8b5</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-20
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/canyon_b_cleaning_column_inventories.Rmd/filter_ensemble_member-2.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="ensemble" class="section level1" number="3">
@@ -1023,44 +808,7 @@ jens-daniel-mueller
                      var = &quot;dcant_mean&quot;,
                      subtitle_text = paste(&quot;Ensemble means&quot;)) +
       facet_grid(period ~ data_source)</code></pre>
-<p><img src="figure/classic_column_inventories.Rmd/ensemble_mean-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_mean-1">
-Past versions of ensemble_mean-1.png
-</button>
-</p>
-<div id="fig-ensemble_mean-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/35ad8b5f21422505d0d05ee312155902eeccf030/docs/figure/classic_column_inventories.Rmd/ensemble_mean-1.png" target="_blank">35ad8b5</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-20
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/canyon_b_cleaning_column_inventories.Rmd/ensemble_mean-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="mean-bias" class="section level2" number="3.2">
 <h2 number="3.2"><span class="header-section-number">3.2</span> Mean bias</h2>
@@ -1070,7 +818,7 @@ jens-daniel-mueller
     select(lat, lon, period, dcant_mean, dcant_sd),
   dcant_inv_all %&gt;%
     filter(data_source == &quot;mod_truth&quot;,
-           MLR_basins == &quot;2&quot;) %&gt;% 
+           CANYON_B_sample_SD == &quot;2&quot;) %&gt;% 
     select(lat, lon, period, dcant)
 )
 
@@ -1082,44 +830,7 @@ dcant_inv_ensemble_bias %&gt;%
                  col = &quot;bias&quot;,
                  subtitle_text = &quot;Ensemble mean - mod_truth&quot;) +
   facet_grid(. ~ period)</code></pre>
-<p><img src="figure/classic_column_inventories.Rmd/ensemble_mean_bias-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_mean_bias-1">
-Past versions of ensemble_mean_bias-1.png
-</button>
-</p>
-<div id="fig-ensemble_mean_bias-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/35ad8b5f21422505d0d05ee312155902eeccf030/docs/figure/classic_column_inventories.Rmd/ensemble_mean_bias-1.png" target="_blank">35ad8b5</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-20
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/canyon_b_cleaning_column_inventories.Rmd/ensemble_mean_bias-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="standard-deviation" class="section level2" number="3.3">
 <h2 number="3.3"><span class="header-section-number">3.3</span> Standard deviation</h2>
@@ -1130,44 +841,7 @@ jens-daniel-mueller
   subtitle_text = paste(&quot;Ensemble SD&quot;)
 ) +
   facet_grid(period ~ data_source)</code></pre>
-<p><img src="figure/classic_column_inventories.Rmd/ensemble_sd-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_sd-1">
-Past versions of ensemble_sd-1.png
-</button>
-</p>
-<div id="fig-ensemble_sd-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/35ad8b5f21422505d0d05ee312155902eeccf030/docs/figure/classic_column_inventories.Rmd/ensemble_sd-1.png" target="_blank">35ad8b5</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-20
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/canyon_b_cleaning_column_inventories.Rmd/ensemble_sd-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="sd-vs-bias" class="section level2" number="3.4">
 <h2 number="3.4"><span class="header-section-number">3.4</span> SD vs bias</h2>
@@ -1176,44 +850,7 @@ jens-daniel-mueller
   geom_bin2d() +
   scale_fill_viridis_c() +
   facet_grid(. ~ period)</code></pre>
-<p><img src="figure/classic_column_inventories.Rmd/ensemble_sd_vs_bias-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_sd_vs_bias-1">
-Past versions of ensemble_sd_vs_bias-1.png
-</button>
-</p>
-<div id="fig-ensemble_sd_vs_bias-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/35ad8b5f21422505d0d05ee312155902eeccf030/docs/figure/classic_column_inventories.Rmd/ensemble_sd_vs_bias-1.png" target="_blank">35ad8b5</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-20
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/canyon_b_cleaning_column_inventories.Rmd/ensemble_sd_vs_bias-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>dcant_inv_ensemble_bias %&gt;% 
   select(dcant_mean, dcant_mean_bias, period) %&gt;% 
   pivot_longer(dcant_mean:dcant_mean_bias,
@@ -1222,87 +859,13 @@ jens-daniel-mueller
   ggplot(aes(value, col=estimate, linetype = period)) +
   scale_color_brewer(palette = &quot;Set1&quot;) +
   geom_density()</code></pre>
-<p><img src="figure/classic_column_inventories.Rmd/ensemble_sd_vs_bias-2.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_sd_vs_bias-2">
-Past versions of ensemble_sd_vs_bias-2.png
-</button>
-</p>
-<div id="fig-ensemble_sd_vs_bias-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/35ad8b5f21422505d0d05ee312155902eeccf030/docs/figure/classic_column_inventories.Rmd/ensemble_sd_vs_bias-2.png" target="_blank">35ad8b5</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-20
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/canyon_b_cleaning_column_inventories.Rmd/ensemble_sd_vs_bias-2.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>dcant_inv_ensemble %&gt;% 
   ggplot(aes(dcant_sd)) +
   geom_histogram() +
   facet_grid(data_source ~ period) +
   coord_cartesian(ylim = c(0,50))</code></pre>
-<p><img src="figure/classic_column_inventories.Rmd/ensemble_sd_vs_bias-3.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_sd_vs_bias-3">
-Past versions of ensemble_sd_vs_bias-3.png
-</button>
-</p>
-<div id="fig-ensemble_sd_vs_bias-3" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/35ad8b5f21422505d0d05ee312155902eeccf030/docs/figure/classic_column_inventories.Rmd/ensemble_sd_vs_bias-3.png" target="_blank">35ad8b5</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-20
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/canyon_b_cleaning_column_inventories.Rmd/ensemble_sd_vs_bias-3.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="range" class="section level2" number="3.5">
 <h2 number="3.5"><span class="header-section-number">3.5</span> Range</h2>
@@ -1313,44 +876,7 @@ jens-daniel-mueller
   subtitle_text = paste(&quot;Ensemble range&quot;)
 ) +
   facet_grid(period ~ data_source)</code></pre>
-<p><img src="figure/classic_column_inventories.Rmd/ensemble_range-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_range-1">
-Past versions of ensemble_range-1.png
-</button>
-</p>
-<div id="fig-ensemble_range-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/35ad8b5f21422505d0d05ee312155902eeccf030/docs/figure/classic_column_inventories.Rmd/ensemble_range-1.png" target="_blank">35ad8b5</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-20
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/canyon_b_cleaning_column_inventories.Rmd/ensemble_range-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="cases-vs-ensemble" class="section level1" number="4">
@@ -1374,87 +900,13 @@ dcant_inv_all %&gt;%
                      col = &quot;bias&quot;,
                      subtitle_text = paste(&quot;period:&quot;,
                                            unique(.x$period))) +
-      facet_grid(MLR_basins ~ data_source)
+      facet_grid(CANYON_B_sample_SD ~ data_source)
   )</code></pre>
 <pre><code>[[1]]</code></pre>
-<p><img src="figure/classic_column_inventories.Rmd/ensemble_deviation_from_mean-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_deviation_from_mean-1">
-Past versions of ensemble_deviation_from_mean-1.png
-</button>
-</p>
-<div id="fig-ensemble_deviation_from_mean-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/35ad8b5f21422505d0d05ee312155902eeccf030/docs/figure/classic_column_inventories.Rmd/ensemble_deviation_from_mean-1.png" target="_blank">35ad8b5</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-20
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/canyon_b_cleaning_column_inventories.Rmd/ensemble_deviation_from_mean-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>
 [[2]]</code></pre>
-<p><img src="figure/classic_column_inventories.Rmd/ensemble_deviation_from_mean-2.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_deviation_from_mean-2">
-Past versions of ensemble_deviation_from_mean-2.png
-</button>
-</p>
-<div id="fig-ensemble_deviation_from_mean-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/35ad8b5f21422505d0d05ee312155902eeccf030/docs/figure/classic_column_inventories.Rmd/ensemble_deviation_from_mean-2.png" target="_blank">35ad8b5</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-20
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/canyon_b_cleaning_column_inventories.Rmd/ensemble_deviation_from_mean-2.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
