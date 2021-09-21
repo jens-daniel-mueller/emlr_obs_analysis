@@ -1,0 +1,364 @@
+---
+title: "Column inventories"
+author: "Jens Daniel Müller"
+date:  "`r format(Sys.time(), '%d %B, %Y')`"
+output: 
+  workflowr::wflow_html:
+    number_sections: true
+    toc_depth: 3
+    toc_float:
+      collapsed: false
+editor_options:
+  chunk_output_type: console
+---
+
+```{r parent, child = "/nfs/kryo/work/jenmueller/emlr_cant/utilities/setup_obs.Rmd"}
+# this chunk runs the code stored in setup.Rmd
+# if required, please refer to instructions given here:
+# https://jdblischak.github.io/workflowr/articles/wflow-07-common-code.html
+```
+
+```{r define_paths, include = FALSE}
+
+# only path_observations needs to be changed to model
+path_observations <-
+  paste(path_root, "/observations/", sep = "")
+
+path_preprocessing    <-
+  paste(path_observations, "preprocessing/", sep = "")
+
+
+path_preprocessing_model    <-
+  paste(path_root, "/model/preprocessing/", sep = "")
+
+```
+
+```{r load_libraries_specific, include = FALSE}
+```
+
+# Read files
+
+```{r read_files}
+
+# identify required version IDs
+
+Version_IDs_1 <- list.files(
+  path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+  pattern = "v_11")
+
+Version_IDs_2 <- list.files(
+  path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+  pattern = "v_21")
+
+Version_IDs <- c(Version_IDs_1, Version_IDs_2)
+rm(Version_IDs_1, Version_IDs_2)
+
+# Version_IDs <- Version_IDs[1:length(Version_IDs)-1]
+
+for (i_Version_IDs in Version_IDs) {
+  # i_Version_IDs <- Version_IDs[1]
+  
+  print(i_Version_IDs)
+  
+  path_version_data     <-
+  paste(path_observations,
+        i_Version_IDs,
+        "/data/",
+        sep = "")
+  
+  # load and join data files
+  
+  dcant_inv <-
+    read_csv(paste(path_version_data,
+                   "dcant_inv.csv",
+                   sep = ""))
+  
+  dcant_inv_mod_truth <-
+    read_csv(paste(path_version_data,
+                   "dcant_inv_mod_truth.csv",
+                   sep = "")) %>% 
+    filter(method == "total") %>% 
+    select(-method)
+  
+  dcant_inv_bias <-
+    read_csv(paste(path_version_data,
+                   "dcant_inv_bias.csv",
+                   sep = ""))
+  
+  dcant_inv <- bind_rows(dcant_inv,
+                         dcant_inv_mod_truth)
+  
+  dcant_inv <- dcant_inv %>% 
+    mutate(Version_ID = i_Version_IDs)
+  
+  dcant_inv_bias <- dcant_inv_bias %>% 
+    mutate(Version_ID = i_Version_IDs)
+  
+  params_local <-
+    read_rds(paste(path_version_data,
+                   "params_local.rds",
+                   sep = ""))
+  
+  params_local <- bind_cols(
+    Version_ID = i_Version_IDs,
+    CANYON_B_sample_SD = as.character(params_local$CANYON_B_sample_SD)
+  )
+  
+  tref <- read_csv(paste(path_version_data,
+                         "tref.csv",
+                         sep = ""))
+  
+  params_local <- params_local %>% 
+    mutate(median_year_1 = sort(tref$median_year)[1],
+           median_year_2 = sort(tref$median_year)[2],
+           duration = median_year_2 - median_year_1,
+           period = paste(median_year_1, "-", median_year_2))
+  
+  if (exists("dcant_inv_all")) {
+    dcant_inv_all <- bind_rows(dcant_inv_all, dcant_inv)
+  }
+  
+  if (!exists("dcant_inv_all")) {
+    dcant_inv_all <- dcant_inv
+  }
+
+  if (exists("dcant_inv_bias_all")) {
+    dcant_inv_bias_all <- bind_rows(dcant_inv_bias_all, dcant_inv_bias)
+  }
+  
+  if (!exists("dcant_inv_bias_all")) {
+    dcant_inv_bias_all <- dcant_inv_bias
+  }
+
+  if (exists("params_local_all")) {
+    params_local_all <- bind_rows(params_local_all, params_local)
+  }
+  
+  if (!exists("params_local_all")) {
+    params_local_all <- params_local
+  }
+  
+  
+}
+
+rm(dcant_inv, dcant_inv_bias, dcant_inv_mod_truth,
+   params_local, tref)
+
+dcant_inv_all <- full_join(dcant_inv_all,
+                           params_local_all)
+
+dcant_inv_bias_all <- full_join(dcant_inv_bias_all,
+                                params_local_all)
+
+```
+
+```{r filter_standard_inventory_depth}
+
+dcant_inv_all <- dcant_inv_all %>%
+  filter(inv_depth == params_global$inventory_depth_standard)
+
+```
+
+# Individual cases
+
+## Absoulte values
+
+```{r cases_absolute, fig.asp=1.2}
+
+dcant_inv_all %>%
+  filter(data_source %in% c("mod", "obs")) %>%
+  group_by(period) %>%
+  group_split() %>%
+  # head(1) %>%
+  map(
+    ~ p_map_cant_inv(df = .x,
+                     var = "dcant",
+                     subtitle_text = paste("period:",
+                                           unique(.x$period))) +
+      facet_grid(CANYON_B_sample_SD ~ data_source)
+  )
+
+
+```
+
+## Biases
+
+```{r cases_bias, fig.asp=1.2}
+
+dcant_inv_bias_all %>%
+  p_map_cant_inv(var = "dcant_bias",
+                 col = "bias",
+                 subtitle_text = "data_source: mod - mod_truth") +
+  facet_grid(CANYON_B_sample_SD ~ period)
+
+
+```
+
+```{r filter_ensemble_member}
+
+
+dcant_inv_bias_all %>%  
+  ggplot(aes(dcant_bias)) +
+  scale_color_brewer(palette = "Set1") +
+  geom_density() +
+  facet_grid(CANYON_B_sample_SD ~ period) +
+  coord_cartesian(xlim = c(-10,10))
+
+
+dcant_inv_ensemble_member <- dcant_inv_bias_all %>% 
+  group_by(period, CANYON_B_sample_SD) %>% 
+  summarise(dcant_sd = sd(dcant_bias)) %>% 
+  ungroup()
+
+dcant_inv_ensemble_member %>% 
+  ggplot(aes(CANYON_B_sample_SD, dcant_sd, col = period)) +
+  geom_point()
+
+```
+
+
+
+# Ensemble
+
+```{r calc_ensemble_metrics}
+
+dcant_inv_ensemble <- dcant_inv_all %>% 
+  filter(data_source %in% c("mod", "obs")) %>% 
+  group_by(lat, lon, data_source, period) %>% 
+  summarise(dcant_mean = mean(dcant),
+            dcant_sd = sd(dcant),
+            dcant_range = max(dcant)- min(dcant)) %>% 
+  ungroup()
+
+
+```
+
+## Mean
+
+```{r ensemble_mean, fig.asp=0.5}
+
+p_map_cant_inv(df = dcant_inv_ensemble,
+                     var = "dcant_mean",
+                     subtitle_text = paste("Ensemble means")) +
+      facet_grid(period ~ data_source)
+
+```
+
+## Mean bias
+
+```{r ensemble_mean_bias}
+
+dcant_inv_ensemble_bias <- full_join(
+  dcant_inv_ensemble %>%
+    filter(data_source == "mod") %>% 
+    select(lat, lon, period, dcant_mean, dcant_sd),
+  dcant_inv_all %>%
+    filter(data_source == "mod_truth",
+           CANYON_B_sample_SD == "2") %>% 
+    select(lat, lon, period, dcant)
+)
+
+dcant_inv_ensemble_bias <- dcant_inv_ensemble_bias %>% 
+  mutate(dcant_mean_bias = dcant_mean - dcant)
+
+dcant_inv_ensemble_bias %>%
+  p_map_cant_inv(var = "dcant_mean_bias",
+                 col = "bias",
+                 subtitle_text = "Ensemble mean - mod_truth") +
+  facet_grid(. ~ period)
+
+```
+
+
+## Standard deviation
+
+```{r ensemble_sd, fig.asp=0.5}
+
+p_map_cant_inv(
+  df = dcant_inv_ensemble,
+  var = "dcant_sd",
+  breaks = c(seq(0,4,0.4), Inf),
+  subtitle_text = paste("Ensemble SD")
+) +
+  facet_grid(period ~ data_source)
+
+
+
+```
+
+
+## SD vs bias
+
+```{r ensemble_sd_vs_bias, fig.asp=0.5}
+
+dcant_inv_ensemble_bias %>% 
+  ggplot(aes(dcant_mean_bias, dcant_sd)) +
+  geom_bin2d() +
+  scale_fill_viridis_c() +
+  facet_grid(. ~ period)
+
+
+dcant_inv_ensemble_bias %>% 
+  select(dcant_mean, dcant_mean_bias, period) %>% 
+  pivot_longer(dcant_mean:dcant_mean_bias,
+               names_to = "estimate",
+               values_to = "value") %>% 
+  ggplot(aes(value, col=estimate, linetype = period)) +
+  scale_color_brewer(palette = "Set1") +
+  geom_density()
+
+dcant_inv_ensemble %>% 
+  ggplot(aes(dcant_sd)) +
+  geom_histogram() +
+  facet_grid(data_source ~ period) +
+  coord_cartesian(ylim = c(0,50))
+
+```
+
+## Range
+
+```{r ensemble_range, fig.asp=0.5}
+
+p_map_cant_inv(
+  df = dcant_inv_ensemble,
+  var = "dcant_range",
+  breaks = c(seq(0,8,0.8), Inf),
+  subtitle_text = paste("Ensemble range")
+) +
+  facet_grid(period ~ data_source)
+
+
+
+```
+
+# Cases vs ensemble
+
+## Offset from mean
+
+```{r ensemble_deviation_from_mean}
+
+dcant_inv_all <- full_join(dcant_inv_all,
+                           dcant_inv_ensemble)
+
+dcant_inv_all <- dcant_inv_all %>% 
+  mutate(dcant_offset = dcant - dcant_mean)
+
+dcant_inv_all %>%
+  filter(data_source %in% c("mod", "obs")) %>%
+  group_by(period) %>%
+  group_split() %>%
+  # head(1) %>%
+  map(
+    ~ p_map_cant_inv(df = .x,
+                     var = "dcant_offset",
+                     col = "bias",
+                     subtitle_text = paste("period:",
+                                           unique(.x$period))) +
+      facet_grid(CANYON_B_sample_SD ~ data_source)
+  )
+
+
+```
+
+
+
