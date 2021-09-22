@@ -12,15 +12,24 @@
 <meta name="author" content="Jens Daniel Müller" />
 
 
-<title>VIF: Column inventories</title>
+<title>Column inventories</title>
 
-<script src="site_libs/header-attrs-2.5/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
@@ -28,8 +37,6 @@
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -53,11 +60,6 @@ div.section {
     </style>
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
 <script type="text/javascript">
 if (window.hljs) {
   hljs.configure({languages: []});
@@ -70,32 +72,7 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
+
 
 
 
@@ -105,10 +82,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -125,40 +98,13 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 51px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h2 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h3 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h4 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h5 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h6 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -186,7 +132,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -198,7 +144,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -209,10 +155,23 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -224,7 +183,6 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -359,7 +317,7 @@ div.tocify {
 
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
+<div class="row">
 <div class="col-xs-12 col-sm-4 col-md-3">
 <div id="TOC" class="tocify">
 </div>
@@ -387,43 +345,58 @@ div.tocify {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Standard cases
+    Classic cases
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="budgets.html">Budgets</a>
+      <a href="classic_budgets.html">Budgets</a>
     </li>
     <li>
-      <a href="column_inventories.html">Column inventories</a>
+      <a href="classic_column_inventories.html">Column inventories</a>
     </li>
     <li>
-      <a href="zonal_sections.html">Zonal sections</a>
-    </li>
-    <li>
-      <a href="slab_inventories.html">Slab inventories</a>
+      <a href="classic_zonal_sections.html">Zonal sections</a>
     </li>
   </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Gap filling
+    CANYON-B cleaning
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="gap_filling_budgets.html">Budgets</a>
+      <a href="canyon_b_cleaning_overview.html">Overview</a>
     </li>
     <li>
-      <a href="gap_filling_column_inventories.html">Column inventories</a>
+      <a href="canyon_b_cleaning_budgets.html">Budgets</a>
     </li>
     <li>
-      <a href="gap_filling_zonal_sections.html">Zonal sections</a>
+      <a href="canyon_b_cleaning_column_inventories.html">Column inventories</a>
     </li>
     <li>
-      <a href="gap_filling_slab_inventories.html">Slab inventories</a>
+      <a href="canyon_b_cleaning_zonal_sections.html">Zonal sections</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Global MLR cleaning
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="global_MLR_cleaning_budgets.html">Budgets</a>
+    </li>
+    <li>
+      <a href="global_MLR_cleaning_column_inventories.html">Column inventories</a>
+    </li>
+    <li>
+      <a href="global_MLR_cleaning_zonal_sections.html">Zonal sections</a>
     </li>
   </ul>
 </li>
@@ -443,9 +416,6 @@ div.tocify {
     <li>
       <a href="rarefication_zonal_sections.html">Zonal sections</a>
     </li>
-    <li>
-      <a href="rarefication_slab_inventories.html">Slab inventories</a>
-    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -463,21 +433,6 @@ div.tocify {
     </li>
     <li>
       <a href="vif_zonal_sections.html">Zonal sections</a>
-    </li>
-    <li>
-      <a href="vif_slab_inventories.html">Slab inventories</a>
-    </li>
-  </ul>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    tref
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="tref_zonal_sections.html">Zonal sections</a>
     </li>
   </ul>
 </li>
@@ -502,11 +457,11 @@ div.tocify {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
+<div id="header">
 
-<div class="btn-group pull-right">
-<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
-<ul class="dropdown-menu" style="min-width: 50px;">
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
 <li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
 <li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
 </ul>
@@ -514,9 +469,9 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">VIF: Column inventories</h1>
+<h1 class="title toc-ignore">Column inventories</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">02 August, 2021</h4>
+<h4 class="date">22 September, 2021</h4>
 
 </div>
 
@@ -541,7 +496,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-08-02
+<strong>Last updated:</strong> 2021-09-22
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -632,16 +587,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree29564fb565295cc63c28b0d76431e70b6f4de025targetblank29564fba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/29564fb565295cc63c28b0d76431e70b6f4de025" target="_blank">29564fb</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree1abd05141baf5be7a739bdfba9d9e1686b278e21targetblank1abd051a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/1abd05141baf5be7a739bdfba9d9e1686b278e21" target="_blank">1abd051</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree29564fb565295cc63c28b0d76431e70b6f4de025targetblank29564fba" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree1abd05141baf5be7a739bdfba9d9e1686b278e21targetblank1abd051a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/29564fb565295cc63c28b0d76431e70b6f4de025" target="_blank">29564fb</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/1abd05141baf5be7a739bdfba9d9e1686b278e21" target="_blank">1abd051</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -654,8 +609,16 @@ Ignored files:
     Ignored:    output/Gruber_2019_comparison/
     Ignored:    output/publication/
 
+Untracked files:
+    Untracked:  code/classic_slab_inventories.Rmd
+
 Unstaged changes:
     Modified:   analysis/_site.yml
+    Deleted:    analysis/budgets.Rmd
+    Deleted:    analysis/classic_slab_inventories.Rmd
+    Deleted:    analysis/column_inventories.Rmd
+    Deleted:    analysis/slab_inventories.Rmd
+    Deleted:    analysis/zonal_sections.Rmd
     Modified:   code/Workflowr_project_managment.R
 
 </code></pre>
@@ -700,6 +663,57 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1abd05141baf5be7a739bdfba9d9e1686b278e21/analysis/vif_column_inventories.Rmd" target="_blank">1abd051</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-09-22
+</td>
+<td>
+rebuildt with vif results
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/f47469937e399a735afff21e90b2f8aef1919e08/analysis/vif_column_inventories.Rmd" target="_blank">f474699</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-17
+</td>
+<td>
+ensemble filtering
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/bd9ce6b16b55517d1793a2a63a8d259a077c22ce/docs/vif_column_inventories.html" target="_blank">bd9ce6b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-02
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/29564fb565295cc63c28b0d76431e70b6f4de025/analysis/vif_column_inventories.Rmd" target="_blank">29564fb</a>
 </td>
 <td>
@@ -723,19 +737,15 @@ rebuildt with vif analysis
 <h1 number="1"><span class="header-section-number">1</span> Read files</h1>
 <pre class="r"><code># identify required version IDs
 
-# Version_IDs &lt;- list.files(
-#   path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
-#   pattern = &quot;v_&quot;)[1:34]
-
 Version_IDs_1 &lt;- list.files(
   path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
-  pattern = &quot;v_13&quot;)
+  pattern = &quot;v_15&quot;)
 
 Version_IDs_2 &lt;- list.files(
   path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
-  pattern = &quot;v_23&quot;)
+  pattern = &quot;v_25&quot;)
 
-Version_IDs &lt;- c(Version_IDs_1, Version_IDs_2, &quot;v_102&quot;, &quot;v_202&quot;)
+Version_IDs &lt;- c(Version_IDs_1, Version_IDs_2)
 rm(Version_IDs_1, Version_IDs_2)
 
 # Version_IDs &lt;- Version_IDs[1:length(Version_IDs)-1]
@@ -786,14 +796,7 @@ for (i_Version_IDs in Version_IDs) {
   
   params_local &lt;- bind_cols(
     Version_ID = i_Version_IDs,
-    MLR_basins = params_local$MLR_basins,
-    tref1 = params_local$tref1,
-    tref2 = params_local$tref2,
-    gap_filling = params_local$gap_filling,
-    rarefication = params_local$rarefication,
-    rarefication_threshold = params_local$rarefication_threshold,
-    MLR_predictors = str_c(params_local$MLR_predictors, collapse = &quot;+&quot;),
-    vif_max = params_local$vif_max
+    vif_max = as.character(params_local$vif_max)
   )
   
   tref &lt;- read_csv(paste(path_version_data,
@@ -832,21 +835,16 @@ for (i_Version_IDs in Version_IDs) {
   
   
 }</code></pre>
-<pre><code>[1] &quot;v_131&quot;
-[1] &quot;v_132&quot;
-[1] &quot;v_133&quot;
-[1] &quot;v_134&quot;
-[1] &quot;v_231&quot;
-[1] &quot;v_232&quot;
-[1] &quot;v_233&quot;
-[1] &quot;v_234&quot;
-[1] &quot;v_102&quot;
-[1] &quot;v_202&quot;</code></pre>
+<pre><code>[1] &quot;v_1501&quot;
+[1] &quot;v_1502&quot;
+[1] &quot;v_1503&quot;
+[1] &quot;v_1504&quot;
+[1] &quot;v_2501&quot;
+[1] &quot;v_2502&quot;
+[1] &quot;v_2503&quot;
+[1] &quot;v_2504&quot;</code></pre>
 <pre class="r"><code>rm(dcant_inv, dcant_inv_bias, dcant_inv_mod_truth,
    params_local, tref)
-
-params_local_all &lt;- params_local_all %&gt;% 
-  mutate(vif_max = fct_inseq(as.factor(as.character(vif_max))))
 
 dcant_inv_all &lt;- full_join(dcant_inv_all,
                            params_local_all)
@@ -864,7 +862,7 @@ dcant_inv_bias_all &lt;- full_join(dcant_inv_bias_all,
   filter(data_source %in% c(&quot;mod&quot;, &quot;obs&quot;)) %&gt;%
   group_by(period) %&gt;%
   group_split() %&gt;%
-  # head(1) %&gt;% 
+  # head(1) %&gt;%
   map(
     ~ p_map_cant_inv(df = .x,
                      var = &quot;dcant&quot;,
@@ -874,9 +872,83 @@ dcant_inv_bias_all &lt;- full_join(dcant_inv_bias_all,
   )</code></pre>
 <pre><code>[[1]]</code></pre>
 <p><img src="figure/vif_column_inventories.Rmd/cases_absolute-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_absolute-1">
+Past versions of cases_absolute-1.png
+</button>
+</p>
+<div id="fig-cases_absolute-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/bd9ce6b16b55517d1793a2a63a8d259a077c22ce/docs/figure/vif_column_inventories.Rmd/cases_absolute-1.png" target="_blank">bd9ce6b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-02
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>
 [[2]]</code></pre>
 <p><img src="figure/vif_column_inventories.Rmd/cases_absolute-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_absolute-2">
+Past versions of cases_absolute-2.png
+</button>
+</p>
+<div id="fig-cases_absolute-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/bd9ce6b16b55517d1793a2a63a8d259a077c22ce/docs/figure/vif_column_inventories.Rmd/cases_absolute-2.png" target="_blank">bd9ce6b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-02
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="biases" class="section level2" number="2.2">
 <h2 number="2.2"><span class="header-section-number">2.2</span> Biases</h2>
@@ -886,6 +958,59 @@ dcant_inv_bias_all &lt;- full_join(dcant_inv_bias_all,
                  subtitle_text = &quot;data_source: mod - mod_truth&quot;) +
   facet_grid(vif_max ~ period)</code></pre>
 <p><img src="figure/vif_column_inventories.Rmd/cases_bias-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_bias-1">
+Past versions of cases_bias-1.png
+</button>
+</p>
+<div id="fig-cases_bias-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/bd9ce6b16b55517d1793a2a63a8d259a077c22ce/docs/figure/vif_column_inventories.Rmd/cases_bias-1.png" target="_blank">bd9ce6b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-02
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>dcant_inv_bias_all %&gt;%  
+  ggplot(aes(dcant_bias)) +
+  scale_color_brewer(palette = &quot;Set1&quot;) +
+  geom_density() +
+  facet_grid(vif_max ~ period) +
+  coord_cartesian(xlim = c(-10,10))</code></pre>
+<p><img src="figure/vif_column_inventories.Rmd/filter_ensemble_member-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dcant_inv_ensemble_member &lt;- dcant_inv_bias_all %&gt;% 
+  group_by(period, vif_max) %&gt;% 
+  summarise(dcant_sd = sd(dcant_bias)) %&gt;% 
+  ungroup()
+
+dcant_inv_ensemble_member %&gt;% 
+  ggplot(aes(vif_max, dcant_sd, col = period)) +
+  geom_point()</code></pre>
+<p><img src="figure/vif_column_inventories.Rmd/filter_ensemble_member-2.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="ensemble" class="section level1" number="3">
@@ -904,6 +1029,43 @@ dcant_inv_bias_all &lt;- full_join(dcant_inv_bias_all,
                      subtitle_text = paste(&quot;Ensemble means&quot;)) +
       facet_grid(period ~ data_source)</code></pre>
 <p><img src="figure/vif_column_inventories.Rmd/ensemble_mean-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_mean-1">
+Past versions of ensemble_mean-1.png
+</button>
+</p>
+<div id="fig-ensemble_mean-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/bd9ce6b16b55517d1793a2a63a8d259a077c22ce/docs/figure/vif_column_inventories.Rmd/ensemble_mean-1.png" target="_blank">bd9ce6b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-02
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="mean-bias" class="section level2" number="3.2">
 <h2 number="3.2"><span class="header-section-number">3.2</span> Mean bias</h2>
@@ -913,7 +1075,7 @@ dcant_inv_bias_all &lt;- full_join(dcant_inv_bias_all,
     select(lat, lon, period, dcant_mean, dcant_sd),
   dcant_inv_all %&gt;%
     filter(data_source == &quot;mod_truth&quot;,
-           vif_max == &quot;500&quot;) %&gt;% 
+           Version_ID %in% c(&quot;v_1501&quot;, &quot;v_2501&quot;)) %&gt;% 
     select(lat, lon, period, dcant)
 )
 
@@ -926,17 +1088,91 @@ dcant_inv_ensemble_bias %&gt;%
                  subtitle_text = &quot;Ensemble mean - mod_truth&quot;) +
   facet_grid(. ~ period)</code></pre>
 <p><img src="figure/vif_column_inventories.Rmd/ensemble_mean_bias-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_mean_bias-1">
+Past versions of ensemble_mean_bias-1.png
+</button>
+</p>
+<div id="fig-ensemble_mean_bias-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/bd9ce6b16b55517d1793a2a63a8d259a077c22ce/docs/figure/vif_column_inventories.Rmd/ensemble_mean_bias-1.png" target="_blank">bd9ce6b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-02
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="standard-deviation" class="section level2" number="3.3">
 <h2 number="3.3"><span class="header-section-number">3.3</span> Standard deviation</h2>
 <pre class="r"><code>p_map_cant_inv(
   df = dcant_inv_ensemble,
   var = &quot;dcant_sd&quot;,
-  breaks = c(seq(0,4,0.4), Inf),
+  breaks = c(seq(0, 4, 0.4), Inf),
   subtitle_text = paste(&quot;Ensemble SD&quot;)
 ) +
   facet_grid(period ~ data_source)</code></pre>
 <p><img src="figure/vif_column_inventories.Rmd/ensemble_sd-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_sd-1">
+Past versions of ensemble_sd-1.png
+</button>
+</p>
+<div id="fig-ensemble_sd-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/bd9ce6b16b55517d1793a2a63a8d259a077c22ce/docs/figure/vif_column_inventories.Rmd/ensemble_sd-1.png" target="_blank">bd9ce6b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-02
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="sd-vs-bias" class="section level2" number="3.4">
 <h2 number="3.4"><span class="header-section-number">3.4</span> SD vs bias</h2>
@@ -946,6 +1182,43 @@ dcant_inv_ensemble_bias %&gt;%
   scale_fill_viridis_c() +
   facet_grid(. ~ period)</code></pre>
 <p><img src="figure/vif_column_inventories.Rmd/ensemble_sd_vs_bias-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_sd_vs_bias-1">
+Past versions of ensemble_sd_vs_bias-1.png
+</button>
+</p>
+<div id="fig-ensemble_sd_vs_bias-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/bd9ce6b16b55517d1793a2a63a8d259a077c22ce/docs/figure/vif_column_inventories.Rmd/ensemble_sd_vs_bias-1.png" target="_blank">bd9ce6b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-02
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>dcant_inv_ensemble_bias %&gt;% 
   select(dcant_mean, dcant_mean_bias, period) %&gt;% 
   pivot_longer(dcant_mean:dcant_mean_bias,
@@ -955,12 +1228,86 @@ dcant_inv_ensemble_bias %&gt;%
   scale_color_brewer(palette = &quot;Set1&quot;) +
   geom_density()</code></pre>
 <p><img src="figure/vif_column_inventories.Rmd/ensemble_sd_vs_bias-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_sd_vs_bias-2">
+Past versions of ensemble_sd_vs_bias-2.png
+</button>
+</p>
+<div id="fig-ensemble_sd_vs_bias-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/bd9ce6b16b55517d1793a2a63a8d259a077c22ce/docs/figure/vif_column_inventories.Rmd/ensemble_sd_vs_bias-2.png" target="_blank">bd9ce6b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-02
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>dcant_inv_ensemble %&gt;% 
   ggplot(aes(dcant_sd)) +
   geom_histogram() +
   facet_grid(data_source ~ period) +
   coord_cartesian(ylim = c(0,50))</code></pre>
 <p><img src="figure/vif_column_inventories.Rmd/ensemble_sd_vs_bias-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_sd_vs_bias-3">
+Past versions of ensemble_sd_vs_bias-3.png
+</button>
+</p>
+<div id="fig-ensemble_sd_vs_bias-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/bd9ce6b16b55517d1793a2a63a8d259a077c22ce/docs/figure/vif_column_inventories.Rmd/ensemble_sd_vs_bias-3.png" target="_blank">bd9ce6b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-02
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="range" class="section level2" number="3.5">
 <h2 number="3.5"><span class="header-section-number">3.5</span> Range</h2>
@@ -972,6 +1319,43 @@ dcant_inv_ensemble_bias %&gt;%
 ) +
   facet_grid(period ~ data_source)</code></pre>
 <p><img src="figure/vif_column_inventories.Rmd/ensemble_range-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_range-1">
+Past versions of ensemble_range-1.png
+</button>
+</p>
+<div id="fig-ensemble_range-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/bd9ce6b16b55517d1793a2a63a8d259a077c22ce/docs/figure/vif_column_inventories.Rmd/ensemble_range-1.png" target="_blank">bd9ce6b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-02
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="cases-vs-ensemble" class="section level1" number="4">
@@ -999,9 +1383,83 @@ dcant_inv_all %&gt;%
   )</code></pre>
 <pre><code>[[1]]</code></pre>
 <p><img src="figure/vif_column_inventories.Rmd/ensemble_deviation_from_mean-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_deviation_from_mean-1">
+Past versions of ensemble_deviation_from_mean-1.png
+</button>
+</p>
+<div id="fig-ensemble_deviation_from_mean-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/bd9ce6b16b55517d1793a2a63a8d259a077c22ce/docs/figure/vif_column_inventories.Rmd/ensemble_deviation_from_mean-1.png" target="_blank">bd9ce6b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-02
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>
 [[2]]</code></pre>
 <p><img src="figure/vif_column_inventories.Rmd/ensemble_deviation_from_mean-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_deviation_from_mean-2">
+Past versions of ensemble_deviation_from_mean-2.png
+</button>
+</p>
+<div id="fig-ensemble_deviation_from_mean-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/bd9ce6b16b55517d1793a2a63a8d259a077c22ce/docs/figure/vif_column_inventories.Rmd/ensemble_deviation_from_mean-2.png" target="_blank">bd9ce6b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-02
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1032,34 +1490,35 @@ attached base packages:
 other attached packages:
  [1] ggforce_0.3.3   metR_0.9.0      scico_1.2.0     patchwork_1.1.1
  [5] collapse_1.5.0  forcats_0.5.0   stringr_1.4.0   dplyr_1.0.5    
- [9] purrr_0.3.4     readr_1.4.0     tidyr_1.1.2     tibble_3.0.4   
-[13] ggplot2_3.3.3   tidyverse_1.3.0 workflowr_1.6.2
+ [9] purrr_0.3.4     readr_1.4.0     tidyr_1.1.3     tibble_3.1.3   
+[13] ggplot2_3.3.5   tidyverse_1.3.0 workflowr_1.6.2
 
 loaded via a namespace (and not attached):
- [1] httr_1.4.2               viridisLite_0.3.0        jsonlite_1.7.1          
- [4] modelr_0.1.8             assertthat_0.2.1         blob_1.2.1              
- [7] cellranger_1.1.0         yaml_2.2.1               pillar_1.4.7            
-[10] backports_1.1.10         lattice_0.20-41          glue_1.4.2              
-[13] RcppEigen_0.3.3.7.0      digest_0.6.27            RColorBrewer_1.1-2      
-[16] promises_1.1.1           polyclip_1.10-0          checkmate_2.0.0         
-[19] rvest_0.3.6              colorspace_1.4-1         htmltools_0.5.0         
-[22] httpuv_1.5.4             Matrix_1.2-18            pkgconfig_2.0.3         
-[25] broom_0.7.5              haven_2.3.1              scales_1.1.1            
-[28] tweenr_1.0.2             whisker_0.4              later_1.1.0.1           
-[31] git2r_0.27.1             generics_0.0.2           farver_2.0.3            
-[34] ellipsis_0.3.1           withr_2.3.0              cli_2.1.0               
-[37] magrittr_1.5             crayon_1.3.4             readxl_1.3.1            
-[40] evaluate_0.14            fs_1.5.0                 fansi_0.4.1             
-[43] MASS_7.3-53              xml2_1.3.2               RcppArmadillo_0.10.1.2.0
-[46] tools_4.0.3              data.table_1.13.2        hms_0.5.3               
-[49] lifecycle_1.0.0          munsell_0.5.0            reprex_0.3.0            
-[52] compiler_4.0.3           rlang_0.4.10             grid_4.0.3              
-[55] rstudioapi_0.11          labeling_0.4.2           rmarkdown_2.5           
-[58] gtable_0.3.0             DBI_1.1.0                R6_2.5.0                
-[61] lubridate_1.7.9          knitr_1.30               rprojroot_2.0.2         
-[64] stringi_1.5.3            parallel_4.0.3           Rcpp_1.0.5              
-[67] vctrs_0.3.5              dbplyr_1.4.4             tidyselect_1.1.0        
-[70] xfun_0.18               </code></pre>
+ [1] httr_1.4.2               sass_0.4.0               viridisLite_0.3.0       
+ [4] jsonlite_1.7.1           modelr_0.1.8             bslib_0.2.5.1           
+ [7] assertthat_0.2.1         highr_0.8                blob_1.2.1              
+[10] cellranger_1.1.0         yaml_2.2.1               pillar_1.6.2            
+[13] backports_1.1.10         lattice_0.20-41          glue_1.4.2              
+[16] RcppEigen_0.3.3.7.0      digest_0.6.27            RColorBrewer_1.1-2      
+[19] promises_1.1.1           polyclip_1.10-0          checkmate_2.0.0         
+[22] rvest_0.3.6              colorspace_2.0-2         htmltools_0.5.1.1       
+[25] httpuv_1.5.4             Matrix_1.2-18            pkgconfig_2.0.3         
+[28] broom_0.7.9              haven_2.3.1              scales_1.1.1            
+[31] tweenr_1.0.2             whisker_0.4              later_1.2.0             
+[34] git2r_0.27.1             farver_2.0.3             generics_0.1.0          
+[37] ellipsis_0.3.2           withr_2.3.0              cli_3.0.1               
+[40] magrittr_1.5             crayon_1.3.4             readxl_1.3.1            
+[43] evaluate_0.14            fs_1.5.0                 fansi_0.4.1             
+[46] MASS_7.3-53              xml2_1.3.2               RcppArmadillo_0.10.1.2.0
+[49] tools_4.0.3              data.table_1.14.0        hms_0.5.3               
+[52] lifecycle_1.0.0          munsell_0.5.0            reprex_0.3.0            
+[55] compiler_4.0.3           jquerylib_0.1.4          rlang_0.4.11            
+[58] grid_4.0.3               rstudioapi_0.13          labeling_0.4.2          
+[61] rmarkdown_2.10           gtable_0.3.0             DBI_1.1.0               
+[64] R6_2.5.0                 lubridate_1.7.9          knitr_1.33              
+[67] utf8_1.1.4               rprojroot_2.0.2          stringi_1.5.3           
+[70] parallel_4.0.3           Rcpp_1.0.5               vctrs_0.3.8             
+[73] dbplyr_1.4.4             tidyselect_1.1.0         xfun_0.25               </code></pre>
 </div>
 </div>
 </div>
@@ -1107,7 +1566,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>
@@ -1121,6 +1580,9 @@ $(document).ready(function () {
 
 <script>
 $(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
 
     // move toc-ignore selectors from section div to header
     $('div.section.toc-ignore')
