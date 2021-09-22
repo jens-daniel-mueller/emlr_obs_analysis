@@ -5,7 +5,7 @@
 
 
 # commit regular changes (locally) and rebuild site
-wflow_publish(all = TRUE, message = "SDs vs rarefication threshold")
+wflow_publish(all = TRUE, message = "new vif analysis added")
 
 # commit changes including _site.yml (locally) and rebuild site
 wflow_publish(c("analysis/*Rmd"), message = "XXX", republish = TRUE)
@@ -16,33 +16,21 @@ wflow_publish(here::here("analysis",
                            "vif_budgets.Rmd",
                            "vif_column_inventories.Rmd",
                            "vif_zonal_sections.Rmd",
-                           "vif_slab_inventories.Rmd",
-                           "budgets.Rmd",
-                           "column_inventories.Rmd",
-                           "zonal_sections.Rmd",
-                           "slab_inventories.Rmd",
-                           "gap_filling_budgets.Rmd",
-                           "gap_filling_column_inventories.Rmd",
-                           "gap_filling_zonal_sections.Rmd",
-                           "gap_filling_slab_inventories.Rmd",
+                           "classic_budgets.Rmd",
+                           "classic_column_inventories.Rmd",
+                           "classic_zonal_sections.Rmd",
+                           "canyon_b_cleaning_overview.Rmd",
+                           "canyon_b_cleaning_budgets.Rmd",
+                           "canyon_b_cleaning_column_inventories.Rmd",
+                           "canyon_b_cleaning_zonal_sections.Rmd",
+                           "global_MLR_cleaning_budgets.Rmd",
+                           "global_MLR_cleaning_column_inventories.Rmd",
+                           "global_MLR_cleaning_zonal_sections.Rmd",
                            "rarefication_budgets.Rmd",
                            "rarefication_column_inventories.Rmd",
-                           "rarefication_zonal_sections.Rmd",
-                           "rarefication_slab_inventories.Rmd",
-                           "tref_zonal_sections.Rmd"
+                           "rarefication_zonal_sections.Rmd"
                            )),
-              message = "rebuildt with vif analysis",
-              republish = TRUE)
-
-
-wflow_publish(here::here("analysis",
-                         c("index.Rmd",
-                           "budgets.Rmd",
-                           "column_inventories.Rmd",
-                           "zonal_sections.Rmd",
-                           "slab_inventories.Rmd"
-                           )),
-              message = "rebuildt with ensemble filter",
+              message = "rebuildt with vif results",
               republish = TRUE)
 
 

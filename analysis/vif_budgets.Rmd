@@ -99,7 +99,7 @@ for (i_Version_IDs in Version_IDs) {
   
   params_local <- bind_cols(
     Version_ID = i_Version_IDs,
-    vif_max = as.character(params_local$vif_max)
+    vif_max = params_local$vif_max
   )
   
   tref <- read_csv(paste(path_version_data,
@@ -151,6 +151,9 @@ rm(
   params_local,
   tref
 )
+
+params_local_all <- params_local_all %>% 
+  mutate(vif_max = fct_inseq(as.factor(as.character(vif_max))))
 
 dcant_budget_global_all <- full_join(dcant_budget_global_all,
                                      params_local_all)
