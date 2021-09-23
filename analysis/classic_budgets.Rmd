@@ -50,8 +50,13 @@ Version_IDs_1 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observat
 Version_IDs_2 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
                             pattern = "v_20")
 
-Version_IDs <- c(Version_IDs_1, Version_IDs_2)
-rm(Version_IDs_1, Version_IDs_2)
+Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = "v_31")
+
+# Version_IDs <- c(Version_IDs_1, Version_IDs_2)
+Version_IDs <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
+# rm(Version_IDs_1, Version_IDs_2)
+rm(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 
 for (i_Version_IDs in Version_IDs) {
   # i_Version_IDs <- Version_IDs[1]
@@ -197,7 +202,7 @@ dcant_budget_global_bias_all <- dcant_budget_global_bias_all %>%
 ```{r define_threshold}
 
 global_bias_rel_max <- 5
-regional_bias_rel_max <- 10
+regional_bias_rel_max <- 20
 
 ```
 
@@ -564,7 +569,7 @@ dcant_budget_basin_AIP_bias_all %>%
 ensemble_MLR_basins_regional <- dcant_budget_basin_AIP_bias_all %>% 
   filter(dcant_bias_rel < regional_bias_rel_max) %>% 
   count(MLR_basins) %>% 
-  filter(n == 6) %>% 
+  filter(n == 9) %>% 
   pull(MLR_basins)
 
 ```
