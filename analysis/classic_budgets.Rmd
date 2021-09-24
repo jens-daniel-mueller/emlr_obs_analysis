@@ -245,6 +245,9 @@ dcant_budget_global_bias_all %>%
 
 ```
 
+
+## Ensemble
+
 ```{r filter_ensemble_members_global}
 
 ensemble_MLR_basins_global <- dcant_budget_global_bias_all %>% 
@@ -253,11 +256,12 @@ ensemble_MLR_basins_global <- dcant_budget_global_bias_all %>%
   filter(n == 3) %>% 
   pull(MLR_basins)
 
+ensemble_MLR_basins_global
+
 ```
 
 
 
-## Ensemble
 
 ```{r calc_ensemble_metrics_global}
 
@@ -377,6 +381,10 @@ dcant_budget_global_bias_all_depth %>%
   scale_fill_brewer(palette = "Dark2") +
   facet_grid(inv_depth ~ .)
 
+```
+
+
+```{r clean_environment}
 
 rm(dcant_budget_global_all,
    dcant_budget_global_all_depth,
@@ -387,6 +395,7 @@ rm(dcant_budget_global_all,
    params_local_all)
 
 ```
+
 
 # Regional
 
@@ -583,6 +592,9 @@ dcant_budget_basin_AIP_bias_all %>%
 ```
 
 
+## Ensemble
+
+
 ```{r filter_ensemble_members_regional}
 
 dcant_budget_basin_AIP_bias_all %>% 
@@ -595,11 +607,17 @@ ensemble_MLR_basins_regional <- dcant_budget_basin_AIP_bias_all %>%
   filter(n == 9) %>% 
   pull(MLR_basins)
 
+
+ensemble_MLR_basins_regional <-
+  intersect(ensemble_MLR_basins_global, ensemble_MLR_basins_regional)
+
+ensemble_MLR_basins_regional
+
 ```
 
 
 
-## Ensemble
+
 
 ```{r calc_ensemble_metrics}
 
@@ -738,4 +756,14 @@ dcant_budget_basin_AIP_bias_all_depth %>%
   facet_grid(inv_depth ~ period)
 
 ```
+
+# Write ensemble members
+
+```{r write_ensemble_members}
+
+ensemble_MLR_basins_regional %>% 
+  write_rds("data/ensemble_members.rds")
+
+```
+
 

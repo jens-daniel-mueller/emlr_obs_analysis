@@ -38,6 +38,14 @@ path_preprocessing_model    <-
 
 # Read files
 
+```{r read_ensemble_members}
+
+ensemble_members <- 
+  read_rds("data/ensemble_members.rds")
+
+```
+
+
 ```{r read_files}
 
 # identify required version IDs
@@ -242,7 +250,8 @@ dcant_zonal_bias_all_corr %>%
 ```{r calc_ensemble_metrics}
 
 dcant_zonal_ensemble <- dcant_zonal_all %>% 
-  filter(data_source %in% c("mod", "obs")) %>% 
+  filter(data_source %in% c("mod", "obs"),
+         MLR_basins %in% ensemble_members) %>% 
   group_by(lat, depth, basin_AIP, data_source, period) %>% 
   summarise(dcant_ensemble_mean = mean(dcant),
             dcant_sd = sd(dcant),
