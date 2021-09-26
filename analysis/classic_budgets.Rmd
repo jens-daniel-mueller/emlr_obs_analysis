@@ -560,6 +560,21 @@ dcant_budget_basin_AIP_bias_all <- dcant_budget_basin_AIP_bias_all %>%
 
 ```
 
+
+```{r select_cases_regional}
+
+dcant_budget_basin_AIP_all <- dcant_budget_basin_AIP_all %>% 
+  filter(MLR_basins %in% MLR_basins_in)
+
+dcant_budget_basin_AIP_bias_all <- dcant_budget_basin_AIP_bias_all  %>% 
+  filter(MLR_basins %in% MLR_basins_in)
+
+
+```
+
+
+
+
 ## Individual cases
 
 ### Absoulte values
