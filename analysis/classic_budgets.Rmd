@@ -197,11 +197,25 @@ dcant_budget_global_bias_all <- dcant_budget_global_bias_all %>%
 
 ```
 
+```{r select_cases}
+
+MLR_basins_in <- c("1", "2", "AIP", "SO", "5")
+
+dcant_budget_global_all <- dcant_budget_global_all %>% 
+  filter(MLR_basins %in% MLR_basins_in)
+
+dcant_budget_global_bias_all <- dcant_budget_global_bias_all  %>% 
+  filter(MLR_basins %in% MLR_basins_in)
+
+
+```
+
+
 ## Thresholds
 
 ```{r define_threshold}
 
-global_bias_rel_max <- 10
+global_bias_rel_max <- 12
 regional_bias_rel_max <- 20
 
 ```
@@ -214,8 +228,9 @@ regional_bias_rel_max <- 20
 ```{r cases_absolute_global}
 
 dcant_budget_global_all %>%
-  ggplot(aes(period, dcant, col=MLR_basins)) +
+  ggplot(aes(period, dcant, col = MLR_basins)) +
   geom_point() +
+  scale_color_brewer(palette = "Set1", name = "basin\nseparation") +
   facet_grid(. ~ data_source)
 
 
@@ -226,8 +241,9 @@ dcant_budget_global_all %>%
 ```{r cases_bias_global}
 
 dcant_budget_global_bias_all %>%
-  ggplot(aes(period, dcant_bias, col=MLR_basins)) +
+  ggplot(aes(period, dcant_bias, col = MLR_basins)) +
   geom_hline(yintercept = 0) +
+  scale_color_brewer(palette = "Set1", name = "basin\nseparation") +
   geom_point()
 
 dcant_budget_global_bias_all %>%
