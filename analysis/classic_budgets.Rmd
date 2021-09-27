@@ -540,6 +540,45 @@ ggplot() +
 
 ```
 
+### Sum decades
+
+```{r summed_decades}
+
+dcant_budget_global_all_in_sum <-
+  dcant_budget_global_all_in %>%
+  filter(period != "1994 - 2014") %>%
+  arrange(tref1) %>%
+  group_by(data_source, MLR_basins) %>%
+  mutate(dcant = dcant + lag(dcant)) %>% 
+  ungroup() %>%
+  drop_na() %>% 
+  mutate(estimate = "sum")
+
+dcant_budget_global_all_in_sum <-
+  bind_rows(
+    dcant_budget_global_all_in_sum,
+    dcant_budget_global_all_in %>%
+      filter(period == "1994 - 2014") %>%
+      mutate(estimate = "direct")
+  )
+
+ggplot() +
+  geom_point(
+    data = dcant_budget_global_all_in_sum,
+    aes(estimate, dcant, col = MLR_basins),
+    alpha = 0.7,
+    position = position_jitter(width = 0, height = 0)
+  ) +
+  scale_y_continuous(limits = c(0,70), expand = c(0,0)) +
+  scale_color_brewer(palette = "Dark2", name = "basin\nseparation") +
+  facet_grid(. ~ data_source) +
+  theme(axis.text.x = element_text(angle = 45, hjust=1),
+        axis.title.x = element_blank())
+
+```
+
+
+
 ### Mean bias
 
 ```{r ensemble_mean_bias_global}
