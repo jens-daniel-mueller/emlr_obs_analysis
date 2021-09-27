@@ -5,7 +5,7 @@
 
 
 # commit regular changes (locally) and rebuild site
-wflow_publish(all = TRUE, message = "filter MLR basins")
+wflow_publish(all = TRUE, message = "filter MLR basins with both criteria")
 
 # commit changes including _site.yml (locally) and rebuild site
 wflow_publish(c("analysis/*Rmd"), message = "XXX", republish = TRUE)
@@ -32,6 +32,15 @@ wflow_publish(here::here("analysis",
                            )),
               message = "rebuildt with vif results",
               republish = TRUE)
+
+# commit changes including _site.yml (locally) and rebuild site in the specified order
+wflow_publish(here::here("analysis",
+                         c("index.Rmd",
+                           "classic_budgets.Rmd",
+                           "classic_column_inventories.Rmd",
+                           "classic_zonal_sections.Rmd"
+                           )),
+              message = "filter MLR_basins")
 
 
 # Push latest version to GitHub

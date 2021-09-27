@@ -176,6 +176,14 @@ dcant_inv_all <- dcant_inv_all %>%
 
 ```
 
+```{r read_Gruber_2019_inventories}
+
+dcant_inv_all_G19 <- read_csv(paste0(path_preprocessing,
+                             "G19_dcant_inv_all.csv"))
+
+```
+
+
 # Individual cases
 
 ## Absoulte values
