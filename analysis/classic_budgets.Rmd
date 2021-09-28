@@ -51,7 +51,7 @@ regional_bias_rel_max <- 20
 
 ```{r cases_considered}
 
-MLR_basins_in <- c("1", "2", "AIP", "SO_2", "5", "SO_AIP")
+MLR_basins_in <- c("1", "2", "AIP", "SO_2", "5", "SO_AIP", "SO")
 
 ```
 
@@ -184,8 +184,6 @@ for (i_Version_IDs in Version_IDs) {
 params_local_all <-
   params_local_all %>%
   mutate(period = factor(period, c("1994 - 2004", "2004 - 2014", "1994 - 2014")))
-
-unique(params_local_all$period)
 
 rm(
   dcant_budget_global,
@@ -490,7 +488,7 @@ p_regional_bias
 ```{r filter_ensemble_members}
 
 ensemble_MLR_basins_global <- dcant_budget_global_bias_all %>% 
-  filter(dcant_bias_rel < global_bias_rel_max) %>% 
+  filter(abs(dcant_bias_rel) < global_bias_rel_max) %>% 
   count(MLR_basins) %>% 
   filter(n == 3) %>% 
   pull(MLR_basins)
@@ -500,7 +498,7 @@ ensemble_MLR_basins_global
 
 
 ensemble_MLR_basins_regional <- dcant_budget_basin_AIP_bias_all %>% 
-  filter(dcant_bias_rel < regional_bias_rel_max) %>% 
+  filter(abs(dcant_bias_rel) < regional_bias_rel_max) %>% 
   count(MLR_basins) %>% 
   filter(n == 9) %>% 
   pull(MLR_basins)
@@ -729,8 +727,8 @@ dcant_budget_global_all_depth %>%
 ```{r cases_bias_depth_global, fig.asp=0.9}
 
 dcant_budget_global_bias_all_depth %>%
-    filter(MLR_basins %in% ensemble_MLR_basins) %>% 
-  ggplot(aes(dcant_bias, MLR_basins, fill=period)) +
+  filter(MLR_basins %in% ensemble_MLR_basins) %>%
+  ggplot(aes(dcant_bias, MLR_basins, fill = period)) +
   geom_vline(xintercept = 0) +
   geom_col(position = "dodge") +
   scale_fill_brewer(palette = "Dark2") +
@@ -769,7 +767,6 @@ rm(dcant_budget_global_all,
 
 dcant_budget_basin_AIP_ensemble <- dcant_budget_basin_AIP_all %>% 
   filter(data_source %in% c("mod", "obs"),
-         MLR_basins %in% ensemble_MLR_basins,
          MLR_basins %in% ensemble_MLR_basins) %>% 
   group_by(basin_AIP, data_source, period) %>% 
   summarise(dcant_mean = mean(dcant),
@@ -890,9 +887,9 @@ dcant_budget_basin_AIP_ensemble_bias %>%
 ```
 
 
-## Vertical patterns
+### Vertical patterns
 
-### Absoulte values
+#### Absoulte values
 
 ```{r cases_absolute_depth, fig.asp=0.9}
 
@@ -917,7 +914,7 @@ dcant_budget_basin_AIP_all_depth %>%
 
 ```
 
-### Biases
+#### Biases
 
 ```{r cases_bias_depth, fig.asp=0.9}
 
@@ -943,7 +940,7 @@ dcant_budget_basin_AIP_bias_all_depth %>%
   ) %>%
   ggplot(aes(dcant_bias_rel, MLR_basins, fill = basin_AIP)) +
   geom_vline(xintercept = 0) +
-  geom_col() +
+  geom_col(position = "dodge") +
   scale_fill_brewer(palette = "Dark2") +
   facet_grid(inv_depth ~ period)
 
@@ -955,6 +952,9 @@ dcant_budget_basin_AIP_bias_all_depth %>%
 
 ensemble_MLR_basins %>% 
   write_rds("data/ensemble_members.rds")
+
+MLR_basins_in %>% 
+  write_rds("data/MLR_basins_in.rds")
 
 ```
 

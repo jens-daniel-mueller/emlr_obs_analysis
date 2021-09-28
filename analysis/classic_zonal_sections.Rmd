@@ -43,6 +43,9 @@ path_preprocessing_model    <-
 ensemble_members <- 
   read_rds("data/ensemble_members.rds")
 
+MLR_basins_in <- 
+  read_rds("data/MLR_basins_in.rds")
+
 ```
 
 
@@ -167,6 +170,20 @@ dcant_zonal_bias_all <- full_join(dcant_zonal_bias_all,
                                 params_local_all)
 
 ```
+
+
+```{r select_cases}
+
+dcant_zonal_all <- dcant_zonal_all %>% 
+  filter(MLR_basins %in% MLR_basins_in)
+
+dcant_zonal_bias_all <- dcant_zonal_bias_all %>% 
+  filter(MLR_basins %in% MLR_basins_in)
+
+
+```
+
+
 
 # Individual cases
 

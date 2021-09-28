@@ -43,6 +43,9 @@ path_preprocessing_model    <-
 ensemble_members <- 
   read_rds("data/ensemble_members.rds")
 
+MLR_basins_in <- 
+  read_rds("data/MLR_basins_in.rds")
+
 ```
 
 ```{r read_files}
@@ -175,6 +178,19 @@ dcant_inv_all <- dcant_inv_all %>%
   filter(inv_depth == params_global$inventory_depth_standard)
 
 ```
+
+
+```{r select_cases}
+
+dcant_inv_all <- dcant_inv_all %>% 
+  filter(MLR_basins %in% MLR_basins_in)
+
+dcant_inv_bias_all <- dcant_inv_bias_all %>% 
+  filter(MLR_basins %in% MLR_basins_in)
+
+
+```
+
 
 ```{r read_Gruber_2019_inventories}
 
