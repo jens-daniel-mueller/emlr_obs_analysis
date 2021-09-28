@@ -1,0 +1,160 @@
+---
+title: "Budgets"
+author: "Jens Daniel Müller"
+date:  "`r format(Sys.time(), '%d %B, %Y')`"
+output: 
+  workflowr::wflow_html:
+    number_sections: true
+    toc_depth: 3
+    toc_float:
+      collapsed: false
+editor_options:
+  chunk_output_type: console
+---
+
+```{r parent, child = "/nfs/kryo/work/jenmueller/emlr_cant/utilities/setup_obs.Rmd"}
+# this chunk runs the code stored in setup.Rmd
+# if required, please refer to instructions given here:
+# https://jdblischak.github.io/workflowr/articles/wflow-07-common-code.html
+```
+
+```{r define_paths, include = FALSE}
+
+# only path_observations needs to be changed to model
+path_observations <-
+  paste(path_root, "/observations/", sep = "")
+
+path_preprocessing    <-
+  paste(path_observations, "preprocessing/", sep = "")
+
+
+path_preprocessing_model    <-
+  paste(path_root, "/model/preprocessing/", sep = "")
+
+```
+
+```{r load_libraries_specific, include = FALSE}
+```
+
+# Read files
+
+```{r read_files_global}
+
+GLODAP_preprocessed <-
+  read_csv(
+    paste(
+      path_preprocessing,
+      "GLODAPv2.2021_preprocessed.csv",
+      sep = ""
+    )
+  )
+
+```
+
+# Time series histogram
+
+```{r time_series}
+
+map +
+  geom_raster(data = GLODAP_preprocessed %>% 
+                filter(year %in% c(2013, 2014),
+                       cruise < 2000,
+                       lon > 300,
+                       lon < 350) %>% 
+                count(lat, lon, cruise),
+              aes(lon, lat, fill = as.factor(cruise))) +
+  scale_fill_brewer(palette = "Set1")
+
+time_histo <- GLODAP_preprocessed %>% 
+  drop_na() %>% 
+  mutate(version = if_else(cruise <1000, "Gruber et al. (2019)", 
+                           "Data added"),
+         version = if_else(cruise %in% c(1041, 1042), "Gruber et al. (2019)", version)) %>% 
+  count(year, version)
+
+GLODAP_preprocessed %>% 
+  drop_na() %>% 
+  mutate(version = if_else(cruise <1000, "Gruber et al. (2019)", 
+                           "Data added"),
+         version = if_else(cruise %in% c(1041, 1042), "Gruber et al. (2019)", version)) %>% 
+  count(version)
+
+p_time_histo_G19 <-
+  time_histo %>%
+  filter(version == "Gruber et al. (2019)") %>% 
+  ggplot() +
+  geom_col(aes(year, n, fill = version),
+           col = "grey20") +
+  scale_fill_manual(values = c("grey70"),
+                    name = "") +
+  scale_x_continuous(breaks = seq(1900, 2100, 5),
+                     limits = c(1981, 2020)) +
+  scale_y_continuous(limits = c(0, max(time_histo$n) + 500)) +
+  coord_cartesian(expand = 0) +
+  labs(title = "Observations per year") +
+  theme_classic() +
+  theme(axis.title = element_blank())
+
+p_time_histo_all <-
+  time_histo %>%
+  ggplot() +
+  geom_col(aes(year, n, fill = version),
+           col = "grey20") +
+  scale_fill_manual(values = c("darkgoldenrod1", "grey70"),
+                    name = "") +
+  scale_x_continuous(breaks = seq(1900, 2100, 5),
+                     limits = c(1981, 2020)) +
+  scale_y_continuous(limits = c(0, max(time_histo$n) + 500)) +
+  coord_cartesian(expand = 0) +
+  labs(title = "Observations per year") +
+  theme_classic() +
+  theme(axis.title = element_blank())
+
+
+p_time_histo_G19
+p_time_histo_all
+
+
+ggsave(plot = p_time_histo_G19,
+       path = "output/publication",
+       filename = "time_histo_G19.png",
+       height = 2,
+       width = 10)
+
+ggsave(plot = p_time_histo_all,
+       path = "output/publication",
+       filename = "time_histo_all.png",
+       height = 2,
+       width = 10)
+
+```
+
+
+
+# Time series histogram
+
+```{r time_series_histo}
+
+MLR_basins_in <- c("1", "2", "AIP", "SO", "5", "SO_AIP")
+
+basin_maps <-
+  map +
+  geom_raster(data = basinmask %>%  filter(MLR_basins %in% MLR_basins_in),
+              aes(lon, lat, fill = basin)) +
+  scale_fill_discrete(guide = "none") +
+  facet_wrap( ~ MLR_basins) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())
+
+basin_maps
+
+ggsave(plot = basin_maps,
+       path = "output/publication",
+       filename = "basin_maps.png",
+       height = 5,
+       width = 10)
+
+```
+
+
+

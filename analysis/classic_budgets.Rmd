@@ -360,10 +360,6 @@ dcant_budget_basin_AIP_bias_all <- dcant_budget_basin_AIP_bias_all  %>%
 
 ```{r steady_state_dcant}
 
-Version_IDs <- c(Version_IDs_1,
-                 Version_IDs_2,
-                 Version_IDs_3)
-
 for (i_Version_IDs in Version_IDs) {
   # i_Version_IDs <- Version_IDs[1]
   
