@@ -332,7 +332,7 @@ dcant_inv_ensemble_bias %>%
   p_map_cant_inv(var = "dcant_mean_bias",
                  col = "bias",
                  subtitle_text = "Ensemble mean - mod_truth") +
-  facet_grid(. ~ period)
+  facet_grid(period ~ .)
 
 ```
 
@@ -364,21 +364,48 @@ dcant_inv_ensemble_bias %>%
   scale_fill_viridis_c() +
   facet_grid(. ~ period)
 
+legend_title = expression(Delta * C[ant]~(mol~m^2))
 
-dcant_inv_ensemble_bias %>% 
-  select(dcant_mean, dcant_mean_bias, period) %>% 
-  pivot_longer(dcant_mean:dcant_mean_bias,
+dcant_density_distribution_bias <- dcant_inv_ensemble_bias %>% 
+  select(dcant_mean_bias, period) %>% 
+  pivot_longer(dcant_mean_bias,
                names_to = "estimate",
                values_to = "value") %>% 
-  ggplot(aes(value, col=estimate, linetype = period)) +
-  scale_color_brewer(palette = "Set1") +
-  geom_density()
+  mutate(data_source = "mod")
 
-dcant_inv_ensemble %>% 
-  ggplot(aes(dcant_sd)) +
-  geom_histogram() +
-  facet_grid(data_source ~ period) +
-  coord_cartesian(ylim = c(0,50))
+dcant_density_distribution <- dcant_inv_ensemble %>% 
+  select(dcant_mean, dcant_sd, period, data_source) %>% 
+  pivot_longer(dcant_mean:dcant_sd,
+               names_to = "estimate",
+               values_to = "value")
+
+dcant_density_distribution <- bind_rows(dcant_density_distribution,
+                                        dcant_density_distribution_bias) %>%
+  mutate(period = factor(period, c("1994 - 2004", "2004 - 2014", "1994 - 2014")))
+
+p_ensemble_distribution <-
+  dcant_density_distribution %>%
+  mutate(
+    data_source = recode(data_source,
+                         mod = "Model",
+                         obs = "Observations"),
+    estimate = recode(
+      estimate,
+      dcant_mean = "Mean",
+      dcant_mean_bias = "Bias",
+      dcant_sd = "SD"
+    )
+  ) %>%
+  ggplot(aes(value, fill = estimate, col = estimate)) +
+  scale_color_brewer(palette = "Dark2") +
+  scale_fill_brewer(palette = "Dark2") +
+  geom_density(alpha = 0.2) +
+  facet_grid(period ~ data_source) +
+  labs(title = "Density distributions of column inventory ensemble properties",
+       x = legend_title) +
+  coord_cartesian(ylim = c(0, 0.5))
+
+p_ensemble_distribution
 
 ```
 
