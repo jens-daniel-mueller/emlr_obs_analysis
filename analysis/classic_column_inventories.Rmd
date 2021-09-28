@@ -356,7 +356,7 @@ p_map_cant_inv(
 
 ## SD vs bias
 
-```{r ensemble_sd_vs_bias, fig.asp=0.5}
+```{r ensemble_sd_vs_bias}
 
 dcant_inv_ensemble_bias %>% 
   ggplot(aes(dcant_mean_bias, dcant_sd)) +
