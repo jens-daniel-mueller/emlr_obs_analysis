@@ -74,7 +74,7 @@ Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observat
 # Version_IDs <- c(Version_IDs_1, Version_IDs_2)
 Version_IDs <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 # rm(Version_IDs_1, Version_IDs_2)
-rm(Version_IDs_1, Version_IDs_2, Version_IDs_3)
+# rm(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 
 ```
 
@@ -355,6 +355,56 @@ dcant_budget_basin_AIP_bias_all <- dcant_budget_basin_AIP_bias_all  %>%
 
 
 ```
+
+## Steady state
+
+```{r steady_state_dcant}
+
+Version_IDs <- c(Version_IDs_1,
+                 Version_IDs_2,
+                 Version_IDs_3)
+
+for (i_Version_IDs in Version_IDs) {
+  # i_Version_IDs <- Version_IDs[1]
+  
+  print(i_Version_IDs)
+  
+  path_version_data     <-
+    paste(path_observations,
+          i_Version_IDs,
+          "/data/",
+          sep = "")
+  
+  # load and join data files
+  
+  dcant_obs_budget <-
+    read_csv(paste0(path_version_data,
+                    "anom_dcant_obs_budget.csv"))
+  
+  dcant_obs_budget <- dcant_obs_budget %>%
+    mutate(Version_ID = i_Version_IDs)
+  
+  if (exists("dcant_obs_budget_all")) {
+    dcant_obs_budget_all <-
+      bind_rows(dcant_obs_budget_all, dcant_obs_budget)
+  }
+  
+  if (!exists("dcant_obs_budget_all")) {
+    dcant_obs_budget_all <- dcant_obs_budget
+  }
+  
+}
+
+
+rm(dcant_obs_budget)
+
+dcant_obs_budget_all <- full_join(dcant_obs_budget_all,
+                             params_local_all)
+
+
+```
+
+
 
 # Global
 
@@ -945,6 +995,26 @@ dcant_budget_basin_AIP_bias_all_depth %>%
   facet_grid(inv_depth ~ period)
 
 ```
+
+# Steady state
+
+```{r steady_state_comparison, fig.asp=1.5}
+
+dcant_obs_budget_all %>%
+  group_by(inv_depth) %>%
+  group_split() %>%
+  # head(1) %>% 
+  map(
+    ~ ggplot(data = .x,
+             aes(estimate, dcant_pos, fill = basin_AIP)) +
+      scale_fill_brewer(palette = "Dark2") +
+      geom_col() +
+      facet_grid(MLR_basins ~ period) +
+      labs(title = paste("inventory depth:",unique(.x$inv_depth)))
+  )
+
+```
+
 
 # Write ensemble members
 

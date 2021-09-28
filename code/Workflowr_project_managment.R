@@ -5,7 +5,7 @@
 
 
 # commit regular changes (locally) and rebuild site
-wflow_publish(all = TRUE, message = "update density distribution")
+wflow_publish(all = TRUE, message = "include steady state data")
 
 # commit changes including _site.yml (locally) and rebuild site in the specified order
 wflow_publish(here::here("analysis",
@@ -37,7 +37,7 @@ wflow_publish(here::here("analysis",
                            "classic_column_inventories.Rmd",
                            "classic_zonal_sections.Rmd"
                            )),
-              message = "filter MLR_basins")
+              message = "new MLR_basin added")
 
 
 # Push latest version to GitHub
