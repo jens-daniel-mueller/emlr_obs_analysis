@@ -402,9 +402,11 @@ p_global_bias <-
              linetype = 2) +
   geom_hline(yintercept = 0) +
   scale_color_brewer(palette = "Dark2", name = "basin\nseparation") +
-  labs(y = expression(Delta * C[ant] ~ bias ~ ("%"))) +
+  labs(y = expression(Delta * C[ant] ~ bias ~ ("%")),
+       title = "Model-based assesment") +
   theme(axis.title.x = element_blank()) +
-  geom_point(aes(period, dcant_bias_rel, col = MLR_basins)) +
+  geom_point(aes(period, dcant_bias_rel, col = MLR_basins),
+             alpha = 0.7) +
     theme(axis.text.x = element_text(angle = 45, hjust=1),
         axis.title.x = element_blank())
 
@@ -462,9 +464,11 @@ p_regional_bias <-
              linetype = 2) +
   geom_hline(yintercept = 0) +
   scale_color_brewer(palette = "Dark2", name = "basin\nseparation") +
-  labs(y = expression(Delta * C[ant] ~ bias ~ ("%"))) +
+  labs(y = expression(Delta * C[ant] ~ bias ~ ("%")),
+       title = "Model-based assesment") +
   theme(axis.title.x = element_blank()) +
-  geom_point(aes(period, dcant_bias_rel, col = MLR_basins)) +
+  geom_point(aes(period, dcant_bias_rel, col = MLR_basins),
+             alpha = 0.7) +
     theme(axis.text.x = element_text(angle = 45, hjust=1),
         axis.title.x = element_blank()) +
   facet_grid(. ~ basin_AIP) +
@@ -576,7 +580,7 @@ p_global_dcant <- ggplot() +
     data = dcant_budget_global_all %>% 
              filter(data_source == "obs"),
     aes(period, dcant, col = MLR_basins),
-    # alpha = 0.7,
+    alpha = 0.7,
     position = position_jitter(width = 0.1, height = 0)
   ) +
   geom_errorbar(
@@ -592,7 +596,8 @@ p_global_dcant <- ggplot() +
   ) +
   scale_y_continuous(limits = c(0,70), expand = c(0,0)) +
   scale_color_brewer(palette = "Dark2", name = "basin\nseparation") +
-    labs(y = legend_title) +
+  labs(y = legend_title,
+       title = "Observation-based results") +
   theme(axis.text.x = element_blank(),
         axis.title.x = element_blank())
 
@@ -789,20 +794,23 @@ dcant_budget_basin_AIP_ensemble %>%
 
 
 p_regional_dcant <- ggplot() +
-  geom_col(data = dcant_budget_basin_AIP_ensemble %>% 
-             filter(data_source == "obs"),
-           aes(x = period,
-               y = dcant_mean),
-           fill = "darkgrey") +
-    geom_point(
-    data = dcant_budget_basin_AIP_all %>% 
-             filter(data_source == "obs"),
+  geom_col(
+    data = dcant_budget_basin_AIP_ensemble %>%
+      filter(data_source == "obs"),
+    aes(x = period,
+        y = dcant_mean),
+    fill = "darkgrey"
+  ) +
+  geom_point(
+    data = dcant_budget_basin_AIP_all %>%
+      filter(data_source == "obs"),
     aes(period, dcant, col = MLR_basins),
-    position = position_jitter(width = 0.1, height = 0)
+    position = position_jitter(width = 0.1, height = 0),
+    alpha = 0.7
   ) +
   geom_errorbar(
-    data = dcant_budget_basin_AIP_ensemble %>% 
-             filter(data_source == "obs"),
+    data = dcant_budget_basin_AIP_ensemble %>%
+      filter(data_source == "obs"),
     aes(
       x = period,
       y = dcant_mean,
@@ -811,9 +819,10 @@ p_regional_dcant <- ggplot() +
     ),
     width = 0.1
   ) +
-  scale_y_continuous(limits = c(0,35), expand = c(0,0)) +
+  scale_y_continuous(limits = c(0, 35), expand = c(0, 0)) +
   scale_color_brewer(palette = "Dark2", name = "basin\nseparation") +
-    labs(y = legend_title) +
+  labs(y = legend_title,
+       title = "Observation-based results") +
   theme(axis.text.x = element_blank(),
         axis.title.x = element_blank()) +
   facet_grid(. ~ basin_AIP)
