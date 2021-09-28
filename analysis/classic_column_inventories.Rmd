@@ -190,9 +190,15 @@ dcant_inv_all_G19 <- read_csv(paste0(path_preprocessing,
 
 ```{r cases_absolute, fig.asp=1.2}
 
+
 dcant_inv_all %>%
   filter(data_source %in% c("mod", "obs"),
          period != "1994 - 2014") %>%
+  mutate(MLR_basins = if_else(
+    MLR_basins %in% ensemble_members,
+    paste(MLR_basins, "*"),
+    MLR_basins
+  )) %>% 
   group_by(data_source) %>%
   group_split() %>%
   # head(1) %>%
@@ -213,7 +219,26 @@ dcant_inv_all %>%
 
 ```{r cases_bias, fig.asp=1.2}
 
+
 dcant_inv_bias_all %>%
+  filter(period != "1994 - 2014") %>%
+  mutate(MLR_basins = if_else(
+    MLR_basins %in% ensemble_members,
+    paste(MLR_basins, "*"),
+    MLR_basins
+  )) %>%
+  p_map_cant_inv(var = "dcant_bias",
+                 col = "bias",
+                 subtitle_text = "data_source: mod - mod_truth") +
+  facet_grid(MLR_basins ~ period)
+
+dcant_inv_bias_all %>%
+  filter(period == "1994 - 2014") %>%
+  mutate(MLR_basins = if_else(
+    MLR_basins %in% ensemble_members,
+    paste(MLR_basins, "*"),
+    MLR_basins
+  )) %>%
   p_map_cant_inv(var = "dcant_bias",
                  col = "bias",
                  subtitle_text = "data_source: mod - mod_truth") +
@@ -224,13 +249,17 @@ dcant_inv_bias_all %>%
 
 ```{r filter_ensemble_member}
 
-
-dcant_inv_bias_all %>%  
+dcant_inv_bias_all %>%
+  mutate(MLR_basins = if_else(
+    MLR_basins %in% ensemble_members,
+    paste(MLR_basins, "*"),
+    MLR_basins
+  )) %>%
   ggplot(aes(dcant_bias)) +
   scale_color_brewer(palette = "Set1") +
   geom_density() +
   facet_grid(MLR_basins ~ period) +
-  coord_cartesian(xlim = c(-10,10))
+  coord_cartesian(xlim = c(-10, 10))
 
 
 dcant_inv_ensemble_member <- dcant_inv_bias_all %>% 
@@ -238,7 +267,12 @@ dcant_inv_ensemble_member <- dcant_inv_bias_all %>%
   summarise(dcant_sd = sd(dcant_bias)) %>% 
   ungroup()
 
-dcant_inv_ensemble_member %>% 
+dcant_inv_ensemble_member %>%
+  mutate(MLR_basins = if_else(
+    MLR_basins %in% ensemble_members,
+    paste(MLR_basins, "*"),
+    MLR_basins
+  )) %>%
   ggplot(aes(MLR_basins, dcant_sd, col = period)) +
   geom_point()
 
@@ -267,10 +301,12 @@ dcant_inv_ensemble <- dcant_inv_all %>%
 
 ```{r ensemble_mean, fig.asp=0.5}
 
-p_map_cant_inv(df = dcant_inv_ensemble,
+p_map_cant_inv(df = dcant_inv_ensemble %>% 
+                 filter(period != "1994 - 2014",
+                        data_source == "obs"),
                      var = "dcant_mean",
                      subtitle_text = paste("Ensemble means")) +
-      facet_grid(period ~ data_source)
+      facet_grid(period ~ .)
 
 ```
 
@@ -292,6 +328,7 @@ dcant_inv_ensemble_bias <- dcant_inv_ensemble_bias %>%
   mutate(dcant_mean_bias = dcant_mean - dcant)
 
 dcant_inv_ensemble_bias %>%
+  filter(period != "1994 - 2014") %>%
   p_map_cant_inv(var = "dcant_mean_bias",
                  col = "bias",
                  subtitle_text = "Ensemble mean - mod_truth") +
