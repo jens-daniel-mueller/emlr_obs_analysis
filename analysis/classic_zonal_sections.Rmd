@@ -174,7 +174,6 @@ dcant_zonal_bias_all <- full_join(dcant_zonal_bias_all,
 
 ```{r cases_absolute, fig.asp=1.2}
 
-
 dcant_zonal_all %>%
   filter(data_source %in% c("mod", "obs")) %>%
   group_by(basin_AIP, data_source) %>%
@@ -186,7 +185,7 @@ dcant_zonal_all %>%
       var = "dcant",
       plot_slabs = "n",
       subtitle_text = paste(
-        "data_source",
+        "data_source: ",
         unique(.x$data_source),
         "| basin:",
         unique(.x$basin_AIP)
