@@ -191,16 +191,19 @@ dcant_inv_all_G19 <- read_csv(paste0(path_preprocessing,
 ```{r cases_absolute, fig.asp=1.2}
 
 dcant_inv_all %>%
-  filter(data_source %in% c("mod", "obs")) %>%
-  group_by(period) %>%
+  filter(data_source %in% c("mod", "obs"),
+         period != "1994 - 2014") %>%
+  group_by(data_source) %>%
   group_split() %>%
   # head(1) %>%
   map(
     ~ p_map_cant_inv(df = .x,
                      var = "dcant",
-                     subtitle_text = paste("period:",
-                                           unique(.x$period))) +
-      facet_grid(MLR_basins ~ data_source)
+                     subtitle_text = paste("data_source:",
+                                           unique(.x$data_source))) +
+      facet_grid(MLR_basins ~ period) +
+      theme(axis.text = element_blank(),
+            axis.ticks = element_blank())
   )
 
 
