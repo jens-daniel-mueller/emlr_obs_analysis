@@ -610,16 +610,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree7c7b6ef01598f25fc3f063ee99446e0beb3d5babtargetblank7c7b6efa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/7c7b6ef01598f25fc3f063ee99446e0beb3d5bab" target="_blank">7c7b6ef</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreee42ccd705c8bedcbd8179d7741fb4902245b1d9etargetblanke42ccd7a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/e42ccd705c8bedcbd8179d7741fb4902245b1d9e" target="_blank">e42ccd7</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree7c7b6ef01598f25fc3f063ee99446e0beb3d5babtargetblank7c7b6efa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreee42ccd705c8bedcbd8179d7741fb4902245b1d9etargetblanke42ccd7a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/7c7b6ef01598f25fc3f063ee99446e0beb3d5bab" target="_blank">7c7b6ef</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/e42ccd705c8bedcbd8179d7741fb4902245b1d9e" target="_blank">e42ccd7</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -634,10 +634,6 @@ Ignored files:
 
 Untracked files:
     Untracked:  code/classic_slab_inventories.Rmd
-
-Unstaged changes:
-    Modified:   analysis/_site.yml
-    Modified:   code/Workflowr_project_managment.R
 
 </code></pre>
 <p>
@@ -676,6 +672,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e42ccd705c8bedcbd8179d7741fb4902245b1d9e/analysis/classic_zonal_sections.Rmd" target="_blank">e42ccd7</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-09-29
+</td>
+<td>
+plots for presentation
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/960d1588ac630a8cb976434900f87e2f256a9d2c/docs/classic_zonal_sections.html" target="_blank">960d158</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-09-29
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -1785,6 +1815,37 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
+<pre class="r"><code>p_dcant_Indian_1994_2004 &lt;-
+  dcant_zonal_all %&gt;%
+  filter(data_source %in% c(&quot;obs&quot;),
+         period == &quot;1994 - 2004&quot;,
+         basin_AIP == &quot;Indian&quot;) %&gt;%
+  p_section_zonal_continous_depth(var = &quot;dcant&quot;,
+                                  plot_slabs = &quot;n&quot;,
+                                  subtitle_text = &quot;Indian Ocean&quot;) +
+  facet_grid(MLR_basins ~ period)
+
+ggsave(plot = p_dcant_Indian_1994_2004,
+       path = &quot;output/publication&quot;,
+       filename = &quot;zonal_indian_1994_2004.png&quot;,
+       height = 8,
+       width = 5)
+
+p_dcant_Indian_2004_2014 &lt;-
+  dcant_zonal_all %&gt;%
+  filter(data_source %in% c(&quot;obs&quot;),
+         period == &quot;2004 - 2014&quot;,
+         basin_AIP == &quot;Pacific&quot;) %&gt;%
+  p_section_zonal_continous_depth(var = &quot;dcant&quot;,
+                                  plot_slabs = &quot;n&quot;,
+                                  subtitle_text = &quot;Pacific Ocean&quot;) +
+  facet_grid(MLR_basins ~ period)
+
+ggsave(plot = p_dcant_Indian_2004_2014,
+       path = &quot;output/publication&quot;,
+       filename = &quot;zonal_Pacific_2004_2014.png&quot;,
+       height = 8,
+       width = 5)</code></pre>
 </div>
 <div id="biases" class="section level2" number="2.2">
 <h2 number="2.2"><span class="header-section-number">2.2</span> Biases</h2>
