@@ -5,34 +5,46 @@ navbar:
   left:
   - text: Home
     href: index.html
-  - text: Classic cases
+  - text: Basics
+    href: basics.html
+  - text: Spatial splits
     menu:
-    - text: Budgets
-      href: classic_budgets.html
-    - text: Column inventories
-      href: classic_column_inventories.html
-    - text: Zonal sections
-      href: classic_zonal_sections.html
-    # - text: Slab inventories
-    #   href: classic_slab_inventories.html
-  - text: CANYON-B cleaning
+    - text: Classic cases
+      menu:
+      - text: Budgets
+        href: classic_budgets.html
+      - text: Column inventories
+        href: classic_column_inventories.html
+      - text: Zonal sections
+        href: classic_zonal_sections.html
+    - text: slab cases
+      menu:
+      - text: Budgets
+        href: slab_budgets.html
+      - text: Column inventories
+        href: slab_column_inventories.html
+      - text: Zonal sections
+        href: slab_zonal_sections.html
+  - text: Data cleaning
     menu:
-    - text: Overview
-      href: canyon_b_cleaning_overview.html
-    - text: Budgets
-      href: canyon_b_cleaning_budgets.html
-    - text: Column inventories
-      href: canyon_b_cleaning_column_inventories.html
-    - text: Zonal sections
-      href: canyon_b_cleaning_zonal_sections.html
-  - text: Global MLR cleaning
-    menu:
-    - text: Budgets
-      href: global_MLR_cleaning_budgets.html
-    - text: Column inventories
-      href: global_MLR_cleaning_column_inventories.html
-    - text: Zonal sections
-      href: global_MLR_cleaning_zonal_sections.html
+    - text: CANYON-B
+      menu:
+      - text: Overview
+        href: canyon_b_cleaning_overview.html
+      - text: Budgets
+        href: canyon_b_cleaning_budgets.html
+      - text: Column inventories
+        href: canyon_b_cleaning_column_inventories.html
+      - text: Zonal sections
+        href: canyon_b_cleaning_zonal_sections.html
+    - text: Global MLR
+      menu:
+      - text: Budgets
+        href: global_MLR_cleaning_budgets.html
+      - text: Column inventories
+        href: global_MLR_cleaning_column_inventories.html
+      - text: Zonal sections
+        href: global_MLR_cleaning_zonal_sections.html
   - text: Rarefication
     menu:
     - text: Budgets

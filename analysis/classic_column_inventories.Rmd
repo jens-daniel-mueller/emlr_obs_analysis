@@ -34,6 +34,7 @@ path_preprocessing_model    <-
 ```
 
 ```{r load_libraries_specific, include = FALSE}
+library(patchwork)
 ```
 
 # Read files
@@ -228,6 +229,29 @@ dcant_inv_all %>%
             axis.ticks = element_blank())
   )
 
+p_dcant_inv_all_1994_2004 <-
+  dcant_inv_all %>%
+  filter(data_source %in% c("obs"),
+         period == "1994 - 2004") %>%
+  mutate(MLR_basins = if_else(
+    MLR_basins %in% ensemble_members,
+    paste(MLR_basins, "*"),
+    MLR_basins
+  ),
+    period = recode(period,
+                    "1994 - 2004" = "Observation-based")) %>%
+  p_map_cant_inv(var = "dcant",
+                 title_text = "1994 - 2004") +
+  facet_grid(MLR_basins ~ period) +
+  theme(
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    strip.background.y = element_blank(),
+    strip.text.y = element_blank(),
+    legend.position = "left"
+  )
+
+p_dcant_inv_all_1994_2004
 
 ```
 
@@ -260,6 +284,40 @@ dcant_inv_bias_all %>%
                  subtitle_text = "data_source: mod - mod_truth") +
   facet_grid(MLR_basins ~ period)
 
+
+p_dcant_inv_bias_all_1994_2004 <-
+  dcant_inv_bias_all %>%
+  filter(period == "1994 - 2004") %>%
+  mutate(
+    MLR_basins = if_else(
+      MLR_basins %in% ensemble_members,
+      paste(MLR_basins, "*"),
+      MLR_basins
+    ),
+    period = recode(period,
+                    "1994 - 2004" = "Model-based")
+  ) %>%
+  p_map_cant_inv(var = "dcant_bias",
+                 col = "bias",
+                 title_text = "Models") +
+  facet_grid(MLR_basins ~ period) +
+  theme(
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    plot.title = element_blank()
+  )
+
+p_dcant_1994_2004 <- 
+p_dcant_inv_all_1994_2004 +
+  p_dcant_inv_bias_all_1994_2004
+
+p_dcant_1994_2004
+
+ggsave(plot = p_dcant_1994_2004,
+       path = "output/publication",
+       filename = "inv_dcant_1994_2004.png",
+       height = 8,
+       width = 8)
 
 ```
 
@@ -315,14 +373,16 @@ dcant_inv_ensemble <- dcant_inv_all %>%
 
 ## Mean
 
-```{r ensemble_mean, fig.asp=0.5}
+```{r ensemble_mean}
 
 p_map_cant_inv(df = dcant_inv_ensemble %>% 
                  filter(period != "1994 - 2014",
                         data_source == "obs"),
                      var = "dcant_mean",
                      subtitle_text = paste("Ensemble means")) +
-      facet_grid(period ~ .)
+      facet_grid(period ~ .) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())
 
 ```
 
@@ -419,7 +479,8 @@ p_ensemble_distribution <-
   facet_grid(period ~ data_source) +
   labs(title = "Density distributions of column inventory ensemble properties",
        x = legend_title) +
-  coord_cartesian(ylim = c(0, 0.5))
+  coord_cartesian(ylim = c(0, 0.5),
+                  xlim = c(-5, 32))
 
 p_ensemble_distribution
 

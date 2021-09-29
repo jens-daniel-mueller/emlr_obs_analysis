@@ -5,14 +5,15 @@
 
 
 # commit regular changes (locally) and rebuild site
-wflow_publish(all = TRUE, message = "include steady state data")
+wflow_publish(all = TRUE, message = "column inventory plots for presentation")
 
 # commit changes including _site.yml (locally) and rebuild site in the specified order
 wflow_publish(here::here("analysis",
                          c("index.Rmd",
-                           "vif_budgets.Rmd",
-                           "vif_column_inventories.Rmd",
-                           "vif_zonal_sections.Rmd",
+                           "basics.Rmd",
+                           "slab_budgets.Rmd",
+                           "slab_column_inventories.Rmd",
+                           "slab_zonal_sections.Rmd",
                            "classic_budgets.Rmd",
                            "classic_column_inventories.Rmd",
                            "classic_zonal_sections.Rmd",
@@ -25,7 +26,10 @@ wflow_publish(here::here("analysis",
                            "global_MLR_cleaning_zonal_sections.Rmd",
                            "rarefication_budgets.Rmd",
                            "rarefication_column_inventories.Rmd",
-                           "rarefication_zonal_sections.Rmd"
+                           "rarefication_zonal_sections.Rmd",
+                           "vif_budgets.Rmd",
+                           "vif_column_inventories.Rmd",
+                           "vif_zonal_sections.Rmd"
                            )),
               message = "rebuildt with vif results",
               republish = TRUE)
