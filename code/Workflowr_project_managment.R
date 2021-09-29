@@ -5,7 +5,7 @@
 
 
 # commit regular changes (locally) and rebuild site
-wflow_publish(all = TRUE, message = "column inventory plots for presentation")
+wflow_publish(all = TRUE, message = "plots for presentation")
 
 # commit changes including _site.yml (locally) and rebuild site in the specified order
 wflow_publish(here::here("analysis",

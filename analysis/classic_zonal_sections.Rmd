@@ -211,6 +211,37 @@ dcant_zonal_all %>%
       facet_grid(MLR_basins ~ period)
   )
 
+p_dcant_Indian_1994_2004 <-
+  dcant_zonal_all %>%
+  filter(data_source %in% c("obs"),
+         period == "1994 - 2004",
+         basin_AIP == "Indian") %>%
+  p_section_zonal_continous_depth(var = "dcant",
+                                  plot_slabs = "n",
+                                  subtitle_text = "Indian Ocean") +
+  facet_grid(MLR_basins ~ period)
+
+ggsave(plot = p_dcant_Indian_1994_2004,
+       path = "output/publication",
+       filename = "zonal_indian_1994_2004.png",
+       height = 8,
+       width = 5)
+
+p_dcant_Indian_2004_2014 <-
+  dcant_zonal_all %>%
+  filter(data_source %in% c("obs"),
+         period == "2004 - 2014",
+         basin_AIP == "Pacific") %>%
+  p_section_zonal_continous_depth(var = "dcant",
+                                  plot_slabs = "n",
+                                  subtitle_text = "Pacific Ocean") +
+  facet_grid(MLR_basins ~ period)
+
+ggsave(plot = p_dcant_Indian_2004_2014,
+       path = "output/publication",
+       filename = "zonal_Pacific_2004_2014.png",
+       height = 8,
+       width = 5)
 
 ```
 
