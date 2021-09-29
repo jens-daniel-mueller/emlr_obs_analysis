@@ -135,13 +135,16 @@ ggsave(plot = p_time_histo_all,
 
 ```{r time_series_histo}
 
-MLR_basins_in <- c("1", "2", "AIP", "SO", "5", "SO_AIP")
+MLR_basins_in <- c("1", "2", "AIP", "SO_2", "5", "SO_AIP", "SO")
+
+# basinmask$group_id <- 
+# basinmask %>% group_indices(MLR_basins, basin)
 
 basin_maps <-
   map +
   geom_raster(data = basinmask %>%  filter(MLR_basins %in% MLR_basins_in),
               aes(lon, lat, fill = basin)) +
-  scale_fill_discrete(guide = "none") +
+  scale_fill_brewer(palette = "Set3", guide = "none") +
   facet_wrap( ~ MLR_basins) +
   theme(axis.text = element_blank(),
         axis.ticks = element_blank())
@@ -157,4 +160,39 @@ ggsave(plot = basin_maps,
 ```
 
 
+# coverage maps
+
+```{r coverage_maps}
+
+GLODAP_era_grid <- GLODAP_preprocessed %>% 
+  mutate(era = cut(year,
+                   seq(1990, 2020, 10),
+                   labels = c("1990 - 1999", "2000 - 2009", "2010 - 2019"),
+                   right = FALSE)) %>% 
+  group_by(lon, lat, era) %>% 
+  summarise(year_max = max(year),
+            year_min = min(year)) %>% 
+  ungroup() %>% 
+  drop_na()
+
+coverage_map <-
+  map +
+  geom_raster(data = GLODAP_era_grid,
+              aes(lon, lat)) +
+  scale_fill_viridis_c() +
+  facet_grid(. ~ era) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())
+
+coverage_map
+
+
+ggsave(plot = coverage_map,
+       path = "output/publication",
+       filename = "coverage_map.png",
+       height = 2,
+       width = 8)
+
+
+```
 
