@@ -610,16 +610,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree7c7b6ef01598f25fc3f063ee99446e0beb3d5babtargetblank7c7b6efa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/7c7b6ef01598f25fc3f063ee99446e0beb3d5bab" target="_blank">7c7b6ef</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreec5eb52136edb93ebcf9d7723276d89d312929bdctargetblankc5eb521a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/c5eb52136edb93ebcf9d7723276d89d312929bdc" target="_blank">c5eb521</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree7c7b6ef01598f25fc3f063ee99446e0beb3d5babtargetblank7c7b6efa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreec5eb52136edb93ebcf9d7723276d89d312929bdctargetblankc5eb521a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/7c7b6ef01598f25fc3f063ee99446e0beb3d5bab" target="_blank">7c7b6ef</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/c5eb52136edb93ebcf9d7723276d89d312929bdc" target="_blank">c5eb521</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -634,10 +634,6 @@ Ignored files:
 
 Untracked files:
     Untracked:  code/classic_slab_inventories.Rmd
-
-Unstaged changes:
-    Modified:   analysis/_site.yml
-    Modified:   code/Workflowr_project_managment.R
 
 </code></pre>
 <p>
@@ -676,6 +672,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/c5eb52136edb93ebcf9d7723276d89d312929bdc/analysis/basics.Rmd" target="_blank">c5eb521</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-09-29
+</td>
+<td>
+coverage maps added
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/960d1588ac630a8cb976434900f87e2f256a9d2c/docs/basics.html" target="_blank">960d158</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-09-29
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -919,13 +949,16 @@ ggsave(plot = p_time_histo_all,
 </div>
 <div id="time-series-histogram-1" class="section level1" number="3">
 <h1 number="3"><span class="header-section-number">3</span> Time series histogram</h1>
-<pre class="r"><code>MLR_basins_in &lt;- c(&quot;1&quot;, &quot;2&quot;, &quot;AIP&quot;, &quot;SO&quot;, &quot;5&quot;, &quot;SO_AIP&quot;)
+<pre class="r"><code>MLR_basins_in &lt;- c(&quot;1&quot;, &quot;2&quot;, &quot;AIP&quot;, &quot;SO_2&quot;, &quot;5&quot;, &quot;SO_AIP&quot;, &quot;SO&quot;)
+
+# basinmask$group_id &lt;- 
+# basinmask %&gt;% group_indices(MLR_basins, basin)
 
 basin_maps &lt;-
   map +
   geom_raster(data = basinmask %&gt;%  filter(MLR_basins %in% MLR_basins_in),
               aes(lon, lat, fill = basin)) +
-  scale_fill_discrete(guide = &quot;none&quot;) +
+  scale_fill_brewer(palette = &quot;Set3&quot;, guide = &quot;none&quot;) +
   facet_wrap( ~ MLR_basins) +
   theme(axis.text = element_blank(),
         axis.ticks = element_blank())
@@ -974,6 +1007,36 @@ jens-daniel-mueller
        filename = &quot;basin_maps.png&quot;,
        height = 5,
        width = 10)</code></pre>
+</div>
+<div id="coverage-maps" class="section level1" number="4">
+<h1 number="4"><span class="header-section-number">4</span> coverage maps</h1>
+<pre class="r"><code>GLODAP_era_grid &lt;- GLODAP_preprocessed %&gt;% 
+  mutate(era = cut(year,
+                   seq(1990, 2020, 10),
+                   labels = c(&quot;1990 - 1999&quot;, &quot;2000 - 2009&quot;, &quot;2010 - 2019&quot;),
+                   right = FALSE)) %&gt;% 
+  group_by(lon, lat, era) %&gt;% 
+  summarise(year_max = max(year),
+            year_min = min(year)) %&gt;% 
+  ungroup() %&gt;% 
+  drop_na()
+
+coverage_map &lt;-
+  map +
+  geom_raster(data = GLODAP_era_grid,
+              aes(lon, lat)) +
+  scale_fill_viridis_c() +
+  facet_grid(. ~ era) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())
+
+coverage_map</code></pre>
+<p><img src="figure/basics.Rmd/coverage_maps-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(plot = coverage_map,
+       path = &quot;output/publication&quot;,
+       filename = &quot;coverage_map.png&quot;,
+       height = 2,
+       width = 8)</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1008,31 +1071,31 @@ other attached packages:
 [13] ggplot2_3.3.5   tidyverse_1.3.0 workflowr_1.6.2
 
 loaded via a namespace (and not attached):
- [1] httr_1.4.2               sass_0.4.0               jsonlite_1.7.1          
- [4] modelr_0.1.8             bslib_0.2.5.1            assertthat_0.2.1        
- [7] highr_0.8                blob_1.2.1               cellranger_1.1.0        
-[10] yaml_2.2.1               pillar_1.6.2             backports_1.1.10        
-[13] lattice_0.20-41          glue_1.4.2               RcppEigen_0.3.3.7.0     
-[16] digest_0.6.27            RColorBrewer_1.1-2       promises_1.1.1          
-[19] polyclip_1.10-0          checkmate_2.0.0          rvest_0.3.6             
-[22] colorspace_2.0-2         htmltools_0.5.1.1        httpuv_1.5.4            
-[25] Matrix_1.2-18            pkgconfig_2.0.3          broom_0.7.9             
-[28] haven_2.3.1              scales_1.1.1             tweenr_1.0.2            
-[31] whisker_0.4              later_1.2.0              git2r_0.27.1            
-[34] farver_2.0.3             generics_0.1.0           ellipsis_0.3.2          
-[37] withr_2.3.0              cli_3.0.1                magrittr_1.5            
-[40] crayon_1.3.4             readxl_1.3.1             evaluate_0.14           
-[43] fs_1.5.0                 fansi_0.4.1              MASS_7.3-53             
-[46] xml2_1.3.2               RcppArmadillo_0.10.1.2.0 tools_4.0.3             
-[49] data.table_1.14.0        hms_0.5.3                lifecycle_1.0.0         
-[52] munsell_0.5.0            reprex_0.3.0             compiler_4.0.3          
-[55] jquerylib_0.1.4          rlang_0.4.11             grid_4.0.3              
-[58] rstudioapi_0.13          labeling_0.4.2           rmarkdown_2.10          
-[61] gtable_0.3.0             DBI_1.1.0                R6_2.5.0                
-[64] lubridate_1.7.9          knitr_1.33               utf8_1.1.4              
-[67] rprojroot_2.0.2          stringi_1.5.3            parallel_4.0.3          
-[70] Rcpp_1.0.5               vctrs_0.3.8              dbplyr_1.4.4            
-[73] tidyselect_1.1.0         xfun_0.25               </code></pre>
+ [1] httr_1.4.2               sass_0.4.0               viridisLite_0.3.0       
+ [4] jsonlite_1.7.1           modelr_0.1.8             bslib_0.2.5.1           
+ [7] assertthat_0.2.1         highr_0.8                blob_1.2.1              
+[10] cellranger_1.1.0         yaml_2.2.1               pillar_1.6.2            
+[13] backports_1.1.10         lattice_0.20-41          glue_1.4.2              
+[16] RcppEigen_0.3.3.7.0      digest_0.6.27            RColorBrewer_1.1-2      
+[19] promises_1.1.1           polyclip_1.10-0          checkmate_2.0.0         
+[22] rvest_0.3.6              colorspace_2.0-2         htmltools_0.5.1.1       
+[25] httpuv_1.5.4             Matrix_1.2-18            pkgconfig_2.0.3         
+[28] broom_0.7.9              haven_2.3.1              scales_1.1.1            
+[31] tweenr_1.0.2             whisker_0.4              later_1.2.0             
+[34] git2r_0.27.1             farver_2.0.3             generics_0.1.0          
+[37] ellipsis_0.3.2           withr_2.3.0              cli_3.0.1               
+[40] magrittr_1.5             crayon_1.3.4             readxl_1.3.1            
+[43] evaluate_0.14            fs_1.5.0                 fansi_0.4.1             
+[46] MASS_7.3-53              xml2_1.3.2               RcppArmadillo_0.10.1.2.0
+[49] tools_4.0.3              data.table_1.14.0        hms_0.5.3               
+[52] lifecycle_1.0.0          munsell_0.5.0            reprex_0.3.0            
+[55] compiler_4.0.3           jquerylib_0.1.4          rlang_0.4.11            
+[58] grid_4.0.3               rstudioapi_0.13          labeling_0.4.2          
+[61] rmarkdown_2.10           gtable_0.3.0             DBI_1.1.0               
+[64] R6_2.5.0                 lubridate_1.7.9          knitr_1.33              
+[67] utf8_1.1.4               rprojroot_2.0.2          stringi_1.5.3           
+[70] parallel_4.0.3           Rcpp_1.0.5               vctrs_0.3.8             
+[73] dbplyr_1.4.4             tidyselect_1.1.0         xfun_0.25               </code></pre>
 </div>
 </div>
 
