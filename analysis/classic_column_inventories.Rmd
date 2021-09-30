@@ -165,6 +165,10 @@ for (i_Version_IDs in Version_IDs) {
 rm(dcant_inv, dcant_inv_bias, dcant_inv_mod_truth,
    params_local, tref)
 
+params_local_all <-
+  params_local_all %>%
+  mutate(period = factor(period, c("1994 - 2004", "2004 - 2014", "1994 - 2014")))
+
 dcant_inv_all <- full_join(dcant_inv_all,
                            params_local_all)
 
