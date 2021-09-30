@@ -540,7 +540,7 @@ ggsave(plot = p_ensemble_distribution,
        path = "output/publication",
        filename = "inv_ensemble_distribution_all.png",
        height = 6,
-       width = 8)
+       width = 5)
 
 ```
 
