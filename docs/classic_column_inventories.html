@@ -610,16 +610,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree9d7d257970ac52c8575c882e6e9c8a88eaa795cftargetblank9d7d257a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/9d7d257970ac52c8575c882e6e9c8a88eaa795cf" target="_blank">9d7d257</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree67edc719f095a2900dc24ae8ed94b359f24e15d9targetblank67edc71a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/67edc719f095a2900dc24ae8ed94b359f24e15d9" target="_blank">67edc71</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree9d7d257970ac52c8575c882e6e9c8a88eaa795cftargetblank9d7d257a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree67edc719f095a2900dc24ae8ed94b359f24e15d9targetblank67edc71a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/9d7d257970ac52c8575c882e6e9c8a88eaa795cf" target="_blank">9d7d257</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/67edc719f095a2900dc24ae8ed94b359f24e15d9" target="_blank">67edc71</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -672,6 +672,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/67edc719f095a2900dc24ae8ed94b359f24e15d9/analysis/classic_column_inventories.Rmd" target="_blank">67edc71</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-09-30
+</td>
+<td>
+maps added
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/318dbe4d0665b6f3f3848c92201a1feb02f7d7e8/docs/classic_column_inventories.html" target="_blank">318dbe4</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-09-30
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1366,6 +1400,10 @@ for (i_Version_IDs in Version_IDs) {
 [1] &quot;v_3008&quot;</code></pre>
 <pre class="r"><code>rm(dcant_inv, dcant_inv_bias, dcant_inv_mod_truth,
    params_local, tref)
+
+params_local_all &lt;-
+  params_local_all %&gt;%
+  mutate(period = factor(period, c(&quot;1994 - 2004&quot;, &quot;2004 - 2014&quot;, &quot;1994 - 2014&quot;)))
 
 dcant_inv_all &lt;- full_join(dcant_inv_all,
                            params_local_all)
@@ -2392,6 +2430,43 @@ jens-daniel-mueller
   theme(axis.text = element_blank(),
         axis.ticks = element_blank())</code></pre>
 <p><img src="figure/classic_column_inventories.Rmd/ensemble_mean_all-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_mean_all-1">
+Past versions of ensemble_mean_all-1.png
+</button>
+</p>
+<div id="fig-ensemble_mean_all-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/318dbe4d0665b6f3f3848c92201a1feb02f7d7e8/docs/figure/classic_column_inventories.Rmd/ensemble_mean_all-1.png" target="_blank">318dbe4</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-09-30
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="mean-bias" class="section level2" number="3.2">
 <h2 number="3.2"><span class="header-section-number">3.2</span> Mean bias</h2>
@@ -2931,6 +3006,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/318dbe4d0665b6f3f3848c92201a1feb02f7d7e8/docs/figure/classic_column_inventories.Rmd/ensemble_sd_vs_bias-2.png" target="_blank">318dbe4</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-09-30
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a6689de10c8d35ac72b92e3f2be2984deb763502/docs/figure/classic_column_inventories.Rmd/ensemble_sd_vs_bias-2.png" target="_blank">a6689de</a>
