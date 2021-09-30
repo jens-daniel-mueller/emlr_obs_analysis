@@ -386,6 +386,19 @@ p_map_cant_inv(df = dcant_inv_ensemble %>%
 
 ```
 
+```{r ensemble_mean_all, fig.asp=1}
+
+p_map_cant_inv(df = dcant_inv_ensemble %>% 
+                 filter(data_source == "obs"),
+                     var = "dcant_mean",
+                     subtitle_text = paste("Ensemble means"),
+               breaks = c(-Inf, seq(0,28,4), Inf)) +
+      facet_grid(period ~ .) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())
+
+```
+
 ## Mean bias
 
 ```{r ensemble_mean_bias}
@@ -461,6 +474,7 @@ dcant_density_distribution <- bind_rows(dcant_density_distribution,
 
 p_ensemble_distribution <-
   dcant_density_distribution %>%
+  filter(period != "1994 - 2014") %>% 
   mutate(
     data_source = recode(data_source,
                          mod = "Model",
@@ -478,11 +492,49 @@ p_ensemble_distribution <-
   geom_density(alpha = 0.2) +
   facet_grid(period ~ data_source) +
   labs(title = "Density distributions of column inventory ensemble properties",
-       x = legend_title) +
+       x = legend_title,
+       y = "Density of 1x1° grid cells") +
+  coord_cartesian(ylim = c(0, 0.5),
+                  xlim = c(-5, 32))
+
+ggsave(plot = p_ensemble_distribution,
+       path = "output/publication",
+       filename = "inv_ensemble_distribution.png",
+       height = 4,
+       width = 8)
+
+
+p_ensemble_distribution <-
+  dcant_density_distribution %>%
+  mutate(
+    data_source = recode(data_source,
+                         mod = "Model",
+                         obs = "Observations"),
+    estimate = recode(
+      estimate,
+      dcant_mean = "Mean",
+      dcant_mean_bias = "Bias",
+      dcant_sd = "SD"
+    )
+  ) %>%
+  ggplot(aes(value, fill = estimate, col = estimate)) +
+  scale_color_brewer(palette = "Dark2") +
+  scale_fill_brewer(palette = "Dark2") +
+  geom_density(alpha = 0.2) +
+  facet_grid(period ~ data_source) +
+  labs(title = "Density distributions of column inventory ensemble properties",
+       x = legend_title,
+       y = "Density of 1x1° grid cells") +
   coord_cartesian(ylim = c(0, 0.5),
                   xlim = c(-5, 32))
 
 p_ensemble_distribution
+
+ggsave(plot = p_ensemble_distribution,
+       path = "output/publication",
+       filename = "inv_ensemble_distribution_all.png",
+       height = 6,
+       width = 8)
 
 ```
 
