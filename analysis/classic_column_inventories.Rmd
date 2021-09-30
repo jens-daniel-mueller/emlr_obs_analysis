@@ -395,11 +395,12 @@ p_map_cant_inv(df = dcant_inv_ensemble %>%
 p_map_cant_inv(df = dcant_inv_ensemble %>% 
                  filter(data_source == "obs"),
                      var = "dcant_mean",
-                     subtitle_text = paste("Ensemble means"),
+                     title_text = paste("Ensemble means"),
                breaks = c(-Inf, seq(0,28,4), Inf)) +
       facet_grid(period ~ .) +
   theme(axis.text = element_blank(),
-        axis.ticks = element_blank())
+        axis.ticks = element_blank(),
+        legend.position = "left")
 
 ```
 
@@ -510,6 +511,7 @@ ggsave(plot = p_ensemble_distribution,
 
 p_ensemble_distribution <-
   dcant_density_distribution %>%
+  filter(data_source == "obs") %>%
   mutate(
     data_source = recode(data_source,
                          mod = "Model",
