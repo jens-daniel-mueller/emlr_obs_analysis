@@ -576,9 +576,9 @@ p_regional_bias
 
 ```
 
-# Slab budgets
+## Slab budgets
 
-```{r slab_budgets}
+```{r slab_budgets, fig.asp=1}
 
 dcant_slab_budget_all %>%
   filter(data_source == "obs",
@@ -587,7 +587,7 @@ dcant_slab_budget_all %>%
   geom_hline(yintercept = 0, col = "red") +
   geom_col() +
   scale_fill_scico_d(direction = -1) +
-  facet_grid(period ~ basin_AIP)
+  facet_grid(basin_AIP ~ period)
 
 ```
 
@@ -598,7 +598,7 @@ dcant_slab_budget_bias_all %>%
   filter(period != "1994 - 2014") %>%
   group_by(basin_AIP) %>%
   group_split() %>%
-  head(1) %>% 
+  # head(1) %>% 
   map(
     ~ ggplot(data = .x,
              aes(gamma_slab, dcant_bias, fill = gamma_slab)) +
