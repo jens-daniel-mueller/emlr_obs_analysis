@@ -5,7 +5,7 @@
 
 
 # commit regular changes (locally) and rebuild site
-wflow_publish(all = TRUE, message = "maps added")
+wflow_publish(all = TRUE, message = "slab budgets included")
 
 # commit changes including _site.yml (locally) and rebuild site in the specified order
 wflow_publish(here::here("analysis",

@@ -271,19 +271,35 @@ for (i_Version_IDs in Version_IDs) {
       sep = ""
     ))
   
+    
+  dcant_budget_basin_AIP <- bind_rows(dcant_budget_basin_AIP,
+                                      dcant_budget_basin_AIP_mod_truth)
+  
   dcant_budget_basin_AIP_bias <-
     read_csv(paste(path_version_data,
                    "dcant_budget_basin_AIP_bias.csv",
                    sep = ""))
   
-  dcant_budget_basin_AIP <- bind_rows(dcant_budget_basin_AIP,
-                                      dcant_budget_basin_AIP_mod_truth)
-  
+  dcant_slab_budget_bias <-
+    read_csv(paste0(path_version_data,
+                    "dcant_slab_budget_bias.csv"))
+
+  dcant_slab_budget <-
+    read_csv(paste0(path_version_data,
+                    "dcant_slab_budget.csv"))
+
   dcant_budget_basin_AIP <- dcant_budget_basin_AIP %>%
     mutate(Version_ID = i_Version_IDs)
   
   dcant_budget_basin_AIP_bias <- dcant_budget_basin_AIP_bias %>%
     mutate(Version_ID = i_Version_IDs)
+  
+  dcant_slab_budget <- dcant_slab_budget %>%
+    mutate(Version_ID = i_Version_IDs)
+  
+  dcant_slab_budget_bias <- dcant_slab_budget_bias %>%
+    mutate(Version_ID = i_Version_IDs)
+  
   if (exists("dcant_budget_basin_AIP_all")) {
     dcant_budget_basin_AIP_all <-
       bind_rows(dcant_budget_basin_AIP_all, dcant_budget_basin_AIP)
@@ -303,12 +319,33 @@ for (i_Version_IDs in Version_IDs) {
     dcant_budget_basin_AIP_bias_all <- dcant_budget_basin_AIP_bias
   }
   
+  if (exists("dcant_slab_budget_all")) {
+    dcant_slab_budget_all <-
+      bind_rows(dcant_slab_budget_all, dcant_slab_budget)
+  }
+  
+  if (!exists("dcant_slab_budget_all")) {
+    dcant_slab_budget_all <- dcant_slab_budget
+  }
+  
+  if (exists("dcant_slab_budget_bias_all")) {
+    dcant_slab_budget_bias_all <-
+      bind_rows(dcant_slab_budget_bias_all,
+                dcant_slab_budget_bias)
+  }
+  
+  if (!exists("dcant_slab_budget_bias_all")) {
+    dcant_slab_budget_bias_all <- dcant_slab_budget_bias
+  }
+  
 }
 
 rm(
   dcant_budget_basin_AIP,
   dcant_budget_basin_AIP_bias,
-  dcant_budget_basin_AIP_mod_truth
+  dcant_budget_basin_AIP_mod_truth,
+  dcant_slab_budget,
+  dcant_slab_budget_bias
 )
 
 dcant_budget_basin_AIP_all <- full_join(dcant_budget_basin_AIP_all,
@@ -316,6 +353,13 @@ dcant_budget_basin_AIP_all <- full_join(dcant_budget_basin_AIP_all,
 
 dcant_budget_basin_AIP_bias_all <-
   full_join(dcant_budget_basin_AIP_bias_all,
+            params_local_all)
+
+dcant_slab_budget_all <- full_join(dcant_slab_budget_all,
+                                        params_local_all)
+
+dcant_slab_budget_bias_all <-
+  full_join(dcant_slab_budget_bias_all,
             params_local_all)
 
 ```
@@ -351,6 +395,12 @@ dcant_budget_basin_AIP_all <- dcant_budget_basin_AIP_all %>%
   filter(MLR_basins %in% MLR_basins_in)
 
 dcant_budget_basin_AIP_bias_all <- dcant_budget_basin_AIP_bias_all  %>% 
+  filter(MLR_basins %in% MLR_basins_in)
+
+dcant_slab_budget_all <- dcant_slab_budget_all %>% 
+  filter(MLR_basins %in% MLR_basins_in)
+
+dcant_slab_budget_bias_all <- dcant_slab_budget_bias_all  %>% 
   filter(MLR_basins %in% MLR_basins_in)
 
 
@@ -525,6 +575,44 @@ p_regional_bias
 
 
 ```
+
+# Slab budgets
+
+```{r slab_budgets}
+
+dcant_slab_budget_all %>%
+  filter(data_source == "obs",
+         period != "1994 - 2014") %>% 
+  ggplot(aes(MLR_basins, dcant, fill = gamma_slab)) +
+  geom_hline(yintercept = 0, col = "red") +
+  geom_col() +
+  scale_fill_scico_d(direction = -1) +
+  facet_grid(period ~ basin_AIP)
+
+```
+
+
+```{r slab_budgets_bias}
+
+dcant_slab_budget_bias_all %>%
+  filter(period != "1994 - 2014") %>%
+  group_by(basin_AIP) %>%
+  group_split() %>%
+  head(1) %>% 
+  map(
+    ~ ggplot(data = .x,
+             aes(gamma_slab, dcant_bias, fill = gamma_slab)) +
+      geom_col() +
+      coord_flip() +
+      scale_x_discrete(limits = rev) +
+      scale_fill_scico_d(direction = -1) +
+      facet_grid(period ~ MLR_basins) +
+      labs(title = paste("data_source:", unique(.x$basin_AIP)))
+    )
+
+
+```
+
 
 
 # Ensemble
