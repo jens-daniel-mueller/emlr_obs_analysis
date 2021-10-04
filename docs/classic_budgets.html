@@ -610,16 +610,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree251b4359dcbc46c37132e5276c3a11143b4c3322targetblank251b435a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/251b4359dcbc46c37132e5276c3a11143b4c3322" target="_blank">251b435</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeddf84c24a832ac18a8eec055086576cbbcfb7800targetblankddf84c2a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/ddf84c24a832ac18a8eec055086576cbbcfb7800" target="_blank">ddf84c2</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree251b4359dcbc46c37132e5276c3a11143b4c3322targetblank251b435a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeddf84c24a832ac18a8eec055086576cbbcfb7800targetblankddf84c2a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/251b4359dcbc46c37132e5276c3a11143b4c3322" target="_blank">251b435</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/ddf84c24a832ac18a8eec055086576cbbcfb7800" target="_blank">ddf84c2</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -672,6 +672,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ddf84c24a832ac18a8eec055086576cbbcfb7800/analysis/classic_budgets.Rmd" target="_blank">ddf84c2</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-04
+</td>
+<td>
+slab budgets included
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/8b1336cf9b1784313d1fdadad7604f43cfdfc1bb/docs/classic_budgets.html" target="_blank">8b1336c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-04
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -2810,6 +2844,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/8b1336cf9b1784313d1fdadad7604f43cfdfc1bb/docs/figure/classic_budgets.Rmd/slab_budgets-1.png" target="_blank">8b1336c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-04
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/19c82b01b310ed61c2f5d71342a7dd5cb051e04c/docs/figure/classic_budgets.Rmd/slab_budgets-1.png" target="_blank">19c82b0</a>
 </td>
 <td>
@@ -2823,6 +2868,28 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
+<pre class="r"><code>dcant_slab_budget_all %&gt;%
+  filter(data_source == &quot;obs&quot;,
+         period != &quot;1994 - 2014&quot;) %&gt;%
+  group_by(basin_AIP) %&gt;%
+  group_split() %&gt;%
+  map(
+    ~ ggplot(data = .x,
+             aes(MLR_basins, dcant, fill = gamma_slab)) +
+      geom_hline(yintercept = 0) +
+      geom_col() +
+      scale_fill_scico_d(direction = -1) +
+      labs(title = paste(&quot;data_source:&quot;, unique(.x$basin_AIP))) +
+      facet_grid(gamma_slab ~ period)
+  )</code></pre>
+<pre><code>[[1]]</code></pre>
+<p><img src="figure/classic_budgets.Rmd/slab_budgets_individual-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[2]]</code></pre>
+<p><img src="figure/classic_budgets.Rmd/slab_budgets_individual-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[3]]</code></pre>
+<p><img src="figure/classic_budgets.Rmd/slab_budgets_individual-3.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>dcant_slab_budget_bias_all %&gt;%
   filter(period != &quot;1994 - 2014&quot;) %&gt;%
   group_by(basin_AIP) %&gt;%
@@ -2880,9 +2947,83 @@ jens-daniel-mueller
 <pre><code>
 [[2]]</code></pre>
 <p><img src="figure/classic_budgets.Rmd/slab_budgets_bias-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-slab_budgets_bias-2">
+Past versions of slab_budgets_bias-2.png
+</button>
+</p>
+<div id="fig-slab_budgets_bias-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/8b1336cf9b1784313d1fdadad7604f43cfdfc1bb/docs/figure/classic_budgets.Rmd/slab_budgets_bias-2.png" target="_blank">8b1336c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>
 [[3]]</code></pre>
 <p><img src="figure/classic_budgets.Rmd/slab_budgets_bias-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-slab_budgets_bias-3">
+Past versions of slab_budgets_bias-3.png
+</button>
+</p>
+<div id="fig-slab_budgets_bias-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/8b1336cf9b1784313d1fdadad7604f43cfdfc1bb/docs/figure/classic_budgets.Rmd/slab_budgets_bias-3.png" target="_blank">8b1336c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="ensemble" class="section level1" number="6">
