@@ -591,6 +591,25 @@ dcant_slab_budget_all %>%
 
 ```
 
+```{r slab_budgets_individual, fig.asp=1.5}
+
+dcant_slab_budget_all %>%
+  filter(data_source == "obs",
+         period != "1994 - 2014") %>%
+  group_by(basin_AIP) %>%
+  group_split() %>%
+  map(
+    ~ ggplot(data = .x,
+             aes(MLR_basins, dcant, fill = gamma_slab)) +
+      geom_hline(yintercept = 0) +
+      geom_col() +
+      scale_fill_scico_d(direction = -1) +
+      labs(title = paste("data_source:", unique(.x$basin_AIP))) +
+      facet_grid(gamma_slab ~ period)
+  )
+
+```
+
 
 ```{r slab_budgets_bias}
 
