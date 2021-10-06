@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Jens Daniel Müller" />
+
+
+<title>Column inventories</title>
+
+<script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/master/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">emlr obs analysis</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="basics.html">Basics</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Spatial splits
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Classic cases</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="classic_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="classic_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="classic_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">slab cases</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="slab_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="slab_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="slab_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Data cleaning
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">CANYON-B</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="canyon_b_cleaning_overview.html">Overview</a>
+        </li>
+        <li>
+          <a href="canyon_b_cleaning_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="canyon_b_cleaning_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="canyon_b_cleaning_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">No gap-filling and filter</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="gaps_filter_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="gaps_filter_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="gaps_filter_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Global MLR</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="global_MLR_cleaning_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="global_MLR_cleaning_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="global_MLR_cleaning_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Rarefication</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="rarefication_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="rarefication_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="rarefication_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    MLR
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">no_N</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="no_n_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="no_n_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="no_n_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">no_P</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="no_p_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="no_p_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="no_p_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">VIF</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="vif_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="vif_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="vif_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis">
+    <span class="fa fa-github"></span>
+     
+    Source code
+  </a>
+</li>
+<li>
+  <a href="https://jens-daniel-mueller.github.io/">
+    <span class="fa fa-home"></span>
+     
+    Jens' homepage
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Column inventories</h1>
+<h4 class="author">Jens Daniel Müller</h4>
+<h4 class="date">06 October, 2021</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2021-10-06
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>emlr_obs_analysis/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.2). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20210412code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20210412)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20210412code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20210412)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree277e22709d609346e1fedf71050d9ef52f359680targetblank277e227a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/277e22709d609346e1fedf71050d9ef52f359680" target="_blank">277e227</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree277e22709d609346e1fedf71050d9ef52f359680targetblank277e227a" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/277e22709d609346e1fedf71050d9ef52f359680" target="_blank">277e227</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    data/
+    Ignored:    output/Gruber_2019_comparison/
+    Ignored:    output/publication/
+
+Untracked files:
+    Untracked:  code/classic_slab_inventories.Rmd
+
+Unstaged changes:
+    Modified:   analysis/_site.yml
+    Modified:   code/Workflowr_project_managment.R
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/no_p_column_inventories.Rmd</code>) and HTML (<code>docs/no_p_column_inventories.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/277e22709d609346e1fedf71050d9ef52f359680/analysis/no_p_column_inventories.Rmd" target="_blank">277e227</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-06
+</td>
+<td>
+add no N/P analysis
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<div id="read-files" class="section level1" number="1">
+<h1 number="1"><span class="header-section-number">1</span> Read files</h1>
+<pre class="r"><code>ensemble_members &lt;- 
+  read_rds(&quot;data/ensemble_members_no_p.rds&quot;)
+
+MLR_basins_in &lt;- 
+  read_rds(&quot;data/MLR_basins_in_no_p.rds&quot;)</code></pre>
+<pre class="r"><code># identify required version IDs
+
+Version_IDs_1 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
+                            pattern = &quot;v_18&quot;)
+
+Version_IDs_2 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
+                            pattern = &quot;v_28&quot;)
+
+# Version_IDs_3 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
+#                             pattern = &quot;v_30&quot;)
+
+Version_IDs &lt;- c(Version_IDs_1, Version_IDs_2)
+# Version_IDs &lt;- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
+rm(Version_IDs_1, Version_IDs_2)
+# rm(Version_IDs_1, Version_IDs_2, Version_IDs_3)
+
+# Version_IDs &lt;- Version_IDs[1:length(Version_IDs)-1]
+
+for (i_Version_IDs in Version_IDs) {
+  # i_Version_IDs &lt;- Version_IDs[1]
+  
+  print(i_Version_IDs)
+  
+  path_version_data     &lt;-
+  paste(path_observations,
+        i_Version_IDs,
+        &quot;/data/&quot;,
+        sep = &quot;&quot;)
+  
+  # load and join data files
+  
+  dcant_inv &lt;-
+    read_csv(paste(path_version_data,
+                   &quot;dcant_inv.csv&quot;,
+                   sep = &quot;&quot;))
+  
+  dcant_inv_mod_truth &lt;-
+    read_csv(paste(path_version_data,
+                   &quot;dcant_inv_mod_truth.csv&quot;,
+                   sep = &quot;&quot;)) %&gt;% 
+    filter(method == &quot;total&quot;) %&gt;% 
+    select(-method)
+  
+  dcant_inv_bias &lt;-
+    read_csv(paste(path_version_data,
+                   &quot;dcant_inv_bias.csv&quot;,
+                   sep = &quot;&quot;))
+  
+  dcant_inv &lt;- bind_rows(dcant_inv,
+                         dcant_inv_mod_truth)
+  
+  dcant_inv &lt;- dcant_inv %&gt;% 
+    mutate(Version_ID = i_Version_IDs)
+  
+  dcant_inv_bias &lt;- dcant_inv_bias %&gt;% 
+    mutate(Version_ID = i_Version_IDs)
+  
+  params_local &lt;-
+    read_rds(paste(path_version_data,
+                   &quot;params_local.rds&quot;,
+                   sep = &quot;&quot;))
+  
+  params_local &lt;- bind_cols(
+    Version_ID = i_Version_IDs,
+    MLR_basins = params_local$MLR_basins,
+    tref1 = params_local$tref1,
+    tref2 = params_local$tref2,
+    gap_filling = params_local$gap_filling,
+    rarefication = params_local$rarefication,
+    rarefication_threshold = params_local$rarefication_threshold,
+    MLR_predictors = str_c(params_local$MLR_predictors, collapse = &quot;+&quot;),
+    vif_max = params_local$vif_max
+  )
+  
+  tref &lt;- read_csv(paste(path_version_data,
+                         &quot;tref.csv&quot;,
+                         sep = &quot;&quot;))
+  
+  params_local &lt;- params_local %&gt;% 
+    mutate(median_year_1 = sort(tref$median_year)[1],
+           median_year_2 = sort(tref$median_year)[2],
+           duration = median_year_2 - median_year_1,
+           period = paste(median_year_1, &quot;-&quot;, median_year_2))
+  
+  if (exists(&quot;dcant_inv_all&quot;)) {
+    dcant_inv_all &lt;- bind_rows(dcant_inv_all, dcant_inv)
+  }
+  
+  if (!exists(&quot;dcant_inv_all&quot;)) {
+    dcant_inv_all &lt;- dcant_inv
+  }
+
+  if (exists(&quot;dcant_inv_bias_all&quot;)) {
+    dcant_inv_bias_all &lt;- bind_rows(dcant_inv_bias_all, dcant_inv_bias)
+  }
+  
+  if (!exists(&quot;dcant_inv_bias_all&quot;)) {
+    dcant_inv_bias_all &lt;- dcant_inv_bias
+  }
+
+  if (exists(&quot;params_local_all&quot;)) {
+    params_local_all &lt;- bind_rows(params_local_all, params_local)
+  }
+  
+  if (!exists(&quot;params_local_all&quot;)) {
+    params_local_all &lt;- params_local
+  }
+  
+  
+}</code></pre>
+<pre><code>[1] &quot;v_1801&quot;
+[1] &quot;v_1802&quot;
+[1] &quot;v_1803&quot;
+[1] &quot;v_1804&quot;
+[1] &quot;v_1805&quot;
+[1] &quot;v_1806&quot;
+[1] &quot;v_2801&quot;
+[1] &quot;v_2802&quot;
+[1] &quot;v_2803&quot;
+[1] &quot;v_2804&quot;
+[1] &quot;v_2805&quot;
+[1] &quot;v_2806&quot;</code></pre>
+<pre class="r"><code>rm(dcant_inv, dcant_inv_bias, dcant_inv_mod_truth,
+   params_local, tref)
+
+params_local_all &lt;-
+  params_local_all %&gt;%
+  mutate(period = factor(period, c(&quot;1994 - 2004&quot;, &quot;2004 - 2014&quot;, &quot;1994 - 2014&quot;)))
+
+dcant_inv_all &lt;- full_join(dcant_inv_all,
+                           params_local_all)
+
+dcant_inv_bias_all &lt;- full_join(dcant_inv_bias_all,
+                                params_local_all)</code></pre>
+<pre class="r"><code>dcant_inv_all &lt;- dcant_inv_all %&gt;%
+  filter(inv_depth == params_global$inventory_depth_standard)</code></pre>
+<pre class="r"><code>dcant_inv_all &lt;- dcant_inv_all %&gt;% 
+  filter(MLR_basins %in% MLR_basins_in)
+
+dcant_inv_bias_all &lt;- dcant_inv_bias_all %&gt;% 
+  filter(MLR_basins %in% MLR_basins_in)</code></pre>
+<pre class="r"><code>dcant_inv_all_G19 &lt;- read_csv(paste0(path_preprocessing,
+                             &quot;G19_dcant_inv_all.csv&quot;))</code></pre>
+</div>
+<div id="individual-cases" class="section level1" number="2">
+<h1 number="2"><span class="header-section-number">2</span> Individual cases</h1>
+<div id="absoulte-values" class="section level2" number="2.1">
+<h2 number="2.1"><span class="header-section-number">2.1</span> Absoulte values</h2>
+<pre class="r"><code>dcant_inv_all %&gt;%
+  filter(data_source %in% c(&quot;mod&quot;, &quot;obs&quot;),
+         period != &quot;1994 - 2014&quot;) %&gt;%
+  mutate(MLR_basins = if_else(
+    MLR_basins %in% ensemble_members,
+    paste(MLR_basins, &quot;*&quot;),
+    MLR_basins
+  )) %&gt;% 
+  group_by(data_source) %&gt;%
+  group_split() %&gt;%
+  # head(1) %&gt;%
+  map(
+    ~ p_map_cant_inv(df = .x,
+                     var = &quot;dcant&quot;,
+                     subtitle_text = paste(&quot;data_source:&quot;,
+                                           unique(.x$data_source))) +
+      facet_grid(MLR_basins ~ period) +
+      theme(axis.text = element_blank(),
+            axis.ticks = element_blank())
+  )</code></pre>
+<pre><code>[[1]]</code></pre>
+<p><img src="figure/no_p_column_inventories.Rmd/cases_absolute-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[2]]</code></pre>
+<p><img src="figure/no_p_column_inventories.Rmd/cases_absolute-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>p_dcant_inv_all_1994_2004 &lt;-
+  dcant_inv_all %&gt;%
+  filter(data_source %in% c(&quot;obs&quot;),
+         period == &quot;1994 - 2004&quot;) %&gt;%
+  mutate(MLR_basins = if_else(
+    MLR_basins %in% ensemble_members,
+    paste(MLR_basins, &quot;*&quot;),
+    MLR_basins
+  ),
+    period = recode(period,
+                    &quot;1994 - 2004&quot; = &quot;Observation-based&quot;)) %&gt;%
+  p_map_cant_inv(var = &quot;dcant&quot;,
+                 title_text = &quot;1994 - 2004&quot;) +
+  facet_grid(MLR_basins ~ period) +
+  theme(
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    strip.background.y = element_blank(),
+    strip.text.y = element_blank(),
+    legend.position = &quot;left&quot;
+  )
+
+p_dcant_inv_all_1994_2004</code></pre>
+<p><img src="figure/no_p_column_inventories.Rmd/cases_absolute-3.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="biases" class="section level2" number="2.2">
+<h2 number="2.2"><span class="header-section-number">2.2</span> Biases</h2>
+<pre class="r"><code>dcant_inv_bias_all %&gt;%
+  filter(period != &quot;1994 - 2014&quot;) %&gt;%
+  mutate(MLR_basins = if_else(
+    MLR_basins %in% ensemble_members,
+    paste(MLR_basins, &quot;*&quot;),
+    MLR_basins
+  )) %&gt;%
+  p_map_cant_inv(var = &quot;dcant_bias&quot;,
+                 col = &quot;bias&quot;,
+                 subtitle_text = &quot;data_source: mod - mod_truth&quot;) +
+  facet_grid(MLR_basins ~ period)</code></pre>
+<p><img src="figure/no_p_column_inventories.Rmd/cases_bias-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># dcant_inv_bias_all %&gt;%
+#   filter(period == &quot;1994 - 2014&quot;) %&gt;%
+#   mutate(MLR_basins = if_else(
+#     MLR_basins %in% ensemble_members,
+#     paste(MLR_basins, &quot;*&quot;),
+#     MLR_basins
+#   )) %&gt;%
+#   p_map_cant_inv(var = &quot;dcant_bias&quot;,
+#                  col = &quot;bias&quot;,
+#                  subtitle_text = &quot;data_source: mod - mod_truth&quot;) +
+#   facet_grid(MLR_basins ~ period)
+
+
+p_dcant_inv_bias_all_1994_2004 &lt;-
+  dcant_inv_bias_all %&gt;%
+  filter(period == &quot;1994 - 2004&quot;) %&gt;%
+  mutate(
+    MLR_basins = if_else(
+      MLR_basins %in% ensemble_members,
+      paste(MLR_basins, &quot;*&quot;),
+      MLR_basins
+    ),
+    period = recode(period,
+                    &quot;1994 - 2004&quot; = &quot;Model-based&quot;)
+  ) %&gt;%
+  p_map_cant_inv(var = &quot;dcant_bias&quot;,
+                 col = &quot;bias&quot;,
+                 title_text = &quot;Models&quot;) +
+  facet_grid(MLR_basins ~ period) +
+  theme(
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    plot.title = element_blank()
+  )
+
+p_dcant_1994_2004 &lt;- 
+p_dcant_inv_all_1994_2004 +
+  p_dcant_inv_bias_all_1994_2004
+
+p_dcant_1994_2004</code></pre>
+<p><img src="figure/no_p_column_inventories.Rmd/cases_bias-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(plot = p_dcant_1994_2004,
+       path = &quot;output/publication&quot;,
+       filename = &quot;inv_dcant_1994_2004.png&quot;,
+       height = 8,
+       width = 8)</code></pre>
+<pre class="r"><code>dcant_inv_bias_all %&gt;%
+  mutate(MLR_basins = if_else(
+    MLR_basins %in% ensemble_members,
+    paste(MLR_basins, &quot;*&quot;),
+    MLR_basins
+  )) %&gt;%
+  ggplot(aes(dcant_bias)) +
+  scale_color_brewer(palette = &quot;Set1&quot;) +
+  geom_density() +
+  facet_grid(MLR_basins ~ period) +
+  coord_cartesian(xlim = c(-10, 10))</code></pre>
+<p><img src="figure/no_p_column_inventories.Rmd/filter_ensemble_member-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dcant_inv_ensemble_member &lt;- dcant_inv_bias_all %&gt;% 
+  group_by(period, MLR_basins) %&gt;% 
+  summarise(dcant_sd = sd(dcant_bias)) %&gt;% 
+  ungroup()
+
+dcant_inv_ensemble_member %&gt;%
+  mutate(MLR_basins = if_else(
+    MLR_basins %in% ensemble_members,
+    paste(MLR_basins, &quot;*&quot;),
+    MLR_basins
+  )) %&gt;%
+  ggplot(aes(MLR_basins, dcant_sd, col = period)) +
+  geom_point()</code></pre>
+<p><img src="figure/no_p_column_inventories.Rmd/filter_ensemble_member-2.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="ensemble" class="section level1" number="3">
+<h1 number="3"><span class="header-section-number">3</span> Ensemble</h1>
+<pre class="r"><code>dcant_inv_ensemble &lt;- dcant_inv_all %&gt;% 
+  filter(data_source %in% c(&quot;mod&quot;, &quot;obs&quot;),
+         MLR_basins %in% ensemble_members) %&gt;% 
+  group_by(lat, lon, data_source, period) %&gt;% 
+  summarise(dcant_mean = mean(dcant),
+            dcant_sd = sd(dcant),
+            dcant_range = max(dcant)- min(dcant)) %&gt;% 
+  ungroup()</code></pre>
+<div id="mean" class="section level2" number="3.1">
+<h2 number="3.1"><span class="header-section-number">3.1</span> Mean</h2>
+<pre class="r"><code>p_map_cant_inv(df = dcant_inv_ensemble %&gt;% 
+                 filter(period != &quot;1994 - 2014&quot;,
+                        data_source == &quot;obs&quot;),
+                     var = &quot;dcant_mean&quot;,
+                     subtitle_text = paste(&quot;Ensemble means&quot;)) +
+      facet_grid(period ~ .) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())</code></pre>
+<p><img src="figure/no_p_column_inventories.Rmd/ensemble_mean-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>p_map_cant_inv(df = dcant_inv_ensemble %&gt;% 
+                 filter(data_source == &quot;obs&quot;),
+                     var = &quot;dcant_mean&quot;,
+                     title_text = paste(&quot;Ensemble means&quot;),
+               breaks = c(-Inf, seq(0,28,4), Inf)) +
+      facet_grid(period ~ .) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        legend.position = &quot;left&quot;)</code></pre>
+<p><img src="figure/no_p_column_inventories.Rmd/ensemble_mean_all-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="mean-bias" class="section level2" number="3.2">
+<h2 number="3.2"><span class="header-section-number">3.2</span> Mean bias</h2>
+<pre class="r"><code>dcant_inv_ensemble_bias &lt;- full_join(
+  dcant_inv_ensemble %&gt;%
+    filter(data_source == &quot;mod&quot;) %&gt;% 
+    select(lat, lon, period, dcant_mean, dcant_sd),
+  dcant_inv_all %&gt;%
+    filter(data_source == &quot;mod_truth&quot;,
+           MLR_basins == &quot;2&quot;) %&gt;% 
+    select(lat, lon, period, dcant)
+)
+
+dcant_inv_ensemble_bias &lt;- dcant_inv_ensemble_bias %&gt;% 
+  mutate(dcant_mean_bias = dcant_mean - dcant)
+
+dcant_inv_ensemble_bias %&gt;%
+  filter(period != &quot;1994 - 2014&quot;) %&gt;%
+  p_map_cant_inv(var = &quot;dcant_mean_bias&quot;,
+                 col = &quot;bias&quot;,
+                 subtitle_text = &quot;Ensemble mean - mod_truth&quot;) +
+  facet_grid(period ~ .)</code></pre>
+<p><img src="figure/no_p_column_inventories.Rmd/ensemble_mean_bias-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="standard-deviation" class="section level2" number="3.3">
+<h2 number="3.3"><span class="header-section-number">3.3</span> Standard deviation</h2>
+<pre class="r"><code>p_map_cant_inv(
+  df = dcant_inv_ensemble,
+  var = &quot;dcant_sd&quot;,
+  breaks = c(seq(0,4,0.4), Inf),
+  subtitle_text = paste(&quot;Ensemble SD&quot;)
+) +
+  facet_grid(period ~ data_source)</code></pre>
+<p><img src="figure/no_p_column_inventories.Rmd/ensemble_sd-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="sd-vs-bias" class="section level2" number="3.4">
+<h2 number="3.4"><span class="header-section-number">3.4</span> SD vs bias</h2>
+<pre class="r"><code>dcant_inv_ensemble_bias %&gt;% 
+  ggplot(aes(dcant_mean_bias, dcant_sd)) +
+  geom_bin2d() +
+  scale_fill_viridis_c() +
+  facet_grid(. ~ period)
+
+legend_title = expression(Delta * C[ant]~(mol~m^2))
+
+dcant_density_distribution_bias &lt;- dcant_inv_ensemble_bias %&gt;% 
+  select(dcant_mean_bias, period) %&gt;% 
+  pivot_longer(dcant_mean_bias,
+               names_to = &quot;estimate&quot;,
+               values_to = &quot;value&quot;) %&gt;% 
+  mutate(data_source = &quot;mod&quot;)
+
+dcant_density_distribution &lt;- dcant_inv_ensemble %&gt;% 
+  select(dcant_mean, dcant_sd, period, data_source) %&gt;% 
+  pivot_longer(dcant_mean:dcant_sd,
+               names_to = &quot;estimate&quot;,
+               values_to = &quot;value&quot;)
+
+dcant_density_distribution &lt;- bind_rows(dcant_density_distribution,
+                                        dcant_density_distribution_bias) %&gt;%
+  mutate(period = factor(period, c(&quot;1994 - 2004&quot;, &quot;2004 - 2014&quot;, &quot;1994 - 2014&quot;)))
+
+p_ensemble_distribution &lt;-
+  dcant_density_distribution %&gt;%
+  filter(period != &quot;1994 - 2014&quot;) %&gt;% 
+  mutate(
+    data_source = recode(data_source,
+                         mod = &quot;Model&quot;,
+                         obs = &quot;Observations&quot;),
+    estimate = recode(
+      estimate,
+      dcant_mean = &quot;Mean&quot;,
+      dcant_mean_bias = &quot;Bias&quot;,
+      dcant_sd = &quot;SD&quot;
+    )
+  ) %&gt;%
+  ggplot(aes(value, fill = estimate, col = estimate)) +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  scale_fill_brewer(palette = &quot;Dark2&quot;) +
+  geom_density(alpha = 0.2) +
+  facet_grid(period ~ data_source) +
+  labs(title = &quot;Density distributions of column inventory ensemble properties&quot;,
+       x = legend_title,
+       y = &quot;Density of 1x1° grid cells&quot;) +
+  coord_cartesian(ylim = c(0, 0.5),
+                  xlim = c(-5, 32))
+
+ggsave(plot = p_ensemble_distribution,
+       path = &quot;output/publication&quot;,
+       filename = &quot;inv_ensemble_distribution.png&quot;,
+       height = 4,
+       width = 8)
+
+
+p_ensemble_distribution &lt;-
+  dcant_density_distribution %&gt;%
+  filter(data_source == &quot;obs&quot;) %&gt;%
+  mutate(
+    data_source = recode(data_source,
+                         mod = &quot;Model&quot;,
+                         obs = &quot;Observations&quot;),
+    estimate = recode(
+      estimate,
+      dcant_mean = &quot;Mean&quot;,
+      dcant_mean_bias = &quot;Bias&quot;,
+      dcant_sd = &quot;SD&quot;
+    )
+  ) %&gt;%
+  ggplot(aes(value, fill = estimate, col = estimate)) +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  scale_fill_brewer(palette = &quot;Dark2&quot;) +
+  geom_density(alpha = 0.2) +
+  facet_grid(period ~ data_source) +
+  labs(title = &quot;Density distributions of column inventory ensemble properties&quot;,
+       x = legend_title,
+       y = &quot;Density of 1x1° grid cells&quot;) +
+  coord_cartesian(ylim = c(0, 0.5),
+                  xlim = c(-5, 32))
+
+p_ensemble_distribution
+
+ggsave(plot = p_ensemble_distribution,
+       path = &quot;output/publication&quot;,
+       filename = &quot;inv_ensemble_distribution_all.png&quot;,
+       height = 6,
+       width = 5)</code></pre>
+</div>
+<div id="range" class="section level2" number="3.5">
+<h2 number="3.5"><span class="header-section-number">3.5</span> Range</h2>
+<pre class="r"><code>p_map_cant_inv(
+  df = dcant_inv_ensemble,
+  var = &quot;dcant_range&quot;,
+  breaks = c(seq(0,8,0.8), Inf),
+  subtitle_text = paste(&quot;Ensemble range&quot;)
+) +
+  facet_grid(period ~ data_source)</code></pre>
+<p><img src="figure/no_p_column_inventories.Rmd/ensemble_range-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="cases-vs-ensemble" class="section level1" number="4">
+<h1 number="4"><span class="header-section-number">4</span> Cases vs ensemble</h1>
+<div id="offset-from-mean" class="section level2" number="4.1">
+<h2 number="4.1"><span class="header-section-number">4.1</span> Offset from mean</h2>
+<pre class="r"><code>dcant_inv_all &lt;- full_join(dcant_inv_all,
+                           dcant_inv_ensemble)
+
+dcant_inv_all &lt;- dcant_inv_all %&gt;% 
+  mutate(dcant_offset = dcant - dcant_mean)
+
+dcant_inv_all %&gt;%
+  filter(data_source %in% c(&quot;mod&quot;, &quot;obs&quot;)) %&gt;%
+  group_by(period) %&gt;%
+  group_split() %&gt;%
+  # head(1) %&gt;%
+  map(
+    ~ p_map_cant_inv(df = .x,
+                     var = &quot;dcant_offset&quot;,
+                     col = &quot;bias&quot;,
+                     subtitle_text = paste(&quot;period:&quot;,
+                                           unique(.x$period))) +
+      facet_grid(MLR_basins ~ data_source)
+  )</code></pre>
+<pre><code>[[1]]</code></pre>
+<p><img src="figure/no_p_column_inventories.Rmd/ensemble_deviation_from_mean-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[2]]</code></pre>
+<p><img src="figure/no_p_column_inventories.Rmd/ensemble_deviation_from_mean-2.png" width="672" style="display: block; margin: auto;" /></p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.0.3 (2020-10-10)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: openSUSE Leap 15.2
+
+Matrix products: default
+BLAS:   /usr/local/R-4.0.3/lib64/R/lib/libRblas.so
+LAPACK: /usr/local/R-4.0.3/lib64/R/lib/libRlapack.so
+
+locale:
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] ggforce_0.3.3   metR_0.9.0      scico_1.2.0     patchwork_1.1.1
+ [5] collapse_1.5.0  forcats_0.5.0   stringr_1.4.0   dplyr_1.0.5    
+ [9] purrr_0.3.4     readr_1.4.0     tidyr_1.1.3     tibble_3.1.3   
+[13] ggplot2_3.3.5   tidyverse_1.3.0 workflowr_1.6.2
+
+loaded via a namespace (and not attached):
+ [1] httr_1.4.2               sass_0.4.0               viridisLite_0.3.0       
+ [4] jsonlite_1.7.1           modelr_0.1.8             bslib_0.2.5.1           
+ [7] assertthat_0.2.1         highr_0.8                blob_1.2.1              
+[10] cellranger_1.1.0         yaml_2.2.1               pillar_1.6.2            
+[13] backports_1.1.10         lattice_0.20-41          glue_1.4.2              
+[16] RcppEigen_0.3.3.7.0      digest_0.6.27            promises_1.1.1          
+[19] polyclip_1.10-0          checkmate_2.0.0          rvest_0.3.6             
+[22] colorspace_2.0-2         htmltools_0.5.1.1        httpuv_1.5.4            
+[25] Matrix_1.2-18            pkgconfig_2.0.3          broom_0.7.9             
+[28] haven_2.3.1              scales_1.1.1             tweenr_1.0.2            
+[31] whisker_0.4              later_1.2.0              git2r_0.27.1            
+[34] farver_2.0.3             generics_0.1.0           ellipsis_0.3.2          
+[37] withr_2.3.0              cli_3.0.1                magrittr_1.5            
+[40] crayon_1.3.4             readxl_1.3.1             evaluate_0.14           
+[43] fs_1.5.0                 fansi_0.4.1              MASS_7.3-53             
+[46] xml2_1.3.2               RcppArmadillo_0.10.1.2.0 tools_4.0.3             
+[49] data.table_1.14.0        hms_0.5.3                lifecycle_1.0.0         
+[52] munsell_0.5.0            reprex_0.3.0             compiler_4.0.3          
+[55] jquerylib_0.1.4          rlang_0.4.11             grid_4.0.3              
+[58] rstudioapi_0.13          labeling_0.4.2           rmarkdown_2.10          
+[61] gtable_0.3.0             DBI_1.1.0                R6_2.5.0                
+[64] lubridate_1.7.9          knitr_1.33               utf8_1.1.4              
+[67] rprojroot_2.0.2          stringi_1.5.3            parallel_4.0.3          
+[70] Rcpp_1.0.5               vctrs_0.3.8              dbplyr_1.4.4            
+[73] tidyselect_1.1.0         xfun_0.25               </code></pre>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

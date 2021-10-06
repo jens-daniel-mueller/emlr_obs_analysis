@@ -381,20 +381,6 @@ div.tocify {
         </li>
       </ul>
     </li>
-    <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">No gap-filling and filter</a>
-      <ul class="dropdown-menu" role="menu">
-        <li>
-          <a href="gaps_filter_budgets.html">Budgets</a>
-        </li>
-        <li>
-          <a href="gaps_filter_column_inventories.html">Column inventories</a>
-        </li>
-        <li>
-          <a href="gaps_filter_zonal_sections.html">Zonal sections</a>
-        </li>
-      </ul>
-    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -422,6 +408,20 @@ div.tocify {
       </ul>
     </li>
     <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">No gap-filling and filter</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="gaps_filter_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="gaps_filter_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="gaps_filter_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Global MLR</a>
       <ul class="dropdown-menu" role="menu">
         <li>
@@ -435,41 +435,70 @@ div.tocify {
         </li>
       </ul>
     </li>
-  </ul>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Rarefication
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="rarefication_budgets.html">Budgets</a>
-    </li>
-    <li>
-      <a href="rarefication_column_inventories.html">Column inventories</a>
-    </li>
-    <li>
-      <a href="rarefication_zonal_sections.html">Zonal sections</a>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Rarefication</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="rarefication_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="rarefication_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="rarefication_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
     </li>
   </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    VIF
+    MLR
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="vif_budgets.html">Budgets</a>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">no_N</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="no_n_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="no_n_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="no_n_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
     </li>
-    <li>
-      <a href="vif_column_inventories.html">Column inventories</a>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">no_P</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="no_p_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="no_p_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="no_p_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
     </li>
-    <li>
-      <a href="vif_zonal_sections.html">Zonal sections</a>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">VIF</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="vif_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="vif_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="vif_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
     </li>
   </ul>
 </li>
@@ -508,7 +537,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Zonal sections</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">05 October, 2021</h4>
+<h4 class="date">06 October, 2021</h4>
 
 </div>
 
@@ -533,7 +562,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-10-05
+<strong>Last updated:</strong> 2021-10-06
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -624,16 +653,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree066f9b03c999d82aa6b2cbb9980b109e03bb81cetargetblank066f9b0a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/066f9b03c999d82aa6b2cbb9980b109e03bb81ce" target="_blank">066f9b0</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree277e22709d609346e1fedf71050d9ef52f359680targetblank277e227a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/277e22709d609346e1fedf71050d9ef52f359680" target="_blank">277e227</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree066f9b03c999d82aa6b2cbb9980b109e03bb81cetargetblank066f9b0a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree277e22709d609346e1fedf71050d9ef52f359680targetblank277e227a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/066f9b03c999d82aa6b2cbb9980b109e03bb81ce" target="_blank">066f9b0</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/277e22709d609346e1fedf71050d9ef52f359680" target="_blank">277e227</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -690,6 +719,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/f9b4f939ab30cff063dee16dbda80a7967144e73/docs/slab_zonal_sections.html" target="_blank">f9b4f93</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-05
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
