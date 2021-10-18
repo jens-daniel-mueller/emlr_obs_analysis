@@ -324,7 +324,7 @@ dcant_zonal_bias_all_corr %>%
 
 ## Profiles
 
-```{r profiles_per_data_source, fig.asp=1}
+```{r profiles_per_data_source, fig.asp=1.5}
 
 dcant_profile_all %>%
   group_split(period) %>%
@@ -350,7 +350,7 @@ dcant_profile_all %>%
 
 ```
 
-```{r profiles_per_MLR_basins}
+```{r profiles_per_MLR_basins, fig.asp=1}
 
 dcant_profile_all %>%
   group_split(period) %>%
@@ -376,17 +376,22 @@ dcant_profile_all %>%
 
 ```
 
-```{r profiles_per_period}
+```{r profiles_per_period, fig.asp=0.5}
 
 dcant_profile_all %>%
-  filter(period != "1994 - 2014") %>% 
+  arrange(depth) %>%
+  filter(period != "1994 - 2014") %>%
   group_split(data_source) %>%
   map(
-    ~ ggplot(data = .x,
-             aes(
-               dcant, depth,
-               col = period, fill = period, group = MLR_basins
-             )) +
+    ~ ggplot(
+      data = .x,
+      aes(
+        dcant,
+        depth,
+        col = period,
+        group = interaction(MLR_basins, period)
+      )
+    ) +
       geom_hline(yintercept = params_global$inventory_depth_standard) +
       geom_vline(xintercept = 0) +
       # geom_ribbon(

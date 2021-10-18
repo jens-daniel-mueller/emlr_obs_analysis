@@ -25,6 +25,14 @@ navbar:
         href: slab_column_inventories.html
       - text: Zonal sections
         href: slab_zonal_sections.html
+    - text: bottomdepth
+      menu:
+      - text: Budgets
+        href: bottomdepth_budgets.html
+      - text: Column inventories
+        href: bottomdepth_column_inventories.html
+      - text: Zonal sections
+        href: bottomdepth_zonal_sections.html
   - text: Data cleaning
     menu:
     - text: CANYON-B
@@ -37,6 +45,14 @@ navbar:
         href: canyon_b_cleaning_column_inventories.html
       - text: Zonal sections
         href: canyon_b_cleaning_zonal_sections.html
+    - text: No gap-filling and filter
+      menu:
+      - text: Budgets
+        href: gaps_filter_budgets.html
+      - text: Column inventories
+        href: gaps_filter_column_inventories.html
+      - text: Zonal sections
+        href: gaps_filter_zonal_sections.html
     - text: Global MLR
       menu:
       - text: Budgets
@@ -45,22 +61,40 @@ navbar:
         href: global_MLR_cleaning_column_inventories.html
       - text: Zonal sections
         href: global_MLR_cleaning_zonal_sections.html
-  - text: Rarefication
+    - text: Rarefication
+      menu:
+      - text: Budgets
+        href: rarefication_budgets.html
+      - text: Column inventories
+        href: rarefication_column_inventories.html
+      - text: Zonal sections
+        href: rarefication_zonal_sections.html
+  - text: MLR
     menu:
-    - text: Budgets
-      href: rarefication_budgets.html
-    - text: Column inventories
-      href: rarefication_column_inventories.html
-    - text: Zonal sections
-      href: rarefication_zonal_sections.html
-  - text: VIF
-    menu:
-    - text: Budgets
-      href: vif_budgets.html
-    - text: Column inventories
-      href: vif_column_inventories.html
-    - text: Zonal sections
-      href: vif_zonal_sections.html
+    - text: no_N
+      menu:
+      - text: Budgets
+        href: no_n_budgets.html
+      - text: Column inventories
+        href: no_n_column_inventories.html
+      - text: Zonal sections
+        href: no_n_zonal_sections.html
+    - text: no_P
+      menu:
+      - text: Budgets
+        href: no_p_budgets.html
+      - text: Column inventories
+        href: no_p_column_inventories.html
+      - text: Zonal sections
+        href: no_p_zonal_sections.html
+    - text: VIF
+      menu:
+      - text: Budgets
+        href: vif_budgets.html
+      - text: Column inventories
+        href: vif_column_inventories.html
+      - text: Zonal sections
+        href: vif_zonal_sections.html
   right:
   - icon: fa-github
     text: Source code
