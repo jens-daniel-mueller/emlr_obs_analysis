@@ -92,15 +92,33 @@ for (i_Version_IDs in Version_IDs) {
                    "dcant_zonal_mod_truth.csv",
                    sep = ""))
   
+  dcant_zonal <- bind_rows(dcant_zonal,
+                         dcant_zonal_mod_truth)
+  
+  dcant_profile <-
+    read_csv(paste(path_version_data,
+                   "dcant_profile.csv",
+                   sep = ""))
+  
+  dcant_profile_mod_truth <-
+    read_csv(paste(path_version_data,
+                   "dcant_profile_mod_truth.csv",
+                   sep = ""))
+  
+  dcant_profile <- bind_rows(dcant_profile,
+                         dcant_profile_mod_truth)
+  
+  
   dcant_zonal_bias <-
     read_csv(paste(path_version_data,
                    "dcant_zonal_bias.csv",
                    sep = ""))
   
-  dcant_zonal <- bind_rows(dcant_zonal,
-                         dcant_zonal_mod_truth)
-  
+
   dcant_zonal <- dcant_zonal %>% 
+    mutate(Version_ID = i_Version_IDs)
+  
+  dcant_profile <- dcant_profile %>% 
     mutate(Version_ID = i_Version_IDs)
   
   dcant_zonal_bias <- dcant_zonal_bias %>% 
@@ -141,6 +159,14 @@ for (i_Version_IDs in Version_IDs) {
     dcant_zonal_all <- dcant_zonal
   }
 
+  if (exists("dcant_profile_all")) {
+    dcant_profile_all <- bind_rows(dcant_profile_all, dcant_profile)
+  }
+  
+  if (!exists("dcant_profile_all")) {
+    dcant_profile_all <- dcant_profile
+  }
+
   if (exists("dcant_zonal_bias_all")) {
     dcant_zonal_bias_all <- bind_rows(dcant_zonal_bias_all, dcant_zonal_bias)
   }
@@ -166,6 +192,9 @@ rm(dcant_zonal, dcant_zonal_bias, dcant_zonal_mod_truth,
 dcant_zonal_all <- full_join(dcant_zonal_all,
                            params_local_all)
 
+dcant_profile_all <- full_join(dcant_profile_all,
+                           params_local_all)
+
 dcant_zonal_bias_all <- full_join(dcant_zonal_bias_all,
                                 params_local_all)
 
@@ -175,6 +204,9 @@ dcant_zonal_bias_all <- full_join(dcant_zonal_bias_all,
 ```{r select_cases}
 
 dcant_zonal_all <- dcant_zonal_all %>% 
+  filter(MLR_basins %in% MLR_basins_in)
+
+dcant_profile_all <- dcant_profile_all %>% 
   filter(MLR_basins %in% MLR_basins_in)
 
 dcant_zonal_bias_all <- dcant_zonal_bias_all %>% 
@@ -290,6 +322,86 @@ dcant_zonal_bias_all_corr %>%
 
 ```
 
+## Profiles
+
+```{r profiles_per_data_source, fig.asp=1}
+
+dcant_profile_all %>%
+  group_split(period) %>%
+  map(
+    ~ ggplot(data = .x,
+             aes(
+               dcant, depth,
+               col = data_source, fill = data_source
+             )) +
+      geom_hline(yintercept = params_global$inventory_depth_standard) +
+      geom_vline(xintercept = 0) +
+      geom_ribbon(
+        aes(xmin = dcant - dcant_sd,
+            xmax = dcant + dcant_sd),
+        alpha = 0.2,
+        col = "transparent"
+      ) +
+      geom_path() +
+      scale_y_reverse() +
+      labs(title = paste("period", unique(.x$period))) +
+      facet_grid(MLR_basins ~ basin_AIP)
+  )
+
+```
+
+```{r profiles_per_MLR_basins}
+
+dcant_profile_all %>%
+  group_split(period) %>%
+  map(
+    ~ ggplot(data = .x,
+             aes(
+               dcant, depth,
+               col = MLR_basins, fill = MLR_basins
+             )) +
+      geom_hline(yintercept = params_global$inventory_depth_standard) +
+      geom_vline(xintercept = 0) +
+      # geom_ribbon(
+      #   aes(xmin = dcant - dcant_sd,
+      #       xmax = dcant + dcant_sd),
+      #   alpha = 0.2,
+      #   col = "transparent"
+      # ) +
+      geom_path() +
+      scale_y_reverse() +
+      labs(title = paste("period", unique(.x$period))) +
+      facet_grid(data_source ~ basin_AIP)
+  )
+
+```
+
+```{r profiles_per_period}
+
+dcant_profile_all %>%
+  filter(period != "1994 - 2014") %>% 
+  group_split(data_source) %>%
+  map(
+    ~ ggplot(data = .x,
+             aes(
+               dcant, depth,
+               col = period, fill = period, group = MLR_basins
+             )) +
+      geom_hline(yintercept = params_global$inventory_depth_standard) +
+      geom_vline(xintercept = 0) +
+      # geom_ribbon(
+      #   aes(xmin = dcant - dcant_sd,
+      #       xmax = dcant + dcant_sd),
+      #   alpha = 0.2,
+      #   col = "transparent"
+      # ) +
+      geom_path() +
+      scale_y_reverse() +
+      labs(title = paste("data_source", unique(.x$data_source))) +
+      facet_grid(. ~ basin_AIP)
+  )
+
+```
 
 
 # Ensemble
