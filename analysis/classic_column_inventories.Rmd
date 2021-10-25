@@ -601,7 +601,6 @@ dcant_lat_grid_ensemble %>%
 
 dcant_lon_grid_ensemble %>%
   ggplot(aes(lon_grid, dcant_mean)) +
-  geom_hline(yintercept = 0) +
   geom_col(position = "dodge",
            fill = "grey80",
            col = "grey20") +
@@ -611,9 +610,8 @@ dcant_lon_grid_ensemble %>%
   ),
   col = "grey20",
   width = 0) +
-  scale_color_brewer(palette = "Set1") +
-  scale_fill_brewer(palette = "Dark2") +
   facet_grid(data_source ~ period)
+
 
 ```
 
@@ -746,6 +744,141 @@ p_map_cant_inv(
 
 
 ```
+
+## Composed figure
+
+```{r composed_figure}
+
+p_map_94 <- p_map_cant_inv(
+  df = dcant_inv_ensemble %>%
+    filter(period == "1994 - 2004",
+           data_source == "obs"),
+  var = "dcant_mean",
+  subtitle_text = NULL,
+  title_text = NULL
+) +
+  theme(
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    legend.position = "left"
+  )
+
+p_map_04 <- p_map_cant_inv(
+  df = dcant_inv_ensemble %>%
+    filter(period == "2004 - 2014",
+           data_source == "obs"),
+  var = "dcant_mean",
+  subtitle_text = NULL,
+  title_text = NULL
+) +
+  theme(
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    legend.position = "left"
+  )
+
+p_lon_94 <- dcant_lon_grid_ensemble %>%
+  filter(data_source == "obs",
+         period == "1994 - 2004") %>% 
+  ggplot(aes(lon_grid, dcant_mean)) +
+  geom_col(position = "dodge",
+           fill = "grey80",
+           col = "grey20") +
+  geom_errorbar(aes(
+    ymin = dcant_min,
+    ymax = dcant_max
+  ),
+  col = "grey20",
+  width = 0) +
+  scale_y_continuous(limits = c(0,1), expand = c(0,0),
+                     name = expression(Delta*C[ant]~(PgC))) +
+  scale_x_continuous(name = "Longitude (°E)", limits = c(20,380), expand = c(0,0)) +
+  theme(axis.title.x = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank()) 
+  # coord_fixed(ratio = 100)
+
+p_lon_04 <- dcant_lon_grid_ensemble %>%
+  filter(data_source == "obs",
+         period == "2004 - 2014") %>% 
+  ggplot(aes(lon_grid, dcant_mean)) +
+  geom_col(position = "dodge",
+           fill = "grey80",
+           col = "grey20") +
+  geom_errorbar(aes(
+    ymin = dcant_min,
+    ymax = dcant_max
+  ),
+  col = "grey20",
+  width = 0) +
+  scale_y_continuous(limits = c(0,1), expand = c(0,0),
+                     name = expression(Delta*C[ant]~(PgC))) +
+  scale_x_continuous(name = "Longitude (°E)", limits = c(20,380), expand = c(0,0)) 
+  # coord_fixed(ratio = 100)
+
+p_lat_94 <- dcant_lat_grid_ensemble %>%
+  filter(data_source == "obs",
+         period == "1994 - 2004") %>%
+  ggplot(aes(dcant_mean, lat_grid)) +
+  geom_col(
+    position = "dodge",
+    fill = "grey80",
+    col = "grey20",
+    orientation = "y"
+  ) +
+  geom_errorbar(aes(xmin = dcant_min,
+                    xmax = dcant_max),
+                col = "grey20",
+                width = 0) +
+  scale_x_continuous(
+    limits = c(0, 2.8),
+    expand = c(0, 0),
+    name = expression(Delta * C[ant] ~ (PgC))
+  ) +
+  scale_y_continuous(
+    name = "Latitude (°N)",
+    limits = c(-80, 65),
+    expand = c(0, 0),
+    position = "right"
+  ) +
+  theme(
+    axis.title.x = element_blank(),
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank()
+  )
+
+p_lat_04 <- dcant_lat_grid_ensemble %>%
+  filter(data_source == "obs",
+         period == "2004 - 2014") %>%
+  ggplot(aes(dcant_mean, lat_grid)) +
+  geom_col(position = "dodge",
+           fill = "grey80",
+           col = "grey20",
+           orientation = "y") +
+  geom_errorbar(aes(xmin = dcant_min,
+                    xmax = dcant_max),
+                col = "grey20",
+                width = 0) +
+  scale_x_continuous(
+    limits = c(0, 2.8),
+    expand = c(0, 0),
+    name = expression(Delta * C[ant] ~ (PgC))
+  ) +
+  scale_y_continuous(name = "Latitude (°N)",
+                     limits = c(-80, 65),
+                     expand = c(0, 0),
+                     position = "right")
+
+p_lat_04
+
+((p_lon_94 | plot_spacer()) / (p_map_94 | p_lat_94)) /
+  ((p_map_04 | p_lat_04) / (p_lon_04 + plot_spacer())) +
+  plot_layout(guides="collect") &
+  theme(legend.position = "left")
+
+
+```
+
 
 # Cases vs ensemble
 
