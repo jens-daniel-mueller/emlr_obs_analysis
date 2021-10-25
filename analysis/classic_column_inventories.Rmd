@@ -795,7 +795,7 @@ p_lon_94 <- dcant_lon_grid_ensemble %>%
   scale_x_continuous(name = "Longitude (°E)", limits = c(20,380), expand = c(0,0)) +
   theme(axis.title.x = element_blank(),
         axis.text.x = element_blank(),
-        axis.ticks.x = element_blank()) 
+        axis.ticks.x = element_blank())
   # coord_fixed(ratio = 100)
 
 p_lon_04 <- dcant_lon_grid_ensemble %>%
@@ -813,7 +813,8 @@ p_lon_04 <- dcant_lon_grid_ensemble %>%
   width = 0) +
   scale_y_continuous(limits = c(0,1), expand = c(0,0),
                      name = expression(Delta*C[ant]~(PgC))) +
-  scale_x_continuous(name = "Longitude (°E)", limits = c(20,380), expand = c(0,0)) 
+  scale_x_continuous(name = "Longitude (°E)", limits = c(20,380), expand = c(0,0)) +
+  theme(title = element_blank())
   # coord_fixed(ratio = 100)
 
 p_lat_94 <- dcant_lat_grid_ensemble %>%
@@ -846,6 +847,7 @@ p_lat_94 <- dcant_lat_grid_ensemble %>%
     axis.text.x = element_blank(),
     axis.ticks.x = element_blank()
   )
+  # coord_fixed(ratio = 5e-2)
 
 p_lat_04 <- dcant_lat_grid_ensemble %>%
   filter(data_source == "obs",
@@ -869,13 +871,18 @@ p_lat_04 <- dcant_lat_grid_ensemble %>%
                      expand = c(0, 0),
                      position = "right")
 
-p_lat_04
 
-((p_lon_94 | plot_spacer()) / (p_map_94 | p_lat_94)) /
-  ((p_map_04 | p_lat_04) / (p_lon_04 + plot_spacer())) +
-  plot_layout(guides="collect") &
+p_lon_94 + plot_spacer() + p_map_94 + p_lat_94 + 
+  p_map_04 + p_lat_04 + p_lon_04 + plot_spacer() +
+  plot_layout(ncol = 2,
+              guides = "collect",
+              heights = c(1,2,2,1),
+              widths = c(3,1)) &
   theme(legend.position = "left")
 
+ggsave("output/publication/Fig_column_inventories.png",
+       height = 10,
+       width = 11)
 
 ```
 
