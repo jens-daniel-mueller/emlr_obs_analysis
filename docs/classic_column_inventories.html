@@ -667,16 +667,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreec99a9119e10067089663206e080c41aca9c393e5targetblankc99a911a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/c99a9119e10067089663206e080c41aca9c393e5" target="_blank">c99a911</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree8cbaf951baa0ab3631806148f6d1cec39ed7906ctargetblank8cbaf95a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/8cbaf951baa0ab3631806148f6d1cec39ed7906c" target="_blank">8cbaf95</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreec99a9119e10067089663206e080c41aca9c393e5targetblankc99a911a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree8cbaf951baa0ab3631806148f6d1cec39ed7906ctargetblank8cbaf95a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/c99a9119e10067089663206e080c41aca9c393e5" target="_blank">c99a911</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/8cbaf951baa0ab3631806148f6d1cec39ed7906c" target="_blank">8cbaf95</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -729,6 +729,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/8cbaf951baa0ab3631806148f6d1cec39ed7906c/analysis/classic_column_inventories.Rmd" target="_blank">8cbaf95</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-25
+</td>
+<td>
+ensemble lat-lon grid budgets added
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/287324c5448d6ea0cba27657e4467890a66f877d/docs/classic_column_inventories.html" target="_blank">287324c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-25
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1709,13 +1743,17 @@ dcant_budget_lat_grid_all &lt;- dcant_budget_lat_grid_all %&gt;%
 
 dcant_budget_lon_grid_all &lt;- dcant_budget_lon_grid_all %&gt;% 
   filter(MLR_basins %in% MLR_basins_in)</code></pre>
-<pre class="r"><code>dcant_budget_lat_grid_all &lt;- dcant_budget_lat_grid_all %&gt;% 
+<pre class="r"><code>dcant_budget_lat_grid_all &lt;- dcant_budget_lat_grid_all %&gt;%
   pivot_wider(names_from = estimate,
-              values_from = value)
+              values_from = value) %&gt;%
+  filter(period != &quot;1994 - 2014&quot;,
+         method == &quot;total&quot;)
 
-dcant_budget_lon_grid_all &lt;- dcant_budget_lon_grid_all %&gt;% 
+dcant_budget_lon_grid_all &lt;- dcant_budget_lon_grid_all %&gt;%
   pivot_wider(names_from = estimate,
-              values_from = value)</code></pre>
+              values_from = value) %&gt;%
+  filter(period != &quot;1994 - 2014&quot;,
+         method == &quot;total&quot;)</code></pre>
 <pre class="r"><code>dcant_inv_all_G19 &lt;- read_csv(paste0(path_preprocessing,
                              &quot;G19_dcant_inv_all.csv&quot;))</code></pre>
 </div>
@@ -2752,8 +2790,6 @@ jens-daniel-mueller
 <div id="lat-grid-budgets" class="section level2" number="2.3">
 <h2 number="2.3"><span class="header-section-number">2.3</span> Lat grid budgets</h2>
 <pre class="r"><code>dcant_budget_lat_grid_all %&gt;%
-  filter(period != &quot;1994 - 2014&quot;,
-         method == &quot;total&quot;) %&gt;%
   group_split(data_source) %&gt;%
   # head(1) %&gt;%
   map(
@@ -2768,15 +2804,87 @@ jens-daniel-mueller
   )</code></pre>
 <pre><code>[[1]]</code></pre>
 <p><img src="figure/classic_column_inventories.Rmd/lat_grid_budget_all-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-lat_grid_budget_all-1">
+Past versions of lat_grid_budget_all-1.png
+</button>
+</p>
+<div id="fig-lat_grid_budget_all-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/287324c5448d6ea0cba27657e4467890a66f877d/docs/figure/classic_column_inventories.Rmd/lat_grid_budget_all-1.png" target="_blank">287324c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>
 [[2]]</code></pre>
 <p><img src="figure/classic_column_inventories.Rmd/lat_grid_budget_all-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-lat_grid_budget_all-2">
+Past versions of lat_grid_budget_all-2.png
+</button>
+</p>
+<div id="fig-lat_grid_budget_all-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/287324c5448d6ea0cba27657e4467890a66f877d/docs/figure/classic_column_inventories.Rmd/lat_grid_budget_all-2.png" target="_blank">287324c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="lon-grid-budgets" class="section level2" number="2.4">
 <h2 number="2.4"><span class="header-section-number">2.4</span> Lon grid budgets</h2>
 <pre class="r"><code>dcant_budget_lon_grid_all %&gt;%
-  filter(period != &quot;1994 - 2014&quot;,
-         method == &quot;total&quot;) %&gt;%
   group_split(data_source, period) %&gt;%
   # head(1) %&gt;%
   map(
@@ -2794,15 +2902,163 @@ jens-daniel-mueller
   )</code></pre>
 <pre><code>[[1]]</code></pre>
 <p><img src="figure/classic_column_inventories.Rmd/lon_grid_budget_all-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-lon_grid_budget_all-1">
+Past versions of lon_grid_budget_all-1.png
+</button>
+</p>
+<div id="fig-lon_grid_budget_all-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/287324c5448d6ea0cba27657e4467890a66f877d/docs/figure/classic_column_inventories.Rmd/lon_grid_budget_all-1.png" target="_blank">287324c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>
 [[2]]</code></pre>
 <p><img src="figure/classic_column_inventories.Rmd/lon_grid_budget_all-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-lon_grid_budget_all-2">
+Past versions of lon_grid_budget_all-2.png
+</button>
+</p>
+<div id="fig-lon_grid_budget_all-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/287324c5448d6ea0cba27657e4467890a66f877d/docs/figure/classic_column_inventories.Rmd/lon_grid_budget_all-2.png" target="_blank">287324c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>
 [[3]]</code></pre>
 <p><img src="figure/classic_column_inventories.Rmd/lon_grid_budget_all-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-lon_grid_budget_all-3">
+Past versions of lon_grid_budget_all-3.png
+</button>
+</p>
+<div id="fig-lon_grid_budget_all-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/287324c5448d6ea0cba27657e4467890a66f877d/docs/figure/classic_column_inventories.Rmd/lon_grid_budget_all-3.png" target="_blank">287324c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>
 [[4]]</code></pre>
 <p><img src="figure/classic_column_inventories.Rmd/lon_grid_budget_all-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-lon_grid_budget_all-4">
+Past versions of lon_grid_budget_all-4.png
+</button>
+</p>
+<div id="fig-lon_grid_budget_all-4" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/287324c5448d6ea0cba27657e4467890a66f877d/docs/figure/classic_column_inventories.Rmd/lon_grid_budget_all-4.png" target="_blank">287324c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="ensemble" class="section level1" number="3">
@@ -2814,6 +3070,32 @@ jens-daniel-mueller
   summarise(dcant_mean = mean(dcant),
             dcant_sd = sd(dcant),
             dcant_range = max(dcant)- min(dcant)) %&gt;% 
+  ungroup()
+
+dcant_lat_grid_ensemble &lt;- dcant_budget_lat_grid_all %&gt;% 
+  filter(data_source %in% c(&quot;mod&quot;, &quot;obs&quot;),
+         MLR_basins %in% ensemble_members) %&gt;% 
+  group_by(lat_grid, data_source, period, MLR_basins) %&gt;% 
+  summarise(dcant = sum(dcant, na.rm = TRUE)) %&gt;% 
+  ungroup() %&gt;% 
+  group_by(lat_grid, data_source, period) %&gt;% 
+  summarise(dcant_mean = mean(dcant),
+            dcant_sd = sd(dcant),
+            dcant_max = max(dcant),
+            dcant_min = min(dcant)) %&gt;% 
+  ungroup()
+
+dcant_lon_grid_ensemble &lt;- dcant_budget_lon_grid_all %&gt;% 
+  filter(data_source %in% c(&quot;mod&quot;, &quot;obs&quot;),
+         MLR_basins %in% ensemble_members) %&gt;% 
+  group_by(lon_grid, data_source, period, MLR_basins) %&gt;% 
+  summarise(dcant = sum(dcant, na.rm = TRUE)) %&gt;% 
+  ungroup() %&gt;% 
+  group_by(lon_grid, data_source, period) %&gt;% 
+  summarise(dcant_mean = mean(dcant),
+            dcant_sd = sd(dcant),
+            dcant_max = max(dcant),
+            dcant_min = min(dcant)) %&gt;% 
   ungroup()</code></pre>
 <div id="mean" class="section level2" number="3.1">
 <h2 number="3.1"><span class="header-section-number">3.1</span> Mean</h2>
@@ -3279,8 +3561,47 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="standard-deviation" class="section level2" number="3.3">
-<h2 number="3.3"><span class="header-section-number">3.3</span> Standard deviation</h2>
+<div id="mean-lat-grid-budgets" class="section level2" number="3.3">
+<h2 number="3.3"><span class="header-section-number">3.3</span> Mean lat grid budgets</h2>
+<pre class="r"><code>dcant_lat_grid_ensemble %&gt;%
+  ggplot(aes(lat_grid, dcant_mean)) +
+  geom_hline(yintercept = 0) +
+  geom_col(position = &quot;dodge&quot;,
+           fill = &quot;grey80&quot;,
+           col = &quot;grey20&quot;) +
+  geom_errorbar(aes(
+    ymin = dcant_min,
+    ymax = dcant_max
+  ),
+  col = &quot;grey20&quot;,
+  width = 0) +
+  scale_color_brewer(palette = &quot;Set1&quot;) +
+  coord_flip() +
+  scale_fill_brewer(palette = &quot;Dark2&quot;) +
+  facet_grid(data_source ~ period)</code></pre>
+<p><img src="figure/classic_column_inventories.Rmd/lat_grid_budget_ensemble-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="mean-lon-grid-budgets" class="section level2" number="3.4">
+<h2 number="3.4"><span class="header-section-number">3.4</span> Mean lon grid budgets</h2>
+<pre class="r"><code>dcant_lon_grid_ensemble %&gt;%
+  ggplot(aes(lon_grid, dcant_mean)) +
+  geom_hline(yintercept = 0) +
+  geom_col(position = &quot;dodge&quot;,
+           fill = &quot;grey80&quot;,
+           col = &quot;grey20&quot;) +
+  geom_errorbar(aes(
+    ymin = dcant_min,
+    ymax = dcant_max
+  ),
+  col = &quot;grey20&quot;,
+  width = 0) +
+  scale_color_brewer(palette = &quot;Set1&quot;) +
+  scale_fill_brewer(palette = &quot;Dark2&quot;) +
+  facet_grid(data_source ~ period)</code></pre>
+<p><img src="figure/classic_column_inventories.Rmd/lon_grid_budget_ensemble-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="standard-deviation" class="section level2" number="3.5">
+<h2 number="3.5"><span class="header-section-number">3.5</span> Standard deviation</h2>
 <pre class="r"><code>p_map_cant_inv(
   df = dcant_inv_ensemble,
   var = &quot;dcant_sd&quot;,
@@ -3448,8 +3769,8 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="sd-vs-bias" class="section level2" number="3.4">
-<h2 number="3.4"><span class="header-section-number">3.4</span> SD vs bias</h2>
+<div id="sd-vs-bias" class="section level2" number="3.6">
+<h2 number="3.6"><span class="header-section-number">3.6</span> SD vs bias</h2>
 <pre class="r"><code>dcant_inv_ensemble_bias %&gt;% 
   ggplot(aes(dcant_mean_bias, dcant_sd)) +
   geom_bin2d() +
@@ -3889,8 +4210,8 @@ jens-daniel-mueller
        height = 6,
        width = 5)</code></pre>
 </div>
-<div id="range" class="section level2" number="3.5">
-<h2 number="3.5"><span class="header-section-number">3.5</span> Range</h2>
+<div id="range" class="section level2" number="3.7">
+<h2 number="3.7"><span class="header-section-number">3.7</span> Range</h2>
 <pre class="r"><code>p_map_cant_inv(
   df = dcant_inv_ensemble,
   var = &quot;dcant_range&quot;,
