@@ -439,7 +439,7 @@ dcant_budget_basin_AIP_layer_all %>%
   mutate(dcant = value,
          inv_depth = fct_inorder(as.factor(inv_depth))) %>% 
   group_split(period) %>%
-  head(1) %>% 
+  # head(1) %>% 
   map(
     ~ ggplot(data = .x,
              aes(dcant, inv_depth,
