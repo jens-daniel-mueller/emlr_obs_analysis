@@ -106,8 +106,12 @@ for (i_Version_IDs in Version_IDs) {
                    sep = ""))
   
   dcant_profile <- bind_rows(dcant_profile,
-                         dcant_profile_mod_truth)
+                             dcant_profile_mod_truth)
   
+  dcant_budget_basin_AIP_layer <-
+    read_csv(paste(path_version_data,
+                   "dcant_budget_basin_AIP_layer.csv",
+                   sep = ""))
   
   dcant_zonal_bias <-
     read_csv(paste(path_version_data,
@@ -119,6 +123,9 @@ for (i_Version_IDs in Version_IDs) {
     mutate(Version_ID = i_Version_IDs)
   
   dcant_profile <- dcant_profile %>% 
+    mutate(Version_ID = i_Version_IDs)
+  
+  dcant_budget_basin_AIP_layer <- dcant_budget_basin_AIP_layer %>% 
     mutate(Version_ID = i_Version_IDs)
   
   dcant_zonal_bias <- dcant_zonal_bias %>% 
@@ -167,6 +174,16 @@ for (i_Version_IDs in Version_IDs) {
     dcant_profile_all <- dcant_profile
   }
 
+  if (exists("dcant_budget_basin_AIP_layer_all")) {
+    dcant_budget_basin_AIP_layer_all <-
+      bind_rows(dcant_budget_basin_AIP_layer_all,
+                dcant_budget_basin_AIP_layer)
+  }
+  
+  if (!exists("dcant_budget_basin_AIP_layer_all")) {
+    dcant_budget_basin_AIP_layer_all <- dcant_budget_basin_AIP_layer
+  }
+
   if (exists("dcant_zonal_bias_all")) {
     dcant_zonal_bias_all <- bind_rows(dcant_zonal_bias_all, dcant_zonal_bias)
   }
@@ -187,6 +204,7 @@ for (i_Version_IDs in Version_IDs) {
 }
 
 rm(dcant_zonal, dcant_zonal_bias, dcant_zonal_mod_truth,
+   dcant_budget_basin_AIP_layer,
    tref)
 
 dcant_zonal_all <- full_join(dcant_zonal_all,
@@ -194,6 +212,10 @@ dcant_zonal_all <- full_join(dcant_zonal_all,
 
 dcant_profile_all <- full_join(dcant_profile_all,
                            params_local_all)
+
+dcant_budget_basin_AIP_layer_all <-
+  full_join(dcant_budget_basin_AIP_layer_all,
+            params_local_all)
 
 dcant_zonal_bias_all <- full_join(dcant_zonal_bias_all,
                                 params_local_all)
@@ -407,6 +429,31 @@ dcant_profile_all %>%
   )
 
 ```
+
+## Layer budgets
+
+```{r layer_budget_per_data_source, fig.asp=1.5}
+
+dcant_budget_basin_AIP_layer_all %>%
+  filter(estimate == "dcant") %>% 
+  mutate(dcant = value,
+         inv_depth = fct_inorder(as.factor(inv_depth))) %>% 
+  group_split(period) %>%
+  head(1) %>% 
+  map(
+    ~ ggplot(data = .x,
+             aes(dcant, inv_depth,
+                 fill = MLR_basins)) +
+      geom_vline(xintercept = 0) +
+      geom_col(position = "dodge") +
+      scale_y_discrete(limits = rev) +
+      scale_fill_brewer(palette = "Dark2") +
+      labs(title = paste("period", unique(.x$period))) +
+      facet_grid(data_source ~ basin_AIP)
+  )
+
+```
+
 
 
 # Ensemble

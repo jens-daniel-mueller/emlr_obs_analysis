@@ -5,7 +5,7 @@
 
 
 # commit regular changes (locally) and rebuild site
-wflow_publish(all = TRUE, message = "profiles revised")
+wflow_publish(all = TRUE, message = "layer budgets added")
 
 # commit changes including _site.yml (locally) and rebuild site in the specified order
 wflow_publish(here::here("analysis",
@@ -53,7 +53,7 @@ wflow_publish(here::here("analysis",
                            "classic_column_inventories.Rmd",
                            "classic_zonal_sections.Rmd"
                            )),
-              message = "profile analysis added")
+              message = "depth layer budget analysis added")
 
 
 # Push latest version to GitHub
