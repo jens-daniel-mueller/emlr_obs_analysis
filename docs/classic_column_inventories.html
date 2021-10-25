@@ -667,16 +667,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreea7bcc04126bc53adffe812fa791b7293e547fad3targetblanka7bcc04a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/a7bcc04126bc53adffe812fa791b7293e547fad3" target="_blank">a7bcc04</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree78f1dbc9eed6df8236944f4cf72d21d8526bab3ctargetblank78f1dbca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/78f1dbc9eed6df8236944f4cf72d21d8526bab3c" target="_blank">78f1dbc</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreea7bcc04126bc53adffe812fa791b7293e547fad3targetblanka7bcc04a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree78f1dbc9eed6df8236944f4cf72d21d8526bab3ctargetblank78f1dbca" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/a7bcc04126bc53adffe812fa791b7293e547fad3" target="_blank">a7bcc04</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/78f1dbc9eed6df8236944f4cf72d21d8526bab3c" target="_blank">78f1dbc</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -729,6 +729,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/78f1dbc9eed6df8236944f4cf72d21d8526bab3c/analysis/classic_column_inventories.Rmd" target="_blank">78f1dbc</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-25
+</td>
+<td>
+revised composite plot
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/7ae4bdd57776e24277c8340b144442dba0452423/docs/classic_column_inventories.html" target="_blank">7ae4bdd</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-25
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -3691,6 +3725,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/7ae4bdd57776e24277c8340b144442dba0452423/docs/figure/classic_column_inventories.Rmd/lon_grid_budget_ensemble-1.png" target="_blank">7ae4bdd</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-25
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a8576a813fe8a4a31ef2fe9ae337cad3f37fbe83/docs/figure/classic_column_inventories.Rmd/lon_grid_budget_ensemble-1.png" target="_blank">a8576a8</a>
 </td>
 <td>
@@ -4532,7 +4577,7 @@ p_lon_94 &lt;- dcant_lon_grid_ensemble %&gt;%
   scale_x_continuous(name = &quot;Longitude (°E)&quot;, limits = c(20,380), expand = c(0,0)) +
   theme(axis.title.x = element_blank(),
         axis.text.x = element_blank(),
-        axis.ticks.x = element_blank()) 
+        axis.ticks.x = element_blank())
   # coord_fixed(ratio = 100)
 
 p_lon_04 &lt;- dcant_lon_grid_ensemble %&gt;%
@@ -4550,7 +4595,8 @@ p_lon_04 &lt;- dcant_lon_grid_ensemble %&gt;%
   width = 0) +
   scale_y_continuous(limits = c(0,1), expand = c(0,0),
                      name = expression(Delta*C[ant]~(PgC))) +
-  scale_x_continuous(name = &quot;Longitude (°E)&quot;, limits = c(20,380), expand = c(0,0)) 
+  scale_x_continuous(name = &quot;Longitude (°E)&quot;, limits = c(20,380), expand = c(0,0)) +
+  theme(title = element_blank())
   # coord_fixed(ratio = 100)
 
 p_lat_94 &lt;- dcant_lat_grid_ensemble %&gt;%
@@ -4583,6 +4629,7 @@ p_lat_94 &lt;- dcant_lat_grid_ensemble %&gt;%
     axis.text.x = element_blank(),
     axis.ticks.x = element_blank()
   )
+  # coord_fixed(ratio = 5e-2)
 
 p_lat_04 &lt;- dcant_lat_grid_ensemble %&gt;%
   filter(data_source == &quot;obs&quot;,
@@ -4606,13 +4653,55 @@ p_lat_04 &lt;- dcant_lat_grid_ensemble %&gt;%
                      expand = c(0, 0),
                      position = &quot;right&quot;)
 
-p_lat_04</code></pre>
-<p><img src="figure/classic_column_inventories.Rmd/composed_figure-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>((p_lon_94 | plot_spacer()) / (p_map_94 | p_lat_94)) /
-  ((p_map_04 | p_lat_04) / (p_lon_04 + plot_spacer())) +
-  plot_layout(guides=&quot;collect&quot;) &amp;
+
+p_lon_94 + plot_spacer() + p_map_94 + p_lat_94 + 
+  p_map_04 + p_lat_04 + p_lon_04 + plot_spacer() +
+  plot_layout(ncol = 2,
+              guides = &quot;collect&quot;,
+              heights = c(1,2,2,1),
+              widths = c(3,1)) &amp;
   theme(legend.position = &quot;left&quot;)</code></pre>
-<p><img src="figure/classic_column_inventories.Rmd/composed_figure-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/classic_column_inventories.Rmd/composed_figure-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-composed_figure-1">
+Past versions of composed_figure-1.png
+</button>
+</p>
+<div id="fig-composed_figure-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/7ae4bdd57776e24277c8340b144442dba0452423/docs/figure/classic_column_inventories.Rmd/composed_figure-1.png" target="_blank">7ae4bdd</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>ggsave(&quot;output/publication/Fig_column_inventories.png&quot;,
+       height = 10,
+       width = 11)</code></pre>
 </div>
 </div>
 <div id="cases-vs-ensemble" class="section level1" number="4">
