@@ -43,7 +43,7 @@ wflow_publish(here::here("analysis",
                            "vif_column_inventories.Rmd",
                            "vif_zonal_sections.Rmd"
                            )),
-              message = "add bottomdepth analysis",
+              message = "rebuild after /docs error",
               republish = TRUE)
 
 # commit changes including _site.yml (locally) and rebuild site in the specified order
