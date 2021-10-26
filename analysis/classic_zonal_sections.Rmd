@@ -384,12 +384,6 @@ dcant_profile_all %>%
              )) +
       geom_hline(yintercept = params_global$inventory_depth_standard) +
       geom_vline(xintercept = 0) +
-      # geom_ribbon(
-      #   aes(xmin = dcant - dcant_sd,
-      #       xmax = dcant + dcant_sd),
-      #   alpha = 0.2,
-      #   col = "transparent"
-      # ) +
       geom_path() +
       scale_y_reverse() +
       labs(title = paste("period", unique(.x$period))) +
@@ -416,12 +410,6 @@ dcant_profile_all %>%
     ) +
       geom_hline(yintercept = params_global$inventory_depth_standard) +
       geom_vline(xintercept = 0) +
-      # geom_ribbon(
-      #   aes(xmin = dcant - dcant_sd,
-      #       xmax = dcant + dcant_sd),
-      #   alpha = 0.2,
-      #   col = "transparent"
-      # ) +
       geom_path() +
       scale_y_reverse() +
       labs(title = paste("data_source", unique(.x$data_source))) +
@@ -559,7 +547,7 @@ dcant_zonal_ensemble %>%
 ```{r ensemble_sd_uncertainty, fig.asp=0.5}
 
 uncertainty_grid <- dcant_zonal_ensemble %>%
-  filter(dcant_sd > 2) %>% 
+  filter(dcant_sd > 1.5) %>% 
   distinct(depth, lat, data_source, period, basin_AIP)
 
 uncertainty_grid <- uncertainty_grid %>%
@@ -614,16 +602,50 @@ dcant_zonal_ensemble %>%
 
 ```{r composed_figure}
 
+uncertainty_grid <- uncertainty_grid %>%
+  filter(data_source == "obs",
+         period != "1994 - 2014")
+
 p_zonal_ensemble <- dcant_zonal_ensemble %>%
   filter(data_source == "obs",
          period != "1994 - 2014") %>%
   p_section_zonal_continous_depth(var = "dcant_ensemble_mean",
                                   plot_slabs = "n",
                                   title_text = NULL) +
+  geom_point(data = uncertainty_grid,
+             aes(lat_grid, depth_grid),
+             shape = 3,
+             col = "red") +
   facet_grid(basin_AIP ~ period,
-             switch = "y")
+             switch = "y") +
+  theme(legend.position = "left")
 
-p_zonal_ensemble
+p_profiles <-
+  dcant_profile_all %>%
+  arrange(depth) %>%
+  filter(period != "1994 - 2014",
+         data_source == "obs") %>%
+  ggplot(aes(
+           dcant,
+           depth,
+           col = period,
+           group = interaction(MLR_basins, period)
+         )) +
+  geom_hline(yintercept = params_global$inventory_depth_standard) +
+  geom_vline(xintercept = 0) +
+  geom_path() +
+  scale_y_reverse() +
+  scale_color_brewer(palette = "Set1") +
+  facet_grid(basin_AIP ~.) +
+  theme(legend.position = "top",
+        legend.title = element_blank())
+
+p_zonal_ensemble + p_profiles +
+  plot_layout(widths = c(4,1))
+
+ggsave("output/publication/Fig_zonal_mean.png",
+       width=11.25,
+       height=9.27)
 
 ```
 
