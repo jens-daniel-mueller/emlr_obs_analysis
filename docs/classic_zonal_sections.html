@@ -667,16 +667,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreec4ac3573300c6b00659ff415ce2a0e345d736170targetblankc4ac357a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/c4ac3573300c6b00659ff415ce2a0e345d736170" target="_blank">c4ac357</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree5e671d58bd1fd8b8fdb640ad63c6701c4cfda25btargetblank5e671d5a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/5e671d58bd1fd8b8fdb640ad63c6701c4cfda25b" target="_blank">5e671d5</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreec4ac3573300c6b00659ff415ce2a0e345d736170targetblankc4ac357a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree5e671d58bd1fd8b8fdb640ad63c6701c4cfda25btargetblank5e671d5a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/c4ac3573300c6b00659ff415ce2a0e345d736170" target="_blank">c4ac357</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/5e671d58bd1fd8b8fdb640ad63c6701c4cfda25b" target="_blank">5e671d5</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -729,6 +729,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/5e671d58bd1fd8b8fdb640ad63c6701c4cfda25b/analysis/classic_zonal_sections.Rmd" target="_blank">5e671d5</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-26
+</td>
+<td>
+revised composite plots
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/5d80e216222e2321018137ef62e0c06fcf3b0525/docs/classic_zonal_sections.html" target="_blank">5d80e21</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-26
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -3609,6 +3643,20 @@ jens-daniel-mueller
   summarise(dcant_ensemble_mean = mean(dcant),
             dcant_sd = sd(dcant),
             dcant_range = max(dcant)- min(dcant)) %&gt;% 
+  ungroup()
+
+
+dcant_budget_basin_AIP_layer_ensemble &lt;- dcant_budget_basin_AIP_layer_all %&gt;% 
+  mutate(inv_depth = fct_inorder(as.factor(inv_depth))) %&gt;%
+  filter(data_source %in% c(&quot;mod&quot;, &quot;obs&quot;),
+         MLR_basins %in% ensemble_members,
+         estimate == &quot;dcant&quot;) %&gt;%
+  rename(dcant = value) %&gt;% 
+  group_by(inv_depth, data_source, period, basin_AIP) %&gt;% 
+  summarise(dcant_mean = mean(dcant),
+            dcant_sd = sd(dcant),
+            dcant_max = max(dcant),
+            dcant_min = min(dcant)) %&gt;% 
   ungroup()</code></pre>
 <div id="mean" class="section level2" number="3.1">
 <h2 number="3.1"><span class="header-section-number">3.1</span> Mean</h2>
@@ -4491,8 +4539,27 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="standard-deviation" class="section level2" number="3.3">
-<h2 number="3.3"><span class="header-section-number">3.3</span> Standard deviation</h2>
+<div id="mean-depth-layer-budgets" class="section level2" number="3.3">
+<h2 number="3.3"><span class="header-section-number">3.3</span> Mean depth layer budgets</h2>
+<pre class="r"><code>dcant_lat_grid_ensemble %&gt;%
+  ggplot(aes(lat_grid, dcant_mean)) +
+  geom_hline(yintercept = 0) +
+  geom_col(position = &quot;dodge&quot;,
+           fill = &quot;grey80&quot;,
+           col = &quot;grey20&quot;) +
+  geom_errorbar(aes(
+    ymin = dcant_min,
+    ymax = dcant_max
+  ),
+  col = &quot;grey20&quot;,
+  width = 0) +
+  scale_color_brewer(palette = &quot;Set1&quot;) +
+  coord_flip() +
+  scale_fill_brewer(palette = &quot;Dark2&quot;) +
+  facet_grid(data_source ~ period)</code></pre>
+</div>
+<div id="standard-deviation" class="section level2" number="3.4">
+<h2 number="3.4"><span class="header-section-number">3.4</span> Standard deviation</h2>
 <pre class="r"><code>dcant_zonal_ensemble %&gt;%
   group_by(basin_AIP) %&gt;%
   group_split() %&gt;%
@@ -4925,8 +4992,8 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="sd-as-uncertainty" class="section level2" number="3.4">
-<h2 number="3.4"><span class="header-section-number">3.4</span> SD as uncertainty</h2>
+<div id="sd-as-uncertainty" class="section level2" number="3.5">
+<h2 number="3.5"><span class="header-section-number">3.5</span> SD as uncertainty</h2>
 <pre class="r"><code>uncertainty_grid &lt;- dcant_zonal_ensemble %&gt;%
   filter(dcant_sd &gt; 1.5) %&gt;% 
   distinct(depth, lat, data_source, period, basin_AIP)
@@ -4972,6 +5039,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/5d80e216222e2321018137ef62e0c06fcf3b0525/docs/figure/classic_zonal_sections.Rmd/ensemble_sd_uncertainty-1.png" target="_blank">5d80e21</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-26
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/8b4e3343c79812f1b6ea6bc7c5629d64de45acb8/docs/figure/classic_zonal_sections.Rmd/ensemble_sd_uncertainty-1.png" target="_blank">8b4e334</a>
 </td>
 <td>
@@ -4986,8 +5064,8 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="sd-vs-bias" class="section level2" number="3.5">
-<h2 number="3.5"><span class="header-section-number">3.5</span> SD vs bias</h2>
+<div id="sd-vs-bias" class="section level2" number="3.6">
+<h2 number="3.6"><span class="header-section-number">3.6</span> SD vs bias</h2>
 <pre class="r"><code>dcant_zonal_ensemble_bias %&gt;% 
   ggplot(aes(dcant_bias, dcant_sd)) +
   geom_bin2d() +
@@ -5418,8 +5496,8 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="composed-figure" class="section level2" number="3.6">
-<h2 number="3.6"><span class="header-section-number">3.6</span> Composed figure</h2>
+<div id="composed-figure" class="section level2" number="3.7">
+<h2 number="3.7"><span class="header-section-number">3.7</span> Composed figure</h2>
 <pre class="r"><code>uncertainty_grid &lt;- uncertainty_grid %&gt;%
   filter(data_source == &quot;obs&quot;,
          period != &quot;1994 - 2014&quot;)
@@ -5447,19 +5525,50 @@ p_profiles &lt;-
            dcant,
            depth,
            col = period,
+           fill = &quot;grey80&quot;,
            group = interaction(MLR_basins, period)
          )) +
   geom_hline(yintercept = params_global$inventory_depth_standard) +
   geom_vline(xintercept = 0) +
   geom_path() +
-  scale_y_reverse() +
+  scale_y_reverse(name = &quot;Depth (m)&quot;) +
   scale_color_brewer(palette = &quot;Set1&quot;) +
   facet_grid(basin_AIP ~.) +
   theme(legend.position = &quot;top&quot;,
+        legend.direction = &quot;vertical&quot;,
+        legend.title = element_blank(),
+        strip.background = element_blank(),
+        strip.text = element_blank())
+
+
+p_layer_budget &lt;- dcant_budget_basin_AIP_layer_ensemble %&gt;%
+  filter(data_source == &quot;obs&quot;,
+         period != &quot;1994 - 2014&quot;) %&gt;%
+  ggplot(aes(dcant_mean, inv_depth, col = period)) +
+  geom_col(position = &quot;dodge&quot;,
+           orientation = &quot;y&quot;,
+           fill = &quot;grey80&quot;) +
+  geom_errorbar(
+    aes(xmin = dcant_min,
+        xmax = dcant_max),
+    width = 0,
+    position = position_dodge(width = 0.9)
+  ) +
+  scale_color_brewer(palette = &quot;Set1&quot;, guide = &quot;none&quot;) +
+  scale_x_continuous(
+    limits = c(0, NA),
+    expand = c(0, 0),
+    name = expression(Delta * C[ant] ~ (PgC))
+  ) +
+  scale_y_discrete(name = &quot;Depth intervals (m)&quot;,
+                   limits = rev) +
+  facet_grid(basin_AIP ~ .) +
+  theme(legend.position = &quot;top&quot;,
         legend.title = element_blank())
 
-p_zonal_ensemble + p_profiles +
-  plot_layout(widths = c(4,1))</code></pre>
+
+p_zonal_ensemble + p_profiles + p_layer_budget +
+  plot_layout(widths = c(4,1,1))</code></pre>
 <p><img src="figure/classic_zonal_sections.Rmd/composed_figure-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-composed_figure-1">
@@ -5485,6 +5594,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/5d80e216222e2321018137ef62e0c06fcf3b0525/docs/figure/classic_zonal_sections.Rmd/composed_figure-1.png" target="_blank">5d80e21</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-26
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/8b4e3343c79812f1b6ea6bc7c5629d64de45acb8/docs/figure/classic_zonal_sections.Rmd/composed_figure-1.png" target="_blank">8b4e334</a>
 </td>
 <td>
@@ -5499,7 +5619,7 @@ jens-daniel-mueller
 </div>
 </div>
 <pre class="r"><code>ggsave(&quot;output/publication/Fig_zonal_mean.png&quot;,
-       width=11.25,
+       width=15.25,
        height=9.27)</code></pre>
 </div>
 </div>
