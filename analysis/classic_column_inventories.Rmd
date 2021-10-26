@@ -632,16 +632,46 @@ p_map_cant_inv(
 
 ```
 
+## SD as uncertainty
 
-## SD vs bias
+```{r ensemble_sd_uncertainty, fig.asp=0.5}
+
+uncertainty_grid <- dcant_inv_ensemble %>%
+  filter(dcant_sd > 4) %>% 
+  distinct(lon, lat, data_source, period)
+
+uncertainty_grid <- m_grid_horizontal_coarse(uncertainty_grid) %>% 
+  distinct(lon_grid, lat_grid, data_source, period)
+
+map +
+  geom_point(data =
+           uncertainty_grid,
+         aes(lon_grid, lat_grid),
+         shape = 3) +
+  facet_grid(period ~ data_source)
+
+```
+
+
+## SD vs abs bias
+
+### 2D bin
 
 ```{r ensemble_sd_vs_bias}
 
 dcant_inv_ensemble_bias %>% 
-  ggplot(aes(dcant_mean_bias, dcant_sd)) +
+  ggplot(aes(abs(dcant_mean_bias), dcant_sd)) +
   geom_bin2d() +
   scale_fill_viridis_c() +
   facet_grid(. ~ period)
+
+
+
+```
+
+### Density distributions
+
+```{r density_distributions}
 
 legend_title = expression(Delta * C[ant]~(mol~m^2))
 
@@ -729,6 +759,8 @@ ggsave(plot = p_ensemble_distribution,
 
 ```
 
+
+
 ## Range
 
 ```{r ensemble_range, fig.asp=0.5}
@@ -749,6 +781,9 @@ p_map_cant_inv(
 
 ```{r composed_figure}
 
+uncertainty_grid <- uncertainty_grid %>% 
+  filter(data_source == "obs")
+
 p_map_94 <- p_map_cant_inv(
   df = dcant_inv_ensemble %>%
     filter(period == "1994 - 2004",
@@ -757,11 +792,20 @@ p_map_94 <- p_map_cant_inv(
   subtitle_text = NULL,
   title_text = NULL
 ) +
+  geom_point(
+    data =
+      uncertainty_grid %>% filter(period == "1994 - 2004"),
+    aes(lon_grid, lat_grid),
+    shape = 3,
+    col = "red"
+  ) +
   theme(
     axis.text = element_blank(),
     axis.ticks = element_blank(),
     legend.position = "left"
-  )
+  ) +
+  facet_grid(period ~ .,
+             switch = "y")
 
 p_map_04 <- p_map_cant_inv(
   df = dcant_inv_ensemble %>%
@@ -771,11 +815,20 @@ p_map_04 <- p_map_cant_inv(
   subtitle_text = NULL,
   title_text = NULL
 ) +
+  geom_point(
+    data =
+      uncertainty_grid %>% filter(period == "2004 - 2014"),
+    aes(lon_grid, lat_grid),
+    shape = 3,
+    col = "red"
+  ) +
   theme(
     axis.text = element_blank(),
     axis.ticks = element_blank(),
     legend.position = "left"
-  )
+  ) +
+  facet_grid(period ~ .,
+             switch = "y")
 
 p_lon_94 <- dcant_lon_grid_ensemble %>%
   filter(data_source == "obs",
@@ -791,7 +844,8 @@ p_lon_94 <- dcant_lon_grid_ensemble %>%
   col = "grey20",
   width = 0) +
   scale_y_continuous(limits = c(0,1), expand = c(0,0),
-                     name = expression(Delta*C[ant]~(PgC))) +
+                     name = expression(Delta*C[ant]~(PgC)),
+                     position = "right") +
   scale_x_continuous(name = "Longitude (°E)", limits = c(20,380), expand = c(0,0)) +
   theme(axis.title.x = element_blank(),
         axis.text.x = element_blank(),
@@ -812,8 +866,10 @@ p_lon_04 <- dcant_lon_grid_ensemble %>%
   col = "grey20",
   width = 0) +
   scale_y_continuous(limits = c(0,1), expand = c(0,0),
-                     name = expression(Delta*C[ant]~(PgC))) +
-  scale_x_continuous(name = "Longitude (°E)", limits = c(20,380), expand = c(0,0)) +
+                     name = expression(Delta*C[ant]~(PgC)),
+                     position = "right") +
+  scale_x_continuous(name = "Longitude (°E)",
+                     limits = c(20,380), expand = c(0,0)) +
   theme(title = element_blank())
   # coord_fixed(ratio = 100)
 
@@ -846,7 +902,7 @@ p_lat_94 <- dcant_lat_grid_ensemble %>%
     axis.title.x = element_blank(),
     axis.text.x = element_blank(),
     axis.ticks.x = element_blank()
-  )
+  ) 
   # coord_fixed(ratio = 5e-2)
 
 p_lat_04 <- dcant_lat_grid_ensemble %>%
@@ -871,18 +927,29 @@ p_lat_04 <- dcant_lat_grid_ensemble %>%
                      expand = c(0, 0),
                      position = "right")
 
+t_94 <- grid::textGrob("1994 -\n2004")
+t_04 <- grid::textGrob("2004 -\n2014")
 
-p_lon_94 + plot_spacer() + p_map_94 + p_lat_94 + 
-  p_map_04 + p_lat_04 + p_lon_04 + plot_spacer() +
-  plot_layout(ncol = 2,
-              guides = "collect",
-              heights = c(1,2,2,1),
-              widths = c(3,1)) &
+
+layout <- "
+BBBBB##
+AAAAADD
+AAAAADD
+CCCCCEE
+CCCCCEE
+GGGGG##
+"
+
+wrap_plots(B = p_lon_94, A = p_map_94, D = p_lat_94,
+           G = p_lon_04, C = p_map_04, E = p_lat_04,
+           design = layout,
+           guides = "collect")&
   theme(legend.position = "left")
 
+
 ggsave("output/publication/Fig_column_inventories.png",
-       height = 10,
-       width = 11)
+       width=11.25,
+       height=9.27)
 
 ```
 

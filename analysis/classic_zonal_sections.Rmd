@@ -554,6 +554,33 @@ dcant_zonal_ensemble %>%
 
 ```
 
+## SD as uncertainty
+
+```{r ensemble_sd_uncertainty, fig.asp=0.5}
+
+uncertainty_grid <- dcant_zonal_ensemble %>%
+  filter(dcant_sd > 2) %>% 
+  distinct(depth, lat, data_source, period, basin_AIP)
+
+uncertainty_grid <- uncertainty_grid %>%
+  mutate(
+    lat_grid = cut(lat, seq(-90, 90, 5), seq(-87.5, 87.5, 5)),
+    lat_grid = as.numeric(as.character(lat_grid)),
+    depth_grid = cut(depth, seq(0, 1e4, 500), seq(250, 1e4, 500)),
+    depth_grid = as.numeric(as.character(depth_grid))
+  ) %>%
+  distinct(depth_grid, lat_grid, data_source, period, basin_AIP)
+
+uncertainty_grid %>%
+  filter(data_source == "obs") %>%
+  ggplot() +
+  geom_point(aes(lat_grid, depth_grid),
+             shape = 3) +
+  facet_grid(basin_AIP ~ period) +
+  scale_y_reverse()
+
+```
+
 
 ## SD vs bias
 
@@ -582,6 +609,25 @@ dcant_zonal_ensemble %>%
   coord_cartesian(ylim = c(0,50))
 
 ```
+
+## Composed figure
+
+```{r composed_figure}
+
+p_zonal_ensemble <- dcant_zonal_ensemble %>%
+  filter(data_source == "obs",
+         period != "1994 - 2014") %>%
+  p_section_zonal_continous_depth(var = "dcant_ensemble_mean",
+                                  plot_slabs = "n",
+                                  title_text = NULL) +
+  facet_grid(basin_AIP ~ period,
+             switch = "y")
+
+p_zonal_ensemble
+
+```
+
+
 
 # Cases vs ensemble
 
