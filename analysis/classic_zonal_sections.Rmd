@@ -458,6 +458,20 @@ dcant_zonal_ensemble <- dcant_zonal_all %>%
   ungroup()
 
 
+dcant_budget_basin_AIP_layer_ensemble <- dcant_budget_basin_AIP_layer_all %>% 
+  mutate(inv_depth = fct_inorder(as.factor(inv_depth))) %>%
+  filter(data_source %in% c("mod", "obs"),
+         MLR_basins %in% ensemble_members,
+         estimate == "dcant") %>%
+  rename(dcant = value) %>% 
+  group_by(inv_depth, data_source, period, basin_AIP) %>% 
+  summarise(dcant_mean = mean(dcant),
+            dcant_sd = sd(dcant),
+            dcant_max = max(dcant),
+            dcant_min = min(dcant)) %>% 
+  ungroup()
+
+
 ```
 
 ## Mean
@@ -515,6 +529,29 @@ dcant_zonal_ensemble_bias %>%
     ) +
       facet_grid(. ~ period)
   )
+
+```
+
+## Mean depth layer budgets
+
+```{r lat_grid_budget_ensemble, fig.asp=1, eval=FALSE}
+
+dcant_lat_grid_ensemble %>%
+  ggplot(aes(lat_grid, dcant_mean)) +
+  geom_hline(yintercept = 0) +
+  geom_col(position = "dodge",
+           fill = "grey80",
+           col = "grey20") +
+  geom_errorbar(aes(
+    ymin = dcant_min,
+    ymax = dcant_max
+  ),
+  col = "grey20",
+  width = 0) +
+  scale_color_brewer(palette = "Set1") +
+  coord_flip() +
+  scale_fill_brewer(palette = "Dark2") +
+  facet_grid(data_source ~ period)
 
 ```
 
@@ -629,22 +666,53 @@ p_profiles <-
            dcant,
            depth,
            col = period,
+           fill = "grey80",
            group = interaction(MLR_basins, period)
          )) +
   geom_hline(yintercept = params_global$inventory_depth_standard) +
   geom_vline(xintercept = 0) +
   geom_path() +
-  scale_y_reverse() +
+  scale_y_reverse(name = "Depth (m)") +
   scale_color_brewer(palette = "Set1") +
   facet_grid(basin_AIP ~.) +
   theme(legend.position = "top",
+        legend.direction = "vertical",
+        legend.title = element_blank(),
+        strip.background = element_blank(),
+        strip.text = element_blank())
+
+
+p_layer_budget <- dcant_budget_basin_AIP_layer_ensemble %>%
+  filter(data_source == "obs",
+         period != "1994 - 2014") %>%
+  ggplot(aes(dcant_mean, inv_depth, col = period)) +
+  geom_col(position = "dodge",
+           orientation = "y",
+           fill = "grey80") +
+  geom_errorbar(
+    aes(xmin = dcant_min,
+        xmax = dcant_max),
+    width = 0,
+    position = position_dodge(width = 0.9)
+  ) +
+  scale_color_brewer(palette = "Set1", guide = "none") +
+  scale_x_continuous(
+    limits = c(0, NA),
+    expand = c(0, 0),
+    name = expression(Delta * C[ant] ~ (PgC))
+  ) +
+  scale_y_discrete(name = "Depth intervals (m)",
+                   limits = rev) +
+  facet_grid(basin_AIP ~ .) +
+  theme(legend.position = "top",
         legend.title = element_blank())
 
-p_zonal_ensemble + p_profiles +
-  plot_layout(widths = c(4,1))
+
+p_zonal_ensemble + p_profiles + p_layer_budget +
+  plot_layout(widths = c(4,1,1))
 
 ggsave("output/publication/Fig_zonal_mean.png",
-       width=11.25,
+       width=15.25,
        height=9.27)
 
 ```
