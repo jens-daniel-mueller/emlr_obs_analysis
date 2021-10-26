@@ -932,12 +932,12 @@ t_04 <- grid::textGrob("2004 -\n2014")
 
 
 layout <- "
-BBBBB##
-AAAAADD
-AAAAADD
-CCCCCEE
-CCCCCEE
-GGGGG##
+BBB#
+AAAD
+AAAD
+CCCE
+CCCE
+GGG#
 "
 
 wrap_plots(B = p_lon_94, A = p_map_94, D = p_lat_94,

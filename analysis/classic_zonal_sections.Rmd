@@ -652,10 +652,12 @@ p_zonal_ensemble <- dcant_zonal_ensemble %>%
   geom_point(data = uncertainty_grid,
              aes(lat_grid, depth_grid),
              shape = 3,
-             col = "red") +
+             col = "white") +
   facet_grid(basin_AIP ~ period,
              switch = "y") +
-  theme(legend.position = "left")
+  theme(legend.position = "left",
+        strip.background.y = element_blank(),
+        strip.text.y = element_blank())
 
 p_profiles <-
   dcant_profile_all %>%
@@ -672,19 +674,28 @@ p_profiles <-
   geom_hline(yintercept = params_global$inventory_depth_standard) +
   geom_vline(xintercept = 0) +
   geom_path() +
-  scale_y_reverse(name = "Depth (m)") +
+  scale_y_reverse(name = "Depth (m)",
+                  limits = c(5000,0)) +
+  scale_x_continuous(name = expression(Delta * C[ant] ~ (µmol~kg^{-1}))) +
+  coord_cartesian(expand = 0) +
   scale_color_brewer(palette = "Set1") +
   facet_grid(basin_AIP ~.) +
   theme(legend.position = "top",
         legend.direction = "vertical",
         legend.title = element_blank(),
         strip.background = element_blank(),
-        strip.text = element_blank())
+        strip.text = element_blank(),
+        axis.text.y = element_blank(),
+        axis.title.y = element_blank(),
+        axis.ticks.y = element_blank())
 
 
 p_layer_budget <- dcant_budget_basin_AIP_layer_ensemble %>%
   filter(data_source == "obs",
          period != "1994 - 2014") %>%
+  mutate(depth =
+           as.numeric(str_split(inv_depth, " - ", simplify = TRUE)[, 1]) + 250) %>%
+  filter(depth < 5000) %>% 
   ggplot(aes(dcant_mean, inv_depth, col = period)) +
   geom_col(position = "dodge",
            orientation = "y",
@@ -705,11 +716,15 @@ p_layer_budget <- dcant_budget_basin_AIP_layer_ensemble %>%
                    limits = rev) +
   facet_grid(basin_AIP ~ .) +
   theme(legend.position = "top",
-        legend.title = element_blank())
+        legend.title = element_blank(),
+        axis.text.y = element_blank(),
+        axis.title.y = element_blank(),
+        axis.ticks.y = element_blank())
 
 
 p_zonal_ensemble + p_profiles + p_layer_budget +
-  plot_layout(widths = c(4,1,1))
+  plot_layout(widths = c(5,1,1)) +
+  plot_annotation(tag_levels = 'a')
 
 ggsave("output/publication/Fig_zonal_mean.png",
        width=15.25,
