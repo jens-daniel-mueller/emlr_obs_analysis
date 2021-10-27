@@ -450,6 +450,16 @@ dcant_obs_budget_all <- full_join(dcant_obs_budget_all,
 
 ```
 
+## Atm CO2
+
+```{r read_atm_co2}
+
+co2_atm <-
+  read_csv(paste(path_preprocessing,
+                 "co2_atm.csv",
+                 sep = ""))
+
+```
 
 
 # Global
@@ -678,7 +688,7 @@ dcant_budget_global_all_in <- dcant_budget_global_all %>%
          MLR_basins %in% ensemble_MLR_basins)
 
 dcant_budget_global_ensemble <- dcant_budget_global_all_in %>% 
-  group_by(data_source, period) %>% 
+  group_by(data_source, period, tref2) %>% 
   summarise(dcant_mean = mean(dcant),
             dcant_sd = sd(dcant),
             dcant_range = max(dcant)- min(dcant)) %>% 
@@ -761,13 +771,55 @@ p_global_dcant_bias
 
 ggsave(plot = p_global_dcant_bias,
        path = "output/publication",
-       filename = "global_dcant.png",
+       filename = "Fig_global_dcant_budget.png",
        height = 5,
        width = 5)
 
 rm(p_global_bias, p_global_dcant, p_global_dcant_bias)
 
 ```
+
+### Mean vs atm CO2
+
+```{r mean_tcant_over_atm_co2}
+
+dcant_ensemble <- dcant_budget_global_ensemble %>% 
+  filter(data_source == "obs",
+         period != "1994 - 2014") %>% 
+  select(year = tref2, dcant_mean, dcant_sd)
+
+tcant_S04 <- bind_cols(year = 1994, dcant_mean = 118, dcant_sd = 19)
+
+tcant_ensemble <- full_join(dcant_ensemble, tcant_S04)
+
+tcant_ensemble <- left_join(tcant_ensemble, co2_atm)
+
+co2_atm_pi <- bind_cols(pCO2 = 280, dcant_mean = 0, year = 1750, dcant_sd = 0)
+
+tcant_ensemble <- full_join(tcant_ensemble, co2_atm_pi)
+
+tcant_ensemble <- tcant_ensemble %>% 
+  arrange(year) %>% 
+  mutate(tcant = cumsum(dcant_mean),
+         tcant_sd = cumsum(dcant_sd))
+
+tcant_ensemble %>% 
+  ggplot(aes(pCO2, tcant, ymin = tcant - tcant_sd, ymax = tcant + tcant_sd)) +
+  geom_ribbon(fill = "grey80") +
+  geom_point() +
+  geom_line() +
+  geom_text(aes(label = year), nudge_x = -5, nudge_y = 5) +
+  labs(x = expression(Atmospheric~pCO[2]~(µatm)),
+       y = expression(Total~oceanic~C[ant]~(PgC)))
+
+ggsave(path = "output/publication",
+       filename = "Fig_global_dcant_budget_vs_atm_pCO2.png",
+       height = 4,
+       width = 7)
+
+```
+
+
 
 ### Sum decades
 
