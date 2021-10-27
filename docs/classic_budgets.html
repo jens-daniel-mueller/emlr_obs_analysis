@@ -551,7 +551,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Budgets</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">26 October, 2021</h4>
+<h4 class="date">27 October, 2021</h4>
 
 </div>
 
@@ -576,7 +576,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-10-26
+<strong>Last updated:</strong> 2021-10-27
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -667,16 +667,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree059b2bf12448bc16aede96f6941a95e6c2522da3targetblank059b2bfa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/059b2bf12448bc16aede96f6941a95e6c2522da3" target="_blank">059b2bf</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreea18d99ec6c20353ab67e92aea7c5e0a2ea2545c3targetblanka18d99ea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/a18d99ec6c20353ab67e92aea7c5e0a2ea2545c3" target="_blank">a18d99e</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree059b2bf12448bc16aede96f6941a95e6c2522da3targetblank059b2bfa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreea18d99ec6c20353ab67e92aea7c5e0a2ea2545c3targetblanka18d99ea" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/059b2bf12448bc16aede96f6941a95e6c2522da3" target="_blank">059b2bf</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/a18d99ec6c20353ab67e92aea7c5e0a2ea2545c3" target="_blank">a18d99e</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -688,9 +688,6 @@ Ignored files:
     Ignored:    data/
     Ignored:    output/Gruber_2019_comparison/
     Ignored:    output/publication/
-
-Unstaged changes:
-    Modified:   code/Workflowr_project_managment.R
 
 </code></pre>
 <p>
@@ -729,6 +726,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a18d99ec6c20353ab67e92aea7c5e0a2ea2545c3/analysis/classic_budgets.Rmd" target="_blank">a18d99e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-27
+</td>
+<td>
+tcant vs atm pco2 plot created
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/ae5ae64585372fa5b40ae2e0ee60e853a4e638b3/docs/classic_budgets.html" target="_blank">ae5ae64</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-26
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -1993,6 +2024,13 @@ dcant_slab_budget_bias_all &lt;- dcant_slab_budget_bias_all  %&gt;%
 
 dcant_obs_budget_all &lt;- full_join(dcant_obs_budget_all,
                              params_local_all)</code></pre>
+</div>
+<div id="atm-co2" class="section level2" number="3.4">
+<h2 number="3.4"><span class="header-section-number">3.4</span> Atm CO2</h2>
+<pre class="r"><code>co2_atm &lt;-
+  read_csv(paste(path_preprocessing,
+                 &quot;co2_atm.csv&quot;,
+                 sep = &quot;&quot;))</code></pre>
 </div>
 </div>
 <div id="global-1" class="section level1" number="4">
@@ -3627,7 +3665,7 @@ print(&quot;Both criteria&quot;)</code></pre>
          MLR_basins %in% ensemble_MLR_basins)
 
 dcant_budget_global_ensemble &lt;- dcant_budget_global_all_in %&gt;% 
-  group_by(data_source, period) %&gt;% 
+  group_by(data_source, period, tref2) %&gt;% 
   summarise(dcant_mean = mean(dcant),
             dcant_sd = sd(dcant),
             dcant_range = max(dcant)- min(dcant)) %&gt;% 
@@ -3965,14 +4003,50 @@ jens-daniel-mueller
 </div>
 <pre class="r"><code>ggsave(plot = p_global_dcant_bias,
        path = &quot;output/publication&quot;,
-       filename = &quot;global_dcant.png&quot;,
+       filename = &quot;Fig_global_dcant_budget.png&quot;,
        height = 5,
        width = 5)
 
 rm(p_global_bias, p_global_dcant, p_global_dcant_bias)</code></pre>
 </div>
-<div id="sum-decades" class="section level3" number="6.2.2">
-<h3 number="6.2.2"><span class="header-section-number">6.2.2</span> Sum decades</h3>
+<div id="mean-vs-atm-co2" class="section level3" number="6.2.2">
+<h3 number="6.2.2"><span class="header-section-number">6.2.2</span> Mean vs atm CO2</h3>
+<pre class="r"><code>dcant_ensemble &lt;- dcant_budget_global_ensemble %&gt;% 
+  filter(data_source == &quot;obs&quot;,
+         period != &quot;1994 - 2014&quot;) %&gt;% 
+  select(year = tref2, dcant_mean, dcant_sd)
+
+tcant_S04 &lt;- bind_cols(year = 1994, dcant_mean = 118, dcant_sd = 19)
+
+tcant_ensemble &lt;- full_join(dcant_ensemble, tcant_S04)
+
+tcant_ensemble &lt;- left_join(tcant_ensemble, co2_atm)
+
+co2_atm_pi &lt;- bind_cols(pCO2 = 280, dcant_mean = 0, year = 1750, dcant_sd = 0)
+
+tcant_ensemble &lt;- full_join(tcant_ensemble, co2_atm_pi)
+
+tcant_ensemble &lt;- tcant_ensemble %&gt;% 
+  arrange(year) %&gt;% 
+  mutate(tcant = cumsum(dcant_mean),
+         tcant_sd = cumsum(dcant_sd))
+
+tcant_ensemble %&gt;% 
+  ggplot(aes(pCO2, tcant, ymin = tcant - tcant_sd, ymax = tcant + tcant_sd)) +
+  geom_ribbon(fill = &quot;grey80&quot;) +
+  geom_point() +
+  geom_line() +
+  geom_text(aes(label = year), nudge_x = -5, nudge_y = 5) +
+  labs(x = expression(Atmospheric~pCO[2]~(µatm)),
+       y = expression(Total~oceanic~C[ant]~(PgC)))</code></pre>
+<p><img src="figure/classic_budgets.Rmd/mean_tcant_over_atm_co2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(path = &quot;output/publication&quot;,
+       filename = &quot;Fig_global_dcant_budget_vs_atm_pCO2.png&quot;,
+       height = 4,
+       width = 7)</code></pre>
+</div>
+<div id="sum-decades" class="section level3" number="6.2.3">
+<h3 number="6.2.3"><span class="header-section-number">6.2.3</span> Sum decades</h3>
 <pre class="r"><code>dcant_budget_global_all_in_sum &lt;-
   dcant_budget_global_all_in %&gt;%
   filter(period != &quot;1994 - 2014&quot;) %&gt;%
@@ -4097,8 +4171,8 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="mean-bias" class="section level3" number="6.2.3">
-<h3 number="6.2.3"><span class="header-section-number">6.2.3</span> Mean bias</h3>
+<div id="mean-bias" class="section level3" number="6.2.4">
+<h3 number="6.2.4"><span class="header-section-number">6.2.4</span> Mean bias</h3>
 <pre class="r"><code>dcant_budget_global_ensemble_bias &lt;- full_join(
   dcant_budget_global_ensemble %&gt;%
     filter(data_source == &quot;mod&quot;) %&gt;% 
@@ -4418,8 +4492,8 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="sd-vs-bias" class="section level3" number="6.2.4">
-<h3 number="6.2.4"><span class="header-section-number">6.2.4</span> SD vs bias</h3>
+<div id="sd-vs-bias" class="section level3" number="6.2.5">
+<h3 number="6.2.5"><span class="header-section-number">6.2.5</span> SD vs bias</h3>
 <pre class="r"><code>dcant_budget_global_ensemble_bias %&gt;% 
   ggplot(aes(dcant_mean_bias, dcant_sd, col = period)) +
   geom_point() +
@@ -4574,10 +4648,10 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="vertical-patterns" class="section level3" number="6.2.5">
-<h3 number="6.2.5"><span class="header-section-number">6.2.5</span> Vertical patterns</h3>
-<div id="absoulte-values-2" class="section level4" number="6.2.5.1">
-<h4 number="6.2.5.1"><span class="header-section-number">6.2.5.1</span> Absoulte values</h4>
+<div id="vertical-patterns" class="section level3" number="6.2.6">
+<h3 number="6.2.6"><span class="header-section-number">6.2.6</span> Vertical patterns</h3>
+<div id="absoulte-values-2" class="section level4" number="6.2.6.1">
+<h4 number="6.2.6.1"><span class="header-section-number">6.2.6.1</span> Absoulte values</h4>
 <pre class="r"><code>dcant_budget_global_all_depth %&gt;%
   filter(MLR_basins %in% ensemble_MLR_basins) %&gt;% 
   group_by(data_source) %&gt;%
@@ -5009,8 +5083,8 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="biases-2" class="section level4" number="6.2.5.2">
-<h4 number="6.2.5.2"><span class="header-section-number">6.2.5.2</span> Biases</h4>
+<div id="biases-2" class="section level4" number="6.2.6.2">
+<h4 number="6.2.6.2"><span class="header-section-number">6.2.6.2</span> Biases</h4>
 <pre class="r"><code>dcant_budget_global_bias_all_depth %&gt;%
   filter(MLR_basins %in% ensemble_MLR_basins) %&gt;%
   ggplot(aes(dcant_bias, MLR_basins, fill = period)) +
