@@ -551,7 +551,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Budgets</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">27 October, 2021</h4>
+<h4 class="date">28 October, 2021</h4>
 
 </div>
 
@@ -576,7 +576,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-10-27
+<strong>Last updated:</strong> 2021-10-28
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -667,16 +667,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreea18d99ec6c20353ab67e92aea7c5e0a2ea2545c3targetblanka18d99ea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/a18d99ec6c20353ab67e92aea7c5e0a2ea2545c3" target="_blank">a18d99e</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeebaf3bd39cf045ec8316a9d1e2e8a4ac6c6b164btargetblankebaf3bda"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/ebaf3bd39cf045ec8316a9d1e2e8a4ac6c6b164b" target="_blank">ebaf3bd</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreea18d99ec6c20353ab67e92aea7c5e0a2ea2545c3targetblanka18d99ea" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeebaf3bd39cf045ec8316a9d1e2e8a4ac6c6b164btargetblankebaf3bda" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/a18d99ec6c20353ab67e92aea7c5e0a2ea2545c3" target="_blank">a18d99e</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/ebaf3bd39cf045ec8316a9d1e2e8a4ac6c6b164b" target="_blank">ebaf3bd</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -726,6 +726,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ebaf3bd39cf045ec8316a9d1e2e8a4ac6c6b164b/analysis/classic_budgets.Rmd" target="_blank">ebaf3bd</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-28
+</td>
+<td>
+cleaned output
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/cd1e165717dd3a3e2fb150349412f03d5ee0e9fb/docs/classic_budgets.html" target="_blank">cd1e165</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-27
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1624,7 +1658,7 @@ regional_bias_rel_max &lt;- 20</code></pre>
 </div>
 <div id="basins" class="section level1" number="2">
 <h1 number="2"><span class="header-section-number">2</span> Basins</h1>
-<pre class="r"><code>MLR_basins_in &lt;- c(&quot;1&quot;, &quot;2&quot;, &quot;AIP&quot;, &quot;SO_2&quot;, &quot;5&quot;, &quot;SO_AIP&quot;, &quot;SO&quot;)</code></pre>
+<pre class="r"><code>MLR_basins_in &lt;- c(&quot;1&quot;, &quot;2&quot;, &quot;AIP&quot;, &quot;5&quot;,&quot; SO_2&quot;, &quot;SO_AIP&quot;, &quot;SO&quot;)</code></pre>
 </div>
 <div id="read-files" class="section level1" number="3">
 <h1 number="3"><span class="header-section-number">3</span> Read files</h1>
@@ -1639,10 +1673,7 @@ Version_IDs_2 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/
 Version_IDs_3 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
                             pattern = &quot;v_30&quot;)
 
-# Version_IDs &lt;- c(Version_IDs_1, Version_IDs_2)
-Version_IDs &lt;- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
-# rm(Version_IDs_1, Version_IDs_2)
-# rm(Version_IDs_1, Version_IDs_2, Version_IDs_3)</code></pre>
+Version_IDs &lt;- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)</code></pre>
 <div id="global" class="section level2" number="3.1">
 <h2 number="3.1"><span class="header-section-number">3.1</span> Global</h2>
 <pre class="r"><code>for (i_Version_IDs in Version_IDs) {
@@ -2833,7 +2864,7 @@ jens-daniel-mueller
   theme(axis.title.x = element_blank()) +
   geom_jitter(aes(period, dcant_bias_rel, col = MLR_basins),
               width = 0.05, height = 0) +
-  facet_grid(basin_AIP ~ .)</code></pre>
+  facet_grid(. ~ basin_AIP)</code></pre>
 <p><img src="figure/classic_budgets.Rmd/cases_bias-2.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_bias-2">
@@ -3144,6 +3175,8 @@ jens-daniel-mueller
 </div>
 <div id="slab-budgets" class="section level2" number="5.2">
 <h2 number="5.2"><span class="header-section-number">5.2</span> Slab budgets</h2>
+<div id="absolute-values" class="section level3" number="5.2.1">
+<h3 number="5.2.1"><span class="header-section-number">5.2.1</span> Absolute values</h3>
 <pre class="r"><code>dcant_slab_budget_all %&gt;%
   filter(data_source == &quot;obs&quot;,
          period != &quot;1994 - 2014&quot;) %&gt;% 
@@ -3422,6 +3455,9 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
+</div>
+<div id="bias" class="section level3" number="5.2.2">
+<h3 number="5.2.2"><span class="header-section-number">5.2.2</span> Bias</h3>
 <pre class="r"><code>dcant_slab_budget_bias_all %&gt;%
   filter(period != &quot;1994 - 2014&quot;) %&gt;%
   group_by(basin_AIP) %&gt;%
@@ -3623,6 +3659,36 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
+<div id="spread" class="section level3" number="5.2.3">
+<h3 number="5.2.3"><span class="header-section-number">5.2.3</span> Spread</h3>
+<pre class="r"><code>dcant_slab_budget_all %&gt;%
+  filter(period != &quot;1994 - 2014&quot;,
+         data_source != &quot;mod_truth&quot;) %&gt;%
+  group_by(data_source, basin_AIP, gamma_slab, period) %&gt;%
+  summarise(dcant_range = max(dcant) - min(dcant)) %&gt;%
+  ungroup() %&gt;%
+  group_split(basin_AIP) %&gt;%
+  # head(1) %&gt;%
+  map(
+    ~ ggplot(data = .x,
+             aes(gamma_slab, dcant_range, fill = gamma_slab)) +
+      geom_col() +
+      coord_flip() +
+      scale_x_discrete(limits = rev) +
+      scale_fill_scico_d(direction = -1) +
+      facet_grid(period ~ data_source) +
+      labs(title = paste(&quot;data_source:&quot;, unique(.x$basin_AIP)))
+  )</code></pre>
+<pre><code>[[1]]</code></pre>
+<p><img src="figure/classic_budgets.Rmd/slab_budgets_spread-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[2]]</code></pre>
+<p><img src="figure/classic_budgets.Rmd/slab_budgets_spread-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[3]]</code></pre>
+<p><img src="figure/classic_budgets.Rmd/slab_budgets_spread-3.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
 </div>
 <div id="ensemble" class="section level1" number="6">
 <h1 number="6"><span class="header-section-number">6</span> Ensemble</h1>
@@ -3637,7 +3703,7 @@ jens-daniel-mueller
 print(&quot;Global criterion&quot;)</code></pre>
 <pre><code>[1] &quot;Global criterion&quot;</code></pre>
 <pre class="r"><code>ensemble_MLR_basins_global</code></pre>
-<pre><code>[1] &quot;2&quot;      &quot;5&quot;      &quot;AIP&quot;    &quot;SO_2&quot;   &quot;SO_AIP&quot;</code></pre>
+<pre><code>[1] &quot;2&quot;      &quot;5&quot;      &quot;AIP&quot;    &quot;SO_AIP&quot;</code></pre>
 <pre class="r"><code>ensemble_MLR_basins_regional &lt;- dcant_budget_basin_AIP_bias_all %&gt;% 
   filter(abs(dcant_bias_rel) &lt; regional_bias_rel_max) %&gt;% 
   count(MLR_basins) %&gt;% 
@@ -3647,7 +3713,7 @@ print(&quot;Global criterion&quot;)</code></pre>
 print(&quot;Regional criterion&quot;)</code></pre>
 <pre><code>[1] &quot;Regional criterion&quot;</code></pre>
 <pre class="r"><code>ensemble_MLR_basins_regional</code></pre>
-<pre><code>[1] &quot;5&quot;      &quot;AIP&quot;    &quot;SO_2&quot;   &quot;SO_AIP&quot;</code></pre>
+<pre><code>[1] &quot;5&quot;      &quot;AIP&quot;    &quot;SO_AIP&quot;</code></pre>
 <pre class="r"><code>ensemble_MLR_basins &lt;-
   intersect(ensemble_MLR_basins_global, ensemble_MLR_basins_regional)
 
@@ -3655,7 +3721,7 @@ print(&quot;Regional criterion&quot;)</code></pre>
 print(&quot;Both criteria&quot;)</code></pre>
 <pre><code>[1] &quot;Both criteria&quot;</code></pre>
 <pre class="r"><code>ensemble_MLR_basins</code></pre>
-<pre><code>[1] &quot;5&quot;      &quot;AIP&quot;    &quot;SO_2&quot;   &quot;SO_AIP&quot;</code></pre>
+<pre><code>[1] &quot;5&quot;      &quot;AIP&quot;    &quot;SO_AIP&quot;</code></pre>
 <pre class="r"><code>rm(ensemble_MLR_basins_global, ensemble_MLR_basins_regional)</code></pre>
 </div>
 <div id="global-2" class="section level2" number="6.2">
@@ -4040,6 +4106,43 @@ tcant_ensemble %&gt;%
   labs(x = expression(Atmospheric~pCO[2]~(µatm)),
        y = expression(Total~oceanic~C[ant]~(PgC)))</code></pre>
 <p><img src="figure/classic_budgets.Rmd/mean_tcant_over_atm_co2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-mean_tcant_over_atm_co2-1">
+Past versions of mean_tcant_over_atm_co2-1.png
+</button>
+</p>
+<div id="fig-mean_tcant_over_atm_co2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/cd1e165717dd3a3e2fb150349412f03d5ee0e9fb/docs/figure/classic_budgets.Rmd/mean_tcant_over_atm_co2-1.png" target="_blank">cd1e165</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>ggsave(path = &quot;output/publication&quot;,
        filename = &quot;Fig_global_dcant_budget_vs_atm_pCO2.png&quot;,
        height = 4,
@@ -4492,168 +4595,13 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="sd-vs-bias" class="section level3" number="6.2.5">
-<h3 number="6.2.5"><span class="header-section-number">6.2.5</span> SD vs bias</h3>
-<pre class="r"><code>dcant_budget_global_ensemble_bias %&gt;% 
-  ggplot(aes(dcant_mean_bias, dcant_sd, col = period)) +
-  geom_point() +
-  xlim(0, NA) +
-  ylim(0, NA)</code></pre>
-<p><img src="figure/classic_budgets.Rmd/ensemble_sd_vs_bias_global-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_sd_vs_bias_global-1">
-Past versions of ensemble_sd_vs_bias_global-1.png
-</button>
-</p>
-<div id="fig-ensemble_sd_vs_bias_global-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/8c9fa17201eae22c6d7a15592456c754580e2073/docs/figure/classic_budgets.Rmd/ensemble_sd_vs_bias_global-1.png" target="_blank">8c9fa17</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-10-22
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/968fe946dfc157043a60ab481ac5e763c2c37621/docs/figure/classic_budgets.Rmd/ensemble_sd_vs_bias_global-1.png" target="_blank">968fe94</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-10-18
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/f51dcb905c1ae1d9bb76aa3f87abed1b938e14f2/docs/figure/classic_budgets.Rmd/ensemble_sd_vs_bias_global-1.png" target="_blank">f51dcb9</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-28
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/55d2059692961516ef30014e6c6e382745469cf1/docs/figure/classic_budgets.Rmd/ensemble_sd_vs_bias_global-1.png" target="_blank">55d2059</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-28
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/3a9319e4131e19408fb14c628e00e3767cfaf990/docs/figure/classic_budgets.Rmd/ensemble_sd_vs_bias_global-1.png" target="_blank">3a9319e</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-28
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d0dbf3eddd7ad553e3fb53004bbffb345071889b/docs/figure/classic_budgets.Rmd/ensemble_sd_vs_bias_global-1.png" target="_blank">d0dbf3e</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-27
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/23cc3a7ba054911deb63e0b08d813f33a14789d0/docs/figure/classic_budgets.Rmd/ensemble_sd_vs_bias_global-1.png" target="_blank">23cc3a7</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-26
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a324ace3296acd18e4f2145124baa897f300340e/docs/figure/classic_budgets.Rmd/ensemble_sd_vs_bias_global-1.png" target="_blank">a324ace</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-24
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/f54d5db3b6b52a1904a6df0e710f20afae3c99d8/docs/figure/classic_budgets.Rmd/ensemble_sd_vs_bias_global-1.png" target="_blank">f54d5db</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-24
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/31c33cb3bbcbadee61f64ced107e36a8da985ad2/docs/figure/classic_budgets.Rmd/ensemble_sd_vs_bias_global-1.png" target="_blank">31c33cb</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-23
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/35ad8b5f21422505d0d05ee312155902eeccf030/docs/figure/classic_budgets.Rmd/ensemble_sd_vs_bias_global-1.png" target="_blank">35ad8b5</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-20
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div id="vertical-patterns" class="section level3" number="6.2.6">
-<h3 number="6.2.6"><span class="header-section-number">6.2.6</span> Vertical patterns</h3>
-<div id="absoulte-values-2" class="section level4" number="6.2.6.1">
-<h4 number="6.2.6.1"><span class="header-section-number">6.2.6.1</span> Absoulte values</h4>
+<div id="vertical-patterns" class="section level3" number="6.2.5">
+<h3 number="6.2.5"><span class="header-section-number">6.2.5</span> Vertical patterns</h3>
+<div id="absoulte-values-2" class="section level4" number="6.2.5.1">
+<h4 number="6.2.5.1"><span class="header-section-number">6.2.5.1</span> Absoulte values</h4>
 <pre class="r"><code>dcant_budget_global_all_depth %&gt;%
-  filter(MLR_basins %in% ensemble_MLR_basins) %&gt;% 
+  filter(MLR_basins %in% ensemble_MLR_basins,
+         data_source != &quot;mod_truth&quot;) %&gt;% 
   group_by(data_source) %&gt;%
   group_split() %&gt;%
   # head(1) %&gt;%
@@ -4932,159 +4880,9 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
-<pre><code>
-[[3]]</code></pre>
-<p><img src="figure/classic_budgets.Rmd/cases_absolute_depth_global-3.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_absolute_depth_global-3">
-Past versions of cases_absolute_depth_global-3.png
-</button>
-</p>
-<div id="fig-cases_absolute_depth_global-3" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/8c9fa17201eae22c6d7a15592456c754580e2073/docs/figure/classic_budgets.Rmd/cases_absolute_depth_global-3.png" target="_blank">8c9fa17</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-10-22
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/968fe946dfc157043a60ab481ac5e763c2c37621/docs/figure/classic_budgets.Rmd/cases_absolute_depth_global-3.png" target="_blank">968fe94</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-10-18
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/f51dcb905c1ae1d9bb76aa3f87abed1b938e14f2/docs/figure/classic_budgets.Rmd/cases_absolute_depth_global-3.png" target="_blank">f51dcb9</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-28
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/55d2059692961516ef30014e6c6e382745469cf1/docs/figure/classic_budgets.Rmd/cases_absolute_depth_global-3.png" target="_blank">55d2059</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-28
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/3a9319e4131e19408fb14c628e00e3767cfaf990/docs/figure/classic_budgets.Rmd/cases_absolute_depth_global-3.png" target="_blank">3a9319e</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-28
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d0dbf3eddd7ad553e3fb53004bbffb345071889b/docs/figure/classic_budgets.Rmd/cases_absolute_depth_global-3.png" target="_blank">d0dbf3e</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-27
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/23cc3a7ba054911deb63e0b08d813f33a14789d0/docs/figure/classic_budgets.Rmd/cases_absolute_depth_global-3.png" target="_blank">23cc3a7</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-26
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a324ace3296acd18e4f2145124baa897f300340e/docs/figure/classic_budgets.Rmd/cases_absolute_depth_global-3.png" target="_blank">a324ace</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-24
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/f54d5db3b6b52a1904a6df0e710f20afae3c99d8/docs/figure/classic_budgets.Rmd/cases_absolute_depth_global-3.png" target="_blank">f54d5db</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-24
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/31c33cb3bbcbadee61f64ced107e36a8da985ad2/docs/figure/classic_budgets.Rmd/cases_absolute_depth_global-3.png" target="_blank">31c33cb</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-23
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/35ad8b5f21422505d0d05ee312155902eeccf030/docs/figure/classic_budgets.Rmd/cases_absolute_depth_global-3.png" target="_blank">35ad8b5</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-20
-</td>
-</tr>
-</tbody>
-</table>
 </div>
-</div>
-</div>
-<div id="biases-2" class="section level4" number="6.2.6.2">
-<h4 number="6.2.6.2"><span class="header-section-number">6.2.6.2</span> Biases</h4>
+<div id="biases-2" class="section level4" number="6.2.5.2">
+<h4 number="6.2.5.2"><span class="header-section-number">6.2.5.2</span> Biases</h4>
 <pre class="r"><code>dcant_budget_global_bias_all_depth %&gt;%
   filter(MLR_basins %in% ensemble_MLR_basins) %&gt;%
   ggplot(aes(dcant_bias, MLR_basins, fill = period)) +
@@ -5706,7 +5504,7 @@ jens-daniel-mueller
 </div>
 <pre class="r"><code>ggsave(plot = p_regional_dcant_bias,
        path = &quot;output/publication&quot;,
-       filename = &quot;regional_dcant.png&quot;,
+       filename = &quot;Fig_regional_dcant_budget.png&quot;,
        height = 5,
        width = 10)
 
@@ -6001,172 +5799,13 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="sd-vs-bias-1" class="section level3" number="6.3.3">
-<h3 number="6.3.3"><span class="header-section-number">6.3.3</span> SD vs bias</h3>
-<pre class="r"><code>dcant_budget_basin_AIP_ensemble_bias %&gt;% 
-  ggplot(aes(dcant_mean_bias, dcant_sd, col=basin_AIP)) +
-  geom_point() +
-  facet_grid(. ~ period) +
-  xlim(0, NA) +
-  ylim(0, NA)</code></pre>
-<p><img src="figure/classic_budgets.Rmd/ensemble_sd_vs_bias-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_sd_vs_bias-1">
-Past versions of ensemble_sd_vs_bias-1.png
-</button>
-</p>
-<div id="fig-ensemble_sd_vs_bias-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/8c9fa17201eae22c6d7a15592456c754580e2073/docs/figure/classic_budgets.Rmd/ensemble_sd_vs_bias-1.png" target="_blank">8c9fa17</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-10-22
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/968fe946dfc157043a60ab481ac5e763c2c37621/docs/figure/classic_budgets.Rmd/ensemble_sd_vs_bias-1.png" target="_blank">968fe94</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-10-18
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/f51dcb905c1ae1d9bb76aa3f87abed1b938e14f2/docs/figure/classic_budgets.Rmd/ensemble_sd_vs_bias-1.png" target="_blank">f51dcb9</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-28
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/55d2059692961516ef30014e6c6e382745469cf1/docs/figure/classic_budgets.Rmd/ensemble_sd_vs_bias-1.png" target="_blank">55d2059</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-28
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/3a9319e4131e19408fb14c628e00e3767cfaf990/docs/figure/classic_budgets.Rmd/ensemble_sd_vs_bias-1.png" target="_blank">3a9319e</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-28
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d0dbf3eddd7ad553e3fb53004bbffb345071889b/docs/figure/classic_budgets.Rmd/ensemble_sd_vs_bias-1.png" target="_blank">d0dbf3e</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-27
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/23cc3a7ba054911deb63e0b08d813f33a14789d0/docs/figure/classic_budgets.Rmd/ensemble_sd_vs_bias-1.png" target="_blank">23cc3a7</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-26
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a324ace3296acd18e4f2145124baa897f300340e/docs/figure/classic_budgets.Rmd/ensemble_sd_vs_bias-1.png" target="_blank">a324ace</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-24
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/f54d5db3b6b52a1904a6df0e710f20afae3c99d8/docs/figure/classic_budgets.Rmd/ensemble_sd_vs_bias-1.png" target="_blank">f54d5db</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-24
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/31c33cb3bbcbadee61f64ced107e36a8da985ad2/docs/figure/classic_budgets.Rmd/ensemble_sd_vs_bias-1.png" target="_blank">31c33cb</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-23
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/35ad8b5f21422505d0d05ee312155902eeccf030/docs/figure/classic_budgets.Rmd/ensemble_sd_vs_bias-1.png" target="_blank">35ad8b5</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-20
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div id="vertical-patterns-1" class="section level3" number="6.3.4">
-<h3 number="6.3.4"><span class="header-section-number">6.3.4</span> Vertical patterns</h3>
-<div id="absoulte-values-3" class="section level4" number="6.3.4.1">
-<h4 number="6.3.4.1"><span class="header-section-number">6.3.4.1</span> Absoulte values</h4>
+<div id="vertical-patterns-1" class="section level3" number="6.3.3">
+<h3 number="6.3.3"><span class="header-section-number">6.3.3</span> Vertical patterns</h3>
+<div id="absoulte-values-3" class="section level4" number="6.3.3.1">
+<h4 number="6.3.3.1"><span class="header-section-number">6.3.3.1</span> Absoulte values</h4>
 <pre class="r"><code>dcant_budget_basin_AIP_all_depth %&gt;%
-  filter(
-    MLR_basins %in% ensemble_MLR_basins,
-    MLR_basins %in% ensemble_MLR_basins
-  ) %&gt;%
+  filter(MLR_basins %in% ensemble_MLR_basins,
+         data_source != &quot;mod_truth&quot;) %&gt;%
   group_by(data_source) %&gt;%
   group_split() %&gt;%
   # head(1) %&gt;%
@@ -6401,107 +6040,11 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
-<pre><code>
-[[3]]</code></pre>
-<p><img src="figure/classic_budgets.Rmd/cases_absolute_depth-3.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_absolute_depth-3">
-Past versions of cases_absolute_depth-3.png
-</button>
-</p>
-<div id="fig-cases_absolute_depth-3" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/8c9fa17201eae22c6d7a15592456c754580e2073/docs/figure/classic_budgets.Rmd/cases_absolute_depth-3.png" target="_blank">8c9fa17</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-10-22
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/968fe946dfc157043a60ab481ac5e763c2c37621/docs/figure/classic_budgets.Rmd/cases_absolute_depth-3.png" target="_blank">968fe94</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-10-18
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/f51dcb905c1ae1d9bb76aa3f87abed1b938e14f2/docs/figure/classic_budgets.Rmd/cases_absolute_depth-3.png" target="_blank">f51dcb9</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-28
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/55d2059692961516ef30014e6c6e382745469cf1/docs/figure/classic_budgets.Rmd/cases_absolute_depth-3.png" target="_blank">55d2059</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-28
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/3a9319e4131e19408fb14c628e00e3767cfaf990/docs/figure/classic_budgets.Rmd/cases_absolute_depth-3.png" target="_blank">3a9319e</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-28
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/b95f07833bf88ce1995d615a8968fe006d2fae8b/docs/figure/classic_budgets.Rmd/cases_absolute_depth-3.png" target="_blank">b95f078</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-27
-</td>
-</tr>
-</tbody>
-</table>
 </div>
-</div>
-</div>
-<div id="biases-3" class="section level4" number="6.3.4.2">
-<h4 number="6.3.4.2"><span class="header-section-number">6.3.4.2</span> Biases</h4>
+<div id="biases-3" class="section level4" number="6.3.3.2">
+<h4 number="6.3.3.2"><span class="header-section-number">6.3.3.2</span> Biases</h4>
 <pre class="r"><code>dcant_budget_basin_AIP_bias_all_depth %&gt;%
   filter(
-    MLR_basins %in% ensemble_MLR_basins,
     MLR_basins %in% ensemble_MLR_basins
   ) %&gt;%
   ggplot(aes(dcant_bias, MLR_basins, fill = basin_AIP)) +

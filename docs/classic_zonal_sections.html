@@ -551,7 +551,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Zonal sections</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">26 October, 2021</h4>
+<h4 class="date">28 October, 2021</h4>
 
 </div>
 
@@ -576,7 +576,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-10-26
+<strong>Last updated:</strong> 2021-10-28
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -667,16 +667,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree059b2bf12448bc16aede96f6941a95e6c2522da3targetblank059b2bfa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/059b2bf12448bc16aede96f6941a95e6c2522da3" target="_blank">059b2bf</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeebaf3bd39cf045ec8316a9d1e2e8a4ac6c6b164btargetblankebaf3bda"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/ebaf3bd39cf045ec8316a9d1e2e8a4ac6c6b164b" target="_blank">ebaf3bd</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree059b2bf12448bc16aede96f6941a95e6c2522da3targetblank059b2bfa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeebaf3bd39cf045ec8316a9d1e2e8a4ac6c6b164btargetblankebaf3bda" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/059b2bf12448bc16aede96f6941a95e6c2522da3" target="_blank">059b2bf</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/ebaf3bd39cf045ec8316a9d1e2e8a4ac6c6b164b" target="_blank">ebaf3bd</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -688,9 +688,6 @@ Ignored files:
     Ignored:    data/
     Ignored:    output/Gruber_2019_comparison/
     Ignored:    output/publication/
-
-Unstaged changes:
-    Modified:   code/Workflowr_project_managment.R
 
 </code></pre>
 <p>
@@ -729,6 +726,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ebaf3bd39cf045ec8316a9d1e2e8a4ac6c6b164b/analysis/classic_zonal_sections.Rmd" target="_blank">ebaf3bd</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-28
+</td>
+<td>
+cleaned output
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/ae5ae64585372fa5b40ae2e0ee60e853a4e638b3/docs/classic_zonal_sections.html" target="_blank">ae5ae64</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-26
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1484,8 +1515,12 @@ rebuildt with canyon b cleaning analysis
 </div>
 </div>
 </div>
-<div id="read-files" class="section level1" number="1">
-<h1 number="1"><span class="header-section-number">1</span> Read files</h1>
+<div id="uncertainty-limit" class="section level1" number="1">
+<h1 number="1"><span class="header-section-number">1</span> Uncertainty limit</h1>
+<pre class="r"><code>sd_uncertainty_limit &lt;- 1.5</code></pre>
+</div>
+<div id="read-files" class="section level1" number="2">
+<h1 number="2"><span class="header-section-number">2</span> Read files</h1>
 <pre class="r"><code>ensemble_members &lt;- 
   read_rds(&quot;data/ensemble_members.rds&quot;)
 
@@ -1502,14 +1537,8 @@ Version_IDs_2 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/
 Version_IDs_3 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
                             pattern = &quot;v_30&quot;)
 
-# Version_IDs &lt;- c(Version_IDs_1, Version_IDs_2)
-Version_IDs &lt;- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
-# rm(Version_IDs_1, Version_IDs_2)
-rm(Version_IDs_1, Version_IDs_2, Version_IDs_3)
-
-# Version_IDs &lt;- Version_IDs[1:length(Version_IDs)-1]
-
-for (i_Version_IDs in Version_IDs) {
+Version_IDs &lt;- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)</code></pre>
+<pre class="r"><code>for (i_Version_IDs in Version_IDs) {
   # i_Version_IDs &lt;- Version_IDs[1]
   
   print(i_Version_IDs)
@@ -1685,10 +1714,10 @@ dcant_profile_all &lt;- dcant_profile_all %&gt;%
 dcant_zonal_bias_all &lt;- dcant_zonal_bias_all %&gt;% 
   filter(MLR_basins %in% MLR_basins_in)</code></pre>
 </div>
-<div id="individual-cases" class="section level1" number="2">
-<h1 number="2"><span class="header-section-number">2</span> Individual cases</h1>
-<div id="absoulte-values" class="section level2" number="2.1">
-<h2 number="2.1"><span class="header-section-number">2.1</span> Absoulte values</h2>
+<div id="individual-cases" class="section level1" number="3">
+<h1 number="3"><span class="header-section-number">3</span> Individual cases</h1>
+<div id="absoulte-values" class="section level2" number="3.1">
+<h2 number="3.1"><span class="header-section-number">3.1</span> Absoulte values</h2>
 <pre class="r"><code>dcant_zonal_all %&gt;%
   filter(data_source %in% c(&quot;mod&quot;, &quot;obs&quot;)) %&gt;%
   group_by(basin_AIP, data_source) %&gt;%
@@ -2553,7 +2582,7 @@ jens-daniel-mueller
 
 ggsave(plot = p_dcant_Indian_1994_2004,
        path = &quot;output/publication&quot;,
-       filename = &quot;zonal_indian_1994_2004.png&quot;,
+       filename = &quot;FigS_zonal_indian_1994_2004.png&quot;,
        height = 8,
        width = 5)
 
@@ -2569,12 +2598,12 @@ p_dcant_Indian_2004_2014 &lt;-
 
 ggsave(plot = p_dcant_Indian_2004_2014,
        path = &quot;output/publication&quot;,
-       filename = &quot;zonal_Pacific_2004_2014.png&quot;,
+       filename = &quot;FigS_zonal_Pacific_2004_2014.png&quot;,
        height = 8,
        width = 5)</code></pre>
 </div>
-<div id="biases" class="section level2" number="2.2">
-<h2 number="2.2"><span class="header-section-number">2.2</span> Biases</h2>
+<div id="biases" class="section level2" number="3.2">
+<h2 number="3.2"><span class="header-section-number">3.2</span> Biases</h2>
 <pre class="r"><code>dcant_zonal_bias_all %&gt;%
   group_by(basin_AIP) %&gt;%
   group_split() %&gt;%
@@ -3007,9 +3036,25 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
+<div id="density-distribution" class="section level3" number="3.2.1">
+<h3 number="3.2.1"><span class="header-section-number">3.2.1</span> Density distribution</h3>
+<pre class="r"><code>dcant_zonal_bias_all %&gt;%
+  mutate(MLR_basins = if_else(
+    MLR_basins %in% ensemble_members,
+    paste(MLR_basins, &quot;*&quot;),
+    MLR_basins
+  )) %&gt;%
+  ggplot(aes(dcant_bias, col = MLR_basins)) +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  geom_vline(xintercept = 0) +
+  geom_density() +
+  facet_grid(period ~.) +
+  coord_cartesian(xlim = c(-10, 10))</code></pre>
+<p><img src="figure/classic_zonal_sections.Rmd/bias_density_distribution-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
-<div id="bias-correlation" class="section level2" number="2.3">
-<h2 number="2.3"><span class="header-section-number">2.3</span> Bias correlation</h2>
+</div>
+<div id="bias-correlation-eras" class="section level2" number="3.3">
+<h2 number="3.3"><span class="header-section-number">3.3</span> Bias correlation eras</h2>
 <pre class="r"><code>dcant_zonal_bias_all_corr &lt;- dcant_zonal_bias_all %&gt;%
   select(lat, depth, basin_AIP, dcant_bias, MLR_basins, period) %&gt;% 
   pivot_wider(names_from = period,
@@ -3021,7 +3066,8 @@ dcant_zonal_bias_all_corr %&gt;%
   geom_vline(xintercept = 0) +
   geom_hline(yintercept = 0) +
   geom_bin2d() +
-  facet_grid(basin_AIP ~ MLR_basins) +
+  coord_fixed() +
+  facet_grid(MLR_basins ~ basin_AIP) +
   scale_fill_viridis_c()</code></pre>
 <p><img src="figure/classic_zonal_sections.Rmd/cases_bias_correlation-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
@@ -3128,8 +3174,10 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="profiles" class="section level2" number="2.4">
-<h2 number="2.4"><span class="header-section-number">2.4</span> Profiles</h2>
+<div id="concentration-profiles" class="section level2" number="3.4">
+<h2 number="3.4"><span class="header-section-number">3.4</span> Concentration profiles</h2>
+<div id="data-source" class="section level3" number="3.4.1">
+<h3 number="3.4.1"><span class="header-section-number">3.4.1</span> Data source</h3>
 <pre class="r"><code>dcant_profile_all %&gt;%
   group_split(period) %&gt;%
   map(
@@ -3336,6 +3384,9 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
+</div>
+<div id="basin-separation" class="section level3" number="3.4.2">
+<h3 number="3.4.2"><span class="header-section-number">3.4.2</span> Basin separation</h3>
 <pre class="r"><code>dcant_profile_all %&gt;%
   group_split(period) %&gt;%
   map(
@@ -3536,6 +3587,9 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
+</div>
+<div id="era" class="section level3" number="3.4.3">
+<h3 number="3.4.3"><span class="header-section-number">3.4.3</span> Era</h3>
 <pre class="r"><code>dcant_profile_all %&gt;%
   arrange(depth) %&gt;%
   filter(period != &quot;1994 - 2014&quot;) %&gt;%
@@ -3743,8 +3797,9 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="layer-budgets" class="section level2" number="2.5">
-<h2 number="2.5"><span class="header-section-number">2.5</span> Layer budgets</h2>
+</div>
+<div id="layer-budgets" class="section level2" number="3.5">
+<h2 number="3.5"><span class="header-section-number">3.5</span> Layer budgets</h2>
 <pre class="r"><code>dcant_budget_basin_AIP_layer_all %&gt;%
   filter(estimate == &quot;dcant&quot;) %&gt;% 
   mutate(dcant = value,
@@ -3883,32 +3938,37 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="ensemble" class="section level1" number="3">
-<h1 number="3"><span class="header-section-number">3</span> Ensemble</h1>
-<pre class="r"><code>dcant_zonal_ensemble &lt;- dcant_zonal_all %&gt;% 
+<div id="ensemble" class="section level1" number="4">
+<h1 number="4"><span class="header-section-number">4</span> Ensemble</h1>
+<pre class="r"><code>dcant_zonal_ensemble &lt;- dcant_zonal_all %&gt;%
   filter(data_source %in% c(&quot;mod&quot;, &quot;obs&quot;),
-         MLR_basins %in% ensemble_members) %&gt;% 
-  group_by(lat, depth, basin_AIP, data_source, period) %&gt;% 
-  summarise(dcant_ensemble_mean = mean(dcant),
-            dcant_sd = sd(dcant),
-            dcant_range = max(dcant)- min(dcant)) %&gt;% 
+         MLR_basins %in% ensemble_members) %&gt;%
+  group_by(lat, depth, basin_AIP, data_source, period) %&gt;%
+  summarise(
+    dcant_ensemble_mean = mean(dcant),
+    dcant_sd = sd(dcant),
+    dcant_range = max(dcant) - min(dcant)
+  ) %&gt;%
   ungroup()
 
 
-dcant_budget_basin_AIP_layer_ensemble &lt;- dcant_budget_basin_AIP_layer_all %&gt;% 
+dcant_budget_basin_AIP_layer_ensemble &lt;-
+  dcant_budget_basin_AIP_layer_all %&gt;%
   mutate(inv_depth = fct_inorder(as.factor(inv_depth))) %&gt;%
   filter(data_source %in% c(&quot;mod&quot;, &quot;obs&quot;),
          MLR_basins %in% ensemble_members,
          estimate == &quot;dcant&quot;) %&gt;%
-  rename(dcant = value) %&gt;% 
-  group_by(inv_depth, data_source, period, basin_AIP) %&gt;% 
-  summarise(dcant_mean = mean(dcant),
-            dcant_sd = sd(dcant),
-            dcant_max = max(dcant),
-            dcant_min = min(dcant)) %&gt;% 
+  rename(dcant = value) %&gt;%
+  group_by(inv_depth, data_source, period, basin_AIP) %&gt;%
+  summarise(
+    dcant_mean = mean(dcant),
+    dcant_sd = sd(dcant),
+    dcant_max = max(dcant),
+    dcant_min = min(dcant)
+  ) %&gt;%
   ungroup()</code></pre>
-<div id="mean" class="section level2" number="3.1">
-<h2 number="3.1"><span class="header-section-number">3.1</span> Mean</h2>
+<div id="mean" class="section level2" number="4.1">
+<h2 number="4.1"><span class="header-section-number">4.1</span> Mean</h2>
 <pre class="r"><code>dcant_zonal_ensemble %&gt;%
   group_by(basin_AIP) %&gt;%
   group_split() %&gt;%
@@ -4406,8 +4466,8 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="mean-bias" class="section level2" number="3.2">
-<h2 number="3.2"><span class="header-section-number">3.2</span> Mean bias</h2>
+<div id="mean-bias" class="section level2" number="4.2">
+<h2 number="4.2"><span class="header-section-number">4.2</span> Mean bias</h2>
 <pre class="r"><code>dcant_zonal_ensemble_bias &lt;- full_join(
   dcant_zonal_ensemble %&gt;%
     filter(data_source == &quot;mod&quot;) %&gt;% 
@@ -4419,7 +4479,7 @@ jens-daniel-mueller
 )
 
 dcant_zonal_ensemble_bias &lt;- dcant_zonal_ensemble_bias %&gt;% 
-  mutate(dcant_bias = dcant_ensemble_mean - dcant_mod_truth)
+  mutate(dcant_mean_bias = dcant_ensemble_mean - dcant_mod_truth)
 
 dcant_zonal_ensemble_bias %&gt;%
   group_by(basin_AIP) %&gt;%
@@ -4428,7 +4488,7 @@ dcant_zonal_ensemble_bias %&gt;%
   map(
     ~ p_section_zonal_continous_depth(
       df = .x,
-      var = &quot;dcant_bias&quot;,
+      var = &quot;dcant_mean_bias&quot;,
       col = &quot;divergent&quot;,
       plot_slabs = &quot;n&quot;,
       subtitle_text = paste(&quot;basin:&quot;,
@@ -4919,9 +4979,27 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
+<div id="density-distribution-1" class="section level3" number="4.2.1">
+<h3 number="4.2.1"><span class="header-section-number">4.2.1</span> Density distribution</h3>
+<pre class="r"><code>dcant_zonal_bias_all %&gt;%
+  mutate(MLR_basins = if_else(
+    MLR_basins %in% ensemble_members,
+    paste(MLR_basins, &quot;*&quot;),
+    MLR_basins
+  )) %&gt;%
+  ggplot() +
+  scale_color_manual(values = c(&quot;red&quot;, &quot;grey&quot;)) +
+  geom_vline(xintercept = 0) +
+  geom_density(aes(dcant_bias, group = MLR_basins, col = &quot;Individual&quot;)) +
+  geom_density(data = dcant_zonal_ensemble_bias,
+               aes(dcant_mean_bias, col = &quot;Ensemble&quot;)) +
+  facet_grid(period ~.) +
+  coord_cartesian(xlim = c(-10, 10))</code></pre>
+<p><img src="figure/classic_zonal_sections.Rmd/bias_density_distribution_ensemble-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
-<div id="mean-depth-layer-budgets" class="section level2" number="3.3">
-<h2 number="3.3"><span class="header-section-number">3.3</span> Mean depth layer budgets</h2>
+</div>
+<div id="mean-depth-layer-budgets" class="section level2" number="4.3">
+<h2 number="4.3"><span class="header-section-number">4.3</span> Mean depth layer budgets</h2>
 <pre class="r"><code>dcant_lat_grid_ensemble %&gt;%
   ggplot(aes(lat_grid, dcant_mean)) +
   geom_hline(yintercept = 0) +
@@ -4939,8 +5017,8 @@ jens-daniel-mueller
   scale_fill_brewer(palette = &quot;Dark2&quot;) +
   facet_grid(data_source ~ period)</code></pre>
 </div>
-<div id="standard-deviation" class="section level2" number="3.4">
-<h2 number="3.4"><span class="header-section-number">3.4</span> Standard deviation</h2>
+<div id="standard-deviation" class="section level2" number="4.4">
+<h2 number="4.4"><span class="header-section-number">4.4</span> Standard deviation</h2>
 <pre class="r"><code>dcant_zonal_ensemble %&gt;%
   group_by(basin_AIP) %&gt;%
   group_split() %&gt;%
@@ -5439,10 +5517,10 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="sd-as-uncertainty" class="section level2" number="3.5">
-<h2 number="3.5"><span class="header-section-number">3.5</span> SD as uncertainty</h2>
+<div id="sd-as-uncertainty" class="section level2" number="4.5">
+<h2 number="4.5"><span class="header-section-number">4.5</span> SD as uncertainty</h2>
 <pre class="r"><code>uncertainty_grid &lt;- dcant_zonal_ensemble %&gt;%
-  filter(dcant_sd &gt; 1.5) %&gt;% 
+  filter(dcant_sd &gt; sd_uncertainty_limit) %&gt;% 
   distinct(depth, lat, data_source, period, basin_AIP)
 
 uncertainty_grid &lt;- uncertainty_grid %&gt;%
@@ -5511,10 +5589,10 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="sd-vs-bias" class="section level2" number="3.6">
-<h2 number="3.6"><span class="header-section-number">3.6</span> SD vs bias</h2>
+<div id="sd-vs-bias" class="section level2" number="4.6">
+<h2 number="4.6"><span class="header-section-number">4.6</span> SD vs bias</h2>
 <pre class="r"><code>dcant_zonal_ensemble_bias %&gt;% 
-  ggplot(aes(dcant_bias, dcant_sd)) +
+  ggplot(aes(dcant_mean_bias, dcant_sd)) +
   geom_bin2d() +
   scale_fill_viridis_c() +
   facet_grid(basin_AIP ~ period)</code></pre>
@@ -5656,8 +5734,8 @@ jens-daniel-mueller
 </div>
 </div>
 <pre class="r"><code>dcant_zonal_ensemble_bias %&gt;% 
-  select(dcant_ensemble_mean, dcant_bias, period) %&gt;% 
-  pivot_longer(dcant_ensemble_mean:dcant_bias,
+  select(dcant_ensemble_mean, dcant_mean_bias, period) %&gt;% 
+  pivot_longer(dcant_ensemble_mean:dcant_mean_bias,
                names_to = &quot;estimate&quot;,
                values_to = &quot;value&quot;) %&gt;% 
   ggplot(aes(value, col=estimate, linetype = period)) +
@@ -5943,8 +6021,8 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="composed-figure" class="section level2" number="3.7">
-<h2 number="3.7"><span class="header-section-number">3.7</span> Composed figure</h2>
+<div id="composed-figure" class="section level2" number="4.7">
+<h2 number="4.7"><span class="header-section-number">4.7</span> Composed figure</h2>
 <pre class="r"><code>uncertainty_grid &lt;- uncertainty_grid %&gt;%
   filter(data_source == &quot;obs&quot;,
          period != &quot;1994 - 2014&quot;)
@@ -6107,21 +6185,21 @@ jens-daniel-mueller
        height=9.27)</code></pre>
 </div>
 </div>
-<div id="cases-vs-ensemble" class="section level1" number="4">
-<h1 number="4"><span class="header-section-number">4</span> Cases vs ensemble</h1>
-<div id="offset-from-mean" class="section level2" number="4.1">
-<h2 number="4.1"><span class="header-section-number">4.1</span> Offset from mean</h2>
+<div id="cases-vs-ensemble" class="section level1" number="5">
+<h1 number="5"><span class="header-section-number">5</span> Cases vs ensemble</h1>
+<div id="offset-from-mean" class="section level2" number="5.1">
+<h2 number="5.1"><span class="header-section-number">5.1</span> Offset from mean</h2>
 <pre class="r"><code>dcant_zonal_all &lt;- full_join(dcant_zonal_all %&gt;% select(-dcant_sd),
-                           dcant_zonal_ensemble)
+                             dcant_zonal_ensemble)
 
-dcant_zonal_all &lt;- dcant_zonal_all %&gt;% 
+dcant_zonal_all &lt;- dcant_zonal_all %&gt;%
   mutate(dcant_offset = dcant - dcant_ensemble_mean)
 
 
-legend_title &lt;- expression(atop(Delta * C[ant,offset],
-                               (mu * mol ~ kg ^ {
-                                 -1
-                               })))
+legend_title &lt;- expression(atop(Delta * C[ant, offset],
+                                (mu * mol ~ kg ^ {
+                                  -1
+                                })))
 
 dcant_zonal_all %&gt;%
   filter(data_source %in% c(&quot;mod&quot;, &quot;obs&quot;)) %&gt;%
@@ -6135,8 +6213,9 @@ dcant_zonal_all %&gt;%
       col = &quot;divergent&quot;,
       plot_slabs = &quot;n&quot;,
       subtitle_text = paste(&quot;basin:&quot;,
-        unique(.x$basin_AIP)
-      )
+                            unique(.x$basin_AIP),
+                            &quot;| data_source&quot;,
+                            unique(.x$data_source))
     ) +
       facet_grid(MLR_basins ~ period)
   )</code></pre>
