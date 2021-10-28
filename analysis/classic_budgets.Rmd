@@ -51,7 +51,7 @@ regional_bias_rel_max <- 20
 
 ```{r cases_considered}
 
-MLR_basins_in <- c("1", "2", "AIP", "SO_2", "5", "SO_AIP", "SO")
+MLR_basins_in <- c("1", "2", "AIP", "5"," SO_2", "SO_AIP", "SO")
 
 ```
 
@@ -71,10 +71,7 @@ Version_IDs_2 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observat
 Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
                             pattern = "v_30")
 
-# Version_IDs <- c(Version_IDs_1, Version_IDs_2)
 Version_IDs <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
-# rm(Version_IDs_1, Version_IDs_2)
-# rm(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 
 ```
 
@@ -559,7 +556,7 @@ dcant_budget_basin_AIP_bias_all %>%
   theme(axis.title.x = element_blank()) +
   geom_jitter(aes(period, dcant_bias_rel, col = MLR_basins),
               width = 0.05, height = 0) +
-  facet_grid(basin_AIP ~ .)
+  facet_grid(. ~ basin_AIP)
 
 p_regional_bias <- 
   dcant_budget_basin_AIP_bias_all %>%
@@ -588,6 +585,8 @@ p_regional_bias
 
 ## Slab budgets
 
+### Absolute values
+
 ```{r slab_budgets, fig.asp=1}
 
 dcant_slab_budget_all %>%
@@ -601,7 +600,7 @@ dcant_slab_budget_all %>%
 
 ```
 
-```{r slab_budgets_individual, fig.asp=1.5}
+```{r slab_budgets_individual, fig.asp=1.8}
 
 dcant_slab_budget_all %>%
   filter(data_source == "obs",
@@ -620,6 +619,7 @@ dcant_slab_budget_all %>%
 
 ```
 
+### Bias
 
 ```{r slab_budgets_bias}
 
@@ -638,6 +638,33 @@ dcant_slab_budget_bias_all %>%
       facet_grid(period ~ MLR_basins) +
       labs(title = paste("data_source:", unique(.x$basin_AIP)))
     )
+
+
+```
+
+
+### Spread
+
+```{r slab_budgets_spread}
+
+dcant_slab_budget_all %>%
+  filter(period != "1994 - 2014",
+         data_source != "mod_truth") %>%
+  group_by(data_source, basin_AIP, gamma_slab, period) %>%
+  summarise(dcant_range = max(dcant) - min(dcant)) %>%
+  ungroup() %>%
+  group_split(basin_AIP) %>%
+  # head(1) %>%
+  map(
+    ~ ggplot(data = .x,
+             aes(gamma_slab, dcant_range, fill = gamma_slab)) +
+      geom_col() +
+      coord_flip() +
+      scale_x_discrete(limits = rev) +
+      scale_fill_scico_d(direction = -1) +
+      facet_grid(period ~ data_source) +
+      labs(title = paste("data_source:", unique(.x$basin_AIP)))
+  )
 
 
 ```
@@ -859,7 +886,6 @@ ggplot() +
 ```
 
 
-
 ### Mean bias
 
 ```{r ensemble_mean_bias_global}
@@ -890,18 +916,6 @@ dcant_budget_global_ensemble_bias %>%
 
 ```
 
-### SD vs bias
-
-```{r ensemble_sd_vs_bias_global, fig.asp=0.5}
-
-dcant_budget_global_ensemble_bias %>% 
-  ggplot(aes(dcant_mean_bias, dcant_sd, col = period)) +
-  geom_point() +
-  xlim(0, NA) +
-  ylim(0, NA)
-
-```
-
 
 ### Vertical patterns
 
@@ -910,7 +924,8 @@ dcant_budget_global_ensemble_bias %>%
 ```{r cases_absolute_depth_global, fig.asp=0.9}
 
 dcant_budget_global_all_depth %>%
-  filter(MLR_basins %in% ensemble_MLR_basins) %>% 
+  filter(MLR_basins %in% ensemble_MLR_basins,
+         data_source != "mod_truth") %>% 
   group_by(data_source) %>%
   group_split() %>%
   # head(1) %>%
@@ -1038,7 +1053,7 @@ p_regional_dcant_bias
 
 ggsave(plot = p_regional_dcant_bias,
        path = "output/publication",
-       filename = "regional_dcant.png",
+       filename = "Fig_regional_dcant_budget.png",
        height = 5,
        width = 10)
 
@@ -1078,19 +1093,6 @@ dcant_budget_basin_AIP_ensemble_bias %>%
 
 ```
 
-### SD vs bias
-
-```{r ensemble_sd_vs_bias, fig.asp=0.5}
-
-dcant_budget_basin_AIP_ensemble_bias %>% 
-  ggplot(aes(dcant_mean_bias, dcant_sd, col=basin_AIP)) +
-  geom_point() +
-  facet_grid(. ~ period) +
-  xlim(0, NA) +
-  ylim(0, NA)
-
-```
-
 
 ### Vertical patterns
 
@@ -1099,10 +1101,8 @@ dcant_budget_basin_AIP_ensemble_bias %>%
 ```{r cases_absolute_depth, fig.asp=0.9}
 
 dcant_budget_basin_AIP_all_depth %>%
-  filter(
-    MLR_basins %in% ensemble_MLR_basins,
-    MLR_basins %in% ensemble_MLR_basins
-  ) %>%
+  filter(MLR_basins %in% ensemble_MLR_basins,
+         data_source != "mod_truth") %>%
   group_by(data_source) %>%
   group_split() %>%
   # head(1) %>%
@@ -1125,7 +1125,6 @@ dcant_budget_basin_AIP_all_depth %>%
 
 dcant_budget_basin_AIP_bias_all_depth %>%
   filter(
-    MLR_basins %in% ensemble_MLR_basins,
     MLR_basins %in% ensemble_MLR_basins
   ) %>%
   ggplot(aes(dcant_bias, MLR_basins, fill = basin_AIP)) +

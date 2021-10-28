@@ -36,6 +36,15 @@ path_preprocessing_model    <-
 ```{r load_libraries_specific, include = FALSE}
 ```
 
+# Uncertainty limit
+
+```{r define_sd_uncertainty_limit}
+
+sd_uncertainty_limit <- 1.5
+
+```
+
+
 # Read files
 
 ```{r read_ensemble_members}
@@ -49,7 +58,7 @@ MLR_basins_in <-
 ```
 
 
-```{r read_files}
+```{r define_Version_IDs}
 
 # identify required version IDs
 
@@ -62,12 +71,12 @@ Version_IDs_2 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observat
 Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
                             pattern = "v_30")
 
-# Version_IDs <- c(Version_IDs_1, Version_IDs_2)
 Version_IDs <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
-# rm(Version_IDs_1, Version_IDs_2)
-rm(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 
-# Version_IDs <- Version_IDs[1:length(Version_IDs)-1]
+```
+
+
+```{r read_files}
 
 for (i_Version_IDs in Version_IDs) {
   # i_Version_IDs <- Version_IDs[1]
@@ -277,7 +286,7 @@ p_dcant_Indian_1994_2004 <-
 
 ggsave(plot = p_dcant_Indian_1994_2004,
        path = "output/publication",
-       filename = "zonal_indian_1994_2004.png",
+       filename = "FigS_zonal_indian_1994_2004.png",
        height = 8,
        width = 5)
 
@@ -293,7 +302,7 @@ p_dcant_Indian_2004_2014 <-
 
 ggsave(plot = p_dcant_Indian_2004_2014,
        path = "output/publication",
-       filename = "zonal_Pacific_2004_2014.png",
+       filename = "FigS_zonal_Pacific_2004_2014.png",
        height = 8,
        width = 5)
 
@@ -324,9 +333,29 @@ dcant_zonal_bias_all %>%
 ```
 
 
-## Bias correlation
+### Density distribution
 
-```{r cases_bias_correlation}
+```{r bias_density_distribution, fig.asp=1}
+
+dcant_zonal_bias_all %>%
+  mutate(MLR_basins = if_else(
+    MLR_basins %in% ensemble_members,
+    paste(MLR_basins, "*"),
+    MLR_basins
+  )) %>%
+  ggplot(aes(dcant_bias, col = MLR_basins)) +
+  scale_color_brewer(palette = "Dark2") +
+  geom_vline(xintercept = 0) +
+  geom_density() +
+  facet_grid(period ~.) +
+  coord_cartesian(xlim = c(-10, 10))
+
+```
+
+
+## Bias correlation eras
+
+```{r cases_bias_correlation, fig.asp=1}
 
 dcant_zonal_bias_all_corr <- dcant_zonal_bias_all %>%
   select(lat, depth, basin_AIP, dcant_bias, MLR_basins, period) %>% 
@@ -339,12 +368,15 @@ dcant_zonal_bias_all_corr %>%
   geom_vline(xintercept = 0) +
   geom_hline(yintercept = 0) +
   geom_bin2d() +
-  facet_grid(basin_AIP ~ MLR_basins) +
+  coord_fixed() +
+  facet_grid(MLR_basins ~ basin_AIP) +
   scale_fill_viridis_c()
 
 ```
 
-## Profiles
+## Concentration profiles
+
+### Data source
 
 ```{r profiles_per_data_source, fig.asp=1.5}
 
@@ -372,6 +404,8 @@ dcant_profile_all %>%
 
 ```
 
+### Basin separation
+
 ```{r profiles_per_MLR_basins, fig.asp=1}
 
 dcant_profile_all %>%
@@ -391,6 +425,8 @@ dcant_profile_all %>%
   )
 
 ```
+
+### Era
 
 ```{r profiles_per_period, fig.asp=0.5}
 
@@ -448,27 +484,32 @@ dcant_budget_basin_AIP_layer_all %>%
 
 ```{r calc_ensemble_metrics}
 
-dcant_zonal_ensemble <- dcant_zonal_all %>% 
+dcant_zonal_ensemble <- dcant_zonal_all %>%
   filter(data_source %in% c("mod", "obs"),
-         MLR_basins %in% ensemble_members) %>% 
-  group_by(lat, depth, basin_AIP, data_source, period) %>% 
-  summarise(dcant_ensemble_mean = mean(dcant),
-            dcant_sd = sd(dcant),
-            dcant_range = max(dcant)- min(dcant)) %>% 
+         MLR_basins %in% ensemble_members) %>%
+  group_by(lat, depth, basin_AIP, data_source, period) %>%
+  summarise(
+    dcant_ensemble_mean = mean(dcant),
+    dcant_sd = sd(dcant),
+    dcant_range = max(dcant) - min(dcant)
+  ) %>%
   ungroup()
 
 
-dcant_budget_basin_AIP_layer_ensemble <- dcant_budget_basin_AIP_layer_all %>% 
+dcant_budget_basin_AIP_layer_ensemble <-
+  dcant_budget_basin_AIP_layer_all %>%
   mutate(inv_depth = fct_inorder(as.factor(inv_depth))) %>%
   filter(data_source %in% c("mod", "obs"),
          MLR_basins %in% ensemble_members,
          estimate == "dcant") %>%
-  rename(dcant = value) %>% 
-  group_by(inv_depth, data_source, period, basin_AIP) %>% 
-  summarise(dcant_mean = mean(dcant),
-            dcant_sd = sd(dcant),
-            dcant_max = max(dcant),
-            dcant_min = min(dcant)) %>% 
+  rename(dcant = value) %>%
+  group_by(inv_depth, data_source, period, basin_AIP) %>%
+  summarise(
+    dcant_mean = mean(dcant),
+    dcant_sd = sd(dcant),
+    dcant_max = max(dcant),
+    dcant_min = min(dcant)
+  ) %>%
   ungroup()
 
 
@@ -511,7 +552,7 @@ dcant_zonal_ensemble_bias <- full_join(
 )
 
 dcant_zonal_ensemble_bias <- dcant_zonal_ensemble_bias %>% 
-  mutate(dcant_bias = dcant_ensemble_mean - dcant_mod_truth)
+  mutate(dcant_mean_bias = dcant_ensemble_mean - dcant_mod_truth)
 
 dcant_zonal_ensemble_bias %>%
   group_by(basin_AIP) %>%
@@ -520,7 +561,7 @@ dcant_zonal_ensemble_bias %>%
   map(
     ~ p_section_zonal_continous_depth(
       df = .x,
-      var = "dcant_bias",
+      var = "dcant_mean_bias",
       col = "divergent",
       plot_slabs = "n",
       subtitle_text = paste("basin:",
@@ -531,6 +572,28 @@ dcant_zonal_ensemble_bias %>%
   )
 
 ```
+
+### Density distribution
+
+```{r bias_density_distribution_ensemble, fig.asp=1}
+
+dcant_zonal_bias_all %>%
+  mutate(MLR_basins = if_else(
+    MLR_basins %in% ensemble_members,
+    paste(MLR_basins, "*"),
+    MLR_basins
+  )) %>%
+  ggplot() +
+  scale_color_manual(values = c("red", "grey")) +
+  geom_vline(xintercept = 0) +
+  geom_density(aes(dcant_bias, group = MLR_basins, col = "Individual")) +
+  geom_density(data = dcant_zonal_ensemble_bias,
+               aes(dcant_mean_bias, col = "Ensemble")) +
+  facet_grid(period ~.) +
+  coord_cartesian(xlim = c(-10, 10))
+
+```
+
 
 ## Mean depth layer budgets
 
@@ -584,7 +647,7 @@ dcant_zonal_ensemble %>%
 ```{r ensemble_sd_uncertainty, fig.asp=0.5}
 
 uncertainty_grid <- dcant_zonal_ensemble %>%
-  filter(dcant_sd > 1.5) %>% 
+  filter(dcant_sd > sd_uncertainty_limit) %>% 
   distinct(depth, lat, data_source, period, basin_AIP)
 
 uncertainty_grid <- uncertainty_grid %>%
@@ -612,15 +675,15 @@ uncertainty_grid %>%
 ```{r ensemble_sd_vs_bias, fig.asp=0.5}
 
 dcant_zonal_ensemble_bias %>% 
-  ggplot(aes(dcant_bias, dcant_sd)) +
+  ggplot(aes(dcant_mean_bias, dcant_sd)) +
   geom_bin2d() +
   scale_fill_viridis_c() +
   facet_grid(basin_AIP ~ period)
 
 
 dcant_zonal_ensemble_bias %>% 
-  select(dcant_ensemble_mean, dcant_bias, period) %>% 
-  pivot_longer(dcant_ensemble_mean:dcant_bias,
+  select(dcant_ensemble_mean, dcant_mean_bias, period) %>% 
+  pivot_longer(dcant_ensemble_mean:dcant_mean_bias,
                names_to = "estimate",
                values_to = "value") %>% 
   ggplot(aes(value, col=estimate, linetype = period)) +
@@ -740,17 +803,18 @@ ggsave("output/publication/Fig_zonal_mean.png",
 
 ```{r ensemble_deviation_from_mean, fig.asp=1.2}
 
-dcant_zonal_all <- full_join(dcant_zonal_all %>% select(-dcant_sd),
-                           dcant_zonal_ensemble)
 
-dcant_zonal_all <- dcant_zonal_all %>% 
+dcant_zonal_all <- full_join(dcant_zonal_all %>% select(-dcant_sd),
+                             dcant_zonal_ensemble)
+
+dcant_zonal_all <- dcant_zonal_all %>%
   mutate(dcant_offset = dcant - dcant_ensemble_mean)
 
 
-legend_title <- expression(atop(Delta * C[ant,offset],
-                               (mu * mol ~ kg ^ {
-                                 -1
-                               })))
+legend_title <- expression(atop(Delta * C[ant, offset],
+                                (mu * mol ~ kg ^ {
+                                  -1
+                                })))
 
 dcant_zonal_all %>%
   filter(data_source %in% c("mod", "obs")) %>%
@@ -764,8 +828,9 @@ dcant_zonal_all %>%
       col = "divergent",
       plot_slabs = "n",
       subtitle_text = paste("basin:",
-        unique(.x$basin_AIP)
-      )
+                            unique(.x$basin_AIP),
+                            "| data_source",
+                            unique(.x$data_source))
     ) +
       facet_grid(MLR_basins ~ period)
   )

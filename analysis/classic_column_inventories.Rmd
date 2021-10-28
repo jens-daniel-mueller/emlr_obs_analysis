@@ -37,6 +37,15 @@ path_preprocessing_model    <-
 library(patchwork)
 ```
 
+# Uncertainty limit
+
+```{r define_sd_uncertainty_limit}
+
+sd_uncertainty_limit <- 4
+
+```
+
+
 # Read files
 
 ```{r read_ensemble_members}
@@ -49,29 +58,26 @@ MLR_basins_in <-
 
 ```
 
-```{r read_files}
-
+```{r define_Version_IDs}
 
 # identify required version IDs
 
-Version_IDs_1 <-
-  list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-             pattern = "v_10")
+Version_IDs_1 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = "v_10")
 
-Version_IDs_2 <-
-  list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-             pattern = "v_20")
+Version_IDs_2 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = "v_20")
 
-Version_IDs_3 <-
-  list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-             pattern = "v_30")
+Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = "v_30")
 
-# Version_IDs <- c(Version_IDs_1, Version_IDs_2)
 Version_IDs <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
-# rm(Version_IDs_1, Version_IDs_2)
-rm(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 
-# Version_IDs <- Version_IDs[1:length(Version_IDs)-1]
+```
+
+
+```{r read_files}
+
 
 for (i_Version_IDs in Version_IDs) {
   # i_Version_IDs <- Version_IDs[1]
@@ -328,7 +334,6 @@ p_dcant_inv_all_1994_2004 <-
     legend.position = "left"
   )
 
-p_dcant_inv_all_1994_2004
 
 ```
 
@@ -384,6 +389,11 @@ p_dcant_inv_bias_all_1994_2004 <-
     plot.title = element_blank()
   )
 
+
+```
+
+```{r composed_absolute_and_bias_figure, fig.asp=1.2}
+
 p_dcant_1994_2004 <- 
 p_dcant_inv_all_1994_2004 +
   p_dcant_inv_bias_all_1994_2004
@@ -398,7 +408,9 @@ ggsave(plot = p_dcant_1994_2004,
 
 ```
 
-```{r filter_ensemble_member}
+### Density distribution
+
+```{r bias_density_distribution, fig.asp=1}
 
 dcant_inv_bias_all %>%
   mutate(MLR_basins = if_else(
@@ -406,28 +418,15 @@ dcant_inv_bias_all %>%
     paste(MLR_basins, "*"),
     MLR_basins
   )) %>%
-  ggplot(aes(dcant_bias)) +
-  scale_color_brewer(palette = "Set1") +
+  ggplot(aes(dcant_bias, col = MLR_basins)) +
+  scale_color_brewer(palette = "Dark2") +
+  geom_vline(xintercept = 0) +
   geom_density() +
-  facet_grid(MLR_basins ~ period) +
+  facet_grid(period ~.) +
   coord_cartesian(xlim = c(-10, 10))
 
-
-dcant_inv_ensemble_member <- dcant_inv_bias_all %>% 
-  group_by(period, MLR_basins) %>% 
-  summarise(dcant_sd = sd(dcant_bias)) %>% 
-  ungroup()
-
-dcant_inv_ensemble_member %>%
-  mutate(MLR_basins = if_else(
-    MLR_basins %in% ensemble_members,
-    paste(MLR_basins, "*"),
-    MLR_basins
-  )) %>%
-  ggplot(aes(MLR_basins, dcant_sd, col = period)) +
-  geom_point()
-
 ```
+
 
 ## Lat grid budgets
 
@@ -520,28 +519,35 @@ dcant_lon_grid_ensemble <- dcant_budget_lon_grid_all %>%
 
 ```{r ensemble_mean}
 
-p_map_cant_inv(df = dcant_inv_ensemble %>% 
-                 filter(period != "1994 - 2014",
-                        data_source == "obs"),
-                     var = "dcant_mean",
-                     subtitle_text = paste("Ensemble means")) +
-      facet_grid(period ~ .) +
+p_map_cant_inv(
+  df = dcant_inv_ensemble %>%
+    filter(period != "1994 - 2014",
+           data_source == "obs"),
+  var = "dcant_mean",
+  subtitle_text = paste("Ensemble mean")
+) +
+  facet_grid(period ~ .) +
   theme(axis.text = element_blank(),
         axis.ticks = element_blank())
 
 ```
 
-```{r ensemble_mean_all, fig.asp=1}
+```{r ensemble_mean_two_decades, fig.asp=1}
 
-p_map_cant_inv(df = dcant_inv_ensemble %>% 
-                 filter(data_source == "obs"),
-                     var = "dcant_mean",
-                     title_text = paste("Ensemble means"),
-               breaks = c(-Inf, seq(0,28,4), Inf)) +
-      facet_grid(period ~ .) +
-  theme(axis.text = element_blank(),
-        axis.ticks = element_blank(),
-        legend.position = "left")
+p_map_cant_inv(
+  df = dcant_inv_ensemble %>%
+    filter(data_source == "obs",
+           period == "1994 - 2014"),
+  var = "dcant_mean",
+  title_text = paste("Ensemble mean"),
+  breaks = c(-Inf, seq(0, 28, 4), Inf)
+) +
+  facet_grid(period ~ .) +
+  theme(
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    legend.position = "left"
+  )
 
 ```
 
@@ -551,15 +557,15 @@ p_map_cant_inv(df = dcant_inv_ensemble %>%
 
 dcant_inv_ensemble_bias <- full_join(
   dcant_inv_ensemble %>%
-    filter(data_source == "mod") %>% 
+    filter(data_source == "mod") %>%
     select(lat, lon, period, dcant_mean, dcant_sd),
   dcant_inv_all %>%
     filter(data_source == "mod_truth",
-           MLR_basins == "2") %>% 
+           MLR_basins == "2") %>%
     select(lat, lon, period, dcant)
 )
 
-dcant_inv_ensemble_bias <- dcant_inv_ensemble_bias %>% 
+dcant_inv_ensemble_bias <- dcant_inv_ensemble_bias %>%
   mutate(dcant_mean_bias = dcant_mean - dcant)
 
 dcant_inv_ensemble_bias %>%
@@ -568,6 +574,27 @@ dcant_inv_ensemble_bias %>%
                  col = "bias",
                  subtitle_text = "Ensemble mean - mod_truth") +
   facet_grid(period ~ .)
+
+```
+
+### Density distribution
+
+```{r bias_density_distribution_ensemble, fig.asp=1}
+
+dcant_inv_bias_all %>%
+  mutate(MLR_basins = if_else(
+    MLR_basins %in% ensemble_members,
+    paste(MLR_basins, "*"),
+    MLR_basins
+  )) %>%
+  ggplot() +
+  scale_color_manual(values = c("red", "grey")) +
+  geom_vline(xintercept = 0) +
+  geom_density(aes(dcant_bias, group = MLR_basins, col = "Individual")) +
+  geom_density(data = dcant_inv_ensemble_bias,
+               aes(dcant_mean_bias, col = "Ensemble")) +
+  facet_grid(period ~.) +
+  coord_cartesian(xlim = c(-10, 10))
 
 ```
 
@@ -623,12 +650,10 @@ dcant_lon_grid_ensemble %>%
 p_map_cant_inv(
   df = dcant_inv_ensemble,
   var = "dcant_sd",
-  breaks = c(seq(0,4,0.4), Inf),
+  breaks = c(seq(0, 4, 0.4), Inf),
   subtitle_text = paste("Ensemble SD")
 ) +
   facet_grid(period ~ data_source)
-
-
 
 ```
 
@@ -637,17 +662,17 @@ p_map_cant_inv(
 ```{r ensemble_sd_uncertainty, fig.asp=0.5}
 
 uncertainty_grid <- dcant_inv_ensemble %>%
-  filter(dcant_sd > 4) %>% 
+  filter(dcant_sd > sd_uncertainty_limit) %>%
   distinct(lon, lat, data_source, period)
 
-uncertainty_grid <- m_grid_horizontal_coarse(uncertainty_grid) %>% 
+uncertainty_grid <- m_grid_horizontal_coarse(uncertainty_grid) %>%
   distinct(lon_grid, lat_grid, data_source, period)
 
 map +
   geom_point(data =
-           uncertainty_grid,
-         aes(lon_grid, lat_grid),
-         shape = 3) +
+               uncertainty_grid,
+             aes(lon_grid, lat_grid),
+             shape = 3) +
   facet_grid(period ~ data_source)
 
 ```
