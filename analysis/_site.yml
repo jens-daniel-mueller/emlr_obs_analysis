@@ -3,8 +3,6 @@ output_dir: ../docs
 navbar:
   title: emlr obs analysis
   left:
-  - text: Home
-    href: index.html
   - text: Basics
     href: basics.html
   - text: Spatial splits
@@ -95,6 +93,16 @@ navbar:
         href: vif_column_inventories.html
       - text: Zonal sections
         href: vif_zonal_sections.html
+  - text: Robustness
+    menu:
+    - text: Indian Ocean
+      menu:
+      - text: Budgets
+        href: indian_test_budgets.html
+      - text: Column inventories
+        href: indian_test_column_inventories.html
+      - text: Zonal sections
+        href: indian_test_zonal_sections.html
   right:
   - icon: fa-github
     text: Source code

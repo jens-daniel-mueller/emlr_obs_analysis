@@ -5,12 +5,15 @@
 
 
 # commit regular changes (locally) and rebuild site
-wflow_publish(all = TRUE, message = "cleaned output")
+wflow_publish(all = TRUE, message = "tried to align plots")
 
 # commit changes including _site.yml (locally) and rebuild site in the specified order
 wflow_publish(here::here("analysis",
                          c("index.Rmd",
                            "basics.Rmd",
+                           "indian_test_budgets.Rmd",
+                           "indian_test_column_inventories.Rmd",
+                           "indian_test_zonal_sections.Rmd",
                            "bottomdepth_budgets.Rmd",
                            "bottomdepth_column_inventories.Rmd",
                            "bottomdepth_zonal_sections.Rmd",
@@ -43,17 +46,17 @@ wflow_publish(here::here("analysis",
                            "vif_column_inventories.Rmd",
                            "vif_zonal_sections.Rmd"
                            )),
-              message = "rebuild after /docs error",
+              message = "rebuild with new navbar",
               republish = TRUE)
 
 # commit changes including _site.yml (locally) and rebuild site in the specified order
 wflow_publish(here::here("analysis",
                          c("index.Rmd",
-                           "classic_budgets.Rmd",
-                           "classic_column_inventories.Rmd",
-                           "classic_zonal_sections.Rmd"
+                           "indian_test_budgets.Rmd",
+                           "indian_test_column_inventories.Rmd",
+                           "indian_test_zonal_sections.Rmd"
                            )),
-              message = "depth layer budget analysis added")
+              message = "rerun with Atl and Pac separated")
 
 
 # Push latest version to GitHub
