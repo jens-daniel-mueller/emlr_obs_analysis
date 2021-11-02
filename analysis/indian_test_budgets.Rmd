@@ -218,7 +218,8 @@ dcant_budget_global_all <- dcant_budget_global_all %>%
       Version_ID == "v_2i02"	~ "IO_test_lat",
       Version_ID == "v_2i03"	~ "IO_test_lon",
       Version_ID == "v_2i04"	~ "reoccupation",
-      Version_ID == "v_2i05"	~ "tco2_target"
+      Version_ID == "v_2i05"	~ "tco2_target",
+      Version_ID == "v_2i06"	~ "adj_filter"
     )
   )
 
@@ -229,7 +230,8 @@ dcant_budget_global_bias_all <- dcant_budget_global_bias_all  %>%
       Version_ID == "v_2i02"	~ "IO_test_lat",
       Version_ID == "v_2i03"	~ "IO_test_lon",
       Version_ID == "v_2i04"	~ "reoccupation",
-      Version_ID == "v_2i05"	~ "tco2_target"
+      Version_ID == "v_2i05"	~ "tco2_target",
+      Version_ID == "v_2i06"	~ "adj_filter"
     )
   )
 

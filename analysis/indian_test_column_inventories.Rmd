@@ -259,7 +259,8 @@ dcant_inv_all <- dcant_inv_all %>%
       Version_ID == "v_2i02"	~ "IO_test_lat",
       Version_ID == "v_2i03"	~ "IO_test_lon",
       Version_ID == "v_2i04"	~ "reoccupation",
-      Version_ID == "v_2i05"	~ "tco2_target"
+      Version_ID == "v_2i05"	~ "tco2_target",
+      Version_ID == "v_2i06"	~ "adj_filter"
     )
   )
 
@@ -270,7 +271,8 @@ dcant_inv_bias_all <- dcant_inv_bias_all %>%
       Version_ID == "v_2i02"	~ "IO_test_lat",
       Version_ID == "v_2i03"	~ "IO_test_lon",
       Version_ID == "v_2i04"	~ "reoccupation",
-      Version_ID == "v_2i05"	~ "tco2_target"
+      Version_ID == "v_2i05"	~ "tco2_target",
+      Version_ID == "v_2i06"	~ "adj_filter"
     )
   )
 
@@ -281,7 +283,8 @@ dcant_budget_lat_grid_all <- dcant_budget_lat_grid_all %>%
       Version_ID == "v_2i02"	~ "IO_test_lat",
       Version_ID == "v_2i03"	~ "IO_test_lon",
       Version_ID == "v_2i04"	~ "reoccupation",
-      Version_ID == "v_2i05"	~ "tco2_target"
+      Version_ID == "v_2i05"	~ "tco2_target",
+      Version_ID == "v_2i06"	~ "adj_filter"
     )
   )
 
@@ -292,7 +295,8 @@ dcant_budget_lon_grid_all <- dcant_budget_lon_grid_all  %>%
       Version_ID == "v_2i02"	~ "IO_test_lat",
       Version_ID == "v_2i03"	~ "IO_test_lon",
       Version_ID == "v_2i04"	~ "reoccupation",
-      Version_ID == "v_2i05"	~ "tco2_target"
+      Version_ID == "v_2i05"	~ "tco2_target",
+      Version_ID == "v_2i06"	~ "adj_filter"
     )
   )
 

@@ -5,7 +5,7 @@
 
 
 # commit regular changes (locally) and rebuild site
-wflow_publish(all = TRUE, message = "tried to align plots")
+wflow_publish(all = TRUE, message = "included adjustment filter test")
 
 # commit changes including _site.yml (locally) and rebuild site in the specified order
 wflow_publish(here::here("analysis",
@@ -46,7 +46,7 @@ wflow_publish(here::here("analysis",
                            "vif_column_inventories.Rmd",
                            "vif_zonal_sections.Rmd"
                            )),
-              message = "rebuild with new navbar",
+              message = "rebuild with revised IO tests",
               republish = TRUE)
 
 # commit changes including _site.yml (locally) and rebuild site in the specified order
