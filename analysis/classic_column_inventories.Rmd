@@ -242,6 +242,8 @@ dcant_budget_lon_grid_all <- dcant_budget_lon_grid_all %>%
 
 ```{r select_cases}
 
+unique(dcant_inv_all$MLR_basins) %in% MLR_basins_in
+
 dcant_inv_all <- dcant_inv_all %>% 
   filter(MLR_basins %in% MLR_basins_in)
 

@@ -51,7 +51,7 @@ regional_bias_rel_max <- 20
 
 ```{r cases_considered}
 
-MLR_basins_in <- c("1", "2", "AIP", "5"," SO_2", "SO_AIP", "SO")
+MLR_basins_in <- c("1", "2", "AIP", "5", "SO_2", "SO_AIP", "SO")
 
 ```
 
