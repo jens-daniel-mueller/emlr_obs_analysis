@@ -68,7 +68,7 @@ map +
 ```
 
 
-```{r time_series_post_Gruber_2019}
+```{r time_series_post_Gruber_2019, fig.asp=0.4}
 
 time_histo <- GLODAP_preprocessed %>% 
   drop_na() %>% 
@@ -141,7 +141,7 @@ p_time_histo_all
 
 
 
-```{r time_series_per_basin}
+```{r time_series_per_basin, fig.asp=0.4}
 
 time_histo <- GLODAP_preprocessed %>% 
   filter(year >= 1989,
