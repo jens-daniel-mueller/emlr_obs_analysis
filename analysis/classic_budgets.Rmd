@@ -43,7 +43,9 @@ library(patchwork)
 ```{r define_bias_threshold}
 
 global_bias_rel_max <- 10
+global_bias_rel_max
 regional_bias_rel_max <- 20
+regional_bias_rel_max
 
 ```
 

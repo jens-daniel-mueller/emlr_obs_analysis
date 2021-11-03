@@ -403,8 +403,8 @@ p_dcant_inv_all_1994_2004 +
 p_dcant_1994_2004
 
 ggsave(plot = p_dcant_1994_2004,
-       path = "output/publication",
-       filename = "inv_dcant_1994_2004.png",
+       path = "output/other",
+       filename = "inv_dcant_1994_2004_abs_bias.png",
        height = 8,
        width = 8)
 
@@ -745,7 +745,7 @@ p_ensemble_distribution <-
                   xlim = c(-5, 32))
 
 ggsave(plot = p_ensemble_distribution,
-       path = "output/publication",
+       path = "output/other",
        filename = "inv_ensemble_distribution.png",
        height = 4,
        width = 8)
@@ -779,7 +779,7 @@ p_ensemble_distribution <-
 p_ensemble_distribution
 
 ggsave(plot = p_ensemble_distribution,
-       path = "output/publication",
+       path = "output/other",
        filename = "inv_ensemble_distribution_all.png",
        height = 6,
        width = 5)

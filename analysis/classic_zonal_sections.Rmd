@@ -285,8 +285,8 @@ p_dcant_Indian_1994_2004 <-
   facet_grid(MLR_basins ~ period)
 
 ggsave(plot = p_dcant_Indian_1994_2004,
-       path = "output/publication",
-       filename = "FigS_zonal_indian_1994_2004.png",
+       path = "output/other",
+       filename = "zonal_indian_1994_2004.png",
        height = 8,
        width = 5)
 
@@ -301,8 +301,8 @@ p_dcant_Indian_2004_2014 <-
   facet_grid(MLR_basins ~ period)
 
 ggsave(plot = p_dcant_Indian_2004_2014,
-       path = "output/publication",
-       filename = "FigS_zonal_Pacific_2004_2014.png",
+       path = "output/other",
+       filename = "zonal_Pacific_2004_2014.png",
        height = 8,
        width = 5)
 
