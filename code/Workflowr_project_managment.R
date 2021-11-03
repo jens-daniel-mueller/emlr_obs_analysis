@@ -5,12 +5,15 @@
 
 
 # commit regular changes (locally) and rebuild site
-wflow_publish(all = TRUE, message = "included adjustment filter test")
+wflow_publish(all = TRUE, message = "updated plots")
 
 # commit changes including _site.yml (locally) and rebuild site in the specified order
 wflow_publish(here::here("analysis",
                          c("index.Rmd",
                            "basics.Rmd",
+                           "G19_budgets.Rmd",
+                           "G19_column_inventories.Rmd",
+                           "G19_zonal_sections.Rmd",
                            "indian_test_budgets.Rmd",
                            "indian_test_column_inventories.Rmd",
                            "indian_test_zonal_sections.Rmd",
@@ -46,7 +49,7 @@ wflow_publish(here::here("analysis",
                            "vif_column_inventories.Rmd",
                            "vif_zonal_sections.Rmd"
                            )),
-              message = "rebuild with revised IO tests",
+              message = "rebuild with G19 runs",
               republish = TRUE)
 
 # commit changes including _site.yml (locally) and rebuild site in the specified order

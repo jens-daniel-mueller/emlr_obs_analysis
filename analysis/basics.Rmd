@@ -53,7 +53,7 @@ GLODAP_preprocessed <-
 
 # Time series histogram
 
-```{r time_series}
+```{r identify_G19_added_cruise_2013_2014, eval=FALSE}
 
 map +
   geom_raster(data = GLODAP_preprocessed %>% 
@@ -64,6 +64,11 @@ map +
                 count(lat, lon, cruise),
               aes(lon, lat, fill = as.factor(cruise))) +
   scale_fill_brewer(palette = "Set1")
+
+```
+
+
+```{r time_series_post_Gruber_2019}
 
 time_histo <- GLODAP_preprocessed %>% 
   drop_na() %>% 
@@ -116,16 +121,53 @@ p_time_histo_all
 
 
 ggsave(plot = p_time_histo_G19,
-       path = "output/publication",
+       path = "output/other",
        filename = "time_histo_G19.png",
        height = 2,
        width = 10)
 
 ggsave(plot = p_time_histo_all,
-       path = "output/publication",
+       path = "output/other",
        filename = "time_histo_all.png",
        height = 2,
        width = 10)
+
+rm(
+p_time_histo_G19,
+p_time_histo_all
+)
+
+```
+
+
+
+```{r time_series_per_basin}
+
+time_histo <- GLODAP_preprocessed %>% 
+  filter(year >= 1989,
+         year <= 2019) %>% 
+  count(year, basin_AIP)
+
+p_time_histo_basin <-
+  time_histo %>%
+  ggplot() +
+  geom_col(aes(year, n, fill = basin_AIP)) +
+  scale_fill_brewer(palette = "Dark2", name = "Ocean\nbasin") +
+  scale_x_continuous(breaks = seq(1900, 2100, 5)) +
+  scale_y_continuous(limits = c(0, NA), expand = c(0,0)) +
+  labs(y = "Observations per year") +
+  theme(axis.title.x = element_blank())
+
+p_time_histo_basin
+
+
+ggsave(plot = p_time_histo_basin,
+       path = "output/publication",
+       filename = "FigS_time_series_observations.png",
+       height = 2,
+       width = 10)
+
+rm(p_time_histo_basin)
 
 ```
 
@@ -137,14 +179,20 @@ ggsave(plot = p_time_histo_all,
 
 MLR_basins_in <- c("1", "2", "AIP", "SO_2", "5", "SO_AIP", "SO")
 
-# basinmask$group_id <- 
-# basinmask %>% group_indices(MLR_basins, basin)
+basinmask <- basinmask %>%
+  filter(MLR_basins %in% MLR_basins_in)
+
+basinmask <- basinmask %>% 
+  group_by(MLR_basins) %>% 
+  mutate(basin = as.character(as.numeric(as.factor(basin)))) %>% 
+  ungroup()
+
 
 basin_maps <-
   map +
-  geom_raster(data = basinmask %>%  filter(MLR_basins %in% MLR_basins_in),
+  geom_raster(data = basinmask,
               aes(lon, lat, fill = basin)) +
-  scale_fill_brewer(palette = "Set3", guide = "none") +
+  scale_fill_brewer(palette = "Dark2", guide = "none") +
   facet_wrap( ~ MLR_basins) +
   theme(axis.text = element_blank(),
         axis.ticks = element_blank())
@@ -153,7 +201,7 @@ basin_maps
 
 ggsave(plot = basin_maps,
        path = "output/publication",
-       filename = "basin_maps.png",
+       filename = "FigS_basin_masks.png",
        height = 5,
        width = 10)
 
@@ -166,8 +214,8 @@ ggsave(plot = basin_maps,
 
 GLODAP_era_grid <- GLODAP_preprocessed %>% 
   mutate(era = cut(year,
-                   seq(1990, 2020, 10),
-                   labels = c("1990 - 1999", "2000 - 2009", "2010 - 2019"),
+                   c(1989, 2000, 2010, 2020),
+                   labels = c("1989 - 1999", "2000 - 2009", "2010 - 2019"),
                    right = FALSE)) %>% 
   group_by(lon, lat, era) %>% 
   summarise(year_max = max(year),
@@ -177,21 +225,23 @@ GLODAP_era_grid <- GLODAP_preprocessed %>%
 
 coverage_map <-
   map +
-  geom_raster(data = GLODAP_era_grid,
-              aes(lon, lat)) +
-  scale_fill_viridis_c() +
-  facet_grid(. ~ era) +
+  geom_tile(data = GLODAP_era_grid,
+              aes(lon, lat, 
+              fill = "X")) +
+  scale_fill_brewer(palette = "Dark2", guide = "none") +
+  facet_wrap(~ era, ncol = 2) +
   theme(axis.text = element_blank(),
-        axis.ticks = element_blank())
+        axis.ticks = element_blank(),
+        panel.grid = element_blank())
 
 coverage_map
 
 
 ggsave(plot = coverage_map,
        path = "output/publication",
-       filename = "coverage_map.png",
-       height = 2,
-       width = 8)
+       filename = "FigS_coverage_map_observations.png",
+       height = 4,
+       width = 7)
 
 
 ```
