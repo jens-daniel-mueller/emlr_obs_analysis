@@ -701,16 +701,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree582b24ec9f03c1a2dde63b340fa1ae46749bcb51targetblank582b24ea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/582b24ec9f03c1a2dde63b340fa1ae46749bcb51" target="_blank">582b24e</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreed675dd9252c2fb07e2408a3889350c138ea381c3targetblankd675dd9a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/d675dd9252c2fb07e2408a3889350c138ea381c3" target="_blank">d675dd9</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree582b24ec9f03c1a2dde63b340fa1ae46749bcb51targetblank582b24ea" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreed675dd9252c2fb07e2408a3889350c138ea381c3targetblankd675dd9a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/582b24ec9f03c1a2dde63b340fa1ae46749bcb51" target="_blank">582b24e</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/d675dd9252c2fb07e2408a3889350c138ea381c3" target="_blank">d675dd9</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -720,12 +720,8 @@ Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
     Ignored:    data/
-    Ignored:    output/Gruber_2019_comparison/
+    Ignored:    output/other/
     Ignored:    output/publication/
-
-Unstaged changes:
-    Modified:   analysis/_site.yml
-    Modified:   code/Workflowr_project_managment.R
 
 </code></pre>
 <p>
@@ -764,6 +760,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d675dd9252c2fb07e2408a3889350c138ea381c3/analysis/classic_column_inventories.Rmd" target="_blank">d675dd9</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-11-03
+</td>
+<td>
+updated plots
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/f7c3da2aa04a8a3793f6c755815e0e23203fb44f/docs/classic_column_inventories.html" target="_blank">f7c3da2</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-11-03
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -2847,8 +2877,8 @@ jens-daniel-mueller
 </div>
 </div>
 <pre class="r"><code>ggsave(plot = p_dcant_1994_2004,
-       path = &quot;output/publication&quot;,
-       filename = &quot;inv_dcant_1994_2004.png&quot;,
+       path = &quot;output/other&quot;,
+       filename = &quot;inv_dcant_1994_2004_abs_bias.png&quot;,
        height = 8,
        width = 8)</code></pre>
 <div id="density-distribution" class="section level3" number="3.2.1">
@@ -4620,7 +4650,7 @@ p_ensemble_distribution &lt;-
                   xlim = c(-5, 32))
 
 ggsave(plot = p_ensemble_distribution,
-       path = &quot;output/publication&quot;,
+       path = &quot;output/other&quot;,
        filename = &quot;inv_ensemble_distribution.png&quot;,
        height = 4,
        width = 8)
@@ -4713,7 +4743,7 @@ jens-daniel-mueller
 </div>
 </div>
 <pre class="r"><code>ggsave(plot = p_ensemble_distribution,
-       path = &quot;output/publication&quot;,
+       path = &quot;output/other&quot;,
        filename = &quot;inv_ensemble_distribution_all.png&quot;,
        height = 6,
        width = 5)</code></pre>
