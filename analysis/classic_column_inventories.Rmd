@@ -277,15 +277,6 @@ dcant_budget_lon_grid_all <- dcant_budget_lon_grid_all %>%
 ```
 
 
-
-```{r read_Gruber_2019_inventories}
-
-dcant_inv_all_G19 <- read_csv(paste0(path_preprocessing,
-                             "G19_dcant_inv_all.csv"))
-
-```
-
-
 # Individual cases
 
 ## Absoulte values
@@ -420,12 +411,12 @@ dcant_inv_bias_all %>%
     paste(MLR_basins, "*"),
     MLR_basins
   )) %>%
+  filter(abs(dcant_bias) < 10) %>% 
   ggplot(aes(dcant_bias, col = MLR_basins)) +
   scale_color_brewer(palette = "Dark2") +
   geom_vline(xintercept = 0) +
   geom_density() +
-  facet_grid(period ~.) +
-  coord_cartesian(xlim = c(-10, 10))
+  facet_grid(period ~.)
 
 ```
 

@@ -59,15 +59,8 @@ Version_IDs_1 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observat
 Version_IDs_2 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
                             pattern = "v_27")
 
-# Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-#                             pattern = "v_30")
-
 Version_IDs <- c(Version_IDs_1, Version_IDs_2)
-# Version_IDs <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 rm(Version_IDs_1, Version_IDs_2)
-# rm(Version_IDs_1, Version_IDs_2, Version_IDs_3)
-
-# Version_IDs <- Version_IDs[1:length(Version_IDs)-1]
 
 for (i_Version_IDs in Version_IDs) {
   # i_Version_IDs <- Version_IDs[1]
@@ -197,14 +190,6 @@ dcant_inv_bias_all <- dcant_inv_bias_all %>%
 ```
 
 
-```{r read_Gruber_2019_inventories}
-
-dcant_inv_all_G19 <- read_csv(paste0(path_preprocessing,
-                             "G19_dcant_inv_all.csv"))
-
-```
-
-
 # Individual cases
 
 ## Absoulte values
@@ -255,7 +240,6 @@ p_dcant_inv_all_1994_2004 <-
     legend.position = "left"
   )
 
-p_dcant_inv_all_1994_2004
 
 ```
 
@@ -275,18 +259,6 @@ dcant_inv_bias_all %>%
                  col = "bias",
                  subtitle_text = "data_source: mod - mod_truth") +
   facet_grid(MLR_basins ~ period)
-
-# dcant_inv_bias_all %>%
-#   filter(period == "1994 - 2014") %>%
-#   mutate(MLR_basins = if_else(
-#     MLR_basins %in% ensemble_members,
-#     paste(MLR_basins, "*"),
-#     MLR_basins
-#   )) %>%
-#   p_map_cant_inv(var = "dcant_bias",
-#                  col = "bias",
-#                  subtitle_text = "data_source: mod - mod_truth") +
-#   facet_grid(MLR_basins ~ period)
 
 
 p_dcant_inv_bias_all_1994_2004 <-
@@ -318,14 +290,16 @@ p_dcant_inv_all_1994_2004 +
 p_dcant_1994_2004
 
 ggsave(plot = p_dcant_1994_2004,
-       path = "output/publication",
-       filename = "inv_dcant_1994_2004.png",
+       path = "output/other",
+       filename = "inv_dcant_1994_2004_abs_bias_no_gap_fill.png",
        height = 8,
        width = 8)
 
 ```
 
-```{r filter_ensemble_member}
+### Density distribution
+
+```{r bias_density_distribution, fig.asp=1}
 
 dcant_inv_bias_all %>%
   mutate(MLR_basins = if_else(
@@ -333,26 +307,13 @@ dcant_inv_bias_all %>%
     paste(MLR_basins, "*"),
     MLR_basins
   )) %>%
-  ggplot(aes(dcant_bias)) +
-  scale_color_brewer(palette = "Set1") +
+  filter(abs(dcant_bias) < 10) %>% 
+  ggplot(aes(dcant_bias, col = MLR_basins)) +
+  scale_color_brewer(palette = "Dark2") +
+  geom_vline(xintercept = 0) +
   geom_density() +
-  facet_grid(MLR_basins ~ period) +
+  facet_grid(period ~.) +
   coord_cartesian(xlim = c(-10, 10))
-
-
-dcant_inv_ensemble_member <- dcant_inv_bias_all %>% 
-  group_by(period, MLR_basins) %>% 
-  summarise(dcant_sd = sd(dcant_bias)) %>% 
-  ungroup()
-
-dcant_inv_ensemble_member %>%
-  mutate(MLR_basins = if_else(
-    MLR_basins %in% ensemble_members,
-    paste(MLR_basins, "*"),
-    MLR_basins
-  )) %>%
-  ggplot(aes(MLR_basins, dcant_sd, col = period)) +
-  geom_point()
 
 ```
 
@@ -502,11 +463,11 @@ p_ensemble_distribution <-
   coord_cartesian(ylim = c(0, 0.5),
                   xlim = c(-5, 32))
 
-ggsave(plot = p_ensemble_distribution,
-       path = "output/publication",
-       filename = "inv_ensemble_distribution.png",
-       height = 4,
-       width = 8)
+# ggsave(plot = p_ensemble_distribution,
+#        path = "output/publication",
+#        filename = "inv_ensemble_distribution.png",
+#        height = 4,
+#        width = 8)
 
 
 p_ensemble_distribution <-
@@ -536,11 +497,11 @@ p_ensemble_distribution <-
 
 p_ensemble_distribution
 
-ggsave(plot = p_ensemble_distribution,
-       path = "output/publication",
-       filename = "inv_ensemble_distribution_all.png",
-       height = 6,
-       width = 5)
+# ggsave(plot = p_ensemble_distribution,
+#        path = "output/publication",
+#        filename = "inv_ensemble_distribution_all.png",
+#        height = 6,
+#        width = 5)
 
 ```
 

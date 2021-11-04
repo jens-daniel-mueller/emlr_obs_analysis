@@ -5,7 +5,7 @@
 
 
 # commit regular changes (locally) and rebuild site
-wflow_publish(all = TRUE, message = "updated plots")
+wflow_publish(all = TRUE, message = "compared G19 and this study directly")
 
 # commit changes including _site.yml (locally) and rebuild site in the specified order
 wflow_publish(here::here("analysis",
@@ -55,11 +55,11 @@ wflow_publish(here::here("analysis",
 # commit changes including _site.yml (locally) and rebuild site in the specified order
 wflow_publish(here::here("analysis",
                          c("index.Rmd",
-                           "indian_test_budgets.Rmd",
-                           "indian_test_column_inventories.Rmd",
-                           "indian_test_zonal_sections.Rmd"
+                           "G19_budgets.Rmd",
+                           "G19_column_inventories.Rmd",
+                           "G19_zonal_sections.Rmd"
                            )),
-              message = "rerun with Atl and Pac separated")
+              message = "rerun with more basin splits")
 
 
 # Push latest version to GitHub

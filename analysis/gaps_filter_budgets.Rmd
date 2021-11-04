@@ -68,13 +68,7 @@ Version_IDs_1 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observat
 Version_IDs_2 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
                             pattern = "v_27")
 
-# Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-#                             pattern = "v_30")
-
 Version_IDs <- c(Version_IDs_1, Version_IDs_2)
-# Version_IDs <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
-# rm(Version_IDs_1, Version_IDs_2)
-# rm(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 
 ```
 
@@ -759,11 +753,11 @@ p_global_dcant / p_global_bias +
 
 p_global_dcant_bias
 
-ggsave(plot = p_global_dcant_bias,
-       path = "output/publication",
-       filename = "global_dcant.png",
-       height = 5,
-       width = 5)
+# ggsave(plot = p_global_dcant_bias,
+#        path = "output/publication",
+#        filename = "global_dcant.png",
+#        height = 5,
+#        width = 5)
 
 rm(p_global_bias, p_global_dcant, p_global_dcant_bias)
 
@@ -984,11 +978,11 @@ p_regional_dcant / p_regional_bias +
 
 p_regional_dcant_bias
 
-ggsave(plot = p_regional_dcant_bias,
-       path = "output/publication",
-       filename = "regional_dcant.png",
-       height = 5,
-       width = 10)
+# ggsave(plot = p_regional_dcant_bias,
+#        path = "output/publication",
+#        filename = "regional_dcant.png",
+#        height = 5,
+#        width = 10)
 
 rm(p_regional_bias, p_regional_dcant, p_regional_dcant_bias)
 

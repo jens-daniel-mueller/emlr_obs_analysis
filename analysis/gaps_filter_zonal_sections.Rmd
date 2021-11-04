@@ -221,11 +221,11 @@ p_dcant_Indian_1994_2004 <-
                                   subtitle_text = "Indian Ocean") +
   facet_grid(MLR_basins ~ period)
 
-ggsave(plot = p_dcant_Indian_1994_2004,
-       path = "output/publication",
-       filename = "zonal_indian_1994_2004.png",
-       height = 8,
-       width = 5)
+# ggsave(plot = p_dcant_Indian_1994_2004,
+#        path = "output/publication",
+#        filename = "zonal_indian_1994_2004.png",
+#        height = 8,
+#        width = 5)
 
 p_dcant_Indian_2004_2014 <-
   dcant_zonal_all %>%
@@ -237,11 +237,11 @@ p_dcant_Indian_2004_2014 <-
                                   subtitle_text = "Pacific Ocean") +
   facet_grid(MLR_basins ~ period)
 
-ggsave(plot = p_dcant_Indian_2004_2014,
-       path = "output/publication",
-       filename = "zonal_Pacific_2004_2014.png",
-       height = 8,
-       width = 5)
+# ggsave(plot = p_dcant_Indian_2004_2014,
+#        path = "output/publication",
+#        filename = "zonal_Pacific_2004_2014.png",
+#        height = 8,
+#        width = 5)
 
 ```
 
