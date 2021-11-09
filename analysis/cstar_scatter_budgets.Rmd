@@ -34,24 +34,33 @@ path_preprocessing_model    <-
 ```
 
 ```{r load_libraries_specific, include = FALSE}
+library(patchwork)
+
 ```
 
-# Global
+# Read files
 
-## Read files
-
-```{r read_files_global}
+```{r define_Version_IDs}
 
 # identify required version IDs
 
-Version_IDs_1 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-                            pattern = "v_13")
+Version_IDs <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = "v_2c")
+# 
+# Version_IDs_2 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+#                             pattern = "v_20")
+# 
+# Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+#                             pattern = "v_30")
+# 
+# Version_IDs <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 
-Version_IDs_2 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-                            pattern = "v_23")
+```
 
-Version_IDs <- c(Version_IDs_1, Version_IDs_2)
-rm(Version_IDs_1, Version_IDs_2)
+
+## Global
+
+```{r read_files_global}
 
 for (i_Version_IDs in Version_IDs) {
   # i_Version_IDs <- Version_IDs[1]
@@ -99,7 +108,15 @@ for (i_Version_IDs in Version_IDs) {
   
   params_local <- bind_cols(
     Version_ID = i_Version_IDs,
-    rarefication_threshold = as.character(params_local$rarefication_threshold)
+    MLR_basins = params_local$MLR_basins,
+    tref1 = params_local$tref1,
+    tref2 = params_local$tref2,
+    gap_filling = params_local$gap_filling,
+    cstar_deep_sd = params_local$cstar_deep_sd,
+    rarefication = params_local$rarefication,
+    rarefication_threshold = params_local$rarefication_threshold,
+    MLR_predictors = str_c(params_local$MLR_predictors, collapse = "+"),
+    vif_max = params_local$vif_max
   )
   
   tref <- read_csv(paste(path_version_data,
@@ -144,6 +161,11 @@ for (i_Version_IDs in Version_IDs) {
   
 }
 
+params_local_all <-
+  params_local_all %>%
+  mutate(cstar_deep_sd = as.factor(cstar_deep_sd))
+  # mutate(period = factor(period, c("1994 - 2004", "2004 - 2014", "1994 - 2014")))
+
 rm(
   dcant_budget_global,
   dcant_budget_global_bias,
@@ -158,6 +180,8 @@ dcant_budget_global_all <- full_join(dcant_budget_global_all,
 dcant_budget_global_bias_all <-
   full_join(dcant_budget_global_bias_all,
             params_local_all)
+
+
 
 ```
 
@@ -185,196 +209,10 @@ dcant_budget_global_bias_all <- dcant_budget_global_bias_all %>%
 
 ```
 
-## Thresholds
-
-```{r define_threshold}
-
-global_bias_rel_max <- 10
-regional_bias_rel_max <- 20
-
-global_bias_rel_max
-regional_bias_rel_max
-
-```
+## Regional
 
 
-## Individual cases
-
-### Absoulte values
-
-```{r cases_absolute_global}
-
-dcant_budget_global_all %>%
-  ggplot(aes(period, dcant, col=rarefication_threshold)) +
-  geom_point() +
-  facet_grid(. ~ data_source)
-
-
-```
-
-### Biases
-
-```{r cases_bias_global}
-
-dcant_budget_global_bias_all %>%
-  ggplot(aes(period, dcant_bias, col=rarefication_threshold)) +
-  geom_hline(yintercept = 0) +
-  geom_point()
-
-dcant_budget_global_bias_all %>%
-  ggplot(aes(period, dcant_bias_rel, col=rarefication_threshold)) +
-  geom_hline(yintercept = 0) +
-  geom_point()
-
-
-```
-
-```{r filter_ensemble_members_global}
-
-ensemble_rarefication_threshold_global <- dcant_budget_global_bias_all %>% 
-  filter(dcant_bias_rel < global_bias_rel_max) %>% 
-  count(rarefication_threshold) %>% 
-  filter(n == 2) %>% 
-  pull(rarefication_threshold)
-
-```
-
-
-
-## Ensemble
-
-```{r calc_ensemble_metrics_global}
-
-dcant_budget_global_ensemble <- dcant_budget_global_all %>% 
-  filter(data_source %in% c("mod", "obs"),
-         rarefication_threshold %in% ensemble_rarefication_threshold_global) %>% 
-  group_by(data_source, period) %>% 
-  summarise(dcant_mean = mean(dcant),
-            dcant_sd = sd(dcant),
-            dcant_range = max(dcant)- min(dcant)) %>% 
-  ungroup()
-
-
-```
-
-### Mean
-
-```{r ensemble_mean_global, fig.asp=0.5}
-
-dcant_budget_global_ensemble %>%
-  ggplot(aes(period, dcant_mean)) +
-  geom_pointrange(aes(ymax = dcant_mean + dcant_sd,
-                      ymin = dcant_mean - dcant_sd),
-                  shape = 21) +
-  facet_grid(. ~ data_source)
-
-```
-
-### Mean bias
-
-```{r ensemble_mean_bias_global}
-
-dcant_budget_global_ensemble_bias <- full_join(
-  dcant_budget_global_ensemble %>%
-    filter(data_source == "mod") %>% 
-    select(period, dcant_mean, dcant_sd),
-  dcant_budget_global_all %>%
-    filter(data_source == "mod_truth",
-           Version_ID %in% c("v_1301", "v_2301")) %>% 
-    select(period, dcant)
-)
-
-dcant_budget_global_ensemble_bias <- dcant_budget_global_ensemble_bias %>% 
-  mutate(dcant_mean_bias = dcant_mean - dcant,
-         dcant_mean_bias_rel = 100 * dcant_mean_bias / dcant)
-
-dcant_budget_global_ensemble_bias %>%
-  ggplot(aes(period, dcant_mean_bias)) +
-  geom_hline(yintercept = 0) +
-  geom_point()
-
-dcant_budget_global_ensemble_bias %>%
-  ggplot(aes(period, dcant_mean_bias_rel)) +
-  geom_hline(yintercept = 0) +
-  geom_point()
-
-```
-
-### SD vs bias
-
-```{r ensemble_sd_vs_bias_global, fig.asp=0.5}
-
-dcant_budget_global_ensemble_bias %>% 
-  ggplot(aes(dcant_mean_bias, dcant_sd, col = period)) +
-  geom_point()
-
-```
-
-
-## Vertical patterns
-
-### Absoulte values
-
-```{r cases_absolute_depth_global, fig.asp=0.9}
-
-dcant_budget_global_all_depth %>%
-  filter(rarefication_threshold %in% ensemble_rarefication_threshold_global) %>% 
-  group_by(data_source) %>%
-  group_split() %>%
-  # head(1) %>%
-  map(
-    ~  ggplot(data = .x,
-              aes(dcant, rarefication_threshold, fill=period)) +
-      geom_vline(xintercept = 0) +
-      geom_col(position = "dodge") +
-      scale_fill_brewer(palette = "Dark2") +
-      facet_grid(inv_depth ~ .) +
-      labs(title = paste("data_source:", unique(.x$data_source)))
-  )
-
-
-```
-
-### Biases
-
-```{r cases_bias_depth_global, fig.asp=0.9}
-
-dcant_budget_global_bias_all_depth %>%
-  filter(rarefication_threshold %in% ensemble_rarefication_threshold_global) %>%
-  ggplot(aes(dcant_bias, rarefication_threshold, fill = period)) +
-  geom_vline(xintercept = 0) +
-  geom_col(position = "dodge") +
-  scale_fill_brewer(palette = "Dark2") +
-  facet_grid(inv_depth ~ .)
-
-```
-
-```{r cases_bias_rel_depth_global, fig.asp=0.9}
-
-dcant_budget_global_bias_all_depth %>%
-  filter(rarefication_threshold %in% ensemble_rarefication_threshold_global) %>%
-  ggplot(aes(dcant_bias_rel, rarefication_threshold, fill = period)) +
-  geom_vline(xintercept = 0) +
-  geom_col(position = "dodge") +
-  scale_fill_brewer(palette = "Dark2") +
-  facet_grid(inv_depth ~ .)
-
-
-rm(dcant_budget_global_all,
-   dcant_budget_global_all_depth,
-   dcant_budget_global_bias_all,
-   dcant_budget_global_bias_all_depth,
-   dcant_budget_global_ensemble,
-   dcant_budget_global_ensemble_bias,
-   params_local_all)
-
-```
-
-# Regional
-
-## Read files
-
-```{r read_files}
+```{r read_files_regional}
 
 # Version_IDs <- Version_IDs[1:length(Version_IDs)-1]
 
@@ -403,41 +241,34 @@ for (i_Version_IDs in Version_IDs) {
       sep = ""
     ))
   
+    
+  dcant_budget_basin_AIP <- bind_rows(dcant_budget_basin_AIP,
+                                      dcant_budget_basin_AIP_mod_truth)
+  
   dcant_budget_basin_AIP_bias <-
     read_csv(paste(path_version_data,
                    "dcant_budget_basin_AIP_bias.csv",
                    sep = ""))
   
-  dcant_budget_basin_AIP <- bind_rows(dcant_budget_basin_AIP,
-                                      dcant_budget_basin_AIP_mod_truth)
-  
+  dcant_slab_budget_bias <-
+    read_csv(paste0(path_version_data,
+                    "dcant_slab_budget_bias.csv"))
+
+  dcant_slab_budget <-
+    read_csv(paste0(path_version_data,
+                    "dcant_slab_budget.csv"))
+
   dcant_budget_basin_AIP <- dcant_budget_basin_AIP %>%
     mutate(Version_ID = i_Version_IDs)
   
   dcant_budget_basin_AIP_bias <- dcant_budget_basin_AIP_bias %>%
     mutate(Version_ID = i_Version_IDs)
   
-  params_local <-
-    read_rds(paste(path_version_data,
-                   "params_local.rds",
-                   sep = ""))
+  dcant_slab_budget <- dcant_slab_budget %>%
+    mutate(Version_ID = i_Version_IDs)
   
-  params_local <- bind_cols(
-    Version_ID = i_Version_IDs,
-    rarefication_threshold = as.character(params_local$rarefication_threshold)
-  )
-  
-  tref <- read_csv(paste(path_version_data,
-                         "tref.csv",
-                         sep = ""))
-  
-  params_local <- params_local %>%
-    mutate(
-      median_year_1 = sort(tref$median_year)[1],
-      median_year_2 = sort(tref$median_year)[2],
-      duration = median_year_2 - median_year_1,
-      period = paste(median_year_1, "-", median_year_2)
-    )
+  dcant_slab_budget_bias <- dcant_slab_budget_bias %>%
+    mutate(Version_ID = i_Version_IDs)
   
   if (exists("dcant_budget_basin_AIP_all")) {
     dcant_budget_basin_AIP_all <-
@@ -458,14 +289,24 @@ for (i_Version_IDs in Version_IDs) {
     dcant_budget_basin_AIP_bias_all <- dcant_budget_basin_AIP_bias
   }
   
-  if (exists("params_local_all")) {
-    params_local_all <- bind_rows(params_local_all, params_local)
+  if (exists("dcant_slab_budget_all")) {
+    dcant_slab_budget_all <-
+      bind_rows(dcant_slab_budget_all, dcant_slab_budget)
   }
   
-  if (!exists("params_local_all")) {
-    params_local_all <- params_local
+  if (!exists("dcant_slab_budget_all")) {
+    dcant_slab_budget_all <- dcant_slab_budget
   }
   
+  if (exists("dcant_slab_budget_bias_all")) {
+    dcant_slab_budget_bias_all <-
+      bind_rows(dcant_slab_budget_bias_all,
+                dcant_slab_budget_bias)
+  }
+  
+  if (!exists("dcant_slab_budget_bias_all")) {
+    dcant_slab_budget_bias_all <- dcant_slab_budget_bias
+  }
   
 }
 
@@ -473,8 +314,8 @@ rm(
   dcant_budget_basin_AIP,
   dcant_budget_basin_AIP_bias,
   dcant_budget_basin_AIP_mod_truth,
-  params_local,
-  tref
+  dcant_slab_budget,
+  dcant_slab_budget_bias
 )
 
 dcant_budget_basin_AIP_all <- full_join(dcant_budget_basin_AIP_all,
@@ -484,9 +325,16 @@ dcant_budget_basin_AIP_bias_all <-
   full_join(dcant_budget_basin_AIP_bias_all,
             params_local_all)
 
+dcant_slab_budget_all <- full_join(dcant_slab_budget_all,
+                                        params_local_all)
+
+dcant_slab_budget_bias_all <-
+  full_join(dcant_slab_budget_bias_all,
+            params_local_all)
+
 ```
 
-```{r filter_standard_inventory_depth}
+```{r filter_standard_inventory_depth_regional}
 
 dcant_budget_basin_AIP_all <- dcant_budget_basin_AIP_all %>%
   filter(estimate == "dcant", 
@@ -510,6 +358,47 @@ dcant_budget_basin_AIP_bias_all <- dcant_budget_basin_AIP_bias_all %>%
 
 ```
 
+# Global
+
+## Individual cases
+
+### Absoulte values
+
+```{r cases_absolute_global}
+
+legend_title = expression(atop(Delta * C[ant],
+                               (mu * mol ~ kg ^ {
+                                 -1
+                               })))
+
+dcant_budget_global_all %>%
+  ggplot(aes(period, dcant, col = cstar_deep_sd)) +
+  geom_jitter(width = 0.05, height = 0) +
+  scale_color_brewer(palette = "Dark2") +
+  facet_grid(. ~ data_source) +
+  ylim(0,NA) +
+  theme(axis.text.x = element_text(angle = 45, hjust=1),
+        axis.title.x = element_blank())
+
+
+```
+
+### Biases
+
+```{r cases_bias_global}
+
+dcant_budget_global_bias_all %>%
+  ggplot(aes(period, dcant_bias, col = cstar_deep_sd)) +
+  geom_hline(yintercept = 0) +
+  scale_color_brewer(palette = "Dark2", name = "basin\nseparation") +
+  labs(y = expression(atop(Delta * C[ant] ~ bias,
+                               (mu * mol ~ kg ^ {-1})))) +
+  geom_point()
+
+```
+
+# Regional
+
 ## Individual cases
 
 ### Absoulte values
@@ -517,10 +406,13 @@ dcant_budget_basin_AIP_bias_all <- dcant_budget_basin_AIP_bias_all %>%
 ```{r cases_absolute, fig.asp=0.9}
 
 dcant_budget_basin_AIP_all %>%
-  ggplot(aes(period, dcant, col=rarefication_threshold)) +
-  geom_point() +
-  facet_grid(basin_AIP ~ data_source)
-
+  ggplot(aes(period, dcant, col = cstar_deep_sd)) +
+  geom_jitter(width = 0.05, height = 0) +
+  scale_color_brewer(palette = "Dark2", name = "basin\nseparation") +
+  facet_grid(basin_AIP ~ data_source) +
+  ylim(0,NA) +
+  theme(axis.text.x = element_text(angle = 45, hjust=1),
+        axis.title.x = element_blank())
 
 ```
 
@@ -529,165 +421,80 @@ dcant_budget_basin_AIP_all %>%
 ```{r cases_bias, fig.asp=0.9}
 
 dcant_budget_basin_AIP_bias_all %>%
-  ggplot(aes(period, dcant_bias, col=rarefication_threshold)) +
+  ggplot(aes(period, dcant_bias, col=cstar_deep_sd)) +
   geom_hline(yintercept = 0) +
   geom_point() +
   facet_grid(basin_AIP ~ .)
 
-dcant_budget_basin_AIP_bias_all %>%
-  ggplot(aes(period, dcant_bias_rel, col=rarefication_threshold)) +
-  geom_hline(yintercept = 0) +
-  geom_point() +
-  facet_grid(basin_AIP ~ .)
-
-
 ```
 
+## Slab budgets
 
-```{r filter_ensemble_members_regional}
+### Absolute values
 
-dcant_budget_basin_AIP_bias_all %>% 
-  filter(dcant_bias_rel < regional_bias_rel_max) %>% 
-  distinct(period, rarefication_threshold, basin_AIP)
+```{r slab_budgets, fig.asp=1}
 
-ensemble_rarefication_threshold_regional <- dcant_budget_basin_AIP_bias_all %>% 
-  filter(dcant_bias_rel < regional_bias_rel_max) %>% 
-  count(rarefication_threshold) %>% 
-  filter(n == 6) %>% 
-  pull(rarefication_threshold)
-
-```
-
-
-
-## Ensemble
-
-```{r calc_ensemble_metrics}
-
-dcant_budget_basin_AIP_ensemble <- dcant_budget_basin_AIP_all %>% 
-  filter(data_source %in% c("mod", "obs"),
-         rarefication_threshold %in% ensemble_rarefication_threshold_global,
-         rarefication_threshold %in% ensemble_rarefication_threshold_regional) %>% 
-  group_by(basin_AIP, data_source, period) %>% 
-  summarise(dcant_mean = mean(dcant),
-            dcant_sd = sd(dcant),
-            dcant_range = max(dcant)- min(dcant)) %>% 
-  ungroup()
-
-
-```
-
-### Mean
-
-```{r ensemble_mean, fig.asp=0.5}
-
-dcant_budget_basin_AIP_ensemble %>%
-  ggplot(aes(period, dcant_mean, col=basin_AIP)) +
-  geom_pointrange(aes(ymax = dcant_mean + dcant_sd,
-                      ymin = dcant_mean - dcant_sd),
-                  shape = 21) +
-  facet_grid(. ~ data_source)
-
-```
-
-### Mean bias
-
-```{r ensemble_mean_bias}
-
-dcant_budget_basin_AIP_ensemble_bias <- full_join(
-  dcant_budget_basin_AIP_ensemble %>%
-    filter(data_source == "mod") %>% 
-    select(basin_AIP, period, dcant_mean, dcant_sd),
-  dcant_budget_basin_AIP_all %>%
-    filter(data_source == "mod_truth",
-           rarefication_threshold == "2") %>% 
-    select(basin_AIP, period, dcant)
-)
-
-dcant_budget_basin_AIP_ensemble_bias <- dcant_budget_basin_AIP_ensemble_bias %>% 
-  mutate(dcant_mean_bias = dcant_mean - dcant)
-
-dcant_budget_basin_AIP_ensemble_bias %>%
-  ggplot(aes(period, dcant_mean_bias, col = basin_AIP)) +
-  geom_hline(yintercept = 0) +
-  geom_point()
-
-```
-
-### SD vs bias
-
-```{r ensemble_sd_vs_bias, fig.asp=0.5}
-
-dcant_budget_basin_AIP_ensemble_bias %>% 
-  ggplot(aes(dcant_mean_bias, dcant_sd, col=basin_AIP)) +
-  geom_point() +
-  facet_grid(. ~ period)
-
-
-```
-
-
-## Vertical patterns
-
-### Absoulte values
-
-```{r cases_absolute_depth, fig.asp=0.9}
-
-unique(
-dcant_budget_basin_AIP_all_depth$rarefication_threshold)
-
-
-
-dcant_budget_basin_AIP_all_depth %>%
-  filter(
-    rarefication_threshold %in% ensemble_rarefication_threshold_global,
-    rarefication_threshold %in% ensemble_rarefication_threshold_regional
-  ) %>%
-  group_by(data_source) %>%
-  group_split() %>%
-  head(1) %>%
-  map(
-    ~  ggplot(data = .x,
-              aes(dcant, rarefication_threshold, fill = basin_AIP)) +
-      geom_vline(xintercept = 0) +
-      geom_col() +
-      scale_fill_brewer(palette = "Dark2") +
-      facet_grid(inv_depth ~ period) +
-      labs(title = paste("data_source:", unique(.x$data_source)))
-  )
-
-
-```
-
-### Biases
-
-```{r cases_bias_depth, fig.asp=0.9}
-
-dcant_budget_basin_AIP_bias_all_depth %>%
-  filter(
-    rarefication_threshold %in% ensemble_rarefication_threshold_global,
-    rarefication_threshold %in% ensemble_rarefication_threshold_regional
-  ) %>%
-  ggplot(aes(dcant_bias, rarefication_threshold, fill = basin_AIP)) +
-  geom_vline(xintercept = 0) +
+dcant_slab_budget_all %>%
+  filter(data_source == "obs",
+         period != "1994 - 2014") %>% 
+  ggplot(aes(cstar_deep_sd, dcant, fill = gamma_slab)) +
+  geom_hline(yintercept = 0, col = "red") +
   geom_col() +
-  scale_fill_brewer(palette = "Dark2") +
-  facet_grid(inv_depth ~ period)
+  scale_fill_scico_d(direction = -1) +
+  facet_grid(basin_AIP ~ period)
 
 ```
 
-```{r cases_bias_rel_depth, fig.asp=0.9}
+```{r slab_budgets_individual, fig.asp=2}
 
-dcant_budget_basin_AIP_bias_all_depth %>%
-  filter(
-    rarefication_threshold %in% ensemble_rarefication_threshold_global,
-    rarefication_threshold %in% ensemble_rarefication_threshold_regional
-  ) %>%
-  ggplot(aes(dcant_bias_rel, rarefication_threshold, fill = basin_AIP)) +
-  geom_vline(xintercept = 0) +
+dcant_slab_budget_all %>%
+  filter(data_source == "obs",
+         period != "1994 - 2014") %>%
+  ggplot(aes(cstar_deep_sd, dcant, fill = gamma_slab)) +
+  geom_hline(yintercept = 0) +
   geom_col() +
-  scale_fill_brewer(palette = "Dark2") +
-  facet_grid(inv_depth ~ period)
+  scale_fill_scico_d(direction = -1) +
+  facet_grid(gamma_slab ~ basin_AIP)
+
 
 ```
+
+### Bias
+
+```{r slab_budgets_bias}
+
+dcant_slab_budget_bias_all %>%
+  filter(period != "1994 - 2014") %>%
+  ggplot(aes(gamma_slab, dcant_bias, fill = gamma_slab)) +
+  geom_col() +
+  coord_flip() +
+  scale_x_discrete(limits = rev) +
+  scale_fill_scico_d(direction = -1) +
+  facet_grid(basin_AIP ~ cstar_deep_sd)
+
+
+```
+
+
+### Spread
+
+```{r slab_budgets_spread}
+
+
+dcant_slab_budget_all %>%
+  filter(period != "1994 - 2014",
+         data_source != "mod_truth") %>%
+  group_by(data_source, basin_AIP, gamma_slab, period) %>%
+  summarise(dcant_range = max(dcant) - min(dcant)) %>%
+  ungroup() %>%
+  ggplot(aes(gamma_slab, dcant_range, fill = gamma_slab)) +
+  geom_col() +
+  coord_flip() +
+  scale_x_discrete(limits = rev) +
+  scale_fill_scico_d(direction = -1) +
+  facet_grid(basin_AIP ~ data_source)
+
+
+```
+
 

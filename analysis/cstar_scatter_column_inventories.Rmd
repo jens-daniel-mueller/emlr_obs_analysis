@@ -34,26 +34,40 @@ path_preprocessing_model    <-
 ```
 
 ```{r load_libraries_specific, include = FALSE}
+library(patchwork)
 ```
+
+# Uncertainty limit
+
+```{r define_sd_uncertainty_limit}
+
+sd_uncertainty_limit <- 4
+
+```
+
 
 # Read files
 
-```{r read_files}
+```{r define_Version_IDs}
 
 # identify required version IDs
 
-Version_IDs_1 <- list.files(
-  path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-  pattern = "v_13")
+Version_IDs <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = "v_2c")
 
-Version_IDs_2 <- list.files(
-  path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-  pattern = "v_23")
+# Version_IDs_2 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+#                             pattern = "v_20")
+# 
+# Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+#                             pattern = "v_30")
+# 
+# Version_IDs <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 
-Version_IDs <- c(Version_IDs_1, Version_IDs_2)
-rm(Version_IDs_1, Version_IDs_2)
+```
 
-# Version_IDs <- Version_IDs[1:length(Version_IDs)-1]
+
+```{r read_files}
+
 
 for (i_Version_IDs in Version_IDs) {
   # i_Version_IDs <- Version_IDs[1]
@@ -61,10 +75,10 @@ for (i_Version_IDs in Version_IDs) {
   print(i_Version_IDs)
   
   path_version_data     <-
-  paste(path_observations,
-        i_Version_IDs,
-        "/data/",
-        sep = "")
+    paste(path_observations,
+          i_Version_IDs,
+          "/data/",
+          sep = "")
   
   # load and join data files
   
@@ -76,23 +90,32 @@ for (i_Version_IDs in Version_IDs) {
   dcant_inv_mod_truth <-
     read_csv(paste(path_version_data,
                    "dcant_inv_mod_truth.csv",
-                   sep = "")) %>% 
-    filter(method == "total") %>% 
+                   sep = "")) %>%
+    filter(method == "total") %>%
     select(-method)
   
   dcant_inv_bias <-
     read_csv(paste(path_version_data,
                    "dcant_inv_bias.csv",
-                   sep = ""))
+                   sep = "")) %>%
+    mutate(Version_ID = i_Version_IDs)
   
   dcant_inv <- bind_rows(dcant_inv,
-                         dcant_inv_mod_truth)
-  
-  dcant_inv <- dcant_inv %>% 
+                         dcant_inv_mod_truth) %>%
     mutate(Version_ID = i_Version_IDs)
   
-  dcant_inv_bias <- dcant_inv_bias %>% 
+  dcant_budget_lat_grid <-
+    read_csv(paste(path_version_data,
+                   "dcant_budget_lat_grid.csv",
+                   sep = "")) %>%
     mutate(Version_ID = i_Version_IDs)
+  
+  dcant_budget_lon_grid <-
+    read_csv(paste(path_version_data,
+                   "dcant_budget_lon_grid.csv",
+                   sep = "")) %>%
+    mutate(Version_ID = i_Version_IDs)
+  
   
   params_local <-
     read_rds(paste(path_version_data,
@@ -101,18 +124,28 @@ for (i_Version_IDs in Version_IDs) {
   
   params_local <- bind_cols(
     Version_ID = i_Version_IDs,
-    rarefication_threshold = as.character(params_local$rarefication_threshold)
+    MLR_basins = params_local$MLR_basins,
+    tref1 = params_local$tref1,
+    tref2 = params_local$tref2,
+    gap_filling = params_local$gap_filling,
+    cstar_deep_sd = params_local$cstar_deep_sd,
+    rarefication = params_local$rarefication,
+    rarefication_threshold = params_local$rarefication_threshold,
+    MLR_predictors = str_c(params_local$MLR_predictors, collapse = "+"),
+    vif_max = params_local$vif_max
   )
   
   tref <- read_csv(paste(path_version_data,
                          "tref.csv",
                          sep = ""))
   
-  params_local <- params_local %>% 
-    mutate(median_year_1 = sort(tref$median_year)[1],
-           median_year_2 = sort(tref$median_year)[2],
-           duration = median_year_2 - median_year_1,
-           period = paste(median_year_1, "-", median_year_2))
+  params_local <- params_local %>%
+    mutate(
+      median_year_1 = sort(tref$median_year)[1],
+      median_year_2 = sort(tref$median_year)[2],
+      duration = median_year_2 - median_year_1,
+      period = paste(median_year_1, "-", median_year_2)
+    )
   
   if (exists("dcant_inv_all")) {
     dcant_inv_all <- bind_rows(dcant_inv_all, dcant_inv)
@@ -121,13 +154,29 @@ for (i_Version_IDs in Version_IDs) {
   if (!exists("dcant_inv_all")) {
     dcant_inv_all <- dcant_inv
   }
-
+  
   if (exists("dcant_inv_bias_all")) {
     dcant_inv_bias_all <- bind_rows(dcant_inv_bias_all, dcant_inv_bias)
   }
   
   if (!exists("dcant_inv_bias_all")) {
     dcant_inv_bias_all <- dcant_inv_bias
+  }
+  
+  if (exists("dcant_budget_lat_grid_all")) {
+    dcant_budget_lat_grid_all <- bind_rows(dcant_budget_lat_grid_all, dcant_budget_lat_grid)
+  }
+  
+  if (!exists("dcant_budget_lat_grid_all")) {
+    dcant_budget_lat_grid_all <- dcant_budget_lat_grid
+  }
+  
+  if (exists("dcant_budget_lon_grid_all")) {
+    dcant_budget_lon_grid_all <- bind_rows(dcant_budget_lon_grid_all, dcant_budget_lon_grid)
+  }
+  
+  if (!exists("dcant_budget_lon_grid_all")) {
+    dcant_budget_lon_grid_all <- dcant_budget_lon_grid
   }
 
   if (exists("params_local_all")) {
@@ -141,14 +190,30 @@ for (i_Version_IDs in Version_IDs) {
   
 }
 
-rm(dcant_inv, dcant_inv_bias, dcant_inv_mod_truth,
-   params_local, tref)
+rm(dcant_inv,
+   dcant_inv_bias,
+   dcant_inv_mod_truth,
+   dcant_budget_lat_grid,
+   dcant_budget_lon_grid,
+   params_local,
+   tref)
+
+params_local_all <-
+  params_local_all %>%
+  mutate(cstar_deep_sd = as.factor(cstar_deep_sd))
 
 dcant_inv_all <- full_join(dcant_inv_all,
                            params_local_all)
 
 dcant_inv_bias_all <- full_join(dcant_inv_bias_all,
                                 params_local_all)
+
+
+dcant_budget_lat_grid_all <- full_join(dcant_budget_lat_grid_all,
+                                       params_local_all)
+
+dcant_budget_lon_grid_all <- full_join(dcant_budget_lon_grid_all,
+                                       params_local_all)
 
 ```
 
@@ -157,7 +222,33 @@ dcant_inv_bias_all <- full_join(dcant_inv_bias_all,
 dcant_inv_all <- dcant_inv_all %>%
   filter(inv_depth == params_global$inventory_depth_standard)
 
+dcant_budget_lat_grid_all <- dcant_budget_lat_grid_all %>% 
+  filter(inv_depth == params_global$inventory_depth_standard)
+
+dcant_budget_lon_grid_all <- dcant_budget_lon_grid_all %>% 
+  filter(inv_depth == params_global$inventory_depth_standard)
+
 ```
+
+
+```{r adapt_format}
+
+dcant_budget_lat_grid_all <- dcant_budget_lat_grid_all %>%
+  pivot_wider(names_from = estimate,
+              values_from = value) %>%
+  filter(period != "1994 - 2014",
+         method == "total")
+
+dcant_budget_lon_grid_all <- dcant_budget_lon_grid_all %>%
+  pivot_wider(names_from = estimate,
+              values_from = value) %>%
+  filter(period != "1994 - 2014",
+         method == "total")
+
+
+```
+
+
 
 # Individual cases
 
@@ -166,17 +257,11 @@ dcant_inv_all <- dcant_inv_all %>%
 ```{r cases_absolute, fig.asp=1.2}
 
 dcant_inv_all %>%
-  filter(data_source %in% c("mod", "obs")) %>%
-  group_by(period) %>%
-  group_split() %>%
-  # head(1) %>%
-  map(
-    ~ p_map_cant_inv(df = .x,
-                     var = "dcant",
-                     subtitle_text = paste("period:",
-                                           unique(.x$period))) +
-      facet_grid(rarefication_threshold ~ data_source)
-  )
+  filter(data_source != "mod_truth") %>%
+  p_map_cant_inv(var = "dcant") +
+  facet_grid(cstar_deep_sd ~ data_source) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())
 
 
 ```
@@ -185,178 +270,68 @@ dcant_inv_all %>%
 
 ```{r cases_bias, fig.asp=1.2}
 
+
 dcant_inv_bias_all %>%
   p_map_cant_inv(var = "dcant_bias",
                  col = "bias",
                  subtitle_text = "data_source: mod - mod_truth") +
-  facet_grid(rarefication_threshold ~ period)
+  facet_grid(cstar_deep_sd ~ period)
 
 
 ```
 
-```{r filter_ensemble_member}
+### Density distribution
 
+```{r bias_density_distribution, fig.asp=1}
 
-dcant_inv_bias_all %>%  
-  ggplot(aes(dcant_bias)) +
-  scale_color_brewer(palette = "Set1") +
+dcant_inv_bias_all %>%
+  ggplot(aes(dcant_bias, col = cstar_deep_sd)) +
+  scale_color_brewer(palette = "Dark2") +
+  geom_vline(xintercept = 0) +
   geom_density() +
-  facet_grid(rarefication_threshold ~ period) +
-  coord_cartesian(xlim = c(-10,10))
-
-
-dcant_inv_ensemble_member <- dcant_inv_bias_all %>% 
-  group_by(period, rarefication_threshold) %>% 
-  summarise(dcant_sd = sd(dcant_bias)) %>% 
-  ungroup()
-
-dcant_inv_ensemble_member %>% 
-  ggplot(aes(rarefication_threshold, dcant_sd, col = period)) +
-  geom_point()
+  facet_grid(period ~.) +
+  coord_cartesian(xlim = c(-10, 10))
 
 ```
 
 
+## Lat grid budgets
 
-# Ensemble
+```{r lat_grid_budget_all, fig.asp=2}
 
-```{r calc_ensemble_metrics}
-
-dcant_inv_ensemble <- dcant_inv_all %>% 
-  filter(data_source %in% c("mod", "obs")) %>% 
-  group_by(lat, lon, data_source, period) %>% 
-  summarise(dcant_mean = mean(dcant),
-            dcant_sd = sd(dcant),
-            dcant_range = max(dcant)- min(dcant)) %>% 
-  ungroup()
-
+dcant_budget_lat_grid_all %>%
+  ggplot(aes(lat_grid, dcant, fill = cstar_deep_sd)) +
+  geom_hline(yintercept = 0) +
+  geom_col(position = "dodge") +
+  coord_flip() +
+  scale_fill_brewer(palette = "Dark2") +
+  facet_grid(basin_AIP ~ data_source)
 
 ```
 
-## Mean
+## Lon grid budgets
 
-```{r ensemble_mean, fig.asp=0.5}
+```{r lon_grid_budget_all}
 
-p_map_cant_inv(df = dcant_inv_ensemble,
-                     var = "dcant_mean",
-                     subtitle_text = paste("Ensemble means")) +
-      facet_grid(period ~ data_source)
-
-```
-
-## Mean bias
-
-```{r ensemble_mean_bias}
-
-dcant_inv_ensemble_bias <- full_join(
-  dcant_inv_ensemble %>%
-    filter(data_source == "mod") %>% 
-    select(lat, lon, period, dcant_mean, dcant_sd),
-  dcant_inv_all %>%
-    filter(data_source == "mod_truth",
-           Version_ID %in% c("v_1301", "v_2301")) %>% 
-    select(lat, lon, period, dcant)
-)
-
-dcant_inv_ensemble_bias <- dcant_inv_ensemble_bias %>% 
-  mutate(dcant_mean_bias = dcant_mean - dcant)
-
-dcant_inv_ensemble_bias %>%
-  p_map_cant_inv(var = "dcant_mean_bias",
-                 col = "bias",
-                 subtitle_text = "Ensemble mean - mod_truth") +
-  facet_grid(. ~ period)
-
-```
-
-
-## Standard deviation
-
-```{r ensemble_sd, fig.asp=0.5}
-
-p_map_cant_inv(
-  df = dcant_inv_ensemble,
-  var = "dcant_sd",
-  breaks = c(seq(0, 4, 0.4), Inf),
-  subtitle_text = paste("Ensemble SD")
-) +
-  facet_grid(period ~ data_source)
-
-```
-
-
-## SD vs bias
-
-```{r ensemble_sd_vs_bias, fig.asp=0.5}
-
-dcant_inv_ensemble_bias %>% 
-  ggplot(aes(dcant_mean_bias, dcant_sd)) +
-  geom_bin2d() +
-  scale_fill_viridis_c() +
-  facet_grid(. ~ period)
-
-
-dcant_inv_ensemble_bias %>% 
-  select(dcant_mean, dcant_mean_bias, period) %>% 
-  pivot_longer(dcant_mean:dcant_mean_bias,
-               names_to = "estimate",
-               values_to = "value") %>% 
-  ggplot(aes(value, col=estimate, linetype = period)) +
-  scale_color_brewer(palette = "Set1") +
-  geom_density()
-
-dcant_inv_ensemble %>% 
-  ggplot(aes(dcant_sd)) +
-  geom_histogram() +
-  facet_grid(data_source ~ period) +
-  coord_cartesian(ylim = c(0,50))
-
-```
-
-## Range
-
-```{r ensemble_range, fig.asp=0.5}
-
-p_map_cant_inv(
-  df = dcant_inv_ensemble,
-  var = "dcant_range",
-  breaks = c(seq(0,8,0.8), Inf),
-  subtitle_text = paste("Ensemble range")
-) +
-  facet_grid(period ~ data_source)
-
-
-
-```
-
-# Cases vs ensemble
-
-## Offset from mean
-
-```{r ensemble_deviation_from_mean}
-
-dcant_inv_all <- full_join(dcant_inv_all,
-                           dcant_inv_ensemble)
-
-dcant_inv_all <- dcant_inv_all %>% 
-  mutate(dcant_offset = dcant - dcant_mean)
-
-dcant_inv_all %>%
-  filter(data_source %in% c("mod", "obs")) %>%
-  group_by(period) %>%
-  group_split() %>%
+dcant_budget_lon_grid_all %>%
+  group_split(data_source, period) %>%
   # head(1) %>%
   map(
-    ~ p_map_cant_inv(df = .x,
-                     var = "dcant_offset",
-                     col = "bias",
-                     subtitle_text = paste("period:",
-                                           unique(.x$period))) +
-      facet_grid(rarefication_threshold ~ data_source)
+    ~ ggplot(data = .x,
+             aes(lon_grid, dcant, fill = cstar_deep_sd)) +
+      geom_col(position = "dodge") +
+      scale_fill_brewer(palette = "Dark2") +
+      labs(title = paste(
+        "data_source:",
+        unique(.x$data_source),
+        "| period:",
+        unique(.x$period)
+      )) +
+      facet_grid(basin_AIP ~ .)
   )
 
-
 ```
+
 
 
 

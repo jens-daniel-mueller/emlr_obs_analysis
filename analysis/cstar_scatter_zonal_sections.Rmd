@@ -36,24 +36,37 @@ path_preprocessing_model    <-
 ```{r load_libraries_specific, include = FALSE}
 ```
 
+# Uncertainty limit
+
+```{r define_sd_uncertainty_limit}
+
+sd_uncertainty_limit <- 1.5
+
+```
+
+
 # Read files
 
-```{r read_files}
+
+```{r define_Version_IDs}
 
 # identify required version IDs
 
-Version_IDs_1 <- list.files(
-  path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-  pattern = "v_13")
+Version_IDs <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = "v_2c")
 
-Version_IDs_2 <- list.files(
-  path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-  pattern = "v_23")
+# Version_IDs_2 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+#                             pattern = "v_20")
+# 
+# Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+#                             pattern = "v_30")
+# 
+# Version_IDs <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 
-Version_IDs <- c(Version_IDs_1, Version_IDs_2)
-rm(Version_IDs_1, Version_IDs_2)
+```
 
-# Version_IDs <- Version_IDs[1:length(Version_IDs)-1]
+
+```{r read_files}
 
 for (i_Version_IDs in Version_IDs) {
   # i_Version_IDs <- Version_IDs[1]
@@ -78,15 +91,40 @@ for (i_Version_IDs in Version_IDs) {
                    "dcant_zonal_mod_truth.csv",
                    sep = ""))
   
+  dcant_zonal <- bind_rows(dcant_zonal,
+                         dcant_zonal_mod_truth)
+  
+  dcant_profile <-
+    read_csv(paste(path_version_data,
+                   "dcant_profile.csv",
+                   sep = ""))
+  
+  dcant_profile_mod_truth <-
+    read_csv(paste(path_version_data,
+                   "dcant_profile_mod_truth.csv",
+                   sep = ""))
+  
+  dcant_profile <- bind_rows(dcant_profile,
+                             dcant_profile_mod_truth)
+  
+  dcant_budget_basin_AIP_layer <-
+    read_csv(paste(path_version_data,
+                   "dcant_budget_basin_AIP_layer.csv",
+                   sep = ""))
+  
   dcant_zonal_bias <-
     read_csv(paste(path_version_data,
                    "dcant_zonal_bias.csv",
                    sep = ""))
   
-  dcant_zonal <- bind_rows(dcant_zonal,
-                         dcant_zonal_mod_truth)
-  
+
   dcant_zonal <- dcant_zonal %>% 
+    mutate(Version_ID = i_Version_IDs)
+  
+  dcant_profile <- dcant_profile %>% 
+    mutate(Version_ID = i_Version_IDs)
+  
+  dcant_budget_basin_AIP_layer <- dcant_budget_basin_AIP_layer %>% 
     mutate(Version_ID = i_Version_IDs)
   
   dcant_zonal_bias <- dcant_zonal_bias %>% 
@@ -99,7 +137,15 @@ for (i_Version_IDs in Version_IDs) {
   
   params_local <- bind_cols(
     Version_ID = i_Version_IDs,
-    rarefication_threshold = as.character(params_local$rarefication_threshold)
+    MLR_basins = params_local$MLR_basins,
+    tref1 = params_local$tref1,
+    tref2 = params_local$tref2,
+    gap_filling = params_local$gap_filling,
+    cstar_deep_sd = params_local$cstar_deep_sd,
+    rarefication = params_local$rarefication,
+    rarefication_threshold = params_local$rarefication_threshold,
+    MLR_predictors = str_c(params_local$MLR_predictors, collapse = "+"),
+    vif_max = params_local$vif_max
   )
   
   tref <- read_csv(paste(path_version_data,
@@ -118,6 +164,24 @@ for (i_Version_IDs in Version_IDs) {
   
   if (!exists("dcant_zonal_all")) {
     dcant_zonal_all <- dcant_zonal
+  }
+
+  if (exists("dcant_profile_all")) {
+    dcant_profile_all <- bind_rows(dcant_profile_all, dcant_profile)
+  }
+  
+  if (!exists("dcant_profile_all")) {
+    dcant_profile_all <- dcant_profile
+  }
+
+  if (exists("dcant_budget_basin_AIP_layer_all")) {
+    dcant_budget_basin_AIP_layer_all <-
+      bind_rows(dcant_budget_basin_AIP_layer_all,
+                dcant_budget_basin_AIP_layer)
+  }
+  
+  if (!exists("dcant_budget_basin_AIP_layer_all")) {
+    dcant_budget_basin_AIP_layer_all <- dcant_budget_basin_AIP_layer
   }
 
   if (exists("dcant_zonal_bias_all")) {
@@ -140,10 +204,22 @@ for (i_Version_IDs in Version_IDs) {
 }
 
 rm(dcant_zonal, dcant_zonal_bias, dcant_zonal_mod_truth,
+   dcant_budget_basin_AIP_layer,
    tref)
+
+params_local_all <-
+  params_local_all %>%
+  mutate(cstar_deep_sd = as.factor(cstar_deep_sd))
 
 dcant_zonal_all <- full_join(dcant_zonal_all,
                            params_local_all)
+
+dcant_profile_all <- full_join(dcant_profile_all,
+                           params_local_all)
+
+dcant_budget_basin_AIP_layer_all <-
+  full_join(dcant_budget_basin_AIP_layer_all,
+            params_local_all)
 
 dcant_zonal_bias_all <- full_join(dcant_zonal_bias_all,
                                 params_local_all)
@@ -156,10 +232,9 @@ dcant_zonal_bias_all <- full_join(dcant_zonal_bias_all,
 
 ```{r cases_absolute, fig.asp=1.2}
 
-
 dcant_zonal_all %>%
   filter(data_source %in% c("mod", "obs")) %>%
-  group_by(basin_AIP, data_source) %>%
+  group_by(basin_AIP) %>%
   group_split() %>%
   # head(1) %>%
   map(
@@ -168,13 +243,11 @@ dcant_zonal_all %>%
       var = "dcant",
       plot_slabs = "n",
       subtitle_text = paste(
-        "data_source",
-        unique(.x$data_source),
-        "| basin:",
+        "basin:",
         unique(.x$basin_AIP)
       )
     ) +
-      facet_grid(rarefication_threshold ~ period)
+      facet_grid(cstar_deep_sd ~ data_source)
   )
 
 
@@ -198,195 +271,128 @@ dcant_zonal_bias_all %>%
         unique(.x$basin_AIP)
       )
     ) +
-      facet_grid(rarefication_threshold ~ period)
+      facet_grid(cstar_deep_sd ~ period)
   )
 
 
 ```
 
 
-## Bias correlation
+### Density distribution
 
-```{r cases_bias_correlation}
+```{r bias_density_distribution, fig.asp=1}
 
-dcant_zonal_bias_all_corr <- dcant_zonal_bias_all %>%
-  select(lat, depth, basin_AIP, dcant_bias, rarefication_threshold, period) %>% 
-  pivot_wider(names_from = period,
-              values_from = dcant_bias, 
-              names_prefix = "dcant_bias ")
-
-dcant_zonal_bias_all_corr %>% 
-  ggplot(aes(`dcant_bias 1994 - 2004`, `dcant_bias 2004 - 2014`)) +
+dcant_zonal_bias_all %>%
+  ggplot(aes(dcant_bias, col = cstar_deep_sd)) +
+  scale_color_brewer(palette = "Dark2") +
   geom_vline(xintercept = 0) +
-  geom_hline(yintercept = 0) +
-  geom_bin2d() +
-  facet_grid(basin_AIP ~ rarefication_threshold) +
-  scale_fill_viridis_c()
+  geom_density() +
+  facet_grid(period ~.) +
+  coord_cartesian(xlim = c(-10, 10))
 
 ```
 
 
+## Concentration profiles
 
-# Ensemble
+### Data source
 
-```{r calc_ensemble_metrics}
+```{r profiles_per_data_source, fig.asp=1.5}
 
-dcant_zonal_ensemble <- dcant_zonal_all %>% 
-  filter(data_source %in% c("mod", "obs")) %>% 
-  group_by(lat, depth, basin_AIP, data_source, period) %>% 
-  summarise(dcant_ensemble_mean = mean(dcant),
-            dcant_sd = sd(dcant),
-            dcant_range = max(dcant)- min(dcant)) %>% 
-  ungroup()
-
-
-```
-
-## Mean
-
-```{r ensemble_mean}
-
-dcant_zonal_ensemble %>%
-  group_by(basin_AIP) %>%
-  group_split() %>%
-  # head(1) %>%
+dcant_profile_all %>%
+  group_split(period) %>%
   map(
-    ~ p_section_zonal_continous_depth(
-      df = .x,
-      var = "dcant_ensemble_mean",
-      plot_slabs = "n",
-      subtitle_text = paste("basin:",
-                            unique(.x$basin_AIP))
-    ) +
-      facet_grid(data_source ~ period)
+    ~ ggplot(data = .x,
+             aes(
+               dcant, depth,
+               col = data_source, fill = data_source
+             )) +
+      geom_hline(yintercept = params_global$inventory_depth_standard) +
+      geom_vline(xintercept = 0) +
+      geom_ribbon(
+        aes(xmin = dcant - dcant_sd,
+            xmax = dcant + dcant_sd),
+        alpha = 0.2,
+        col = "transparent"
+      ) +
+      geom_path() +
+      scale_y_reverse() +
+      labs(title = paste("period", unique(.x$period))) +
+      facet_grid(cstar_deep_sd ~ basin_AIP)
   )
 
+```
+
+### Basin separation
+
+```{r profiles_per_MLR_basins, fig.asp=1}
+
+dcant_profile_all %>%
+  group_split(period) %>%
+  map(
+    ~ ggplot(data = .x,
+             aes(
+               dcant, depth,
+               col = cstar_deep_sd, fill = cstar_deep_sd
+             )) +
+      geom_hline(yintercept = params_global$inventory_depth_standard) +
+      geom_vline(xintercept = 0) +
+      geom_path() +
+      scale_y_reverse() +
+      labs(title = paste("period", unique(.x$period))) +
+      facet_grid(data_source ~ basin_AIP)
+  )
 
 ```
 
-## Mean bias
+### Era
 
-```{r ensemble_mean_bias, fig.asp=0.5}
+```{r profiles_per_period, fig.asp=0.5}
 
-dcant_zonal_ensemble_bias <- full_join(
-  dcant_zonal_ensemble %>%
-    filter(data_source == "mod") %>% 
-    select(lat, depth, basin_AIP, period, dcant_ensemble_mean, dcant_sd),
-  dcant_zonal_all %>%
-    filter(data_source == "mod_truth",
-           Version_ID %in% c("v_1301", "v_2301")) %>% 
-    select(lat, depth, basin_AIP, period, dcant_mod_truth = dcant)
-)
-
-dcant_zonal_ensemble_bias <- dcant_zonal_ensemble_bias %>% 
-  mutate(dcant_bias = dcant_ensemble_mean - dcant_mod_truth)
-
-dcant_zonal_ensemble_bias %>%
-  group_by(basin_AIP) %>%
-  group_split() %>%
-  # head(1) %>%
+dcant_profile_all %>%
+  arrange(depth) %>%
+  filter(period != "1994 - 2014") %>%
+  group_split(data_source) %>%
   map(
-    ~ p_section_zonal_continous_depth(
-      df = .x,
-      var = "dcant_bias",
-      col = "divergent",
-      plot_slabs = "n",
-      subtitle_text = paste("basin:",
-        unique(.x$basin_AIP)
+    ~ ggplot(
+      data = .x,
+      aes(
+        dcant,
+        depth,
+        col = period,
+        group = interaction(cstar_deep_sd, period)
       )
     ) +
-      facet_grid(. ~ period)
+      geom_hline(yintercept = params_global$inventory_depth_standard) +
+      geom_vline(xintercept = 0) +
+      geom_path() +
+      scale_y_reverse() +
+      labs(title = paste("data_source", unique(.x$data_source))) +
+      facet_grid(. ~ basin_AIP)
   )
 
 ```
 
+## Layer budgets
 
-## Standard deviation
+```{r layer_budget_per_data_source, fig.asp=1.5}
 
-```{r ensemble_sd, fig.asp=0.9}
-
-dcant_zonal_ensemble %>%
-  group_by(basin_AIP) %>%
-  group_split() %>%
-  # head(1) %>%
+dcant_budget_basin_AIP_layer_all %>%
+  filter(estimate == "dcant") %>% 
+  mutate(dcant = value,
+         inv_depth = fct_inorder(as.factor(inv_depth))) %>% 
+  group_split(period) %>%
+  # head(1) %>% 
   map(
-    ~ p_section_zonal_continous_depth(
-      df = .x,
-      var = "dcant_sd",
-      breaks = c(seq(0,4,0.4), Inf),
-      plot_slabs = "n",
-      subtitle_text = paste("basin:",
-                            unique(.x$basin_AIP))
-    ) +
-      facet_grid(data_source ~ period)
-  )
-
-
-```
-
-
-## SD vs bias
-
-```{r ensemble_sd_vs_bias, fig.asp=0.5}
-
-dcant_zonal_ensemble_bias %>% 
-  ggplot(aes(dcant_bias, dcant_sd)) +
-  geom_bin2d() +
-  scale_fill_viridis_c() +
-  facet_grid(basin_AIP ~ period)
-
-
-dcant_zonal_ensemble_bias %>% 
-  select(dcant_ensemble_mean, dcant_bias, period) %>% 
-  pivot_longer(dcant_ensemble_mean:dcant_bias,
-               names_to = "estimate",
-               values_to = "value") %>% 
-  ggplot(aes(value, col=estimate, linetype = period)) +
-  scale_color_brewer(palette = "Set1") +
-  geom_density()
-
-dcant_zonal_ensemble %>% 
-  ggplot(aes(dcant_sd)) +
-  geom_histogram() +
-  facet_grid(data_source ~ period) +
-  coord_cartesian(ylim = c(0,50))
-
-```
-
-# Cases vs ensemble
-
-## Offset from mean
-
-```{r ensemble_deviation_from_mean, fig.asp=1.2}
-
-dcant_zonal_all <- full_join(dcant_zonal_all %>% select(-dcant_sd),
-                           dcant_zonal_ensemble)
-
-dcant_zonal_all <- dcant_zonal_all %>% 
-  mutate(dcant_offset = dcant - dcant_ensemble_mean)
-
-
-legend_title <- expression(atop(Delta * C[ant,offset],
-                               (mu * mol ~ kg ^ {
-                                 -1
-                               })))
-
-dcant_zonal_all %>%
-  filter(data_source %in% c("mod", "obs")) %>%
-  group_by(basin_AIP, data_source) %>%
-  group_split() %>%
-  # head(1) %>%
-  map(
-    ~ p_section_zonal_continous_depth(
-      df = .x,
-      var = "dcant_offset",
-      col = "divergent",
-      plot_slabs = "n",
-      subtitle_text = paste("basin:",
-        unique(.x$basin_AIP)
-      )
-    ) +
-      facet_grid(rarefication_threshold ~ period)
+    ~ ggplot(data = .x,
+             aes(dcant, inv_depth,
+                 fill = cstar_deep_sd)) +
+      geom_vline(xintercept = 0) +
+      geom_col(position = "dodge") +
+      scale_y_discrete(limits = rev) +
+      scale_fill_brewer(palette = "Dark2") +
+      labs(title = paste("period", unique(.x$period))) +
+      facet_grid(data_source ~ basin_AIP)
   )
 
 ```
