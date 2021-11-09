@@ -715,16 +715,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree1fbfe8f760759052f227d1ad5472817be24978actargetblank1fbfe8fa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/1fbfe8f760759052f227d1ad5472817be24978ac" target="_blank">1fbfe8f</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree25a857ce24f7f74749f7136c5bfa7fb6c9d950fatargetblank25a857ca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/25a857ce24f7f74749f7136c5bfa7fb6c9d950fa" target="_blank">25a857c</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree1fbfe8f760759052f227d1ad5472817be24978actargetblank1fbfe8fa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree25a857ce24f7f74749f7136c5bfa7fb6c9d950fatargetblank25a857ca" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/1fbfe8f760759052f227d1ad5472817be24978ac" target="_blank">1fbfe8f</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/25a857ce24f7f74749f7136c5bfa7fb6c9d950fa" target="_blank">25a857c</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -736,10 +736,6 @@ Ignored files:
     Ignored:    data/
     Ignored:    output/other/
     Ignored:    output/publication/
-
-Unstaged changes:
-    Modified:   analysis/_site.yml
-    Modified:   code/Workflowr_project_managment.R
 
 </code></pre>
 <p>
@@ -783,6 +779,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/25a857ce24f7f74749f7136c5bfa7fb6c9d950fa/analysis/cstar_scatter_column_inventories.Rmd" target="_blank">25a857c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-11-09
+</td>
+<td>
+added C* scatter analysis
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/e505a4ba8e026763684aa92e599fc3f2899a049f/docs/cstar_scatter_column_inventories.html" target="_blank">e505a4b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-11-09
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1fbfe8f760759052f227d1ad5472817be24978ac/analysis/cstar_scatter_column_inventories.Rmd" target="_blank">1fbfe8f</a>
 </td>
 <td>
@@ -802,33 +832,34 @@ rebuild with G19 runs
 </div>
 </div>
 </div>
-<div id="read-files" class="section level1" number="1">
-<h1 number="1"><span class="header-section-number">1</span> Read files</h1>
+<div id="uncertainty-limit" class="section level1" number="1">
+<h1 number="1"><span class="header-section-number">1</span> Uncertainty limit</h1>
+<pre class="r"><code>sd_uncertainty_limit &lt;- 4</code></pre>
+</div>
+<div id="read-files" class="section level1" number="2">
+<h1 number="2"><span class="header-section-number">2</span> Read files</h1>
 <pre class="r"><code># identify required version IDs
 
-Version_IDs_1 &lt;- list.files(
-  path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
-  pattern = &quot;v_13&quot;)
+Version_IDs &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
+                            pattern = &quot;v_2c&quot;)
 
-Version_IDs_2 &lt;- list.files(
-  path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
-  pattern = &quot;v_23&quot;)
-
-Version_IDs &lt;- c(Version_IDs_1, Version_IDs_2)
-rm(Version_IDs_1, Version_IDs_2)
-
-# Version_IDs &lt;- Version_IDs[1:length(Version_IDs)-1]
-
-for (i_Version_IDs in Version_IDs) {
+# Version_IDs_2 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
+#                             pattern = &quot;v_20&quot;)
+# 
+# Version_IDs_3 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
+#                             pattern = &quot;v_30&quot;)
+# 
+# Version_IDs &lt;- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)</code></pre>
+<pre class="r"><code>for (i_Version_IDs in Version_IDs) {
   # i_Version_IDs &lt;- Version_IDs[1]
   
   print(i_Version_IDs)
   
   path_version_data     &lt;-
-  paste(path_observations,
-        i_Version_IDs,
-        &quot;/data/&quot;,
-        sep = &quot;&quot;)
+    paste(path_observations,
+          i_Version_IDs,
+          &quot;/data/&quot;,
+          sep = &quot;&quot;)
   
   # load and join data files
   
@@ -840,23 +871,32 @@ for (i_Version_IDs in Version_IDs) {
   dcant_inv_mod_truth &lt;-
     read_csv(paste(path_version_data,
                    &quot;dcant_inv_mod_truth.csv&quot;,
-                   sep = &quot;&quot;)) %&gt;% 
-    filter(method == &quot;total&quot;) %&gt;% 
+                   sep = &quot;&quot;)) %&gt;%
+    filter(method == &quot;total&quot;) %&gt;%
     select(-method)
   
   dcant_inv_bias &lt;-
     read_csv(paste(path_version_data,
                    &quot;dcant_inv_bias.csv&quot;,
-                   sep = &quot;&quot;))
+                   sep = &quot;&quot;)) %&gt;%
+    mutate(Version_ID = i_Version_IDs)
   
   dcant_inv &lt;- bind_rows(dcant_inv,
-                         dcant_inv_mod_truth)
-  
-  dcant_inv &lt;- dcant_inv %&gt;% 
+                         dcant_inv_mod_truth) %&gt;%
     mutate(Version_ID = i_Version_IDs)
   
-  dcant_inv_bias &lt;- dcant_inv_bias %&gt;% 
+  dcant_budget_lat_grid &lt;-
+    read_csv(paste(path_version_data,
+                   &quot;dcant_budget_lat_grid.csv&quot;,
+                   sep = &quot;&quot;)) %&gt;%
     mutate(Version_ID = i_Version_IDs)
+  
+  dcant_budget_lon_grid &lt;-
+    read_csv(paste(path_version_data,
+                   &quot;dcant_budget_lon_grid.csv&quot;,
+                   sep = &quot;&quot;)) %&gt;%
+    mutate(Version_ID = i_Version_IDs)
+  
   
   params_local &lt;-
     read_rds(paste(path_version_data,
@@ -865,18 +905,28 @@ for (i_Version_IDs in Version_IDs) {
   
   params_local &lt;- bind_cols(
     Version_ID = i_Version_IDs,
-    rarefication_threshold = as.character(params_local$rarefication_threshold)
+    MLR_basins = params_local$MLR_basins,
+    tref1 = params_local$tref1,
+    tref2 = params_local$tref2,
+    gap_filling = params_local$gap_filling,
+    cstar_deep_sd = params_local$cstar_deep_sd,
+    rarefication = params_local$rarefication,
+    rarefication_threshold = params_local$rarefication_threshold,
+    MLR_predictors = str_c(params_local$MLR_predictors, collapse = &quot;+&quot;),
+    vif_max = params_local$vif_max
   )
   
   tref &lt;- read_csv(paste(path_version_data,
                          &quot;tref.csv&quot;,
                          sep = &quot;&quot;))
   
-  params_local &lt;- params_local %&gt;% 
-    mutate(median_year_1 = sort(tref$median_year)[1],
-           median_year_2 = sort(tref$median_year)[2],
-           duration = median_year_2 - median_year_1,
-           period = paste(median_year_1, &quot;-&quot;, median_year_2))
+  params_local &lt;- params_local %&gt;%
+    mutate(
+      median_year_1 = sort(tref$median_year)[1],
+      median_year_2 = sort(tref$median_year)[2],
+      duration = median_year_2 - median_year_1,
+      period = paste(median_year_1, &quot;-&quot;, median_year_2)
+    )
   
   if (exists(&quot;dcant_inv_all&quot;)) {
     dcant_inv_all &lt;- bind_rows(dcant_inv_all, dcant_inv)
@@ -885,13 +935,29 @@ for (i_Version_IDs in Version_IDs) {
   if (!exists(&quot;dcant_inv_all&quot;)) {
     dcant_inv_all &lt;- dcant_inv
   }
-
+  
   if (exists(&quot;dcant_inv_bias_all&quot;)) {
     dcant_inv_bias_all &lt;- bind_rows(dcant_inv_bias_all, dcant_inv_bias)
   }
   
   if (!exists(&quot;dcant_inv_bias_all&quot;)) {
     dcant_inv_bias_all &lt;- dcant_inv_bias
+  }
+  
+  if (exists(&quot;dcant_budget_lat_grid_all&quot;)) {
+    dcant_budget_lat_grid_all &lt;- bind_rows(dcant_budget_lat_grid_all, dcant_budget_lat_grid)
+  }
+  
+  if (!exists(&quot;dcant_budget_lat_grid_all&quot;)) {
+    dcant_budget_lat_grid_all &lt;- dcant_budget_lat_grid
+  }
+  
+  if (exists(&quot;dcant_budget_lon_grid_all&quot;)) {
+    dcant_budget_lon_grid_all &lt;- bind_rows(dcant_budget_lon_grid_all, dcant_budget_lon_grid)
+  }
+  
+  if (!exists(&quot;dcant_budget_lon_grid_all&quot;)) {
+    dcant_budget_lon_grid_all &lt;- dcant_budget_lon_grid
   }
 
   if (exists(&quot;params_local_all&quot;)) {
@@ -904,187 +970,194 @@ for (i_Version_IDs in Version_IDs) {
   
   
 }</code></pre>
-<pre><code>[1] &quot;v_1301&quot;
-[1] &quot;v_1302&quot;
-[1] &quot;v_1303&quot;
-[1] &quot;v_1304&quot;
-[1] &quot;v_2301&quot;
-[1] &quot;v_2302&quot;
-[1] &quot;v_2303&quot;
-[1] &quot;v_2304&quot;</code></pre>
-<pre class="r"><code>rm(dcant_inv, dcant_inv_bias, dcant_inv_mod_truth,
-   params_local, tref)
+<pre><code>[1] &quot;v_2c01&quot;
+[1] &quot;v_2c02&quot;
+[1] &quot;v_2c03&quot;
+[1] &quot;v_2c04&quot;</code></pre>
+<pre class="r"><code>rm(dcant_inv,
+   dcant_inv_bias,
+   dcant_inv_mod_truth,
+   dcant_budget_lat_grid,
+   dcant_budget_lon_grid,
+   params_local,
+   tref)
+
+params_local_all &lt;-
+  params_local_all %&gt;%
+  mutate(cstar_deep_sd = as.factor(cstar_deep_sd))
 
 dcant_inv_all &lt;- full_join(dcant_inv_all,
                            params_local_all)
 
 dcant_inv_bias_all &lt;- full_join(dcant_inv_bias_all,
-                                params_local_all)</code></pre>
+                                params_local_all)
+
+
+dcant_budget_lat_grid_all &lt;- full_join(dcant_budget_lat_grid_all,
+                                       params_local_all)
+
+dcant_budget_lon_grid_all &lt;- full_join(dcant_budget_lon_grid_all,
+                                       params_local_all)</code></pre>
 <pre class="r"><code>dcant_inv_all &lt;- dcant_inv_all %&gt;%
+  filter(inv_depth == params_global$inventory_depth_standard)
+
+dcant_budget_lat_grid_all &lt;- dcant_budget_lat_grid_all %&gt;% 
+  filter(inv_depth == params_global$inventory_depth_standard)
+
+dcant_budget_lon_grid_all &lt;- dcant_budget_lon_grid_all %&gt;% 
   filter(inv_depth == params_global$inventory_depth_standard)</code></pre>
+<pre class="r"><code>dcant_budget_lat_grid_all &lt;- dcant_budget_lat_grid_all %&gt;%
+  pivot_wider(names_from = estimate,
+              values_from = value) %&gt;%
+  filter(period != &quot;1994 - 2014&quot;,
+         method == &quot;total&quot;)
+
+dcant_budget_lon_grid_all &lt;- dcant_budget_lon_grid_all %&gt;%
+  pivot_wider(names_from = estimate,
+              values_from = value) %&gt;%
+  filter(period != &quot;1994 - 2014&quot;,
+         method == &quot;total&quot;)</code></pre>
 </div>
-<div id="individual-cases" class="section level1" number="2">
-<h1 number="2"><span class="header-section-number">2</span> Individual cases</h1>
-<div id="absoulte-values" class="section level2" number="2.1">
-<h2 number="2.1"><span class="header-section-number">2.1</span> Absoulte values</h2>
+<div id="individual-cases" class="section level1" number="3">
+<h1 number="3"><span class="header-section-number">3</span> Individual cases</h1>
+<div id="absoulte-values" class="section level2" number="3.1">
+<h2 number="3.1"><span class="header-section-number">3.1</span> Absoulte values</h2>
 <pre class="r"><code>dcant_inv_all %&gt;%
-  filter(data_source %in% c(&quot;mod&quot;, &quot;obs&quot;)) %&gt;%
-  group_by(period) %&gt;%
-  group_split() %&gt;%
-  # head(1) %&gt;%
-  map(
-    ~ p_map_cant_inv(df = .x,
-                     var = &quot;dcant&quot;,
-                     subtitle_text = paste(&quot;period:&quot;,
-                                           unique(.x$period))) +
-      facet_grid(rarefication_threshold ~ data_source)
-  )</code></pre>
-<pre><code>[[1]]</code></pre>
+  filter(data_source != &quot;mod_truth&quot;) %&gt;%
+  p_map_cant_inv(var = &quot;dcant&quot;) +
+  facet_grid(cstar_deep_sd ~ data_source) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())</code></pre>
 <p><img src="figure/cstar_scatter_column_inventories.Rmd/cases_absolute-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>
-[[2]]</code></pre>
-<p><img src="figure/cstar_scatter_column_inventories.Rmd/cases_absolute-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_absolute-1">
+Past versions of cases_absolute-1.png
+</button>
+</p>
+<div id="fig-cases_absolute-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e505a4ba8e026763684aa92e599fc3f2899a049f/docs/figure/cstar_scatter_column_inventories.Rmd/cases_absolute-1.png" target="_blank">e505a4b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-11-09
+</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div id="biases" class="section level2" number="2.2">
-<h2 number="2.2"><span class="header-section-number">2.2</span> Biases</h2>
+</div>
+</div>
+<div id="biases" class="section level2" number="3.2">
+<h2 number="3.2"><span class="header-section-number">3.2</span> Biases</h2>
 <pre class="r"><code>dcant_inv_bias_all %&gt;%
   p_map_cant_inv(var = &quot;dcant_bias&quot;,
                  col = &quot;bias&quot;,
                  subtitle_text = &quot;data_source: mod - mod_truth&quot;) +
-  facet_grid(rarefication_threshold ~ period)</code></pre>
+  facet_grid(cstar_deep_sd ~ period)</code></pre>
 <p><img src="figure/cstar_scatter_column_inventories.Rmd/cases_bias-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>dcant_inv_bias_all %&gt;%  
-  ggplot(aes(dcant_bias)) +
-  scale_color_brewer(palette = &quot;Set1&quot;) +
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_bias-1">
+Past versions of cases_bias-1.png
+</button>
+</p>
+<div id="fig-cases_bias-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e505a4ba8e026763684aa92e599fc3f2899a049f/docs/figure/cstar_scatter_column_inventories.Rmd/cases_bias-1.png" target="_blank">e505a4b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-11-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="density-distribution" class="section level3" number="3.2.1">
+<h3 number="3.2.1"><span class="header-section-number">3.2.1</span> Density distribution</h3>
+<pre class="r"><code>dcant_inv_bias_all %&gt;%
+  ggplot(aes(dcant_bias, col = cstar_deep_sd)) +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  geom_vline(xintercept = 0) +
   geom_density() +
-  facet_grid(rarefication_threshold ~ period) +
-  coord_cartesian(xlim = c(-10,10))</code></pre>
-<p><img src="figure/cstar_scatter_column_inventories.Rmd/filter_ensemble_member-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>dcant_inv_ensemble_member &lt;- dcant_inv_bias_all %&gt;% 
-  group_by(period, rarefication_threshold) %&gt;% 
-  summarise(dcant_sd = sd(dcant_bias)) %&gt;% 
-  ungroup()
-
-dcant_inv_ensemble_member %&gt;% 
-  ggplot(aes(rarefication_threshold, dcant_sd, col = period)) +
-  geom_point()</code></pre>
-<p><img src="figure/cstar_scatter_column_inventories.Rmd/filter_ensemble_member-2.png" width="672" style="display: block; margin: auto;" /></p>
+  facet_grid(period ~.) +
+  coord_cartesian(xlim = c(-10, 10))</code></pre>
+<p><img src="figure/cstar_scatter_column_inventories.Rmd/bias_density_distribution-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 </div>
-<div id="ensemble" class="section level1" number="3">
-<h1 number="3"><span class="header-section-number">3</span> Ensemble</h1>
-<pre class="r"><code>dcant_inv_ensemble &lt;- dcant_inv_all %&gt;% 
-  filter(data_source %in% c(&quot;mod&quot;, &quot;obs&quot;)) %&gt;% 
-  group_by(lat, lon, data_source, period) %&gt;% 
-  summarise(dcant_mean = mean(dcant),
-            dcant_sd = sd(dcant),
-            dcant_range = max(dcant)- min(dcant)) %&gt;% 
-  ungroup()</code></pre>
-<div id="mean" class="section level2" number="3.1">
-<h2 number="3.1"><span class="header-section-number">3.1</span> Mean</h2>
-<pre class="r"><code>p_map_cant_inv(df = dcant_inv_ensemble,
-                     var = &quot;dcant_mean&quot;,
-                     subtitle_text = paste(&quot;Ensemble means&quot;)) +
-      facet_grid(period ~ data_source)</code></pre>
-<p><img src="figure/cstar_scatter_column_inventories.Rmd/ensemble_mean-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div id="lat-grid-budgets" class="section level2" number="3.3">
+<h2 number="3.3"><span class="header-section-number">3.3</span> Lat grid budgets</h2>
+<pre class="r"><code>dcant_budget_lat_grid_all %&gt;%
+  ggplot(aes(lat_grid, dcant, fill = cstar_deep_sd)) +
+  geom_hline(yintercept = 0) +
+  geom_col(position = &quot;dodge&quot;) +
+  coord_flip() +
+  scale_fill_brewer(palette = &quot;Dark2&quot;) +
+  facet_grid(basin_AIP ~ data_source)</code></pre>
+<p><img src="figure/cstar_scatter_column_inventories.Rmd/lat_grid_budget_all-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
-<div id="mean-bias" class="section level2" number="3.2">
-<h2 number="3.2"><span class="header-section-number">3.2</span> Mean bias</h2>
-<pre class="r"><code>dcant_inv_ensemble_bias &lt;- full_join(
-  dcant_inv_ensemble %&gt;%
-    filter(data_source == &quot;mod&quot;) %&gt;% 
-    select(lat, lon, period, dcant_mean, dcant_sd),
-  dcant_inv_all %&gt;%
-    filter(data_source == &quot;mod_truth&quot;,
-           Version_ID %in% c(&quot;v_1301&quot;, &quot;v_2301&quot;)) %&gt;% 
-    select(lat, lon, period, dcant)
-)
-
-dcant_inv_ensemble_bias &lt;- dcant_inv_ensemble_bias %&gt;% 
-  mutate(dcant_mean_bias = dcant_mean - dcant)
-
-dcant_inv_ensemble_bias %&gt;%
-  p_map_cant_inv(var = &quot;dcant_mean_bias&quot;,
-                 col = &quot;bias&quot;,
-                 subtitle_text = &quot;Ensemble mean - mod_truth&quot;) +
-  facet_grid(. ~ period)</code></pre>
-<p><img src="figure/cstar_scatter_column_inventories.Rmd/ensemble_mean_bias-1.png" width="672" style="display: block; margin: auto;" /></p>
-</div>
-<div id="standard-deviation" class="section level2" number="3.3">
-<h2 number="3.3"><span class="header-section-number">3.3</span> Standard deviation</h2>
-<pre class="r"><code>p_map_cant_inv(
-  df = dcant_inv_ensemble,
-  var = &quot;dcant_sd&quot;,
-  breaks = c(seq(0, 4, 0.4), Inf),
-  subtitle_text = paste(&quot;Ensemble SD&quot;)
-) +
-  facet_grid(period ~ data_source)</code></pre>
-<p><img src="figure/cstar_scatter_column_inventories.Rmd/ensemble_sd-1.png" width="672" style="display: block; margin: auto;" /></p>
-</div>
-<div id="sd-vs-bias" class="section level2" number="3.4">
-<h2 number="3.4"><span class="header-section-number">3.4</span> SD vs bias</h2>
-<pre class="r"><code>dcant_inv_ensemble_bias %&gt;% 
-  ggplot(aes(dcant_mean_bias, dcant_sd)) +
-  geom_bin2d() +
-  scale_fill_viridis_c() +
-  facet_grid(. ~ period)</code></pre>
-<p><img src="figure/cstar_scatter_column_inventories.Rmd/ensemble_sd_vs_bias-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>dcant_inv_ensemble_bias %&gt;% 
-  select(dcant_mean, dcant_mean_bias, period) %&gt;% 
-  pivot_longer(dcant_mean:dcant_mean_bias,
-               names_to = &quot;estimate&quot;,
-               values_to = &quot;value&quot;) %&gt;% 
-  ggplot(aes(value, col=estimate, linetype = period)) +
-  scale_color_brewer(palette = &quot;Set1&quot;) +
-  geom_density()</code></pre>
-<p><img src="figure/cstar_scatter_column_inventories.Rmd/ensemble_sd_vs_bias-2.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>dcant_inv_ensemble %&gt;% 
-  ggplot(aes(dcant_sd)) +
-  geom_histogram() +
-  facet_grid(data_source ~ period) +
-  coord_cartesian(ylim = c(0,50))</code></pre>
-<p><img src="figure/cstar_scatter_column_inventories.Rmd/ensemble_sd_vs_bias-3.png" width="672" style="display: block; margin: auto;" /></p>
-</div>
-<div id="range" class="section level2" number="3.5">
-<h2 number="3.5"><span class="header-section-number">3.5</span> Range</h2>
-<pre class="r"><code>p_map_cant_inv(
-  df = dcant_inv_ensemble,
-  var = &quot;dcant_range&quot;,
-  breaks = c(seq(0,8,0.8), Inf),
-  subtitle_text = paste(&quot;Ensemble range&quot;)
-) +
-  facet_grid(period ~ data_source)</code></pre>
-<p><img src="figure/cstar_scatter_column_inventories.Rmd/ensemble_range-1.png" width="672" style="display: block; margin: auto;" /></p>
-</div>
-</div>
-<div id="cases-vs-ensemble" class="section level1" number="4">
-<h1 number="4"><span class="header-section-number">4</span> Cases vs ensemble</h1>
-<div id="offset-from-mean" class="section level2" number="4.1">
-<h2 number="4.1"><span class="header-section-number">4.1</span> Offset from mean</h2>
-<pre class="r"><code>dcant_inv_all &lt;- full_join(dcant_inv_all,
-                           dcant_inv_ensemble)
-
-dcant_inv_all &lt;- dcant_inv_all %&gt;% 
-  mutate(dcant_offset = dcant - dcant_mean)
-
-dcant_inv_all %&gt;%
-  filter(data_source %in% c(&quot;mod&quot;, &quot;obs&quot;)) %&gt;%
-  group_by(period) %&gt;%
-  group_split() %&gt;%
+<div id="lon-grid-budgets" class="section level2" number="3.4">
+<h2 number="3.4"><span class="header-section-number">3.4</span> Lon grid budgets</h2>
+<pre class="r"><code>dcant_budget_lon_grid_all %&gt;%
+  group_split(data_source, period) %&gt;%
   # head(1) %&gt;%
   map(
-    ~ p_map_cant_inv(df = .x,
-                     var = &quot;dcant_offset&quot;,
-                     col = &quot;bias&quot;,
-                     subtitle_text = paste(&quot;period:&quot;,
-                                           unique(.x$period))) +
-      facet_grid(rarefication_threshold ~ data_source)
+    ~ ggplot(data = .x,
+             aes(lon_grid, dcant, fill = cstar_deep_sd)) +
+      geom_col(position = &quot;dodge&quot;) +
+      scale_fill_brewer(palette = &quot;Dark2&quot;) +
+      labs(title = paste(
+        &quot;data_source:&quot;,
+        unique(.x$data_source),
+        &quot;| period:&quot;,
+        unique(.x$period)
+      )) +
+      facet_grid(basin_AIP ~ .)
   )</code></pre>
 <pre><code>[[1]]</code></pre>
-<p><img src="figure/cstar_scatter_column_inventories.Rmd/ensemble_deviation_from_mean-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/cstar_scatter_column_inventories.Rmd/lon_grid_budget_all-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>
 [[2]]</code></pre>
-<p><img src="figure/cstar_scatter_column_inventories.Rmd/ensemble_deviation_from_mean-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/cstar_scatter_column_inventories.Rmd/lon_grid_budget_all-2.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">

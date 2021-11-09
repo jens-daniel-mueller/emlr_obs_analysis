@@ -715,16 +715,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree1fbfe8f760759052f227d1ad5472817be24978actargetblank1fbfe8fa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/1fbfe8f760759052f227d1ad5472817be24978ac" target="_blank">1fbfe8f</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree25a857ce24f7f74749f7136c5bfa7fb6c9d950fatargetblank25a857ca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/25a857ce24f7f74749f7136c5bfa7fb6c9d950fa" target="_blank">25a857c</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree1fbfe8f760759052f227d1ad5472817be24978actargetblank1fbfe8fa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree25a857ce24f7f74749f7136c5bfa7fb6c9d950fatargetblank25a857ca" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/1fbfe8f760759052f227d1ad5472817be24978ac" target="_blank">1fbfe8f</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/25a857ce24f7f74749f7136c5bfa7fb6c9d950fa" target="_blank">25a857c</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -736,10 +736,6 @@ Ignored files:
     Ignored:    data/
     Ignored:    output/other/
     Ignored:    output/publication/
-
-Unstaged changes:
-    Modified:   analysis/_site.yml
-    Modified:   code/Workflowr_project_managment.R
 
 </code></pre>
 <p>
@@ -783,6 +779,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/25a857ce24f7f74749f7136c5bfa7fb6c9d950fa/analysis/cstar_scatter_budgets.Rmd" target="_blank">25a857c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-11-09
+</td>
+<td>
+added C* scatter analysis
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/e505a4ba8e026763684aa92e599fc3f2899a049f/docs/cstar_scatter_budgets.html" target="_blank">e505a4b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-11-09
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1fbfe8f760759052f227d1ad5472817be24978ac/analysis/cstar_scatter_budgets.Rmd" target="_blank">1fbfe8f</a>
 </td>
 <td>
@@ -802,22 +832,23 @@ rebuild with G19 runs
 </div>
 </div>
 </div>
-<div id="global" class="section level1" number="1">
-<h1 number="1"><span class="header-section-number">1</span> Global</h1>
-<div id="read-files" class="section level2" number="1.1">
-<h2 number="1.1"><span class="header-section-number">1.1</span> Read files</h2>
+<div id="read-files" class="section level1" number="1">
+<h1 number="1"><span class="header-section-number">1</span> Read files</h1>
 <pre class="r"><code># identify required version IDs
 
-Version_IDs_1 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
-                            pattern = &quot;v_13&quot;)
-
-Version_IDs_2 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
-                            pattern = &quot;v_23&quot;)
-
-Version_IDs &lt;- c(Version_IDs_1, Version_IDs_2)
-rm(Version_IDs_1, Version_IDs_2)
-
-for (i_Version_IDs in Version_IDs) {
+Version_IDs &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
+                            pattern = &quot;v_2c&quot;)
+# 
+# Version_IDs_2 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
+#                             pattern = &quot;v_20&quot;)
+# 
+# Version_IDs_3 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
+#                             pattern = &quot;v_30&quot;)
+# 
+# Version_IDs &lt;- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)</code></pre>
+<div id="global" class="section level2" number="1.1">
+<h2 number="1.1"><span class="header-section-number">1.1</span> Global</h2>
+<pre class="r"><code>for (i_Version_IDs in Version_IDs) {
   # i_Version_IDs &lt;- Version_IDs[1]
   
   print(i_Version_IDs)
@@ -863,7 +894,15 @@ for (i_Version_IDs in Version_IDs) {
   
   params_local &lt;- bind_cols(
     Version_ID = i_Version_IDs,
-    rarefication_threshold = as.character(params_local$rarefication_threshold)
+    MLR_basins = params_local$MLR_basins,
+    tref1 = params_local$tref1,
+    tref2 = params_local$tref2,
+    gap_filling = params_local$gap_filling,
+    cstar_deep_sd = params_local$cstar_deep_sd,
+    rarefication = params_local$rarefication,
+    rarefication_threshold = params_local$rarefication_threshold,
+    MLR_predictors = str_c(params_local$MLR_predictors, collapse = &quot;+&quot;),
+    vif_max = params_local$vif_max
   )
   
   tref &lt;- read_csv(paste(path_version_data,
@@ -907,15 +946,16 @@ for (i_Version_IDs in Version_IDs) {
   
   
 }</code></pre>
-<pre><code>[1] &quot;v_1301&quot;
-[1] &quot;v_1302&quot;
-[1] &quot;v_1303&quot;
-[1] &quot;v_1304&quot;
-[1] &quot;v_2301&quot;
-[1] &quot;v_2302&quot;
-[1] &quot;v_2303&quot;
-[1] &quot;v_2304&quot;</code></pre>
-<pre class="r"><code>rm(
+<pre><code>[1] &quot;v_2c01&quot;
+[1] &quot;v_2c02&quot;
+[1] &quot;v_2c03&quot;
+[1] &quot;v_2c04&quot;</code></pre>
+<pre class="r"><code>params_local_all &lt;-
+  params_local_all %&gt;%
+  mutate(cstar_deep_sd = as.factor(cstar_deep_sd))
+  # mutate(period = factor(period, c(&quot;1994 - 2004&quot;, &quot;2004 - 2014&quot;, &quot;1994 - 2014&quot;)))
+
+rm(
   dcant_budget_global,
   dcant_budget_global_bias,
   dcant_budget_global_mod_truth,
@@ -949,159 +989,8 @@ dcant_budget_global_bias_all_depth &lt;- dcant_budget_global_bias_all
 dcant_budget_global_bias_all &lt;- dcant_budget_global_bias_all %&gt;%
   filter(inv_depth == params_global$inventory_depth_standard)</code></pre>
 </div>
-<div id="thresholds" class="section level2" number="1.2">
-<h2 number="1.2"><span class="header-section-number">1.2</span> Thresholds</h2>
-<pre class="r"><code>global_bias_rel_max &lt;- 10
-regional_bias_rel_max &lt;- 20
-
-global_bias_rel_max</code></pre>
-<pre><code>[1] 10</code></pre>
-<pre class="r"><code>regional_bias_rel_max</code></pre>
-<pre><code>[1] 20</code></pre>
-</div>
-<div id="individual-cases" class="section level2" number="1.3">
-<h2 number="1.3"><span class="header-section-number">1.3</span> Individual cases</h2>
-<div id="absoulte-values" class="section level3" number="1.3.1">
-<h3 number="1.3.1"><span class="header-section-number">1.3.1</span> Absoulte values</h3>
-<pre class="r"><code>dcant_budget_global_all %&gt;%
-  ggplot(aes(period, dcant, col=rarefication_threshold)) +
-  geom_point() +
-  facet_grid(. ~ data_source)</code></pre>
-<p><img src="figure/cstar_scatter_budgets.Rmd/cases_absolute_global-1.png" width="672" style="display: block; margin: auto;" /></p>
-</div>
-<div id="biases" class="section level3" number="1.3.2">
-<h3 number="1.3.2"><span class="header-section-number">1.3.2</span> Biases</h3>
-<pre class="r"><code>dcant_budget_global_bias_all %&gt;%
-  ggplot(aes(period, dcant_bias, col=rarefication_threshold)) +
-  geom_hline(yintercept = 0) +
-  geom_point()</code></pre>
-<p><img src="figure/cstar_scatter_budgets.Rmd/cases_bias_global-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>dcant_budget_global_bias_all %&gt;%
-  ggplot(aes(period, dcant_bias_rel, col=rarefication_threshold)) +
-  geom_hline(yintercept = 0) +
-  geom_point()</code></pre>
-<p><img src="figure/cstar_scatter_budgets.Rmd/cases_bias_global-2.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>ensemble_rarefication_threshold_global &lt;- dcant_budget_global_bias_all %&gt;% 
-  filter(dcant_bias_rel &lt; global_bias_rel_max) %&gt;% 
-  count(rarefication_threshold) %&gt;% 
-  filter(n == 2) %&gt;% 
-  pull(rarefication_threshold)</code></pre>
-</div>
-</div>
-<div id="ensemble" class="section level2" number="1.4">
-<h2 number="1.4"><span class="header-section-number">1.4</span> Ensemble</h2>
-<pre class="r"><code>dcant_budget_global_ensemble &lt;- dcant_budget_global_all %&gt;% 
-  filter(data_source %in% c(&quot;mod&quot;, &quot;obs&quot;),
-         rarefication_threshold %in% ensemble_rarefication_threshold_global) %&gt;% 
-  group_by(data_source, period) %&gt;% 
-  summarise(dcant_mean = mean(dcant),
-            dcant_sd = sd(dcant),
-            dcant_range = max(dcant)- min(dcant)) %&gt;% 
-  ungroup()</code></pre>
-<div id="mean" class="section level3" number="1.4.1">
-<h3 number="1.4.1"><span class="header-section-number">1.4.1</span> Mean</h3>
-<pre class="r"><code>dcant_budget_global_ensemble %&gt;%
-  ggplot(aes(period, dcant_mean)) +
-  geom_pointrange(aes(ymax = dcant_mean + dcant_sd,
-                      ymin = dcant_mean - dcant_sd),
-                  shape = 21) +
-  facet_grid(. ~ data_source)</code></pre>
-<p><img src="figure/cstar_scatter_budgets.Rmd/ensemble_mean_global-1.png" width="672" style="display: block; margin: auto;" /></p>
-</div>
-<div id="mean-bias" class="section level3" number="1.4.2">
-<h3 number="1.4.2"><span class="header-section-number">1.4.2</span> Mean bias</h3>
-<pre class="r"><code>dcant_budget_global_ensemble_bias &lt;- full_join(
-  dcant_budget_global_ensemble %&gt;%
-    filter(data_source == &quot;mod&quot;) %&gt;% 
-    select(period, dcant_mean, dcant_sd),
-  dcant_budget_global_all %&gt;%
-    filter(data_source == &quot;mod_truth&quot;,
-           Version_ID %in% c(&quot;v_1301&quot;, &quot;v_2301&quot;)) %&gt;% 
-    select(period, dcant)
-)
-
-dcant_budget_global_ensemble_bias &lt;- dcant_budget_global_ensemble_bias %&gt;% 
-  mutate(dcant_mean_bias = dcant_mean - dcant,
-         dcant_mean_bias_rel = 100 * dcant_mean_bias / dcant)
-
-dcant_budget_global_ensemble_bias %&gt;%
-  ggplot(aes(period, dcant_mean_bias)) +
-  geom_hline(yintercept = 0) +
-  geom_point()</code></pre>
-<p><img src="figure/cstar_scatter_budgets.Rmd/ensemble_mean_bias_global-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>dcant_budget_global_ensemble_bias %&gt;%
-  ggplot(aes(period, dcant_mean_bias_rel)) +
-  geom_hline(yintercept = 0) +
-  geom_point()</code></pre>
-<p><img src="figure/cstar_scatter_budgets.Rmd/ensemble_mean_bias_global-2.png" width="672" style="display: block; margin: auto;" /></p>
-</div>
-<div id="sd-vs-bias" class="section level3" number="1.4.3">
-<h3 number="1.4.3"><span class="header-section-number">1.4.3</span> SD vs bias</h3>
-<pre class="r"><code>dcant_budget_global_ensemble_bias %&gt;% 
-  ggplot(aes(dcant_mean_bias, dcant_sd, col = period)) +
-  geom_point()</code></pre>
-<p><img src="figure/cstar_scatter_budgets.Rmd/ensemble_sd_vs_bias_global-1.png" width="672" style="display: block; margin: auto;" /></p>
-</div>
-</div>
-<div id="vertical-patterns" class="section level2" number="1.5">
-<h2 number="1.5"><span class="header-section-number">1.5</span> Vertical patterns</h2>
-<div id="absoulte-values-1" class="section level3" number="1.5.1">
-<h3 number="1.5.1"><span class="header-section-number">1.5.1</span> Absoulte values</h3>
-<pre class="r"><code>dcant_budget_global_all_depth %&gt;%
-  filter(rarefication_threshold %in% ensemble_rarefication_threshold_global) %&gt;% 
-  group_by(data_source) %&gt;%
-  group_split() %&gt;%
-  # head(1) %&gt;%
-  map(
-    ~  ggplot(data = .x,
-              aes(dcant, rarefication_threshold, fill=period)) +
-      geom_vline(xintercept = 0) +
-      geom_col(position = &quot;dodge&quot;) +
-      scale_fill_brewer(palette = &quot;Dark2&quot;) +
-      facet_grid(inv_depth ~ .) +
-      labs(title = paste(&quot;data_source:&quot;, unique(.x$data_source)))
-  )</code></pre>
-<pre><code>[[1]]</code></pre>
-<p><img src="figure/cstar_scatter_budgets.Rmd/cases_absolute_depth_global-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>
-[[2]]</code></pre>
-<p><img src="figure/cstar_scatter_budgets.Rmd/cases_absolute_depth_global-2.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>
-[[3]]</code></pre>
-<p><img src="figure/cstar_scatter_budgets.Rmd/cases_absolute_depth_global-3.png" width="672" style="display: block; margin: auto;" /></p>
-</div>
-<div id="biases-1" class="section level3" number="1.5.2">
-<h3 number="1.5.2"><span class="header-section-number">1.5.2</span> Biases</h3>
-<pre class="r"><code>dcant_budget_global_bias_all_depth %&gt;%
-  filter(rarefication_threshold %in% ensemble_rarefication_threshold_global) %&gt;%
-  ggplot(aes(dcant_bias, rarefication_threshold, fill = period)) +
-  geom_vline(xintercept = 0) +
-  geom_col(position = &quot;dodge&quot;) +
-  scale_fill_brewer(palette = &quot;Dark2&quot;) +
-  facet_grid(inv_depth ~ .)</code></pre>
-<p><img src="figure/cstar_scatter_budgets.Rmd/cases_bias_depth_global-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>dcant_budget_global_bias_all_depth %&gt;%
-  filter(rarefication_threshold %in% ensemble_rarefication_threshold_global) %&gt;%
-  ggplot(aes(dcant_bias_rel, rarefication_threshold, fill = period)) +
-  geom_vline(xintercept = 0) +
-  geom_col(position = &quot;dodge&quot;) +
-  scale_fill_brewer(palette = &quot;Dark2&quot;) +
-  facet_grid(inv_depth ~ .)</code></pre>
-<p><img src="figure/cstar_scatter_budgets.Rmd/cases_bias_rel_depth_global-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>rm(dcant_budget_global_all,
-   dcant_budget_global_all_depth,
-   dcant_budget_global_bias_all,
-   dcant_budget_global_bias_all_depth,
-   dcant_budget_global_ensemble,
-   dcant_budget_global_ensemble_bias,
-   params_local_all)</code></pre>
-</div>
-</div>
-</div>
-<div id="regional" class="section level1" number="2">
-<h1 number="2"><span class="header-section-number">2</span> Regional</h1>
-<div id="read-files-1" class="section level2" number="2.1">
-<h2 number="2.1"><span class="header-section-number">2.1</span> Read files</h2>
+<div id="regional" class="section level2" number="1.2">
+<h2 number="1.2"><span class="header-section-number">1.2</span> Regional</h2>
 <pre class="r"><code># Version_IDs &lt;- Version_IDs[1:length(Version_IDs)-1]
 
 for (i_Version_IDs in Version_IDs) {
@@ -1129,41 +1018,34 @@ for (i_Version_IDs in Version_IDs) {
       sep = &quot;&quot;
     ))
   
+    
+  dcant_budget_basin_AIP &lt;- bind_rows(dcant_budget_basin_AIP,
+                                      dcant_budget_basin_AIP_mod_truth)
+  
   dcant_budget_basin_AIP_bias &lt;-
     read_csv(paste(path_version_data,
                    &quot;dcant_budget_basin_AIP_bias.csv&quot;,
                    sep = &quot;&quot;))
   
-  dcant_budget_basin_AIP &lt;- bind_rows(dcant_budget_basin_AIP,
-                                      dcant_budget_basin_AIP_mod_truth)
-  
+  dcant_slab_budget_bias &lt;-
+    read_csv(paste0(path_version_data,
+                    &quot;dcant_slab_budget_bias.csv&quot;))
+
+  dcant_slab_budget &lt;-
+    read_csv(paste0(path_version_data,
+                    &quot;dcant_slab_budget.csv&quot;))
+
   dcant_budget_basin_AIP &lt;- dcant_budget_basin_AIP %&gt;%
     mutate(Version_ID = i_Version_IDs)
   
   dcant_budget_basin_AIP_bias &lt;- dcant_budget_basin_AIP_bias %&gt;%
     mutate(Version_ID = i_Version_IDs)
   
-  params_local &lt;-
-    read_rds(paste(path_version_data,
-                   &quot;params_local.rds&quot;,
-                   sep = &quot;&quot;))
+  dcant_slab_budget &lt;- dcant_slab_budget %&gt;%
+    mutate(Version_ID = i_Version_IDs)
   
-  params_local &lt;- bind_cols(
-    Version_ID = i_Version_IDs,
-    rarefication_threshold = as.character(params_local$rarefication_threshold)
-  )
-  
-  tref &lt;- read_csv(paste(path_version_data,
-                         &quot;tref.csv&quot;,
-                         sep = &quot;&quot;))
-  
-  params_local &lt;- params_local %&gt;%
-    mutate(
-      median_year_1 = sort(tref$median_year)[1],
-      median_year_2 = sort(tref$median_year)[2],
-      duration = median_year_2 - median_year_1,
-      period = paste(median_year_1, &quot;-&quot;, median_year_2)
-    )
+  dcant_slab_budget_bias &lt;- dcant_slab_budget_bias %&gt;%
+    mutate(Version_ID = i_Version_IDs)
   
   if (exists(&quot;dcant_budget_basin_AIP_all&quot;)) {
     dcant_budget_basin_AIP_all &lt;-
@@ -1184,30 +1066,36 @@ for (i_Version_IDs in Version_IDs) {
     dcant_budget_basin_AIP_bias_all &lt;- dcant_budget_basin_AIP_bias
   }
   
-  if (exists(&quot;params_local_all&quot;)) {
-    params_local_all &lt;- bind_rows(params_local_all, params_local)
+  if (exists(&quot;dcant_slab_budget_all&quot;)) {
+    dcant_slab_budget_all &lt;-
+      bind_rows(dcant_slab_budget_all, dcant_slab_budget)
   }
   
-  if (!exists(&quot;params_local_all&quot;)) {
-    params_local_all &lt;- params_local
+  if (!exists(&quot;dcant_slab_budget_all&quot;)) {
+    dcant_slab_budget_all &lt;- dcant_slab_budget
   }
   
+  if (exists(&quot;dcant_slab_budget_bias_all&quot;)) {
+    dcant_slab_budget_bias_all &lt;-
+      bind_rows(dcant_slab_budget_bias_all,
+                dcant_slab_budget_bias)
+  }
+  
+  if (!exists(&quot;dcant_slab_budget_bias_all&quot;)) {
+    dcant_slab_budget_bias_all &lt;- dcant_slab_budget_bias
+  }
   
 }</code></pre>
-<pre><code>[1] &quot;v_1301&quot;
-[1] &quot;v_1302&quot;
-[1] &quot;v_1303&quot;
-[1] &quot;v_1304&quot;
-[1] &quot;v_2301&quot;
-[1] &quot;v_2302&quot;
-[1] &quot;v_2303&quot;
-[1] &quot;v_2304&quot;</code></pre>
+<pre><code>[1] &quot;v_2c01&quot;
+[1] &quot;v_2c02&quot;
+[1] &quot;v_2c03&quot;
+[1] &quot;v_2c04&quot;</code></pre>
 <pre class="r"><code>rm(
   dcant_budget_basin_AIP,
   dcant_budget_basin_AIP_bias,
   dcant_budget_basin_AIP_mod_truth,
-  params_local,
-  tref
+  dcant_slab_budget,
+  dcant_slab_budget_bias
 )
 
 dcant_budget_basin_AIP_all &lt;- full_join(dcant_budget_basin_AIP_all,
@@ -1215,6 +1103,13 @@ dcant_budget_basin_AIP_all &lt;- full_join(dcant_budget_basin_AIP_all,
 
 dcant_budget_basin_AIP_bias_all &lt;-
   full_join(dcant_budget_basin_AIP_bias_all,
+            params_local_all)
+
+dcant_slab_budget_all &lt;- full_join(dcant_slab_budget_all,
+                                        params_local_all)
+
+dcant_slab_budget_bias_all &lt;-
+  full_join(dcant_slab_budget_bias_all,
             params_local_all)</code></pre>
 <pre class="r"><code>dcant_budget_basin_AIP_all &lt;- dcant_budget_basin_AIP_all %&gt;%
   filter(estimate == &quot;dcant&quot;, 
@@ -1236,156 +1131,265 @@ dcant_budget_basin_AIP_bias_all_depth &lt;- dcant_budget_basin_AIP_bias_all
 dcant_budget_basin_AIP_bias_all &lt;- dcant_budget_basin_AIP_bias_all %&gt;%
   filter(inv_depth == params_global$inventory_depth_standard)</code></pre>
 </div>
-<div id="individual-cases-1" class="section level2" number="2.2">
-<h2 number="2.2"><span class="header-section-number">2.2</span> Individual cases</h2>
-<div id="absoulte-values-2" class="section level3" number="2.2.1">
-<h3 number="2.2.1"><span class="header-section-number">2.2.1</span> Absoulte values</h3>
-<pre class="r"><code>dcant_budget_basin_AIP_all %&gt;%
-  ggplot(aes(period, dcant, col=rarefication_threshold)) +
-  geom_point() +
-  facet_grid(basin_AIP ~ data_source)</code></pre>
-<p><img src="figure/cstar_scatter_budgets.Rmd/cases_absolute-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
-<div id="biases-2" class="section level3" number="2.2.2">
-<h3 number="2.2.2"><span class="header-section-number">2.2.2</span> Biases</h3>
+<div id="global-1" class="section level1" number="2">
+<h1 number="2"><span class="header-section-number">2</span> Global</h1>
+<div id="individual-cases" class="section level2" number="2.1">
+<h2 number="2.1"><span class="header-section-number">2.1</span> Individual cases</h2>
+<div id="absoulte-values" class="section level3" number="2.1.1">
+<h3 number="2.1.1"><span class="header-section-number">2.1.1</span> Absoulte values</h3>
+<pre class="r"><code>legend_title = expression(atop(Delta * C[ant],
+                               (mu * mol ~ kg ^ {
+                                 -1
+                               })))
+
+dcant_budget_global_all %&gt;%
+  ggplot(aes(period, dcant, col = cstar_deep_sd)) +
+  geom_jitter(width = 0.05, height = 0) +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  facet_grid(. ~ data_source) +
+  ylim(0,NA) +
+  theme(axis.text.x = element_text(angle = 45, hjust=1),
+        axis.title.x = element_blank())</code></pre>
+<p><img src="figure/cstar_scatter_budgets.Rmd/cases_absolute_global-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_absolute_global-1">
+Past versions of cases_absolute_global-1.png
+</button>
+</p>
+<div id="fig-cases_absolute_global-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e505a4ba8e026763684aa92e599fc3f2899a049f/docs/figure/cstar_scatter_budgets.Rmd/cases_absolute_global-1.png" target="_blank">e505a4b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-11-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="biases" class="section level3" number="2.1.2">
+<h3 number="2.1.2"><span class="header-section-number">2.1.2</span> Biases</h3>
+<pre class="r"><code>dcant_budget_global_bias_all %&gt;%
+  ggplot(aes(period, dcant_bias, col = cstar_deep_sd)) +
+  geom_hline(yintercept = 0) +
+  scale_color_brewer(palette = &quot;Dark2&quot;, name = &quot;basin\nseparation&quot;) +
+  labs(y = expression(atop(Delta * C[ant] ~ bias,
+                               (mu * mol ~ kg ^ {-1})))) +
+  geom_point()</code></pre>
+<p><img src="figure/cstar_scatter_budgets.Rmd/cases_bias_global-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_bias_global-1">
+Past versions of cases_bias_global-1.png
+</button>
+</p>
+<div id="fig-cases_bias_global-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e505a4ba8e026763684aa92e599fc3f2899a049f/docs/figure/cstar_scatter_budgets.Rmd/cases_bias_global-1.png" target="_blank">e505a4b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-11-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="regional-1" class="section level1" number="3">
+<h1 number="3"><span class="header-section-number">3</span> Regional</h1>
+<div id="individual-cases-1" class="section level2" number="3.1">
+<h2 number="3.1"><span class="header-section-number">3.1</span> Individual cases</h2>
+<div id="absoulte-values-1" class="section level3" number="3.1.1">
+<h3 number="3.1.1"><span class="header-section-number">3.1.1</span> Absoulte values</h3>
+<pre class="r"><code>dcant_budget_basin_AIP_all %&gt;%
+  ggplot(aes(period, dcant, col = cstar_deep_sd)) +
+  geom_jitter(width = 0.05, height = 0) +
+  scale_color_brewer(palette = &quot;Dark2&quot;, name = &quot;basin\nseparation&quot;) +
+  facet_grid(basin_AIP ~ data_source) +
+  ylim(0,NA) +
+  theme(axis.text.x = element_text(angle = 45, hjust=1),
+        axis.title.x = element_blank())</code></pre>
+<p><img src="figure/cstar_scatter_budgets.Rmd/cases_absolute-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_absolute-1">
+Past versions of cases_absolute-1.png
+</button>
+</p>
+<div id="fig-cases_absolute-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e505a4ba8e026763684aa92e599fc3f2899a049f/docs/figure/cstar_scatter_budgets.Rmd/cases_absolute-1.png" target="_blank">e505a4b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-11-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="biases-1" class="section level3" number="3.1.2">
+<h3 number="3.1.2"><span class="header-section-number">3.1.2</span> Biases</h3>
 <pre class="r"><code>dcant_budget_basin_AIP_bias_all %&gt;%
-  ggplot(aes(period, dcant_bias, col=rarefication_threshold)) +
+  ggplot(aes(period, dcant_bias, col=cstar_deep_sd)) +
   geom_hline(yintercept = 0) +
   geom_point() +
   facet_grid(basin_AIP ~ .)</code></pre>
 <p><img src="figure/cstar_scatter_budgets.Rmd/cases_bias-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>dcant_budget_basin_AIP_bias_all %&gt;%
-  ggplot(aes(period, dcant_bias_rel, col=rarefication_threshold)) +
-  geom_hline(yintercept = 0) +
-  geom_point() +
-  facet_grid(basin_AIP ~ .)</code></pre>
-<p><img src="figure/cstar_scatter_budgets.Rmd/cases_bias-2.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>dcant_budget_basin_AIP_bias_all %&gt;% 
-  filter(dcant_bias_rel &lt; regional_bias_rel_max) %&gt;% 
-  distinct(period, rarefication_threshold, basin_AIP)</code></pre>
-<pre><code>[38;5;246m# A tibble: 24 × 3[39m
-   basin_AIP rarefication_threshold period     
-   [3m[38;5;246m&lt;chr&gt;[39m[23m     [3m[38;5;246m&lt;chr&gt;[39m[23m                  [3m[38;5;246m&lt;chr&gt;[39m[23m      
-[38;5;250m 1[39m Indian    10                     1994 - 2004
-[38;5;250m 2[39m Pacific   10                     1994 - 2004
-[38;5;250m 3[39m Atlantic  10                     1994 - 2004
-[38;5;250m 4[39m Indian    20                     1994 - 2004
-[38;5;250m 5[39m Pacific   20                     1994 - 2004
-[38;5;250m 6[39m Atlantic  20                     1994 - 2004
-[38;5;250m 7[39m Indian    35                     1994 - 2004
-[38;5;250m 8[39m Pacific   35                     1994 - 2004
-[38;5;250m 9[39m Atlantic  35                     1994 - 2004
-[38;5;250m10[39m Indian    50                     1994 - 2004
-[38;5;246m# … with 14 more rows[39m</code></pre>
-<pre class="r"><code>ensemble_rarefication_threshold_regional &lt;- dcant_budget_basin_AIP_bias_all %&gt;% 
-  filter(dcant_bias_rel &lt; regional_bias_rel_max) %&gt;% 
-  count(rarefication_threshold) %&gt;% 
-  filter(n == 6) %&gt;% 
-  pull(rarefication_threshold)</code></pre>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_bias-1">
+Past versions of cases_bias-1.png
+</button>
+</p>
+<div id="fig-cases_bias-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e505a4ba8e026763684aa92e599fc3f2899a049f/docs/figure/cstar_scatter_budgets.Rmd/cases_bias-1.png" target="_blank">e505a4b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-11-09
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
-<div id="ensemble-1" class="section level2" number="2.3">
-<h2 number="2.3"><span class="header-section-number">2.3</span> Ensemble</h2>
-<pre class="r"><code>dcant_budget_basin_AIP_ensemble &lt;- dcant_budget_basin_AIP_all %&gt;% 
-  filter(data_source %in% c(&quot;mod&quot;, &quot;obs&quot;),
-         rarefication_threshold %in% ensemble_rarefication_threshold_global,
-         rarefication_threshold %in% ensemble_rarefication_threshold_regional) %&gt;% 
-  group_by(basin_AIP, data_source, period) %&gt;% 
-  summarise(dcant_mean = mean(dcant),
-            dcant_sd = sd(dcant),
-            dcant_range = max(dcant)- min(dcant)) %&gt;% 
-  ungroup()</code></pre>
-<div id="mean-1" class="section level3" number="2.3.1">
-<h3 number="2.3.1"><span class="header-section-number">2.3.1</span> Mean</h3>
-<pre class="r"><code>dcant_budget_basin_AIP_ensemble %&gt;%
-  ggplot(aes(period, dcant_mean, col=basin_AIP)) +
-  geom_pointrange(aes(ymax = dcant_mean + dcant_sd,
-                      ymin = dcant_mean - dcant_sd),
-                  shape = 21) +
-  facet_grid(. ~ data_source)</code></pre>
-<p><img src="figure/cstar_scatter_budgets.Rmd/ensemble_mean-1.png" width="672" style="display: block; margin: auto;" /></p>
-</div>
-<div id="mean-bias-1" class="section level3" number="2.3.2">
-<h3 number="2.3.2"><span class="header-section-number">2.3.2</span> Mean bias</h3>
-<pre class="r"><code>dcant_budget_basin_AIP_ensemble_bias &lt;- full_join(
-  dcant_budget_basin_AIP_ensemble %&gt;%
-    filter(data_source == &quot;mod&quot;) %&gt;% 
-    select(basin_AIP, period, dcant_mean, dcant_sd),
-  dcant_budget_basin_AIP_all %&gt;%
-    filter(data_source == &quot;mod_truth&quot;,
-           rarefication_threshold == &quot;2&quot;) %&gt;% 
-    select(basin_AIP, period, dcant)
-)
-
-dcant_budget_basin_AIP_ensemble_bias &lt;- dcant_budget_basin_AIP_ensemble_bias %&gt;% 
-  mutate(dcant_mean_bias = dcant_mean - dcant)
-
-dcant_budget_basin_AIP_ensemble_bias %&gt;%
-  ggplot(aes(period, dcant_mean_bias, col = basin_AIP)) +
-  geom_hline(yintercept = 0) +
-  geom_point()</code></pre>
-<p><img src="figure/cstar_scatter_budgets.Rmd/ensemble_mean_bias-1.png" width="672" style="display: block; margin: auto;" /></p>
-</div>
-<div id="sd-vs-bias-1" class="section level3" number="2.3.3">
-<h3 number="2.3.3"><span class="header-section-number">2.3.3</span> SD vs bias</h3>
-<pre class="r"><code>dcant_budget_basin_AIP_ensemble_bias %&gt;% 
-  ggplot(aes(dcant_mean_bias, dcant_sd, col=basin_AIP)) +
-  geom_point() +
-  facet_grid(. ~ period)</code></pre>
-<p><img src="figure/cstar_scatter_budgets.Rmd/ensemble_sd_vs_bias-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 </div>
-<div id="vertical-patterns-1" class="section level2" number="2.4">
-<h2 number="2.4"><span class="header-section-number">2.4</span> Vertical patterns</h2>
-<div id="absoulte-values-3" class="section level3" number="2.4.1">
-<h3 number="2.4.1"><span class="header-section-number">2.4.1</span> Absoulte values</h3>
-<pre class="r"><code>unique(
-dcant_budget_basin_AIP_all_depth$rarefication_threshold)</code></pre>
-<pre><code>[1] &quot;10&quot; &quot;20&quot; &quot;35&quot; &quot;50&quot;</code></pre>
-<pre class="r"><code>dcant_budget_basin_AIP_all_depth %&gt;%
-  filter(
-    rarefication_threshold %in% ensemble_rarefication_threshold_global,
-    rarefication_threshold %in% ensemble_rarefication_threshold_regional
-  ) %&gt;%
-  group_by(data_source) %&gt;%
-  group_split() %&gt;%
-  head(1) %&gt;%
-  map(
-    ~  ggplot(data = .x,
-              aes(dcant, rarefication_threshold, fill = basin_AIP)) +
-      geom_vline(xintercept = 0) +
-      geom_col() +
-      scale_fill_brewer(palette = &quot;Dark2&quot;) +
-      facet_grid(inv_depth ~ period) +
-      labs(title = paste(&quot;data_source:&quot;, unique(.x$data_source)))
-  )</code></pre>
-<pre><code>[[1]]</code></pre>
-<p><img src="figure/cstar_scatter_budgets.Rmd/cases_absolute_depth-1.png" width="672" style="display: block; margin: auto;" /></p>
-</div>
-<div id="biases-3" class="section level3" number="2.4.2">
-<h3 number="2.4.2"><span class="header-section-number">2.4.2</span> Biases</h3>
-<pre class="r"><code>dcant_budget_basin_AIP_bias_all_depth %&gt;%
-  filter(
-    rarefication_threshold %in% ensemble_rarefication_threshold_global,
-    rarefication_threshold %in% ensemble_rarefication_threshold_regional
-  ) %&gt;%
-  ggplot(aes(dcant_bias, rarefication_threshold, fill = basin_AIP)) +
-  geom_vline(xintercept = 0) +
+<div id="slab-budgets" class="section level2" number="3.2">
+<h2 number="3.2"><span class="header-section-number">3.2</span> Slab budgets</h2>
+<div id="absolute-values" class="section level3" number="3.2.1">
+<h3 number="3.2.1"><span class="header-section-number">3.2.1</span> Absolute values</h3>
+<pre class="r"><code>dcant_slab_budget_all %&gt;%
+  filter(data_source == &quot;obs&quot;,
+         period != &quot;1994 - 2014&quot;) %&gt;% 
+  ggplot(aes(cstar_deep_sd, dcant, fill = gamma_slab)) +
+  geom_hline(yintercept = 0, col = &quot;red&quot;) +
   geom_col() +
-  scale_fill_brewer(palette = &quot;Dark2&quot;) +
-  facet_grid(inv_depth ~ period)</code></pre>
-<p><img src="figure/cstar_scatter_budgets.Rmd/cases_bias_depth-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>dcant_budget_basin_AIP_bias_all_depth %&gt;%
-  filter(
-    rarefication_threshold %in% ensemble_rarefication_threshold_global,
-    rarefication_threshold %in% ensemble_rarefication_threshold_regional
-  ) %&gt;%
-  ggplot(aes(dcant_bias_rel, rarefication_threshold, fill = basin_AIP)) +
-  geom_vline(xintercept = 0) +
+  scale_fill_scico_d(direction = -1) +
+  facet_grid(basin_AIP ~ period)</code></pre>
+<p><img src="figure/cstar_scatter_budgets.Rmd/slab_budgets-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dcant_slab_budget_all %&gt;%
+  filter(data_source == &quot;obs&quot;,
+         period != &quot;1994 - 2014&quot;) %&gt;%
+  ggplot(aes(cstar_deep_sd, dcant, fill = gamma_slab)) +
+  geom_hline(yintercept = 0) +
   geom_col() +
-  scale_fill_brewer(palette = &quot;Dark2&quot;) +
-  facet_grid(inv_depth ~ period)</code></pre>
-<p><img src="figure/cstar_scatter_budgets.Rmd/cases_bias_rel_depth-1.png" width="672" style="display: block; margin: auto;" /></p>
+  scale_fill_scico_d(direction = -1) +
+  facet_grid(gamma_slab ~ basin_AIP)</code></pre>
+<p><img src="figure/cstar_scatter_budgets.Rmd/slab_budgets_individual-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="bias" class="section level3" number="3.2.2">
+<h3 number="3.2.2"><span class="header-section-number">3.2.2</span> Bias</h3>
+<pre class="r"><code>dcant_slab_budget_bias_all %&gt;%
+  filter(period != &quot;1994 - 2014&quot;) %&gt;%
+  ggplot(aes(gamma_slab, dcant_bias, fill = gamma_slab)) +
+  geom_col() +
+  coord_flip() +
+  scale_x_discrete(limits = rev) +
+  scale_fill_scico_d(direction = -1) +
+  facet_grid(basin_AIP ~ cstar_deep_sd)</code></pre>
+<p><img src="figure/cstar_scatter_budgets.Rmd/slab_budgets_bias-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="spread" class="section level3" number="3.2.3">
+<h3 number="3.2.3"><span class="header-section-number">3.2.3</span> Spread</h3>
+<pre class="r"><code>dcant_slab_budget_all %&gt;%
+  filter(period != &quot;1994 - 2014&quot;,
+         data_source != &quot;mod_truth&quot;) %&gt;%
+  group_by(data_source, basin_AIP, gamma_slab, period) %&gt;%
+  summarise(dcant_range = max(dcant) - min(dcant)) %&gt;%
+  ungroup() %&gt;%
+  ggplot(aes(gamma_slab, dcant_range, fill = gamma_slab)) +
+  geom_col() +
+  coord_flip() +
+  scale_x_discrete(limits = rev) +
+  scale_fill_scico_d(direction = -1) +
+  facet_grid(basin_AIP ~ data_source)</code></pre>
+<p><img src="figure/cstar_scatter_budgets.Rmd/slab_budgets_spread-1.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
