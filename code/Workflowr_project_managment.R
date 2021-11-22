@@ -5,12 +5,15 @@
 
 
 # commit regular changes (locally) and rebuild site
-wflow_publish(all = TRUE, message = "added C* scatter analysis")
+wflow_publish(all = TRUE, message = "added C* correction analysis")
 
 # commit changes including _site.yml (locally) and rebuild site in the specified order
 wflow_publish(here::here("analysis",
                          c("index.Rmd",
                            "basics.Rmd",
+                           "cstar_correction_budgets.Rmd",
+                           "cstar_correction_column_inventories.Rmd",
+                           "cstar_correction_zonal_sections.Rmd",
                            "cstar_scatter_budgets.Rmd",
                            "cstar_scatter_column_inventories.Rmd",
                            "cstar_scatter_zonal_sections.Rmd",
@@ -52,17 +55,17 @@ wflow_publish(here::here("analysis",
                            "vif_column_inventories.Rmd",
                            "vif_zonal_sections.Rmd"
                            )),
-              message = "rebuild with G19 runs",
+              message = "added cstar correction analysis",
               republish = TRUE)
 
 # commit changes including _site.yml (locally) and rebuild site in the specified order
 wflow_publish(here::here("analysis",
                          c("index.Rmd",
-                           "G19_budgets.Rmd",
-                           "G19_column_inventories.Rmd",
-                           "G19_zonal_sections.Rmd"
+                           "cstar_scatter_budgets.Rmd",
+                           "cstar_scatter_column_inventories.Rmd",
+                           "cstar_scatter_zonal_sections.Rmd"
                            )),
-              message = "rerun with more basin splits")
+              message = "rerun with corrected cases")
 
 
 # Push latest version to GitHub

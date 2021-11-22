@@ -119,6 +119,14 @@ navbar:
         href: G19_column_inventories.html
       - text: Zonal sections
         href: G19_zonal_sections.html
+    - text: C* correction
+      menu:
+      - text: Budgets
+        href: cstar_correction_budgets.html
+      - text: Column inventories
+        href: cstar_correction_column_inventories.html
+      - text: Zonal sections
+        href: cstar_correction_zonal_sections.html
   right:
   - icon: fa-github
     text: Source code

@@ -380,6 +380,17 @@ dcant_budget_global_all %>%
   theme(axis.text.x = element_text(angle = 45, hjust=1),
         axis.title.x = element_blank())
 
+dcant_budget_global_all %>%
+  filter(data_source == "obs") %>% 
+  ggplot(aes(as.numeric(as.character(cstar_corr_316N199)), dcant)) +
+  geom_smooth(method = "lm", col = "red") +
+  geom_point()
+
+lm(dcant ~ corr,
+   data = dcant_budget_global_all %>%
+     filter(data_source == "obs") %>%
+     mutate(corr = as.numeric(as.character(cstar_corr_316N199))))
+
 
 ```
 
