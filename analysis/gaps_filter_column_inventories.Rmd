@@ -82,6 +82,11 @@ for (i_Version_IDs in Version_IDs) {
                    "dcant_inv_bias.csv",
                    sep = ""))
   
+  GLODAP_grid_era  <-
+  read_csv(paste(path_version_data,
+                  "GLODAPv2.2020_clean_obs_grid_era.csv",
+                  sep = ""))
+  
   dcant_inv <- bind_rows(dcant_inv,
                          dcant_inv_mod_truth)
   
@@ -89,6 +94,9 @@ for (i_Version_IDs in Version_IDs) {
     mutate(Version_ID = i_Version_IDs)
   
   dcant_inv_bias <- dcant_inv_bias %>% 
+    mutate(Version_ID = i_Version_IDs)
+  
+  GLODAP_grid_era  <- GLODAP_grid_era %>% 
     mutate(Version_ID = i_Version_IDs)
   
   params_local <-
@@ -136,6 +144,14 @@ for (i_Version_IDs in Version_IDs) {
     dcant_inv_bias_all <- dcant_inv_bias
   }
 
+  if (exists("GLODAP_grid_era_all")) {
+    GLODAP_grid_era_all <- bind_rows(GLODAP_grid_era_all, GLODAP_grid_era)
+  }
+  
+  if (!exists("GLODAP_grid_era_all")) {
+    GLODAP_grid_era_all <- GLODAP_grid_era
+  }
+
   if (exists("params_local_all")) {
     params_local_all <- bind_rows(params_local_all, params_local)
   }
@@ -147,7 +163,7 @@ for (i_Version_IDs in Version_IDs) {
   
 }
 
-rm(dcant_inv, dcant_inv_bias, dcant_inv_mod_truth,
+rm(dcant_inv, dcant_inv_bias, dcant_inv_mod_truth, GLODAP_grid_era,
    params_local, tref)
 
 params_local_all <-
@@ -163,6 +179,9 @@ dcant_inv_all <- full_join(dcant_inv_all,
 dcant_inv_bias_all <- full_join(dcant_inv_bias_all,
                                 params_local_all)
 
+GLODAP_grid_era_all <- full_join(GLODAP_grid_era_all,
+                                params_local_all)
+
 ```
 
 ```{r filter_standard_inventory_depth}
@@ -174,9 +193,29 @@ dcant_inv_all <- dcant_inv_all %>%
 
 # Individual cases
 
+## Coverage maps
+
+```{r coverage_maps, fig.asp=2}
+
+
+GLODAP_grid_era_all %>%
+  group_split(period) %>%
+  head(1) %>%
+  map(
+    ~ map +
+      geom_tile(data = .x,
+             aes(lon, lat)) +
+      facet_grid(gap_filling ~ era) +
+      theme(axis.text = element_blank(),
+            axis.ticks = element_blank())
+  )
+
+
+```
+
 ## Absoulte values
 
-```{r cases_absolute, fig.asp=1.2}
+```{r cases_absolute, fig.asp=2}
 
 
 dcant_inv_all %>%
@@ -217,7 +256,7 @@ p_dcant_inv_all_1994_2004 <-
 
 ## Biases
 
-```{r cases_bias, fig.asp=1.2}
+```{r cases_bias, fig.asp=2}
 
 
 dcant_inv_bias_all %>%
@@ -479,7 +518,7 @@ p_map_cant_inv(
 
 ## Offset from mean
 
-```{r ensemble_deviation_from_mean}
+```{r ensemble_deviation_from_mean, fig.asp=2}
 
 dcant_inv_all <- full_join(dcant_inv_all,
                            dcant_inv_ensemble)
