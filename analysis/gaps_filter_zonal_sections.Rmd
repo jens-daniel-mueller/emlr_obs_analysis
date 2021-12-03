@@ -38,17 +38,6 @@ path_preprocessing_model    <-
 
 # Read files
 
-```{r read_ensemble_members}
-
-ensemble_members <- 
-  read_rds("data/ensemble_members_gaps_filter.rds")
-
-MLR_basins_in <- 
-  read_rds("data/MLR_basins_in_gaps_filter.rds")
-
-```
-
-
 ```{r read_files}
 
 # identify required version IDs
@@ -66,8 +55,6 @@ Version_IDs <- c(Version_IDs_1, Version_IDs_2)
 # Version_IDs <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 rm(Version_IDs_1, Version_IDs_2)
 # rm(Version_IDs_1, Version_IDs_2, Version_IDs_3)
-
-# Version_IDs <- Version_IDs[1:length(Version_IDs)-1]
 
 for (i_Version_IDs in Version_IDs) {
   # i_Version_IDs <- Version_IDs[1]
@@ -116,6 +103,8 @@ for (i_Version_IDs in Version_IDs) {
     MLR_basins = params_local$MLR_basins,
     tref1 = params_local$tref1,
     tref2 = params_local$tref2,
+    flag_f = str_c(params_local$flag_f, collapse = ""),
+    flag_qc = str_c(params_local$flag_qc, collapse = ""),
     gap_filling = params_local$gap_filling,
     rarefication = params_local$rarefication,
     rarefication_threshold = params_local$rarefication_threshold,
@@ -163,23 +152,19 @@ for (i_Version_IDs in Version_IDs) {
 rm(dcant_zonal, dcant_zonal_bias, dcant_zonal_mod_truth,
    tref)
 
+params_local_all <-
+  params_local_all %>%
+  mutate(period = factor(period, c("1994 - 2004", "2004 - 2014", "1994 - 2014")),
+         gap_filling = paste0("f:",flag_f,
+                             "|qc:", flag_qc,
+                             "|", gap_filling))
+
+
 dcant_zonal_all <- full_join(dcant_zonal_all,
                            params_local_all)
 
 dcant_zonal_bias_all <- full_join(dcant_zonal_bias_all,
                                 params_local_all)
-
-```
-
-
-```{r select_cases}
-
-dcant_zonal_all <- dcant_zonal_all %>% 
-  filter(MLR_basins %in% MLR_basins_in)
-
-dcant_zonal_bias_all <- dcant_zonal_bias_all %>% 
-  filter(MLR_basins %in% MLR_basins_in)
-
 
 ```
 
@@ -208,7 +193,7 @@ dcant_zonal_all %>%
         unique(.x$basin_AIP)
       )
     ) +
-      facet_grid(MLR_basins ~ period)
+      facet_grid(gap_filling ~ period)
   )
 
 p_dcant_Indian_1994_2004 <-
@@ -219,7 +204,7 @@ p_dcant_Indian_1994_2004 <-
   p_section_zonal_continous_depth(var = "dcant",
                                   plot_slabs = "n",
                                   subtitle_text = "Indian Ocean") +
-  facet_grid(MLR_basins ~ period)
+  facet_grid(gap_filling ~ period)
 
 # ggsave(plot = p_dcant_Indian_1994_2004,
 #        path = "output/publication",
@@ -235,7 +220,7 @@ p_dcant_Indian_2004_2014 <-
   p_section_zonal_continous_depth(var = "dcant",
                                   plot_slabs = "n",
                                   subtitle_text = "Pacific Ocean") +
-  facet_grid(MLR_basins ~ period)
+  facet_grid(gap_filling ~ period)
 
 # ggsave(plot = p_dcant_Indian_2004_2014,
 #        path = "output/publication",
@@ -263,7 +248,7 @@ dcant_zonal_bias_all %>%
         unique(.x$basin_AIP)
       )
     ) +
-      facet_grid(MLR_basins ~ period)
+      facet_grid(gap_filling ~ period)
   )
 
 
@@ -275,7 +260,7 @@ dcant_zonal_bias_all %>%
 ```{r cases_bias_correlation}
 
 dcant_zonal_bias_all_corr <- dcant_zonal_bias_all %>%
-  select(lat, depth, basin_AIP, dcant_bias, MLR_basins, period) %>% 
+  select(lat, depth, basin_AIP, dcant_bias, gap_filling, period) %>% 
   pivot_wider(names_from = period,
               values_from = dcant_bias, 
               names_prefix = "dcant_bias ")
@@ -285,7 +270,7 @@ dcant_zonal_bias_all_corr %>%
   geom_vline(xintercept = 0) +
   geom_hline(yintercept = 0) +
   geom_bin2d() +
-  facet_grid(basin_AIP ~ MLR_basins) +
+  facet_grid(basin_AIP ~ gap_filling) +
   scale_fill_viridis_c()
 
 ```
@@ -297,8 +282,7 @@ dcant_zonal_bias_all_corr %>%
 ```{r calc_ensemble_metrics}
 
 dcant_zonal_ensemble <- dcant_zonal_all %>% 
-  filter(data_source %in% c("mod", "obs"),
-         MLR_basins %in% ensemble_members) %>% 
+  filter(data_source %in% c("mod", "obs")) %>% 
   group_by(lat, depth, basin_AIP, data_source, period) %>% 
   summarise(dcant_ensemble_mean = mean(dcant),
             dcant_sd = sd(dcant),
@@ -340,7 +324,7 @@ dcant_zonal_ensemble_bias <- full_join(
     select(lat, depth, basin_AIP, period, dcant_ensemble_mean, dcant_sd),
   dcant_zonal_all %>%
     filter(data_source == "mod_truth",
-           MLR_basins == "2") %>% 
+           gap_filling == unique(gap_filling)[1]) %>% 
     select(lat, depth, basin_AIP, period, dcant_mod_truth = dcant)
 )
 
@@ -452,7 +436,7 @@ dcant_zonal_all %>%
         unique(.x$basin_AIP)
       )
     ) +
-      facet_grid(MLR_basins ~ period)
+      facet_grid(gap_filling ~ period)
   )
 
 ```

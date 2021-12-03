@@ -39,16 +39,6 @@ library(patchwork)
 
 # Read files
 
-```{r read_ensemble_members}
-
-ensemble_members <- 
-  read_rds("data/ensemble_members_gaps_filter.rds")
-
-MLR_basins_in <- 
-  read_rds("data/MLR_basins_in_gaps_filter.rds")
-
-```
-
 ```{r read_files}
 
 # identify required version IDs
@@ -111,6 +101,8 @@ for (i_Version_IDs in Version_IDs) {
     MLR_basins = params_local$MLR_basins,
     tref1 = params_local$tref1,
     tref2 = params_local$tref2,
+    flag_f = str_c(params_local$flag_f, collapse = ""),
+    flag_qc = str_c(params_local$flag_qc, collapse = ""),
     gap_filling = params_local$gap_filling,
     rarefication = params_local$rarefication,
     rarefication_threshold = params_local$rarefication_threshold,
@@ -160,7 +152,10 @@ rm(dcant_inv, dcant_inv_bias, dcant_inv_mod_truth,
 
 params_local_all <-
   params_local_all %>%
-  mutate(period = factor(period, c("1994 - 2004", "2004 - 2014", "1994 - 2014")))
+  mutate(period = factor(period, c("1994 - 2004", "2004 - 2014", "1994 - 2014")),
+         gap_filling = paste0("f:",flag_f,
+                             "|qc:", flag_qc,
+                             "|", gap_filling))
 
 dcant_inv_all <- full_join(dcant_inv_all,
                            params_local_all)
@@ -177,19 +172,6 @@ dcant_inv_all <- dcant_inv_all %>%
 
 ```
 
-
-```{r select_cases}
-
-dcant_inv_all <- dcant_inv_all %>% 
-  filter(MLR_basins %in% MLR_basins_in)
-
-dcant_inv_bias_all <- dcant_inv_bias_all %>% 
-  filter(MLR_basins %in% MLR_basins_in)
-
-
-```
-
-
 # Individual cases
 
 ## Absoulte values
@@ -198,13 +180,7 @@ dcant_inv_bias_all <- dcant_inv_bias_all %>%
 
 
 dcant_inv_all %>%
-  filter(data_source %in% c("mod", "obs"),
-         period != "1994 - 2014") %>%
-  mutate(MLR_basins = if_else(
-    MLR_basins %in% ensemble_members,
-    paste(MLR_basins, "*"),
-    MLR_basins
-  )) %>% 
+  filter(data_source %in% c("mod", "obs")) %>%
   group_by(data_source) %>%
   group_split() %>%
   # head(1) %>%
@@ -213,7 +189,7 @@ dcant_inv_all %>%
                      var = "dcant",
                      subtitle_text = paste("data_source:",
                                            unique(.x$data_source))) +
-      facet_grid(MLR_basins ~ period) +
+      facet_grid(gap_filling ~ period) +
       theme(axis.text = element_blank(),
             axis.ticks = element_blank())
   )
@@ -222,16 +198,12 @@ p_dcant_inv_all_1994_2004 <-
   dcant_inv_all %>%
   filter(data_source %in% c("obs"),
          period == "1994 - 2004") %>%
-  mutate(MLR_basins = if_else(
-    MLR_basins %in% ensemble_members,
-    paste(MLR_basins, "*"),
-    MLR_basins
-  ),
+  mutate(
     period = recode(period,
                     "1994 - 2004" = "Observation-based")) %>%
   p_map_cant_inv(var = "dcant",
                  title_text = "1994 - 2004") +
-  facet_grid(MLR_basins ~ period) +
+  facet_grid(gap_filling ~ period) +
   theme(
     axis.text = element_blank(),
     axis.ticks = element_blank(),
@@ -250,33 +222,23 @@ p_dcant_inv_all_1994_2004 <-
 
 dcant_inv_bias_all %>%
   filter(period != "1994 - 2014") %>%
-  mutate(MLR_basins = if_else(
-    MLR_basins %in% ensemble_members,
-    paste(MLR_basins, "*"),
-    MLR_basins
-  )) %>%
   p_map_cant_inv(var = "dcant_bias",
                  col = "bias",
                  subtitle_text = "data_source: mod - mod_truth") +
-  facet_grid(MLR_basins ~ period)
+  facet_grid(gap_filling ~ period)
 
 
 p_dcant_inv_bias_all_1994_2004 <-
   dcant_inv_bias_all %>%
   filter(period == "1994 - 2004") %>%
   mutate(
-    MLR_basins = if_else(
-      MLR_basins %in% ensemble_members,
-      paste(MLR_basins, "*"),
-      MLR_basins
-    ),
     period = recode(period,
                     "1994 - 2004" = "Model-based")
   ) %>%
   p_map_cant_inv(var = "dcant_bias",
                  col = "bias",
                  title_text = "Models") +
-  facet_grid(MLR_basins ~ period) +
+  facet_grid(gap_filling ~ period) +
   theme(
     axis.text = element_blank(),
     axis.ticks = element_blank(),
@@ -291,7 +253,7 @@ p_dcant_1994_2004
 
 ggsave(plot = p_dcant_1994_2004,
        path = "output/other",
-       filename = "inv_dcant_1994_2004_abs_bias_no_gap_fill.png",
+       filename = "inv_dcant_1994_2004_abs_bias_gap_fill.png",
        height = 8,
        width = 8)
 
@@ -302,13 +264,8 @@ ggsave(plot = p_dcant_1994_2004,
 ```{r bias_density_distribution, fig.asp=1}
 
 dcant_inv_bias_all %>%
-  mutate(MLR_basins = if_else(
-    MLR_basins %in% ensemble_members,
-    paste(MLR_basins, "*"),
-    MLR_basins
-  )) %>%
   filter(abs(dcant_bias) < 10) %>% 
-  ggplot(aes(dcant_bias, col = MLR_basins)) +
+  ggplot(aes(dcant_bias, col = gap_filling)) +
   scale_color_brewer(palette = "Dark2") +
   geom_vline(xintercept = 0) +
   geom_density() +
@@ -318,15 +275,12 @@ dcant_inv_bias_all %>%
 ```
 
 
-
 # Ensemble
-
 
 ```{r calc_ensemble_metrics}
 
 dcant_inv_ensemble <- dcant_inv_all %>% 
-  filter(data_source %in% c("mod", "obs"),
-         MLR_basins %in% ensemble_members) %>% 
+  filter(data_source %in% c("mod", "obs")) %>% 
   group_by(lat, lon, data_source, period) %>% 
   summarise(dcant_mean = mean(dcant),
             dcant_sd = sd(dcant),
@@ -351,7 +305,7 @@ p_map_cant_inv(df = dcant_inv_ensemble %>%
 
 ```
 
-```{r ensemble_mean_all, fig.asp=1}
+```{r ensemble_mean_all, fig.asp=1, eval=FALSE}
 
 p_map_cant_inv(df = dcant_inv_ensemble %>% 
                  filter(data_source == "obs"),
@@ -375,7 +329,7 @@ dcant_inv_ensemble_bias <- full_join(
     select(lat, lon, period, dcant_mean, dcant_sd),
   dcant_inv_all %>%
     filter(data_source == "mod_truth",
-           MLR_basins == "2") %>% 
+           gap_filling == unique(gap_filling)[1]) %>% 
     select(lat, lon, period, dcant)
 )
 
@@ -544,7 +498,7 @@ dcant_inv_all %>%
                      col = "bias",
                      subtitle_text = paste("period:",
                                            unique(.x$period))) +
-      facet_grid(MLR_basins ~ data_source)
+      facet_grid(gap_filling ~ data_source)
   )
 
 

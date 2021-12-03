@@ -38,23 +38,6 @@ library(patchwork)
 
 ```
 
-# Bias thresholds
-
-```{r define_bias_threshold}
-
-global_bias_rel_max <- 10
-regional_bias_rel_max <- 20
-
-```
-
-# Basins
-
-```{r cases_considered}
-
-MLR_basins_in <- c("1", "2", "AIP", "SO_2", "5", "SO_AIP", "SO")
-
-```
-
 
 # Read files
 
@@ -126,6 +109,8 @@ for (i_Version_IDs in Version_IDs) {
     MLR_basins = params_local$MLR_basins,
     tref1 = params_local$tref1,
     tref2 = params_local$tref2,
+    flag_f = str_c(params_local$flag_f, collapse = ""),
+    flag_qc = str_c(params_local$flag_qc, collapse = ""),
     gap_filling = params_local$gap_filling,
     rarefication = params_local$rarefication,
     rarefication_threshold = params_local$rarefication_threshold,
@@ -177,7 +162,10 @@ for (i_Version_IDs in Version_IDs) {
 
 params_local_all <-
   params_local_all %>%
-  mutate(period = factor(period, c("1994 - 2004", "2004 - 2014", "1994 - 2014")))
+  mutate(period = factor(period, c("1994 - 2004", "2004 - 2014", "1994 - 2014")),
+         gap_filling = paste0("f:",flag_f,
+                             "|qc:", flag_qc,
+                             "|", gap_filling))
 
 rm(
   dcant_budget_global,
@@ -219,17 +207,6 @@ dcant_budget_global_bias_all_depth <- dcant_budget_global_bias_all
 
 dcant_budget_global_bias_all <- dcant_budget_global_bias_all %>%
   filter(inv_depth == params_global$inventory_depth_standard)
-
-```
-
-```{r select_cases}
-
-dcant_budget_global_all <- dcant_budget_global_all %>% 
-  filter(MLR_basins %in% MLR_basins_in)
-
-dcant_budget_global_bias_all <- dcant_budget_global_bias_all  %>% 
-  filter(MLR_basins %in% MLR_basins_in)
-
 
 ```
 
@@ -383,23 +360,6 @@ dcant_budget_basin_AIP_bias_all <- dcant_budget_basin_AIP_bias_all %>%
 ```
 
 
-```{r select_cases_regional}
-
-dcant_budget_basin_AIP_all <- dcant_budget_basin_AIP_all %>% 
-  filter(MLR_basins %in% MLR_basins_in)
-
-dcant_budget_basin_AIP_bias_all <- dcant_budget_basin_AIP_bias_all  %>% 
-  filter(MLR_basins %in% MLR_basins_in)
-
-dcant_slab_budget_all <- dcant_slab_budget_all %>% 
-  filter(MLR_basins %in% MLR_basins_in)
-
-dcant_slab_budget_bias_all <- dcant_slab_budget_bias_all  %>% 
-  filter(MLR_basins %in% MLR_basins_in)
-
-
-```
-
 ## Steady state
 
 ```{r steady_state_dcant}
@@ -460,9 +420,9 @@ legend_title = expression(atop(Delta * C[ant],
                                })))
 
 dcant_budget_global_all %>%
-  ggplot(aes(period, dcant, col = MLR_basins)) +
-  geom_jitter(width = 0.05, height = 0) +
-  scale_color_brewer(palette = "Dark2", name = "basin\nseparation") +
+  ggplot(aes(period, dcant, col = gap_filling)) +
+  geom_jitter(width = 0.2, height = 0) +
+  scale_color_brewer(palette = "Dark2", name = "filters") +
   facet_grid(. ~ data_source) +
   ylim(0,NA) +
   theme(axis.text.x = element_text(angle = 45, hjust=1),
@@ -476,9 +436,9 @@ dcant_budget_global_all %>%
 ```{r cases_bias_global}
 
 dcant_budget_global_bias_all %>%
-  ggplot(aes(period, dcant_bias, col = MLR_basins)) +
+  ggplot(aes(period, dcant_bias, col = gap_filling)) +
   geom_hline(yintercept = 0) +
-  scale_color_brewer(palette = "Dark2", name = "basin\nseparation") +
+  scale_color_brewer(palette = "Dark2", name = "filters") +
   labs(y = expression(atop(Delta * C[ant] ~ bias,
                                (mu * mol ~ kg ^ {-1})))) +
   geom_point()
@@ -486,14 +446,14 @@ dcant_budget_global_bias_all %>%
 p_global_bias <- 
   dcant_budget_global_bias_all %>%
   ggplot() +
-  geom_hline(yintercept = global_bias_rel_max * c(-1,1),
-             linetype = 2) +
+  # geom_hline(yintercept = global_bias_rel_max * c(-1,1),
+  #            linetype = 2) +
   geom_hline(yintercept = 0) +
-  scale_color_brewer(palette = "Dark2", name = "basin\nseparation") +
+  scale_color_brewer(palette = "Dark2", name = "filters") +
   labs(y = expression(Delta * C[ant] ~ bias ~ ("%")),
        title = "Model-based assesment") +
   theme(axis.title.x = element_blank()) +
-  geom_point(aes(period, dcant_bias_rel, col = MLR_basins),
+  geom_point(aes(period, dcant_bias_rel, col = gap_filling),
              alpha = 0.7) +
     theme(axis.text.x = element_text(angle = 45, hjust=1),
         axis.title.x = element_blank())
@@ -511,9 +471,9 @@ p_global_bias
 ```{r cases_absolute, fig.asp=0.9}
 
 dcant_budget_basin_AIP_all %>%
-  ggplot(aes(period, dcant, col = MLR_basins)) +
+  ggplot(aes(period, dcant, col = gap_filling)) +
   geom_jitter(width = 0.05, height = 0) +
-  scale_color_brewer(palette = "Dark2", name = "basin\nseparation") +
+  scale_color_brewer(palette = "Dark2", name = "filters") +
   facet_grid(basin_AIP ~ data_source) +
   ylim(0,NA) +
   theme(axis.text.x = element_text(angle = 45, hjust=1),
@@ -526,36 +486,36 @@ dcant_budget_basin_AIP_all %>%
 ```{r cases_bias, fig.asp=0.9}
 
 dcant_budget_basin_AIP_bias_all %>%
-  ggplot(aes(period, dcant_bias, col=MLR_basins)) +
+  ggplot(aes(period, dcant_bias, col=gap_filling)) +
   geom_hline(yintercept = 0) +
   geom_point() +
   facet_grid(basin_AIP ~ .)
 
 dcant_budget_basin_AIP_bias_all %>%
   ggplot() +
-  geom_tile(aes(y = 0, height = regional_bias_rel_max * 2,
-                x = "2004 - 2014", width = Inf,
-                fill = "bias\nthreshold"), alpha = 0.5) +
+  # geom_tile(aes(y = 0, height = regional_bias_rel_max * 2,
+  #               x = "2004 - 2014", width = Inf,
+  #               fill = "bias\nthreshold"), alpha = 0.5) +
   geom_hline(yintercept = 0) +
   scale_fill_manual(values = "grey70", name = "") +
-  scale_color_brewer(palette = "Dark2", name = "basin\nseparation") +
+  scale_color_brewer(palette = "Dark2", name = "filters") +
   labs(y = expression(Delta ~ C[ant] ~ bias)) +
   theme(axis.title.x = element_blank()) +
-  geom_jitter(aes(period, dcant_bias_rel, col = MLR_basins),
+  geom_jitter(aes(period, dcant_bias_rel, col = gap_filling),
               width = 0.05, height = 0) +
   facet_grid(basin_AIP ~ .)
 
 p_regional_bias <- 
   dcant_budget_basin_AIP_bias_all %>%
   ggplot() +
-  geom_hline(yintercept = regional_bias_rel_max * c(-1,1),
-             linetype = 2) +
+  # geom_hline(yintercept = regional_bias_rel_max * c(-1,1),
+  #            linetype = 2) +
   geom_hline(yintercept = 0) +
-  scale_color_brewer(palette = "Dark2", name = "basin\nseparation") +
+  scale_color_brewer(palette = "Dark2", name = "filters") +
   labs(y = expression(Delta * C[ant] ~ bias ~ ("%")),
        title = "Model-based assesment") +
   theme(axis.title.x = element_blank()) +
-  geom_point(aes(period, dcant_bias_rel, col = MLR_basins),
+  geom_point(aes(period, dcant_bias_rel, col = gap_filling),
              alpha = 0.7) +
     theme(axis.text.x = element_text(angle = 45, hjust=1),
         axis.title.x = element_blank()) +
@@ -577,11 +537,12 @@ p_regional_bias
 dcant_slab_budget_all %>%
   filter(data_source == "obs",
          period != "1994 - 2014") %>% 
-  ggplot(aes(MLR_basins, dcant, fill = gamma_slab)) +
+  ggplot(aes(gap_filling, dcant, fill = gamma_slab)) +
   geom_hline(yintercept = 0, col = "red") +
   geom_col() +
   scale_fill_scico_d(direction = -1) +
-  facet_grid(basin_AIP ~ period)
+  facet_grid(basin_AIP ~ period) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 
 ```
 
@@ -594,12 +555,13 @@ dcant_slab_budget_all %>%
   group_split() %>%
   map(
     ~ ggplot(data = .x,
-             aes(MLR_basins, dcant, fill = gamma_slab)) +
+             aes(gap_filling, dcant, fill = gamma_slab)) +
       geom_hline(yintercept = 0) +
       geom_col() +
       scale_fill_scico_d(direction = -1) +
       labs(title = paste("data_source:", unique(.x$basin_AIP))) +
-      facet_grid(gamma_slab ~ period)
+      facet_grid(gamma_slab ~ period) +
+      theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
   )
 
 ```
@@ -611,7 +573,7 @@ dcant_slab_budget_bias_all %>%
   filter(period != "1994 - 2014") %>%
   group_by(basin_AIP) %>%
   group_split() %>%
-  # head(1) %>% 
+  # head(1) %>%
   map(
     ~ ggplot(data = .x,
              aes(gamma_slab, dcant_bias, fill = gamma_slab)) +
@@ -619,7 +581,7 @@ dcant_slab_budget_bias_all %>%
       coord_flip() +
       scale_x_discrete(limits = rev) +
       scale_fill_scico_d(direction = -1) +
-      facet_grid(period ~ MLR_basins) +
+      facet_grid(period ~ gap_filling) +
       labs(title = paste("data_source:", unique(.x$basin_AIP)))
     )
 
@@ -632,44 +594,12 @@ dcant_slab_budget_bias_all %>%
 
 ## Members
 
-```{r filter_ensemble_members}
-
-ensemble_MLR_basins_global <- dcant_budget_global_bias_all %>% 
-  filter(abs(dcant_bias_rel) < global_bias_rel_max) %>% 
-  count(MLR_basins) %>% 
-  filter(n == 2) %>% 
-  pull(MLR_basins)
-
-print("Global criterion")
-ensemble_MLR_basins_global
-
-
-ensemble_MLR_basins_regional <- dcant_budget_basin_AIP_bias_all %>% 
-  filter(abs(dcant_bias_rel) < regional_bias_rel_max) %>% 
-  count(MLR_basins) %>% 
-  filter(n == 6) %>% 
-  pull(MLR_basins)
-
-print("Regional criterion")
-ensemble_MLR_basins_regional
-
-ensemble_MLR_basins <-
-  intersect(ensemble_MLR_basins_global, ensemble_MLR_basins_regional)
-
-
-print("Both criteria")
-ensemble_MLR_basins
-rm(ensemble_MLR_basins_global, ensemble_MLR_basins_regional)
-
-```
-
 ## Global
 
 ```{r calc_ensemble_metrics_global}
 
 dcant_budget_global_all_in <- dcant_budget_global_all %>% 
-  filter(data_source %in% c("mod", "obs"),
-         MLR_basins %in% ensemble_MLR_basins)
+  filter(data_source %in% c("mod", "obs"))
 
 dcant_budget_global_ensemble <- dcant_budget_global_all_in %>% 
   group_by(data_source, period) %>% 
@@ -704,12 +634,12 @@ ggplot() +
   ) +
   geom_point(
     data = dcant_budget_global_all,
-    aes(period, dcant, col = MLR_basins),
+    aes(period, dcant, col = gap_filling),
     alpha = 0.7,
     position = position_jitter(width = 0.2, height = 0)
   ) +
   scale_y_continuous(limits = c(0,70), expand = c(0,0)) +
-  scale_color_brewer(palette = "Dark2", name = "basin\nseparation") +
+  scale_color_brewer(palette = "Dark2", name = "filters") +
   facet_grid(. ~ data_source) +
   labs(y = legend_title) +
   theme(axis.text.x = element_text(angle = 45, hjust=1),
@@ -724,7 +654,7 @@ p_global_dcant <- ggplot() +
     geom_point(
     data = dcant_budget_global_all %>% 
              filter(data_source == "obs"),
-    aes(period, dcant, col = MLR_basins),
+    aes(period, dcant, col = gap_filling),
     alpha = 0.7,
     position = position_jitter(width = 0.1, height = 0)
   ) +
@@ -740,7 +670,7 @@ p_global_dcant <- ggplot() +
     width = 0.1
   ) +
   scale_y_continuous(limits = c(0,70), expand = c(0,0)) +
-  scale_color_brewer(palette = "Dark2", name = "basin\nseparation") +
+  scale_color_brewer(palette = "Dark2", name = "filters") +
   labs(y = legend_title,
        title = "Observation-based results") +
   theme(axis.text.x = element_blank(),
@@ -765,13 +695,13 @@ rm(p_global_bias, p_global_dcant, p_global_dcant_bias)
 
 ### Sum decades
 
-```{r summed_decades}
+```{r summed_decades, eval=FALSE}
 
 dcant_budget_global_all_in_sum <-
   dcant_budget_global_all_in %>%
   filter(period != "1994 - 2014") %>%
   arrange(tref1) %>%
-  group_by(data_source, MLR_basins) %>%
+  group_by(data_source, gap_filling) %>%
   mutate(dcant = dcant + lag(dcant)) %>% 
   ungroup() %>%
   drop_na() %>% 
@@ -788,12 +718,12 @@ dcant_budget_global_all_in_sum <-
 ggplot() +
   geom_point(
     data = dcant_budget_global_all_in_sum,
-    aes(estimate, dcant, col = MLR_basins),
+    aes(estimate, dcant, col = gap_filling),
     alpha = 0.7,
     position = position_jitter(width = 0, height = 0)
   ) +
   scale_y_continuous(limits = c(0,70), expand = c(0,0)) +
-  scale_color_brewer(palette = "Dark2", name = "basin\nseparation") +
+  scale_color_brewer(palette = "Dark2", name = "filters") +
   facet_grid(. ~ data_source) +
   theme(axis.text.x = element_text(angle = 45, hjust=1),
         axis.title.x = element_blank())
@@ -812,7 +742,7 @@ dcant_budget_global_ensemble_bias <- full_join(
     select(period, dcant_mean, dcant_sd),
   dcant_budget_global_all %>%
     filter(data_source == "mod_truth",
-           MLR_basins == "2") %>% 
+           gap_filling == unique(gap_filling)[1]) %>% 
     select(period, dcant)
 )
 
@@ -852,13 +782,12 @@ dcant_budget_global_ensemble_bias %>%
 ```{r cases_absolute_depth_global, fig.asp=0.9}
 
 dcant_budget_global_all_depth %>%
-  filter(MLR_basins %in% ensemble_MLR_basins) %>% 
   group_by(data_source) %>%
   group_split() %>%
   # head(1) %>%
   map(
     ~  ggplot(data = .x,
-              aes(dcant, MLR_basins, fill=period)) +
+              aes(dcant, gap_filling, fill=period)) +
       geom_vline(xintercept = 0) +
       geom_col(position = "dodge") +
       scale_fill_brewer(palette = "Dark2") +
@@ -874,8 +803,7 @@ dcant_budget_global_all_depth %>%
 ```{r cases_bias_depth_global, fig.asp=0.9}
 
 dcant_budget_global_bias_all_depth %>%
-  filter(MLR_basins %in% ensemble_MLR_basins) %>%
-  ggplot(aes(dcant_bias, MLR_basins, fill = period)) +
+  ggplot(aes(dcant_bias, gap_filling, fill = period)) +
   geom_vline(xintercept = 0) +
   geom_col(position = "dodge") +
   scale_fill_brewer(palette = "Dark2") +
@@ -886,8 +814,7 @@ dcant_budget_global_bias_all_depth %>%
 ```{r cases_bias_rel_depth_global, fig.asp=0.9}
 
 dcant_budget_global_bias_all_depth %>%
-    filter(MLR_basins %in% ensemble_MLR_basins) %>% 
-  ggplot(aes(dcant_bias_rel, MLR_basins, fill = period)) +
+  ggplot(aes(dcant_bias_rel, gap_filling, fill = period)) +
   geom_vline(xintercept = 0) +
   geom_col(position = "dodge") +
   scale_fill_brewer(palette = "Dark2") +
@@ -913,8 +840,7 @@ rm(dcant_budget_global_all,
 ```{r calc_ensemble_metrics}
 
 dcant_budget_basin_AIP_ensemble <- dcant_budget_basin_AIP_all %>% 
-  filter(data_source %in% c("mod", "obs"),
-         MLR_basins %in% ensemble_MLR_basins) %>% 
+  filter(data_source %in% c("mod", "obs")) %>% 
   group_by(basin_AIP, data_source, period) %>% 
   summarise(dcant_mean = mean(dcant),
             dcant_sd = sd(dcant),
@@ -948,7 +874,7 @@ p_regional_dcant <- ggplot() +
   geom_point(
     data = dcant_budget_basin_AIP_all %>%
       filter(data_source == "obs"),
-    aes(period, dcant, col = MLR_basins),
+    aes(period, dcant, col = gap_filling),
     position = position_jitter(width = 0.1, height = 0),
     alpha = 0.7
   ) +
@@ -964,7 +890,7 @@ p_regional_dcant <- ggplot() +
     width = 0.1
   ) +
   scale_y_continuous(limits = c(0, 35), expand = c(0, 0)) +
-  scale_color_brewer(palette = "Dark2", name = "basin\nseparation") +
+  scale_color_brewer(palette = "Dark2", name = "filters") +
   labs(y = legend_title,
        title = "Observation-based results") +
   theme(axis.text.x = element_blank(),
@@ -998,7 +924,7 @@ dcant_budget_basin_AIP_ensemble_bias <- full_join(
     select(basin_AIP, period, dcant_mean, dcant_sd),
   dcant_budget_basin_AIP_all %>%
     filter(data_source == "mod_truth",
-           MLR_basins == "2") %>% 
+           gap_filling == unique(gap_filling)[1]) %>% 
     select(basin_AIP, period, dcant)
 )
 
@@ -1041,16 +967,12 @@ dcant_budget_basin_AIP_ensemble_bias %>%
 ```{r cases_absolute_depth, fig.asp=0.9}
 
 dcant_budget_basin_AIP_all_depth %>%
-  filter(
-    MLR_basins %in% ensemble_MLR_basins,
-    MLR_basins %in% ensemble_MLR_basins
-  ) %>%
   group_by(data_source) %>%
   group_split() %>%
   # head(1) %>%
   map(
     ~  ggplot(data = .x,
-              aes(dcant, MLR_basins, fill = basin_AIP)) +
+              aes(dcant, gap_filling, fill = basin_AIP)) +
       geom_vline(xintercept = 0) +
       geom_col() +
       scale_fill_brewer(palette = "Dark2") +
@@ -1066,11 +988,7 @@ dcant_budget_basin_AIP_all_depth %>%
 ```{r cases_bias_depth, fig.asp=0.9}
 
 dcant_budget_basin_AIP_bias_all_depth %>%
-  filter(
-    MLR_basins %in% ensemble_MLR_basins,
-    MLR_basins %in% ensemble_MLR_basins
-  ) %>%
-  ggplot(aes(dcant_bias, MLR_basins, fill = basin_AIP)) +
+  ggplot(aes(dcant_bias, gap_filling, fill = basin_AIP)) +
   geom_vline(xintercept = 0) +
   geom_col() +
   scale_fill_brewer(palette = "Dark2") +
@@ -1081,11 +999,7 @@ dcant_budget_basin_AIP_bias_all_depth %>%
 ```{r cases_bias_rel_depth, fig.asp=0.9}
 
 dcant_budget_basin_AIP_bias_all_depth %>%
-  filter(
-    MLR_basins %in% ensemble_MLR_basins,
-    MLR_basins %in% ensemble_MLR_basins
-  ) %>%
-  ggplot(aes(dcant_bias_rel, MLR_basins, fill = basin_AIP)) +
+  ggplot(aes(dcant_bias_rel, gap_filling, fill = basin_AIP)) +
   geom_vline(xintercept = 0) +
   geom_col(position = "dodge") +
   scale_fill_brewer(palette = "Dark2") +
@@ -1106,22 +1020,9 @@ dcant_obs_budget_all %>%
              aes(estimate, dcant_pos, fill = basin_AIP)) +
       scale_fill_brewer(palette = "Dark2") +
       geom_col() +
-      facet_grid(MLR_basins ~ period) +
+      facet_grid(gap_filling ~ period) +
       labs(title = paste("inventory depth:",unique(.x$inv_depth)))
   )
-
-```
-
-
-# Write ensemble members
-
-```{r write_ensemble_members}
-
-ensemble_MLR_basins %>% 
-  write_rds("data/ensemble_members_gaps_filter.rds")
-
-MLR_basins_in %>% 
-  write_rds("data/MLR_basins_in_gaps_filter.rds")
 
 ```
 

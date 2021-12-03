@@ -108,6 +108,8 @@ for (i_Version_IDs in Version_IDs) {
     MLR_basins = params_local$MLR_basins,
     tref1 = params_local$tref1,
     tref2 = params_local$tref2,
+    flag_f = params_local$flag_f,
+    flag_qc = params_local$flag_qc,
     gap_filling = params_local$gap_filling,
     rarefication = params_local$rarefication,
     rarefication_threshold = params_local$rarefication_threshold,
