@@ -729,16 +729,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreea037b24cc28823a900f63a3a7cde7cf8e59b6d85targetblanka037b24a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/a037b24cc28823a900f63a3a7cde7cf8e59b6d85" target="_blank">a037b24</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree16485a98086d4ec505dd81e412aab854ae6b3aactargetblank16485a9a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/16485a98086d4ec505dd81e412aab854ae6b3aac" target="_blank">16485a9</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreea037b24cc28823a900f63a3a7cde7cf8e59b6d85targetblanka037b24a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree16485a98086d4ec505dd81e412aab854ae6b3aactargetblank16485a9a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/a037b24cc28823a900f63a3a7cde7cf8e59b6d85" target="_blank">a037b24</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/16485a98086d4ec505dd81e412aab854ae6b3aac" target="_blank">16485a9</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -750,9 +750,6 @@ Ignored files:
     Ignored:    data/
     Ignored:    output/other/
     Ignored:    output/publication/
-
-Unstaged changes:
-    Modified:   code/Workflowr_project_managment.R
 
 </code></pre>
 <p>
@@ -791,6 +788,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16485a98086d4ec505dd81e412aab854ae6b3aac/analysis/gaps_filter_column_inventories.Rmd" target="_blank">16485a9</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-12-04
+</td>
+<td>
+added gap filling coverage map
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/bd4091fdad3fb328d11be3f70ab7bceb5802acde/docs/gaps_filter_column_inventories.html" target="_blank">bd4091f</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-12-04
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -1253,7 +1284,7 @@ GLODAP_grid_era_all &lt;- full_join(GLODAP_grid_era_all,
 <h2 number="2.1"><span class="header-section-number">2.1</span> Coverage maps</h2>
 <pre class="r"><code>GLODAP_grid_era_all %&gt;%
   group_split(period) %&gt;%
-  head(1) %&gt;%
+  # head(1) %&gt;%
   map(
     ~ map +
       geom_tile(data = .x,
@@ -1288,6 +1319,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/bd4091fdad3fb328d11be3f70ab7bceb5802acde/docs/figure/gaps_filter_column_inventories.Rmd/coverage_maps-1.png" target="_blank">bd4091f</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-12-04
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a037b24cc28823a900f63a3a7cde7cf8e59b6d85/docs/figure/gaps_filter_column_inventories.Rmd/coverage_maps-1.png" target="_blank">a037b24</a>
 </td>
 <td>
@@ -1301,6 +1343,9 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
+<pre><code>
+[[2]]</code></pre>
+<p><img src="figure/gaps_filter_column_inventories.Rmd/coverage_maps-2.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="absoulte-values" class="section level2" number="2.2">
 <h2 number="2.2"><span class="header-section-number">2.2</span> Absoulte values</h2>
@@ -1342,6 +1387,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/bd4091fdad3fb328d11be3f70ab7bceb5802acde/docs/figure/gaps_filter_column_inventories.Rmd/cases_absolute-1.png" target="_blank">bd4091f</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-12-04
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a037b24cc28823a900f63a3a7cde7cf8e59b6d85/docs/figure/gaps_filter_column_inventories.Rmd/cases_absolute-1.png" target="_blank">a037b24</a>
@@ -1415,6 +1471,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/bd4091fdad3fb328d11be3f70ab7bceb5802acde/docs/figure/gaps_filter_column_inventories.Rmd/cases_absolute-2.png" target="_blank">bd4091f</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-12-04
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a037b24cc28823a900f63a3a7cde7cf8e59b6d85/docs/figure/gaps_filter_column_inventories.Rmd/cases_absolute-2.png" target="_blank">a037b24</a>
@@ -1514,6 +1581,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/bd4091fdad3fb328d11be3f70ab7bceb5802acde/docs/figure/gaps_filter_column_inventories.Rmd/cases_bias-1.png" target="_blank">bd4091f</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-12-04
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a037b24cc28823a900f63a3a7cde7cf8e59b6d85/docs/figure/gaps_filter_column_inventories.Rmd/cases_bias-1.png" target="_blank">a037b24</a>
 </td>
 <td>
@@ -1607,6 +1685,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/bd4091fdad3fb328d11be3f70ab7bceb5802acde/docs/figure/gaps_filter_column_inventories.Rmd/cases_bias-2.png" target="_blank">bd4091f</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-12-04
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a037b24cc28823a900f63a3a7cde7cf8e59b6d85/docs/figure/gaps_filter_column_inventories.Rmd/cases_bias-2.png" target="_blank">a037b24</a>
 </td>
 <td>
@@ -1693,6 +1782,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/bd4091fdad3fb328d11be3f70ab7bceb5802acde/docs/figure/gaps_filter_column_inventories.Rmd/bias_density_distribution-1.png" target="_blank">bd4091f</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-12-04
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecbdffe1534f5f3ec5caa972036f060a846ef5a0/docs/figure/gaps_filter_column_inventories.Rmd/bias_density_distribution-1.png" target="_blank">ecbdffe</a>
 </td>
 <td>
@@ -1762,6 +1862,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/bd4091fdad3fb328d11be3f70ab7bceb5802acde/docs/figure/gaps_filter_column_inventories.Rmd/ensemble_mean-1.png" target="_blank">bd4091f</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-12-04
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecbdffe1534f5f3ec5caa972036f060a846ef5a0/docs/figure/gaps_filter_column_inventories.Rmd/ensemble_mean-1.png" target="_blank">ecbdffe</a>
@@ -1855,6 +1966,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/bd4091fdad3fb328d11be3f70ab7bceb5802acde/docs/figure/gaps_filter_column_inventories.Rmd/ensemble_mean_bias-1.png" target="_blank">bd4091f</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-12-04
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecbdffe1534f5f3ec5caa972036f060a846ef5a0/docs/figure/gaps_filter_column_inventories.Rmd/ensemble_mean_bias-1.png" target="_blank">ecbdffe</a>
 </td>
 <td>
@@ -1923,6 +2045,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/bd4091fdad3fb328d11be3f70ab7bceb5802acde/docs/figure/gaps_filter_column_inventories.Rmd/ensemble_sd-1.png" target="_blank">bd4091f</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-12-04
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecbdffe1534f5f3ec5caa972036f060a846ef5a0/docs/figure/gaps_filter_column_inventories.Rmd/ensemble_sd-1.png" target="_blank">ecbdffe</a>
@@ -2076,6 +2209,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/bd4091fdad3fb328d11be3f70ab7bceb5802acde/docs/figure/gaps_filter_column_inventories.Rmd/ensemble_range-1.png" target="_blank">bd4091f</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-12-04
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecbdffe1534f5f3ec5caa972036f060a846ef5a0/docs/figure/gaps_filter_column_inventories.Rmd/ensemble_range-1.png" target="_blank">ecbdffe</a>
 </td>
 <td>
@@ -2162,6 +2306,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/bd4091fdad3fb328d11be3f70ab7bceb5802acde/docs/figure/gaps_filter_column_inventories.Rmd/ensemble_deviation_from_mean-1.png" target="_blank">bd4091f</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-12-04
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a037b24cc28823a900f63a3a7cde7cf8e59b6d85/docs/figure/gaps_filter_column_inventories.Rmd/ensemble_deviation_from_mean-1.png" target="_blank">a037b24</a>
 </td>
 <td>
@@ -2233,6 +2388,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/bd4091fdad3fb328d11be3f70ab7bceb5802acde/docs/figure/gaps_filter_column_inventories.Rmd/ensemble_deviation_from_mean-2.png" target="_blank">bd4091f</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-12-04
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a037b24cc28823a900f63a3a7cde7cf8e59b6d85/docs/figure/gaps_filter_column_inventories.Rmd/ensemble_deviation_from_mean-2.png" target="_blank">a037b24</a>
