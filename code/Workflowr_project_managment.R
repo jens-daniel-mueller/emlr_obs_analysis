@@ -61,11 +61,11 @@ wflow_publish(here::here("analysis",
 # commit changes including _site.yml (locally) and rebuild site in the specified order
 wflow_publish(here::here("analysis",
                          c("index.Rmd",
-                           "cstar_scatter_budgets.Rmd",
-                           "cstar_scatter_column_inventories.Rmd",
-                           "cstar_scatter_zonal_sections.Rmd"
+                           "gaps_filter_budgets.Rmd",
+                           "gaps_filter_column_inventories.Rmd",
+                           "gaps_filter_zonal_sections.Rmd"
                            )),
-              message = "rerun with corrected cases")
+              message = "rerun with corrected filter")
 
 
 # Push latest version to GitHub

@@ -200,7 +200,7 @@ dcant_inv_all <- dcant_inv_all %>%
 
 GLODAP_grid_era_all %>%
   group_split(period) %>%
-  head(1) %>%
+  # head(1) %>%
   map(
     ~ map +
       geom_tile(data = .x,
