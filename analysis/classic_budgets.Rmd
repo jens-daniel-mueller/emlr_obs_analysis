@@ -486,6 +486,18 @@ dcant_budget_global_all %>%
 
 ```
 
+
+```{r, include = FALSE}
+
+src <- knitr::knit_expand(file = here::here("analysis/child/child_analysis.Rmd"),
+                          config = "MLR_basins")
+
+
+```
+
+`r knitr::knit(text = unlist(src))`
+
+
 ### Biases
 
 ```{r cases_bias_global}
@@ -798,11 +810,11 @@ p_global_dcant / p_global_bias +
 
 p_global_dcant_bias
 
-ggsave(plot = p_global_dcant_bias,
-       path = "output/publication",
-       filename = "Fig_global_dcant_budget.png",
-       height = 5,
-       width = 5)
+# ggsave(plot = p_global_dcant_bias,
+#        path = "output/publication",
+#        filename = "Fig_global_dcant_budget.png",
+#        height = 5,
+#        width = 5)
 
 rm(p_global_bias, p_global_dcant, p_global_dcant_bias)
 
@@ -841,10 +853,10 @@ tcant_ensemble %>%
   labs(x = expression(Atmospheric~pCO[2]~(µatm)),
        y = expression(Total~oceanic~C[ant]~(PgC)))
 
-ggsave(path = "output/publication",
-       filename = "Fig_global_dcant_budget_vs_atm_pCO2.png",
-       height = 4,
-       width = 7)
+# ggsave(path = "output/publication",
+#        filename = "Fig_global_dcant_budget_vs_atm_pCO2.png",
+#        height = 4,
+#        width = 7)
 
 ```
 
@@ -1053,11 +1065,11 @@ p_regional_dcant / p_regional_bias +
 
 p_regional_dcant_bias
 
-ggsave(plot = p_regional_dcant_bias,
-       path = "output/publication",
-       filename = "Fig_regional_dcant_budget.png",
-       height = 5,
-       width = 10)
+# ggsave(plot = p_regional_dcant_bias,
+#        path = "output/publication",
+#        filename = "Fig_regional_dcant_budget.png",
+#        height = 5,
+#        width = 10)
 
 rm(p_regional_bias, p_regional_dcant, p_regional_dcant_bias)
 
@@ -1174,7 +1186,7 @@ dcant_obs_budget_all %>%
 
 # Write ensemble members
 
-```{r write_ensemble_members}
+```{r write_ensemble_members, eval=FALSE}
 
 ensemble_MLR_basins %>% 
   write_rds("data/ensemble_members.rds")
