@@ -58,14 +58,15 @@ wflow_publish(here::here("analysis",
               message = "added cstar correction analysis",
               republish = TRUE)
 
+
 # commit changes including _site.yml (locally) and rebuild site in the specified order
-wflow_publish(here::here("analysis",
-                         c("index.Rmd",
-                           "gaps_filter_budgets.Rmd",
-                           "gaps_filter_column_inventories.Rmd",
-                           "gaps_filter_zonal_sections.Rmd"
-                           )),
-              message = "rerun with corrected filter")
+wflow_publish(here::here(
+  "analysis",
+  c(
+    "classic_budgets.Rmd"
+  )
+),
+message = "test child document")
 
 
 # Push latest version to GitHub
