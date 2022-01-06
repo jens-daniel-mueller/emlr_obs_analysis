@@ -810,11 +810,11 @@ p_global_dcant / p_global_bias +
 
 p_global_dcant_bias
 
-# ggsave(plot = p_global_dcant_bias,
-#        path = "output/publication",
-#        filename = "Fig_global_dcant_budget.png",
-#        height = 5,
-#        width = 5)
+ggsave(plot = p_global_dcant_bias,
+       path = here::here("output/publication"),
+       filename = "Fig_global_dcant_budget.png",
+       height = 5,
+       width = 5)
 
 rm(p_global_bias, p_global_dcant, p_global_dcant_bias)
 
