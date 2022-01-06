@@ -12,9 +12,11 @@ editor_options:
   chunk_output_type: console
 ---
 
+
 ```{r, include = FALSE}
 
 src <- knitr::knit_expand(file = here::here("analysis/child/budget_analysis.Rmd"),
+                          version_id_pattern = "0",
                           config = "MLR_basins")
 
 
