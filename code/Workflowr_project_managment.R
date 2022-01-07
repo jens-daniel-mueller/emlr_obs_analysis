@@ -63,7 +63,9 @@ wflow_publish(here::here("analysis",
 wflow_publish(here::here(
   "analysis",
   c(
-    "classic_budgets.Rmd"
+    "classic_budgets.Rmd",
+    "classic_column_inventories.Rmd",
+    "classic_zonal_sections.Rmd"
   )
 ),
 message = "test child document")

@@ -18,6 +18,7 @@ editor_options:
 # https://jdblischak.github.io/workflowr/articles/wflow-07-common-code.html
 ```
 
+
 ```{r define_paths, include = FALSE}
 
 # only path_observations needs to be changed to model
@@ -45,36 +46,26 @@ sd_uncertainty_limit <- 4
 
 ```
 
-
 # Read files
-
-```{r read_ensemble_members}
-
-ensemble_members <- 
-  read_rds("data/ensemble_members.rds")
-
-MLR_basins_in <- 
-  read_rds("data/MLR_basins_in.rds")
-
-```
 
 ```{r define_Version_IDs}
 
 # identify required version IDs
 
 Version_IDs_1 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-                            pattern = "v_10")
+                            pattern = paste0("v_1", {{version_id_pattern}}))
 
 Version_IDs_2 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-                            pattern = "v_20")
+                            pattern = paste0("v_2", {{version_id_pattern}}))
 
 Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-                            pattern = "v_30")
+                            pattern = paste0("v_3", {{version_id_pattern}}))
 
 Version_IDs <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 
-```
+print(Version_IDs)
 
+```
 
 ```{r read_files}
 
@@ -134,15 +125,9 @@ for (i_Version_IDs in Version_IDs) {
   
   params_local <- bind_cols(
     Version_ID = i_Version_IDs,
-    MLR_basins = params_local$MLR_basins,
+    {{config}} := str_c(params_local${{config}}, collapse = "+"),
     tref1 = params_local$tref1,
-    tref2 = params_local$tref2,
-    gap_filling = params_local$gap_filling,
-    rarefication = params_local$rarefication,
-    rarefication_threshold = params_local$rarefication_threshold,
-    MLR_predictors = str_c(params_local$MLR_predictors, collapse = "+"),
-    vif_max = params_local$vif_max
-  )
+    tref2 = params_local$tref2)
   
   tref <- read_csv(paste(path_version_data,
                          "tref.csv",
@@ -207,9 +192,9 @@ rm(dcant_inv,
    params_local,
    tref)
 
-params_local_all <-
-  params_local_all %>%
-  mutate(period = factor(period, c("1994 - 2004", "2004 - 2014", "1994 - 2014")))
+# params_local_all <-
+#   params_local_all %>%
+#   mutate(period = factor(period, c("1994 - 2004", "2004 - 2014", "1994 - 2014")))
 
 dcant_inv_all <- full_join(dcant_inv_all,
                            params_local_all)
@@ -240,25 +225,6 @@ dcant_budget_lon_grid_all <- dcant_budget_lon_grid_all %>%
 ```
 
 
-```{r select_cases}
-
-unique(dcant_inv_all$MLR_basins) %in% MLR_basins_in
-
-dcant_inv_all <- dcant_inv_all %>% 
-  filter(MLR_basins %in% MLR_basins_in)
-
-dcant_inv_bias_all <- dcant_inv_bias_all %>% 
-  filter(MLR_basins %in% MLR_basins_in)
-
-dcant_budget_lat_grid_all <- dcant_budget_lat_grid_all %>% 
-  filter(MLR_basins %in% MLR_basins_in)
-
-dcant_budget_lon_grid_all <- dcant_budget_lon_grid_all %>% 
-  filter(MLR_basins %in% MLR_basins_in)
-
-
-```
-
 ```{r adapt_format}
 
 dcant_budget_lat_grid_all <- dcant_budget_lat_grid_all %>%
@@ -287,11 +253,6 @@ dcant_budget_lon_grid_all <- dcant_budget_lon_grid_all %>%
 dcant_inv_all %>%
   filter(data_source %in% c("mod", "obs"),
          period != "1994 - 2014") %>%
-  mutate(MLR_basins = if_else(
-    MLR_basins %in% ensemble_members,
-    paste(MLR_basins, "*"),
-    MLR_basins
-  )) %>% 
   group_by(data_source) %>%
   group_split() %>%
   # head(1) %>%
@@ -300,7 +261,7 @@ dcant_inv_all %>%
                      var = "dcant",
                      subtitle_text = paste("data_source:",
                                            unique(.x$data_source))) +
-      facet_grid(MLR_basins ~ period) +
+      facet_grid({{config}} ~ period) +
       theme(axis.text = element_blank(),
             axis.ticks = element_blank())
   )
@@ -309,16 +270,11 @@ p_dcant_inv_all_1994_2004 <-
   dcant_inv_all %>%
   filter(data_source %in% c("obs"),
          period == "1994 - 2004") %>%
-  mutate(MLR_basins = if_else(
-    MLR_basins %in% ensemble_members,
-    paste(MLR_basins, "*"),
-    MLR_basins
-  ),
-    period = recode(period,
-                    "1994 - 2004" = "Observation-based")) %>%
+  mutate(period = recode(period,
+                         "1994 - 2004" = "Observation-based")) %>%
   p_map_cant_inv(var = "dcant",
                  title_text = "1994 - 2004") +
-  facet_grid(MLR_basins ~ period) +
+  facet_grid({{config}} ~ period) +
   theme(
     axis.text = element_blank(),
     axis.ticks = element_blank(),
@@ -337,45 +293,28 @@ p_dcant_inv_all_1994_2004 <-
 
 dcant_inv_bias_all %>%
   filter(period != "1994 - 2014") %>%
-  mutate(MLR_basins = if_else(
-    MLR_basins %in% ensemble_members,
-    paste(MLR_basins, "*"),
-    MLR_basins
-  )) %>%
   p_map_cant_inv(var = "dcant_bias",
                  col = "bias",
                  subtitle_text = "data_source: mod - mod_truth") +
-  facet_grid(MLR_basins ~ period)
+  facet_grid({{config}} ~ period)
 
 dcant_inv_bias_all %>%
   filter(period == "1994 - 2014") %>%
-  mutate(MLR_basins = if_else(
-    MLR_basins %in% ensemble_members,
-    paste(MLR_basins, "*"),
-    MLR_basins
-  )) %>%
   p_map_cant_inv(var = "dcant_bias",
                  col = "bias",
                  subtitle_text = "data_source: mod - mod_truth") +
-  facet_grid(MLR_basins ~ period)
+  facet_grid({{config}} ~ period)
 
 
 p_dcant_inv_bias_all_1994_2004 <-
   dcant_inv_bias_all %>%
   filter(period == "1994 - 2004") %>%
-  mutate(
-    MLR_basins = if_else(
-      MLR_basins %in% ensemble_members,
-      paste(MLR_basins, "*"),
-      MLR_basins
-    ),
-    period = recode(period,
-                    "1994 - 2004" = "Model-based")
-  ) %>%
+  mutate(period = recode(period,
+                         "1994 - 2004" = "Model-based")) %>%
   p_map_cant_inv(var = "dcant_bias",
                  col = "bias",
                  title_text = "Models") +
-  facet_grid(MLR_basins ~ period) +
+  facet_grid({{config}} ~ period) +
   theme(
     axis.text = element_blank(),
     axis.ticks = element_blank(),
@@ -393,11 +332,11 @@ p_dcant_inv_all_1994_2004 +
 
 p_dcant_1994_2004
 
-ggsave(plot = p_dcant_1994_2004,
-       path = "output/other",
-       filename = "inv_dcant_1994_2004_abs_bias.png",
-       height = 8,
-       width = 8)
+# ggsave(plot = p_dcant_1994_2004,
+#        path = "output/other",
+#        filename = "inv_dcant_1994_2004_abs_bias.png",
+#        height = 8,
+#        width = 8)
 
 ```
 
@@ -406,13 +345,8 @@ ggsave(plot = p_dcant_1994_2004,
 ```{r bias_density_distribution, fig.asp=1}
 
 dcant_inv_bias_all %>%
-  mutate(MLR_basins = if_else(
-    MLR_basins %in% ensemble_members,
-    paste(MLR_basins, "*"),
-    MLR_basins
-  )) %>%
   filter(abs(dcant_bias) < 10) %>% 
-  ggplot(aes(dcant_bias, col = MLR_basins)) +
+  ggplot(aes(dcant_bias, col = {{config}})) +
   scale_color_brewer(palette = "Dark2") +
   geom_vline(xintercept = 0) +
   geom_density() +
@@ -430,7 +364,7 @@ dcant_budget_lat_grid_all %>%
   # head(1) %>%
   map(
     ~ ggplot(data = .x,
-             aes(lat_grid, dcant, fill = MLR_basins)) +
+             aes(lat_grid, dcant, fill = {{config}})) +
       geom_hline(yintercept = 0) +
       geom_col(position = "dodge") +
       coord_flip() +
@@ -450,7 +384,7 @@ dcant_budget_lon_grid_all %>%
   # head(1) %>%
   map(
     ~ ggplot(data = .x,
-             aes(lon_grid, dcant, fill = MLR_basins)) +
+             aes(lon_grid, dcant, fill = {{config}})) +
       geom_col(position = "dodge") +
       scale_fill_brewer(palette = "Dark2") +
       labs(title = paste(
@@ -471,8 +405,7 @@ dcant_budget_lon_grid_all %>%
 ```{r calc_ensemble_metrics}
 
 dcant_inv_ensemble <- dcant_inv_all %>% 
-  filter(data_source %in% c("mod", "obs"),
-         MLR_basins %in% ensemble_members) %>% 
+  filter(data_source %in% c("mod", "obs")) %>% 
   group_by(lat, lon, data_source, period) %>% 
   summarise(dcant_mean = mean(dcant),
             dcant_sd = sd(dcant),
@@ -480,9 +413,8 @@ dcant_inv_ensemble <- dcant_inv_all %>%
   ungroup()
 
 dcant_lat_grid_ensemble <- dcant_budget_lat_grid_all %>% 
-  filter(data_source %in% c("mod", "obs"),
-         MLR_basins %in% ensemble_members) %>% 
-  group_by(lat_grid, data_source, period, MLR_basins) %>% 
+  filter(data_source %in% c("mod", "obs")) %>% 
+  group_by(lat_grid, data_source, period, {{config}}) %>% 
   summarise(dcant = sum(dcant, na.rm = TRUE)) %>% 
   ungroup() %>% 
   group_by(lat_grid, data_source, period) %>% 
@@ -493,9 +425,8 @@ dcant_lat_grid_ensemble <- dcant_budget_lat_grid_all %>%
   ungroup()
 
 dcant_lon_grid_ensemble <- dcant_budget_lon_grid_all %>% 
-  filter(data_source %in% c("mod", "obs"),
-         MLR_basins %in% ensemble_members) %>% 
-  group_by(lon_grid, data_source, period, MLR_basins) %>% 
+  filter(data_source %in% c("mod", "obs")) %>% 
+  group_by(lon_grid, data_source, period, {{config}}) %>% 
   summarise(dcant = sum(dcant, na.rm = TRUE)) %>% 
   ungroup() %>% 
   group_by(lon_grid, data_source, period) %>% 
@@ -554,7 +485,7 @@ dcant_inv_ensemble_bias <- full_join(
     select(lat, lon, period, dcant_mean, dcant_sd),
   dcant_inv_all %>%
     filter(data_source == "mod_truth",
-           MLR_basins == "2") %>%
+           {{config}} == unique(dcant_inv_all${{config}})[1]) %>%
     select(lat, lon, period, dcant)
 )
 
@@ -575,15 +506,10 @@ dcant_inv_ensemble_bias %>%
 ```{r bias_density_distribution_ensemble, fig.asp=1}
 
 dcant_inv_bias_all %>%
-  mutate(MLR_basins = if_else(
-    MLR_basins %in% ensemble_members,
-    paste(MLR_basins, "*"),
-    MLR_basins
-  )) %>%
   ggplot() +
   scale_color_manual(values = c("red", "grey")) +
   geom_vline(xintercept = 0) +
-  geom_density(aes(dcant_bias, group = MLR_basins, col = "Individual")) +
+  geom_density(aes(dcant_bias, group = {{config}}, col = "Individual")) +
   geom_density(data = dcant_inv_ensemble_bias,
                aes(dcant_mean_bias, col = "Ensemble")) +
   facet_grid(period ~.) +
@@ -735,11 +661,11 @@ p_ensemble_distribution <-
   coord_cartesian(ylim = c(0, 0.5),
                   xlim = c(-5, 32))
 
-ggsave(plot = p_ensemble_distribution,
-       path = "output/other",
-       filename = "inv_ensemble_distribution.png",
-       height = 4,
-       width = 8)
+# ggsave(plot = p_ensemble_distribution,
+#        path = "output/other",
+#        filename = "inv_ensemble_distribution.png",
+#        height = 4,
+#        width = 8)
 
 
 p_ensemble_distribution <-
@@ -769,11 +695,11 @@ p_ensemble_distribution <-
 
 p_ensemble_distribution
 
-ggsave(plot = p_ensemble_distribution,
-       path = "output/other",
-       filename = "inv_ensemble_distribution_all.png",
-       height = 6,
-       width = 5)
+# ggsave(plot = p_ensemble_distribution,
+#        path = "output/other",
+#        filename = "inv_ensemble_distribution_all.png",
+#        height = 6,
+#        width = 5)
 
 ```
 
@@ -970,9 +896,9 @@ wrap_plots(B = p_lon_94, A = p_map_94, D = p_lat_94,
   theme(legend.position = "left")
 
 
-ggsave("output/publication/Fig_column_inventories.png",
-       width=11,
-       height=9.27)
+# ggsave("output/publication/Fig_column_inventories.png",
+#        width=11,
+#        height=9.27)
 
 
 ```
@@ -1003,7 +929,7 @@ dcant_inv_all %>%
                      col = "bias",
                      subtitle_text = paste("period:",
                                            unique(.x$period))) +
-      facet_grid(MLR_basins ~ data_source)
+      facet_grid({{config}} ~ data_source)
   )
 
 

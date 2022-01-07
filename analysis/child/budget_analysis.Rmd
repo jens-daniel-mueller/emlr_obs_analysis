@@ -710,11 +710,11 @@ p_global_dcant / p_global_bias +
 
 p_global_dcant_bias
 
-ggsave(plot = p_global_dcant_bias,
-       path = here::here("output/publication"),
-       filename = "Fig_global_dcant_budget.png",
-       height = 5,
-       width = 5)
+# ggsave(plot = p_global_dcant_bias,
+#        path = here::here("output/publication"),
+#        filename = "Fig_global_dcant_budget.png",
+#        height = 5,
+#        width = 5)
 
 rm(p_global_bias, p_global_dcant, p_global_dcant_bias)
 
@@ -810,7 +810,7 @@ dcant_budget_global_ensemble_bias <- full_join(
     select(period, dcant_mean, dcant_sd),
   dcant_budget_global_all %>%
     filter(data_source == "mod_truth",
-           MLR_basins == "2") %>% 
+           {{config}} == unique(dcant_budget_global_all${{config}})[1]) %>% 
     select(period, dcant)
 )
 
@@ -981,7 +981,7 @@ dcant_budget_basin_AIP_ensemble_bias <- full_join(
     select(basin_AIP, period, dcant_mean, dcant_sd),
   dcant_budget_basin_AIP_all %>%
     filter(data_source == "mod_truth",
-           {{config}} == "2") %>% 
+           {{config}} == unique(dcant_budget_basin_AIP_all${{config}})[1]) %>% 
     select(basin_AIP, period, dcant)
 )
 
