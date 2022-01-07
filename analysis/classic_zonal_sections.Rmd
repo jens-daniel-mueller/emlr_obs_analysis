@@ -16,8 +16,8 @@ editor_options:
 ```{r, include = FALSE}
 
 src <- knitr::knit_expand(file = here::here("analysis/child/zonal_sections_analysis.Rmd"),
-                          version_id_pattern = "0",
-                          config = "MLR_basins")
+                          version_id_pattern = "t",
+                          config = "MLR_target")
 
 
 ```
