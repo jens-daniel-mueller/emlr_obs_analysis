@@ -26,7 +26,7 @@ read <-
 
 ```
 
-```{r knit_read_data_child, include=FALSE}
+```{r knit_read_data_child}
 
 knitr::knit(text = unlist(read))
 
@@ -57,7 +57,7 @@ plot <-
 
 ```
 
-```{r knit_plot_data_child, include=FALSE}
+```{r knit_plot_data_child}
 
 knitr::knit(text = unlist(plot))
 ```
