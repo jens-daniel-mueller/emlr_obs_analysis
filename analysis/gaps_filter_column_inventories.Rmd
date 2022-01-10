@@ -291,7 +291,7 @@ p_dcant_inv_all_1994_2004 +
 p_dcant_1994_2004
 
 ggsave(plot = p_dcant_1994_2004,
-       path = "output/other",
+       path = here::here("output/other"),
        filename = "inv_dcant_1994_2004_abs_bias_gap_fill.png",
        height = 8,
        width = 8)
