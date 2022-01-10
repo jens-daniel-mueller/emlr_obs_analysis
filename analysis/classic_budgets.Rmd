@@ -12,6 +12,14 @@ editor_options:
   chunk_output_type: console
 ---
 
+```{r define_parameters}
+
+version_id_pattern <- "0"
+config <- "MLR_basins"
+
+```
+
+
 
 ```{r source_read_data_child, include = FALSE}
 
@@ -19,8 +27,8 @@ editor_options:
 read <-
   knitr::knit_expand(
     file = here::here("analysis/child/budget_analysis_read_data.Rmd"),
-    version_id_pattern = "p",
-    config = "MLR_predictors"
+    version_id_pattern = version_id_pattern,
+    config = config
   )
 
 
@@ -28,7 +36,7 @@ read <-
 
 `r knitr::knit(text = unlist(read))`
 
-```{r find_removed_predictor}
+```{r find_removed_predictor, eval=FALSE}
 
 all_predictors <- c("saltempaouoxygenphosphatenitratesilicate")
 
@@ -45,8 +53,8 @@ params_local_all <- params_local_all %>%
 plot <-
   knitr::knit_expand(
     file = here::here("analysis/child/budget_analysis_plot_data.Rmd"),
-    version_id_pattern = "p",
-    config = "MLR_predictors"
+    version_id_pattern = version_id_pattern,
+    config = config
   )
 
 

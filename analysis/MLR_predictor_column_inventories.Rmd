@@ -12,13 +12,13 @@ editor_options:
   chunk_output_type: console
 ---
 
-
 ```{r define_parameters}
 
-version_id_pattern <- "0"
-config <- "MLR_basins"
+version_id_pattern <- "p"
+config <- "MLR_predictors"
 
 ```
+
 
 
 
@@ -37,7 +37,7 @@ read <-
 
 `r knitr::knit(text = unlist(read))`
 
-```{r find_removed_predictor, eval=FALSE}
+```{r find_removed_predictor}
 
 all_predictors <- c("saltempaouoxygenphosphatenitratesilicate")
 

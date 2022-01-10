@@ -1,5 +1,5 @@
 ---
-title: "Column inventories"
+title: "Budgets"
 author: "Jens Daniel Müller"
 date:  "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
@@ -12,11 +12,10 @@ editor_options:
   chunk_output_type: console
 ---
 
-
 ```{r define_parameters}
 
-version_id_pattern <- "0"
-config <- "MLR_basins"
+version_id_pattern <- "t"
+config <- "MLR_target"
 
 ```
 
@@ -27,7 +26,7 @@ config <- "MLR_basins"
 
 read <-
   knitr::knit_expand(
-    file = here::here("analysis/child/column_inventories_analysis_read_data.Rmd"),
+    file = here::here("analysis/child/budget_analysis_read_data.Rmd"),
     version_id_pattern = version_id_pattern,
     config = config
   )
@@ -53,7 +52,7 @@ params_local_all <- params_local_all %>%
 
 plot <-
   knitr::knit_expand(
-    file = here::here("analysis/child/column_inventories_analysis_plot_data.Rmd"),
+    file = here::here("analysis/child/budget_analysis_plot_data.Rmd"),
     version_id_pattern = version_id_pattern,
     config = config
   )

@@ -47,17 +47,6 @@ sd_uncertainty_limit <- 1.5
 
 # Read files
 
-```{r read_ensemble_members}
-
-ensemble_members <- 
-  read_rds("data/ensemble_members_G19.rds")
-
-MLR_basins_in <- 
-  read_rds("data/MLR_basins_in_G19.rds")
-
-```
-
-
 ```{r define_Version_IDs}
 
 # identify required version IDs
@@ -226,22 +215,6 @@ dcant_zonal_bias_all <- full_join(dcant_zonal_bias_all,
 ```
 
 
-```{r select_cases}
-
-dcant_zonal_all <- dcant_zonal_all %>% 
-  filter(MLR_basins %in% MLR_basins_in)
-
-dcant_profile_all <- dcant_profile_all %>% 
-  filter(MLR_basins %in% MLR_basins_in)
-
-dcant_zonal_bias_all <- dcant_zonal_bias_all %>% 
-  filter(MLR_basins %in% MLR_basins_in)
-
-
-```
-
-
-
 # Individual cases
 
 ## Absoulte values
@@ -316,11 +289,6 @@ dcant_zonal_bias_all %>%
 ```{r bias_density_distribution, fig.asp=1}
 
 dcant_zonal_bias_all %>%
-  mutate(MLR_basins = if_else(
-    MLR_basins %in% ensemble_members,
-    paste(MLR_basins, "*"),
-    MLR_basins
-  )) %>%
   ggplot(aes(dcant_bias, col = MLR_basins)) +
   scale_color_brewer(palette = "Dark2") +
   geom_vline(xintercept = 0) +
@@ -463,8 +431,7 @@ dcant_budget_basin_AIP_layer_all %>%
 ```{r calc_ensemble_metrics}
 
 dcant_zonal_ensemble <- dcant_zonal_all %>%
-  filter(data_source %in% c("mod", "obs"),
-         MLR_basins %in% ensemble_members) %>%
+  filter(data_source %in% c("mod", "obs")) %>%
   group_by(lat, depth, basin_AIP, data_source, period) %>%
   summarise(
     dcant_ensemble_mean = mean(dcant),
@@ -478,7 +445,6 @@ dcant_budget_basin_AIP_layer_ensemble <-
   dcant_budget_basin_AIP_layer_all %>%
   mutate(inv_depth = fct_inorder(as.factor(inv_depth))) %>%
   filter(data_source %in% c("mod", "obs"),
-         MLR_basins %in% ensemble_members,
          estimate == "dcant") %>%
   rename(dcant = value) %>%
   group_by(inv_depth, data_source, period, basin_AIP) %>%
@@ -556,11 +522,6 @@ dcant_zonal_ensemble_bias %>%
 ```{r bias_density_distribution_ensemble, fig.asp=1}
 
 dcant_zonal_bias_all %>%
-  mutate(MLR_basins = if_else(
-    MLR_basins %in% ensemble_members,
-    paste(MLR_basins, "*"),
-    MLR_basins
-  )) %>%
   ggplot() +
   scale_color_manual(values = c("red", "grey")) +
   geom_vline(xintercept = 0) +
