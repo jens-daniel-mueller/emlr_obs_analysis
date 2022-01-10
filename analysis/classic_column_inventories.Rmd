@@ -13,15 +13,55 @@ editor_options:
 ---
 
 
-```{r, include = FALSE}
 
-src <- knitr::knit_expand(file = here::here("analysis/child/column_inventories_analysis.Rmd"),
-                          version_id_pattern = "p",
-                          config = "MLR_predictors")
+```{r source_read_data_child, include = FALSE}
+
+
+read <-
+  knitr::knit_expand(
+    file = here::here("analysis/child/column_inventories_analysis_read_data.Rmd"),
+    version_id_pattern = "p",
+    config = "MLR_predictors"
+  )
 
 
 ```
 
-`r knitr::knit(text = unlist(src))`
+```{r knit_read_data_child, include=FALSE}
 
+knitr::knit(text = unlist(read))
+
+```
+
+
+```{r find_removed_predictor}
+
+all_predictors <- c("saltempaouoxygenphosphatenitratesilicate")
+
+params_local_all <- params_local_all %>%
+  mutate(MLR_predictors = str_remove_all(all_predictors,
+                                         MLR_predictors))
+
+
+```
+
+
+
+```{r source_plot_data_child, include = FALSE}
+
+
+plot <-
+  knitr::knit_expand(
+    file = here::here("analysis/child/column_inventories_analysis_plot_data.Rmd"),
+    version_id_pattern = "p",
+    config = "MLR_predictors"
+  )
+
+
+```
+
+```{r knit_plot_data_child, include=FALSE}
+
+knitr::knit(text = unlist(plot))
+```
 
