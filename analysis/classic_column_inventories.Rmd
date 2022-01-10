@@ -27,12 +27,7 @@ read <-
 
 ```
 
-```{r knit_read_data_child, include=FALSE}
-
-knitr::knit(text = unlist(read))
-
-```
-
+`r knitr::knit(text = unlist(read))`
 
 ```{r find_removed_predictor}
 
@@ -44,8 +39,6 @@ params_local_all <- params_local_all %>%
 
 
 ```
-
-
 
 ```{r source_plot_data_child, include = FALSE}
 
@@ -60,8 +53,4 @@ plot <-
 
 ```
 
-```{r knit_plot_data_child, include=FALSE}
-
-knitr::knit(text = unlist(plot))
-```
-
+`r knitr::knit(text = unlist(plot))`
