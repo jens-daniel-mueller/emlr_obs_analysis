@@ -387,7 +387,43 @@ div.tocify {
         </li>
       </ul>
     </li>
-    <li class="dropdown-header">Global MLR</li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    MLR
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MLR_predictors</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="MLR_predictor_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="MLR_predictor_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="MLR_predictor_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MLR_target</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="MLR_target_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="MLR_target_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="MLR_target_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -578,16 +614,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree4f32215432bd952cdc4994cbe72bf9cec25cdbeatargetblank4f32215a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/4f32215432bd952cdc4994cbe72bf9cec25cdbea" target="_blank">4f32215</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreed3903e6dc854851b986553fdcc33abd1d7be3754targetblankd3903e6a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/d3903e6dc854851b986553fdcc33abd1d7be3754" target="_blank">d3903e6</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree4f32215432bd952cdc4994cbe72bf9cec25cdbeatargetblank4f32215a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreed3903e6dc854851b986553fdcc33abd1d7be3754targetblankd3903e6a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/4f32215432bd952cdc4994cbe72bf9cec25cdbea" target="_blank">4f32215</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/d3903e6dc854851b986553fdcc33abd1d7be3754" target="_blank">d3903e6</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -669,10 +705,7 @@ Untracked files:
     Untracked:  figure/summed_decades-1.png
 
 Unstaged changes:
-    Modified:   analysis/G19_budgets.Rmd
-    Modified:   analysis/G19_zonal_sections.Rmd
     Modified:   analysis/_site.yml
-    Modified:   analysis/basics.Rmd
     Deleted:    analysis/bottomdepth_budgets.Rmd
     Deleted:    analysis/bottomdepth_column_inventories.Rmd
     Deleted:    analysis/bottomdepth_zonal_sections.Rmd
@@ -746,6 +779,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d3903e6dc854851b986553fdcc33abd1d7be3754/analysis/classic_column_inventories.Rmd" target="_blank">d3903e6</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-10
+</td>
+<td>
+rebuild with child docs
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/9bf678935a2ad4f41062d5c7958bf08396207ef0/docs/classic_column_inventories.html" target="_blank">9bf6789</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-10
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -2249,25 +2316,27 @@ rebuildt with canyon b cleaning analysis
 </div>
 </div>
 </div>
+<pre class="r"><code>version_id_pattern &lt;- &quot;0&quot;
+config &lt;- &quot;MLR_basins&quot;</code></pre>
 <div id="read-files" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Read files</h1>
 <pre class="r"><code># identify required version IDs
 
 Version_IDs_1 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
-                            pattern = paste0(&quot;v_1&quot;, &quot;p&quot;))
+                            pattern = paste0(&quot;v_1&quot;, &quot;0&quot;))
 
 Version_IDs_2 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
-                            pattern = paste0(&quot;v_2&quot;, &quot;p&quot;))
+                            pattern = paste0(&quot;v_2&quot;, &quot;0&quot;))
 
 Version_IDs_3 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
-                            pattern = paste0(&quot;v_3&quot;, &quot;p&quot;))
+                            pattern = paste0(&quot;v_3&quot;, &quot;0&quot;))
 
 Version_IDs &lt;- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 
 print(Version_IDs)</code></pre>
-<pre><code> [1] &quot;v_1p01&quot; &quot;v_1p02&quot; &quot;v_1p03&quot; &quot;v_1p04&quot; &quot;v_1p05&quot; &quot;v_1p06&quot; &quot;v_1p07&quot; &quot;v_1p08&quot;
- [9] &quot;v_2p01&quot; &quot;v_2p02&quot; &quot;v_2p03&quot; &quot;v_2p04&quot; &quot;v_2p05&quot; &quot;v_2p06&quot; &quot;v_2p07&quot; &quot;v_2p08&quot;
-[17] &quot;v_3p01&quot; &quot;v_3p02&quot; &quot;v_3p03&quot; &quot;v_3p04&quot; &quot;v_3p05&quot; &quot;v_3p06&quot; &quot;v_3p07&quot; &quot;v_3p08&quot;</code></pre>
+<pre><code> [1] &quot;v_1001&quot; &quot;v_1002&quot; &quot;v_1003&quot; &quot;v_1004&quot; &quot;v_1005&quot; &quot;v_1006&quot; &quot;v_2001&quot; &quot;v_2002&quot;
+ [9] &quot;v_2003&quot; &quot;v_2004&quot; &quot;v_2005&quot; &quot;v_2006&quot; &quot;v_3001&quot; &quot;v_3002&quot; &quot;v_3003&quot; &quot;v_3004&quot;
+[17] &quot;v_3005&quot; &quot;v_3006&quot;</code></pre>
 <pre class="r"><code>for (i_Version_IDs in Version_IDs) {
   # i_Version_IDs &lt;- Version_IDs[1]
   
@@ -2323,7 +2392,7 @@ print(Version_IDs)</code></pre>
   
   params_local &lt;- bind_cols(
     Version_ID = i_Version_IDs,
-    MLR_predictors := str_c(params_local$MLR_predictors, collapse = &quot;|&quot;),
+    MLR_basins := str_c(params_local$MLR_basins, collapse = &quot;|&quot;),
     tref1 = params_local$tref1,
     tref2 = params_local$tref2)
   
@@ -2381,30 +2450,24 @@ print(Version_IDs)</code></pre>
   
   
 }</code></pre>
-<pre><code>[1] &quot;v_1p01&quot;
-[1] &quot;v_1p02&quot;
-[1] &quot;v_1p03&quot;
-[1] &quot;v_1p04&quot;
-[1] &quot;v_1p05&quot;
-[1] &quot;v_1p06&quot;
-[1] &quot;v_1p07&quot;
-[1] &quot;v_1p08&quot;
-[1] &quot;v_2p01&quot;
-[1] &quot;v_2p02&quot;
-[1] &quot;v_2p03&quot;
-[1] &quot;v_2p04&quot;
-[1] &quot;v_2p05&quot;
-[1] &quot;v_2p06&quot;
-[1] &quot;v_2p07&quot;
-[1] &quot;v_2p08&quot;
-[1] &quot;v_3p01&quot;
-[1] &quot;v_3p02&quot;
-[1] &quot;v_3p03&quot;
-[1] &quot;v_3p04&quot;
-[1] &quot;v_3p05&quot;
-[1] &quot;v_3p06&quot;
-[1] &quot;v_3p07&quot;
-[1] &quot;v_3p08&quot;</code></pre>
+<pre><code>[1] &quot;v_1001&quot;
+[1] &quot;v_1002&quot;
+[1] &quot;v_1003&quot;
+[1] &quot;v_1004&quot;
+[1] &quot;v_1005&quot;
+[1] &quot;v_1006&quot;
+[1] &quot;v_2001&quot;
+[1] &quot;v_2002&quot;
+[1] &quot;v_2003&quot;
+[1] &quot;v_2004&quot;
+[1] &quot;v_2005&quot;
+[1] &quot;v_2006&quot;
+[1] &quot;v_3001&quot;
+[1] &quot;v_3002&quot;
+[1] &quot;v_3003&quot;
+[1] &quot;v_3004&quot;
+[1] &quot;v_3005&quot;
+[1] &quot;v_3006&quot;</code></pre>
 <pre class="r"><code>rm(dcant_inv,
    dcant_inv_bias,
    dcant_inv_mod_truth,
@@ -2460,7 +2523,7 @@ dcant_budget_lon_grid_all &lt;- dcant_budget_lon_grid_all %&gt;%
                      var = &quot;dcant&quot;,
                      subtitle_text = paste(&quot;data_source:&quot;,
                                            unique(.x$data_source))) +
-      facet_grid(MLR_predictors ~ period) +
+      facet_grid(MLR_basins ~ period) +
       theme(axis.text = element_blank(),
             axis.ticks = element_blank())
   )</code></pre>
@@ -2962,7 +3025,7 @@ jens-daniel-mueller
                          &quot;1994 - 2004&quot; = &quot;Observation-based&quot;)) %&gt;%
   p_map_cant_inv(var = &quot;dcant&quot;,
                  title_text = &quot;1994 - 2004&quot;) +
-  facet_grid(MLR_predictors ~ period) +
+  facet_grid(MLR_basins ~ period) +
   theme(
     axis.text = element_blank(),
     axis.ticks = element_blank(),
@@ -2978,7 +3041,7 @@ jens-daniel-mueller
   p_map_cant_inv(var = &quot;dcant_bias&quot;,
                  col = &quot;bias&quot;,
                  subtitle_text = &quot;data_source: mod - mod_truth&quot;) +
-  facet_grid(MLR_predictors ~ period)</code></pre>
+  facet_grid(MLR_basins ~ period)</code></pre>
 <pre><code>Warning: Raster pixels are placed at uneven vertical intervals and will be
 shifted. Consider using geom_tile() instead.</code></pre>
 <p><img src="figure/classic_column_inventories.Rmd/cases_bias-1.png" width="672" style="display: block; margin: auto;" /></p>
@@ -3244,7 +3307,7 @@ jens-daniel-mueller
   p_map_cant_inv(var = &quot;dcant_bias&quot;,
                  col = &quot;bias&quot;,
                  subtitle_text = &quot;data_source: mod - mod_truth&quot;) +
-  facet_grid(MLR_predictors ~ period)</code></pre>
+  facet_grid(MLR_basins ~ period)</code></pre>
 <pre><code>Warning: Raster pixels are placed at uneven vertical intervals and will be
 shifted. Consider using geom_tile() instead.</code></pre>
 <p><img src="figure/classic_column_inventories.Rmd/cases_bias-2.png" width="672" style="display: block; margin: auto;" /></p>
@@ -3469,7 +3532,7 @@ jens-daniel-mueller
   p_map_cant_inv(var = &quot;dcant_bias&quot;,
                  col = &quot;bias&quot;,
                  title_text = &quot;Models&quot;) +
-  facet_grid(MLR_predictors ~ period) +
+  facet_grid(MLR_basins ~ period) +
   theme(
     axis.text = element_blank(),
     axis.ticks = element_blank(),
@@ -3631,7 +3694,7 @@ jens-daniel-mueller
 <h3><span class="header-section-number">3.2.1</span> Density distribution</h3>
 <pre class="r"><code>dcant_inv_bias_all %&gt;%
   filter(abs(dcant_bias) &lt; 10) %&gt;% 
-  ggplot(aes(dcant_bias, col = MLR_predictors)) +
+  ggplot(aes(dcant_bias, col = MLR_basins)) +
   scale_color_brewer(palette = &quot;Dark2&quot;) +
   geom_vline(xintercept = 0) +
   geom_density() +
@@ -3793,7 +3856,7 @@ jens-daniel-mueller
   # head(1) %&gt;%
   map(
     ~ ggplot(data = .x,
-             aes(lat_grid, dcant, fill = MLR_predictors)) +
+             aes(lat_grid, dcant, fill = MLR_basins)) +
       geom_hline(yintercept = 0) +
       geom_col(position = &quot;dodge&quot;) +
       coord_flip() +
@@ -4064,7 +4127,7 @@ jens-daniel-mueller
   # head(1) %&gt;%
   map(
     ~ ggplot(data = .x,
-             aes(lon_grid, dcant, fill = MLR_predictors)) +
+             aes(lon_grid, dcant, fill = MLR_basins)) +
       geom_col(position = &quot;dodge&quot;) +
       scale_fill_brewer(palette = &quot;Dark2&quot;) +
       labs(title = paste(
@@ -4600,7 +4663,7 @@ jens-daniel-mueller
 <pre><code>`summarise()` has grouped output by &#39;lat&#39;, &#39;lon&#39;, &#39;data_source&#39;. You can override using the `.groups` argument.</code></pre>
 <pre class="r"><code>dcant_lat_grid_ensemble &lt;- dcant_budget_lat_grid_all %&gt;% 
   filter(data_source %in% c(&quot;mod&quot;, &quot;obs&quot;)) %&gt;% 
-  group_by(lat_grid, data_source, period, MLR_predictors) %&gt;% 
+  group_by(lat_grid, data_source, period, MLR_basins) %&gt;% 
   summarise(dcant = sum(dcant, na.rm = TRUE)) %&gt;% 
   ungroup() %&gt;% 
   group_by(lat_grid, data_source, period) %&gt;% 
@@ -4613,7 +4676,7 @@ jens-daniel-mueller
 <pre><code>`summarise()` has grouped output by &#39;lat_grid&#39;, &#39;data_source&#39;. You can override using the `.groups` argument.</code></pre>
 <pre class="r"><code>dcant_lon_grid_ensemble &lt;- dcant_budget_lon_grid_all %&gt;% 
   filter(data_source %in% c(&quot;mod&quot;, &quot;obs&quot;)) %&gt;% 
-  group_by(lon_grid, data_source, period, MLR_predictors) %&gt;% 
+  group_by(lon_grid, data_source, period, MLR_basins) %&gt;% 
   summarise(dcant = sum(dcant, na.rm = TRUE)) %&gt;% 
   ungroup() %&gt;% 
   group_by(lon_grid, data_source, period) %&gt;% 
@@ -5069,7 +5132,7 @@ jens-daniel-mueller
     select(lat, lon, period, dcant_mean, dcant_sd),
   dcant_inv_all %&gt;%
     filter(data_source == &quot;mod_truth&quot;,
-           MLR_predictors == unique(dcant_inv_all$MLR_predictors)[1]) %&gt;%
+           MLR_basins == unique(dcant_inv_all$MLR_basins)[1]) %&gt;%
     select(lat, lon, period, dcant)
 )</code></pre>
 <pre><code>Joining, by = c(&quot;lat&quot;, &quot;lon&quot;, &quot;period&quot;)</code></pre>
@@ -5370,7 +5433,7 @@ jens-daniel-mueller
   ggplot() +
   scale_color_manual(values = c(&quot;red&quot;, &quot;grey&quot;)) +
   geom_vline(xintercept = 0) +
-  geom_density(aes(dcant_bias, group = MLR_predictors, col = &quot;Individual&quot;)) +
+  geom_density(aes(dcant_bias, group = MLR_basins, col = &quot;Individual&quot;)) +
   geom_density(data = dcant_inv_ensemble_bias,
                aes(dcant_mean_bias, col = &quot;Ensemble&quot;)) +
   facet_grid(period ~.) +
@@ -7424,7 +7487,7 @@ dcant_inv_all %&gt;%
                      col = &quot;bias&quot;,
                      subtitle_text = paste(&quot;period:&quot;,
                                            unique(.x$period))) +
-      facet_grid(MLR_predictors ~ data_source)
+      facet_grid(MLR_basins ~ data_source)
   )</code></pre>
 <pre><code>[[1]]</code></pre>
 <pre><code>Warning: Raster pixels are placed at uneven vertical intervals and will be

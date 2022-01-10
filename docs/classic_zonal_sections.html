@@ -387,7 +387,43 @@ div.tocify {
         </li>
       </ul>
     </li>
-    <li class="dropdown-header">Global MLR</li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    MLR
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MLR_predictors</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="MLR_predictor_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="MLR_predictor_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="MLR_predictor_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MLR_target</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="MLR_target_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="MLR_target_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="MLR_target_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -578,16 +614,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree4f32215432bd952cdc4994cbe72bf9cec25cdbeatargetblank4f32215a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/4f32215432bd952cdc4994cbe72bf9cec25cdbea" target="_blank">4f32215</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreed3903e6dc854851b986553fdcc33abd1d7be3754targetblankd3903e6a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/d3903e6dc854851b986553fdcc33abd1d7be3754" target="_blank">d3903e6</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree4f32215432bd952cdc4994cbe72bf9cec25cdbeatargetblank4f32215a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreed3903e6dc854851b986553fdcc33abd1d7be3754targetblankd3903e6a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/4f32215432bd952cdc4994cbe72bf9cec25cdbea" target="_blank">4f32215</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/d3903e6dc854851b986553fdcc33abd1d7be3754" target="_blank">d3903e6</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -669,10 +705,7 @@ Untracked files:
     Untracked:  figure/summed_decades-1.png
 
 Unstaged changes:
-    Modified:   analysis/G19_budgets.Rmd
-    Modified:   analysis/G19_zonal_sections.Rmd
     Modified:   analysis/_site.yml
-    Modified:   analysis/basics.Rmd
     Deleted:    analysis/bottomdepth_budgets.Rmd
     Deleted:    analysis/bottomdepth_column_inventories.Rmd
     Deleted:    analysis/bottomdepth_zonal_sections.Rmd
@@ -746,6 +779,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d3903e6dc854851b986553fdcc33abd1d7be3754/analysis/classic_zonal_sections.Rmd" target="_blank">d3903e6</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-10
+</td>
+<td>
+rebuild with child docs
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/9bf678935a2ad4f41062d5c7958bf08396207ef0/docs/classic_zonal_sections.html" target="_blank">9bf6789</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-10
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -1960,25 +2027,27 @@ rebuildt with canyon b cleaning analysis
 </div>
 </div>
 </div>
+<pre class="r"><code>version_id_pattern &lt;- &quot;0&quot;
+config &lt;- &quot;MLR_basins&quot;</code></pre>
 <div id="read-files" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Read files</h1>
 <pre class="r"><code># identify required version IDs
 
 Version_IDs_1 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
-                            pattern = paste0(&quot;v_1&quot;, &quot;p&quot;))
+                            pattern = paste0(&quot;v_1&quot;, &quot;0&quot;))
 
 Version_IDs_2 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
-                            pattern = paste0(&quot;v_2&quot;, &quot;p&quot;))
+                            pattern = paste0(&quot;v_2&quot;, &quot;0&quot;))
 
 Version_IDs_3 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
-                            pattern = paste0(&quot;v_3&quot;, &quot;p&quot;))
+                            pattern = paste0(&quot;v_3&quot;, &quot;0&quot;))
 
 Version_IDs &lt;- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 
 print(Version_IDs)</code></pre>
-<pre><code> [1] &quot;v_1p01&quot; &quot;v_1p02&quot; &quot;v_1p03&quot; &quot;v_1p04&quot; &quot;v_1p05&quot; &quot;v_1p06&quot; &quot;v_1p07&quot; &quot;v_1p08&quot;
- [9] &quot;v_2p01&quot; &quot;v_2p02&quot; &quot;v_2p03&quot; &quot;v_2p04&quot; &quot;v_2p05&quot; &quot;v_2p06&quot; &quot;v_2p07&quot; &quot;v_2p08&quot;
-[17] &quot;v_3p01&quot; &quot;v_3p02&quot; &quot;v_3p03&quot; &quot;v_3p04&quot; &quot;v_3p05&quot; &quot;v_3p06&quot; &quot;v_3p07&quot; &quot;v_3p08&quot;</code></pre>
+<pre><code> [1] &quot;v_1001&quot; &quot;v_1002&quot; &quot;v_1003&quot; &quot;v_1004&quot; &quot;v_1005&quot; &quot;v_1006&quot; &quot;v_2001&quot; &quot;v_2002&quot;
+ [9] &quot;v_2003&quot; &quot;v_2004&quot; &quot;v_2005&quot; &quot;v_2006&quot; &quot;v_3001&quot; &quot;v_3002&quot; &quot;v_3003&quot; &quot;v_3004&quot;
+[17] &quot;v_3005&quot; &quot;v_3006&quot;</code></pre>
 <pre class="r"><code>for (i_Version_IDs in Version_IDs) {
   # i_Version_IDs &lt;- Version_IDs[1]
   
@@ -2048,7 +2117,7 @@ print(Version_IDs)</code></pre>
   
   params_local &lt;- bind_cols(
     Version_ID = i_Version_IDs,
-    MLR_predictors := str_c(params_local$MLR_predictors, collapse = &quot;|&quot;),
+    MLR_basins := str_c(params_local$MLR_basins, collapse = &quot;|&quot;),
     tref1 = params_local$tref1,
     tref2 = params_local$tref2)
   
@@ -2106,30 +2175,24 @@ print(Version_IDs)</code></pre>
   
   
 }</code></pre>
-<pre><code>[1] &quot;v_1p01&quot;
-[1] &quot;v_1p02&quot;
-[1] &quot;v_1p03&quot;
-[1] &quot;v_1p04&quot;
-[1] &quot;v_1p05&quot;
-[1] &quot;v_1p06&quot;
-[1] &quot;v_1p07&quot;
-[1] &quot;v_1p08&quot;
-[1] &quot;v_2p01&quot;
-[1] &quot;v_2p02&quot;
-[1] &quot;v_2p03&quot;
-[1] &quot;v_2p04&quot;
-[1] &quot;v_2p05&quot;
-[1] &quot;v_2p06&quot;
-[1] &quot;v_2p07&quot;
-[1] &quot;v_2p08&quot;
-[1] &quot;v_3p01&quot;
-[1] &quot;v_3p02&quot;
-[1] &quot;v_3p03&quot;
-[1] &quot;v_3p04&quot;
-[1] &quot;v_3p05&quot;
-[1] &quot;v_3p06&quot;
-[1] &quot;v_3p07&quot;
-[1] &quot;v_3p08&quot;</code></pre>
+<pre><code>[1] &quot;v_1001&quot;
+[1] &quot;v_1002&quot;
+[1] &quot;v_1003&quot;
+[1] &quot;v_1004&quot;
+[1] &quot;v_1005&quot;
+[1] &quot;v_1006&quot;
+[1] &quot;v_2001&quot;
+[1] &quot;v_2002&quot;
+[1] &quot;v_2003&quot;
+[1] &quot;v_2004&quot;
+[1] &quot;v_2005&quot;
+[1] &quot;v_2006&quot;
+[1] &quot;v_3001&quot;
+[1] &quot;v_3002&quot;
+[1] &quot;v_3003&quot;
+[1] &quot;v_3004&quot;
+[1] &quot;v_3005&quot;
+[1] &quot;v_3006&quot;</code></pre>
 <pre class="r"><code>rm(dcant_zonal, dcant_zonal_bias, dcant_zonal_mod_truth,
    dcant_budget_basin_AIP_layer,
    tref)</code></pre>
@@ -2164,10 +2227,10 @@ params_local_all &lt;- params_local_all %&gt;%
         unique(.x$basin_AIP)
       )
     ) +
-      facet_grid(MLR_predictors ~ period)
+      facet_grid(MLR_basins ~ period)
   )</code></pre>
 <pre><code>[[1]]</code></pre>
-<pre><code>Warning: Removed 3264 rows containing non-finite values (stat_contour_filled).</code></pre>
+<pre><code>Warning: Removed 2448 rows containing non-finite values (stat_contour_filled).</code></pre>
 <p><img src="figure/classic_zonal_sections.Rmd/cases_absolute-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_absolute-1">
@@ -2395,7 +2458,7 @@ jens-daniel-mueller
 </div>
 <pre><code>
 [[2]]</code></pre>
-<pre><code>Warning: Removed 1128 rows containing non-finite values (stat_contour_filled).</code></pre>
+<pre><code>Warning: Removed 846 rows containing non-finite values (stat_contour_filled).</code></pre>
 <p><img src="figure/classic_zonal_sections.Rmd/cases_absolute-2.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_absolute-2">
@@ -2623,7 +2686,7 @@ jens-daniel-mueller
 </div>
 <pre><code>
 [[3]]</code></pre>
-<pre><code>Warning: Removed 2016 rows containing non-finite values (stat_contour_filled).</code></pre>
+<pre><code>Warning: Removed 1512 rows containing non-finite values (stat_contour_filled).</code></pre>
 <p><img src="figure/classic_zonal_sections.Rmd/cases_absolute-3.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_absolute-3">
@@ -2851,7 +2914,7 @@ jens-daniel-mueller
 </div>
 <pre><code>
 [[4]]</code></pre>
-<pre><code>Warning: Removed 696 rows containing non-finite values (stat_contour_filled).</code></pre>
+<pre><code>Warning: Removed 522 rows containing non-finite values (stat_contour_filled).</code></pre>
 <p><img src="figure/classic_zonal_sections.Rmd/cases_absolute-4.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_absolute-4">
@@ -3079,7 +3142,7 @@ jens-daniel-mueller
 </div>
 <pre><code>
 [[5]]</code></pre>
-<pre><code>Warning: Removed 4968 rows containing non-finite values (stat_contour_filled).</code></pre>
+<pre><code>Warning: Removed 3726 rows containing non-finite values (stat_contour_filled).</code></pre>
 <p><img src="figure/classic_zonal_sections.Rmd/cases_absolute-5.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_absolute-5">
@@ -3307,7 +3370,7 @@ jens-daniel-mueller
 </div>
 <pre><code>
 [[6]]</code></pre>
-<pre><code>Warning: Removed 1992 rows containing non-finite values (stat_contour_filled).</code></pre>
+<pre><code>Warning: Removed 1494 rows containing non-finite values (stat_contour_filled).</code></pre>
 <p><img src="figure/classic_zonal_sections.Rmd/cases_absolute-6.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_absolute-6">
@@ -3541,7 +3604,7 @@ jens-daniel-mueller
   p_section_zonal_continous_depth(var = &quot;dcant&quot;,
                                   plot_slabs = &quot;n&quot;,
                                   subtitle_text = &quot;Indian Ocean&quot;) +
-  facet_grid(MLR_predictors ~ period)
+  facet_grid(MLR_basins ~ period)
 
 # ggsave(plot = p_dcant_Indian_1994_2004,
 #        path = &quot;output/other&quot;,
@@ -3557,7 +3620,7 @@ p_dcant_Indian_2004_2014 &lt;-
   p_section_zonal_continous_depth(var = &quot;dcant&quot;,
                                   plot_slabs = &quot;n&quot;,
                                   subtitle_text = &quot;Pacific Ocean&quot;) +
-  facet_grid(MLR_predictors ~ period)
+  facet_grid(MLR_basins ~ period)
 
 # ggsave(plot = p_dcant_Indian_2004_2014,
 #        path = &quot;output/other&quot;,
@@ -3581,10 +3644,10 @@ p_dcant_Indian_2004_2014 &lt;-
         unique(.x$basin_AIP)
       )
     ) +
-      facet_grid(MLR_predictors ~ period)
+      facet_grid(MLR_basins ~ period)
   )</code></pre>
 <pre><code>[[1]]</code></pre>
-<pre><code>Warning: Removed 3264 rows containing non-finite values (stat_contour_filled).</code></pre>
+<pre><code>Warning: Removed 2460 rows containing non-finite values (stat_contour_filled).</code></pre>
 <p><img src="figure/classic_zonal_sections.Rmd/cases_bias-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_bias-1">
@@ -3812,7 +3875,7 @@ jens-daniel-mueller
 </div>
 <pre><code>
 [[2]]</code></pre>
-<pre><code>Warning: Removed 2016 rows containing non-finite values (stat_contour_filled).</code></pre>
+<pre><code>Warning: Removed 1512 rows containing non-finite values (stat_contour_filled).</code></pre>
 <p><img src="figure/classic_zonal_sections.Rmd/cases_bias-2.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_bias-2">
@@ -4040,7 +4103,7 @@ jens-daniel-mueller
 </div>
 <pre><code>
 [[3]]</code></pre>
-<pre><code>Warning: Removed 4968 rows containing non-finite values (stat_contour_filled).</code></pre>
+<pre><code>Warning: Removed 3726 rows containing non-finite values (stat_contour_filled).</code></pre>
 <p><img src="figure/classic_zonal_sections.Rmd/cases_bias-3.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_bias-3">
@@ -4269,12 +4332,13 @@ jens-daniel-mueller
 <div id="density-distribution" class="section level3" number="3.2.1">
 <h3><span class="header-section-number">3.2.1</span> Density distribution</h3>
 <pre class="r"><code>dcant_zonal_bias_all %&gt;%
-  ggplot(aes(dcant_bias, col = MLR_predictors)) +
+  ggplot(aes(dcant_bias, col = MLR_basins)) +
   scale_color_brewer(palette = &quot;Dark2&quot;) +
   geom_vline(xintercept = 0) +
   geom_density() +
   facet_grid(period ~.) +
   coord_cartesian(xlim = c(-10, 10))</code></pre>
+<pre><code>Warning: Removed 12 rows containing non-finite values (stat_density).</code></pre>
 <p><img src="figure/classic_zonal_sections.Rmd/bias_density_distribution-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-bias_density_distribution-1">
@@ -4417,7 +4481,7 @@ jens-daniel-mueller
 <div id="bias-correlation-eras" class="section level2" number="3.3">
 <h2><span class="header-section-number">3.3</span> Bias correlation eras</h2>
 <pre class="r"><code>dcant_zonal_bias_all_corr &lt;- dcant_zonal_bias_all %&gt;%
-  select(lat, depth, basin_AIP, dcant_bias, MLR_predictors, period) %&gt;% 
+  select(lat, depth, basin_AIP, dcant_bias, MLR_basins, period) %&gt;% 
   pivot_wider(names_from = period,
               values_from = dcant_bias, 
               names_prefix = &quot;dcant_bias &quot;)
@@ -4428,8 +4492,9 @@ dcant_zonal_bias_all_corr %&gt;%
   geom_hline(yintercept = 0) +
   geom_bin2d() +
   coord_fixed() +
-  facet_grid(MLR_predictors ~ basin_AIP) +
+  facet_grid(MLR_basins ~ basin_AIP) +
   scale_fill_viridis_c()</code></pre>
+<pre><code>Warning: Removed 4 rows containing non-finite values (stat_bin2d).</code></pre>
 <p><img src="figure/classic_zonal_sections.Rmd/cases_bias_correlation-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_bias_correlation-1">
@@ -4646,7 +4711,7 @@ jens-daniel-mueller
       geom_path() +
       scale_y_reverse() +
       labs(title = paste(&quot;period&quot;, unique(.x$period))) +
-      facet_grid(MLR_predictors ~ basin_AIP)
+      facet_grid(MLR_basins ~ basin_AIP)
   )</code></pre>
 <pre><code>[[1]]</code></pre>
 <p><img src="figure/classic_zonal_sections.Rmd/profiles_per_data_source-1.png" width="672" style="display: block; margin: auto;" /></p>
@@ -5106,7 +5171,7 @@ jens-daniel-mueller
     ~ ggplot(data = .x,
              aes(
                dcant, depth,
-               col = MLR_predictors, fill = MLR_predictors
+               col = MLR_basins, fill = MLR_basins
              )) +
       geom_hline(yintercept = params_global$inventory_depth_standard) +
       geom_vline(xintercept = 0) +
@@ -5116,13 +5181,13 @@ jens-daniel-mueller
       facet_grid(data_source ~ basin_AIP)
   )</code></pre>
 <pre><code>[[1]]</code></pre>
-<p><img src="figure/classic_zonal_sections.Rmd/profiles_per_MLR_predictors-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/classic_zonal_sections.Rmd/profiles_per_MLR_basins-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-profiles_per_MLR_predictors-1">
-Past versions of profiles_per_MLR_predictors-1.png
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-profiles_per_MLR_basins-1">
+Past versions of profiles_per_MLR_basins-1.png
 </button>
 </p>
-<div id="fig-profiles_per_MLR_predictors-1" class="collapse">
+<div id="fig-profiles_per_MLR_basins-1" class="collapse">
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
 <thead>
@@ -5141,24 +5206,101 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/bad019223ffd6947c7b81b5b1f6483688dc831c9/docs/figure/classic_zonal_sections.Rmd/profiles_per_MLR_predictors-1.png" target="_blank">bad0192</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/88c47ca4ad711e252e973a9fda3591b162fbee74/docs/figure/classic_zonal_sections.Rmd/profiles_per_MLR_basins-1.png" target="_blank">88c47ca</a>
 </td>
 <td>
 jens-daniel-mueller
 </td>
 <td>
-2022-01-10
+2022-01-07
 </td>
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/33f190bccd3a8fa0b79cafc646db376f2d3d75c2/docs/figure/classic_zonal_sections.Rmd/profiles_per_MLR_predictors-1.png" target="_blank">33f190b</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/030836b576d9cd3f0907a3f92f7b6a024d8aabad/docs/figure/classic_zonal_sections.Rmd/profiles_per_MLR_basins-1.png" target="_blank">030836b</a>
 </td>
 <td>
 jens-daniel-mueller
 </td>
 <td>
-2022-01-09
+2022-01-06
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e55f86857be0ef2bdeb6cbbe516c6afc0fd1694f/docs/figure/classic_zonal_sections.Rmd/profiles_per_MLR_basins-1.png" target="_blank">e55f868</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-12-23
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/db09d70516a4a6aee7807f567b0c91c0748ac796/docs/figure/classic_zonal_sections.Rmd/profiles_per_MLR_basins-1.png" target="_blank">db09d70</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-12-10
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e534f5121b8bcabaf723ef513a4bd56e403f1d35/docs/figure/classic_zonal_sections.Rmd/profiles_per_MLR_basins-1.png" target="_blank">e534f51</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-11-02
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a162b7e067eb8a6369d40916290696a99bf1be78/docs/figure/classic_zonal_sections.Rmd/profiles_per_MLR_basins-1.png" target="_blank">a162b7e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-28
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/8c9fa17201eae22c6d7a15592456c754580e2073/docs/figure/classic_zonal_sections.Rmd/profiles_per_MLR_basins-1.png" target="_blank">8c9fa17</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-22
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6c49790d6ea0dd9cc25dfee0cc75358b77ef4c11/docs/figure/classic_zonal_sections.Rmd/profiles_per_MLR_basins-1.png" target="_blank">6c49790</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-18
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/968fe946dfc157043a60ab481ac5e763c2c37621/docs/figure/classic_zonal_sections.Rmd/profiles_per_MLR_basins-1.png" target="_blank">968fe94</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-18
 </td>
 </tr>
 </tbody>
@@ -5167,13 +5309,13 @@ jens-daniel-mueller
 </div>
 <pre><code>
 [[2]]</code></pre>
-<p><img src="figure/classic_zonal_sections.Rmd/profiles_per_MLR_predictors-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/classic_zonal_sections.Rmd/profiles_per_MLR_basins-2.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-profiles_per_MLR_predictors-2">
-Past versions of profiles_per_MLR_predictors-2.png
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-profiles_per_MLR_basins-2">
+Past versions of profiles_per_MLR_basins-2.png
 </button>
 </p>
-<div id="fig-profiles_per_MLR_predictors-2" class="collapse">
+<div id="fig-profiles_per_MLR_basins-2" class="collapse">
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
 <thead>
@@ -5192,24 +5334,101 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/bad019223ffd6947c7b81b5b1f6483688dc831c9/docs/figure/classic_zonal_sections.Rmd/profiles_per_MLR_predictors-2.png" target="_blank">bad0192</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/88c47ca4ad711e252e973a9fda3591b162fbee74/docs/figure/classic_zonal_sections.Rmd/profiles_per_MLR_basins-2.png" target="_blank">88c47ca</a>
 </td>
 <td>
 jens-daniel-mueller
 </td>
 <td>
-2022-01-10
+2022-01-07
 </td>
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/33f190bccd3a8fa0b79cafc646db376f2d3d75c2/docs/figure/classic_zonal_sections.Rmd/profiles_per_MLR_predictors-2.png" target="_blank">33f190b</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/030836b576d9cd3f0907a3f92f7b6a024d8aabad/docs/figure/classic_zonal_sections.Rmd/profiles_per_MLR_basins-2.png" target="_blank">030836b</a>
 </td>
 <td>
 jens-daniel-mueller
 </td>
 <td>
-2022-01-09
+2022-01-06
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e55f86857be0ef2bdeb6cbbe516c6afc0fd1694f/docs/figure/classic_zonal_sections.Rmd/profiles_per_MLR_basins-2.png" target="_blank">e55f868</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-12-23
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/db09d70516a4a6aee7807f567b0c91c0748ac796/docs/figure/classic_zonal_sections.Rmd/profiles_per_MLR_basins-2.png" target="_blank">db09d70</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-12-10
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e534f5121b8bcabaf723ef513a4bd56e403f1d35/docs/figure/classic_zonal_sections.Rmd/profiles_per_MLR_basins-2.png" target="_blank">e534f51</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-11-02
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a162b7e067eb8a6369d40916290696a99bf1be78/docs/figure/classic_zonal_sections.Rmd/profiles_per_MLR_basins-2.png" target="_blank">a162b7e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-28
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/8c9fa17201eae22c6d7a15592456c754580e2073/docs/figure/classic_zonal_sections.Rmd/profiles_per_MLR_basins-2.png" target="_blank">8c9fa17</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-22
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6c49790d6ea0dd9cc25dfee0cc75358b77ef4c11/docs/figure/classic_zonal_sections.Rmd/profiles_per_MLR_basins-2.png" target="_blank">6c49790</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-18
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/968fe946dfc157043a60ab481ac5e763c2c37621/docs/figure/classic_zonal_sections.Rmd/profiles_per_MLR_basins-2.png" target="_blank">968fe94</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-18
 </td>
 </tr>
 </tbody>
@@ -5218,13 +5437,13 @@ jens-daniel-mueller
 </div>
 <pre><code>
 [[3]]</code></pre>
-<p><img src="figure/classic_zonal_sections.Rmd/profiles_per_MLR_predictors-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/classic_zonal_sections.Rmd/profiles_per_MLR_basins-3.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-profiles_per_MLR_predictors-3">
-Past versions of profiles_per_MLR_predictors-3.png
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-profiles_per_MLR_basins-3">
+Past versions of profiles_per_MLR_basins-3.png
 </button>
 </p>
-<div id="fig-profiles_per_MLR_predictors-3" class="collapse">
+<div id="fig-profiles_per_MLR_basins-3" class="collapse">
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
 <thead>
@@ -5243,24 +5462,101 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/bad019223ffd6947c7b81b5b1f6483688dc831c9/docs/figure/classic_zonal_sections.Rmd/profiles_per_MLR_predictors-3.png" target="_blank">bad0192</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/88c47ca4ad711e252e973a9fda3591b162fbee74/docs/figure/classic_zonal_sections.Rmd/profiles_per_MLR_basins-3.png" target="_blank">88c47ca</a>
 </td>
 <td>
 jens-daniel-mueller
 </td>
 <td>
-2022-01-10
+2022-01-07
 </td>
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/33f190bccd3a8fa0b79cafc646db376f2d3d75c2/docs/figure/classic_zonal_sections.Rmd/profiles_per_MLR_predictors-3.png" target="_blank">33f190b</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/030836b576d9cd3f0907a3f92f7b6a024d8aabad/docs/figure/classic_zonal_sections.Rmd/profiles_per_MLR_basins-3.png" target="_blank">030836b</a>
 </td>
 <td>
 jens-daniel-mueller
 </td>
 <td>
-2022-01-09
+2022-01-06
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e55f86857be0ef2bdeb6cbbe516c6afc0fd1694f/docs/figure/classic_zonal_sections.Rmd/profiles_per_MLR_basins-3.png" target="_blank">e55f868</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-12-23
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/db09d70516a4a6aee7807f567b0c91c0748ac796/docs/figure/classic_zonal_sections.Rmd/profiles_per_MLR_basins-3.png" target="_blank">db09d70</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-12-10
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e534f5121b8bcabaf723ef513a4bd56e403f1d35/docs/figure/classic_zonal_sections.Rmd/profiles_per_MLR_basins-3.png" target="_blank">e534f51</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-11-02
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a162b7e067eb8a6369d40916290696a99bf1be78/docs/figure/classic_zonal_sections.Rmd/profiles_per_MLR_basins-3.png" target="_blank">a162b7e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-28
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/8c9fa17201eae22c6d7a15592456c754580e2073/docs/figure/classic_zonal_sections.Rmd/profiles_per_MLR_basins-3.png" target="_blank">8c9fa17</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-22
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6c49790d6ea0dd9cc25dfee0cc75358b77ef4c11/docs/figure/classic_zonal_sections.Rmd/profiles_per_MLR_basins-3.png" target="_blank">6c49790</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-18
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/968fe946dfc157043a60ab481ac5e763c2c37621/docs/figure/classic_zonal_sections.Rmd/profiles_per_MLR_basins-3.png" target="_blank">968fe94</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-18
 </td>
 </tr>
 </tbody>
@@ -5281,7 +5577,7 @@ jens-daniel-mueller
         dcant,
         depth,
         col = period,
-        group = interaction(MLR_predictors, period)
+        group = interaction(MLR_basins, period)
       )
     ) +
       geom_hline(yintercept = params_global$inventory_depth_standard) +
@@ -5709,7 +6005,7 @@ jens-daniel-mueller
   map(
     ~ ggplot(data = .x,
              aes(dcant, inv_depth,
-                 fill = MLR_predictors)) +
+                 fill = MLR_basins)) +
       geom_vline(xintercept = 0) +
       geom_col(position = &quot;dodge&quot;) +
       scale_y_discrete(limits = rev) +
@@ -6870,7 +7166,7 @@ jens-daniel-mueller
     select(lat, depth, basin_AIP, period, dcant_ensemble_mean, dcant_sd),
   dcant_zonal_all %&gt;%
     filter(data_source == &quot;mod_truth&quot;,
-           MLR_predictors == unique(dcant_zonal_all$MLR_predictors)[1]) %&gt;% 
+           MLR_basins == unique(dcant_zonal_all$MLR_basins)[1]) %&gt;% 
     select(lat, depth, basin_AIP, period, dcant_mod_truth = dcant)
 )</code></pre>
 <pre><code>Joining, by = c(&quot;lat&quot;, &quot;depth&quot;, &quot;basin_AIP&quot;, &quot;period&quot;)</code></pre>
@@ -7681,11 +7977,12 @@ jens-daniel-mueller
   ggplot() +
   scale_color_manual(values = c(&quot;red&quot;, &quot;grey&quot;)) +
   geom_vline(xintercept = 0) +
-  geom_density(aes(dcant_bias, group = MLR_predictors, col = &quot;Individual&quot;)) +
+  geom_density(aes(dcant_bias, group = MLR_basins, col = &quot;Individual&quot;)) +
   geom_density(data = dcant_zonal_ensemble_bias,
                aes(dcant_mean_bias, col = &quot;Ensemble&quot;)) +
   facet_grid(period ~.) +
   coord_cartesian(xlim = c(-10, 10))</code></pre>
+<pre><code>Warning: Removed 12 rows containing non-finite values (stat_density).</code></pre>
 <p><img src="figure/classic_zonal_sections.Rmd/bias_density_distribution_ensemble-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-bias_density_distribution_ensemble-1">
@@ -9577,7 +9874,7 @@ p_profiles &lt;-
            depth,
            col = period,
            fill = &quot;grey80&quot;,
-           group = interaction(MLR_predictors, period)
+           group = interaction(MLR_basins, period)
          )) +
   geom_hline(yintercept = params_global$inventory_depth_standard) +
   geom_vline(xintercept = 0) +
@@ -9634,8 +9931,9 @@ p_zonal_ensemble + p_profiles + p_layer_budget +
   plot_layout(widths = c(5,1,1)) +
   plot_annotation(tag_levels = &#39;a&#39;)</code></pre>
 <pre><code>Warning: Removed 318 rows containing non-finite values (stat_contour_filled).</code></pre>
-<pre><code>Warning: Removed 48 row(s) containing missing values (geom_path).</code></pre>
-<pre><code>Warning: Removed 6 rows containing missing values (geom_col).</code></pre>
+<pre><code>Warning: Removed 4 rows containing missing values (geom_point).</code></pre>
+<pre><code>Warning: Removed 36 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>Warning: Removed 1 rows containing missing values (geom_col).</code></pre>
 <p><img src="figure/classic_zonal_sections.Rmd/composed_figure-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-composed_figure-1">
@@ -9854,10 +10152,10 @@ dcant_zonal_all %&gt;%
                             &quot;| data_source&quot;,
                             unique(.x$data_source))
     ) +
-      facet_grid(MLR_predictors ~ period)
+      facet_grid(MLR_basins ~ period)
   )</code></pre>
 <pre><code>[[1]]</code></pre>
-<pre><code>Warning: Removed 3264 rows containing non-finite values (stat_contour_filled).</code></pre>
+<pre><code>Warning: Removed 2448 rows containing non-finite values (stat_contour_filled).</code></pre>
 <p><img src="figure/classic_zonal_sections.Rmd/ensemble_deviation_from_mean-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_deviation_from_mean-1">
@@ -10129,7 +10427,7 @@ jens-daniel-mueller
 </div>
 <pre><code>
 [[2]]</code></pre>
-<pre><code>Warning: Removed 1128 rows containing non-finite values (stat_contour_filled).</code></pre>
+<pre><code>Warning: Removed 846 rows containing non-finite values (stat_contour_filled).</code></pre>
 <p><img src="figure/classic_zonal_sections.Rmd/ensemble_deviation_from_mean-2.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_deviation_from_mean-2">
@@ -10401,7 +10699,7 @@ jens-daniel-mueller
 </div>
 <pre><code>
 [[3]]</code></pre>
-<pre><code>Warning: Removed 2016 rows containing non-finite values (stat_contour_filled).</code></pre>
+<pre><code>Warning: Removed 1512 rows containing non-finite values (stat_contour_filled).</code></pre>
 <p><img src="figure/classic_zonal_sections.Rmd/ensemble_deviation_from_mean-3.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_deviation_from_mean-3">
@@ -10673,7 +10971,7 @@ jens-daniel-mueller
 </div>
 <pre><code>
 [[4]]</code></pre>
-<pre><code>Warning: Removed 696 rows containing non-finite values (stat_contour_filled).</code></pre>
+<pre><code>Warning: Removed 522 rows containing non-finite values (stat_contour_filled).</code></pre>
 <p><img src="figure/classic_zonal_sections.Rmd/ensemble_deviation_from_mean-4.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_deviation_from_mean-4">
@@ -10945,7 +11243,7 @@ jens-daniel-mueller
 </div>
 <pre><code>
 [[5]]</code></pre>
-<pre><code>Warning: Removed 4968 rows containing non-finite values (stat_contour_filled).</code></pre>
+<pre><code>Warning: Removed 3726 rows containing non-finite values (stat_contour_filled).</code></pre>
 <p><img src="figure/classic_zonal_sections.Rmd/ensemble_deviation_from_mean-5.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_deviation_from_mean-5">
@@ -11217,7 +11515,7 @@ jens-daniel-mueller
 </div>
 <pre><code>
 [[6]]</code></pre>
-<pre><code>Warning: Removed 1992 rows containing non-finite values (stat_contour_filled).</code></pre>
+<pre><code>Warning: Removed 1494 rows containing non-finite values (stat_contour_filled).</code></pre>
 <p><img src="figure/classic_zonal_sections.Rmd/ensemble_deviation_from_mean-6.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_deviation_from_mean-6">
