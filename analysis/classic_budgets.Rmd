@@ -33,7 +33,7 @@ knitr::knit(text = unlist(read))
 ```
 
 
-```{r find_removed_predictor}
+```{r find_removed_predictor, eval=FALSE}
 
 all_predictors <- c("saltempaouoxygenphosphatenitratesilicate")
 
