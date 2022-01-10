@@ -22,7 +22,26 @@ read <- knitr::knit_expand(file = here::here("analysis/child/budget_analysis_rea
 
 ```
 
-`r knitr::knit(text = unlist(read))`
+```{r, include=FALSE}
+
+knitr::knit(text = unlist(read))
+
+```
+
+
+```{r find_removed_predictor}
+
+all_predictors <- c("saltempaouoxygenphosphatenitratesilicate")
+
+params_local_all <- params_local_all %>% 
+  mutate(MLR_predictors = str_remove_all(
+    all_predictors,
+    MLR_predictors))
+
+
+```
+
+
 
 ```{r, include = FALSE}
 
