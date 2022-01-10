@@ -15,12 +15,23 @@ editor_options:
 
 ```{r, include = FALSE}
 
-src <- knitr::knit_expand(file = here::here("analysis/child/budget_analysis.Rmd"),
+read <- knitr::knit_expand(file = here::here("analysis/child/budget_analysis_read_data.Rmd"),
                           version_id_pattern = "p",
                           config = "MLR_predictors")
 
 
 ```
 
-`r knitr::knit(text = unlist(src))`
+`r knitr::knit(text = unlist(read))`
+
+```{r, include = FALSE}
+
+plot <- knitr::knit_expand(file = here::here("analysis/child/budget_analysis_plot_data.Rmd"),
+                          version_id_pattern = "p",
+                          config = "MLR_predictors")
+
+
+```
+
+`r knitr::knit(text = unlist(plot))`
 
