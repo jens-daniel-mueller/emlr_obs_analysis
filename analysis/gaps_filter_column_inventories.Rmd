@@ -62,3 +62,60 @@ plot <-
 ```
 
 `r knitr::knit(text = unlist(plot))`
+
+
+```{r data_coverage, eval=FALSE}
+
+for (i_Version_IDs in Version_IDs) {
+  # i_Version_IDs <- Version_IDs[1]
+  
+  path_version_data     <-
+  paste(path_observations,
+        i_Version_IDs,
+        "/data/",
+        sep = "")
+  
+ 
+  
+  GLODAP_grid_era  <-
+  read_csv(paste(path_version_data,
+                  "GLODAPv2.2020_clean_obs_grid_era.csv",
+                  sep = ""))
+ 
+  
+  GLODAP_grid_era  <- GLODAP_grid_era %>% 
+    mutate(Version_ID = i_Version_IDs)
+  
+ 
+
+  if (exists("GLODAP_grid_era_all")) {
+    GLODAP_grid_era_all <- bind_rows(GLODAP_grid_era_all, GLODAP_grid_era)
+  }
+  
+  if (!exists("GLODAP_grid_era_all")) {
+    GLODAP_grid_era_all <- GLODAP_grid_era
+  }
+
+
+  GLODAP_grid_era_all %>%
+  group_split(period) %>%
+  # head(1) %>%
+  map(
+    ~ map +
+      geom_tile(data = .x,
+             aes(lon, lat)) +
+      facet_grid(gap_filling ~ era) +
+      theme(axis.text = element_blank(),
+            axis.ticks = element_blank())
+  )
+  
+  
+  GLODAP_grid_era_all <- full_join(GLODAP_grid_era_all,
+                                params_local_all)
+  
+  
+   
+}
+
+```
+
