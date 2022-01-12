@@ -61,3 +61,35 @@ plot <-
 ```
 
 `r knitr::knit(text = unlist(plot))`
+
+# Individual cases
+
+## Absoulte values
+
+```{r cases_absolute_divergent_color_scale, fig.asp=1.2}
+
+dcant_zonal_all %>%
+  filter(data_source %in% c("mod", "obs"),
+         period != "1994 - 2014") %>%
+  group_by(basin_AIP, data_source) %>%
+  group_split() %>%
+  # head(1) %>%
+  map(
+    ~ p_section_zonal_continous_depth(
+      df = .x,
+      var = "dcant",
+      plot_slabs = "n",
+      subtitle_text = paste(
+        "data_source: ",
+        unique(.x$data_source),
+        "| basin:",
+        unique(.x$basin_AIP)
+      ),
+      col = "divergent"
+    ) +
+      facet_grid(MLR_target ~ period)
+  )
+
+
+```
+
