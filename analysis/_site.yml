@@ -15,34 +15,26 @@ navbar:
         href: classic_column_inventories.html
       - text: Zonal sections
         href: classic_zonal_sections.html
-    - text: slab cases
-      menu:
-      - text: Budgets
-        href: slab_budgets.html
-      - text: Column inventories
-        href: slab_column_inventories.html
-      - text: Zonal sections
-        href: slab_zonal_sections.html
-    - text: bottomdepth
-      menu:
-      - text: Budgets
-        href: bottomdepth_budgets.html
-      - text: Column inventories
-        href: bottomdepth_column_inventories.html
-      - text: Zonal sections
-        href: bottomdepth_zonal_sections.html
+    # - text: slab cases
+    #   menu:
+    #   - text: Budgets
+    #     href: slab_budgets.html
+    #   - text: Column inventories
+    #     href: slab_column_inventories.html
+    #   - text: Zonal sections
+    #     href: slab_zonal_sections.html
   - text: Data cleaning
     menu:
-    - text: CANYON-B
-      menu:
-      - text: Overview
-        href: canyon_b_cleaning_overview.html
-      - text: Budgets
-        href: canyon_b_cleaning_budgets.html
-      - text: Column inventories
-        href: canyon_b_cleaning_column_inventories.html
-      - text: Zonal sections
-        href: canyon_b_cleaning_zonal_sections.html
+    # - text: CANYON-B
+    #   menu:
+    #   - text: Overview
+    #     href: canyon_b_cleaning_overview.html
+    #   - text: Budgets
+    #     href: canyon_b_cleaning_budgets.html
+    #   - text: Column inventories
+    #     href: canyon_b_cleaning_column_inventories.html
+    #   - text: Zonal sections
+    #     href: canyon_b_cleaning_zonal_sections.html
     - text: No gap-filling and filter
       menu:
       - text: Budgets
@@ -51,56 +43,72 @@ navbar:
         href: gaps_filter_column_inventories.html
       - text: Zonal sections
         href: gaps_filter_zonal_sections.html
-    - text: Global MLR
-      menu:
-      - text: Budgets
-        href: global_MLR_cleaning_budgets.html
-      - text: Column inventories
-        href: global_MLR_cleaning_column_inventories.html
-      - text: Zonal sections
-        href: global_MLR_cleaning_zonal_sections.html
-    - text: C* scatter
-      menu:
-      - text: Budgets
-        href: cstar_scatter_budgets.html
-      - text: Column inventories
-        href: cstar_scatter_column_inventories.html
-      - text: Zonal sections
-        href: cstar_scatter_zonal_sections.html
-    - text: Rarefication
-      menu:
-      - text: Budgets
-        href: rarefication_budgets.html
-      - text: Column inventories
-        href: rarefication_column_inventories.html
-      - text: Zonal sections
-        href: rarefication_zonal_sections.html
+    # - text: Global MLR
+    #   menu:
+    #   - text: Budgets
+    #     href: global_MLR_cleaning_budgets.html
+    #   - text: Column inventories
+    #     href: global_MLR_cleaning_column_inventories.html
+    #   - text: Zonal sections
+    #     href: global_MLR_cleaning_zonal_sections.html
+    # - text: C* scatter
+    #   menu:
+    #   - text: Budgets
+    #     href: cstar_scatter_budgets.html
+    #   - text: Column inventories
+    #     href: cstar_scatter_column_inventories.html
+    #   - text: Zonal sections
+    #     href: cstar_scatter_zonal_sections.html
+    # - text: Rarefication
+    #   menu:
+    #   - text: Budgets
+    #     href: rarefication_budgets.html
+    #   - text: Column inventories
+    #     href: rarefication_column_inventories.html
+    #   - text: Zonal sections
+    #     href: rarefication_zonal_sections.html
   - text: MLR
     menu:
-    - text: no_N
+    - text: MLR_predictors
       menu:
       - text: Budgets
-        href: no_n_budgets.html
+        href: MLR_predictor_budgets.html
       - text: Column inventories
-        href: no_n_column_inventories.html
+        href: MLR_predictor_column_inventories.html
       - text: Zonal sections
-        href: no_n_zonal_sections.html
-    - text: no_P
+        href: MLR_predictor_zonal_sections.html
+    - text: MLR_predictors nitrate
       menu:
       - text: Budgets
-        href: no_p_budgets.html
+        href: MLR_predictor_nitrate_budgets.html
       - text: Column inventories
-        href: no_p_column_inventories.html
+        href: MLR_predictor_nitrate_column_inventories.html
       - text: Zonal sections
-        href: no_p_zonal_sections.html
-    - text: VIF
+        href: MLR_predictor_nitrate_zonal_sections.html
+    - text: MLR_target
       menu:
       - text: Budgets
-        href: vif_budgets.html
+        href: MLR_target_budgets.html
       - text: Column inventories
-        href: vif_column_inventories.html
+        href: MLR_target_column_inventories.html
       - text: Zonal sections
-        href: vif_zonal_sections.html
+        href: MLR_target_zonal_sections.html
+  #   - text: no_P
+  #     menu:
+  #     - text: Budgets
+  #       href: no_p_budgets.html
+  #     - text: Column inventories
+  #       href: no_p_column_inventories.html
+  #     - text: Zonal sections
+  #       href: no_p_zonal_sections.html
+  #   - text: VIF
+  #     menu:
+  #     - text: Budgets
+  #       href: vif_budgets.html
+  #     - text: Column inventories
+  #       href: vif_column_inventories.html
+  #     - text: Zonal sections
+  #       href: vif_zonal_sections.html
   - text: Robustness
     menu:
     - text: Indian Ocean
@@ -119,14 +127,14 @@ navbar:
         href: G19_column_inventories.html
       - text: Zonal sections
         href: G19_zonal_sections.html
-    - text: C* correction
-      menu:
-      - text: Budgets
-        href: cstar_correction_budgets.html
-      - text: Column inventories
-        href: cstar_correction_column_inventories.html
-      - text: Zonal sections
-        href: cstar_correction_zonal_sections.html
+    # - text: C* correction
+    #   menu:
+    #   - text: Budgets
+    #     href: cstar_correction_budgets.html
+    #   - text: Column inventories
+    #     href: cstar_correction_column_inventories.html
+    #   - text: Zonal sections
+    #     href: cstar_correction_zonal_sections.html
   right:
   - icon: fa-github
     text: Source code

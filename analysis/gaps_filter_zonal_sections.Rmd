@@ -15,7 +15,7 @@ editor_options:
 ```{r define_parameters}
 
 version_id_pattern <- "g"
-config <- "MLR_target"
+config <- "MLR_basins"
 
 ```
 
