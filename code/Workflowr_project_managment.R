@@ -5,7 +5,7 @@
 
 
 # commit regular changes (locally) and rebuild site
-wflow_publish(all = TRUE, message = "added sections with divergent color scale")
+wflow_publish(all = TRUE, message = "removed data cleaning with CANYONB or MLR residuals")
 
 # commit changes including _site.yml (locally) and rebuild site in the specified order
 wflow_publish(here::here(
@@ -44,12 +44,12 @@ republish = TRUE)
 wflow_publish(here::here(
   "analysis",
   c(
-    "classic_budgets.Rmd",
-    "classic_column_inventories.Rmd",
-    "classic_zonal_sections.Rmd"
+    "G19_budgets.Rmd",
+    "G19_column_inventories.Rmd",
+    "G19_zonal_sections.Rmd"
   )
 ),
-message = "split child documents")
+message = "rebuild with latest subsetting strategy")
 
 
 # Push latest version to GitHub
