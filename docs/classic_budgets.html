@@ -642,16 +642,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree1ff6966f482a28417a8bf033793b1b2f994052c7targetblank1ff6966a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/1ff6966f482a28417a8bf033793b1b2f994052c7" target="_blank">1ff6966</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree513630f665f7d61ef36ff55709f91aec107842f2targetblank513630fa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/513630f665f7d61ef36ff55709f91aec107842f2" target="_blank">513630f</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree1ff6966f482a28417a8bf033793b1b2f994052c7targetblank1ff6966a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree513630f665f7d61ef36ff55709f91aec107842f2targetblank513630fa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/1ff6966f482a28417a8bf033793b1b2f994052c7" target="_blank">1ff6966</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/513630f665f7d61ef36ff55709f91aec107842f2" target="_blank">513630f</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -795,6 +795,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/513630f665f7d61ef36ff55709f91aec107842f2/docs/classic_budgets.html" target="_blank">513630f</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -2917,8 +2934,8 @@ print(Version_IDs)</code></pre>
   tref
 )</code></pre>
 </div>
-<div id="regional" class="section level2" number="1.2">
-<h2><span class="header-section-number">1.2</span> Regional</h2>
+<div id="basins" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> Basins</h2>
 <pre class="r"><code># Version_IDs &lt;- Version_IDs[1:length(Version_IDs)-1]
 
 for (i_Version_IDs in Version_IDs) {
@@ -3040,8 +3057,96 @@ for (i_Version_IDs in Version_IDs) {
   dcant_slab_budget_bias
 )</code></pre>
 </div>
-<div id="steady-state" class="section level2" number="1.3">
-<h2><span class="header-section-number">1.3</span> Steady state</h2>
+<div id="basins-hemisphere" class="section level2" number="1.3">
+<h2><span class="header-section-number">1.3</span> Basins hemisphere</h2>
+<pre class="r"><code># Version_IDs &lt;- Version_IDs[1:length(Version_IDs)-1]
+
+for (i_Version_IDs in Version_IDs) {
+  # i_Version_IDs &lt;- Version_IDs[1]
+  
+  print(i_Version_IDs)
+  
+  path_version_data     &lt;-
+    paste(path_observations,
+          i_Version_IDs,
+          &quot;/data/&quot;,
+          sep = &quot;&quot;)
+  
+  # load and join data files
+  
+  dcant_budget_basin_MLR &lt;-
+    read_csv(paste(path_version_data,
+                   &quot;dcant_budget_basin_MLR.csv&quot;,
+                   sep = &quot;&quot;))
+  
+  dcant_budget_basin_MLR_mod_truth &lt;-
+    read_csv(paste(
+      path_version_data,
+      &quot;dcant_budget_basin_MLR_mod_truth.csv&quot;,
+      sep = &quot;&quot;
+    ))
+  
+    
+  dcant_budget_basin_MLR &lt;- bind_rows(dcant_budget_basin_MLR,
+                                      dcant_budget_basin_MLR_mod_truth)
+  
+  # dcant_budget_basin_MLR_bias &lt;-
+  #   read_csv(paste(path_version_data,
+  #                  &quot;dcant_budget_basin_MLR_bias.csv&quot;,
+  #                  sep = &quot;&quot;))
+  
+  dcant_budget_basin_MLR &lt;- dcant_budget_basin_MLR %&gt;%
+    mutate(Version_ID = i_Version_IDs)
+  
+  # dcant_budget_basin_MLR_bias &lt;- dcant_budget_basin_MLR_bias %&gt;%
+  #   mutate(Version_ID = i_Version_IDs)
+
+  if (exists(&quot;dcant_budget_basin_MLR_all&quot;)) {
+    dcant_budget_basin_MLR_all &lt;-
+      bind_rows(dcant_budget_basin_MLR_all, dcant_budget_basin_MLR)
+  }
+  
+  if (!exists(&quot;dcant_budget_basin_MLR_all&quot;)) {
+    dcant_budget_basin_MLR_all &lt;- dcant_budget_basin_MLR
+  }
+  
+  # if (exists(&quot;dcant_budget_basin_MLR_bias_all&quot;)) {
+  #   dcant_budget_basin_MLR_bias_all &lt;-
+  #     bind_rows(dcant_budget_basin_MLR_bias_all,
+  #               dcant_budget_basin_MLR_bias)
+  # }
+  # 
+  # if (!exists(&quot;dcant_budget_basin_MLR_bias_all&quot;)) {
+  #   dcant_budget_basin_MLR_bias_all &lt;- dcant_budget_basin_MLR_bias
+  # }
+  
+}</code></pre>
+<pre><code>[1] &quot;v_1101&quot;
+[1] &quot;v_1102&quot;
+[1] &quot;v_1103&quot;
+[1] &quot;v_1104&quot;
+[1] &quot;v_1105&quot;
+[1] &quot;v_1106&quot;
+[1] &quot;v_2101&quot;
+[1] &quot;v_2102&quot;
+[1] &quot;v_2103&quot;
+[1] &quot;v_2104&quot;
+[1] &quot;v_2105&quot;
+[1] &quot;v_2106&quot;
+[1] &quot;v_3101&quot;
+[1] &quot;v_3102&quot;
+[1] &quot;v_3103&quot;
+[1] &quot;v_3104&quot;
+[1] &quot;v_3105&quot;
+[1] &quot;v_3106&quot;</code></pre>
+<pre class="r"><code>rm(
+  dcant_budget_basin_MLR,
+  # dcant_budget_basin_MLR_bias,
+  dcant_budget_basin_MLR_mod_truth
+)</code></pre>
+</div>
+<div id="steady-state" class="section level2" number="1.4">
+<h2><span class="header-section-number">1.4</span> Steady state</h2>
 <pre class="r"><code>for (i_Version_IDs in Version_IDs) {
   # i_Version_IDs &lt;- Version_IDs[1]
   
@@ -3092,8 +3197,8 @@ for (i_Version_IDs in Version_IDs) {
 [1] &quot;v_3106&quot;</code></pre>
 <pre class="r"><code>rm(dcant_obs_budget)</code></pre>
 </div>
-<div id="atm-co2" class="section level2" number="1.4">
-<h2><span class="header-section-number">1.4</span> Atm CO2</h2>
+<div id="atm-co2" class="section level2" number="1.5">
+<h2><span class="header-section-number">1.5</span> Atm CO2</h2>
 <pre class="r"><code>co2_atm &lt;-
   read_csv(paste(path_preprocessing,
                  &quot;co2_atm.csv&quot;,
@@ -3141,6 +3246,25 @@ dcant_budget_basin_AIP_bias_all_depth &lt;- dcant_budget_basin_AIP_bias_all
 
 dcant_budget_basin_AIP_bias_all &lt;- dcant_budget_basin_AIP_bias_all %&gt;%
   filter(inv_depth == params_global$inventory_depth_standard)</code></pre>
+<pre class="r"><code>dcant_budget_basin_MLR_all &lt;- dcant_budget_basin_MLR_all %&gt;%
+  filter(estimate == &quot;dcant&quot;, 
+         method == &quot;total&quot;) %&gt;% 
+  select(-c(estimate, method)) %&gt;% 
+  rename(dcant = value)
+
+# dcant_budget_basin_MLR_all_depth &lt;- dcant_budget_basin_MLR_all
+
+dcant_budget_basin_MLR_all &lt;- dcant_budget_basin_MLR_all %&gt;%
+  filter(inv_depth == params_global$inventory_depth_standard)
+
+# dcant_budget_basin_MLR_bias_all &lt;- dcant_budget_basin_MLR_bias_all %&gt;%
+#   filter(estimate == &quot;dcant&quot;) %&gt;% 
+#   select(-c(estimate))
+# 
+# dcant_budget_basin_MLR_bias_all_depth &lt;- dcant_budget_basin_MLR_bias_all
+# 
+# dcant_budget_basin_MLR_bias_all &lt;- dcant_budget_basin_MLR_bias_all %&gt;%
+#   filter(inv_depth == params_global$inventory_depth_standard)</code></pre>
 </div>
 </div>
 <div id="bias-thresholds" class="section level1" number="2">
@@ -4150,8 +4274,8 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="regional-1" class="section level1" number="4">
-<h1><span class="header-section-number">4</span> Regional</h1>
+<div id="basins-1" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Basins</h1>
 <div id="individual-cases-1" class="section level2" number="4.1">
 <h2><span class="header-section-number">4.1</span> Individual cases</h2>
 <div id="absoulte-values-1" class="section level3" number="4.1.1">
@@ -7511,10 +7635,28 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="ensemble" class="section level1" number="5">
-<h1><span class="header-section-number">5</span> Ensemble</h1>
-<div id="global-2" class="section level2" number="5.1">
-<h2><span class="header-section-number">5.1</span> Global</h2>
+<div id="basins-hemisphere-1" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Basins hemisphere</h1>
+<div id="individual-cases-2" class="section level2" number="5.1">
+<h2><span class="header-section-number">5.1</span> Individual cases</h2>
+<div id="absoulte-values-2" class="section level3" number="5.1.1">
+<h3><span class="header-section-number">5.1.1</span> Absoulte values</h3>
+<pre class="r"><code>dcant_budget_basin_MLR_all %&gt;%
+  ggplot(aes(period, dcant, col = MLR_basins)) +
+  geom_jitter(width = 0.05, height = 0) +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  facet_grid(basin ~ data_source) +
+  ylim(0,NA) +
+  theme(axis.text.x = element_text(angle = 45, hjust=1),
+        axis.title.x = element_blank())</code></pre>
+<p><img src="figure/classic_budgets.Rmd/cases_absolute_basins_hemisphere-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+</div>
+<div id="ensemble" class="section level1" number="6">
+<h1><span class="header-section-number">6</span> Ensemble</h1>
+<div id="global-2" class="section level2" number="6.1">
+<h2><span class="header-section-number">6.1</span> Global</h2>
 <pre class="r"><code>dcant_budget_global_all_in &lt;- dcant_budget_global_all %&gt;% 
   filter(data_source %in% c(&quot;mod&quot;, &quot;obs&quot;))
 
@@ -7525,8 +7667,8 @@ dcant_budget_global_ensemble &lt;- dcant_budget_global_all_in %&gt;%
             dcant_range = max(dcant)- min(dcant)) %&gt;% 
   ungroup()</code></pre>
 <pre><code>`summarise()` has grouped output by &#39;data_source&#39;, &#39;period&#39;. You can override using the `.groups` argument.</code></pre>
-<div id="mean" class="section level3" number="5.1.1">
-<h3><span class="header-section-number">5.1.1</span> Mean</h3>
+<div id="mean" class="section level3" number="6.1.1">
+<h3><span class="header-section-number">6.1.1</span> Mean</h3>
 <pre class="r"><code>legend_title = expression(Delta * C[ant]~(PgC))
 
 ggplot() +
@@ -8216,8 +8358,8 @@ jens-daniel-mueller
 
 rm(p_global_bias, p_global_dcant, p_global_dcant_bias)</code></pre>
 </div>
-<div id="mean-vs-atm-co2" class="section level3" number="5.1.2">
-<h3><span class="header-section-number">5.1.2</span> Mean vs atm CO2</h3>
+<div id="mean-vs-atm-co2" class="section level3" number="6.1.2">
+<h3><span class="header-section-number">6.1.2</span> Mean vs atm CO2</h3>
 <pre class="r"><code>dcant_ensemble &lt;- dcant_budget_global_ensemble %&gt;% 
   filter(data_source == &quot;obs&quot;,
          period != &quot;1994 - 2014&quot;) %&gt;% 
@@ -8243,6 +8385,9 @@ tcant_ensemble %&gt;%
   geom_ribbon(fill = &quot;grey80&quot;) +
   geom_point() +
   geom_line() +
+  scale_x_continuous(breaks = seq(280, 400, 30),
+                     sec.axis = dup_axis(labels =  c(1750, 1940, 1980, 2000, 2015),
+                                         name = &quot;Year&quot;)) +
   geom_text(aes(label = year), nudge_x = -5, nudge_y = 5) +
   labs(x = expression(Atmospheric~pCO[2]~(µatm)),
        y = expression(Total~oceanic~C[ant]~(PgC)))</code></pre>
@@ -8432,8 +8577,8 @@ jens-daniel-mueller
 #        height = 4,
 #        width = 7)</code></pre>
 </div>
-<div id="sum-decades" class="section level3" number="5.1.3">
-<h3><span class="header-section-number">5.1.3</span> Sum decades</h3>
+<div id="sum-decades" class="section level3" number="6.1.3">
+<h3><span class="header-section-number">6.1.3</span> Sum decades</h3>
 <pre class="r"><code>dcant_budget_global_all_in_sum &lt;-
   dcant_budget_global_all_in %&gt;%
   filter(period != &quot;1994 - 2014&quot;) %&gt;%
@@ -8723,8 +8868,8 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="mean-bias" class="section level3" number="5.1.4">
-<h3><span class="header-section-number">5.1.4</span> Mean bias</h3>
+<div id="mean-bias" class="section level3" number="6.1.4">
+<h3><span class="header-section-number">6.1.4</span> Mean bias</h3>
 <pre class="r"><code>dcant_budget_global_ensemble_bias &lt;- full_join(
   dcant_budget_global_ensemble %&gt;%
     filter(data_source == &quot;mod&quot;) %&gt;% 
@@ -9308,10 +9453,10 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="vertical-patterns" class="section level3" number="5.1.5">
-<h3><span class="header-section-number">5.1.5</span> Vertical patterns</h3>
-<div id="absoulte-values-2" class="section level4" number="5.1.5.1">
-<h4><span class="header-section-number">5.1.5.1</span> Absoulte values</h4>
+<div id="vertical-patterns" class="section level3" number="6.1.5">
+<h3><span class="header-section-number">6.1.5</span> Vertical patterns</h3>
+<div id="absoulte-values-3" class="section level4" number="6.1.5.1">
+<h4><span class="header-section-number">6.1.5.1</span> Absoulte values</h4>
 <pre class="r"><code>dcant_budget_global_all_depth %&gt;%
   filter(data_source != &quot;mod_truth&quot;) %&gt;% 
   group_by(data_source) %&gt;%
@@ -9923,8 +10068,8 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="biases-2" class="section level4" number="5.1.5.2">
-<h4><span class="header-section-number">5.1.5.2</span> Biases</h4>
+<div id="biases-2" class="section level4" number="6.1.5.2">
+<h4><span class="header-section-number">6.1.5.2</span> Biases</h4>
 <pre class="r"><code>dcant_budget_global_bias_all_depth %&gt;%
   ggplot(aes(dcant_bias, MLR_basins, fill = period)) +
   geom_vline(xintercept = 0) +
@@ -10572,8 +10717,8 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="regional-2" class="section level2" number="5.2">
-<h2><span class="header-section-number">5.2</span> Regional</h2>
+<div id="basins-2" class="section level2" number="6.2">
+<h2><span class="header-section-number">6.2</span> Basins</h2>
 <pre class="r"><code>dcant_budget_basin_AIP_ensemble &lt;- dcant_budget_basin_AIP_all %&gt;% 
   filter(data_source %in% c(&quot;mod&quot;, &quot;obs&quot;)) %&gt;% 
   group_by(basin_AIP, data_source, period) %&gt;% 
@@ -10582,8 +10727,8 @@ jens-daniel-mueller
             dcant_range = max(dcant)- min(dcant)) %&gt;% 
   ungroup()</code></pre>
 <pre><code>`summarise()` has grouped output by &#39;basin_AIP&#39;, &#39;data_source&#39;. You can override using the `.groups` argument.</code></pre>
-<div id="mean-1" class="section level3" number="5.2.1">
-<h3><span class="header-section-number">5.2.1</span> Mean</h3>
+<div id="mean-1" class="section level3" number="6.2.1">
+<h3><span class="header-section-number">6.2.1</span> Mean</h3>
 <pre class="r"><code>dcant_budget_basin_AIP_ensemble %&gt;%
   ggplot(aes(period, dcant_mean, col=basin_AIP)) +
   geom_pointrange(aes(ymax = dcant_mean + dcant_sd,
@@ -11198,8 +11343,8 @@ jens-daniel-mueller
 
 rm(p_regional_bias, p_regional_dcant, p_regional_dcant_bias)</code></pre>
 </div>
-<div id="mean-bias-1" class="section level3" number="5.2.2">
-<h3><span class="header-section-number">5.2.2</span> Mean bias</h3>
+<div id="mean-bias-1" class="section level3" number="6.2.2">
+<h3><span class="header-section-number">6.2.2</span> Mean bias</h3>
 <pre class="r"><code>dcant_budget_basin_AIP_ensemble_bias &lt;- full_join(
   dcant_budget_basin_AIP_ensemble %&gt;%
     filter(data_source == &quot;mod&quot;) %&gt;% 
@@ -11751,10 +11896,10 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="vertical-patterns-1" class="section level3" number="5.2.3">
-<h3><span class="header-section-number">5.2.3</span> Vertical patterns</h3>
-<div id="absoulte-values-3" class="section level4" number="5.2.3.1">
-<h4><span class="header-section-number">5.2.3.1</span> Absoulte values</h4>
+<div id="vertical-patterns-1" class="section level3" number="6.2.3">
+<h3><span class="header-section-number">6.2.3</span> Vertical patterns</h3>
+<div id="absoulte-values-4" class="section level4" number="6.2.3.1">
+<h4><span class="header-section-number">6.2.3.1</span> Absoulte values</h4>
 <pre class="r"><code>dcant_budget_basin_AIP_all_depth %&gt;%
   filter(data_source != &quot;mod_truth&quot;) %&gt;%
   group_by(data_source) %&gt;%
@@ -12322,8 +12467,8 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="biases-3" class="section level4" number="5.2.3.2">
-<h4><span class="header-section-number">5.2.3.2</span> Biases</h4>
+<div id="biases-3" class="section level4" number="6.2.3.2">
+<h4><span class="header-section-number">6.2.3.2</span> Biases</h4>
 <pre class="r"><code>dcant_budget_basin_AIP_bias_all_depth %&gt;%
   ggplot(aes(dcant_bias, MLR_basins, fill = basin_AIP)) +
   geom_vline(xintercept = 0) +
@@ -12966,8 +13111,8 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="steady-state-1" class="section level1" number="6">
-<h1><span class="header-section-number">6</span> Steady state</h1>
+<div id="steady-state-1" class="section level1" number="7">
+<h1><span class="header-section-number">7</span> Steady state</h1>
 <pre class="r"><code>dcant_obs_budget_all %&gt;%
   group_by(inv_depth) %&gt;%
   group_split() %&gt;%
@@ -13950,8 +14095,8 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="predictor-analysis" class="section level1" number="7">
-<h1><span class="header-section-number">7</span> Predictor analysis</h1>
+<div id="predictor-analysis" class="section level1" number="8">
+<h1><span class="header-section-number">8</span> Predictor analysis</h1>
 <pre class="r"><code>lm_best_predictor_counts_all &lt;-
   full_join(lm_best_predictor_counts_all,
             params_local_all)</code></pre>
@@ -13979,6 +14124,43 @@ lm_best_predictor_counts_all %&gt;%
   scale_color_viridis_d() +
   facet_grid(basin ~ data_source)</code></pre>
 <p><img src="figure/classic_budgets.Rmd/predictor_analysis-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-predictor_analysis-1">
+Past versions of predictor_analysis-1.png
+</button>
+</p>
+<div id="fig-predictor_analysis-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/513630f665f7d61ef36ff55709f91aec107842f2/docs/figure/classic_budgets.Rmd/predictor_analysis-1.png" target="_blank">513630f</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>lm_best_predictor_counts_all %&gt;%
   pivot_longer(aou:temp,
                names_to = &quot;predictor&quot;,
@@ -13996,28 +14178,287 @@ lm_best_predictor_counts_all %&gt;%
   )</code></pre>
 <pre><code>[[1]]</code></pre>
 <p><img src="figure/classic_budgets.Rmd/predictor_analysis-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-predictor_analysis-2">
+Past versions of predictor_analysis-2.png
+</button>
+</p>
+<div id="fig-predictor_analysis-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/513630f665f7d61ef36ff55709f91aec107842f2/docs/figure/classic_budgets.Rmd/predictor_analysis-2.png" target="_blank">513630f</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>
 [[2]]</code></pre>
 <pre><code>Warning: Removed 35 rows containing missing values (geom_point).</code></pre>
 <p><img src="figure/classic_budgets.Rmd/predictor_analysis-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-predictor_analysis-3">
+Past versions of predictor_analysis-3.png
+</button>
+</p>
+<div id="fig-predictor_analysis-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/513630f665f7d61ef36ff55709f91aec107842f2/docs/figure/classic_budgets.Rmd/predictor_analysis-3.png" target="_blank">513630f</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>
 [[3]]</code></pre>
 <pre><code>Warning: Removed 3 rows containing missing values (geom_point).</code></pre>
 <p><img src="figure/classic_budgets.Rmd/predictor_analysis-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-predictor_analysis-4">
+Past versions of predictor_analysis-4.png
+</button>
+</p>
+<div id="fig-predictor_analysis-4" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/513630f665f7d61ef36ff55709f91aec107842f2/docs/figure/classic_budgets.Rmd/predictor_analysis-4.png" target="_blank">513630f</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>
 [[4]]</code></pre>
 <pre><code>Warning: Removed 5 rows containing missing values (geom_point).</code></pre>
 <p><img src="figure/classic_budgets.Rmd/predictor_analysis-5.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-predictor_analysis-5">
+Past versions of predictor_analysis-5.png
+</button>
+</p>
+<div id="fig-predictor_analysis-5" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/513630f665f7d61ef36ff55709f91aec107842f2/docs/figure/classic_budgets.Rmd/predictor_analysis-5.png" target="_blank">513630f</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>
 [[5]]</code></pre>
 <p><img src="figure/classic_budgets.Rmd/predictor_analysis-6.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-predictor_analysis-6">
+Past versions of predictor_analysis-6.png
+</button>
+</p>
+<div id="fig-predictor_analysis-6" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/513630f665f7d61ef36ff55709f91aec107842f2/docs/figure/classic_budgets.Rmd/predictor_analysis-6.png" target="_blank">513630f</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>
 [[6]]</code></pre>
 <pre><code>Warning: Removed 4 rows containing missing values (geom_point).</code></pre>
 <p><img src="figure/classic_budgets.Rmd/predictor_analysis-7.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-predictor_analysis-7">
+Past versions of predictor_analysis-7.png
+</button>
+</p>
+<div id="fig-predictor_analysis-7" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/513630f665f7d61ef36ff55709f91aec107842f2/docs/figure/classic_budgets.Rmd/predictor_analysis-7.png" target="_blank">513630f</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>
 [[7]]</code></pre>
 <p><img src="figure/classic_budgets.Rmd/predictor_analysis-8.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-predictor_analysis-8">
+Past versions of predictor_analysis-8.png
+</button>
+</p>
+<div id="fig-predictor_analysis-8" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/513630f665f7d61ef36ff55709f91aec107842f2/docs/figure/classic_budgets.Rmd/predictor_analysis-8.png" target="_blank">513630f</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>lm_best_dcant_all &lt;-
   full_join(lm_best_dcant_all,
             params_local_all)</code></pre>
@@ -14028,6 +14469,43 @@ lm_best_predictor_counts_all %&gt;%
   geom_jitter(height = 0, alpha = 0.3) +
   facet_grid(basin ~ data_source)</code></pre>
 <p><img src="figure/classic_budgets.Rmd/predictor_analysis-9.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-predictor_analysis-9">
+Past versions of predictor_analysis-9.png
+</button>
+</p>
+<div id="fig-predictor_analysis-9" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/513630f665f7d61ef36ff55709f91aec107842f2/docs/figure/classic_budgets.Rmd/predictor_analysis-9.png" target="_blank">513630f</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
