@@ -37,14 +37,10 @@ read <-
 
 `r knitr::knit(text = unlist(read))`
 
-```{r find_removed_predictor, eval=FALSE}
-
-all_predictors <- c("saltempaouoxygenphosphatenitratesilicate")
+```{r order_vif_max_levels}
 
 params_local_all <- params_local_all %>%
-  mutate(MLR_predictors = str_remove_all(all_predictors,
-                                         MLR_predictors))
-
+  mutate(vif_max = fct_inorder(vif_max))
 
 ```
 
