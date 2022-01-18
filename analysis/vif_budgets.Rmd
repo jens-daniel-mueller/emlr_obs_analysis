@@ -57,3 +57,31 @@ plot <-
 ```
 
 `r knitr::knit(text = unlist(plot))`
+
+
+```{r test_predictor_analysis, fig.asp=2}
+
+lm_best_predictor_counts_all <-
+  full_join(lm_best_predictor_counts_all,
+            params_local_all)
+
+lm_best_predictor_counts_all <- lm_best_predictor_counts_all %>% 
+  mutate(n_predictors_total = rowSums(across(aou:temp), na.rm = TRUE)/10)
+
+lm_best_predictor_counts_all %>% 
+  ggplot(aes(vif_max, n_predictors_total, col = period)) +
+  geom_point() +
+  facet_grid(gamma_slab ~ data_source)
+
+lm_best_predictor_counts_all %>% 
+  pivot_longer(aou:temp,
+               names_to = "predictor",
+               values_to = "count") %>% 
+  ggplot(aes(vif_max, count, col = predictor)) +
+  geom_point() +
+  facet_grid(gamma_slab ~ data_source)
+
+
+```
+
+
