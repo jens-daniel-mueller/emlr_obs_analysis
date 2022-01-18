@@ -1,5 +1,5 @@
 ---
-title: "Budgets"
+title: "Basics"
 author: "Jens Daniel Müller"
 date:  "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
