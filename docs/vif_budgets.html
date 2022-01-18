@@ -642,16 +642,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreef441bedb0ad9612f211ae534ce82a40313b830bdtargetblankf441beda"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/f441bedb0ad9612f211ae534ce82a40313b830bd" target="_blank">f441bed</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreed3fbfe85a14243a93ba50e32465bf86394ebda4dtargetblankd3fbfe8a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/d3fbfe85a14243a93ba50e32465bf86394ebda4d" target="_blank">d3fbfe8</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreef441bedb0ad9612f211ae534ce82a40313b830bdtargetblankf441beda" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreed3fbfe85a14243a93ba50e32465bf86394ebda4dtargetblankd3fbfe8a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/f441bedb0ad9612f211ae534ce82a40313b830bd" target="_blank">f441bed</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/d3fbfe85a14243a93ba50e32465bf86394ebda4d" target="_blank">d3fbfe8</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -675,7 +675,9 @@ Untracked files:
     Untracked:  figure/cases_absolute-5.png
     Untracked:  figure/cases_absolute-6.png
     Untracked:  figure/cases_absolute_depth-1.png
+    Untracked:  figure/cases_absolute_depth-2.png
     Untracked:  figure/cases_absolute_depth_global-1.png
+    Untracked:  figure/cases_absolute_depth_global-2.png
     Untracked:  figure/cases_absolute_global-1.png
     Untracked:  figure/cases_bias-1.png
     Untracked:  figure/cases_bias-2.png
@@ -753,10 +755,6 @@ Untracked files:
     Untracked:  figure/steady_state_comparison-5.png
     Untracked:  figure/summed_decades-1.png
 
-Unstaged changes:
-    Modified:   analysis/_site.yml
-    Modified:   code/Workflowr_project_managment.R
-
 </code></pre>
 <p>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
@@ -794,6 +792,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d3fbfe85a14243a93ba50e32465bf86394ebda4d/analysis/vif_budgets.Rmd" target="_blank">d3fbfe8</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+<td>
+ordered vif_max factor levels
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/vif_budgets.html" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1479,11 +1511,8 @@ for (i_Version_IDs in Version_IDs) {
   read_csv(paste(path_preprocessing,
                  &quot;co2_atm.csv&quot;,
                  sep = &quot;&quot;))</code></pre>
-<pre class="r"><code>all_predictors &lt;- c(&quot;saltempaouoxygenphosphatenitratesilicate&quot;)
-
-params_local_all &lt;- params_local_all %&gt;%
-  mutate(MLR_predictors = str_remove_all(all_predictors,
-                                         MLR_predictors))</code></pre>
+<pre class="r"><code>params_local_all &lt;- params_local_all %&gt;%
+  mutate(vif_max = fct_inorder(vif_max))</code></pre>
 <pre class="r"><code>dcant_budget_global_all &lt;- dcant_budget_global_all %&gt;%
   filter(estimate == &quot;dcant&quot;, 
          method == &quot;total&quot;) %&gt;% 
@@ -1577,6 +1606,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_budgets.Rmd/cases_absolute_global-1.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/73154c700b53850482cfaad25a0b826e3832fef0/docs/figure/vif_budgets.Rmd/cases_absolute_global-1.png" target="_blank">73154c7</a>
 </td>
 <td>
@@ -1645,6 +1685,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_budgets.Rmd/cases_bias_global-1.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/73154c700b53850482cfaad25a0b826e3832fef0/docs/figure/vif_budgets.Rmd/cases_bias_global-1.png" target="_blank">73154c7</a>
@@ -1721,6 +1772,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_budgets.Rmd/cases_bias_global-2.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/73154c700b53850482cfaad25a0b826e3832fef0/docs/figure/vif_budgets.Rmd/cases_bias_global-2.png" target="_blank">73154c7</a>
@@ -1800,6 +1862,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_budgets.Rmd/cases_absolute-1.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/73154c700b53850482cfaad25a0b826e3832fef0/docs/figure/vif_budgets.Rmd/cases_absolute-1.png" target="_blank">73154c7</a>
 </td>
 <td>
@@ -1866,6 +1939,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_budgets.Rmd/cases_bias-1.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/73154c700b53850482cfaad25a0b826e3832fef0/docs/figure/vif_budgets.Rmd/cases_bias-1.png" target="_blank">73154c7</a>
@@ -1941,6 +2025,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_budgets.Rmd/cases_bias-2.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/73154c700b53850482cfaad25a0b826e3832fef0/docs/figure/vif_budgets.Rmd/cases_bias-2.png" target="_blank">73154c7</a>
 </td>
 <td>
@@ -1998,6 +2093,43 @@ jens-daniel-mueller
 
 p_regional_bias</code></pre>
 <p><img src="figure/vif_budgets.Rmd/cases_bias-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_bias-3">
+Past versions of cases_bias-3.png
+</button>
+</p>
+<div id="fig-cases_bias-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_budgets.Rmd/cases_bias-3.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="slab-budgets" class="section level2" number="4.2">
@@ -2013,6 +2145,43 @@ p_regional_bias</code></pre>
   scale_fill_scico_d(direction = -1) +
   facet_grid(basin_AIP ~ period)</code></pre>
 <p><img src="figure/vif_budgets.Rmd/slab_budgets-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-slab_budgets-1">
+Past versions of slab_budgets-1.png
+</button>
+</p>
+<div id="fig-slab_budgets-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_budgets.Rmd/slab_budgets-1.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>dcant_slab_budget_all %&gt;%
   filter(data_source == &quot;obs&quot;,
          period != &quot;1994 - 2014&quot;) %&gt;%
@@ -2029,12 +2198,123 @@ p_regional_bias</code></pre>
   )</code></pre>
 <pre><code>[[1]]</code></pre>
 <p><img src="figure/vif_budgets.Rmd/slab_budgets_individual-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-slab_budgets_individual-1">
+Past versions of slab_budgets_individual-1.png
+</button>
+</p>
+<div id="fig-slab_budgets_individual-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_budgets.Rmd/slab_budgets_individual-1.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>
 [[2]]</code></pre>
 <p><img src="figure/vif_budgets.Rmd/slab_budgets_individual-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-slab_budgets_individual-2">
+Past versions of slab_budgets_individual-2.png
+</button>
+</p>
+<div id="fig-slab_budgets_individual-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_budgets.Rmd/slab_budgets_individual-2.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>
 [[3]]</code></pre>
 <p><img src="figure/vif_budgets.Rmd/slab_budgets_individual-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-slab_budgets_individual-3">
+Past versions of slab_budgets_individual-3.png
+</button>
+</p>
+<div id="fig-slab_budgets_individual-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_budgets.Rmd/slab_budgets_individual-3.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="bias" class="section level3" number="4.2.2">
 <h3><span class="header-section-number">4.2.2</span> Bias</h3>
@@ -2056,14 +2336,125 @@ p_regional_bias</code></pre>
 <pre><code>[[1]]</code></pre>
 <pre><code>Warning: Removed 36 rows containing missing values (position_stack).</code></pre>
 <p><img src="figure/vif_budgets.Rmd/slab_budgets_bias-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-slab_budgets_bias-1">
+Past versions of slab_budgets_bias-1.png
+</button>
+</p>
+<div id="fig-slab_budgets_bias-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_budgets.Rmd/slab_budgets_bias-1.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>
 [[2]]</code></pre>
 <pre><code>Warning: Removed 24 rows containing missing values (position_stack).</code></pre>
 <p><img src="figure/vif_budgets.Rmd/slab_budgets_bias-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-slab_budgets_bias-2">
+Past versions of slab_budgets_bias-2.png
+</button>
+</p>
+<div id="fig-slab_budgets_bias-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_budgets.Rmd/slab_budgets_bias-2.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>
 [[3]]</code></pre>
 <pre><code>Warning: Removed 108 rows containing missing values (position_stack).</code></pre>
 <p><img src="figure/vif_budgets.Rmd/slab_budgets_bias-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-slab_budgets_bias-3">
+Past versions of slab_budgets_bias-3.png
+</button>
+</p>
+<div id="fig-slab_budgets_bias-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_budgets.Rmd/slab_budgets_bias-3.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="spread" class="section level3" number="4.2.3">
 <h3><span class="header-section-number">4.2.3</span> Spread</h3>
@@ -2088,12 +2479,123 @@ p_regional_bias</code></pre>
 <pre><code>`summarise()` has grouped output by &#39;data_source&#39;, &#39;basin_AIP&#39;, &#39;gamma_slab&#39;. You can override using the `.groups` argument.</code></pre>
 <pre><code>[[1]]</code></pre>
 <p><img src="figure/vif_budgets.Rmd/slab_budgets_spread-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-slab_budgets_spread-1">
+Past versions of slab_budgets_spread-1.png
+</button>
+</p>
+<div id="fig-slab_budgets_spread-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_budgets.Rmd/slab_budgets_spread-1.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>
 [[2]]</code></pre>
 <p><img src="figure/vif_budgets.Rmd/slab_budgets_spread-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-slab_budgets_spread-2">
+Past versions of slab_budgets_spread-2.png
+</button>
+</p>
+<div id="fig-slab_budgets_spread-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_budgets.Rmd/slab_budgets_spread-2.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>
 [[3]]</code></pre>
 <p><img src="figure/vif_budgets.Rmd/slab_budgets_spread-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-slab_budgets_spread-3">
+Past versions of slab_budgets_spread-3.png
+</button>
+</p>
+<div id="fig-slab_budgets_spread-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_budgets.Rmd/slab_budgets_spread-3.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -2165,6 +2667,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_budgets.Rmd/ensemble_mean_global-1.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/73154c700b53850482cfaad25a0b826e3832fef0/docs/figure/vif_budgets.Rmd/ensemble_mean_global-1.png" target="_blank">73154c7</a>
@@ -2240,6 +2753,43 @@ p_global_dcant / p_global_bias +
 
 p_global_dcant_bias</code></pre>
 <p><img src="figure/vif_budgets.Rmd/ensemble_mean_global-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_mean_global-2">
+Past versions of ensemble_mean_global-2.png
+</button>
+</p>
+<div id="fig-ensemble_mean_global-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_budgets.Rmd/ensemble_mean_global-2.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code># ggsave(plot = p_global_dcant_bias,
 #        path = here::here(&quot;output/publication&quot;),
 #        filename = &quot;Fig_global_dcant_budget.png&quot;,
@@ -2279,6 +2829,43 @@ tcant_ensemble %&gt;%
   labs(x = expression(Atmospheric~pCO[2]~(µatm)),
        y = expression(Total~oceanic~C[ant]~(PgC)))</code></pre>
 <p><img src="figure/vif_budgets.Rmd/mean_tcant_over_atm_co2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-mean_tcant_over_atm_co2-1">
+Past versions of mean_tcant_over_atm_co2-1.png
+</button>
+</p>
+<div id="fig-mean_tcant_over_atm_co2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_budgets.Rmd/mean_tcant_over_atm_co2-1.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code># ggsave(path = &quot;output/publication&quot;,
 #        filename = &quot;Fig_global_dcant_budget_vs_atm_pCO2.png&quot;,
 #        height = 4,
@@ -2317,6 +2904,43 @@ ggplot() +
   theme(axis.text.x = element_text(angle = 45, hjust=1),
         axis.title.x = element_blank())</code></pre>
 <p><img src="figure/vif_budgets.Rmd/summed_decades-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-summed_decades-1">
+Past versions of summed_decades-1.png
+</button>
+</p>
+<div id="fig-summed_decades-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_budgets.Rmd/summed_decades-1.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="mean-bias" class="section level3" number="5.1.4">
 <h3><span class="header-section-number">5.1.4</span> Mean bias</h3>
@@ -2361,6 +2985,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_budgets.Rmd/ensemble_mean_bias_global-1.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/73154c700b53850482cfaad25a0b826e3832fef0/docs/figure/vif_budgets.Rmd/ensemble_mean_bias_global-1.png" target="_blank">73154c7</a>
@@ -2425,6 +3060,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_budgets.Rmd/ensemble_mean_bias_global-2.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/73154c700b53850482cfaad25a0b826e3832fef0/docs/figure/vif_budgets.Rmd/ensemble_mean_bias_global-2.png" target="_blank">73154c7</a>
@@ -2507,6 +3153,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_budgets.Rmd/cases_absolute_depth_global-1.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/73154c700b53850482cfaad25a0b826e3832fef0/docs/figure/vif_budgets.Rmd/cases_absolute_depth_global-1.png" target="_blank">73154c7</a>
 </td>
 <td>
@@ -2567,6 +3224,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_budgets.Rmd/cases_absolute_depth_global-2.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/73154c700b53850482cfaad25a0b826e3832fef0/docs/figure/vif_budgets.Rmd/cases_absolute_depth_global-2.png" target="_blank">73154c7</a>
@@ -2638,6 +3306,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_budgets.Rmd/cases_bias_depth_global-1.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/73154c700b53850482cfaad25a0b826e3832fef0/docs/figure/vif_budgets.Rmd/cases_bias_depth_global-1.png" target="_blank">73154c7</a>
 </td>
 <td>
@@ -2702,6 +3381,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_budgets.Rmd/cases_bias_rel_depth_global-1.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/73154c700b53850482cfaad25a0b826e3832fef0/docs/figure/vif_budgets.Rmd/cases_bias_rel_depth_global-1.png" target="_blank">73154c7</a>
@@ -2792,6 +3482,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_budgets.Rmd/ensemble_mean-1.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/73154c700b53850482cfaad25a0b826e3832fef0/docs/figure/vif_budgets.Rmd/ensemble_mean-1.png" target="_blank">73154c7</a>
 </td>
 <td>
@@ -2869,6 +3570,43 @@ p_regional_dcant / p_regional_bias +
 p_regional_dcant_bias</code></pre>
 <pre><code>Warning: Removed 1 rows containing missing values (geom_point).</code></pre>
 <p><img src="figure/vif_budgets.Rmd/ensemble_mean-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_mean-2">
+Past versions of ensemble_mean-2.png
+</button>
+</p>
+<div id="fig-ensemble_mean-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_budgets.Rmd/ensemble_mean-2.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code># ggsave(plot = p_regional_dcant_bias,
 #        path = &quot;output/publication&quot;,
 #        filename = &quot;Fig_regional_dcant_budget.png&quot;,
@@ -2923,6 +3661,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_budgets.Rmd/ensemble_mean_bias-1.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ec4f702cd2ae66a263bfd1301195333d6862ee20/docs/figure/vif_budgets.Rmd/ensemble_mean_bias-1.png" target="_blank">ec4f702</a>
 </td>
 <td>
@@ -2952,6 +3701,43 @@ jens-daniel-mueller
   geom_hline(yintercept = 0) +
   geom_point()</code></pre>
 <p><img src="figure/vif_budgets.Rmd/ensemble_mean_bias-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_mean_bias-2">
+Past versions of ensemble_mean_bias-2.png
+</button>
+</p>
+<div id="fig-ensemble_mean_bias-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_budgets.Rmd/ensemble_mean_bias-2.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="vertical-patterns-1" class="section level3" number="5.2.3">
 <h3><span class="header-section-number">5.2.3</span> Vertical patterns</h3>
@@ -2997,6 +3783,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_budgets.Rmd/cases_absolute_depth-1.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/73154c700b53850482cfaad25a0b826e3832fef0/docs/figure/vif_budgets.Rmd/cases_absolute_depth-1.png" target="_blank">73154c7</a>
 </td>
 <td>
@@ -3035,6 +3832,43 @@ jens-daniel-mueller
 <pre><code>
 [[2]]</code></pre>
 <p><img src="figure/vif_budgets.Rmd/cases_absolute_depth-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_absolute_depth-2">
+Past versions of cases_absolute_depth-2.png
+</button>
+</p>
+<div id="fig-cases_absolute_depth-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_budgets.Rmd/cases_absolute_depth-2.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="biases-3" class="section level4" number="5.2.3.2">
 <h4><span class="header-section-number">5.2.3.2</span> Biases</h4>
@@ -3067,6 +3901,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_budgets.Rmd/cases_bias_depth-1.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/73154c700b53850482cfaad25a0b826e3832fef0/docs/figure/vif_budgets.Rmd/cases_bias_depth-1.png" target="_blank">73154c7</a>
@@ -3135,6 +3980,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_budgets.Rmd/cases_bias_rel_depth-1.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/73154c700b53850482cfaad25a0b826e3832fef0/docs/figure/vif_budgets.Rmd/cases_bias_rel_depth-1.png" target="_blank">73154c7</a>
 </td>
 <td>
@@ -3190,18 +4046,203 @@ jens-daniel-mueller
   )</code></pre>
 <pre><code>[[1]]</code></pre>
 <p><img src="figure/vif_budgets.Rmd/steady_state_comparison-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-steady_state_comparison-1">
+Past versions of steady_state_comparison-1.png
+</button>
+</p>
+<div id="fig-steady_state_comparison-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_budgets.Rmd/steady_state_comparison-1.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>
 [[2]]</code></pre>
 <p><img src="figure/vif_budgets.Rmd/steady_state_comparison-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-steady_state_comparison-2">
+Past versions of steady_state_comparison-2.png
+</button>
+</p>
+<div id="fig-steady_state_comparison-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_budgets.Rmd/steady_state_comparison-2.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>
 [[3]]</code></pre>
 <p><img src="figure/vif_budgets.Rmd/steady_state_comparison-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-steady_state_comparison-3">
+Past versions of steady_state_comparison-3.png
+</button>
+</p>
+<div id="fig-steady_state_comparison-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_budgets.Rmd/steady_state_comparison-3.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>
 [[4]]</code></pre>
 <p><img src="figure/vif_budgets.Rmd/steady_state_comparison-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-steady_state_comparison-4">
+Past versions of steady_state_comparison-4.png
+</button>
+</p>
+<div id="fig-steady_state_comparison-4" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_budgets.Rmd/steady_state_comparison-4.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>
 [[5]]</code></pre>
 <p><img src="figure/vif_budgets.Rmd/steady_state_comparison-5.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-steady_state_comparison-5">
+Past versions of steady_state_comparison-5.png
+</button>
+</p>
+<div id="fig-steady_state_comparison-5" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_budgets.Rmd/steady_state_comparison-5.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
