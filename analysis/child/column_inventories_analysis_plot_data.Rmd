@@ -1,0 +1,744 @@
+```{r r join_data_and_meta_data, include=FALSE}
+
+
+dcant_inv_all <- full_join(dcant_inv_all,
+                           params_local_all)
+
+dcant_inv_bias_all <- full_join(dcant_inv_bias_all,
+                                params_local_all)
+
+
+dcant_budget_lat_grid_all <- full_join(dcant_budget_lat_grid_all,
+                                       params_local_all)
+
+dcant_budget_lon_grid_all <- full_join(dcant_budget_lon_grid_all,
+                                       params_local_all)
+
+```
+
+
+```{r adapt_format}
+
+dcant_budget_lat_grid_all <- dcant_budget_lat_grid_all %>%
+  pivot_wider(names_from = estimate,
+              values_from = value) %>%
+  filter(period != "1994 - 2014",
+         method == "total")
+
+dcant_budget_lon_grid_all <- dcant_budget_lon_grid_all %>%
+  pivot_wider(names_from = estimate,
+              values_from = value) %>%
+  filter(period != "1994 - 2014",
+         method == "total")
+
+
+```
+
+
+
+```{r load_libraries_specific, include = FALSE}
+library(patchwork)
+```
+
+# Uncertainty limit
+
+```{r define_sd_uncertainty_limit}
+
+sd_uncertainty_limit <- 4
+
+```
+
+# Individual cases
+
+## Absoulte values
+
+```{r cases_absolute, fig.asp=1.2}
+
+
+dcant_inv_all %>%
+  filter(data_source %in% c("mod", "obs"),
+         period != "1994 - 2014") %>%
+  group_by(data_source) %>%
+  group_split() %>%
+  # head(1) %>%
+  map(
+    ~ p_map_cant_inv(df = .x,
+                     var = "dcant",
+                     subtitle_text = paste("data_source:",
+                                           unique(.x$data_source))) +
+      facet_grid({{config}} ~ period) +
+      theme(axis.text = element_blank(),
+            axis.ticks = element_blank())
+  )
+
+p_dcant_inv_all_1994_2004 <-
+  dcant_inv_all %>%
+  filter(data_source %in% c("obs"),
+         period == "1994 - 2004") %>%
+  mutate(period = recode(period,
+                         "1994 - 2004" = "Observation-based")) %>%
+  p_map_cant_inv(var = "dcant",
+                 title_text = "1994 - 2004") +
+  facet_grid({{config}} ~ period) +
+  theme(
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    strip.background.y = element_blank(),
+    strip.text.y = element_blank(),
+    legend.position = "left"
+  )
+
+
+```
+
+## Biases
+
+```{r cases_bias, fig.asp=1.2}
+
+
+dcant_inv_bias_all %>%
+  filter(period != "1994 - 2014") %>%
+  p_map_cant_inv(var = "dcant_bias",
+                 col = "bias",
+                 subtitle_text = "data_source: mod - mod_truth") +
+  facet_grid({{config}} ~ period)
+
+dcant_inv_bias_all %>%
+  filter(period == "1994 - 2014") %>%
+  p_map_cant_inv(var = "dcant_bias",
+                 col = "bias",
+                 subtitle_text = "data_source: mod - mod_truth") +
+  facet_grid({{config}} ~ period)
+
+
+p_dcant_inv_bias_all_1994_2004 <-
+  dcant_inv_bias_all %>%
+  filter(period == "1994 - 2004") %>%
+  mutate(period = recode(period,
+                         "1994 - 2004" = "Model-based")) %>%
+  p_map_cant_inv(var = "dcant_bias",
+                 col = "bias",
+                 title_text = "Models") +
+  facet_grid({{config}} ~ period) +
+  theme(
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    plot.title = element_blank()
+  )
+
+
+```
+
+```{r composed_absolute_and_bias_figure, fig.asp=1.2}
+
+p_dcant_1994_2004 <- 
+p_dcant_inv_all_1994_2004 +
+  p_dcant_inv_bias_all_1994_2004
+
+p_dcant_1994_2004
+
+# ggsave(plot = p_dcant_1994_2004,
+#        path = "output/other",
+#        filename = "inv_dcant_1994_2004_abs_bias.png",
+#        height = 8,
+#        width = 8)
+
+```
+
+### Density distribution
+
+```{r bias_density_distribution, fig.asp=1}
+
+dcant_inv_bias_all %>%
+  filter(abs(dcant_bias) < 10) %>% 
+  ggplot(aes(dcant_bias, col = {{config}})) +
+  scale_color_brewer(palette = "Dark2") +
+  geom_vline(xintercept = 0) +
+  geom_density() +
+  facet_grid(period ~.)
+
+```
+
+
+## Lat grid budgets
+
+```{r lat_grid_budget_all, fig.asp=2}
+
+dcant_budget_lat_grid_all %>%
+  group_split(data_source) %>%
+  # head(1) %>%
+  map(
+    ~ ggplot(data = .x,
+             aes(lat_grid, dcant, fill = {{config}})) +
+      geom_hline(yintercept = 0) +
+      geom_col(position = "dodge") +
+      coord_flip() +
+      scale_fill_brewer(palette = "Dark2") +
+      labs(title = paste("data_source:", unique(.x$data_source))) +
+      facet_grid(basin_AIP ~ period)
+  )
+
+```
+
+## Lon grid budgets
+
+```{r lon_grid_budget_all}
+
+dcant_budget_lon_grid_all %>%
+  group_split(data_source, period) %>%
+  # head(1) %>%
+  map(
+    ~ ggplot(data = .x,
+             aes(lon_grid, dcant, fill = {{config}})) +
+      geom_col(position = "dodge") +
+      scale_fill_brewer(palette = "Dark2") +
+      labs(title = paste(
+        "data_source:",
+        unique(.x$data_source),
+        "| period:",
+        unique(.x$period)
+      )) +
+      facet_grid(basin_AIP ~ .)
+  )
+
+```
+
+
+# Ensemble
+
+
+```{r calc_ensemble_metrics}
+
+dcant_inv_ensemble <- dcant_inv_all %>% 
+  filter(data_source %in% c("mod", "obs")) %>% 
+  group_by(lat, lon, data_source, period) %>% 
+  summarise(dcant_mean = mean(dcant),
+            dcant_sd = sd(dcant),
+            dcant_range = max(dcant)- min(dcant)) %>% 
+  ungroup()
+
+dcant_lat_grid_ensemble <- dcant_budget_lat_grid_all %>% 
+  filter(data_source %in% c("mod", "obs")) %>% 
+  group_by(lat_grid, data_source, period, {{config}}) %>% 
+  summarise(dcant = sum(dcant, na.rm = TRUE)) %>% 
+  ungroup() %>% 
+  group_by(lat_grid, data_source, period) %>% 
+  summarise(dcant_mean = mean(dcant),
+            dcant_sd = sd(dcant),
+            dcant_max = max(dcant),
+            dcant_min = min(dcant)) %>% 
+  ungroup()
+
+dcant_lon_grid_ensemble <- dcant_budget_lon_grid_all %>% 
+  filter(data_source %in% c("mod", "obs")) %>% 
+  group_by(lon_grid, data_source, period, {{config}}) %>% 
+  summarise(dcant = sum(dcant, na.rm = TRUE)) %>% 
+  ungroup() %>% 
+  group_by(lon_grid, data_source, period) %>% 
+  summarise(dcant_mean = mean(dcant),
+            dcant_sd = sd(dcant),
+            dcant_max = max(dcant),
+            dcant_min = min(dcant)) %>% 
+  ungroup()
+
+
+```
+
+## Mean
+
+```{r ensemble_mean}
+
+p_map_cant_inv(
+  df = dcant_inv_ensemble %>%
+    filter(period != "1994 - 2014",
+           data_source == "obs"),
+  var = "dcant_mean",
+  subtitle_text = paste("Ensemble mean")
+) +
+  facet_grid(period ~ .) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())
+
+```
+
+```{r ensemble_mean_two_decades, fig.asp=1}
+
+p_map_cant_inv(
+  df = dcant_inv_ensemble %>%
+    filter(data_source == "obs",
+           period == "1994 - 2014"),
+  var = "dcant_mean",
+  title_text = paste("Ensemble mean"),
+  breaks = c(-Inf, seq(0, 28, 4), Inf)
+) +
+  facet_grid(period ~ .) +
+  theme(
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    legend.position = "left"
+  )
+
+```
+
+## Mean bias
+
+```{r ensemble_mean_bias}
+
+dcant_inv_ensemble_bias <- full_join(
+  dcant_inv_ensemble %>%
+    filter(data_source == "mod") %>%
+    select(lat, lon, period, dcant_mean, dcant_sd),
+  dcant_inv_all %>%
+    filter(data_source == "mod_truth",
+           {{config}} == unique(dcant_inv_all${{config}})[1]) %>%
+    select(lat, lon, period, dcant)
+)
+
+dcant_inv_ensemble_bias <- dcant_inv_ensemble_bias %>%
+  mutate(dcant_mean_bias = dcant_mean - dcant)
+
+dcant_inv_ensemble_bias %>%
+  filter(period != "1994 - 2014") %>%
+  p_map_cant_inv(var = "dcant_mean_bias",
+                 col = "bias",
+                 subtitle_text = "Ensemble mean - mod_truth") +
+  facet_grid(period ~ .)
+
+```
+
+### Density distribution
+
+```{r bias_density_distribution_ensemble, fig.asp=1}
+
+dcant_inv_bias_all %>%
+  ggplot() +
+  scale_color_manual(values = c("red", "grey")) +
+  geom_vline(xintercept = 0) +
+  geom_density(aes(dcant_bias, group = {{config}}, col = "Individual")) +
+  geom_density(data = dcant_inv_ensemble_bias,
+               aes(dcant_mean_bias, col = "Ensemble")) +
+  facet_grid(period ~.) +
+  coord_cartesian(xlim = c(-10, 10))
+
+```
+
+
+## Mean lat grid budgets
+
+```{r lat_grid_budget_ensemble, fig.asp=1}
+
+dcant_lat_grid_ensemble %>%
+  ggplot(aes(lat_grid, dcant_mean)) +
+  geom_hline(yintercept = 0) +
+  geom_col(position = "dodge",
+           fill = "grey80",
+           col = "grey20") +
+  geom_errorbar(aes(
+    ymin = dcant_min,
+    ymax = dcant_max
+  ),
+  col = "grey20",
+  width = 0) +
+  scale_color_brewer(palette = "Set1") +
+  coord_flip() +
+  scale_fill_brewer(palette = "Dark2") +
+  facet_grid(data_source ~ period)
+
+```
+
+## Mean lon grid budgets
+
+```{r lon_grid_budget_ensemble}
+
+dcant_lon_grid_ensemble %>%
+  ggplot(aes(lon_grid, dcant_mean)) +
+  geom_col(position = "dodge",
+           fill = "grey80",
+           col = "grey20") +
+  geom_errorbar(aes(
+    ymin = dcant_min,
+    ymax = dcant_max
+  ),
+  col = "grey20",
+  width = 0) +
+  facet_grid(data_source ~ period)
+
+
+```
+
+
+## Standard deviation
+
+```{r ensemble_sd, fig.asp=0.5}
+
+p_map_cant_inv(
+  df = dcant_inv_ensemble,
+  var = "dcant_sd",
+  breaks = c(seq(0, 4, 0.4), Inf),
+  subtitle_text = paste("Ensemble SD")
+) +
+  facet_grid(period ~ data_source)
+
+```
+
+## SD as uncertainty
+
+```{r ensemble_sd_uncertainty, fig.asp=0.5}
+
+uncertainty_grid <- dcant_inv_ensemble %>%
+  filter(dcant_sd > sd_uncertainty_limit) %>%
+  distinct(lon, lat, data_source, period)
+
+uncertainty_grid <- m_grid_horizontal_coarse(uncertainty_grid) %>%
+  distinct(lon_grid, lat_grid, data_source, period)
+
+map +
+  geom_point(data =
+               uncertainty_grid,
+             aes(lon_grid, lat_grid),
+             shape = 3) +
+  facet_grid(period ~ data_source)
+
+```
+
+
+## SD vs abs bias
+
+### 2D bin
+
+```{r ensemble_sd_vs_bias}
+
+dcant_inv_ensemble_bias %>% 
+  ggplot(aes(abs(dcant_mean_bias), dcant_sd)) +
+  geom_bin2d() +
+  scale_fill_viridis_c() +
+  facet_grid(. ~ period)
+
+
+
+```
+
+### Density distributions
+
+```{r density_distributions}
+
+legend_title = expression(Delta * C[ant]~(mol~m^2))
+
+dcant_density_distribution_bias <- dcant_inv_ensemble_bias %>% 
+  select(dcant_mean_bias, period) %>% 
+  pivot_longer(dcant_mean_bias,
+               names_to = "estimate",
+               values_to = "value") %>% 
+  mutate(data_source = "mod")
+
+dcant_density_distribution <- dcant_inv_ensemble %>% 
+  select(dcant_mean, dcant_sd, period, data_source) %>% 
+  pivot_longer(dcant_mean:dcant_sd,
+               names_to = "estimate",
+               values_to = "value")
+
+dcant_density_distribution <- bind_rows(dcant_density_distribution,
+                                        dcant_density_distribution_bias) %>%
+  mutate(period = factor(period, c("1994 - 2004", "2004 - 2014", "1994 - 2014")))
+
+p_ensemble_distribution <-
+  dcant_density_distribution %>%
+  filter(period != "1994 - 2014") %>% 
+  mutate(
+    data_source = recode(data_source,
+                         mod = "Model",
+                         obs = "Observations"),
+    estimate = recode(
+      estimate,
+      dcant_mean = "Mean",
+      dcant_mean_bias = "Bias",
+      dcant_sd = "SD"
+    )
+  ) %>%
+  ggplot(aes(value, fill = estimate, col = estimate)) +
+  scale_color_brewer(palette = "Dark2") +
+  scale_fill_brewer(palette = "Dark2") +
+  geom_density(alpha = 0.2) +
+  facet_grid(period ~ data_source) +
+  labs(title = "Density distributions of column inventory ensemble properties",
+       x = legend_title,
+       y = "Density of 1x1° grid cells") +
+  coord_cartesian(ylim = c(0, 0.5),
+                  xlim = c(-5, 32))
+
+# ggsave(plot = p_ensemble_distribution,
+#        path = "output/other",
+#        filename = "inv_ensemble_distribution.png",
+#        height = 4,
+#        width = 8)
+
+
+p_ensemble_distribution <-
+  dcant_density_distribution %>%
+  filter(data_source == "obs") %>%
+  mutate(
+    data_source = recode(data_source,
+                         mod = "Model",
+                         obs = "Observations"),
+    estimate = recode(
+      estimate,
+      dcant_mean = "Mean",
+      dcant_mean_bias = "Bias",
+      dcant_sd = "SD"
+    )
+  ) %>%
+  ggplot(aes(value, fill = estimate, col = estimate)) +
+  scale_color_brewer(palette = "Dark2") +
+  scale_fill_brewer(palette = "Dark2") +
+  geom_density(alpha = 0.2) +
+  facet_grid(period ~ data_source) +
+  labs(title = "Density distributions of column inventory ensemble properties",
+       x = legend_title,
+       y = "Density of 1x1° grid cells") +
+  coord_cartesian(ylim = c(0, 0.5),
+                  xlim = c(-5, 32))
+
+p_ensemble_distribution
+
+# ggsave(plot = p_ensemble_distribution,
+#        path = "output/other",
+#        filename = "inv_ensemble_distribution_all.png",
+#        height = 6,
+#        width = 5)
+
+```
+
+
+
+## Range
+
+```{r ensemble_range, fig.asp=0.5}
+
+p_map_cant_inv(
+  df = dcant_inv_ensemble,
+  var = "dcant_range",
+  breaks = c(seq(0,8,0.8), Inf),
+  subtitle_text = paste("Ensemble range")
+) +
+  facet_grid(period ~ data_source)
+
+
+
+```
+
+## Composed figure
+
+```{r composed_figure}
+
+uncertainty_grid <- uncertainty_grid %>% 
+  filter(data_source == "obs")
+
+p_map_94 <- p_map_cant_inv(
+  df = dcant_inv_ensemble %>%
+    filter(period == "1994 - 2004",
+           data_source == "obs"),
+  var = "dcant_mean",
+  subtitle_text = NULL,
+  title_text = NULL
+) +
+  geom_point(
+    data =
+      uncertainty_grid %>% filter(period == "1994 - 2004"),
+    aes(lon_grid, lat_grid),
+    shape = 3,
+    col = "red"
+  ) +
+  theme(
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    legend.position = "left"
+  ) +
+  facet_grid(period ~ .,
+             switch = "y")
+
+p_map_04 <- p_map_cant_inv(
+  df = dcant_inv_ensemble %>%
+    filter(period == "2004 - 2014",
+           data_source == "obs"),
+  var = "dcant_mean",
+  subtitle_text = NULL,
+  title_text = NULL
+) +
+  geom_point(
+    data =
+      uncertainty_grid %>% filter(period == "2004 - 2014"),
+    aes(lon_grid, lat_grid),
+    shape = 3,
+    col = "red"
+  ) +
+  theme(
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    legend.position = "left"
+  ) +
+  facet_grid(period ~ .,
+             switch = "y")
+
+p_lon_94 <- dcant_lon_grid_ensemble %>%
+  filter(data_source == "obs",
+         period == "1994 - 2004") %>%
+  ggplot(aes(lon_grid, dcant_mean)) +
+  geom_col(position = "dodge",
+           fill = "grey80",
+           col = "grey20") +
+  geom_errorbar(aes(ymin = dcant_min,
+                    ymax = dcant_max),
+                col = "grey20",
+                width = 0) +
+  scale_y_continuous(
+    limits = c(0, 1),
+    expand = c(0, 0),
+    name = expression(Delta * C[ant] ~ (PgC)),
+    position = "right"
+  ) +
+  scale_x_continuous(name = "Longitude (°E)",
+                     limits = c(20, 380),
+                     expand = c(0, 0)) +
+  theme(
+    axis.title.x = element_blank(),
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank()
+  )
+# coord_fixed(ratio = 100)
+
+p_lon_04 <- dcant_lon_grid_ensemble %>%
+  filter(data_source == "obs",
+         period == "2004 - 2014") %>% 
+  ggplot(aes(lon_grid, dcant_mean)) +
+  geom_col(position = "dodge",
+           fill = "grey80",
+           col = "grey20") +
+  geom_errorbar(aes(
+    ymin = dcant_min,
+    ymax = dcant_max
+  ),
+  col = "grey20",
+  width = 0) +
+  scale_y_continuous(limits = c(0,1), expand = c(0,0),
+                     name = expression(Delta*C[ant]~(PgC)),
+                     position = "right") +
+  scale_x_continuous(name = "Longitude (°E)",
+                     limits = c(20,380), expand = c(0,0)) +
+  theme(title = element_blank())
+  # coord_fixed(ratio = 100)
+
+p_lat_94 <- dcant_lat_grid_ensemble %>%
+  filter(data_source == "obs",
+         period == "1994 - 2004") %>%
+  ggplot(aes(dcant_mean, lat_grid)) +
+  geom_col(
+    position = "dodge",
+    fill = "grey80",
+    col = "grey20",
+    orientation = "y"
+  ) +
+  geom_errorbar(aes(xmin = dcant_min,
+                    xmax = dcant_max),
+                col = "grey20",
+                width = 0) +
+  scale_x_continuous(
+    limits = c(0, 2.8),
+    expand = c(0, 0),
+    name = expression(Delta * C[ant] ~ (PgC))
+  ) +
+  scale_y_continuous(
+    name = "Latitude (°N)",
+    limits = c(-80, 65),
+    expand = c(0, 0),
+    position = "right"
+  ) +
+  theme(
+    axis.title.x = element_blank(),
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank()
+  ) 
+  # coord_fixed(ratio = 5e-2)
+
+p_lat_04 <- dcant_lat_grid_ensemble %>%
+  filter(data_source == "obs",
+         period == "2004 - 2014") %>%
+  ggplot(aes(dcant_mean, lat_grid)) +
+  geom_col(position = "dodge",
+           fill = "grey80",
+           col = "grey20",
+           orientation = "y") +
+  geom_errorbar(aes(xmin = dcant_min,
+                    xmax = dcant_max),
+                col = "grey20",
+                width = 0) +
+  scale_x_continuous(
+    limits = c(0, 2.8),
+    expand = c(0, 0),
+    name = expression(Delta * C[ant] ~ (PgC))
+  ) +
+  scale_y_continuous(name = "Latitude (°N)",
+                     limits = c(-80, 65),
+                     expand = c(0, 0),
+                     position = "right")
+
+t_94 <- grid::textGrob("1994 -\n2004")
+t_04 <- grid::textGrob("2004 -\n2014")
+
+
+layout <- "
+BBB#
+AAAD
+AAAD
+CCCE
+CCCE
+GGG#
+"
+
+wrap_plots(B = p_lon_94, A = p_map_94, D = p_lat_94,
+           G = p_lon_04, C = p_map_04, E = p_lat_04,
+           design = layout,
+           guides = "collect")&
+  theme(legend.position = "left")
+
+
+# ggsave("output/publication/Fig_column_inventories.png",
+#        width=11,
+#        height=9.27)
+
+
+```
+
+
+
+
+# Cases vs ensemble
+
+## Offset from mean
+
+```{r ensemble_deviation_from_mean}
+
+dcant_inv_all <- full_join(dcant_inv_all,
+                           dcant_inv_ensemble)
+
+dcant_inv_all <- dcant_inv_all %>% 
+  mutate(dcant_offset = dcant - dcant_mean)
+
+dcant_inv_all %>%
+  filter(data_source %in% c("mod", "obs")) %>%
+  group_by(period) %>%
+  group_split() %>%
+  # head(1) %>%
+  map(
+    ~ p_map_cant_inv(df = .x,
+                     var = "dcant_offset",
+                     col = "bias",
+                     subtitle_text = paste("period:",
+                                           unique(.x$period))) +
+      facet_grid({{config}} ~ data_source)
+  )
+
+
+```
+
+
+

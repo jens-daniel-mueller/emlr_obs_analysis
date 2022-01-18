@@ -1,0 +1,433 @@
+
+```{r parent, child = "/nfs/kryo/work/jenmueller/emlr_cant/utilities/setup_obs.Rmd"}
+
+# this chunk runs the code stored in setup.Rmd
+# if required, please refer to instructions given here:
+# https://jdblischak.github.io/workflowr/articles/wflow-07-common-code.html
+
+```
+
+
+
+```{r define_paths, include = FALSE}
+
+# only path_observations needs to be changed to model
+path_observations <-
+  paste(path_root, "/observations/", sep = "")
+
+path_preprocessing    <-
+  paste(path_observations, "preprocessing/", sep = "")
+
+
+path_preprocessing_model    <-
+  paste(path_root, "/model/preprocessing/", sep = "")
+
+```
+
+# Read files
+
+```{r define_Version_IDs}
+
+# identify required version IDs
+
+Version_IDs_1 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_1", "{{version_id_pattern}}"))
+
+Version_IDs_2 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_2", "{{version_id_pattern}}"))
+
+Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_3", "{{version_id_pattern}}"))
+
+Version_IDs <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
+
+print(Version_IDs)
+
+```
+
+
+## Global
+
+```{r read_files_global}
+
+for (i_Version_IDs in Version_IDs) {
+  # i_Version_IDs <- Version_IDs[1]
+  
+  print(i_Version_IDs)
+  
+  path_version_data     <-
+    paste(path_observations,
+          i_Version_IDs,
+          "/data/",
+          sep = "")
+  
+  # load and join data files
+  
+  dcant_budget_global <-
+    read_csv(paste(path_version_data,
+                   "dcant_budget_global.csv",
+                   sep = ""))
+  
+  dcant_budget_global_mod_truth <-
+    read_csv(paste(
+      path_version_data,
+      "dcant_budget_global_mod_truth.csv",
+      sep = ""
+    ))
+  
+  dcant_budget_global_bias <-
+    read_csv(paste(path_version_data,
+                   "dcant_budget_global_bias.csv",
+                   sep = ""))
+  
+  lm_best_predictor_counts <-
+    read_csv(paste(path_version_data,
+                   "lm_best_predictor_counts.csv",
+                   sep = ""))
+  
+  lm_best_dcant <-
+    read_csv(paste(path_version_data,
+                   "lm_best_dcant.csv",
+                   sep = ""))
+  
+  dcant_budget_global <- bind_rows(dcant_budget_global,
+                                      dcant_budget_global_mod_truth)
+  
+  dcant_budget_global <- dcant_budget_global %>%
+    mutate(Version_ID = i_Version_IDs)
+  
+  dcant_budget_global_bias <- dcant_budget_global_bias %>%
+    mutate(Version_ID = i_Version_IDs)
+  
+  lm_best_predictor_counts <- lm_best_predictor_counts %>%
+    mutate(Version_ID = i_Version_IDs)
+  
+  lm_best_dcant <- lm_best_dcant %>%
+    mutate(Version_ID = i_Version_IDs)
+
+  params_local <-
+    read_rds(paste(path_version_data,
+                   "params_local.rds",
+                   sep = ""))
+  
+  params_local <- bind_cols(
+    Version_ID = i_Version_IDs,
+    {{config}} := str_c(params_local${{config}}, collapse = "|"),
+    tref1 = params_local$tref1,
+    tref2 = params_local$tref2)
+  
+  tref <- read_csv(paste(path_version_data,
+                         "tref.csv",
+                         sep = ""))
+  
+  params_local <- params_local %>%
+    mutate(
+      median_year_1 = sort(tref$median_year)[1],
+      median_year_2 = sort(tref$median_year)[2],
+      duration = median_year_2 - median_year_1,
+      period = paste(median_year_1, "-", median_year_2)
+    )
+  
+  if (exists("dcant_budget_global_all")) {
+    dcant_budget_global_all <-
+      bind_rows(dcant_budget_global_all, dcant_budget_global)
+  }
+  
+  if (!exists("dcant_budget_global_all")) {
+    dcant_budget_global_all <- dcant_budget_global
+  }
+  
+  if (exists("dcant_budget_global_bias_all")) {
+    dcant_budget_global_bias_all <-
+      bind_rows(dcant_budget_global_bias_all,
+                dcant_budget_global_bias)
+  }
+
+  if (!exists("dcant_budget_global_bias_all")) {
+    dcant_budget_global_bias_all <- dcant_budget_global_bias
+  }
+  
+    
+  if (exists("lm_best_predictor_counts_all")) {
+    lm_best_predictor_counts_all <-
+      bind_rows(lm_best_predictor_counts_all, lm_best_predictor_counts)
+  }
+  
+  if (!exists("lm_best_predictor_counts_all")) {
+    lm_best_predictor_counts_all <- lm_best_predictor_counts
+  }
+    
+  if (exists("lm_best_dcant_all")) {
+    lm_best_dcant_all <-
+      bind_rows(lm_best_dcant_all, lm_best_dcant)
+  }
+  
+  if (!exists("lm_best_dcant_all")) {
+    lm_best_dcant_all <- lm_best_dcant
+  }
+  
+  if (exists("params_local_all")) {
+    params_local_all <- bind_rows(params_local_all, params_local)
+  }
+  
+  if (!exists("params_local_all")) {
+    params_local_all <- params_local
+  }
+  
+  
+}
+
+rm(
+  dcant_budget_global,
+  dcant_budget_global_bias,
+  dcant_budget_global_mod_truth,
+  lm_best_predictor_counts,
+  lm_best_dcant,
+  params_local,
+  tref
+)
+
+```
+
+## Basins
+
+
+```{r read_files_basins}
+
+# Version_IDs <- Version_IDs[1:length(Version_IDs)-1]
+
+for (i_Version_IDs in Version_IDs) {
+  # i_Version_IDs <- Version_IDs[1]
+  
+  print(i_Version_IDs)
+  
+  path_version_data     <-
+    paste(path_observations,
+          i_Version_IDs,
+          "/data/",
+          sep = "")
+  
+  # load and join data files
+  
+  dcant_budget_basin_AIP <-
+    read_csv(paste(path_version_data,
+                   "dcant_budget_basin_AIP.csv",
+                   sep = ""))
+  
+  dcant_budget_basin_AIP_mod_truth <-
+    read_csv(paste(
+      path_version_data,
+      "dcant_budget_basin_AIP_mod_truth.csv",
+      sep = ""
+    ))
+  
+    
+  dcant_budget_basin_AIP <- bind_rows(dcant_budget_basin_AIP,
+                                      dcant_budget_basin_AIP_mod_truth)
+  
+  dcant_budget_basin_AIP_bias <-
+    read_csv(paste(path_version_data,
+                   "dcant_budget_basin_AIP_bias.csv",
+                   sep = ""))
+  
+  dcant_slab_budget_bias <-
+    read_csv(paste0(path_version_data,
+                    "dcant_slab_budget_bias.csv"))
+
+  dcant_slab_budget <-
+    read_csv(paste0(path_version_data,
+                    "dcant_slab_budget.csv"))
+
+  dcant_budget_basin_AIP <- dcant_budget_basin_AIP %>%
+    mutate(Version_ID = i_Version_IDs)
+  
+  dcant_budget_basin_AIP_bias <- dcant_budget_basin_AIP_bias %>%
+    mutate(Version_ID = i_Version_IDs)
+  
+  dcant_slab_budget <- dcant_slab_budget %>%
+    mutate(Version_ID = i_Version_IDs)
+  
+  dcant_slab_budget_bias <- dcant_slab_budget_bias %>%
+    mutate(Version_ID = i_Version_IDs)
+  
+  if (exists("dcant_budget_basin_AIP_all")) {
+    dcant_budget_basin_AIP_all <-
+      bind_rows(dcant_budget_basin_AIP_all, dcant_budget_basin_AIP)
+  }
+  
+  if (!exists("dcant_budget_basin_AIP_all")) {
+    dcant_budget_basin_AIP_all <- dcant_budget_basin_AIP
+  }
+  
+  if (exists("dcant_budget_basin_AIP_bias_all")) {
+    dcant_budget_basin_AIP_bias_all <-
+      bind_rows(dcant_budget_basin_AIP_bias_all,
+                dcant_budget_basin_AIP_bias)
+  }
+  
+  if (!exists("dcant_budget_basin_AIP_bias_all")) {
+    dcant_budget_basin_AIP_bias_all <- dcant_budget_basin_AIP_bias
+  }
+  
+  if (exists("dcant_slab_budget_all")) {
+    dcant_slab_budget_all <-
+      bind_rows(dcant_slab_budget_all, dcant_slab_budget)
+  }
+  
+  if (!exists("dcant_slab_budget_all")) {
+    dcant_slab_budget_all <- dcant_slab_budget
+  }
+  
+  if (exists("dcant_slab_budget_bias_all")) {
+    dcant_slab_budget_bias_all <-
+      bind_rows(dcant_slab_budget_bias_all,
+                dcant_slab_budget_bias)
+  }
+  
+  if (!exists("dcant_slab_budget_bias_all")) {
+    dcant_slab_budget_bias_all <- dcant_slab_budget_bias
+  }
+  
+}
+
+rm(
+  dcant_budget_basin_AIP,
+  dcant_budget_basin_AIP_bias,
+  dcant_budget_basin_AIP_mod_truth,
+  dcant_slab_budget,
+  dcant_slab_budget_bias
+)
+
+
+```
+
+## Basins hemisphere
+
+
+```{r read_files_basins_hemisphere}
+
+# Version_IDs <- Version_IDs[1:length(Version_IDs)-1]
+
+for (i_Version_IDs in Version_IDs) {
+  # i_Version_IDs <- Version_IDs[1]
+  
+  print(i_Version_IDs)
+  
+  path_version_data     <-
+    paste(path_observations,
+          i_Version_IDs,
+          "/data/",
+          sep = "")
+  
+  # load and join data files
+  
+  dcant_budget_basin_MLR <-
+    read_csv(paste(path_version_data,
+                   "dcant_budget_basin_MLR.csv",
+                   sep = ""))
+  
+  dcant_budget_basin_MLR_mod_truth <-
+    read_csv(paste(
+      path_version_data,
+      "dcant_budget_basin_MLR_mod_truth.csv",
+      sep = ""
+    ))
+  
+    
+  dcant_budget_basin_MLR <- bind_rows(dcant_budget_basin_MLR,
+                                      dcant_budget_basin_MLR_mod_truth)
+  
+  # dcant_budget_basin_MLR_bias <-
+  #   read_csv(paste(path_version_data,
+  #                  "dcant_budget_basin_MLR_bias.csv",
+  #                  sep = ""))
+  
+  dcant_budget_basin_MLR <- dcant_budget_basin_MLR %>%
+    mutate(Version_ID = i_Version_IDs)
+  
+  # dcant_budget_basin_MLR_bias <- dcant_budget_basin_MLR_bias %>%
+  #   mutate(Version_ID = i_Version_IDs)
+
+  if (exists("dcant_budget_basin_MLR_all")) {
+    dcant_budget_basin_MLR_all <-
+      bind_rows(dcant_budget_basin_MLR_all, dcant_budget_basin_MLR)
+  }
+  
+  if (!exists("dcant_budget_basin_MLR_all")) {
+    dcant_budget_basin_MLR_all <- dcant_budget_basin_MLR
+  }
+  
+  # if (exists("dcant_budget_basin_MLR_bias_all")) {
+  #   dcant_budget_basin_MLR_bias_all <-
+  #     bind_rows(dcant_budget_basin_MLR_bias_all,
+  #               dcant_budget_basin_MLR_bias)
+  # }
+  # 
+  # if (!exists("dcant_budget_basin_MLR_bias_all")) {
+  #   dcant_budget_basin_MLR_bias_all <- dcant_budget_basin_MLR_bias
+  # }
+  
+}
+
+rm(
+  dcant_budget_basin_MLR,
+  # dcant_budget_basin_MLR_bias,
+  dcant_budget_basin_MLR_mod_truth
+)
+
+
+```
+
+
+
+## Steady state
+
+```{r steady_state_dcant}
+
+for (i_Version_IDs in Version_IDs) {
+  # i_Version_IDs <- Version_IDs[1]
+  
+  print(i_Version_IDs)
+  
+  path_version_data     <-
+    paste(path_observations,
+          i_Version_IDs,
+          "/data/",
+          sep = "")
+  
+  # load and join data files
+  
+  dcant_obs_budget <-
+    read_csv(paste0(path_version_data,
+                    "anom_dcant_obs_budget.csv"))
+  
+  dcant_obs_budget <- dcant_obs_budget %>%
+    mutate(Version_ID = i_Version_IDs)
+  
+  if (exists("dcant_obs_budget_all")) {
+    dcant_obs_budget_all <-
+      bind_rows(dcant_obs_budget_all, dcant_obs_budget)
+  }
+  
+  if (!exists("dcant_obs_budget_all")) {
+    dcant_obs_budget_all <- dcant_obs_budget
+  }
+  
+}
+
+
+rm(dcant_obs_budget)
+
+```
+
+## Atm CO2
+
+```{r read_atm_co2}
+
+co2_atm <-
+  read_csv(paste(path_preprocessing,
+                 "co2_atm.csv",
+                 sep = ""))
+
+```
+

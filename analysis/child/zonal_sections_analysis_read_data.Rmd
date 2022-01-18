@@ -1,0 +1,179 @@
+
+```{r parent, child = "/nfs/kryo/work/jenmueller/emlr_cant/utilities/setup_obs.Rmd"}
+# this chunk runs the code stored in setup.Rmd
+# if required, please refer to instructions given here:
+# https://jdblischak.github.io/workflowr/articles/wflow-07-common-code.html
+```
+
+```{r define_paths, include = FALSE}
+
+# only path_observations needs to be changed to model
+path_observations <-
+  paste(path_root, "/observations/", sep = "")
+
+path_preprocessing    <-
+  paste(path_observations, "preprocessing/", sep = "")
+
+
+path_preprocessing_model    <-
+  paste(path_root, "/model/preprocessing/", sep = "")
+
+```
+
+# Read files
+
+
+```{r define_Version_IDs}
+
+# identify required version IDs
+
+Version_IDs_1 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_1", "{{version_id_pattern}}"))
+
+Version_IDs_2 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_2", "{{version_id_pattern}}"))
+
+Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_3", "{{version_id_pattern}}"))
+
+Version_IDs <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
+
+print(Version_IDs)
+```
+
+```{r read_files}
+
+for (i_Version_IDs in Version_IDs) {
+  # i_Version_IDs <- Version_IDs[1]
+  
+  print(i_Version_IDs)
+  
+  path_version_data     <-
+  paste(path_observations,
+        i_Version_IDs,
+        "/data/",
+        sep = "")
+  
+  # load and join data files
+  
+  dcant_zonal <-
+    read_csv(paste(path_version_data,
+                   "dcant_zonal.csv",
+                   sep = ""))
+  
+  dcant_zonal_mod_truth <-
+    read_csv(paste(path_version_data,
+                   "dcant_zonal_mod_truth.csv",
+                   sep = ""))
+  
+  dcant_zonal <- bind_rows(dcant_zonal,
+                         dcant_zonal_mod_truth)
+  
+  dcant_profile <-
+    read_csv(paste(path_version_data,
+                   "dcant_profile.csv",
+                   sep = ""))
+  
+  dcant_profile_mod_truth <-
+    read_csv(paste(path_version_data,
+                   "dcant_profile_mod_truth.csv",
+                   sep = ""))
+  
+  dcant_profile <- bind_rows(dcant_profile,
+                             dcant_profile_mod_truth)
+  
+  dcant_budget_basin_AIP_layer <-
+    read_csv(paste(path_version_data,
+                   "dcant_budget_basin_AIP_layer.csv",
+                   sep = ""))
+  
+  dcant_zonal_bias <-
+    read_csv(paste(path_version_data,
+                   "dcant_zonal_bias.csv",
+                   sep = ""))
+  
+
+  dcant_zonal <- dcant_zonal %>% 
+    mutate(Version_ID = i_Version_IDs)
+  
+  dcant_profile <- dcant_profile %>% 
+    mutate(Version_ID = i_Version_IDs)
+  
+  dcant_budget_basin_AIP_layer <- dcant_budget_basin_AIP_layer %>% 
+    mutate(Version_ID = i_Version_IDs)
+  
+  dcant_zonal_bias <- dcant_zonal_bias %>% 
+    mutate(Version_ID = i_Version_IDs)
+  
+  params_local <-
+    read_rds(paste(path_version_data,
+                   "params_local.rds",
+                   sep = ""))
+  
+  params_local <- bind_cols(
+    Version_ID = i_Version_IDs,
+    {{config}} := str_c(params_local${{config}}, collapse = "|"),
+    tref1 = params_local$tref1,
+    tref2 = params_local$tref2)
+  
+  tref <- read_csv(paste(path_version_data,
+                         "tref.csv",
+                         sep = ""))
+  
+  params_local <- params_local %>% 
+    mutate(median_year_1 = sort(tref$median_year)[1],
+           median_year_2 = sort(tref$median_year)[2],
+           duration = median_year_2 - median_year_1,
+           period = paste(median_year_1, "-", median_year_2))
+  
+  if (exists("dcant_zonal_all")) {
+    dcant_zonal_all <- bind_rows(dcant_zonal_all, dcant_zonal)
+  }
+  
+  if (!exists("dcant_zonal_all")) {
+    dcant_zonal_all <- dcant_zonal
+  }
+
+  if (exists("dcant_profile_all")) {
+    dcant_profile_all <- bind_rows(dcant_profile_all, dcant_profile)
+  }
+  
+  if (!exists("dcant_profile_all")) {
+    dcant_profile_all <- dcant_profile
+  }
+
+  if (exists("dcant_budget_basin_AIP_layer_all")) {
+    dcant_budget_basin_AIP_layer_all <-
+      bind_rows(dcant_budget_basin_AIP_layer_all,
+                dcant_budget_basin_AIP_layer)
+  }
+  
+  if (!exists("dcant_budget_basin_AIP_layer_all")) {
+    dcant_budget_basin_AIP_layer_all <- dcant_budget_basin_AIP_layer
+  }
+
+  if (exists("dcant_zonal_bias_all")) {
+    dcant_zonal_bias_all <- bind_rows(dcant_zonal_bias_all, dcant_zonal_bias)
+  }
+  
+  if (!exists("dcant_zonal_bias_all")) {
+    dcant_zonal_bias_all <- dcant_zonal_bias
+  }
+
+  if (exists("params_local_all")) {
+    params_local_all <- bind_rows(params_local_all, params_local)
+  }
+  
+  if (!exists("params_local_all")) {
+    params_local_all <- params_local
+  }
+  
+  
+}
+
+rm(dcant_zonal, dcant_zonal_bias, dcant_zonal_mod_truth,
+   dcant_budget_basin_AIP_layer,
+   tref)
+
+```
+

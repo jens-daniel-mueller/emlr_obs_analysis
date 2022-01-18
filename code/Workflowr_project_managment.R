@@ -39,7 +39,7 @@ wflow_publish(here::here(
     "MLR_target_zonal_sections.Rmd"
   )
 ),
-message = "rebuild without any gap filter or flagging exceptions",
+message = "predictor analysis in child doc",
 republish = TRUE)
 
 
@@ -47,12 +47,10 @@ republish = TRUE)
 wflow_publish(here::here(
   "analysis",
   c(
-    "G19_budgets.Rmd",
-    "G19_column_inventories.Rmd",
-    "G19_zonal_sections.Rmd"
+    "classic_budgets.Rmd"
   )
 ),
-message = "rebuild with latest subsetting strategy")
+message = "added budgets per hemisphere")
 
 
 # Push latest version to GitHub
