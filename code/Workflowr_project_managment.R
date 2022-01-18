@@ -5,13 +5,16 @@
 
 
 # commit regular changes (locally) and rebuild site
-wflow_publish(all = TRUE, message = "removed data cleaning with CANYONB or MLR residuals")
+wflow_publish(all = TRUE, message = "ordered vif_max factor levels")
 
 # commit changes including _site.yml (locally) and rebuild site in the specified order
 wflow_publish(here::here(
   "analysis",
   c(
     "index.Rmd",
+    "vif_budgets.Rmd",
+    "vif_column_inventories.Rmd",
+    "vif_zonal_sections.Rmd",
     "gaps_filter_budgets.Rmd",
     "gaps_filter_column_inventories.Rmd",
     "gaps_filter_zonal_sections.Rmd",

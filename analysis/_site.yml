@@ -101,14 +101,14 @@ navbar:
   #       href: no_p_column_inventories.html
   #     - text: Zonal sections
   #       href: no_p_zonal_sections.html
-  #   - text: VIF
-  #     menu:
-  #     - text: Budgets
-  #       href: vif_budgets.html
-  #     - text: Column inventories
-  #       href: vif_column_inventories.html
-  #     - text: Zonal sections
-  #       href: vif_zonal_sections.html
+    - text: VIF
+      menu:
+      - text: Budgets
+        href: vif_budgets.html
+      - text: Column inventories
+        href: vif_column_inventories.html
+      - text: Zonal sections
+        href: vif_zonal_sections.html
   - text: Robustness
     menu:
     - text: Indian Ocean
