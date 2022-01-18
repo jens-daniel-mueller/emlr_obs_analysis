@@ -642,16 +642,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreee4051d0d2093ba1259da950b5bdb6d17b0eb835ctargetblanke4051d0a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/e4051d0d2093ba1259da950b5bdb6d17b0eb835c" target="_blank">e4051d0</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreebcff7cc48c84897cba7d2b84456d5c1adf5a4cc2targetblankbcff7cca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/bcff7cc48c84897cba7d2b84456d5c1adf5a4cc2" target="_blank">bcff7cc</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreee4051d0d2093ba1259da950b5bdb6d17b0eb835ctargetblanke4051d0a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreebcff7cc48c84897cba7d2b84456d5c1adf5a4cc2targetblankbcff7cca" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/e4051d0d2093ba1259da950b5bdb6d17b0eb835c" target="_blank">e4051d0</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/bcff7cc48c84897cba7d2b84456d5c1adf5a4cc2" target="_blank">bcff7cc</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -660,7 +660,6 @@ Note that you need to be careful to ensure that all relevant files for the analy
 Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
-    Ignored:    analysis/figure/
     Ignored:    data/
     Ignored:    output/other/
     Ignored:    output/publication/
@@ -756,6 +755,9 @@ Untracked files:
     Untracked:  figure/steady_state_comparison-5.png
     Untracked:  figure/summed_decades-1.png
 
+Unstaged changes:
+    Modified:   code/Workflowr_project_managment.R
+
 </code></pre>
 <p>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
@@ -793,6 +795,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/bcff7cc48c84897cba7d2b84456d5c1adf5a4cc2/analysis/vif_budgets.Rmd" target="_blank">bcff7cc</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+<td>
+predictor analysis in child doc
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/a0775c962d8ebf2aea1123c6e17aa39294a74c71/docs/vif_budgets.html" target="_blank">a0775c9</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1283,6 +1319,11 @@ print(Version_IDs)</code></pre>
                    &quot;lm_best_predictor_counts.csv&quot;,
                    sep = &quot;&quot;))
   
+  lm_best_dcant &lt;-
+    read_csv(paste(path_version_data,
+                   &quot;lm_best_dcant.csv&quot;,
+                   sep = &quot;&quot;))
+  
   dcant_budget_global &lt;- bind_rows(dcant_budget_global,
                                       dcant_budget_global_mod_truth)
   
@@ -1293,6 +1334,9 @@ print(Version_IDs)</code></pre>
     mutate(Version_ID = i_Version_IDs)
   
   lm_best_predictor_counts &lt;- lm_best_predictor_counts %&gt;%
+    mutate(Version_ID = i_Version_IDs)
+  
+  lm_best_dcant &lt;- lm_best_dcant %&gt;%
     mutate(Version_ID = i_Version_IDs)
 
   params_local &lt;-
@@ -1346,6 +1390,15 @@ print(Version_IDs)</code></pre>
   if (!exists(&quot;lm_best_predictor_counts_all&quot;)) {
     lm_best_predictor_counts_all &lt;- lm_best_predictor_counts
   }
+    
+  if (exists(&quot;lm_best_dcant_all&quot;)) {
+    lm_best_dcant_all &lt;-
+      bind_rows(lm_best_dcant_all, lm_best_dcant)
+  }
+  
+  if (!exists(&quot;lm_best_dcant_all&quot;)) {
+    lm_best_dcant_all &lt;- lm_best_dcant
+  }
   
   if (exists(&quot;params_local_all&quot;)) {
     params_local_all &lt;- bind_rows(params_local_all, params_local)
@@ -1380,6 +1433,7 @@ print(Version_IDs)</code></pre>
   dcant_budget_global_bias,
   dcant_budget_global_mod_truth,
   lm_best_predictor_counts,
+  lm_best_dcant,
   params_local,
   tref
 )</code></pre>
@@ -4637,6 +4691,9 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
+</div>
+<div id="predictor-analysis" class="section level1" number="7">
+<h1><span class="header-section-number">7</span> Predictor analysis</h1>
 <pre class="r"><code>lm_best_predictor_counts_all &lt;-
   full_join(lm_best_predictor_counts_all,
             params_local_all)</code></pre>
@@ -4644,20 +4701,133 @@ jens-daniel-mueller
 <pre class="r"><code>lm_best_predictor_counts_all &lt;- lm_best_predictor_counts_all %&gt;% 
   mutate(n_predictors_total = rowSums(across(aou:temp), na.rm = TRUE)/10)
 
-lm_best_predictor_counts_all %&gt;% 
-  ggplot(aes(vif_max, n_predictors_total, col = period)) +
-  geom_point() +
-  facet_grid(gamma_slab ~ data_source)</code></pre>
-<p><img src="figure/vif_budgets.Rmd/test_predictor_analysis-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>lm_best_predictor_counts_all %&gt;% 
+lm_best_predictor_counts_all %&gt;%
+  ggplot(aes(x = vif_max, y = n_predictors_total)) +
+  # ggdist::stat_halfeye(
+  #   adjust = .5,
+  #   width = .6,
+  #   .width = 0,
+  #   justification = -.2,
+  #   point_colour = NA
+  # ) +
+  geom_boxplot(width = 0.5,
+               outlier.shape = NA) +
+  gghalves::geom_half_point(
+    side = &quot;l&quot;,
+    range_scale = .4,
+    alpha = .5,
+    aes(col = gamma_slab)
+  ) +
+  scale_color_viridis_d() +
+  facet_grid(basin ~ data_source)</code></pre>
+<p><img src="figure/vif_budgets.Rmd/predictor_analysis-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>lm_best_predictor_counts_all %&gt;%
   pivot_longer(aou:temp,
                names_to = &quot;predictor&quot;,
-               values_to = &quot;count&quot;) %&gt;% 
-  ggplot(aes(vif_max, count, col = predictor)) +
-  geom_point() +
-  facet_grid(gamma_slab ~ data_source)</code></pre>
-<pre><code>Warning: Removed 171 rows containing missing values (geom_point).</code></pre>
-<p><img src="figure/vif_budgets.Rmd/test_predictor_analysis-2.png" width="672" style="display: block; margin: auto;" /></p>
+               values_to = &quot;count&quot;) %&gt;%
+  group_split(predictor) %&gt;%
+  # head(1) %&gt;%
+  map(
+    ~ ggplot(data = .x,
+             aes(vif_max, count, color = gamma_slab)) +
+      geom_jitter(alpha = 0.5) +
+      scale_color_viridis_d() +
+      labs(title = paste0(&quot;predictor:&quot;, unique(.x$predictor))) +
+      coord_cartesian(ylim = c(0, 10)) +
+      facet_grid(basin ~ data_source)
+  )</code></pre>
+<pre><code>[[1]]</code></pre>
+<pre><code>Warning: Removed 18 rows containing missing values (geom_point).</code></pre>
+<p><img src="figure/vif_budgets.Rmd/predictor_analysis-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[2]]</code></pre>
+<pre><code>Warning: Removed 88 rows containing missing values (geom_point).</code></pre>
+<p><img src="figure/vif_budgets.Rmd/predictor_analysis-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[3]]</code></pre>
+<pre><code>Warning: Removed 7 rows containing missing values (geom_point).</code></pre>
+<p><img src="figure/vif_budgets.Rmd/predictor_analysis-4.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[4]]</code></pre>
+<pre><code>Warning: Removed 21 rows containing missing values (geom_point).</code></pre>
+<p><img src="figure/vif_budgets.Rmd/predictor_analysis-5.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[5]]</code></pre>
+<pre><code>Warning: Removed 5 rows containing missing values (geom_point).</code></pre>
+<p><img src="figure/vif_budgets.Rmd/predictor_analysis-6.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[6]]</code></pre>
+<pre><code>Warning: Removed 24 rows containing missing values (geom_point).</code></pre>
+<p><img src="figure/vif_budgets.Rmd/predictor_analysis-7.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[7]]</code></pre>
+<pre><code>Warning: Removed 8 rows containing missing values (geom_point).</code></pre>
+<p><img src="figure/vif_budgets.Rmd/predictor_analysis-8.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>lm_best_dcant_all &lt;-
+  full_join(lm_best_dcant_all,
+            params_local_all)</code></pre>
+<pre><code>Joining, by = &quot;Version_ID&quot;</code></pre>
+<pre class="r"><code>lm_best_dcant_all %&gt;%
+  count(basin, data_source, gamma_slab, vif_max, period) %&gt;%
+  ggplot(aes(vif_max, n)) +
+  geom_jitter(height = 0, alpha = 0.3) +
+  facet_grid(basin ~ data_source)</code></pre>
+<p><img src="figure/vif_budgets.Rmd/predictor_analysis-9.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>lm_best_predictor_counts_all &lt;-
+  full_join(lm_best_predictor_counts_all,
+            params_local_all)
+
+lm_best_predictor_counts_all &lt;- lm_best_predictor_counts_all %&gt;% 
+  mutate(n_predictors_total = rowSums(across(aou:temp), na.rm = TRUE)/10)
+
+lm_best_predictor_counts_all %&gt;%
+  ggplot(aes(x = vif_max, y = n_predictors_total)) +
+  # ggdist::stat_halfeye(
+  #   adjust = .5,
+  #   width = .6,
+  #   .width = 0,
+  #   justification = -.2,
+  #   point_colour = NA
+  # ) +
+  geom_boxplot(width = 0.5,
+               outlier.shape = NA) +
+  gghalves::geom_half_point(
+    side = &quot;l&quot;,
+    range_scale = .4,
+    alpha = .5,
+    aes(col = gamma_slab)
+  ) +
+  scale_color_viridis_d() +
+  facet_grid(basin ~ data_source)
+
+
+lm_best_predictor_counts_all %&gt;%
+  pivot_longer(aou:temp,
+               names_to = &quot;predictor&quot;,
+               values_to = &quot;count&quot;) %&gt;%
+  group_split(predictor) %&gt;%
+  # head(1) %&gt;%
+  map(
+    ~ ggplot(data = .x,
+             aes(vif_max, count, color = gamma_slab)) +
+      geom_jitter(alpha = 0.5) +
+      scale_color_viridis_d() +
+      labs(title = paste0(&quot;predictor:&quot;, unique(.x$predictor))) +
+      coord_cartesian(ylim = c(0, 10)) +
+      facet_grid(basin ~ data_source)
+  )
+
+
+lm_best_dcant_all &lt;-
+  full_join(lm_best_dcant_all,
+            params_local_all)
+
+
+lm_best_dcant_all %&gt;%
+  count(basin, data_source, gamma_slab, vif_max, period) %&gt;%
+  ggplot(aes(vif_max, n)) +
+  geom_jitter(height = 0, alpha = 0.3) +
+  facet_grid(basin ~ data_source)</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -4692,30 +4862,31 @@ other attached packages:
 [13] ggplot2_3.3.5   tidyverse_1.3.0 workflowr_1.6.2
 
 loaded via a namespace (and not attached):
- [1] httr_1.4.2               jsonlite_1.7.1           here_1.0.1              
- [4] modelr_0.1.8             assertthat_0.2.1         highr_0.8               
- [7] blob_1.2.1               cellranger_1.1.0         yaml_2.2.1              
-[10] pillar_1.6.2             backports_1.1.10         lattice_0.20-41         
-[13] glue_1.4.2               RcppEigen_0.3.3.7.0      digest_0.6.27           
-[16] RColorBrewer_1.1-2       promises_1.1.1           polyclip_1.10-0         
-[19] checkmate_2.0.0          rvest_0.3.6              colorspace_2.0-2        
-[22] htmltools_0.5.0          httpuv_1.5.4             Matrix_1.2-18           
-[25] pkgconfig_2.0.3          broom_0.7.9              haven_2.3.1             
-[28] scales_1.1.1             tweenr_1.0.2             whisker_0.4             
-[31] later_1.2.0              git2r_0.27.1             generics_0.1.0          
-[34] farver_2.0.3             ellipsis_0.3.2           withr_2.3.0             
-[37] cli_3.0.1                magrittr_1.5             crayon_1.3.4            
-[40] readxl_1.3.1             evaluate_0.14            fs_1.5.0                
-[43] fansi_0.4.1              MASS_7.3-53              xml2_1.3.2              
-[46] RcppArmadillo_0.10.1.0.0 tools_4.0.3              data.table_1.14.0       
-[49] hms_0.5.3                lifecycle_1.0.0          munsell_0.5.0           
-[52] reprex_0.3.0             compiler_4.0.3           rlang_0.4.10            
-[55] grid_4.0.3               rstudioapi_0.13          labeling_0.4.2          
-[58] rmarkdown_2.10           gtable_0.3.0             DBI_1.1.0               
-[61] R6_2.5.0                 lubridate_1.7.9          knitr_1.33              
-[64] utf8_1.1.4               rprojroot_2.0.2          stringi_1.5.3           
-[67] parallel_4.0.3           Rcpp_1.0.5               vctrs_0.3.8             
-[70] dbplyr_1.4.4             tidyselect_1.1.0         xfun_0.25               </code></pre>
+ [1] httr_1.4.2               viridisLite_0.3.0        jsonlite_1.7.1          
+ [4] here_1.0.1               modelr_0.1.8             assertthat_0.2.1        
+ [7] highr_0.8                blob_1.2.1               cellranger_1.1.0        
+[10] yaml_2.2.1               pillar_1.6.2             backports_1.1.10        
+[13] lattice_0.20-41          glue_1.4.2               gghalves_0.1.1          
+[16] RcppEigen_0.3.3.7.0      digest_0.6.27            RColorBrewer_1.1-2      
+[19] promises_1.1.1           polyclip_1.10-0          checkmate_2.0.0         
+[22] rvest_0.3.6              colorspace_2.0-2         htmltools_0.5.0         
+[25] httpuv_1.5.4             Matrix_1.2-18            pkgconfig_2.0.3         
+[28] broom_0.7.9              haven_2.3.1              scales_1.1.1            
+[31] tweenr_1.0.2             whisker_0.4              later_1.2.0             
+[34] git2r_0.27.1             generics_0.1.0           farver_2.0.3            
+[37] ellipsis_0.3.2           withr_2.3.0              cli_3.0.1               
+[40] magrittr_1.5             crayon_1.3.4             readxl_1.3.1            
+[43] evaluate_0.14            fs_1.5.0                 fansi_0.4.1             
+[46] MASS_7.3-53              xml2_1.3.2               RcppArmadillo_0.10.1.0.0
+[49] tools_4.0.3              data.table_1.14.0        hms_0.5.3               
+[52] lifecycle_1.0.0          munsell_0.5.0            reprex_0.3.0            
+[55] compiler_4.0.3           rlang_0.4.10             grid_4.0.3              
+[58] rstudioapi_0.13          labeling_0.4.2           rmarkdown_2.10          
+[61] gtable_0.3.0             DBI_1.1.0                R6_2.5.0                
+[64] lubridate_1.7.9          knitr_1.33               utf8_1.1.4              
+[67] rprojroot_2.0.2          stringi_1.5.3            parallel_4.0.3          
+[70] Rcpp_1.0.5               vctrs_0.3.8              dbplyr_1.4.4            
+[73] tidyselect_1.1.0         xfun_0.25               </code></pre>
 </div>
 </div>
 
