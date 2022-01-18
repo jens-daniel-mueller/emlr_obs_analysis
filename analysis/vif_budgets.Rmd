@@ -59,7 +59,7 @@ plot <-
 `r knitr::knit(text = unlist(plot))`
 
 
-```{r test_predictor_analysis, fig.asp=2}
+```{r test_predictor_analysis, fig.asp=2, eval=FALSE}
 
 lm_best_predictor_counts_all <-
   full_join(lm_best_predictor_counts_all,
@@ -68,18 +68,54 @@ lm_best_predictor_counts_all <-
 lm_best_predictor_counts_all <- lm_best_predictor_counts_all %>% 
   mutate(n_predictors_total = rowSums(across(aou:temp), na.rm = TRUE)/10)
 
-lm_best_predictor_counts_all %>% 
-  ggplot(aes(vif_max, n_predictors_total, col = period)) +
-  geom_point() +
-  facet_grid(gamma_slab ~ data_source)
+lm_best_predictor_counts_all %>%
+  ggplot(aes(x = vif_max, y = n_predictors_total)) +
+  # ggdist::stat_halfeye(
+  #   adjust = .5,
+  #   width = .6,
+  #   .width = 0,
+  #   justification = -.2,
+  #   point_colour = NA
+  # ) +
+  geom_boxplot(width = 0.5,
+               outlier.shape = NA) +
+  gghalves::geom_half_point(
+    side = "l",
+    range_scale = .4,
+    alpha = .5,
+    aes(col = gamma_slab)
+  ) +
+  scale_color_viridis_d() +
+  facet_grid(basin ~ data_source)
 
-lm_best_predictor_counts_all %>% 
+
+lm_best_predictor_counts_all %>%
   pivot_longer(aou:temp,
                names_to = "predictor",
-               values_to = "count") %>% 
-  ggplot(aes(vif_max, count, col = predictor)) +
-  geom_point() +
-  facet_grid(gamma_slab ~ data_source)
+               values_to = "count") %>%
+  group_split(predictor) %>%
+  # head(1) %>%
+  map(
+    ~ ggplot(data = .x,
+             aes(vif_max, count, color = gamma_slab)) +
+      geom_jitter(alpha = 0.5) +
+      scale_color_viridis_d() +
+      labs(title = paste0("predictor:", unique(.x$predictor))) +
+      coord_cartesian(ylim = c(0, 10)) +
+      facet_grid(basin ~ data_source)
+  )
+
+
+lm_best_dcant_all <-
+  full_join(lm_best_dcant_all,
+            params_local_all)
+
+
+lm_best_dcant_all %>%
+  count(basin, data_source, gamma_slab, vif_max, period) %>%
+  ggplot(aes(vif_max, n)) +
+  geom_jitter(height = 0, alpha = 0.3) +
+  facet_grid(basin ~ data_source)
 
 
 ```
