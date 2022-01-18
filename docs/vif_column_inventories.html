@@ -642,16 +642,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreef441bedb0ad9612f211ae534ce82a40313b830bdtargetblankf441beda"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/f441bedb0ad9612f211ae534ce82a40313b830bd" target="_blank">f441bed</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree51e4dfae282fe12415951846865c3d0234d42e20targetblank51e4dfaa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/51e4dfae282fe12415951846865c3d0234d42e20" target="_blank">51e4dfa</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreef441bedb0ad9612f211ae534ce82a40313b830bdtargetblankf441beda" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree51e4dfae282fe12415951846865c3d0234d42e20targetblank51e4dfaa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/f441bedb0ad9612f211ae534ce82a40313b830bd" target="_blank">f441bed</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/51e4dfae282fe12415951846865c3d0234d42e20" target="_blank">51e4dfa</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -675,7 +675,9 @@ Untracked files:
     Untracked:  figure/cases_absolute-5.png
     Untracked:  figure/cases_absolute-6.png
     Untracked:  figure/cases_absolute_depth-1.png
+    Untracked:  figure/cases_absolute_depth-2.png
     Untracked:  figure/cases_absolute_depth_global-1.png
+    Untracked:  figure/cases_absolute_depth_global-2.png
     Untracked:  figure/cases_absolute_global-1.png
     Untracked:  figure/cases_bias-1.png
     Untracked:  figure/cases_bias-2.png
@@ -753,10 +755,6 @@ Untracked files:
     Untracked:  figure/steady_state_comparison-5.png
     Untracked:  figure/summed_decades-1.png
 
-Unstaged changes:
-    Modified:   analysis/_site.yml
-    Modified:   code/Workflowr_project_managment.R
-
 </code></pre>
 <p>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
@@ -794,6 +792,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/51e4dfae282fe12415951846865c3d0234d42e20/analysis/vif_column_inventories.Rmd" target="_blank">51e4dfa</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+<td>
+ordered vif_max factor levels
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/vif_column_inventories.html" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1329,11 +1361,8 @@ dcant_budget_lat_grid_all &lt;- dcant_budget_lat_grid_all %&gt;%
 
 dcant_budget_lon_grid_all &lt;- dcant_budget_lon_grid_all %&gt;% 
   filter(inv_depth == params_global$inventory_depth_standard)</code></pre>
-<pre class="r"><code>all_predictors &lt;- c(&quot;saltempaouoxygenphosphatenitratesilicate&quot;)
-
-params_local_all &lt;- params_local_all %&gt;%
-  mutate(MLR_predictors = str_remove_all(all_predictors,
-                                         MLR_predictors))</code></pre>
+<pre class="r"><code>params_local_all &lt;- params_local_all %&gt;%
+  mutate(vif_max = fct_inorder(vif_max))</code></pre>
 <pre class="r"><code>dcant_budget_lat_grid_all &lt;- dcant_budget_lat_grid_all %&gt;%
   pivot_wider(names_from = estimate,
               values_from = value) %&gt;%
@@ -1395,6 +1424,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_column_inventories.Rmd/cases_absolute-1.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ae5ae64585372fa5b40ae2e0ee60e853a4e638b3/docs/figure/vif_column_inventories.Rmd/cases_absolute-1.png" target="_blank">ae5ae64</a>
@@ -1481,6 +1521,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_column_inventories.Rmd/cases_absolute-2.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ae5ae64585372fa5b40ae2e0ee60e853a4e638b3/docs/figure/vif_column_inventories.Rmd/cases_absolute-2.png" target="_blank">ae5ae64</a>
@@ -1592,6 +1643,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_column_inventories.Rmd/cases_bias-1.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ae5ae64585372fa5b40ae2e0ee60e853a4e638b3/docs/figure/vif_column_inventories.Rmd/cases_bias-1.png" target="_blank">ae5ae64</a>
 </td>
 <td>
@@ -1658,6 +1720,43 @@ jens-daniel-mueller
 <pre><code>Warning: Raster pixels are placed at uneven vertical intervals and will be
 shifted. Consider using geom_tile() instead.</code></pre>
 <p><img src="figure/vif_column_inventories.Rmd/cases_bias-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_bias-2">
+Past versions of cases_bias-2.png
+</button>
+</p>
+<div id="fig-cases_bias-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_column_inventories.Rmd/cases_bias-2.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>p_dcant_inv_bias_all_1994_2004 &lt;-
   dcant_inv_bias_all %&gt;%
   filter(period == &quot;1994 - 2004&quot;) %&gt;%
@@ -1683,6 +1782,43 @@ shifted. Consider using geom_tile() instead.
 Warning: Raster pixels are placed at uneven vertical intervals and will be
 shifted. Consider using geom_tile() instead.</code></pre>
 <p><img src="figure/vif_column_inventories.Rmd/composed_absolute_and_bias_figure-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-composed_absolute_and_bias_figure-1">
+Past versions of composed_absolute_and_bias_figure-1.png
+</button>
+</p>
+<div id="fig-composed_absolute_and_bias_figure-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_column_inventories.Rmd/composed_absolute_and_bias_figure-1.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code># ggsave(plot = p_dcant_1994_2004,
 #        path = &quot;output/other&quot;,
 #        filename = &quot;inv_dcant_1994_2004_abs_bias.png&quot;,
@@ -1698,6 +1834,43 @@ shifted. Consider using geom_tile() instead.</code></pre>
   geom_density() +
   facet_grid(period ~.)</code></pre>
 <p><img src="figure/vif_column_inventories.Rmd/bias_density_distribution-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-bias_density_distribution-1">
+Past versions of bias_density_distribution-1.png
+</button>
+</p>
+<div id="fig-bias_density_distribution-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_column_inventories.Rmd/bias_density_distribution-1.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="lat-grid-budgets" class="section level2" number="3.3">
@@ -1717,9 +1890,83 @@ shifted. Consider using geom_tile() instead.</code></pre>
   )</code></pre>
 <pre><code>[[1]]</code></pre>
 <p><img src="figure/vif_column_inventories.Rmd/lat_grid_budget_all-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-lat_grid_budget_all-1">
+Past versions of lat_grid_budget_all-1.png
+</button>
+</p>
+<div id="fig-lat_grid_budget_all-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_column_inventories.Rmd/lat_grid_budget_all-1.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>
 [[2]]</code></pre>
 <p><img src="figure/vif_column_inventories.Rmd/lat_grid_budget_all-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-lat_grid_budget_all-2">
+Past versions of lat_grid_budget_all-2.png
+</button>
+</p>
+<div id="fig-lat_grid_budget_all-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_column_inventories.Rmd/lat_grid_budget_all-2.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="lon-grid-budgets" class="section level2" number="3.4">
 <h2><span class="header-section-number">3.4</span> Lon grid budgets</h2>
@@ -1741,15 +1988,163 @@ shifted. Consider using geom_tile() instead.</code></pre>
   )</code></pre>
 <pre><code>[[1]]</code></pre>
 <p><img src="figure/vif_column_inventories.Rmd/lon_grid_budget_all-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-lon_grid_budget_all-1">
+Past versions of lon_grid_budget_all-1.png
+</button>
+</p>
+<div id="fig-lon_grid_budget_all-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_column_inventories.Rmd/lon_grid_budget_all-1.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>
 [[2]]</code></pre>
 <p><img src="figure/vif_column_inventories.Rmd/lon_grid_budget_all-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-lon_grid_budget_all-2">
+Past versions of lon_grid_budget_all-2.png
+</button>
+</p>
+<div id="fig-lon_grid_budget_all-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_column_inventories.Rmd/lon_grid_budget_all-2.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>
 [[3]]</code></pre>
 <p><img src="figure/vif_column_inventories.Rmd/lon_grid_budget_all-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-lon_grid_budget_all-3">
+Past versions of lon_grid_budget_all-3.png
+</button>
+</p>
+<div id="fig-lon_grid_budget_all-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_column_inventories.Rmd/lon_grid_budget_all-3.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>
 [[4]]</code></pre>
 <p><img src="figure/vif_column_inventories.Rmd/lon_grid_budget_all-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-lon_grid_budget_all-4">
+Past versions of lon_grid_budget_all-4.png
+</button>
+</p>
+<div id="fig-lon_grid_budget_all-4" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_column_inventories.Rmd/lon_grid_budget_all-4.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="ensemble" class="section level1" number="4">
@@ -1827,6 +2222,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_column_inventories.Rmd/ensemble_mean-1.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ae5ae64585372fa5b40ae2e0ee60e853a4e638b3/docs/figure/vif_column_inventories.Rmd/ensemble_mean-1.png" target="_blank">ae5ae64</a>
 </td>
 <td>
@@ -1901,6 +2307,43 @@ jens-daniel-mueller
 <pre><code>Warning: Raster pixels are placed at uneven vertical intervals and will be
 shifted. Consider using geom_tile() instead.</code></pre>
 <p><img src="figure/vif_column_inventories.Rmd/ensemble_mean_two_decades-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_mean_two_decades-1">
+Past versions of ensemble_mean_two_decades-1.png
+</button>
+</p>
+<div id="fig-ensemble_mean_two_decades-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_column_inventories.Rmd/ensemble_mean_two_decades-1.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="mean-bias" class="section level2" number="4.2">
 <h2><span class="header-section-number">4.2</span> Mean bias</h2>
@@ -1948,6 +2391,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_column_inventories.Rmd/ensemble_mean_bias-1.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ae5ae64585372fa5b40ae2e0ee60e853a4e638b3/docs/figure/vif_column_inventories.Rmd/ensemble_mean_bias-1.png" target="_blank">ae5ae64</a>
@@ -2019,6 +2473,43 @@ jens-daniel-mueller
   facet_grid(period ~.) +
   coord_cartesian(xlim = c(-10, 10))</code></pre>
 <p><img src="figure/vif_column_inventories.Rmd/bias_density_distribution_ensemble-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-bias_density_distribution_ensemble-1">
+Past versions of bias_density_distribution_ensemble-1.png
+</button>
+</p>
+<div id="fig-bias_density_distribution_ensemble-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_column_inventories.Rmd/bias_density_distribution_ensemble-1.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="mean-lat-grid-budgets" class="section level2" number="4.3">
@@ -2040,6 +2531,43 @@ jens-daniel-mueller
   scale_fill_brewer(palette = &quot;Dark2&quot;) +
   facet_grid(data_source ~ period)</code></pre>
 <p><img src="figure/vif_column_inventories.Rmd/lat_grid_budget_ensemble-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-lat_grid_budget_ensemble-1">
+Past versions of lat_grid_budget_ensemble-1.png
+</button>
+</p>
+<div id="fig-lat_grid_budget_ensemble-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_column_inventories.Rmd/lat_grid_budget_ensemble-1.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="mean-lon-grid-budgets" class="section level2" number="4.4">
 <h2><span class="header-section-number">4.4</span> Mean lon grid budgets</h2>
@@ -2056,6 +2584,43 @@ jens-daniel-mueller
   width = 0) +
   facet_grid(data_source ~ period)</code></pre>
 <p><img src="figure/vif_column_inventories.Rmd/lon_grid_budget_ensemble-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-lon_grid_budget_ensemble-1">
+Past versions of lon_grid_budget_ensemble-1.png
+</button>
+</p>
+<div id="fig-lon_grid_budget_ensemble-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_column_inventories.Rmd/lon_grid_budget_ensemble-1.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="standard-deviation" class="section level2" number="4.5">
 <h2><span class="header-section-number">4.5</span> Standard deviation</h2>
@@ -2091,6 +2656,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_column_inventories.Rmd/ensemble_sd-1.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ae5ae64585372fa5b40ae2e0ee60e853a4e638b3/docs/figure/vif_column_inventories.Rmd/ensemble_sd-1.png" target="_blank">ae5ae64</a>
@@ -2158,6 +2734,43 @@ map +
 <pre><code>Warning: Raster pixels are placed at uneven vertical intervals and will be
 shifted. Consider using geom_tile() instead.</code></pre>
 <p><img src="figure/vif_column_inventories.Rmd/ensemble_sd_uncertainty-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_sd_uncertainty-1">
+Past versions of ensemble_sd_uncertainty-1.png
+</button>
+</p>
+<div id="fig-ensemble_sd_uncertainty-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_column_inventories.Rmd/ensemble_sd_uncertainty-1.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="sd-vs-abs-bias" class="section level2" number="4.7">
 <h2><span class="header-section-number">4.7</span> SD vs abs bias</h2>
@@ -2191,6 +2804,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_column_inventories.Rmd/ensemble_sd_vs_bias-1.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/73154c700b53850482cfaad25a0b826e3832fef0/docs/figure/vif_column_inventories.Rmd/ensemble_sd_vs_bias-1.png" target="_blank">73154c7</a>
@@ -2309,6 +2933,43 @@ p_ensemble_distribution &lt;-
 
 p_ensemble_distribution</code></pre>
 <p><img src="figure/vif_column_inventories.Rmd/density_distributions-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-density_distributions-1">
+Past versions of density_distributions-1.png
+</button>
+</p>
+<div id="fig-density_distributions-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_column_inventories.Rmd/density_distributions-1.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code># ggsave(plot = p_ensemble_distribution,
 #        path = &quot;output/other&quot;,
 #        filename = &quot;inv_ensemble_distribution_all.png&quot;,
@@ -2350,6 +3011,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_column_inventories.Rmd/ensemble_range-1.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ae5ae64585372fa5b40ae2e0ee60e853a4e638b3/docs/figure/vif_column_inventories.Rmd/ensemble_range-1.png" target="_blank">ae5ae64</a>
@@ -2576,6 +3248,43 @@ shifted. Consider using geom_tile() instead.
 Warning: Raster pixels are placed at uneven vertical intervals and will be
 shifted. Consider using geom_tile() instead.</code></pre>
 <p><img src="figure/vif_column_inventories.Rmd/composed_figure-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-composed_figure-1">
+Past versions of composed_figure-1.png
+</button>
+</p>
+<div id="fig-composed_figure-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_column_inventories.Rmd/composed_figure-1.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code># ggsave(&quot;output/publication/Fig_column_inventories.png&quot;,
 #        width=11,
 #        height=9.27)</code></pre>
@@ -2630,6 +3339,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_column_inventories.Rmd/ensemble_deviation_from_mean-1.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ae5ae64585372fa5b40ae2e0ee60e853a4e638b3/docs/figure/vif_column_inventories.Rmd/ensemble_deviation_from_mean-1.png" target="_blank">ae5ae64</a>
@@ -2707,6 +3427,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_column_inventories.Rmd/ensemble_deviation_from_mean-2.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ae5ae64585372fa5b40ae2e0ee60e853a4e638b3/docs/figure/vif_column_inventories.Rmd/ensemble_deviation_from_mean-2.png" target="_blank">ae5ae64</a>
 </td>
 <td>
@@ -2758,6 +3489,43 @@ jens-daniel-mueller
 <pre><code>Warning: Raster pixels are placed at uneven vertical intervals and will be
 shifted. Consider using geom_tile() instead.</code></pre>
 <p><img src="figure/vif_column_inventories.Rmd/ensemble_deviation_from_mean-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_deviation_from_mean-3">
+Past versions of ensemble_deviation_from_mean-3.png
+</button>
+</p>
+<div id="fig-ensemble_deviation_from_mean-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/figure/vif_column_inventories.Rmd/ensemble_deviation_from_mean-3.png" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
