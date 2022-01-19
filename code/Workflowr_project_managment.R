@@ -5,23 +5,15 @@
 
 
 # commit regular changes (locally) and rebuild site
-wflow_publish(all = TRUE, message = "included predictor analysis")
+wflow_publish(all = TRUE, message = "printed column inv from AIP standard runs")
 
 # commit changes including _site.yml (locally) and rebuild site in the specified order
 wflow_publish(here::here(
   "analysis",
   c(
     "index.Rmd",
-    "vif_budgets.Rmd",
-    "vif_column_inventories.Rmd",
-    "vif_zonal_sections.Rmd",
-    "gaps_filter_budgets.Rmd",
-    "gaps_filter_column_inventories.Rmd",
-    "gaps_filter_zonal_sections.Rmd",
-    "MLR_predictor_nitrate_budgets.Rmd",
-    "MLR_predictor_nitrate_column_inventories.Rmd",
-    "MLR_predictor_nitrate_zonal_sections.Rmd",
     "basics.Rmd",
+    "results_publication.Rmd",
     "classic_budgets.Rmd",
     "classic_column_inventories.Rmd",
     "classic_zonal_sections.Rmd",
@@ -36,10 +28,19 @@ wflow_publish(here::here(
     "MLR_predictor_zonal_sections.Rmd",
     "MLR_target_budgets.Rmd",
     "MLR_target_column_inventories.Rmd",
-    "MLR_target_zonal_sections.Rmd"
+    "MLR_target_zonal_sections.Rmd",
+    "vif_budgets.Rmd",
+    "vif_column_inventories.Rmd",
+    "vif_zonal_sections.Rmd",
+    "gaps_filter_budgets.Rmd",
+    "gaps_filter_column_inventories.Rmd",
+    "gaps_filter_zonal_sections.Rmd",
+    "MLR_predictor_nitrate_budgets.Rmd",
+    "MLR_predictor_nitrate_column_inventories.Rmd",
+    "MLR_predictor_nitrate_zonal_sections.Rmd"
   )
 ),
-message = "predictor analysis in child doc",
+message = "plot hemisphere budgets and publication results",
 republish = TRUE)
 
 

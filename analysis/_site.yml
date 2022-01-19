@@ -5,6 +5,8 @@ navbar:
   left:
   - text: Basics
     href: basics.html
+  - text: Results publication
+    href: results_publication.html
   - text: Spatial splits
     menu:
     - text: Classic cases

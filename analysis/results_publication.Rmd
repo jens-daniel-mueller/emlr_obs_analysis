@@ -33,21 +33,247 @@ path_preprocessing_model    <-
 
 ```
 
-```{r load_libraries_specific, include = FALSE}
-```
 
 # Read files
 
-```{r read_files_global}
+```{r define_Version_IDs}
 
-GLODAP_preprocessed <-
-  read_csv(
-    paste(
-      path_preprocessing,
-      "GLODAPv2.2021_preprocessed.csv",
-      sep = ""
-    )
-  )
+version_id_pattern <- "103"
+
+# identify required version IDs
+
+Version_IDs_1 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_1", version_id_pattern))
+
+Version_IDs_2 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_2", version_id_pattern))
+
+Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_3", version_id_pattern))
+
+Version_IDs <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
+
+print(Version_IDs)
 
 ```
 
+```{r read_files}
+
+
+for (i_Version_IDs in Version_IDs) {
+  # i_Version_IDs <- Version_IDs[1]
+  
+  print(i_Version_IDs)
+  
+  path_version_data     <-
+    paste(path_observations,
+          i_Version_IDs,
+          "/data/",
+          sep = "")
+  
+  # load and join data files
+  
+  dcant_inv <-
+    read_csv(paste(path_version_data,
+                   "dcant_inv.csv",
+                   sep = ""))
+  
+  dcant_inv_mod_truth <-
+    read_csv(paste(path_version_data,
+                   "dcant_inv_mod_truth.csv",
+                   sep = "")) %>%
+    filter(method == "total") %>%
+    select(-method)
+  
+  dcant_inv_bias <-
+    read_csv(paste(path_version_data,
+                   "dcant_inv_bias.csv",
+                   sep = "")) %>%
+    mutate(Version_ID = i_Version_IDs)
+  
+  dcant_inv <- bind_rows(dcant_inv,
+                         dcant_inv_mod_truth) %>%
+    mutate(Version_ID = i_Version_IDs)
+  
+  dcant_budget_lat_grid <-
+    read_csv(paste(path_version_data,
+                   "dcant_budget_lat_grid.csv",
+                   sep = "")) %>%
+    mutate(Version_ID = i_Version_IDs)
+  
+  dcant_budget_lon_grid <-
+    read_csv(paste(path_version_data,
+                   "dcant_budget_lon_grid.csv",
+                   sep = "")) %>%
+    mutate(Version_ID = i_Version_IDs)
+  
+  
+  params_local <-
+    read_rds(paste(path_version_data,
+                   "params_local.rds",
+                   sep = ""))
+  
+  params_local <- bind_cols(
+    Version_ID = i_Version_IDs,
+    # {{config}} := str_c(params_local${{config}}, collapse = "|"),
+    tref1 = params_local$tref1,
+    tref2 = params_local$tref2)
+  
+  tref <- read_csv(paste(path_version_data,
+                         "tref.csv",
+                         sep = ""))
+  
+  params_local <- params_local %>%
+    mutate(
+      median_year_1 = sort(tref$median_year)[1],
+      median_year_2 = sort(tref$median_year)[2],
+      duration = median_year_2 - median_year_1,
+      period = paste(median_year_1, "-", median_year_2)
+    )
+  
+  if (exists("dcant_inv_all")) {
+    dcant_inv_all <- bind_rows(dcant_inv_all, dcant_inv)
+  }
+  
+  if (!exists("dcant_inv_all")) {
+    dcant_inv_all <- dcant_inv
+  }
+  
+  if (exists("dcant_inv_bias_all")) {
+    dcant_inv_bias_all <- bind_rows(dcant_inv_bias_all, dcant_inv_bias)
+  }
+  
+  if (!exists("dcant_inv_bias_all")) {
+    dcant_inv_bias_all <- dcant_inv_bias
+  }
+  
+  if (exists("dcant_budget_lat_grid_all")) {
+    dcant_budget_lat_grid_all <- bind_rows(dcant_budget_lat_grid_all, dcant_budget_lat_grid)
+  }
+  
+  if (!exists("dcant_budget_lat_grid_all")) {
+    dcant_budget_lat_grid_all <- dcant_budget_lat_grid
+  }
+  
+  if (exists("dcant_budget_lon_grid_all")) {
+    dcant_budget_lon_grid_all <- bind_rows(dcant_budget_lon_grid_all, dcant_budget_lon_grid)
+  }
+  
+  if (!exists("dcant_budget_lon_grid_all")) {
+    dcant_budget_lon_grid_all <- dcant_budget_lon_grid
+  }
+
+  if (exists("params_local_all")) {
+    params_local_all <- bind_rows(params_local_all, params_local)
+  }
+  
+  if (!exists("params_local_all")) {
+    params_local_all <- params_local
+  }
+  
+  
+}
+
+rm(dcant_inv,
+   dcant_inv_bias,
+   dcant_inv_mod_truth,
+   dcant_budget_lat_grid,
+   dcant_budget_lon_grid,
+   params_local,
+   tref)
+
+# params_local_all <-
+#   params_local_all %>%
+#   mutate(period = factor(period, c("1994 - 2004", "2004 - 2014", "1994 - 2014")))
+
+
+```
+
+```{r filter_standard_inventory_depth}
+
+dcant_inv_all <- dcant_inv_all %>%
+  filter(inv_depth == params_global$inventory_depth_standard)
+
+dcant_budget_lat_grid_all <- dcant_budget_lat_grid_all %>% 
+  filter(inv_depth == params_global$inventory_depth_standard)
+
+dcant_budget_lon_grid_all <- dcant_budget_lon_grid_all %>% 
+  filter(inv_depth == params_global$inventory_depth_standard)
+
+```
+
+```{r r join_data_and_meta_data, include=FALSE}
+
+
+dcant_inv_all <- full_join(dcant_inv_all,
+                           params_local_all)
+
+dcant_inv_bias_all <- full_join(dcant_inv_bias_all,
+                                params_local_all)
+
+
+dcant_budget_lat_grid_all <- full_join(dcant_budget_lat_grid_all,
+                                       params_local_all)
+
+dcant_budget_lon_grid_all <- full_join(dcant_budget_lon_grid_all,
+                                       params_local_all)
+
+```
+
+
+```{r adapt_format}
+
+dcant_budget_lat_grid_all <- dcant_budget_lat_grid_all %>%
+  pivot_wider(names_from = estimate,
+              values_from = value) %>%
+  filter(period != "1994 - 2014",
+         method == "total")
+
+dcant_budget_lon_grid_all <- dcant_budget_lon_grid_all %>%
+  pivot_wider(names_from = estimate,
+              values_from = value) %>%
+  filter(period != "1994 - 2014",
+         method == "total")
+
+
+```
+
+
+
+```{r load_libraries_specific, include = FALSE}
+library(patchwork)
+```
+
+# Uncertainty limit
+
+```{r define_sd_uncertainty_limit}
+
+sd_uncertainty_limit <- 4
+
+```
+
+# Individual cases
+
+## Absoulte values
+
+```{r cases_absolute, fig.asp=0.9}
+
+
+dcant_inv_all %>%
+  filter(data_source %in% c("mod", "obs"),
+         period != "1994 - 2014") %>%
+  group_by(data_source) %>%
+  group_split() %>%
+  # head(1) %>%
+  map(
+    ~ p_map_cant_inv(df = .x,
+                     var = "dcant",
+                     subtitle_text = paste("data_source:",
+                                           unique(.x$data_source))) +
+      facet_grid(period ~ .) +
+      theme(axis.text = element_blank(),
+            axis.ticks = element_blank())
+  )
+
+
+```
