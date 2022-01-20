@@ -445,7 +445,7 @@ dcant_budget_basin_MLR_all_plot <- dcant_budget_basin_MLR_all %>%
 
 ```{r cases_absolute_basins_hemisphere_alluvial, fig.asp=0.9}
 
-dcant_budget_basin_MLR_all_plot %>%
+g1 <- dcant_budget_basin_MLR_all_plot %>%
   ggplot(aes(
     y = dcant,
     x = period,
@@ -457,7 +457,10 @@ dcant_budget_basin_MLR_all_plot %>%
   stat_stratum(decreasing = FALSE) +
   stat_stratum(geom = "text",
                decreasing = FALSE,
-               aes(label = paste(100*round(after_stat(prop), 2), "%"))) +
+               aes(label = paste(
+                 round(after_stat(max-min),1)
+                 # 100*round(after_stat(prop), 2), "%"
+                 ))) +
   ggrepel::geom_label_repel(
     data = dcant_budget_basin_MLR_all_plot %>% filter(period == "2004 - 2014"),
     stat = "stratum",
@@ -473,7 +476,44 @@ dcant_budget_basin_MLR_all_plot %>%
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         axis.title.x = element_blank())
 
-dcant_budget_basin_MLR_all_plot %>%
+g1
+newdat <- tibble(layer_data(g1))
+
+change <- 
+  newdat %>% 
+  select(x, alluvium, count) %>% 
+  pivot_wider(names_from = x,
+              values_from = count) %>% 
+  mutate(dcant_change = round(100*(`2` - `1`) / `1`)) %>% 
+  select(alluvium, dcant_change)
+
+coord <- newdat %>%
+  filter(x == 2) %>% 
+  select(x, y, alluvium)
+
+new_layer <- full_join(
+  change,
+  coord
+)
+
+new_layer <- new_layer %>% 
+  mutate(dcant_change = as.character(dcant_change),
+         dcant_change = if_else(str_detect(dcant_change, "-"),
+                                dcant_change,
+                                paste0("+", dcant_change)),
+         dcant_change = paste(dcant_change, "%"))
+
+g1 +
+  geom_text(data = new_layer,
+            aes(
+              x = x - 0.3,
+              y = y,
+              label = dcant_change
+            ),
+            inherit.aes = FALSE)
+
+
+g2 <- dcant_budget_basin_MLR_all_plot %>%
   ggplot(aes(
     y = dcant,
     x = period,
@@ -484,7 +524,11 @@ dcant_budget_basin_MLR_all_plot %>%
   )) +
   geom_alluvium() +
   geom_stratum() +
-  geom_text(stat = "stratum", aes(label = paste(100*round(after_stat(prop), 2), "%"))) +
+  stat_stratum(geom = "text",
+               aes(label = paste(
+                 round(after_stat(count),1)
+                 # 100*round(after_stat(prop), 2), "%"
+                 ))) +
   ggrepel::geom_label_repel(
     data = dcant_budget_basin_MLR_all_plot %>% filter(period == "2004 - 2014"),
     stat = "stratum",
@@ -499,6 +543,45 @@ dcant_budget_basin_MLR_all_plot %>%
   labs(y = dcant_budget) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         axis.title.x = element_blank())
+
+
+g2
+
+newdat <- tibble(layer_data(g2))
+
+change <- 
+  newdat %>% 
+  select(x, alluvium, count) %>% 
+  pivot_wider(names_from = x,
+              values_from = count) %>% 
+  mutate(dcant_change = round(100*(`2` - `1`) / `1`)) %>% 
+  select(alluvium, dcant_change)
+
+coord <- newdat %>%
+  filter(x == 2) %>% 
+  select(x, y, alluvium)
+
+new_layer <- full_join(
+  change,
+  coord
+)
+
+new_layer <- new_layer %>% 
+  mutate(dcant_change = as.character(dcant_change),
+         dcant_change = if_else(str_detect(dcant_change, "-"),
+                                dcant_change,
+                                paste0("+", dcant_change)),
+         dcant_change = paste(dcant_change, "%"))
+
+g2 +
+  geom_text(data = new_layer,
+            aes(
+              x = x - 0.3,
+              y = y,
+              label = dcant_change
+            ),
+            inherit.aes = FALSE)
+
 
 ```
 
