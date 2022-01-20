@@ -645,16 +645,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree2eb2567026acf264d28a01a2d68ab54ba76aaaf0targetblank2eb2567a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/2eb2567026acf264d28a01a2d68ab54ba76aaaf0" target="_blank">2eb2567</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreee58f510c6ac0539974ae3e1a6c8241606859df5ftargetblanke58f510a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/e58f510c6ac0539974ae3e1a6c8241606859df5f" target="_blank">e58f510</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree2eb2567026acf264d28a01a2d68ab54ba76aaaf0targetblank2eb2567a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreee58f510c6ac0539974ae3e1a6c8241606859df5ftargetblanke58f510a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/2eb2567026acf264d28a01a2d68ab54ba76aaaf0" target="_blank">2eb2567</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/e58f510c6ac0539974ae3e1a6c8241606859df5f" target="_blank">e58f510</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -704,6 +704,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e58f510c6ac0539974ae3e1a6c8241606859df5f/analysis/results_publication.Rmd" target="_blank">e58f510</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-20
+</td>
+<td>
+added relative changes to alluvial plots
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/b503ae14f27cee94cd6df052d19eb76ffb8ce408/docs/results_publication.html" target="_blank">b503ae1</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-20
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1544,7 +1578,40 @@ jens-daniel-mueller
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         axis.title.x = element_blank())
 
-g1</code></pre>
+newdat &lt;- tibble(layer_data(g1))
+
+change &lt;- 
+  newdat %&gt;% 
+  select(x, alluvium, count) %&gt;% 
+  pivot_wider(names_from = x,
+              values_from = count) %&gt;% 
+  mutate(dcant_change = round(100*(`2` - `1`) / `1`)) %&gt;% 
+  select(alluvium, dcant_change)
+
+coord &lt;- newdat %&gt;%
+  filter(x == 2) %&gt;% 
+  select(x, y, alluvium)
+
+new_layer &lt;- full_join(
+  change,
+  coord
+)
+
+new_layer &lt;- new_layer %&gt;% 
+  mutate(dcant_change = as.character(dcant_change),
+         dcant_change = if_else(str_detect(dcant_change, &quot;-&quot;),
+                                dcant_change,
+                                paste0(&quot;+&quot;, dcant_change)),
+         dcant_change = paste(dcant_change, &quot;%&quot;))
+
+g1 +
+  geom_text(data = new_layer,
+            aes(
+              x = x - 0.3,
+              y = y,
+              label = dcant_change
+            ),
+            inherit.aes = FALSE)</code></pre>
 <p><img src="figure/results_publication.Rmd/cases_absolute_basins_hemisphere_alluvial-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_absolute_basins_hemisphere_alluvial-1">
@@ -1568,6 +1635,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/b503ae14f27cee94cd6df052d19eb76ffb8ce408/docs/figure/results_publication.Rmd/cases_absolute_basins_hemisphere_alluvial-1.png" target="_blank">b503ae1</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-20
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/cc31f4b938f8efc97cf2dcce9ca1d9c44eea5726/docs/figure/results_publication.Rmd/cases_absolute_basins_hemisphere_alluvial-1.png" target="_blank">cc31f4b</a>
@@ -1616,7 +1694,39 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
-<pre class="r"><code>newdat &lt;- tibble(layer_data(g1))
+<pre class="r"><code>g2 &lt;- dcant_budget_basin_MLR_all_plot %&gt;%
+  ggplot(aes(
+    y = dcant,
+    x = period,
+    alluvium = basin,
+    fill  = basin,
+    stratum = basin,
+    label = basin
+  )) +
+  geom_alluvium() +
+  geom_stratum() +
+  stat_stratum(geom = &quot;text&quot;,
+               aes(label = paste(
+                 round(after_stat(count),1)
+                 # 100*round(after_stat(prop), 2), &quot;%&quot;
+                 ))) +
+  ggrepel::geom_label_repel(
+    data = dcant_budget_basin_MLR_all_plot %&gt;% filter(period == &quot;2004 - 2014&quot;),
+    stat = &quot;stratum&quot;,
+    size = 4,
+    nudge_x = .5,
+    point.padding = 3,
+    aes(fill = basin)
+  )+
+  scale_fill_brewer(palette = &quot;Paired&quot;, guide = &quot;none&quot;) +
+  scale_color_brewer(palette = &quot;Paired&quot;, guide = &quot;none&quot;) +
+  scale_y_continuous(limits = c(0, 32), expand = c(0, 0)) +
+  labs(y = dcant_budget) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        axis.title.x = element_blank())
+
+
+newdat &lt;- tibble(layer_data(g2))
 
 change &lt;- 
   newdat %&gt;% 
@@ -1642,7 +1752,7 @@ new_layer &lt;- new_layer %&gt;%
                                 paste0(&quot;+&quot;, dcant_change)),
          dcant_change = paste(dcant_change, &quot;%&quot;))
 
-g1 +
+g2 +
   geom_text(data = new_layer,
             aes(
               x = x - 0.3,
@@ -1673,6 +1783,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/b503ae14f27cee94cd6df052d19eb76ffb8ce408/docs/figure/results_publication.Rmd/cases_absolute_basins_hemisphere_alluvial-2.png" target="_blank">b503ae1</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-20
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/11a800bfd09db67915c75e670a47ec7716e62580/docs/figure/results_publication.Rmd/cases_absolute_basins_hemisphere_alluvial-2.png" target="_blank">11a800b</a>
@@ -1721,75 +1842,6 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
-<pre class="r"><code>g2 &lt;- dcant_budget_basin_MLR_all_plot %&gt;%
-  ggplot(aes(
-    y = dcant,
-    x = period,
-    alluvium = basin,
-    fill  = basin,
-    stratum = basin,
-    label = basin
-  )) +
-  geom_alluvium() +
-  geom_stratum() +
-  stat_stratum(geom = &quot;text&quot;,
-               aes(label = paste(
-                 round(after_stat(count),1)
-                 # 100*round(after_stat(prop), 2), &quot;%&quot;
-                 ))) +
-  ggrepel::geom_label_repel(
-    data = dcant_budget_basin_MLR_all_plot %&gt;% filter(period == &quot;2004 - 2014&quot;),
-    stat = &quot;stratum&quot;,
-    size = 4,
-    nudge_x = .5,
-    point.padding = 3,
-    aes(fill = basin)
-  )+
-  scale_fill_brewer(palette = &quot;Paired&quot;, guide = &quot;none&quot;) +
-  scale_color_brewer(palette = &quot;Paired&quot;, guide = &quot;none&quot;) +
-  scale_y_continuous(limits = c(0, 32), expand = c(0, 0)) +
-  labs(y = dcant_budget) +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1),
-        axis.title.x = element_blank())
-
-
-g2</code></pre>
-<p><img src="figure/results_publication.Rmd/cases_absolute_basins_hemisphere_alluvial-3.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>newdat &lt;- tibble(layer_data(g2))
-
-change &lt;- 
-  newdat %&gt;% 
-  select(x, alluvium, count) %&gt;% 
-  pivot_wider(names_from = x,
-              values_from = count) %&gt;% 
-  mutate(dcant_change = round(100*(`2` - `1`) / `1`)) %&gt;% 
-  select(alluvium, dcant_change)
-
-coord &lt;- newdat %&gt;%
-  filter(x == 2) %&gt;% 
-  select(x, y, alluvium)
-
-new_layer &lt;- full_join(
-  change,
-  coord
-)
-
-new_layer &lt;- new_layer %&gt;% 
-  mutate(dcant_change = as.character(dcant_change),
-         dcant_change = if_else(str_detect(dcant_change, &quot;-&quot;),
-                                dcant_change,
-                                paste0(&quot;+&quot;, dcant_change)),
-         dcant_change = paste(dcant_change, &quot;%&quot;))
-
-g2 +
-  geom_text(data = new_layer,
-            aes(
-              x = x - 0.3,
-              y = y,
-              label = dcant_change
-            ),
-            inherit.aes = FALSE)</code></pre>
-<p><img src="figure/results_publication.Rmd/cases_absolute_basins_hemisphere_alluvial-4.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
