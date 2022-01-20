@@ -397,7 +397,7 @@ dcant_budget_basin_MLR_all_plot %>%
 
 ```
 
-```{r cases_absolute_basins_hemisphere_alluvial}
+```{r cases_absolute_basins_hemisphere_alluvial, fig.asp=0.9}
 
 dcant_budget_basin_MLR_all_plot %>%
   ggplot(aes(
@@ -406,14 +406,22 @@ dcant_budget_basin_MLR_all_plot %>%
     alluvium = basin,
     fill  = basin,
     stratum = basin
-    # label = basin
   )) +
   stat_alluvium(decreasing = FALSE) +
   stat_stratum(decreasing = FALSE) +
   stat_stratum(geom = "text",
                decreasing = FALSE,
                aes(label = paste(100*round(after_stat(prop), 2), "%"))) +
-  scale_fill_brewer(palette = "Paired") +
+  ggrepel::geom_label_repel(
+    data = dcant_budget_basin_MLR_all_plot %>% filter(period == "2004 - 2014"),
+    stat = "stratum",
+    size = 4,
+    nudge_x = .5,
+    point.padding = 3,
+    aes(fill = basin, label = basin),
+    decreasing = FALSE
+  )+
+  scale_fill_brewer(palette = "Paired", guide = "none") +
   scale_y_continuous(limits = c(0, 32), expand = c(0, 0)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         axis.title.x = element_blank())
