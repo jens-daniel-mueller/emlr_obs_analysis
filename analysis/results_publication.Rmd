@@ -379,21 +379,20 @@ dcant_inv_all %>%
 
 ```{r cases_absolute_basins_hemisphere, fig.asp=1.2}
 
-unique(dcant_budget_basin_MLR_all$basin)
-
 dcant_budget_basin_MLR_all_plot <- dcant_budget_basin_MLR_all %>%
   filter(period != "1994 - 2014",
-         data_source == "obs") %>% 
-  mutate(basin = fct_relevel(basin,
-                             "N_Pacific", "S_Pacific", "N_Atlantic", "S_Atlantic", "Indian"))
-
-dcant_budget_basin_MLR_all_plot %>% 
-  ggplot(aes(period, dcant, fill = basin)) +
-  geom_col(col = "black") +
-  scale_fill_brewer(palette = "Paired") +
-  scale_y_continuous(limits = c(0,32), expand = c(0,0)) +
-  theme(axis.text.x = element_text(angle = 45, hjust=1),
-        axis.title.x = element_blank())
+         data_source == "obs") %>%
+  mutate(
+    basin = str_replace(basin, "_", ". "),
+        basin = fct_relevel(
+      basin,
+      "N. Pacific",
+      "S. Pacific",
+      "N. Atlantic",
+      "S. Atlantic",
+      "Indian"
+    )
+  )
 
 ```
 
@@ -437,7 +436,6 @@ dcant_budget_basin_MLR_all_plot %>%
   )) +
   geom_alluvium() +
   geom_stratum() +
-  # geom_text(stat = "stratum", size = 4) +
   geom_text(stat = "stratum", aes(label = paste(100*round(after_stat(prop), 2), "%"))) +
   ggrepel::geom_label_repel(
     data = dcant_budget_basin_MLR_all_plot %>% filter(period == "2004 - 2014"),
@@ -450,7 +448,6 @@ dcant_budget_basin_MLR_all_plot %>%
   scale_fill_brewer(palette = "Paired", guide = "none") +
   scale_color_brewer(palette = "Paired", guide = "none") +
   scale_y_continuous(limits = c(0, 32), expand = c(0, 0)) +
-  # scale_x_discrete(expand = c(0.1, 0.1)) +
   labs(y = dcant_budget) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         axis.title.x = element_blank())
