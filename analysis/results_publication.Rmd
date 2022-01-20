@@ -328,13 +328,6 @@ library(patchwork)
 library(ggalluvial)
 ```
 
-# Uncertainty limit
-
-```{r define_sd_uncertainty_limit}
-
-sd_uncertainty_limit <- 4
-
-```
 
 ```{r define_legend_titles}
 
@@ -345,6 +338,8 @@ dcant_budget <- expression(atop(Delta * C["ant"],
 # Individual cases
 
 ## Absoulte values
+
+### dcant
 
 ```{r cases_absolute, fig.asp=0.9}
 
@@ -358,6 +353,58 @@ dcant_inv_all %>%
   map(
     ~ p_map_cant_inv(df = .x,
                      var = "dcant",
+                     subtitle_text = paste("data_source:",
+                                           unique(.x$data_source))) +
+      facet_grid(period ~ .) +
+      theme(axis.text = element_blank(),
+            axis.ticks = element_blank())
+  )
+
+
+```
+
+```{r cases_absolute_delta}
+
+
+dcant_inv_all %>%
+  filter(data_source %in% c("mod", "obs"),
+         period != "1994 - 2014") %>%
+  select(data_source, lon, lat, basin_AIP, period, dcant) %>% 
+  pivot_wider(names_from = period,
+              values_from = dcant) %>% 
+  mutate(delta_dcant = `2004 - 2014` - `1994 - 2004`) %>% 
+  group_by(data_source) %>%
+  group_split() %>%
+  # head(1) %>%
+  map(
+    ~ p_map_cant_inv(df = .x,
+                     var = "delta_dcant",
+                     subtitle_text = paste("data_source:",
+                                           unique(.x$data_source)),
+                     col = "divergent") +
+      # facet_grid(period ~ .) +
+      theme(axis.text = element_blank(),
+            axis.ticks = element_blank())
+  )
+
+
+```
+
+
+### dcant pos
+
+```{r cases_absolute_dcant_pos, fig.asp=0.9}
+
+
+dcant_inv_all %>%
+  filter(data_source %in% c("mod", "obs"),
+         period != "1994 - 2014") %>%
+  group_by(data_source) %>%
+  group_split() %>%
+  # head(1) %>%
+  map(
+    ~ p_map_cant_inv(df = .x,
+                     var = "dcant_pos",
                      subtitle_text = paste("data_source:",
                                            unique(.x$data_source))) +
       facet_grid(period ~ .) +
@@ -422,6 +469,7 @@ dcant_budget_basin_MLR_all_plot %>%
   )+
   scale_fill_brewer(palette = "Paired", guide = "none") +
   scale_y_continuous(limits = c(0, 32), expand = c(0, 0)) +
+  labs(y = dcant_budget) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         axis.title.x = element_blank())
 
