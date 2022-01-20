@@ -476,7 +476,6 @@ g1 <- dcant_budget_basin_MLR_all_plot %>%
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         axis.title.x = element_blank())
 
-g1
 newdat <- tibble(layer_data(g1))
 
 change <- 
@@ -544,8 +543,6 @@ g2 <- dcant_budget_basin_MLR_all_plot %>%
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         axis.title.x = element_blank())
 
-
-g2
 
 newdat <- tibble(layer_data(g2))
 
