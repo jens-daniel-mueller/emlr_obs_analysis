@@ -239,9 +239,93 @@ dcant_budget_lon_grid_all <- dcant_budget_lon_grid_all %>%
 ```
 
 
+```{r read_files_basins_hemisphere}
+
+# Version_IDs <- Version_IDs[1:length(Version_IDs)-1]
+
+for (i_Version_IDs in Version_IDs) {
+  # i_Version_IDs <- Version_IDs[1]
+  
+  print(i_Version_IDs)
+  
+  path_version_data     <-
+    paste(path_observations,
+          i_Version_IDs,
+          "/data/",
+          sep = "")
+  
+  # load and join data files
+  
+  dcant_budget_basin_MLR <-
+    read_csv(paste(path_version_data,
+                   "dcant_budget_basin_MLR.csv",
+                   sep = ""))
+  
+  dcant_budget_basin_MLR_mod_truth <-
+    read_csv(paste(
+      path_version_data,
+      "dcant_budget_basin_MLR_mod_truth.csv",
+      sep = ""
+    ))
+  
+    
+  dcant_budget_basin_MLR <- bind_rows(dcant_budget_basin_MLR,
+                                      dcant_budget_basin_MLR_mod_truth)
+  
+  dcant_budget_basin_MLR <- dcant_budget_basin_MLR %>%
+    mutate(Version_ID = i_Version_IDs)
+  
+
+  if (exists("dcant_budget_basin_MLR_all")) {
+    dcant_budget_basin_MLR_all <-
+      bind_rows(dcant_budget_basin_MLR_all, dcant_budget_basin_MLR)
+  }
+  
+  if (!exists("dcant_budget_basin_MLR_all")) {
+    dcant_budget_basin_MLR_all <- dcant_budget_basin_MLR
+  }
+
+}
+
+rm(
+  dcant_budget_basin_MLR,
+  dcant_budget_basin_MLR_mod_truth
+)
+
+
+```
+
+```{r join_data_and_meta_data, include=FALSE}
+
+
+dcant_budget_basin_MLR_all <- dcant_budget_basin_MLR_all %>%
+  filter(MLR_basins == "5") %>% 
+  select(-MLR_basins)
+
+dcant_budget_basin_MLR_all <- full_join(dcant_budget_basin_MLR_all,
+                                        params_local_all)
+
+
+```
+
+
+```{r filter_standard_inventory_depth_basins_hemisphere}
+
+dcant_budget_basin_MLR_all <- dcant_budget_basin_MLR_all %>%
+  filter(estimate == "dcant", 
+         method == "total") %>% 
+  select(-c(estimate, method)) %>% 
+  rename(dcant = value)
+
+dcant_budget_basin_MLR_all <- dcant_budget_basin_MLR_all %>%
+  filter(inv_depth == params_global$inventory_depth_standard)
+
+```
+
 
 ```{r load_libraries_specific, include = FALSE}
 library(patchwork)
+library(ggalluvial)
 ```
 
 # Uncertainty limit
@@ -250,6 +334,12 @@ library(patchwork)
 
 sd_uncertainty_limit <- 4
 
+```
+
+```{r define_legend_titles}
+
+dcant_budget <- expression(atop(Delta * C["ant"],
+                                (PgC)))
 ```
 
 # Individual cases
@@ -277,3 +367,76 @@ dcant_inv_all %>%
 
 
 ```
+
+
+
+
+# Basins hemisphere
+
+## Individual cases
+
+### Absoulte values
+
+```{r cases_absolute_basins_hemisphere, fig.asp=1.2}
+
+unique(dcant_budget_basin_MLR_all$basin)
+
+dcant_budget_basin_MLR_all_plot <- dcant_budget_basin_MLR_all %>%
+  filter(period != "1994 - 2014",
+         data_source == "obs") %>% 
+  mutate(basin = fct_relevel(basin,
+                             "N_Pacific", "S_Pacific", "N_Atlantic", "S_Atlantic", "Indian"))
+
+dcant_budget_basin_MLR_all_plot %>% 
+  ggplot(aes(period, dcant, fill = basin)) +
+  geom_col(col = "black") +
+  scale_fill_brewer(palette = "Paired") +
+  scale_y_continuous(limits = c(0,32), expand = c(0,0)) +
+  theme(axis.text.x = element_text(angle = 45, hjust=1),
+        axis.title.x = element_blank())
+
+```
+
+```{r cases_absolute_basins_hemisphere_alluvial}
+
+dcant_budget_basin_MLR_all_plot %>%
+  ggplot(aes(
+    y = dcant,
+    x = period,
+    alluvium = basin,
+    fill  = basin,
+    stratum = basin
+    # label = basin
+  )) +
+  stat_alluvium(decreasing = FALSE) +
+  stat_stratum(decreasing = FALSE) +
+  stat_stratum(geom = "text",
+               decreasing = FALSE,
+               aes(label = paste(100*round(after_stat(prop), 2), "%"))) +
+  scale_fill_brewer(palette = "Paired") +
+  scale_y_continuous(limits = c(0, 32), expand = c(0, 0)) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        axis.title.x = element_blank())
+
+dcant_budget_basin_MLR_all_plot %>%
+  ggplot(aes(
+    y = dcant,
+    x = period,
+    alluvium = basin,
+    fill  = basin,
+    stratum = basin,
+    label = basin
+  )) +
+  geom_alluvium() +
+  geom_stratum() +
+  # geom_text(stat = "stratum", size = 4) +
+  geom_text(stat = "stratum", aes(label = paste(100*round(after_stat(prop), 2), "%"))) +
+  scale_fill_brewer(palette = "Paired") +
+  scale_y_continuous(limits = c(0, 32), expand = c(0, 0)) +
+  scale_x_discrete(expand = c(0.1, 0.1)) +
+  labs(y = dcant_budget) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        axis.title.x = element_blank())
+
+```
+

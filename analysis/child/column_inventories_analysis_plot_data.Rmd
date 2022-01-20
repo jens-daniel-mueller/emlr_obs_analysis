@@ -48,6 +48,8 @@ sd_uncertainty_limit <- 4
 
 ```
 
+
+
 # Individual cases
 
 ## Absoulte values
