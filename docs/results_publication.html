@@ -645,16 +645,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree2c3fa75bc7b6ae900e18d3fa2a010bf126aff9f6targetblank2c3fa75a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/2c3fa75bc7b6ae900e18d3fa2a010bf126aff9f6" target="_blank">2c3fa75</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree5dd3d7a55b687f9ea96f69fc7a499fe021ff1281targetblank5dd3d7aa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/5dd3d7a55b687f9ea96f69fc7a499fe021ff1281" target="_blank">5dd3d7a</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree2c3fa75bc7b6ae900e18d3fa2a010bf126aff9f6targetblank2c3fa75a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree5dd3d7a55b687f9ea96f69fc7a499fe021ff1281targetblank5dd3d7aa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/2c3fa75bc7b6ae900e18d3fa2a010bf126aff9f6" target="_blank">2c3fa75</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/5dd3d7a55b687f9ea96f69fc7a499fe021ff1281" target="_blank">5dd3d7a</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -704,6 +704,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/5dd3d7a55b687f9ea96f69fc7a499fe021ff1281/analysis/results_publication.Rmd" target="_blank">5dd3d7a</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-21
+</td>
+<td>
+added map of scaled relative change
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/22b421f5480e5ab8ae2cca7256223622f8c38eee/docs/results_publication.html" target="_blank">22b421f</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-21
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1199,6 +1233,122 @@ dcant_budget_lon_grid_all &lt;- dcant_budget_lon_grid_all %&gt;%
               values_from = value) %&gt;%
   filter(period != &quot;1994 - 2014&quot;,
          method == &quot;total&quot;)</code></pre>
+<pre class="r"><code>for (i_Version_IDs in Version_IDs) {
+  # i_Version_IDs &lt;- Version_IDs[1]
+  
+  print(i_Version_IDs)
+  
+  path_version_data     &lt;-
+    paste(path_observations,
+          i_Version_IDs,
+          &quot;/data/&quot;,
+          sep = &quot;&quot;)
+  
+  # load and join data files
+  
+  dcant_budget_global &lt;-
+    read_csv(paste(path_version_data,
+                   &quot;dcant_budget_global.csv&quot;,
+                   sep = &quot;&quot;))
+  
+  dcant_budget_global_mod_truth &lt;-
+    read_csv(paste(
+      path_version_data,
+      &quot;dcant_budget_global_mod_truth.csv&quot;,
+      sep = &quot;&quot;
+    ))
+  # 
+  # dcant_budget_global_bias &lt;-
+  #   read_csv(paste(path_version_data,
+  #                  &quot;dcant_budget_global_bias.csv&quot;,
+  #                  sep = &quot;&quot;))
+  # 
+  # lm_best_predictor_counts &lt;-
+  #   read_csv(paste(path_version_data,
+  #                  &quot;lm_best_predictor_counts.csv&quot;,
+  #                  sep = &quot;&quot;))
+  # 
+  # lm_best_dcant &lt;-
+  #   read_csv(paste(path_version_data,
+  #                  &quot;lm_best_dcant.csv&quot;,
+  #                  sep = &quot;&quot;))
+  
+  dcant_budget_global &lt;- bind_rows(dcant_budget_global,
+                                      dcant_budget_global_mod_truth)
+  
+  dcant_budget_global &lt;- dcant_budget_global %&gt;%
+    mutate(Version_ID = i_Version_IDs)
+  
+  # dcant_budget_global_bias &lt;- dcant_budget_global_bias %&gt;%
+  #   mutate(Version_ID = i_Version_IDs)
+  # 
+  # lm_best_predictor_counts &lt;- lm_best_predictor_counts %&gt;%
+  #   mutate(Version_ID = i_Version_IDs)
+  # 
+  # lm_best_dcant &lt;- lm_best_dcant %&gt;%
+  #   mutate(Version_ID = i_Version_IDs)
+
+
+  if (exists(&quot;dcant_budget_global_all&quot;)) {
+    dcant_budget_global_all &lt;-
+      bind_rows(dcant_budget_global_all, dcant_budget_global)
+  }
+  
+  if (!exists(&quot;dcant_budget_global_all&quot;)) {
+    dcant_budget_global_all &lt;- dcant_budget_global
+  }
+  
+  # if (exists(&quot;dcant_budget_global_bias_all&quot;)) {
+  #   dcant_budget_global_bias_all &lt;-
+  #     bind_rows(dcant_budget_global_bias_all,
+  #               dcant_budget_global_bias)
+  # }
+  # 
+  # if (!exists(&quot;dcant_budget_global_bias_all&quot;)) {
+  #   dcant_budget_global_bias_all &lt;- dcant_budget_global_bias
+  # }
+  # 
+  #   
+  # if (exists(&quot;lm_best_predictor_counts_all&quot;)) {
+  #   lm_best_predictor_counts_all &lt;-
+  #     bind_rows(lm_best_predictor_counts_all, lm_best_predictor_counts)
+  # }
+  # 
+  # if (!exists(&quot;lm_best_predictor_counts_all&quot;)) {
+  #   lm_best_predictor_counts_all &lt;- lm_best_predictor_counts
+  # }
+  #   
+  # if (exists(&quot;lm_best_dcant_all&quot;)) {
+  #   lm_best_dcant_all &lt;-
+  #     bind_rows(lm_best_dcant_all, lm_best_dcant)
+  # }
+  # 
+  # if (!exists(&quot;lm_best_dcant_all&quot;)) {
+  #   lm_best_dcant_all &lt;- lm_best_dcant
+  # }
+  # 
+  # if (exists(&quot;params_local_all&quot;)) {
+  #   params_local_all &lt;- bind_rows(params_local_all, params_local)
+  # }
+  # 
+  # if (!exists(&quot;params_local_all&quot;)) {
+  #   params_local_all &lt;- params_local
+  # }
+  # 
+  
+}</code></pre>
+<pre><code>[1] &quot;v_1103&quot;
+[1] &quot;v_2103&quot;
+[1] &quot;v_3103&quot;</code></pre>
+<pre class="r"><code>rm(
+  dcant_budget_global,
+  dcant_budget_global_bias,
+  dcant_budget_global_mod_truth,
+  lm_best_predictor_counts,
+  lm_best_dcant,
+  params_local,
+  tref
+)</code></pre>
 <pre class="r"><code># Version_IDs &lt;- Version_IDs[1:length(Version_IDs)-1]
 
 for (i_Version_IDs in Version_IDs) {
@@ -1251,6 +1401,25 @@ for (i_Version_IDs in Version_IDs) {
   dcant_budget_basin_MLR,
   dcant_budget_basin_MLR_mod_truth
 )</code></pre>
+<pre class="r"><code>dcant_budget_global_all &lt;- dcant_budget_global_all %&gt;%
+  filter(estimate == &quot;dcant&quot;, 
+         method == &quot;total&quot;) %&gt;% 
+  select(-c(estimate, method)) %&gt;% 
+  rename(dcant = value)
+
+# dcant_budget_global_all_depth &lt;- dcant_budget_global_all
+
+dcant_budget_global_all &lt;- dcant_budget_global_all %&gt;%
+  filter(inv_depth == params_global$inventory_depth_standard)
+
+# dcant_budget_global_bias_all &lt;- dcant_budget_global_bias_all %&gt;%
+#   filter(estimate == &quot;dcant&quot;) %&gt;%
+#   select(-c(estimate))
+
+# dcant_budget_global_bias_all_depth &lt;- dcant_budget_global_bias_all
+# 
+# dcant_budget_global_bias_all &lt;- dcant_budget_global_bias_all %&gt;%
+#   filter(inv_depth == params_global$inventory_depth_standard)</code></pre>
 <pre class="r"><code>dcant_budget_basin_MLR_all &lt;- dcant_budget_basin_MLR_all %&gt;%
   filter(estimate == &quot;dcant&quot;, 
          method == &quot;total&quot;) %&gt;% 
@@ -1460,6 +1629,33 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
+<pre class="r"><code>left_join(dcant_inv_all,
+          dcant_budget_global_all %&gt;% rename(dcant_budget = dcant)) %&gt;%
+  filter(data_source %in% c(&quot;mod&quot;, &quot;obs&quot;),
+         period != &quot;1994 - 2014&quot;) %&gt;%
+  mutate(dcant = dcant / dcant_budget) %&gt;%
+  select(data_source, lon, lat, basin_AIP, period, dcant) %&gt;% 
+  pivot_wider(names_from = period,
+              values_from = dcant) %&gt;% 
+  mutate(delta_dcant = 100*(`2004 - 2014` / `1994 - 2004`)-100) %&gt;% 
+  group_by(data_source) %&gt;%
+  group_split() %&gt;%
+  # head(1) %&gt;%
+  map(
+    ~ p_map_cant_inv(df = .x,
+                     var = &quot;delta_dcant&quot;,
+                     subtitle_text = paste(&quot;data_source:&quot;,
+                                           unique(.x$data_source)),
+                     col = &quot;bias_ratio&quot;) +
+      # facet_grid(period ~ .) +
+      theme(axis.text = element_blank(),
+            axis.ticks = element_blank())
+  )</code></pre>
+<pre><code>[[1]]</code></pre>
+<p><img src="figure/results_publication.Rmd/cases_absolute_delta_scaled-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[2]]</code></pre>
+<p><img src="figure/results_publication.Rmd/cases_absolute_delta_scaled-2.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="dcant-pos" class="section level3" number="2.1.2">
 <h3><span class="header-section-number">2.1.2</span> dcant pos</h3>
@@ -1647,6 +1843,43 @@ g1 +
             ),
             inherit.aes = FALSE)</code></pre>
 <p><img src="figure/results_publication.Rmd/cases_absolute_basins_hemisphere_alluvial_order_budget-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_absolute_basins_hemisphere_alluvial_order_budget-1">
+Past versions of cases_absolute_basins_hemisphere_alluvial_order_budget-1.png
+</button>
+</p>
+<div id="fig-cases_absolute_basins_hemisphere_alluvial_order_budget-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/22b421f5480e5ab8ae2cca7256223622f8c38eee/docs/figure/results_publication.Rmd/cases_absolute_basins_hemisphere_alluvial_order_budget-1.png" target="_blank">22b421f</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-21
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>g2 &lt;- dcant_budget_basin_MLR_all_plot %&gt;%
   ggplot(aes(
     y = dcant,
@@ -1737,6 +1970,43 @@ g2 +
             ),
             inherit.aes = FALSE)</code></pre>
 <p><img src="figure/results_publication.Rmd/cases_absolute_basins_hemisphere_alluvial_order_basin-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_absolute_basins_hemisphere_alluvial_order_basin-1">
+Past versions of cases_absolute_basins_hemisphere_alluvial_order_basin-1.png
+</button>
+</p>
+<div id="fig-cases_absolute_basins_hemisphere_alluvial_order_basin-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/22b421f5480e5ab8ae2cca7256223622f8c38eee/docs/figure/results_publication.Rmd/cases_absolute_basins_hemisphere_alluvial_order_basin-1.png" target="_blank">22b421f</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-21
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
