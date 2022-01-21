@@ -563,15 +563,24 @@ dcant_inv_all %>%
 
 ```{r cases_absolute_delta_scaled}
 
-left_join(dcant_inv_all,
-          dcant_budget_global_all %>% rename(dcant_budget = dcant)) %>%
-  filter(data_source %in% c("mod", "obs"),
+dcant_budget_scaling <- dcant_budget_global_all %>%
+  filter(#data_source %in% c("mod", "obs"),
          period != "1994 - 2014") %>%
-  mutate(dcant = dcant / dcant_budget) %>%
-  select(data_source, lon, lat, basin_AIP, period, dcant) %>% 
+  select(data_source, period, dcant) %>%
   pivot_wider(names_from = period,
               values_from = dcant) %>% 
-  mutate(delta_dcant = 100*(`2004 - 2014` / `1994 - 2004`)-100) %>% 
+  mutate(dcant_scaling = `2004 - 2014` / `1994 - 2004`) %>% 
+  select(data_source, dcant_scaling)
+
+
+left_join(dcant_inv_all,
+          dcant_budget_scaling) %>%
+  filter(#data_source %in% c("mod", "obs"),
+         period != "1994 - 2014") %>%
+  select(data_source, lon, lat, basin_AIP, period, dcant, dcant_scaling) %>% 
+  pivot_wider(names_from = period,
+              values_from = dcant) %>% 
+  mutate(delta_dcant = `2004 - 2014` - `1994 - 2004`*dcant_scaling) %>% 
   group_by(data_source) %>%
   group_split() %>%
   # head(1) %>%
@@ -580,7 +589,7 @@ left_join(dcant_inv_all,
                      var = "delta_dcant",
                      subtitle_text = paste("data_source:",
                                            unique(.x$data_source)),
-                     col = "bias_ratio") +
+                     col = "divergent") +
       # facet_grid(period ~ .) +
       theme(axis.text = element_blank(),
             axis.ticks = element_blank())
