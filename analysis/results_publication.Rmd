@@ -331,8 +331,8 @@ library(ggalluvial)
 
 ```{r define_legend_titles}
 
-dcant_budget <- expression(atop(Delta * C["ant"],
-                                (PgC)))
+dcant_budget <- expression(Delta * C["ant"]~(PgC))
+
 ```
 
 # Individual cases
@@ -443,7 +443,7 @@ dcant_budget_basin_MLR_all_plot <- dcant_budget_basin_MLR_all %>%
 
 ```
 
-```{r cases_absolute_basins_hemisphere_alluvial, fig.asp=0.9}
+```{r cases_absolute_basins_hemisphere_alluvial_order_budget, fig.asp=0.9}
 
 g1 <- dcant_budget_basin_MLR_all_plot %>%
   ggplot(aes(
@@ -474,7 +474,8 @@ g1 <- dcant_budget_basin_MLR_all_plot %>%
   scale_y_continuous(limits = c(0, 32), expand = c(0, 0)) +
   labs(y = dcant_budget) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
-        axis.title.x = element_blank())
+        axis.title.x = element_blank()) +
+  theme_classic()
 
 newdat <- tibble(layer_data(g1))
 
@@ -512,6 +513,10 @@ g1 +
             inherit.aes = FALSE)
 
 
+```
+
+
+```{r cases_absolute_basins_hemisphere_alluvial_order_basin, fig.asp=0.9}
 g2 <- dcant_budget_basin_MLR_all_plot %>%
   ggplot(aes(
     y = dcant,
@@ -538,15 +543,19 @@ g2 <- dcant_budget_basin_MLR_all_plot %>%
   )+
   scale_fill_brewer(palette = "Paired", guide = "none") +
   scale_color_brewer(palette = "Paired", guide = "none") +
-  scale_y_continuous(limits = c(0, 32), expand = c(0, 0)) +
-  labs(y = dcant_budget) +
+  scale_y_continuous(limits = c(0, 32.5), expand = c(0, 0)) +
+  guides(y = "none") +
+  labs(title = dcant_budget) +
+  theme_classic() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
-        axis.title.x = element_blank())
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        plot.title = element_text(hjust = 0.5))
 
 
 newdat <- tibble(layer_data(g2))
 
-change <- 
+change_basin <- 
   newdat %>% 
   select(x, alluvium, count) %>% 
   pivot_wider(names_from = x,
@@ -554,27 +563,46 @@ change <-
   mutate(dcant_change = round(100*(`2` - `1`) / `1`)) %>% 
   select(alluvium, dcant_change)
 
-coord <- newdat %>%
+coord_basin <- newdat %>%
   filter(x == 2) %>% 
   select(x, y, alluvium)
 
-new_layer <- full_join(
-  change,
-  coord
+new_layer_basin <- full_join(
+  change_basin,
+  coord_basin
 )
 
-new_layer <- new_layer %>% 
+new_layer_basin <- new_layer_basin %>% 
   mutate(dcant_change = as.character(dcant_change),
          dcant_change = if_else(str_detect(dcant_change, "-"),
                                 dcant_change,
                                 paste0("+", dcant_change)),
          dcant_change = paste(dcant_change, "%"))
 
+new_layer_total <- 
+  newdat %>% 
+  select(x, alluvium, count) %>% 
+  group_by(x) %>% 
+  summarise(dcant_change = sum(count)) %>% 
+  ungroup()
+
+new_layer_total <- new_layer_total %>% 
+  mutate(y = dcant_change,
+         dcant_change = as.character(round(dcant_change,1)),
+         dcant_change = paste("global:",dcant_change))
+
 g2 +
-  geom_text(data = new_layer,
+  geom_text(data = new_layer_basin,
             aes(
               x = x - 0.3,
               y = y,
+              label = dcant_change
+            ),
+            inherit.aes = FALSE) +
+  geom_label(data = new_layer_total,
+            aes(
+              x = x,
+              y = y + 1,
               label = dcant_change
             ),
             inherit.aes = FALSE)
