@@ -5,7 +5,7 @@
 
 
 # commit regular changes (locally) and rebuild site
-wflow_publish(all = TRUE, message = "cleaned alluvial plots")
+wflow_publish(all = TRUE, message = "added map of scaled relative change")
 
 # commit changes including _site.yml (locally) and rebuild site in the specified order
 wflow_publish(here::here(
