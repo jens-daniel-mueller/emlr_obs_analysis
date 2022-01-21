@@ -621,17 +621,17 @@ rm(dcant_zonal, dcant_zonal_bias, dcant_zonal_mod_truth,
 ```{r r join_zonal_section_data_and_meta_data, include=FALSE}
 
 dcant_zonal_all <- full_join(dcant_zonal_all,
-                           params_local_all)
+                             params_local_all)
 
 dcant_profile_all <- full_join(dcant_profile_all,
-                           params_local_all)
+                               params_local_all)
 
 dcant_budget_basin_AIP_layer_all <-
   full_join(dcant_budget_basin_AIP_layer_all,
             params_local_all)
 
 dcant_zonal_bias_all <- full_join(dcant_zonal_bias_all,
-                                params_local_all)
+                                  params_local_all)
 
 ```
 
@@ -641,6 +641,7 @@ dcant_zonal_bias_all <- full_join(dcant_zonal_bias_all,
 
 dcant_pgc_label <- expression(Delta * C["ant"]~(PgC))
 
+dcant_umol_label <- expression(Delta * C[ant]~(mu * mol ~ kg ^ {-1}))
 ```
 
 
@@ -879,6 +880,8 @@ dcant_inv_all %>%
 
 # Zonal sections
 
+## dcant - absolut
+
 ```{r zonal_sections}
 
 dcant_zonal_all %>%
@@ -889,6 +892,71 @@ dcant_zonal_all %>%
                                   plot_slabs = "n",
                                   title_text = NULL) +
   facet_grid(basin_AIP ~ period)
+
+
+```
+
+### dcant - absolute delta
+
+```{r inventory_maps_absolute_delta}
+
+dcant_zonal_all %>%
+  filter(data_source %in% c("mod", "obs"),
+         period != "1994 - 2014") %>%
+  select(data_source, lat, depth, basin_AIP, period, dcant) %>%
+  pivot_wider(names_from = period,
+              values_from = dcant) %>%
+  mutate(delta_dcant = `2004 - 2014` - `1994 - 2004`) %>%
+  group_by(data_source) %>%
+  group_split() %>%
+  # head(1) %>%
+  map(
+    ~ p_section_zonal_continous_depth(
+      df = .x,
+      var = "delta_dcant",
+      plot_slabs = "n",
+      title_text = NULL,
+      col = "bias"
+    ) +
+      facet_grid(basin_AIP ~ .)
+  )
+
+
+```
+
+
+# Concentration profiles
+
+```{r concentration_profiles}
+
+dcant_profile_all %>%
+  arrange(depth) %>%
+  filter(period != "1994 - 2014") %>%
+  group_split(data_source) %>%
+  map(
+    ~ ggplot(data = .x,
+             aes(dcant,
+                 depth)) +
+      geom_hline(yintercept = params_global$inventory_depth_standard) +
+      geom_vline(xintercept = 0) +
+      geom_ribbon(
+        aes(
+          xmin = dcant - dcant_sd,
+          xmax = dcant + dcant_sd,
+          fill = period
+        ),
+        alpha = 0.3
+      ) +
+      geom_path(aes(col = period)) +
+      scale_y_reverse() +
+      coord_cartesian(expand = 0) +
+      scale_color_brewer(palette = "Set1", name = "mean \u00B1 sd") +
+      scale_fill_brewer(palette = "Set1", name = "mean \u00B1 sd") +
+      labs(title = paste("data_source", unique(.x$data_source)),
+           y = "Depth (m)",
+           x = dcant_umol_label) +
+      facet_grid(. ~ basin_AIP)
+  )
 
 
 ```
