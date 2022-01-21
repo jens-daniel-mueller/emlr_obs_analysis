@@ -671,7 +671,9 @@ dcant_inv_all %>%
 
 ```
 
-```{r invetory_maps_absolute_test_color_scales, fig.asp=0.5}
+#### test color palettes
+
+```{r invetory_maps_absolute_test_color_scales, fig.asp=0.4}
 
 breaks <- c(-Inf, seq(0, 16, 2), Inf)
 
@@ -740,44 +742,43 @@ for (i_palette in scico_continous_palettes) {
 }
 
 
-# viridis_continous_palettes <- c(
-#   "civides",
-#   "magma",
-#   "inferno",
-#   "plasma"
-# )
-# 
-# viridis::
-# 
-# for (i_palette in scico_continous_palettes) {
-#   p_reg <- map +
-#     geom_tile(data = dcant_inv_all_color_test,
-#               aes(lon, lat, fill = dcant_int)) +
-#     scale_fill_scico_d(
-#       palette = i_palette,
-#       drop = FALSE,
-#       name = legend_title,
-#       guide = "none"
-#     ) +
-#     # guides(fill = guide_colorsteps(barheight = unit(3, "cm"))) +
-#     labs(title = i_palette)
-#   
-#   p_rev <- map +
-#     geom_tile(data = dcant_inv_all_color_test,
-#               aes(lon, lat, fill = dcant_int)) +
-#     scale_fill_scico_d(
-#       palette = i_palette,
-#       drop = FALSE,
-#       name = legend_title,
-#       direction = -1,
-#       guide = "none"
-#     ) +
-#     # guides(fill = guide_colorsteps(barheight = unit(3, "cm"))) +
-#     labs(title = paste(i_palette, "rev"))
-#   
-#   print(p_reg | p_rev)
-#   
-# }
+viridis_continous_palettes <- c(
+  "civides",
+  "magma",
+  "inferno",
+  "plasma"
+)
+
+
+for (i_palette in viridis_continous_palettes) {
+  p_reg <- map +
+    geom_tile(data = dcant_inv_all_color_test,
+              aes(lon, lat, fill = dcant_int)) +
+    scale_fill_viridis_d(
+      option = i_palette,
+      drop = FALSE,
+      name = legend_title,
+      guide = "none"
+    ) +
+    # guides(fill = guide_colorsteps(barheight = unit(3, "cm"))) +
+    labs(title = i_palette)
+
+  p_rev <- map +
+    geom_tile(data = dcant_inv_all_color_test,
+              aes(lon, lat, fill = dcant_int)) +
+    scale_fill_viridis_d(
+      option = i_palette,
+      drop = FALSE,
+      name = legend_title,
+      direction = -1,
+      guide = "none"
+    ) +
+    # guides(fill = guide_colorsteps(barheight = unit(3, "cm"))) +
+    labs(title = paste(i_palette, "rev"))
+
+  print(p_reg | p_rev)
+
+}
 
 
 ```
