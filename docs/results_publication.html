@@ -645,16 +645,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree5dd3d7a55b687f9ea96f69fc7a499fe021ff1281targetblank5dd3d7aa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/5dd3d7a55b687f9ea96f69fc7a499fe021ff1281" target="_blank">5dd3d7a</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree2c82651c2a25c9e6501088aef8edae07e3f1e36ctargetblank2c82651a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/2c82651c2a25c9e6501088aef8edae07e3f1e36c" target="_blank">2c82651</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree5dd3d7a55b687f9ea96f69fc7a499fe021ff1281targetblank5dd3d7aa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree2c82651c2a25c9e6501088aef8edae07e3f1e36ctargetblank2c82651a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/5dd3d7a55b687f9ea96f69fc7a499fe021ff1281" target="_blank">5dd3d7a</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/2c82651c2a25c9e6501088aef8edae07e3f1e36c" target="_blank">2c82651</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -704,6 +704,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2c82651c2a25c9e6501088aef8edae07e3f1e36c/analysis/results_publication.Rmd" target="_blank">2c82651</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-21
+</td>
+<td>
+added map of scaled absolute change
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/c0807e80a1325a9e4722761cb3760d92afa317fd/docs/results_publication.html" target="_blank">c0807e8</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-21
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1629,15 +1663,24 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
-<pre class="r"><code>left_join(dcant_inv_all,
-          dcant_budget_global_all %&gt;% rename(dcant_budget = dcant)) %&gt;%
-  filter(data_source %in% c(&quot;mod&quot;, &quot;obs&quot;),
+<pre class="r"><code>dcant_budget_scaling &lt;- dcant_budget_global_all %&gt;%
+  filter(#data_source %in% c(&quot;mod&quot;, &quot;obs&quot;),
          period != &quot;1994 - 2014&quot;) %&gt;%
-  mutate(dcant = dcant / dcant_budget) %&gt;%
-  select(data_source, lon, lat, basin_AIP, period, dcant) %&gt;% 
+  select(data_source, period, dcant) %&gt;%
   pivot_wider(names_from = period,
               values_from = dcant) %&gt;% 
-  mutate(delta_dcant = 100*(`2004 - 2014` / `1994 - 2004`)-100) %&gt;% 
+  mutate(dcant_scaling = `2004 - 2014` / `1994 - 2004`) %&gt;% 
+  select(data_source, dcant_scaling)
+
+
+left_join(dcant_inv_all,
+          dcant_budget_scaling) %&gt;%
+  filter(#data_source %in% c(&quot;mod&quot;, &quot;obs&quot;),
+         period != &quot;1994 - 2014&quot;) %&gt;%
+  select(data_source, lon, lat, basin_AIP, period, dcant, dcant_scaling) %&gt;% 
+  pivot_wider(names_from = period,
+              values_from = dcant) %&gt;% 
+  mutate(delta_dcant = `2004 - 2014` - `1994 - 2004`*dcant_scaling) %&gt;% 
   group_by(data_source) %&gt;%
   group_split() %&gt;%
   # head(1) %&gt;%
@@ -1646,16 +1689,93 @@ jens-daniel-mueller
                      var = &quot;delta_dcant&quot;,
                      subtitle_text = paste(&quot;data_source:&quot;,
                                            unique(.x$data_source)),
-                     col = &quot;bias_ratio&quot;) +
+                     col = &quot;divergent&quot;) +
       # facet_grid(period ~ .) +
       theme(axis.text = element_blank(),
             axis.ticks = element_blank())
   )</code></pre>
 <pre><code>[[1]]</code></pre>
 <p><img src="figure/results_publication.Rmd/cases_absolute_delta_scaled-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_absolute_delta_scaled-1">
+Past versions of cases_absolute_delta_scaled-1.png
+</button>
+</p>
+<div id="fig-cases_absolute_delta_scaled-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/c0807e80a1325a9e4722761cb3760d92afa317fd/docs/figure/results_publication.Rmd/cases_absolute_delta_scaled-1.png" target="_blank">c0807e8</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-21
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>
 [[2]]</code></pre>
 <p><img src="figure/results_publication.Rmd/cases_absolute_delta_scaled-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_absolute_delta_scaled-2">
+Past versions of cases_absolute_delta_scaled-2.png
+</button>
+</p>
+<div id="fig-cases_absolute_delta_scaled-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/c0807e80a1325a9e4722761cb3760d92afa317fd/docs/figure/results_publication.Rmd/cases_absolute_delta_scaled-2.png" target="_blank">c0807e8</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-21
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>
+[[3]]</code></pre>
+<p><img src="figure/results_publication.Rmd/cases_absolute_delta_scaled-3.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="dcant-pos" class="section level3" number="2.1.2">
 <h3><span class="header-section-number">2.1.2</span> dcant pos</h3>
