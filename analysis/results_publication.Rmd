@@ -18,6 +18,19 @@ editor_options:
 # https://jdblischak.github.io/workflowr/articles/wflow-07-common-code.html
 ```
 
+# Libraries
+
+
+```{r load_libraries_specific, include = FALSE}
+library(patchwork)
+library(ggalluvial)
+```
+
+
+# Read files
+
+## Paths and Versions
+
 ```{r define_paths, include = FALSE}
 
 # only path_observations needs to be changed to model
@@ -33,8 +46,6 @@ path_preprocessing_model    <-
 
 ```
 
-
-# Read files
 
 ```{r define_Version_IDs}
 
@@ -57,56 +68,18 @@ print(Version_IDs)
 
 ```
 
-```{r read_files}
+## Parameters
+
+```{r read_parameters}
+
 
 
 for (i_Version_IDs in Version_IDs) {
-  # i_Version_IDs <- Version_IDs[1]
-  
-  print(i_Version_IDs)
-  
   path_version_data     <-
     paste(path_observations,
           i_Version_IDs,
           "/data/",
           sep = "")
-  
-  # load and join data files
-  
-  dcant_inv <-
-    read_csv(paste(path_version_data,
-                   "dcant_inv.csv",
-                   sep = ""))
-  
-  dcant_inv_mod_truth <-
-    read_csv(paste(path_version_data,
-                   "dcant_inv_mod_truth.csv",
-                   sep = "")) %>%
-    filter(method == "total") %>%
-    select(-method)
-  
-  dcant_inv_bias <-
-    read_csv(paste(path_version_data,
-                   "dcant_inv_bias.csv",
-                   sep = "")) %>%
-    mutate(Version_ID = i_Version_IDs)
-  
-  dcant_inv <- bind_rows(dcant_inv,
-                         dcant_inv_mod_truth) %>%
-    mutate(Version_ID = i_Version_IDs)
-  
-  dcant_budget_lat_grid <-
-    read_csv(paste(path_version_data,
-                   "dcant_budget_lat_grid.csv",
-                   sep = "")) %>%
-    mutate(Version_ID = i_Version_IDs)
-  
-  dcant_budget_lon_grid <-
-    read_csv(paste(path_version_data,
-                   "dcant_budget_lon_grid.csv",
-                   sep = "")) %>%
-    mutate(Version_ID = i_Version_IDs)
-  
   
   params_local <-
     read_rds(paste(path_version_data,
@@ -115,9 +88,9 @@ for (i_Version_IDs in Version_IDs) {
   
   params_local <- bind_cols(
     Version_ID = i_Version_IDs,
-    # {{config}} := str_c(params_local${{config}}, collapse = "|"),
     tref1 = params_local$tref1,
-    tref2 = params_local$tref2)
+    tref2 = params_local$tref2
+  )
   
   tref <- read_csv(paste(path_version_data,
                          "tref.csv",
@@ -130,39 +103,6 @@ for (i_Version_IDs in Version_IDs) {
       duration = median_year_2 - median_year_1,
       period = paste(median_year_1, "-", median_year_2)
     )
-  
-  if (exists("dcant_inv_all")) {
-    dcant_inv_all <- bind_rows(dcant_inv_all, dcant_inv)
-  }
-  
-  if (!exists("dcant_inv_all")) {
-    dcant_inv_all <- dcant_inv
-  }
-  
-  if (exists("dcant_inv_bias_all")) {
-    dcant_inv_bias_all <- bind_rows(dcant_inv_bias_all, dcant_inv_bias)
-  }
-  
-  if (!exists("dcant_inv_bias_all")) {
-    dcant_inv_bias_all <- dcant_inv_bias
-  }
-  
-  if (exists("dcant_budget_lat_grid_all")) {
-    dcant_budget_lat_grid_all <- bind_rows(dcant_budget_lat_grid_all, dcant_budget_lat_grid)
-  }
-  
-  if (!exists("dcant_budget_lat_grid_all")) {
-    dcant_budget_lat_grid_all <- dcant_budget_lat_grid
-  }
-  
-  if (exists("dcant_budget_lon_grid_all")) {
-    dcant_budget_lon_grid_all <- bind_rows(dcant_budget_lon_grid_all, dcant_budget_lon_grid)
-  }
-  
-  if (!exists("dcant_budget_lon_grid_all")) {
-    dcant_budget_lon_grid_all <- dcant_budget_lon_grid
-  }
-
   if (exists("params_local_all")) {
     params_local_all <- bind_rows(params_local_all, params_local)
   }
@@ -174,77 +114,21 @@ for (i_Version_IDs in Version_IDs) {
   
 }
 
-rm(dcant_inv,
-   dcant_inv_bias,
-   dcant_inv_mod_truth,
-   dcant_budget_lat_grid,
-   dcant_budget_lon_grid,
-   params_local,
+rm(params_local,
    tref)
 
-# params_local_all <-
-#   params_local_all %>%
-#   mutate(period = factor(period, c("1994 - 2004", "2004 - 2014", "1994 - 2014")))
-
-
-```
-
-```{r filter_standard_inventory_depth}
-
-dcant_inv_all <- dcant_inv_all %>%
-  filter(inv_depth == params_global$inventory_depth_standard)
-
-dcant_budget_lat_grid_all <- dcant_budget_lat_grid_all %>% 
-  filter(inv_depth == params_global$inventory_depth_standard)
-
-dcant_budget_lon_grid_all <- dcant_budget_lon_grid_all %>% 
-  filter(inv_depth == params_global$inventory_depth_standard)
-
-```
-
-```{r r join_data_and_meta_data, include=FALSE}
-
-
-dcant_inv_all <- full_join(dcant_inv_all,
-                           params_local_all)
-
-dcant_inv_bias_all <- full_join(dcant_inv_bias_all,
-                                params_local_all)
-
-
-dcant_budget_lat_grid_all <- full_join(dcant_budget_lat_grid_all,
-                                       params_local_all)
-
-dcant_budget_lon_grid_all <- full_join(dcant_budget_lon_grid_all,
-                                       params_local_all)
+params_local_all <- params_local_all %>% 
+  select(Version_ID, period)
 
 ```
 
 
-```{r adapt_format}
+## Budgets
 
-dcant_budget_lat_grid_all <- dcant_budget_lat_grid_all %>%
-  pivot_wider(names_from = estimate,
-              values_from = value) %>%
-  filter(period != "1994 - 2014",
-         method == "total")
-
-dcant_budget_lon_grid_all <- dcant_budget_lon_grid_all %>%
-  pivot_wider(names_from = estimate,
-              values_from = value) %>%
-  filter(period != "1994 - 2014",
-         method == "total")
-
-
-```
-
-
-```{r read_files_global}
+```{r read_budget_files_global}
 
 for (i_Version_IDs in Version_IDs) {
   # i_Version_IDs <- Version_IDs[1]
-  
-  print(i_Version_IDs)
   
   path_version_data     <-
     paste(path_observations,
@@ -295,7 +179,6 @@ for (i_Version_IDs in Version_IDs) {
   # 
   # lm_best_dcant <- lm_best_dcant %>%
   #   mutate(Version_ID = i_Version_IDs)
-
 
   if (exists("dcant_budget_global_all")) {
     dcant_budget_global_all <-
@@ -348,20 +231,16 @@ for (i_Version_IDs in Version_IDs) {
 
 rm(
   dcant_budget_global,
-  dcant_budget_global_bias,
-  dcant_budget_global_mod_truth,
-  lm_best_predictor_counts,
-  lm_best_dcant,
-  params_local,
-  tref
+  # dcant_budget_global_bias,
+  dcant_budget_global_mod_truth
+  # lm_best_predictor_counts,
+  # lm_best_dcant
 )
 
 ```
 
 
-```{r read_files_basins_hemisphere}
-
-# Version_IDs <- Version_IDs[1:length(Version_IDs)-1]
+```{r read_budget_files_basins_hemisphere}
 
 for (i_Version_IDs in Version_IDs) {
   # i_Version_IDs <- Version_IDs[1]
@@ -415,7 +294,7 @@ rm(
 
 ```
 
-```{r join_data_and_meta_data, include=FALSE}
+```{r join_budget_data_and_meta_data, include=FALSE}
 
 
 dcant_budget_global_all <- full_join(dcant_budget_global_all,
@@ -494,26 +373,284 @@ dcant_budget_basin_MLR_all <- dcant_budget_basin_MLR_all %>%
 ```
 
 
-```{r load_libraries_specific, include = FALSE}
-library(patchwork)
-library(ggalluvial)
+
+## Inventories
+
+```{r read_iventory_files}
+
+for (i_Version_IDs in Version_IDs) {
+  # i_Version_IDs <- Version_IDs[1]
+  
+  path_version_data     <-
+    paste(path_observations,
+          i_Version_IDs,
+          "/data/",
+          sep = "")
+  
+  # load and join data files
+  
+  dcant_inv <-
+    read_csv(paste(path_version_data,
+                   "dcant_inv.csv",
+                   sep = ""))
+  
+  dcant_inv_mod_truth <-
+    read_csv(paste(path_version_data,
+                   "dcant_inv_mod_truth.csv",
+                   sep = "")) %>%
+    filter(method == "total") %>%
+    select(-method)
+  
+  dcant_inv_bias <-
+    read_csv(paste(path_version_data,
+                   "dcant_inv_bias.csv",
+                   sep = "")) %>%
+    mutate(Version_ID = i_Version_IDs)
+  
+  dcant_inv <- bind_rows(dcant_inv,
+                         dcant_inv_mod_truth) %>%
+    mutate(Version_ID = i_Version_IDs)
+  
+  dcant_budget_lat_grid <-
+    read_csv(paste(path_version_data,
+                   "dcant_budget_lat_grid.csv",
+                   sep = "")) %>%
+    mutate(Version_ID = i_Version_IDs)
+  
+  dcant_budget_lon_grid <-
+    read_csv(paste(path_version_data,
+                   "dcant_budget_lon_grid.csv",
+                   sep = "")) %>%
+    mutate(Version_ID = i_Version_IDs)
+  if (exists("dcant_inv_all")) {
+    dcant_inv_all <- bind_rows(dcant_inv_all, dcant_inv)
+  }
+  
+  if (!exists("dcant_inv_all")) {
+    dcant_inv_all <- dcant_inv
+  }
+  
+  if (exists("dcant_inv_bias_all")) {
+    dcant_inv_bias_all <- bind_rows(dcant_inv_bias_all, dcant_inv_bias)
+  }
+  
+  if (!exists("dcant_inv_bias_all")) {
+    dcant_inv_bias_all <- dcant_inv_bias
+  }
+  
+  if (exists("dcant_budget_lat_grid_all")) {
+    dcant_budget_lat_grid_all <- bind_rows(dcant_budget_lat_grid_all, dcant_budget_lat_grid)
+  }
+  
+  if (!exists("dcant_budget_lat_grid_all")) {
+    dcant_budget_lat_grid_all <- dcant_budget_lat_grid
+  }
+  
+  if (exists("dcant_budget_lon_grid_all")) {
+    dcant_budget_lon_grid_all <- bind_rows(dcant_budget_lon_grid_all, dcant_budget_lon_grid)
+  }
+  
+  if (!exists("dcant_budget_lon_grid_all")) {
+    dcant_budget_lon_grid_all <- dcant_budget_lon_grid
+  }
+}
+
+rm(dcant_inv,
+   dcant_inv_bias,
+   dcant_inv_mod_truth,
+   dcant_budget_lat_grid,
+   dcant_budget_lon_grid)
+
 ```
 
+```{r filter_standard_inventory_depth_inventory}
+
+dcant_inv_all <- dcant_inv_all %>%
+  filter(inv_depth == params_global$inventory_depth_standard)
+
+dcant_budget_lat_grid_all <- dcant_budget_lat_grid_all %>% 
+  filter(inv_depth == params_global$inventory_depth_standard)
+
+dcant_budget_lon_grid_all <- dcant_budget_lon_grid_all %>% 
+  filter(inv_depth == params_global$inventory_depth_standard)
+
+```
+
+```{r r join_iventory_data_and_meta_data, include=FALSE}
+
+
+dcant_inv_all <- full_join(dcant_inv_all,
+                           params_local_all)
+
+dcant_inv_bias_all <- full_join(dcant_inv_bias_all,
+                                params_local_all)
+
+
+dcant_budget_lat_grid_all <- full_join(dcant_budget_lat_grid_all,
+                                       params_local_all)
+
+dcant_budget_lon_grid_all <- full_join(dcant_budget_lon_grid_all,
+                                       params_local_all)
+
+```
+
+
+```{r adapt_iventory_format}
+
+dcant_budget_lat_grid_all <- dcant_budget_lat_grid_all %>%
+  pivot_wider(names_from = estimate,
+              values_from = value) %>%
+  filter(period != "1994 - 2014",
+         method == "total")
+
+dcant_budget_lon_grid_all <- dcant_budget_lon_grid_all %>%
+  pivot_wider(names_from = estimate,
+              values_from = value) %>%
+  filter(period != "1994 - 2014",
+         method == "total")
+
+
+```
+
+
+## Zonal sections
+
+```{r read_zonal_section_files}
+
+for (i_Version_IDs in Version_IDs) {
+
+  path_version_data     <-
+  paste(path_observations,
+        i_Version_IDs,
+        "/data/",
+        sep = "")
+  
+  # load and join data files
+  
+  dcant_zonal <-
+    read_csv(paste(path_version_data,
+                   "dcant_zonal.csv",
+                   sep = ""))
+  
+  dcant_zonal_mod_truth <-
+    read_csv(paste(path_version_data,
+                   "dcant_zonal_mod_truth.csv",
+                   sep = ""))
+  
+  dcant_zonal <- bind_rows(dcant_zonal,
+                         dcant_zonal_mod_truth)
+  
+  dcant_profile <-
+    read_csv(paste(path_version_data,
+                   "dcant_profile.csv",
+                   sep = ""))
+  
+  dcant_profile_mod_truth <-
+    read_csv(paste(path_version_data,
+                   "dcant_profile_mod_truth.csv",
+                   sep = ""))
+  
+  dcant_profile <- bind_rows(dcant_profile,
+                             dcant_profile_mod_truth)
+  
+  dcant_budget_basin_AIP_layer <-
+    read_csv(paste(path_version_data,
+                   "dcant_budget_basin_AIP_layer.csv",
+                   sep = ""))
+  
+  dcant_zonal_bias <-
+    read_csv(paste(path_version_data,
+                   "dcant_zonal_bias.csv",
+                   sep = ""))
+  
+
+  dcant_zonal <- dcant_zonal %>% 
+    mutate(Version_ID = i_Version_IDs)
+  
+  dcant_profile <- dcant_profile %>% 
+    mutate(Version_ID = i_Version_IDs)
+  
+  dcant_budget_basin_AIP_layer <- dcant_budget_basin_AIP_layer %>% 
+    mutate(Version_ID = i_Version_IDs)
+  
+  dcant_zonal_bias <- dcant_zonal_bias %>% 
+    mutate(Version_ID = i_Version_IDs)
+
+  
+  if (exists("dcant_zonal_all")) {
+    dcant_zonal_all <- bind_rows(dcant_zonal_all, dcant_zonal)
+  }
+  
+  if (!exists("dcant_zonal_all")) {
+    dcant_zonal_all <- dcant_zonal
+  }
+
+  if (exists("dcant_profile_all")) {
+    dcant_profile_all <- bind_rows(dcant_profile_all, dcant_profile)
+  }
+  
+  if (!exists("dcant_profile_all")) {
+    dcant_profile_all <- dcant_profile
+  }
+
+  if (exists("dcant_budget_basin_AIP_layer_all")) {
+    dcant_budget_basin_AIP_layer_all <-
+      bind_rows(dcant_budget_basin_AIP_layer_all,
+                dcant_budget_basin_AIP_layer)
+  }
+  
+  if (!exists("dcant_budget_basin_AIP_layer_all")) {
+    dcant_budget_basin_AIP_layer_all <- dcant_budget_basin_AIP_layer
+  }
+
+  if (exists("dcant_zonal_bias_all")) {
+    dcant_zonal_bias_all <- bind_rows(dcant_zonal_bias_all, dcant_zonal_bias)
+  }
+  
+  if (!exists("dcant_zonal_bias_all")) {
+    dcant_zonal_bias_all <- dcant_zonal_bias
+  }
+
+}
+
+rm(dcant_zonal, dcant_zonal_bias, dcant_zonal_mod_truth,
+   dcant_budget_basin_AIP_layer)
+
+```
+
+```{r r join_zonal_section_data_and_meta_data, include=FALSE}
+
+dcant_zonal_all <- full_join(dcant_zonal_all,
+                           params_local_all)
+
+dcant_profile_all <- full_join(dcant_profile_all,
+                           params_local_all)
+
+dcant_budget_basin_AIP_layer_all <-
+  full_join(dcant_budget_basin_AIP_layer_all,
+            params_local_all)
+
+dcant_zonal_bias_all <- full_join(dcant_zonal_bias_all,
+                                params_local_all)
+
+```
+
+# Define labels
 
 ```{r define_legend_titles}
 
-dcant_budget <- expression(Delta * C["ant"]~(PgC))
+dcant_pgc_label <- expression(Delta * C["ant"]~(PgC))
 
 ```
 
-# Individual cases
+
+# Inventory maps
 
 ## Absoulte values
 
-### dcant
+### dcant - absolute
 
-```{r cases_absolute, fig.asp=0.9}
-
+```{r invetory_maps_absolute, fig.asp=0.9}
 
 dcant_inv_all %>%
   filter(data_source %in% c("mod", "obs"),
@@ -534,7 +671,9 @@ dcant_inv_all %>%
 
 ```
 
-```{r cases_absolute_delta}
+### dcant - absolute delta
+
+```{r invetory_maps_absolute_delta}
 
 
 dcant_inv_all %>%
@@ -561,7 +700,9 @@ dcant_inv_all %>%
 
 ```
 
-```{r cases_absolute_delta_scaled}
+### dcant - absolute delta scaled
+
+```{r invetory_maps_absolute_delta_scaled}
 
 dcant_budget_scaling <- dcant_budget_global_all %>%
   filter(#data_source %in% c("mod", "obs"),
@@ -599,7 +740,7 @@ left_join(dcant_inv_all,
 ```
 
 
-### dcant pos
+### dcant pos - absolute
 
 ```{r cases_absolute_dcant_pos, fig.asp=0.9}
 
@@ -626,13 +767,11 @@ dcant_inv_all %>%
 
 
 
-# Basins hemisphere
+# Budgets
 
-## Individual cases
+## Basin & hemisphere
 
-### Absoulte values
-
-```{r cases_absolute_basins_hemisphere, fig.asp=1.2}
+```{r budgets_basins_hemisphere, fig.asp=1.2}
 
 dcant_budget_basin_MLR_all_plot <- dcant_budget_basin_MLR_all %>%
   filter(period != "1994 - 2014",
@@ -651,7 +790,7 @@ dcant_budget_basin_MLR_all_plot <- dcant_budget_basin_MLR_all %>%
 
 ```
 
-```{r cases_absolute_basins_hemisphere_alluvial_order_budget, fig.asp=0.9}
+```{r budgets_basins_hemisphere_alluvial_order_budget, fig.asp=0.9}
 
 g1 <- dcant_budget_basin_MLR_all_plot %>%
   ggplot(aes(
@@ -680,7 +819,7 @@ g1 <- dcant_budget_basin_MLR_all_plot %>%
   )+
   scale_fill_brewer(palette = "Paired", guide = "none") +
   scale_y_continuous(limits = c(0, 32), expand = c(0, 0)) +
-  labs(y = dcant_budget) +
+  labs(y = dcant_pgc_label) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         axis.title.x = element_blank()) +
   theme_classic()
@@ -724,7 +863,7 @@ g1 +
 ```
 
 
-```{r cases_absolute_basins_hemisphere_alluvial_order_basin, fig.asp=0.9}
+```{r budgets_basins_hemisphere_alluvial_order_basin, fig.asp=0.9}
 g2 <- dcant_budget_basin_MLR_all_plot %>%
   ggplot(aes(
     y = dcant,
@@ -753,7 +892,7 @@ g2 <- dcant_budget_basin_MLR_all_plot %>%
   scale_color_brewer(palette = "Paired", guide = "none") +
   scale_y_continuous(limits = c(0, 32.5), expand = c(0, 0)) +
   guides(y = "none") +
-  labs(title = dcant_budget) +
+  labs(title = dcant_pgc_label) +
   theme_classic() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         axis.title.x = element_blank(),
