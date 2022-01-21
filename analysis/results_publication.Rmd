@@ -550,6 +550,12 @@ for (i_Version_IDs in Version_IDs) {
                    "dcant_profile_mod_truth.csv",
                    sep = ""))
   
+  
+  dcant_profile_basin_MLR <-
+    read_csv(paste(path_version_data,
+                   "dcant_profile_basin_MLR.csv",
+                   sep = ""))
+  
   dcant_profile <- bind_rows(dcant_profile,
                              dcant_profile_mod_truth)
   
@@ -568,6 +574,9 @@ for (i_Version_IDs in Version_IDs) {
     mutate(Version_ID = i_Version_IDs)
   
   dcant_profile <- dcant_profile %>% 
+    mutate(Version_ID = i_Version_IDs)
+
+  dcant_profile_basin_MLR <- dcant_profile_basin_MLR %>% 
     mutate(Version_ID = i_Version_IDs)
   
   dcant_budget_basin_AIP_layer <- dcant_budget_basin_AIP_layer %>% 
@@ -591,6 +600,14 @@ for (i_Version_IDs in Version_IDs) {
   
   if (!exists("dcant_profile_all")) {
     dcant_profile_all <- dcant_profile
+  }
+
+  if (exists("dcant_profile_basin_MLR_all")) {
+    dcant_profile_basin_MLR_all <- bind_rows(dcant_profile_basin_MLR_all, dcant_profile_basin_MLR)
+  }
+  
+  if (!exists("dcant_profile_basin_MLR_all")) {
+    dcant_profile_basin_MLR_all <- dcant_profile_basin_MLR
   }
 
   if (exists("dcant_budget_basin_AIP_layer_all")) {
@@ -624,6 +641,9 @@ dcant_zonal_all <- full_join(dcant_zonal_all,
                              params_local_all)
 
 dcant_profile_all <- full_join(dcant_profile_all,
+                               params_local_all)
+
+dcant_profile_basin_MLR_all <- full_join(dcant_profile_basin_MLR_all,
                                params_local_all)
 
 dcant_budget_basin_AIP_layer_all <-
@@ -957,6 +977,40 @@ dcant_profile_all %>%
            x = dcant_umol_label) +
       facet_grid(. ~ basin_AIP)
   )
+
+
+```
+
+```{r concentration_profiles_MLR_basins, fig.asp=1.2}
+
+dcant_profile_basin_MLR_all %>%
+  arrange(depth) %>%
+  filter(period != "1994 - 2014",
+         MLR_basins == "5") %>%
+  group_split(data_source) %>%
+  map(
+    ~ ggplot(data = .x,
+             aes(dcant,
+                 depth)) +
+      geom_hline(yintercept = params_global$inventory_depth_standard) +
+      geom_vline(xintercept = 0) +
+      geom_ribbon(
+        aes(
+          xmin = dcant - dcant_sd,
+          xmax = dcant + dcant_sd,
+          fill = period
+        ),
+        alpha = 0.3
+      ) +
+      geom_path(aes(col = period)) +
+      scale_y_reverse() +
+      coord_cartesian(expand = 0) +
+      scale_color_brewer(palette = "Set1", name = "mean \u00B1 sd") +
+      scale_fill_brewer(palette = "Set1", name = "mean \u00B1 sd") +
+      labs(title = paste("data_source", unique(.x$data_source)),
+           y = "Depth (m)",
+           x = dcant_umol_label) +
+      facet_grid(basin~.))
 
 
 ```
