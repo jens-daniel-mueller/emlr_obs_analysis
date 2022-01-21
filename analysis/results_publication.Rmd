@@ -671,6 +671,117 @@ dcant_inv_all %>%
 
 ```
 
+```{r invetory_maps_absolute_test_color_scales, fig.asp=0.5}
+
+breaks <- c(-Inf, seq(0, 16, 2), Inf)
+
+legend_title <- expression(atop(Delta * C["ant"],
+                                (mol ~ m ^ {
+                                  -2
+                                })))
+
+breaks_n <- length(breaks) - 1
+
+dcant_inv_all_color_test <- dcant_inv_all %>%
+  filter(data_source %in% c("obs"),
+         period == "2004 - 2014") %>%
+  mutate(dcant_int = cut(dcant,
+                         breaks,
+                         right = FALSE))
+
+scico_continous_palettes <- c(
+  "acton",
+  "bamako",
+  "batlow",
+  "bilbao",
+  "buda",
+  "davos",
+  "devon",
+  "grayC",
+  "hawaii",
+  "imola",
+  "lajolla",
+  "lapaz",
+  "nuuk",
+  "oslo",
+  "tokyo",
+  "turku"
+)
+
+
+for (i_palette in scico_continous_palettes) {
+  p_reg <- map +
+    geom_tile(data = dcant_inv_all_color_test,
+              aes(lon, lat, fill = dcant_int)) +
+    scale_fill_scico_d(
+      palette = i_palette,
+      drop = FALSE,
+      name = legend_title,
+      guide = "none"
+    ) +
+    # guides(fill = guide_colorsteps(barheight = unit(3, "cm"))) +
+    labs(title = i_palette)
+  
+  p_rev <- map +
+    geom_tile(data = dcant_inv_all_color_test,
+              aes(lon, lat, fill = dcant_int)) +
+    scale_fill_scico_d(
+      palette = i_palette,
+      drop = FALSE,
+      name = legend_title,
+      direction = -1,
+      guide = "none"
+    ) +
+    # guides(fill = guide_colorsteps(barheight = unit(3, "cm"))) +
+    labs(title = paste(i_palette, "rev"))
+  
+  print(p_reg | p_rev)
+  
+}
+
+
+# viridis_continous_palettes <- c(
+#   "civides",
+#   "magma",
+#   "inferno",
+#   "plasma"
+# )
+# 
+# viridis::
+# 
+# for (i_palette in scico_continous_palettes) {
+#   p_reg <- map +
+#     geom_tile(data = dcant_inv_all_color_test,
+#               aes(lon, lat, fill = dcant_int)) +
+#     scale_fill_scico_d(
+#       palette = i_palette,
+#       drop = FALSE,
+#       name = legend_title,
+#       guide = "none"
+#     ) +
+#     # guides(fill = guide_colorsteps(barheight = unit(3, "cm"))) +
+#     labs(title = i_palette)
+#   
+#   p_rev <- map +
+#     geom_tile(data = dcant_inv_all_color_test,
+#               aes(lon, lat, fill = dcant_int)) +
+#     scale_fill_scico_d(
+#       palette = i_palette,
+#       drop = FALSE,
+#       name = legend_title,
+#       direction = -1,
+#       guide = "none"
+#     ) +
+#     # guides(fill = guide_colorsteps(barheight = unit(3, "cm"))) +
+#     labs(title = paste(i_palette, "rev"))
+#   
+#   print(p_reg | p_rev)
+#   
+# }
+
+
+```
+
 ### dcant - absolute delta
 
 ```{r invetory_maps_absolute_delta}
@@ -760,6 +871,23 @@ dcant_inv_all %>%
       theme(axis.text = element_blank(),
             axis.ticks = element_blank())
   )
+
+
+```
+
+
+# Zonal sections
+
+```{r zonal_sections}
+
+dcant_zonal_all %>%
+  filter(data_source == "obs",
+         period != "1994 - 2014",
+         depth <= params_global$inventory_depth_standard) %>%
+  p_section_zonal_continous_depth(var = "dcant",
+                                  plot_slabs = "n",
+                                  title_text = NULL) +
+  facet_grid(basin_AIP ~ period)
 
 
 ```
