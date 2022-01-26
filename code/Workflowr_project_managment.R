@@ -5,13 +5,16 @@
 
 
 # commit regular changes (locally) and rebuild site
-wflow_publish(all = TRUE, message = "added mean concentrations profiles per 5 basins")
+wflow_publish(all = TRUE, message = "added offset mean concentrations profiles")
 
 # commit changes including _site.yml (locally) and rebuild site in the specified order
 wflow_publish(here::here(
   "analysis",
   c(
     "index.Rmd",
+    "rarefication_budgets.Rmd",
+    "rarefication_column_inventories.Rmd",
+    "rarefication_zonal_sections.Rmd",
     "basics.Rmd",
     "results_publication.Rmd",
     "classic_budgets.Rmd",

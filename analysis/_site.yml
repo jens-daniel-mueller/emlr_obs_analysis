@@ -61,14 +61,14 @@ navbar:
     #     href: cstar_scatter_column_inventories.html
     #   - text: Zonal sections
     #     href: cstar_scatter_zonal_sections.html
-    # - text: Rarefication
-    #   menu:
-    #   - text: Budgets
-    #     href: rarefication_budgets.html
-    #   - text: Column inventories
-    #     href: rarefication_column_inventories.html
-    #   - text: Zonal sections
-    #     href: rarefication_zonal_sections.html
+    - text: Rarefication
+      menu:
+      - text: Budgets
+        href: rarefication_budgets.html
+      - text: Column inventories
+        href: rarefication_column_inventories.html
+      - text: Zonal sections
+        href: rarefication_zonal_sections.html
   - text: MLR
     menu:
     - text: MLR_predictors
