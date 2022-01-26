@@ -1031,65 +1031,116 @@ dcant_profile_basin_MLR_all %>%
 
 ## dcant - absolute delta
 
-```{r concentration_profiles_basin_AIP_offset}
+```{r concentration_profiles_basin_AIP_offset, fig.asp=0.8}
 
-dcant_profile_all %>%
+delta <- dcant_profile_all %>%
   arrange(depth) %>%
   filter(period != "1994 - 2014") %>%
   select(data_source, depth, basin_AIP, period, dcant) %>% 
   pivot_wider(names_from = period,
               values_from = dcant) %>%
-  mutate(delta_dcant = `2004 - 2014` - `1994 - 2004`) %>%
+  mutate(delta_dcant = `2004 - 2014` - `1994 - 2004`) %>% 
+  select(-c(`2004 - 2014`, `1994 - 2004`))
+
+delta_sd <- dcant_profile_all %>%
+  arrange(depth) %>%
+  filter(period != "1994 - 2014") %>%
+  select(data_source, depth, basin_AIP, period, dcant_sd) %>% 
+  pivot_wider(names_from = period,
+              values_from = dcant_sd) %>%
+  mutate(delta_dcant_sd = (`2004 - 2014` + `1994 - 2004`) / 2) %>% 
+  select(-c(`2004 - 2014`, `1994 - 2004`))
+
+dcant_profile_all_delta <- full_join(delta, delta_sd)
+rm(delta, delta_sd)
+
+dcant_profile_all_delta %>%
   group_split(data_source) %>%
-  # head(1) %>% 
+  # head(1) %>%
   map(
     ~ ggplot(data = .x,
              aes(delta_dcant,
-                 depth,
-                 col = basin_AIP)) +
+                 depth)) +
       geom_hline(yintercept = params_global$inventory_depth_standard) +
       geom_vline(xintercept = 0) +
+      geom_ribbon(
+        aes(
+          xmin = delta_dcant - delta_dcant_sd,
+          xmax = delta_dcant + delta_dcant_sd
+        ),
+        alpha = 0.3
+      ) +
       geom_path() +
-      scale_y_reverse() +
+      scale_y_continuous(trans = trans_reverser("sqrt"),
+                         breaks = c(0, 100, 500, seq(1500, 5000, 1000))) +
       coord_cartesian(expand = 0) +
       scale_color_brewer(palette = "Set1", name = "mean \u00B1 sd") +
       scale_fill_brewer(palette = "Set1", name = "mean \u00B1 sd") +
       labs(title = paste("data_source", unique(.x$data_source)),
            y = "Depth (m)",
-           x = dcant_umol_label))
+           x = dcant_umol_label) +
+      facet_wrap( ~ basin_AIP,
+                  ncol = 2))
 
 
 ```
 
 
 
-```{r concentration_profiles_MLR_basins_offset}
+```{r concentration_profiles_MLR_basins_offset, fig.asp=0.8}
 
-dcant_profile_basin_MLR_all %>%
+delta <- dcant_profile_basin_MLR_all %>%
   arrange(depth) %>%
   filter(period != "1994 - 2014",
          MLR_basins == "5") %>%
-  select(data_source, depth, basin, period, dcant) %>% 
+  select(data_source, depth, basin, period, dcant) %>%
   pivot_wider(names_from = period,
               values_from = dcant) %>%
   mutate(delta_dcant = `2004 - 2014` - `1994 - 2004`) %>%
+  select(-c(`2004 - 2014`, `1994 - 2004`))
+
+delta_sd <- dcant_profile_basin_MLR_all %>%
+  arrange(depth) %>%
+  filter(period != "1994 - 2014",
+         MLR_basins == "5") %>%
+  select(data_source, depth, basin, period, dcant_sd) %>% 
+  pivot_wider(names_from = period,
+              values_from = dcant_sd) %>%
+  mutate(delta_dcant_sd = (`2004 - 2014` + `1994 - 2004`) / 2) %>% 
+  select(-c(`2004 - 2014`, `1994 - 2004`))
+
+dcant_profile_basin_MLR_all_delta <- full_join(delta, delta_sd)
+rm(delta, delta_sd)
+
+
+dcant_profile_basin_MLR_all_delta %>%
   group_split(data_source) %>%
-  # head(3) %>% 
+  # head(3) %>%
   map(
     ~ ggplot(data = .x,
              aes(delta_dcant,
-                 depth,
-                 col = basin)) +
+                 depth)) +
       geom_hline(yintercept = params_global$inventory_depth_standard) +
       geom_vline(xintercept = 0) +
+      geom_ribbon(aes(
+        xmin = delta_dcant - delta_dcant_sd,
+        xmax = delta_dcant + delta_dcant_sd
+      ),
+      alpha = 0.3)+
       geom_path() +
-      scale_y_reverse() +
+      scale_y_continuous(trans = trans_reverser("sqrt"),
+                         breaks = c(0, 100, 500, seq(1500, 5000, 1000))) +
       coord_cartesian(expand = 0) +
       scale_color_brewer(palette = "Set1", name = "mean \u00B1 sd") +
       scale_fill_brewer(palette = "Set1", name = "mean \u00B1 sd") +
-      labs(title = paste("data_source", unique(.x$data_source)),
-           y = "Depth (m)",
-           x = dcant_umol_label))
+      labs(
+        title = paste("data_source", unique(.x$data_source)),
+        y = "Depth (m)",
+        x = dcant_umol_label
+      ) +
+      facet_wrap( ~ basin,
+                  ncol = 2)
+  )
 
 
 ```

@@ -5,7 +5,7 @@
 
 
 # commit regular changes (locally) and rebuild site
-wflow_publish(all = TRUE, message = "added offset mean concentrations profiles")
+wflow_publish(all = TRUE, message = "added meand sd to offset mean concentrations profiles")
 
 # commit changes including _site.yml (locally) and rebuild site in the specified order
 wflow_publish(here::here(
