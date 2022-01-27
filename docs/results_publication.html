@@ -543,7 +543,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Results publication</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">26 January, 2022</h4>
+<h4 class="date">27 January, 2022</h4>
 
 </div>
 
@@ -568,7 +568,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-01-26
+<strong>Last updated:</strong> 2022-01-27
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -659,16 +659,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreec5577d3c784be48f668507328c29bf802f77be47targetblankc5577d3a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/c5577d3c784be48f668507328c29bf802f77be47" target="_blank">c5577d3</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree54c9e26a44fcb37305575445a5963d47ed5cec7atargetblank54c9e26a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/54c9e26a44fcb37305575445a5963d47ed5cec7a" target="_blank">54c9e26</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreec5577d3c784be48f668507328c29bf802f77be47targetblankc5577d3a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree54c9e26a44fcb37305575445a5963d47ed5cec7atargetblank54c9e26a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/c5577d3c784be48f668507328c29bf802f77be47" target="_blank">c5577d3</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/54c9e26a44fcb37305575445a5963d47ed5cec7a" target="_blank">54c9e26</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -718,6 +718,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/54c9e26a44fcb37305575445a5963d47ed5cec7a/analysis/results_publication.Rmd" target="_blank">54c9e26</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-27
+</td>
+<td>
+added layer budget profiles
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/eccd82bad353097416556f89d83ebc016db8d936/docs/results_publication.html" target="_blank">eccd82b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-26
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1785,6 +1819,11 @@ dcant_budget_lon_grid_all &lt;- dcant_budget_lon_grid_all %&gt;%
     read_csv(paste(path_version_data,
                    &quot;dcant_budget_basin_AIP_layer.csv&quot;,
                    sep = &quot;&quot;))
+
+  dcant_budget_basin_MLR_layer &lt;-
+    read_csv(paste(path_version_data,
+                   &quot;dcant_budget_basin_MLR_layer.csv&quot;,
+                   sep = &quot;&quot;))
   
   dcant_zonal_bias &lt;-
     read_csv(paste(path_version_data,
@@ -1802,6 +1841,9 @@ dcant_budget_lon_grid_all &lt;- dcant_budget_lon_grid_all %&gt;%
     mutate(Version_ID = i_Version_IDs)
   
   dcant_budget_basin_AIP_layer &lt;- dcant_budget_basin_AIP_layer %&gt;% 
+    mutate(Version_ID = i_Version_IDs)
+  
+  dcant_budget_basin_MLR_layer &lt;- dcant_budget_basin_MLR_layer %&gt;% 
     mutate(Version_ID = i_Version_IDs)
   
   dcant_zonal_bias &lt;- dcant_zonal_bias %&gt;% 
@@ -1842,6 +1884,16 @@ dcant_budget_lon_grid_all &lt;- dcant_budget_lon_grid_all %&gt;%
     dcant_budget_basin_AIP_layer_all &lt;- dcant_budget_basin_AIP_layer
   }
 
+  if (exists(&quot;dcant_budget_basin_MLR_layer_all&quot;)) {
+    dcant_budget_basin_MLR_layer_all &lt;-
+      bind_rows(dcant_budget_basin_MLR_layer_all,
+                dcant_budget_basin_MLR_layer)
+  }
+  
+  if (!exists(&quot;dcant_budget_basin_MLR_layer_all&quot;)) {
+    dcant_budget_basin_MLR_layer_all &lt;- dcant_budget_basin_MLR_layer
+  }
+
   if (exists(&quot;dcant_zonal_bias_all&quot;)) {
     dcant_zonal_bias_all &lt;- bind_rows(dcant_zonal_bias_all, dcant_zonal_bias)
   }
@@ -1853,14 +1905,17 @@ dcant_budget_lon_grid_all &lt;- dcant_budget_lon_grid_all %&gt;%
 }
 
 rm(dcant_zonal, dcant_zonal_bias, dcant_zonal_mod_truth,
-   dcant_budget_basin_AIP_layer)</code></pre>
+   dcant_budget_basin_AIP_layer, dcant_budget_basin_MLR_layer)</code></pre>
 </div>
 </div>
 <div id="define-labels" class="section level1" number="3">
 <h1><span class="header-section-number">3</span> Define labels</h1>
 <pre class="r"><code>dcant_pgc_label &lt;- expression(Delta * C[&quot;ant&quot;]~(PgC))
 
-dcant_umol_label &lt;- expression(Delta * C[ant]~(mu * mol ~ kg ^ {-1}))</code></pre>
+dcant_umol_label &lt;- expression(Delta * C[ant]~(mu * mol ~ kg ^ {-1}))
+
+dcant_layer_budget_label &lt;- 
+  expression(Delta ~ C[ant] ~ &quot;budget per 500m depth layer (PgC)&quot;)</code></pre>
 </div>
 <div id="inventory-maps" class="section level1" number="4">
 <h1><span class="header-section-number">4</span> Inventory maps</h1>
@@ -4661,6 +4716,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/eccd82bad353097416556f89d83ebc016db8d936/docs/figure/results_publication.Rmd/concentration_profiles_basin_AIP_offset-1.png" target="_blank">eccd82b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-26
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/c6fe4951ac9c457e4532820c04f1adb077a94966/docs/figure/results_publication.Rmd/concentration_profiles_basin_AIP_offset-1.png" target="_blank">c6fe495</a>
 </td>
 <td>
@@ -4701,6 +4767,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/eccd82bad353097416556f89d83ebc016db8d936/docs/figure/results_publication.Rmd/concentration_profiles_basin_AIP_offset-2.png" target="_blank">eccd82b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-26
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/c6fe4951ac9c457e4532820c04f1adb077a94966/docs/figure/results_publication.Rmd/concentration_profiles_basin_AIP_offset-2.png" target="_blank">c6fe495</a>
 </td>
 <td>
@@ -4739,6 +4816,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/eccd82bad353097416556f89d83ebc016db8d936/docs/figure/results_publication.Rmd/concentration_profiles_basin_AIP_offset-3.png" target="_blank">eccd82b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-26
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/c6fe4951ac9c457e4532820c04f1adb077a94966/docs/figure/results_publication.Rmd/concentration_profiles_basin_AIP_offset-3.png" target="_blank">c6fe495</a>
@@ -4832,6 +4920,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/eccd82bad353097416556f89d83ebc016db8d936/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_offset-1.png" target="_blank">eccd82b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-26
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/c6fe4951ac9c457e4532820c04f1adb077a94966/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_offset-1.png" target="_blank">c6fe495</a>
 </td>
 <td>
@@ -4870,6 +4969,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/eccd82bad353097416556f89d83ebc016db8d936/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_offset-2.png" target="_blank">eccd82b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-26
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/c6fe4951ac9c457e4532820c04f1adb077a94966/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_offset-2.png" target="_blank">c6fe495</a>
@@ -5180,6 +5290,60 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
+</div>
+<div id="depth-layer" class="section level2" number="7.2">
+<h2><span class="header-section-number">7.2</span> Depth layer</h2>
+<div id="basin-aip" class="section level3" number="7.2.1">
+<h3><span class="header-section-number">7.2.1</span> Basin AIP</h3>
+<pre class="r"><code>dcant_budget_basin_AIP_layer_all %&gt;%
+  filter(estimate == &quot;dcant&quot;,
+         period != &quot;1994 - 2014&quot;,
+         inv_depth &lt;= 3000) %&gt;%
+  rename(dcant = value) %&gt;%
+  ggplot(aes(dcant, inv_depth, col=period)) +
+  geom_vline(xintercept = 0) +
+  geom_path() +
+  geom_point() +
+  scale_y_reverse(breaks = seq(250, 3000, 500)) +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  facet_grid(basin_AIP ~ data_source) +
+  labs(y = dcant_layer_budget_label)</code></pre>
+<p><img src="figure/results_publication.Rmd/depth_layer_budget_basin_AIP-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="basins" class="section level3" number="7.2.2">
+<h3><span class="header-section-number">7.2.2</span> 5 basins</h3>
+<pre class="r"><code>dcant_budget_basin_MLR_layer_all %&gt;%
+  filter(estimate == &quot;dcant&quot;,
+         period != &quot;1994 - 2014&quot;,
+         inv_depth &lt;= 3000) %&gt;%
+  rename(dcant = value) %&gt;%
+  ggplot(aes(dcant, inv_depth, col=period)) +
+  geom_vline(xintercept = 0) +
+  geom_path() +
+  geom_point() +
+  scale_y_reverse(breaks = seq(250, 3000, 500)) +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  facet_grid(basin ~ data_source) +
+  labs(y = dcant_layer_budget_label)</code></pre>
+<p><img src="figure/results_publication.Rmd/depth_layer_budget_basin_MLR-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dcant_budget_basin_MLR_layer_all %&gt;%
+  filter(estimate == &quot;dcant&quot;,
+         period != &quot;1994 - 2014&quot;,
+         inv_depth &lt;= 3000) %&gt;%
+  rename(dcant = value) %&gt;%
+  arrange(inv_depth) %&gt;% 
+  group_by(data_source, basin, period) %&gt;% 
+  mutate(dcant_cum = cumsum(dcant)) %&gt;% 
+  ungroup() %&gt;% 
+  ggplot(aes(dcant_cum, inv_depth, col=period)) +
+  geom_vline(xintercept = 0) +
+  geom_path() +
+  geom_point() +
+  scale_y_reverse(breaks = seq(250, 3000, 500)) +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  facet_grid(basin ~ data_source) +
+  labs(y = dcant_layer_budget_label)</code></pre>
+<p><img src="figure/results_publication.Rmd/depth_layer_budget_basin_MLR_cumulative-1.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -5235,6 +5399,7 @@ loaded via a namespace (and not attached):
 [73] cellranger_1.1.0   gtable_0.3.0       polyclip_1.10-0    assertthat_0.2.1  
 [77] xfun_0.29          broom_0.7.11       later_1.3.0        viridisLite_0.4.0 
 [81] ellipsis_0.3.2    </code></pre>
+</div>
 </div>
 </div>
 </div>
