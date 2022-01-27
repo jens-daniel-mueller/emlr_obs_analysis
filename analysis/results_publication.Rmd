@@ -563,6 +563,11 @@ for (i_Version_IDs in Version_IDs) {
     read_csv(paste(path_version_data,
                    "dcant_budget_basin_AIP_layer.csv",
                    sep = ""))
+
+  dcant_budget_basin_MLR_layer <-
+    read_csv(paste(path_version_data,
+                   "dcant_budget_basin_MLR_layer.csv",
+                   sep = ""))
   
   dcant_zonal_bias <-
     read_csv(paste(path_version_data,
@@ -580,6 +585,9 @@ for (i_Version_IDs in Version_IDs) {
     mutate(Version_ID = i_Version_IDs)
   
   dcant_budget_basin_AIP_layer <- dcant_budget_basin_AIP_layer %>% 
+    mutate(Version_ID = i_Version_IDs)
+  
+  dcant_budget_basin_MLR_layer <- dcant_budget_basin_MLR_layer %>% 
     mutate(Version_ID = i_Version_IDs)
   
   dcant_zonal_bias <- dcant_zonal_bias %>% 
@@ -620,6 +628,16 @@ for (i_Version_IDs in Version_IDs) {
     dcant_budget_basin_AIP_layer_all <- dcant_budget_basin_AIP_layer
   }
 
+  if (exists("dcant_budget_basin_MLR_layer_all")) {
+    dcant_budget_basin_MLR_layer_all <-
+      bind_rows(dcant_budget_basin_MLR_layer_all,
+                dcant_budget_basin_MLR_layer)
+  }
+  
+  if (!exists("dcant_budget_basin_MLR_layer_all")) {
+    dcant_budget_basin_MLR_layer_all <- dcant_budget_basin_MLR_layer
+  }
+
   if (exists("dcant_zonal_bias_all")) {
     dcant_zonal_bias_all <- bind_rows(dcant_zonal_bias_all, dcant_zonal_bias)
   }
@@ -631,7 +649,7 @@ for (i_Version_IDs in Version_IDs) {
 }
 
 rm(dcant_zonal, dcant_zonal_bias, dcant_zonal_mod_truth,
-   dcant_budget_basin_AIP_layer)
+   dcant_budget_basin_AIP_layer, dcant_budget_basin_MLR_layer)
 
 ```
 
@@ -646,8 +664,17 @@ dcant_profile_all <- full_join(dcant_profile_all,
 dcant_profile_basin_MLR_all <- full_join(dcant_profile_basin_MLR_all,
                                params_local_all)
 
+
 dcant_budget_basin_AIP_layer_all <-
   full_join(dcant_budget_basin_AIP_layer_all,
+            params_local_all)
+
+dcant_budget_basin_MLR_layer_all <- dcant_budget_basin_MLR_layer_all %>%
+  filter(MLR_basins == "5") %>% 
+  select(-MLR_basins)
+
+dcant_budget_basin_MLR_layer_all <-
+  full_join(dcant_budget_basin_MLR_layer_all,
             params_local_all)
 
 dcant_zonal_bias_all <- full_join(dcant_zonal_bias_all,
@@ -662,6 +689,9 @@ dcant_zonal_bias_all <- full_join(dcant_zonal_bias_all,
 dcant_pgc_label <- expression(Delta * C["ant"]~(PgC))
 
 dcant_umol_label <- expression(Delta * C[ant]~(mu * mol ~ kg ^ {-1}))
+
+dcant_layer_budget_label <- 
+  expression(Delta ~ C[ant] ~ "budget per 500m depth layer (PgC)")
 ```
 
 
@@ -1337,4 +1367,69 @@ g2 +
 
 
 ```
+
+## Depth layer
+
+### Basin AIP
+
+```{r depth_layer_budget_basin_AIP}
+
+dcant_budget_basin_AIP_layer_all %>%
+  filter(estimate == "dcant",
+         period != "1994 - 2014",
+         inv_depth <= 3000) %>%
+  rename(dcant = value) %>%
+  ggplot(aes(dcant, inv_depth, col=period)) +
+  geom_vline(xintercept = 0) +
+  geom_path() +
+  geom_point() +
+  scale_y_reverse(breaks = seq(250, 3000, 500)) +
+  scale_color_brewer(palette = "Dark2") +
+  facet_grid(basin_AIP ~ data_source) +
+  labs(y = dcant_layer_budget_label)
+
+```
+
+### 5 basins
+
+```{r depth_layer_budget_basin_MLR, fig.asp=1}
+
+dcant_budget_basin_MLR_layer_all %>%
+  filter(estimate == "dcant",
+         period != "1994 - 2014",
+         inv_depth <= 3000) %>%
+  rename(dcant = value) %>%
+  ggplot(aes(dcant, inv_depth, col=period)) +
+  geom_vline(xintercept = 0) +
+  geom_path() +
+  geom_point() +
+  scale_y_reverse(breaks = seq(250, 3000, 500)) +
+  scale_color_brewer(palette = "Dark2") +
+  facet_grid(basin ~ data_source) +
+  labs(y = dcant_layer_budget_label)
+
+```
+
+```{r depth_layer_budget_basin_MLR_cumulative, fig.asp=1}
+
+dcant_budget_basin_MLR_layer_all %>%
+  filter(estimate == "dcant",
+         period != "1994 - 2014",
+         inv_depth <= 3000) %>%
+  rename(dcant = value) %>%
+  arrange(inv_depth) %>% 
+  group_by(data_source, basin, period) %>% 
+  mutate(dcant_cum = cumsum(dcant)) %>% 
+  ungroup() %>% 
+  ggplot(aes(dcant_cum, inv_depth, col=period)) +
+  geom_vline(xintercept = 0) +
+  geom_path() +
+  geom_point() +
+  scale_y_reverse(breaks = seq(250, 3000, 500)) +
+  scale_color_brewer(palette = "Dark2") +
+  facet_grid(basin ~ data_source) +
+  labs(y = dcant_layer_budget_label)
+
+```
+
 

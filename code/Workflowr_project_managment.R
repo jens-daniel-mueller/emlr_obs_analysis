@@ -5,7 +5,7 @@
 
 
 # commit regular changes (locally) and rebuild site
-wflow_publish(all = TRUE, message = "added meand sd to offset mean concentrations profiles")
+wflow_publish(all = TRUE, message = "added layer budget profiles")
 
 # commit changes including _site.yml (locally) and rebuild site in the specified order
 wflow_publish(here::here(
@@ -51,10 +51,12 @@ republish = TRUE)
 wflow_publish(here::here(
   "analysis",
   c(
-    "classic_budgets.Rmd"
+    "classic_budgets.Rmd",
+    "classic_column_inventories.Rmd",
+    "classic_zonal_sections.Rmd"
   )
 ),
-message = "added budgets per hemisphere")
+message = "rerun with vif_max = 0.95, and layer budgets per MLR_basin")
 
 
 # Push latest version to GitHub
