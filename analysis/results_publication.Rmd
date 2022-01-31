@@ -1405,27 +1405,81 @@ dcant_budget_basin_AIP_layer_all %>%
 
 ```{r depth_layer_budget_basin_MLR, fig.asp=1}
 
-dcant_budget_basin_MLR_layer_all %>%
+dcant_budget_change <- dcant_budget_basin_MLR_layer_all %>%
   filter(estimate == "dcant",
          period != "1994 - 2014",
          inv_depth <= 3000) %>%
-  arrange(inv_depth) %>% 
   rename(dcant = value) %>%
-  ggplot(aes(inv_depth-250, dcant, col=period)) +
+  select(-c(tref2, Version_ID)) %>%
+  pivot_wider(names_from = period,
+              values_from = dcant) %>%
+  mutate(sign = if_else(`2004 - 2014` - `1994 - 2004` > 0,
+                        "increase",
+                        "decrease")) %>%
+  mutate(
+    basin = str_replace(basin, "_", ". "),
+    basin = fct_relevel(
+      basin,
+      "N. Pacific",
+      "S. Pacific",
+      "N. Atlantic",
+      "S. Atlantic",
+      "Indian"
+    )
+  )
+
+dcant_budget_layer <- dcant_budget_basin_MLR_layer_all %>%
+  filter(estimate == "dcant",
+         period != "1994 - 2014",
+         inv_depth <= 3400) %>%
+  rename(dcant = value) %>%
+  mutate(
+    basin = str_replace(basin, "_", ". "),
+    basin = fct_relevel(
+      basin,
+      "N. Pacific",
+      "S. Pacific",
+      "N. Atlantic",
+      "S. Atlantic",
+      "Indian"
+    )
+  ) %>% 
+  group_by(basin, period, data_source) %>% 
+  mutate(dcant = if_else(is.na(lead(dcant)), 888, dcant),
+         dcant = na_if(dcant, 888)) %>%
+  fill(dcant) %>% 
+  ungroup()
+
+dcant_budget_layer %>%
+  ggplot() +
   geom_hline(yintercept = 0) +
-  geom_step(direction = "vh") +
+  geom_rect(
+    data = dcant_budget_change,
+    aes(
+      xmin = inv_depth - 250,
+      xmax = inv_depth + 250,
+      ymin = `1994 - 2004`,
+      ymax = `2004 - 2014`,
+      fill = sign
+    ),
+    alpha = 0.3
+  ) +
+  geom_step(aes(inv_depth - 250, dcant, col = period), direction = "vh") +
   coord_flip() +
   scale_x_reverse(breaks = seq(0, 3000, 500)) +
-  scale_color_brewer(palette = "Set1", direction = -1) +
+  scale_color_brewer(palette = "Set1", direction = -1, name = "Decade") +
+  scale_fill_brewer(palette = "Set1", direction = -1, name = "Decadal change") +
   facet_grid(basin ~ data_source) +
   labs(y = dcant_layer_budget_label,
-       x = "Depth (m)")
+       x = "Depth (m)",
+       title = "Layer inventory change")
+
 
 ```
 
 ```{r depth_layer_budget_basin_MLR_cumulative, fig.asp=1}
 
-dcant_budget_basin_MLR_layer_all %>%
+dcant_budget_change <- dcant_budget_basin_MLR_layer_all %>%
   filter(estimate == "dcant",
          period != "1994 - 2014",
          inv_depth <= 3000) %>%
@@ -1433,16 +1487,76 @@ dcant_budget_basin_MLR_layer_all %>%
   arrange(inv_depth) %>% 
   group_by(data_source, basin, period) %>% 
   mutate(dcant_cum = cumsum(dcant)) %>% 
-  ungroup() %>% 
-  ggplot(aes(inv_depth-250, dcant_cum, col=period)) +
+  ungroup() %>%
+  select(-c(tref2, Version_ID, dcant)) %>%
+  pivot_wider(names_from = period,
+              values_from = dcant_cum) %>%
+  mutate(sign = if_else(`2004 - 2014` - `1994 - 2004` > 0,
+                        "increase",
+                        "decrease")) %>%
+  mutate(
+    basin = str_replace(basin, "_", ". "),
+    basin = fct_relevel(
+      basin,
+      "N. Pacific",
+      "S. Pacific",
+      "N. Atlantic",
+      "S. Atlantic",
+      "Indian"
+    )
+  )
+
+dcant_budget_layer <- dcant_budget_basin_MLR_layer_all %>%
+  filter(estimate == "dcant",
+         period != "1994 - 2014",
+         inv_depth <= 3400) %>%
+  rename(dcant = value) %>%
+  arrange(inv_depth) %>% 
+  group_by(data_source, basin, period) %>% 
+  mutate(dcant_cum = cumsum(dcant)) %>% 
+  ungroup() %>%
+  mutate(
+    basin = str_replace(basin, "_", ". "),
+    basin = fct_relevel(
+      basin,
+      "N. Pacific",
+      "S. Pacific",
+      "N. Atlantic",
+      "S. Atlantic",
+      "Indian"
+    )
+  ) %>% 
+  group_by(basin, period, data_source) %>% 
+  mutate(dcant_cum = if_else(is.na(lead(dcant_cum)), 888, dcant_cum),
+         dcant_cum = na_if(dcant_cum, 888)) %>%
+  fill(dcant_cum) %>% 
+  ungroup()
+
+
+
+dcant_budget_layer %>%
+  ggplot() +
   geom_hline(yintercept = 0) +
-  geom_step(direction = "vh") +
+  geom_rect(
+    data = dcant_budget_change,
+    aes(
+      xmin = inv_depth - 250,
+      xmax = inv_depth + 250,
+      ymin = `1994 - 2004`,
+      ymax = `2004 - 2014`,
+      fill = sign
+    ),
+    alpha = 0.3
+  ) +
+  geom_step(aes(inv_depth - 250, dcant_cum, col = period), direction = "vh") +
   coord_flip() +
   scale_x_reverse(breaks = seq(0, 3000, 500)) +
-  scale_color_brewer(palette = "Set1", direction = -1) +
+  scale_color_brewer(palette = "Set1", direction = -1, name = "Decade") +
+  scale_fill_brewer(palette = "Set1", direction = -1, name = "Decadal change") +
   facet_grid(basin ~ data_source) +
   labs(y = dcant_layer_budget_label,
-       x = "Depth (m)")
+       x = "Depth (m)",
+       title = "Cumulative layer inventory change")
 
 ```
 
