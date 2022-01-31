@@ -1015,8 +1015,8 @@ dcant_profile_all %>%
       scale_y_continuous(trans = trans_reverser("sqrt"),
                          breaks = c(0, 100, 500, seq(1500, 5000, 1000))) +
       coord_cartesian(expand = 0) +
-      scale_color_brewer(palette = "Set1", name = "mean \u00B1 sd") +
-      scale_fill_brewer(palette = "Set1", name = "mean \u00B1 sd") +
+      scale_color_brewer(palette = "Set1", name = "mean \u00B1 sd", direction = -1) +
+      scale_fill_brewer(palette = "Set1", name = "mean \u00B1 sd", direction = -1) +
       labs(
         title = paste("data_source", unique(.x$data_source)),
         y = "Depth (m)",
@@ -1055,8 +1055,8 @@ dcant_profile_basin_MLR_all %>%
       scale_y_continuous(trans = trans_reverser("sqrt"),
                          breaks = c(0, 100, 500, seq(1500, 5000, 1000))) +
       coord_cartesian(expand = 0) +
-      scale_color_brewer(palette = "Set1", name = "mean \u00B1 sd") +
-      scale_fill_brewer(palette = "Set1", name = "mean \u00B1 sd") +
+      scale_color_brewer(palette = "Set1", name = "mean \u00B1 sd", direction = -1) +
+      scale_fill_brewer(palette = "Set1", name = "mean \u00B1 sd", direction = -1) +
       labs(
         title = paste("data_source", unique(.x$data_source)),
         y = "Depth (m)",
@@ -1127,7 +1127,7 @@ dcant_profile_all_delta %>%
 
 
 
-```{r concentration_profiles_MLR_basins_offset, fig.asp=0.8}
+```{r concentration_profiles_MLR_basins_offset, fig.asp=1.2}
 
 delta <- dcant_profile_basin_MLR_all %>%
   arrange(depth) %>%
@@ -1389,14 +1389,15 @@ dcant_budget_basin_AIP_layer_all %>%
          period != "1994 - 2014",
          inv_depth <= 3000) %>%
   rename(dcant = value) %>%
-  ggplot(aes(dcant, inv_depth, col=period)) +
-  geom_vline(xintercept = 0) +
-  geom_path() +
-  geom_point() +
-  scale_y_reverse(breaks = seq(250, 3000, 500)) +
-  scale_color_brewer(palette = "Dark2") +
+  ggplot(aes(inv_depth-250, dcant, col=period)) +
+  geom_hline(yintercept = 0) +
+  geom_step(direction = "vh") +
+  coord_flip() +
+  scale_x_reverse(breaks = seq(0, 3000, 500)) +
+  scale_color_brewer(palette = "Set1", direction = -1) +
   facet_grid(basin_AIP ~ data_source) +
-  labs(y = dcant_layer_budget_label)
+  labs(y = dcant_layer_budget_label,
+       x = "Depth (m)")
 
 ```
 
@@ -1408,15 +1409,17 @@ dcant_budget_basin_MLR_layer_all %>%
   filter(estimate == "dcant",
          period != "1994 - 2014",
          inv_depth <= 3000) %>%
+  arrange(inv_depth) %>% 
   rename(dcant = value) %>%
-  ggplot(aes(dcant, inv_depth, col=period)) +
-  geom_vline(xintercept = 0) +
-  geom_path() +
-  geom_point() +
-  scale_y_reverse(breaks = seq(250, 3000, 500)) +
-  scale_color_brewer(palette = "Dark2") +
+  ggplot(aes(inv_depth-250, dcant, col=period)) +
+  geom_hline(yintercept = 0) +
+  geom_step() +
+  coord_flip() +
+  scale_x_reverse(breaks = seq(0, 3000, 500)) +
+  scale_color_brewer(palette = "Set1", direction = -1) +
   facet_grid(basin ~ data_source) +
-  labs(y = dcant_layer_budget_label)
+  labs(y = dcant_layer_budget_label,
+       x = "Depth (m)")
 
 ```
 
@@ -1431,14 +1434,15 @@ dcant_budget_basin_MLR_layer_all %>%
   group_by(data_source, basin, period) %>% 
   mutate(dcant_cum = cumsum(dcant)) %>% 
   ungroup() %>% 
-  ggplot(aes(dcant_cum, inv_depth, col=period)) +
-  geom_vline(xintercept = 0) +
-  geom_path() +
-  geom_point() +
-  scale_y_reverse(breaks = seq(250, 3000, 500)) +
-  scale_color_brewer(palette = "Dark2") +
+  ggplot(aes(inv_depth-250, dcant_cum, col=period)) +
+  geom_hline(yintercept = 0) +
+  geom_step(direction = "vh") +
+  coord_flip() +
+  scale_x_reverse(breaks = seq(0, 3000, 500)) +
+  scale_color_brewer(palette = "Set1", direction = -1) +
   facet_grid(basin ~ data_source) +
-  labs(y = dcant_layer_budget_label)
+  labs(y = dcant_layer_budget_label,
+       x = "Depth (m)")
 
 ```
 

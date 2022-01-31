@@ -5,7 +5,7 @@
 
 
 # commit regular changes (locally) and rebuild site
-wflow_publish(all = TRUE, message = "added time series vs atm pco2")
+wflow_publish(all = TRUE, message = "step plot for layer budgets")
 
 # commit changes including _site.yml (locally) and rebuild site in the specified order
 wflow_publish(here::here(
