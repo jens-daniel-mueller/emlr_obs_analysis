@@ -224,8 +224,6 @@ rm(caspian_sea_re)
 
 ```
 
-
-
 ```{r cant_inv_map_obs}
 
 set_breaks <- c(-Inf, seq(0, 10, 2), Inf)

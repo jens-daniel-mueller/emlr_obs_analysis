@@ -72,8 +72,6 @@ print(Version_IDs)
 
 ```{r read_parameters}
 
-
-
 for (i_Version_IDs in Version_IDs) {
   path_version_data     <-
     paste(path_observations,
@@ -118,7 +116,7 @@ rm(params_local,
    tref)
 
 params_local_all <- params_local_all %>% 
-  select(Version_ID, period)
+  select(Version_ID, period, tref2)
 
 ```
 
@@ -681,6 +679,18 @@ dcant_zonal_bias_all <- full_join(dcant_zonal_bias_all,
                                   params_local_all)
 
 ```
+
+## Atm CO2
+
+```{r read_atm_co2}
+
+co2_atm <-
+  read_csv(paste(path_preprocessing,
+                 "co2_atm.csv",
+                 sep = ""))
+
+```
+
 
 # Define labels
 
@@ -1301,7 +1311,7 @@ g2 <- dcant_budget_basin_MLR_all_plot %>%
   )+
   scale_fill_brewer(palette = "Paired", guide = "none") +
   scale_color_brewer(palette = "Paired", guide = "none") +
-  scale_y_continuous(limits = c(0, 32.5), expand = c(0, 0)) +
+  scale_y_continuous(limits = c(0, 33), expand = c(0, 0)) +
   guides(y = "none") +
   labs(title = dcant_pgc_label) +
   theme_classic() +
@@ -1429,6 +1439,50 @@ dcant_budget_basin_MLR_layer_all %>%
   scale_color_brewer(palette = "Dark2") +
   facet_grid(basin ~ data_source) +
   labs(y = dcant_layer_budget_label)
+
+```
+
+# Time series
+
+```{r mean_tcant_over_atm_co2}
+
+dcant_budget_global_ts <- dcant_budget_global_all %>% 
+  filter(data_source == "obs",
+         period != "1994 - 2014") %>% 
+  select(year = tref2, dcant_mean = dcant) %>% 
+  mutate(dcant_sd = 3)
+
+tcant_S04 <- bind_cols(year = 1994, dcant_mean = 118, dcant_sd = 19)
+
+tcant_ts <- full_join(dcant_budget_global_ts, tcant_S04)
+
+tcant_ts <- left_join(tcant_ts, co2_atm)
+
+co2_atm_pi <- bind_cols(pCO2 = 280, dcant_mean = 0, year = 1750, dcant_sd = 0)
+
+tcant_ts <- full_join(tcant_ts, co2_atm_pi)
+
+tcant_ts <- tcant_ts %>% 
+  arrange(year) %>% 
+  mutate(tcant = cumsum(dcant_mean),
+         tcant_sd = cumsum(dcant_sd))
+
+tcant_ts %>% 
+  ggplot(aes(pCO2, tcant, ymin = tcant - tcant_sd, ymax = tcant + tcant_sd)) +
+  geom_ribbon(fill = "grey80") +
+  geom_point() +
+  geom_line() +
+  scale_x_continuous(breaks = seq(280, 400, 30),
+                     sec.axis = dup_axis(labels =  c(1750, 1940, 1980, 2000, 2015),
+                                         name = "Year")) +
+  geom_text(aes(label = year), nudge_x = -5, nudge_y = 5) +
+  labs(x = expression(Atmospheric~pCO[2]~(µatm)),
+       y = expression(Total~oceanic~C[ant]~(PgC)))
+
+# ggsave(path = "output/publication",
+#        filename = "Fig_global_dcant_budget_vs_atm_pCO2.png",
+#        height = 4,
+#        width = 7)
 
 ```
 

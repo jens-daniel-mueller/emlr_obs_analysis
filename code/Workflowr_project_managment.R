@@ -5,13 +5,16 @@
 
 
 # commit regular changes (locally) and rebuild site
-wflow_publish(all = TRUE, message = "added layer budget profiles")
+wflow_publish(all = TRUE, message = "added time series vs atm pco2")
 
 # commit changes including _site.yml (locally) and rebuild site in the specified order
 wflow_publish(here::here(
   "analysis",
   c(
     "index.Rmd",
+    "reoccupation_budgets.Rmd",
+    "reoccupation_column_inventories.Rmd",
+    "reoccupation_zonal_sections.Rmd",
     "rarefication_budgets.Rmd",
     "rarefication_column_inventories.Rmd",
     "rarefication_zonal_sections.Rmd",
@@ -43,7 +46,7 @@ wflow_publish(here::here(
     "MLR_predictor_nitrate_zonal_sections.Rmd"
   )
 ),
-message = "plot hemisphere budgets and publication results",
+message = "reoccupation filter implemented",
 republish = TRUE)
 
 

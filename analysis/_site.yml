@@ -53,14 +53,14 @@ navbar:
     #     href: global_MLR_cleaning_column_inventories.html
     #   - text: Zonal sections
     #     href: global_MLR_cleaning_zonal_sections.html
-    # - text: C* scatter
-    #   menu:
-    #   - text: Budgets
-    #     href: cstar_scatter_budgets.html
-    #   - text: Column inventories
-    #     href: cstar_scatter_column_inventories.html
-    #   - text: Zonal sections
-    #     href: cstar_scatter_zonal_sections.html
+    - text: Reoccupation
+      menu:
+      - text: Budgets
+        href: reoccupation_budgets.html
+      - text: Column inventories
+        href: reoccupation_column_inventories.html
+      - text: Zonal sections
+        href: reoccupation_zonal_sections.html
     - text: Rarefication
       menu:
       - text: Budgets
