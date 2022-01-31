@@ -1413,7 +1413,7 @@ dcant_budget_basin_MLR_layer_all %>%
   rename(dcant = value) %>%
   ggplot(aes(inv_depth-250, dcant, col=period)) +
   geom_hline(yintercept = 0) +
-  geom_step() +
+  geom_step(direction = "vh") +
   coord_flip() +
   scale_x_reverse(breaks = seq(0, 3000, 500)) +
   scale_color_brewer(palette = "Set1", direction = -1) +
