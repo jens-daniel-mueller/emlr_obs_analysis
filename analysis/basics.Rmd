@@ -208,6 +208,61 @@ ggsave(plot = basin_maps,
 ```
 
 
+```{r 5_basin_map}
+
+MLR_basins_in <- c("5")
+
+basinmask <- basinmask %>%
+  filter(MLR_basins %in% MLR_basins_in)
+
+basinmask <- basinmask %>% 
+  group_by(MLR_basins) %>% 
+  mutate(basin = as.character(as.numeric(as.factor(basin)))) %>% 
+  ungroup()
+
+
+basinmask <- basinmask %>%
+  mutate(
+    basin = fct_recode(
+      basin,
+      "N. Pacific" = "3",
+      "S. Pacific" = "5",
+      "N. Atlantic" = "2",
+      "S. Atlantic" = "4",
+      "Indian" = "1"
+    )
+  )
+
+basinmask <- basinmask %>%
+  mutate(basin = fct_relevel(
+    basin,
+    "N. Pacific",
+    "S. Pacific",
+    "N. Atlantic",
+    "S. Atlantic",
+    "Indian"
+  ))
+
+basin_maps <-
+  map +
+  geom_raster(data = basinmask,
+              aes(lon, lat, fill = basin)) +
+  scale_fill_brewer(palette = "Paired", guide = "none") +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        legend.title = element_blank())
+
+basin_maps
+
+ggsave(plot = basin_maps,
+       path = here::here("output/publication"),
+       filename = "FigS_basin_mask_5.png",
+       height = 5,
+       width = 10)
+
+```
+
+
 # coverage maps
 
 ```{r coverage_maps}
