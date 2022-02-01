@@ -557,7 +557,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Results publication</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">31 January, 2022</h4>
+<h4 class="date">01 February, 2022</h4>
 
 </div>
 
@@ -582,7 +582,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-01-31
+<strong>Last updated:</strong> 2022-02-01
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -673,16 +673,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeccf67235069aea2f0e77e4340d459d34b718ca70targetblankccf6723a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/ccf67235069aea2f0e77e4340d459d34b718ca70" target="_blank">ccf6723</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeb0c17bc1ec39f4e149bf8edd66cbea7fbabf4ce2targetblankb0c17bca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/b0c17bc1ec39f4e149bf8edd66cbea7fbabf4ce2" target="_blank">b0c17bc</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeccf67235069aea2f0e77e4340d459d34b718ca70targetblankccf6723a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeb0c17bc1ec39f4e149bf8edd66cbea7fbabf4ce2targetblankb0c17bca" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/ccf67235069aea2f0e77e4340d459d34b718ca70" target="_blank">ccf6723</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/b0c17bc1ec39f4e149bf8edd66cbea7fbabf4ce2" target="_blank">b0c17bc</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -732,6 +732,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/b0c17bc1ec39f4e149bf8edd66cbea7fbabf4ce2/analysis/results_publication.Rmd" target="_blank">b0c17bc</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-02-01
+</td>
+<td>
+updated profile plots
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/ab001eb6a2ffd3fe1ad176db0426e6bf412023fc/docs/results_publication.html" target="_blank">ab001eb</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-31
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -2087,6 +2121,7 @@ rm(dcant_zonal, dcant_zonal_bias, dcant_zonal_mod_truth,
 <pre class="r"><code>dcant_pgc_label &lt;- expression(Delta * C[&quot;ant&quot;]~(PgC))
 
 dcant_umol_label &lt;- expression(Delta * C[ant]~(mu * mol ~ kg ^ {-1}))
+ddcant_umol_label &lt;- expression(Delta * Delta * C[ant]~(mu * mol ~ kg ^ {-1}))
 
 dcant_layer_budget_label &lt;- 
   expression(Delta ~ C[ant] ~ &quot;budget per 500m depth layer (PgC)&quot;)</code></pre>
@@ -4798,8 +4833,7 @@ jens-daniel-mueller
         y = &quot;Depth (m)&quot;,
         x = dcant_umol_label
       ) +
-      facet_wrap(~ basin_AIP,
-                 ncol = 2)
+      facet_grid(basin_AIP ~ .)
   )</code></pre>
 <pre><code>[[1]]</code></pre>
 <p><img src="figure/results_publication.Rmd/concentration_profiles-1.png" width="672" style="display: block; margin: auto;" /></p>
@@ -5056,6 +5090,17 @@ jens-daniel-mueller
   arrange(depth) %&gt;%
   filter(period != &quot;1994 - 2014&quot;,
          MLR_basins == &quot;5&quot;) %&gt;%
+    mutate(
+    basin = str_replace(basin, &quot;_&quot;, &quot;. &quot;),
+    basin = fct_relevel(
+      basin,
+      &quot;N. Pacific&quot;,
+      &quot;S. Pacific&quot;,
+      &quot;N. Atlantic&quot;,
+      &quot;S. Atlantic&quot;,
+      &quot;Indian&quot;
+    )
+  ) %&gt;% 
   group_split(data_source) %&gt;%
   # head(1) %&gt;%
   map(
@@ -5083,8 +5128,7 @@ jens-daniel-mueller
         y = &quot;Depth (m)&quot;,
         x = dcant_umol_label
       ) +
-      facet_wrap( ~ basin,
-                  ncol = 2)
+      facet_grid(basin ~ .)
   )</code></pre>
 <pre><code>[[1]]</code></pre>
 <p><img src="figure/results_publication.Rmd/concentration_profiles_MLR_basins-1.png" width="672" style="display: block; margin: auto;" /></p>
@@ -5301,9 +5345,8 @@ dcant_profile_all_delta %&gt;%
       scale_fill_brewer(palette = &quot;Set1&quot;, name = &quot;mean \u00B1 sd&quot;) +
       labs(title = paste(&quot;data_source&quot;, unique(.x$data_source)),
            y = &quot;Depth (m)&quot;,
-           x = dcant_umol_label) +
-      facet_wrap( ~ basin_AIP,
-                  ncol = 2))</code></pre>
+           x = ddcant_umol_label) +
+      facet_grid(basin_AIP ~ .))</code></pre>
 <pre><code>[[1]]</code></pre>
 <p><img src="figure/results_publication.Rmd/concentration_profiles_basin_AIP_offset-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
@@ -5502,7 +5545,19 @@ dcant_profile_basin_MLR_all_delta &lt;- full_join(delta, delta_sd)
 rm(delta, delta_sd)
 
 
+
 dcant_profile_basin_MLR_all_delta %&gt;%
+  mutate(
+    basin = str_replace(basin, &quot;_&quot;, &quot;. &quot;),
+    basin = fct_relevel(
+      basin,
+      &quot;N. Pacific&quot;,
+      &quot;S. Pacific&quot;,
+      &quot;N. Atlantic&quot;,
+      &quot;S. Atlantic&quot;,
+      &quot;Indian&quot;
+    )
+  ) %&gt;%
   group_split(data_source) %&gt;%
   # head(3) %&gt;%
   map(
@@ -5511,11 +5566,13 @@ dcant_profile_basin_MLR_all_delta %&gt;%
                  depth)) +
       geom_hline(yintercept = params_global$inventory_depth_standard) +
       geom_vline(xintercept = 0) +
-      geom_ribbon(aes(
-        xmin = delta_dcant - delta_dcant_sd,
-        xmax = delta_dcant + delta_dcant_sd
-      ),
-      alpha = 0.3)+
+      geom_ribbon(
+        aes(
+          xmin = delta_dcant - delta_dcant_sd,
+          xmax = delta_dcant + delta_dcant_sd
+        ),
+        alpha = 0.3
+      ) +
       geom_path() +
       scale_y_continuous(trans = trans_reverser(&quot;sqrt&quot;),
                          breaks = c(0, 100, 500, seq(1500, 5000, 1000))) +
@@ -5525,10 +5582,9 @@ dcant_profile_basin_MLR_all_delta %&gt;%
       labs(
         title = paste(&quot;data_source&quot;, unique(.x$data_source)),
         y = &quot;Depth (m)&quot;,
-        x = dcant_umol_label
+        x = ddcant_umol_label
       ) +
-      facet_wrap( ~ basin,
-                  ncol = 2)
+      facet_grid(basin ~ .)
   )</code></pre>
 <pre><code>[[1]]</code></pre>
 <p><img src="figure/results_publication.Rmd/concentration_profiles_MLR_basins_offset-1.png" width="672" style="display: block; margin: auto;" /></p>
@@ -6077,7 +6133,8 @@ jens-daniel-mueller
 <pre class="r"><code>dcant_budget_change &lt;- dcant_budget_basin_MLR_layer_all %&gt;%
   filter(estimate == &quot;dcant&quot;,
          period != &quot;1994 - 2014&quot;,
-         inv_depth &lt;= 3000) %&gt;%
+         inv_depth &lt;= 3000,
+         data_source == &quot;obs&quot;) %&gt;%
   rename(dcant = value) %&gt;%
   select(-c(tref2, Version_ID)) %&gt;%
   pivot_wider(names_from = period,
@@ -6100,7 +6157,8 @@ jens-daniel-mueller
 dcant_budget_layer &lt;- dcant_budget_basin_MLR_layer_all %&gt;%
   filter(estimate == &quot;dcant&quot;,
          period != &quot;1994 - 2014&quot;,
-         inv_depth &lt;= 3400) %&gt;%
+         inv_depth &lt;= 3400,
+         data_source == &quot;obs&quot;) %&gt;%
   rename(dcant = value) %&gt;%
   mutate(
     basin = str_replace(basin, &quot;_&quot;, &quot;. &quot;),
@@ -6133,12 +6191,13 @@ dcant_budget_layer %&gt;%
     ),
     alpha = 0.3
   ) +
-  geom_step(aes(inv_depth - 250, dcant, col = period), direction = &quot;vh&quot;) +
+  geom_step(aes(inv_depth - 250, dcant, col = period), direction = &quot;vh&quot;,
+            size = 1) +
   coord_flip() +
   scale_x_reverse(breaks = seq(0, 3000, 500)) +
   scale_color_brewer(palette = &quot;Set1&quot;, direction = -1, name = &quot;Decade&quot;) +
   scale_fill_brewer(palette = &quot;Set1&quot;, direction = -1, name = &quot;Decadal change&quot;) +
-  facet_grid(basin ~ data_source) +
+  facet_grid(basin ~ .) +
   labs(y = dcant_layer_budget_label,
        x = &quot;Depth (m)&quot;,
        title = &quot;Layer inventory change&quot;)</code></pre>
@@ -6165,6 +6224,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ab001eb6a2ffd3fe1ad176db0426e6bf412023fc/docs/figure/results_publication.Rmd/depth_layer_budget_basin_MLR-1.png" target="_blank">ab001eb</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d2ae5fe837a97b288a70ce6e6511041a872d12d1/docs/figure/results_publication.Rmd/depth_layer_budget_basin_MLR-1.png" target="_blank">d2ae5fe</a>
@@ -6205,7 +6275,8 @@ jens-daniel-mueller
 <pre class="r"><code>dcant_budget_change &lt;- dcant_budget_basin_MLR_layer_all %&gt;%
   filter(estimate == &quot;dcant&quot;,
          period != &quot;1994 - 2014&quot;,
-         inv_depth &lt;= 3000) %&gt;%
+         inv_depth &lt;= 3000,
+         data_source == &quot;obs&quot;) %&gt;%
   rename(dcant = value) %&gt;%
   arrange(inv_depth) %&gt;% 
   group_by(data_source, basin, period) %&gt;% 
@@ -6232,7 +6303,8 @@ jens-daniel-mueller
 dcant_budget_layer &lt;- dcant_budget_basin_MLR_layer_all %&gt;%
   filter(estimate == &quot;dcant&quot;,
          period != &quot;1994 - 2014&quot;,
-         inv_depth &lt;= 3400) %&gt;%
+         inv_depth &lt;= 3400,
+         data_source == &quot;obs&quot;) %&gt;%
   rename(dcant = value) %&gt;%
   arrange(inv_depth) %&gt;% 
   group_by(data_source, basin, period) %&gt;% 
@@ -6271,12 +6343,13 @@ dcant_budget_layer %&gt;%
     ),
     alpha = 0.3
   ) +
-  geom_step(aes(inv_depth - 250, dcant_cum, col = period), direction = &quot;vh&quot;) +
+  geom_step(aes(inv_depth - 250, dcant_cum, col = period), direction = &quot;vh&quot;,
+            size = 1) +
   coord_flip() +
   scale_x_reverse(breaks = seq(0, 3000, 500)) +
   scale_color_brewer(palette = &quot;Set1&quot;, direction = -1, name = &quot;Decade&quot;) +
   scale_fill_brewer(palette = &quot;Set1&quot;, direction = -1, name = &quot;Decadal change&quot;) +
-  facet_grid(basin ~ data_source) +
+  facet_grid(basin ~ .) +
   labs(y = dcant_layer_budget_label,
        x = &quot;Depth (m)&quot;,
        title = &quot;Cumulative layer inventory change&quot;)</code></pre>
@@ -6303,6 +6376,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ab001eb6a2ffd3fe1ad176db0426e6bf412023fc/docs/figure/results_publication.Rmd/depth_layer_budget_basin_MLR_cumulative-1.png" target="_blank">ab001eb</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/b62308dba0722295c345e2f2e2c8b632d47f9803/docs/figure/results_publication.Rmd/depth_layer_budget_basin_MLR_cumulative-1.png" target="_blank">b62308d</a>
