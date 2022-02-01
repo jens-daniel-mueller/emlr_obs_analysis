@@ -990,7 +990,7 @@ dcant_zonal_all %>%
 
 ## dcant - absolute
 
-```{r concentration_profiles, fig.asp=1.2}
+```{r concentration_profiles, fig.asp=1.6}
 
 
 dcant_profile_all %>%
@@ -1029,7 +1029,7 @@ dcant_profile_all %>%
 
 ```
 
-```{r concentration_profiles_MLR_basins, fig.asp=1.5}
+```{r concentration_profiles_MLR_basins, fig.asp=2}
 
 dcant_profile_basin_MLR_all %>%
   arrange(depth) %>%
@@ -1081,7 +1081,7 @@ dcant_profile_basin_MLR_all %>%
 
 ## dcant - absolute delta
 
-```{r concentration_profiles_basin_AIP_offset, fig.asp=1.2}
+```{r concentration_profiles_basin_AIP_offset, fig.asp=1.6}
 
 delta <- dcant_profile_all %>%
   arrange(depth) %>%
@@ -1136,7 +1136,7 @@ dcant_profile_all_delta %>%
 
 
 
-```{r concentration_profiles_MLR_basins_offset, fig.asp=1.5}
+```{r concentration_profiles_MLR_basins_offset, fig.asp=2}
 
 delta <- dcant_profile_basin_MLR_all %>%
   arrange(depth) %>%
@@ -1403,12 +1403,13 @@ g2 +
 
 ### Basin AIP
 
-```{r depth_layer_budget_basin_AIP}
+```{r depth_layer_budget_basin_AIP, fig.asp=1.5}
 
 dcant_budget_basin_AIP_layer_all %>%
   filter(estimate == "dcant",
          period != "1994 - 2014",
-         inv_depth <= 3000) %>%
+         inv_depth <= 3000,
+         data_source == "obs") %>%
   rename(dcant = value) %>%
   ggplot(aes(inv_depth-250, dcant, col=period)) +
   geom_hline(yintercept = 0) +
@@ -1416,7 +1417,7 @@ dcant_budget_basin_AIP_layer_all %>%
   coord_flip() +
   scale_x_reverse(breaks = seq(0, 3000, 500)) +
   scale_color_brewer(palette = "Set1", direction = -1) +
-  facet_grid(basin_AIP ~ data_source) +
+  facet_grid(basin_AIP ~ .) +
   labs(y = dcant_layer_budget_label,
        x = "Depth (m)")
 
@@ -1424,7 +1425,7 @@ dcant_budget_basin_AIP_layer_all %>%
 
 ### 5 basins
 
-```{r depth_layer_budget_basin_MLR, fig.asp=1.5}
+```{r depth_layer_budget_basin_MLR, fig.asp=2}
 
 dcant_budget_change <- dcant_budget_basin_MLR_layer_all %>%
   filter(estimate == "dcant",
@@ -1501,7 +1502,7 @@ dcant_budget_layer %>%
 
 ```
 
-```{r depth_layer_budget_basin_MLR_cumulative, fig.asp=1.5}
+```{r depth_layer_budget_basin_MLR_cumulative, fig.asp=2}
 
 dcant_budget_change <- dcant_budget_basin_MLR_layer_all %>%
   filter(estimate == "dcant",
