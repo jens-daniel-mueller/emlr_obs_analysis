@@ -1938,6 +1938,34 @@ g2 <- dcant_budget_basin_MLR_all_plot %>%
 
 newdat <- tibble(layer_data(g2))
 
+# construct uncertainty labels
+
+uncertainty_basin <- 
+  dcant_budget_basin_MLR_all_plot %>% 
+  
+  mutate(x = fct_recode(period,
+                        "2" = "1994 - 2004",
+                        "3" = "2004 - 2014"),
+         x = ) %>% 
+  select(x, alluvium = basin, dcant_sd_scaled) %>% 
+  drop_na() %>% 
+  arrange(x, alluvium)
+  
+
+coord_basin <- newdat %>%
+  select(x, y, alluvium) %>% 
+  filter(x != 1)
+
+uncertainty_layer_basin <- bind_cols(
+  coord_basin,
+  uncertainty_basin %>% select(dcant_sd_scaled),
+)
+
+uncertainty_layer_basin <- uncertainty_layer_basin %>% 
+  mutate(dcant_sd_scaled = as.character(round(dcant_sd_scaled,2)),
+         dcant_sd_scaled = paste("±",dcant_sd_scaled))
+# construct change labels
+
 change_basin <- 
   newdat %>% 
   select(x, alluvium, count) %>% 
@@ -1979,6 +2007,13 @@ g2 +
               x = x - 0.3,
               y = y,
               label = dcant_change
+            ),
+            inherit.aes = FALSE) +
+  geom_text(data = uncertainty_layer_basin,
+            aes(
+              x = x,
+              y = y - 0.05,
+              label = dcant_sd_scaled
             ),
             inherit.aes = FALSE) +
   geom_label(data = new_layer_total,
