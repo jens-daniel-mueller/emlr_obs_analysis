@@ -1438,11 +1438,31 @@ dcant_budget_basin_MLR_all_ensemble %>%
   geom_point() +
   facet_grid(basin ~ data_source)
 
+dcant_budget_basin_MLR_all_ensemble %>%
+  filter(data_source == "obs") %>% 
+  mutate(class = str_sub(Version_ID, 4, 4)) %>% 
+  ggplot(aes(dcant)) +
+  geom_histogram() +
+  geom_density() +
+  facet_grid(basin ~ period, scales = "free")
+
 dcant_budget_basin_MLR_all_ensemble_summary <- dcant_budget_basin_MLR_all_ensemble %>% 
   group_by(data_source, basin, period) %>% 
   summarise(dcant_mean = mean(dcant),
-            dcant_sd = sd(dcant)) %>% 
+            dcant_sd = sd(dcant)*2) %>% 
   ungroup()
+
+dcant_budget_global_all_ensemble_summary <-
+  dcant_budget_basin_MLR_all_ensemble %>%
+  filter(period != "1994 - 2014") %>%
+  group_by(data_source, Version_ID, tref1, tref2, period) %>%
+  summarise(dcant = sum(dcant)) %>%
+  ungroup() %>%
+  group_by(data_source, tref1, tref2, period) %>%
+  summarise(dcant_mean = mean(dcant),
+            dcant_sd = sd(dcant)*2) %>%
+  ungroup() %>%
+  filter(data_source == "obs")
 
 ```
 
@@ -1712,6 +1732,21 @@ dcant_budget_basin_MLR_all_plot <- dcant_budget_basin_MLR_all_plot %>%
   select(-starts_with("pCO2"))
 
 
+dcant_budget_global_all_ensemble_summary <- left_join(dcant_budget_global_all_ensemble_summary,
+                           co2_atm %>% rename(tref1 = year,
+                                              pCO21 = pCO2))
+
+dcant_budget_global_all_ensemble_summary <- left_join(dcant_budget_global_all_ensemble_summary,
+                           co2_atm %>% rename(tref2 = year,
+                                              pCO22 = pCO2))
+
+dcant_budget_global_all_ensemble_summary <- dcant_budget_global_all_ensemble_summary %>% 
+  mutate(delta_pCO2 = pCO22 - pCO21,
+         dcant_scaled = dcant_mean / delta_pCO2,
+         dcant_sd_scaled = dcant_sd / delta_pCO2) %>% 
+  select(-starts_with("pCO2"))
+
+
 ```
 
 
@@ -1919,11 +1954,6 @@ g2 <- dcant_budget_basin_MLR_all_plot %>%
   )) +
   geom_alluvium() +
   geom_stratum() +
-  # stat_stratum(geom = "text",
-  #              aes(label = paste(
-  #                round(after_stat(count),2)
-  #                # 100*round(after_stat(prop), 2), "%"
-  #                ))) +
   ggrepel::geom_label_repel(
     data = dcant_budget_basin_MLR_all_plot %>% filter(period == "2004 - 2014"),
     stat = "stratum",
@@ -1934,7 +1964,7 @@ g2 <- dcant_budget_basin_MLR_all_plot %>%
   )+
   scale_fill_brewer(palette = "Paired", guide = "none") +
   scale_color_brewer(palette = "Paired", guide = "none") +
-  scale_y_continuous(limits = c(0, 1.7), expand = c(0, 0)) +
+  scale_y_continuous(limits = c(0, 1.8), expand = c(0, 0)) +
   guides(y = "none") +
   labs(title = dcant_pgc_scaled_label) +
   theme_classic() +
@@ -1980,7 +2010,7 @@ uncertainty_layer_basin <- bind_cols(
 
 uncertainty_layer_basin <- uncertainty_layer_basin %>% 
   mutate(dcant_sd_scaled = as.character(round(dcant_sd_scaled,2)),
-         dcant_sd_scaled = paste("±",dcant_sd_scaled))
+         dcant_sd_scaled = paste0("±",dcant_sd_scaled))
 
 # construct change labels
 
@@ -2007,6 +2037,8 @@ new_layer_basin <- new_layer_basin %>%
                                 paste0("+", dcant_change)),
          dcant_change = paste(dcant_change, "%"))
 
+# construct global budget labels
+
 new_layer_total <- 
   newdat %>% 
   select(x, alluvium, count) %>% 
@@ -2014,10 +2046,18 @@ new_layer_total <-
   summarise(dcant_change = sum(count)) %>% 
   ungroup()
 
+dcant_sd_scaled <- round(c(
+  0.24,
+  dcant_budget_global_all_ensemble_summary %>%
+    pull(dcant_sd_scaled)
+), 2)
+
+new_layer_total <- bind_cols(new_layer_total, dcant_sd_scaled = dcant_sd_scaled)
+
 new_layer_total <- new_layer_total %>% 
   mutate(y = dcant_change,
          dcant_change = as.character(round(dcant_change,2)),
-         dcant_change = paste("global:",dcant_change))
+         dcant_change = paste0(dcant_change, "\n±", dcant_sd_scaled))
 
 g2 +
   geom_text(data = budget_layer_basin,
@@ -2044,7 +2084,7 @@ g2 +
   geom_label(data = new_layer_total,
             aes(
               x = x,
-              y = y + 0.1,
+              y = y + 0.13,
               label = dcant_change
             ),
             inherit.aes = FALSE)
@@ -2247,19 +2287,6 @@ dcant_budget_layer %>%
 
 ```{r mean_tcant_over_atm_co2}
 
-dcant_budget_global_all_ensemble_summary <-
-  dcant_budget_basin_MLR_all_ensemble %>%
-  filter(period != "1994 - 2014") %>%
-  group_by(data_source, Version_ID, tref2) %>%
-  summarise(dcant = sum(dcant)) %>%
-  ungroup() %>%
-  group_by(data_source, tref2) %>%
-  summarise(dcant_mean = mean(dcant),
-            dcant_sd = sd(dcant)*2) %>%
-  ungroup() %>%
-  filter(data_source == "obs") %>%
-  select(year = tref2, dcant_sd)
-
 dcant_budget_global_ts <- dcant_budget_global_all %>% 
   filter(data_source == "obs",
          period != "1994 - 2014") %>% 
@@ -2302,7 +2329,7 @@ tcant_ts %>%
        y = expression(Total~oceanic~C[ant]~(PgC))) +
   theme(legend.title = element_blank(),
         legend.background = element_rect(fill = "transparent"),
-        legend.position=c(0.8, 0.2))
+        legend.position=c(0.85, 0.2))
 
 # ggsave(path = "output/publication",
 #        filename = "Fig_global_dcant_budget_vs_atm_pCO2.png",
