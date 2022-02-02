@@ -673,16 +673,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreef98c33b8b9ae52ffdc97d64f5ee0716c4296d879targetblankf98c33ba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/f98c33b8b9ae52ffdc97d64f5ee0716c4296d879" target="_blank">f98c33b</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreea332fe6ec6a85d2bb6d5434b693b2204ba5dff63targetblanka332fe6a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/a332fe6ec6a85d2bb6d5434b693b2204ba5dff63" target="_blank">a332fe6</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreef98c33b8b9ae52ffdc97d64f5ee0716c4296d879targetblankf98c33ba" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreea332fe6ec6a85d2bb6d5434b693b2204ba5dff63targetblanka332fe6a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/f98c33b8b9ae52ffdc97d64f5ee0716c4296d879" target="_blank">f98c33b</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/a332fe6ec6a85d2bb6d5434b693b2204ba5dff63" target="_blank">a332fe6</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -732,6 +732,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a332fe6ec6a85d2bb6d5434b693b2204ba5dff63/analysis/results_publication.Rmd" target="_blank">a332fe6</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-02-02
+</td>
+<td>
+ensemble uncertainties in time series
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/49097e851c06f1ca23625dca180b53b7fbcb1c99/docs/results_publication.html" target="_blank">49097e8</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-02-02
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -4844,6 +4878,8 @@ dcant_budget_basin_MLR_all_plot &lt;- dcant_budget_basin_MLR_all_plot %&gt;%
       &quot;Indian&quot;
     )
   )</code></pre>
+<div id="absolute" class="section level3" number="7.2.1">
+<h3><span class="header-section-number">7.2.1</span> Absolute</h3>
 <pre class="r"><code>g1 &lt;- dcant_budget_basin_MLR_all_plot %&gt;%
   filter(period != &quot;1750 - 1994&quot;) %&gt;% 
   ggplot(aes(
@@ -5154,6 +5190,9 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
+</div>
+<div id="scaled" class="section level3" number="7.2.2">
+<h3><span class="header-section-number">7.2.2</span> Scaled</h3>
 <pre class="r"><code>dcant_budget_basin_MLR_all_plot &lt;- left_join(dcant_budget_basin_MLR_all_plot,
                            co2_atm %&gt;% rename(tref1 = year,
                                               pCO21 = pCO2))
@@ -5166,9 +5205,8 @@ dcant_budget_basin_MLR_all_plot &lt;- dcant_budget_basin_MLR_all_plot %&gt;%
   mutate(delta_pCO2 = pCO22 - pCO21,
          dcant_scaled = dcant / delta_pCO2,
          dcant_sd_scaled = dcant_sd / delta_pCO2) %&gt;% 
-  select(-starts_with(&quot;pCO2&quot;))
-
-g2 &lt;- dcant_budget_basin_MLR_all_plot %&gt;%
+  select(-starts_with(&quot;pCO2&quot;))</code></pre>
+<pre class="r"><code>g2 &lt;- dcant_budget_basin_MLR_all_plot %&gt;%
   filter(period != &quot;1750 - 1994&quot;) %&gt;% 
   ggplot(aes(
     y = dcant_scaled,
@@ -5455,11 +5493,11 @@ jens-daniel-mueller
   )) +
   geom_alluvium() +
   geom_stratum() +
-  stat_stratum(geom = &quot;text&quot;,
-               aes(label = paste(
-                 round(after_stat(count),2)
-                 # 100*round(after_stat(prop), 2), &quot;%&quot;
-                 ))) +
+  # stat_stratum(geom = &quot;text&quot;,
+  #              aes(label = paste(
+  #                round(after_stat(count),2)
+  #                # 100*round(after_stat(prop), 2), &quot;%&quot;
+  #                ))) +
   ggrepel::geom_label_repel(
     data = dcant_budget_basin_MLR_all_plot %&gt;% filter(period == &quot;2004 - 2014&quot;),
     stat = &quot;stratum&quot;,
@@ -5481,6 +5519,15 @@ jens-daniel-mueller
 
 
 newdat &lt;- tibble(layer_data(g2))
+
+# construct budget labels
+
+budget_basin &lt;- 
+  newdat %&gt;% 
+  select(x, y, alluvium, count)
+
+budget_layer_basin &lt;- budget_basin %&gt;% 
+  mutate(dcant = as.character(round(count,2)))
 
 # construct uncertainty labels
 
@@ -5508,6 +5555,7 @@ uncertainty_layer_basin &lt;- bind_cols(
 uncertainty_layer_basin &lt;- uncertainty_layer_basin %&gt;% 
   mutate(dcant_sd_scaled = as.character(round(dcant_sd_scaled,2)),
          dcant_sd_scaled = paste(&quot;±&quot;,dcant_sd_scaled))
+
 # construct change labels
 
 change_basin &lt;- 
@@ -5546,18 +5594,25 @@ new_layer_total &lt;- new_layer_total %&gt;%
          dcant_change = paste(&quot;global:&quot;,dcant_change))
 
 g2 +
-  geom_text(data = new_layer_basin,
+  geom_text(data = budget_layer_basin,
             aes(
-              x = x - 0.3,
-              y = y,
-              label = dcant_change
+              x = x,
+              y = y + 0.03,
+              label = dcant
             ),
             inherit.aes = FALSE) +
   geom_text(data = uncertainty_layer_basin,
             aes(
               x = x,
-              y = y - 0.05,
+              y = y - 0.03,
               label = dcant_sd_scaled
+            ),
+            inherit.aes = FALSE) +
+  geom_text(data = new_layer_basin,
+            aes(
+              x = x - 0.3,
+              y = y,
+              label = dcant_change
             ),
             inherit.aes = FALSE) +
   geom_label(data = new_layer_total,
@@ -5592,6 +5647,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/49097e851c06f1ca23625dca180b53b7fbcb1c99/docs/figure/results_publication.Rmd/budgets_basins_hemisphere_alluvial_order_basin_scaled_incl_sabine_uncertainty-1.png" target="_blank">49097e8</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-02-02
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/fe11bfd26ca9d3f63a1bf080c7d91415bd73fc3d/docs/figure/results_publication.Rmd/budgets_basins_hemisphere_alluvial_order_basin_scaled_incl_sabine_uncertainty-1.png" target="_blank">fe11bfd</a>
 </td>
 <td>
@@ -5603,6 +5669,7 @@ jens-daniel-mueller
 </tr>
 </tbody>
 </table>
+</div>
 </div>
 </div>
 </div>
@@ -6042,11 +6109,27 @@ jens-daniel-mueller
 </div>
 <div id="time-series" class="section level1" number="8">
 <h1><span class="header-section-number">8</span> Time series</h1>
-<pre class="r"><code>dcant_budget_global_ts &lt;- dcant_budget_global_all %&gt;% 
+<pre class="r"><code>dcant_budget_global_all_ensemble_summary &lt;-
+  dcant_budget_basin_MLR_all_ensemble %&gt;%
+  filter(period != &quot;1994 - 2014&quot;) %&gt;%
+  group_by(data_source, Version_ID, tref2) %&gt;%
+  summarise(dcant = sum(dcant)) %&gt;%
+  ungroup() %&gt;%
+  group_by(data_source, tref2) %&gt;%
+  summarise(dcant_mean = mean(dcant),
+            dcant_sd = sd(dcant)*2) %&gt;%
+  ungroup() %&gt;%
+  filter(data_source == &quot;obs&quot;) %&gt;%
+  select(year = tref2, dcant_sd)
+
+dcant_budget_global_ts &lt;- dcant_budget_global_all %&gt;% 
   filter(data_source == &quot;obs&quot;,
          period != &quot;1994 - 2014&quot;) %&gt;% 
-  select(year = tref2, dcant_mean = dcant) %&gt;% 
-  mutate(dcant_sd = 3)
+  select(year = tref2, dcant_mean = dcant)
+
+dcant_budget_global_ts &lt;- left_join(dcant_budget_global_ts,
+                                    dcant_budget_global_all_ensemble_summary)
+
 
 tcant_S04 &lt;- bind_cols(year = 1994, dcant_mean = 102, dcant_sd = 19)
 
@@ -6063,17 +6146,25 @@ tcant_ts &lt;- tcant_ts %&gt;%
   mutate(tcant = cumsum(dcant_mean),
          tcant_sd = cumsum(dcant_sd))
 
+
 tcant_ts %&gt;% 
-  ggplot(aes(pCO2, tcant, ymin = tcant - tcant_sd, ymax = tcant + tcant_sd)) +
-  geom_ribbon(fill = &quot;grey80&quot;) +
-  geom_point() +
+  ggplot(aes(pCO2, tcant)) +
+  geom_ribbon(aes(ymin = tcant - tcant_sd, ymax = tcant + tcant_sd, fill = &quot;cummulative\nuncertainty&quot;),
+              alpha = 0.2) +
+  geom_linerange(aes(ymin = tcant - dcant_sd, ymax = tcant + dcant_sd, col = &quot;interval\nuncertainty&quot;)) +
   geom_line() +
-  scale_x_continuous(breaks = seq(280, 400, 30),
-                     sec.axis = dup_axis(labels =  c(1750, 1940, 1980, 2000, 2015),
-                                         name = &quot;Year&quot;)) +
-  geom_text(aes(label = year), nudge_x = -5, nudge_y = 5) +
+  scale_x_continuous(breaks = seq(280, 400, 30)
+                     # sec.axis = dup_axis(labels =  c(1750, 1940, 1980, 2000, 2015),
+                     #                     name = &quot;Year&quot;)
+                     ) +
+  scale_fill_grey() +
+  scale_color_manual(values = &quot;black&quot;) +
+  geom_text(aes(label = year), nudge_x = -8, nudge_y = 5) +
   labs(x = expression(Atmospheric~pCO[2]~(µatm)),
-       y = expression(Total~oceanic~C[ant]~(PgC)))</code></pre>
+       y = expression(Total~oceanic~C[ant]~(PgC))) +
+  theme(legend.title = element_blank(),
+        legend.background = element_rect(fill = &quot;transparent&quot;),
+        legend.position=c(0.8, 0.2))</code></pre>
 <p><img src="figure/results_publication.Rmd/mean_tcant_over_atm_co2-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-mean_tcant_over_atm_co2-1">
