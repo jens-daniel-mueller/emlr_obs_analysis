@@ -24,6 +24,7 @@ editor_options:
 ```{r load_libraries_specific, include = FALSE}
 library(patchwork)
 library(ggalluvial)
+library(marelac)
 ```
 
 
@@ -1272,9 +1273,56 @@ dcant_profile_basin_MLR_all_delta %>%
 
 ```{r budgets_basins_hemisphere, fig.asp=1.2}
 
+dcant_budget_basin_MLR_all <- left_join(dcant_budget_basin_MLR_all,
+                           co2_atm %>% rename(tref1 = year,
+                                              pCO21 = pCO2))
+
+dcant_budget_basin_MLR_all <- left_join(dcant_budget_basin_MLR_all,
+                           co2_atm %>% rename(tref2 = year,
+                                              pCO22 = pCO2))
+
+
 dcant_budget_basin_MLR_all_plot <- dcant_budget_basin_MLR_all %>%
   filter(period != "1994 - 2014",
-         data_source == "obs") %>%
+         data_source == "obs")
+
+```
+
+```{r budgets_basins_hemisphere_tcant}
+
+
+tcant_budget_basin_MLR <-
+  inner_join(tcant_inv, basinmask %>% filter(MLR_basins == "5")) %>%
+  mutate(method = "layer",
+         data_source = "obs") %>% 
+  group_by(basin) %>%
+  nest() %>% 
+  mutate(budget = map(.x = data, ~m_dcant_budget(.x))) %>% 
+  select(-data) %>%
+  unnest(budget)
+
+
+
+tcant_budget_basin_MLR <- tcant_budget_basin_MLR %>% 
+  mutate(pCO21 = 280,
+         tref1 = 1750,
+         tref2 = 1994)
+
+tcant_budget_basin_MLR <- left_join(tcant_budget_basin_MLR,
+                                    co2_atm %>% rename(tref2 = year,
+                                                       pCO22 = pCO2))
+
+tcant_budget_basin_MLR <- tcant_budget_basin_MLR %>% 
+  mutate(period = paste(tref1, tref2, sep = " - ")) %>% 
+  filter(estimate == "dcant") %>% 
+  select(-estimate) %>% 
+  rename(dcant = value)
+
+dcant_budget_basin_MLR_all_plot <- bind_rows(
+  dcant_budget_basin_MLR_all_plot,
+  tcant_budget_basin_MLR)
+
+dcant_budget_basin_MLR_all_plot <- dcant_budget_basin_MLR_all_plot %>% 
   mutate(
     basin = str_replace(basin, "_", ". "),
         basin = fct_relevel(
@@ -1289,9 +1337,12 @@ dcant_budget_basin_MLR_all_plot <- dcant_budget_basin_MLR_all %>%
 
 ```
 
+
+
 ```{r budgets_basins_hemisphere_alluvial_order_budget, fig.asp=0.9}
 
 g1 <- dcant_budget_basin_MLR_all_plot %>%
+  filter(period != "1750 - 1994") %>% 
   ggplot(aes(
     y = dcant,
     x = period,
@@ -1364,6 +1415,7 @@ g1 +
 
 ```{r budgets_basins_hemisphere_alluvial_order_basin, fig.asp=0.9}
 g2 <- dcant_budget_basin_MLR_all_plot %>%
+    filter(period != "1750 - 1994") %>% 
   ggplot(aes(
     y = dcant,
     x = period,
@@ -1458,10 +1510,6 @@ g2 +
 
 ```{r budgets_basins_hemisphere_alluvial_order_basin_scaled, fig.asp=0.9}
 
-dcant_budget_basin_MLR_all_plot <- dcant_budget_basin_MLR_all_plot %>%
-  filter(data_source %in% c("obs"),
-         period != "1994 - 2014")
-
 dcant_budget_basin_MLR_all_plot <- left_join(dcant_budget_basin_MLR_all_plot,
                            co2_atm %>% rename(tref1 = year,
                                               pCO21 = pCO2))
@@ -1470,28 +1518,13 @@ dcant_budget_basin_MLR_all_plot <- left_join(dcant_budget_basin_MLR_all_plot,
                            co2_atm %>% rename(tref2 = year,
                                               pCO22 = pCO2))
 
-# tcant_inv <- tcant_inv %>% 
-#   mutate(pCO21 = 280)
-# 
-# tcant_inv <- left_join(tcant_inv,
-#                        co2_atm %>% rename(tref2 = year,
-#                                           pCO22 = pCO2))
-# 
-# dcant_budget_basin_MLR_all_plot <- bind_rows(
-#   dcant_budget_basin_MLR_all_plot,
-#   tcant_inv %>% mutate(period = paste(tref1, tref2, sep = " - "))
-# )
-
-
 dcant_budget_basin_MLR_all_plot <- dcant_budget_basin_MLR_all_plot %>% 
   mutate(delta_pCO2 = pCO22 - pCO21,
          dcant_scaled = dcant / delta_pCO2) %>% 
   select(-starts_with("pCO2"))
 
-
-
-
 g2 <- dcant_budget_basin_MLR_all_plot %>%
+  filter(period != "1750 - 1994") %>% 
   ggplot(aes(
     y = dcant_scaled,
     x = period,
@@ -1543,6 +1576,100 @@ coord_basin <- newdat %>%
 
 new_layer_basin <- full_join(
   change_basin,
+  coord_basin
+)
+
+new_layer_basin <- new_layer_basin %>% 
+  mutate(dcant_change = as.character(dcant_change),
+         dcant_change = if_else(str_detect(dcant_change, "-"),
+                                dcant_change,
+                                paste0("+", dcant_change)),
+         dcant_change = paste(dcant_change, "%"))
+
+new_layer_total <- 
+  newdat %>% 
+  select(x, alluvium, count) %>% 
+  group_by(x) %>% 
+  summarise(dcant_change = sum(count)) %>% 
+  ungroup()
+
+new_layer_total <- new_layer_total %>% 
+  mutate(y = dcant_change,
+         dcant_change = as.character(round(dcant_change,2)),
+         dcant_change = paste("global:",dcant_change))
+
+g2 +
+  geom_text(data = new_layer_basin,
+            aes(
+              x = x - 0.3,
+              y = y,
+              label = dcant_change
+            ),
+            inherit.aes = FALSE) +
+  geom_label(data = new_layer_total,
+            aes(
+              x = x,
+              y = y + 0.05,
+              label = dcant_change
+            ),
+            inherit.aes = FALSE)
+
+
+```
+
+```{r budgets_basins_hemisphere_alluvial_order_basin_scaled_incl_sabine}
+
+g2 <- dcant_budget_basin_MLR_all_plot %>%
+  ggplot(aes(
+    y = dcant_scaled,
+    x = period,
+    alluvium = basin,
+    fill  = basin,
+    stratum = basin,
+    label = basin
+  )) +
+  geom_alluvium() +
+  geom_stratum() +
+  stat_stratum(geom = "text",
+               aes(label = paste(
+                 round(after_stat(count),2)
+                 # 100*round(after_stat(prop), 2), "%"
+                 ))) +
+  ggrepel::geom_label_repel(
+    data = dcant_budget_basin_MLR_all_plot %>% filter(period == "2004 - 2014"),
+    stat = "stratum",
+    size = 4,
+    nudge_x = .5,
+    point.padding = 3,
+    aes(fill = basin)
+  )+
+  scale_fill_brewer(palette = "Paired", guide = "none") +
+  scale_color_brewer(palette = "Paired", guide = "none") +
+  # scale_y_continuous(limits = c(0, 33), expand = c(0, 0)) +
+  guides(y = "none") +
+  labs(title = dcant_pgc_scaled_label) +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        plot.title = element_text(hjust = 0.5))
+
+
+newdat <- tibble(layer_data(g2))
+
+change_basin <- 
+  newdat %>% 
+  select(x, alluvium, count) %>% 
+  group_by(alluvium) %>% 
+  arrange(x) %>% 
+  mutate(dcant_change = round(100*(count - lag(count)) / lag(count))) %>% 
+  ungroup()
+
+coord_basin <- newdat %>%
+  select(x, y, alluvium)
+
+new_layer_basin <- left_join(
+  change_basin %>% drop_na(),
   coord_basin
 )
 
