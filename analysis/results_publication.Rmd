@@ -1414,8 +1414,9 @@ g1 +
 
 
 ```{r budgets_basins_hemisphere_alluvial_order_basin, fig.asp=0.9}
+
 g2 <- dcant_budget_basin_MLR_all_plot %>%
-    filter(period != "1750 - 1994") %>% 
+    filter(period != "1750 - 1994") %>%
   ggplot(aes(
     y = dcant,
     x = period,
@@ -1703,13 +1704,14 @@ g2 +
   geom_label(data = new_layer_total,
             aes(
               x = x,
-              y = y + 0.05,
+              y = y + 0.1,
               label = dcant_change
             ),
             inherit.aes = FALSE)
 
 
 ```
+
 
 ## Depth layer
 
@@ -1911,7 +1913,7 @@ dcant_budget_global_ts <- dcant_budget_global_all %>%
   select(year = tref2, dcant_mean = dcant) %>% 
   mutate(dcant_sd = 3)
 
-tcant_S04 <- bind_cols(year = 1994, dcant_mean = 118, dcant_sd = 19)
+tcant_S04 <- bind_cols(year = 1994, dcant_mean = 102, dcant_sd = 19)
 
 tcant_ts <- full_join(dcant_budget_global_ts, tcant_S04)
 
