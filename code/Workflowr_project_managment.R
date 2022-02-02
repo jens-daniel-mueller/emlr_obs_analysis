@@ -5,7 +5,7 @@
 
 
 # commit regular changes (locally) and rebuild site
-wflow_publish(all = TRUE, message = "plot 5 basin map")
+wflow_publish(all = TRUE, message = "included Sabine column inventory as reference")
 
 # commit changes including _site.yml (locally) and rebuild site in the specified order
 wflow_publish(here::here(

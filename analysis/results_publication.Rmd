@@ -116,7 +116,7 @@ rm(params_local,
    tref)
 
 params_local_all <- params_local_all %>% 
-  select(Version_ID, period, tref2)
+  select(Version_ID, period, tref1, tref2)
 
 ```
 
@@ -691,6 +691,24 @@ co2_atm <-
 
 ```
 
+## Sabine total Cant
+
+```{r Sabine_tCant}
+
+
+tcant_inv <-
+  read_csv(paste(path_preprocessing,
+                  "S04_tcant_inv.csv", sep = ""))
+
+tcant_inv <- tcant_inv %>% 
+  filter(inv_depth == 3000) %>% 
+  rename(dcant = tcant,
+         dcant_pos = tcant_pos) %>% 
+  mutate(tref1 = 1750,
+         tref2 = 1994)
+
+```
+
 
 # Define labels
 
@@ -712,30 +730,67 @@ dcant_layer_budget_label <-
 
 ### dcant - absolute
 
-```{r invetory_maps_absolute, fig.asp=0.9}
+```{r invetory_maps_absolute, fig.asp=1.2}
+
+dcant_inv_all <- dcant_inv_all %>%
+  filter(data_source %in% c("obs"),
+         period != "1994 - 2014")
+
+dcant_inv_all <- left_join(dcant_inv_all,
+                           co2_atm %>% rename(tref1 = year,
+                                              pCO21 = pCO2))
+
+dcant_inv_all <- left_join(dcant_inv_all,
+                           co2_atm %>% rename(tref2 = year,
+                                              pCO22 = pCO2))
+
+
+tcant_inv <- tcant_inv %>% 
+  mutate(pCO21 = 280)
+
+tcant_inv <- left_join(tcant_inv,
+                       co2_atm %>% rename(tref2 = year,
+                                          pCO22 = pCO2))
+
+dcant_inv_all <- bind_rows(
+  dcant_inv_all,
+  tcant_inv %>% mutate(period = paste(tref1, tref2, sep = " - "))
+)
+
+
+dcant_inv_all <- dcant_inv_all %>% 
+  mutate(delta_pCO2 = pCO22 - pCO21,
+         dcant_scaled = dcant / delta_pCO2,
+         dcant_pos_scaled = dcant_pos / delta_pCO2) %>% 
+  select(-starts_with("pCO2"))
 
 dcant_inv_all %>%
-  filter(data_source %in% c("mod", "obs"),
-         period != "1994 - 2014") %>%
-  group_by(data_source) %>%
-  group_split() %>%
-  # head(1) %>%
-  map(
-    ~ p_map_cant_inv(df = .x,
-                     var = "dcant",
-                     subtitle_text = paste("data_source:",
-                                           unique(.x$data_source))) +
-      facet_grid(period ~ .) +
-      theme(axis.text = element_blank(),
-            axis.ticks = element_blank())
-  )
+  p_map_cant_inv(var = "dcant") +
+  facet_grid(period ~ .) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())
+
+dcant_inv_all %>%
+  p_map_cant_inv(var = "dcant_scaled",
+                 breaks = c(-Inf, seq(0, 1, 0.1), Inf),) +
+  facet_grid(period ~ .) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())
+
+dcant_inv_all %>%
+  p_map_cant_inv(var = "dcant_pos_scaled",
+                 breaks = c(-Inf, seq(0, 1, 0.1), Inf),) +
+  facet_grid(period ~ .) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())
+
 
 
 ```
 
 #### test color palettes
 
-```{r invetory_maps_absolute_test_color_scales, fig.asp=0.4}
+```{r inventory_maps_absolute_test_color_scales, fig.asp=0.4}
 
 breaks <- c(-Inf, seq(0, 16, 2), Inf)
 
