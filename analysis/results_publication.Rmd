@@ -1245,12 +1245,13 @@ dcant_profile_all %>%
 
 ```
 
-```{r concentration_profiles_MLR_basins, fig.asp=2}
+```{r concentration_profiles_MLR_basins}
 
 dcant_profile_basin_MLR_all %>%
   arrange(depth) %>%
   filter(period != "1994 - 2014",
-         MLR_basins == "5") %>%
+         MLR_basins == "5", 
+         depth <= params_global$inventory_depth_standard) %>%
     mutate(
     basin = str_replace(basin, "_", ". "),
     basin = fct_relevel(
@@ -1289,7 +1290,8 @@ dcant_profile_basin_MLR_all %>%
         y = "Depth (m)",
         x = dcant_umol_label
       ) +
-      facet_grid(basin ~ .)
+      facet_wrap(~ basin, ncol = 3, dir = "v") +
+      theme(legend.position = c(0.8,0.2))
   )
 
 
@@ -2285,7 +2287,7 @@ dcant_budget_layer %>%
 
 # Time series
 
-```{r mean_tcant_over_atm_co2}
+```{r mean_tcant_over_atm_co2, fig.asp=0.6}
 
 dcant_budget_global_ts <- dcant_budget_global_all %>% 
   filter(data_source == "obs",
@@ -2293,7 +2295,8 @@ dcant_budget_global_ts <- dcant_budget_global_all %>%
   select(year = tref2, dcant_mean = dcant)
 
 dcant_budget_global_ts <- left_join(dcant_budget_global_ts,
-                                    dcant_budget_global_all_ensemble_summary)
+                                    dcant_budget_global_all_ensemble_summary %>% 
+                                      select(year = tref2, dcant_sd))
 
 
 tcant_S04 <- bind_cols(year = 1994, dcant_mean = 102, dcant_sd = 19)
