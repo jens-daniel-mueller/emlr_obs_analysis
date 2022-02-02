@@ -715,12 +715,14 @@ tcant_inv <- tcant_inv %>%
 ```{r define_legend_titles}
 
 dcant_pgc_label <- expression(Delta * C["ant"]~(PgC))
+dcant_pgc_scaled_label <- expression(Delta * C["ant"]~(PgC~µatm^{-1}))
 
 dcant_umol_label <- expression(Delta * C[ant]~(mu * mol ~ kg ^ {-1}))
 ddcant_umol_label <- expression(Delta * Delta * C[ant]~(mu * mol ~ kg ^ {-1}))
 
 dcant_layer_budget_label <- 
   expression(Delta ~ C[ant] ~ "budget per 500m depth layer (PgC)")
+
 ```
 
 
@@ -790,7 +792,7 @@ dcant_inv_all %>%
 
 #### test color palettes
 
-```{r inventory_maps_absolute_test_color_scales, fig.asp=0.4}
+```{r inventory_maps_absolute_test_color_scales, fig.asp=0.4, eval=FALSE}
 
 breaks <- c(-Inf, seq(0, 16, 2), Inf)
 
@@ -1454,6 +1456,134 @@ g2 +
 
 ```
 
+```{r budgets_basins_hemisphere_alluvial_order_basin_scaled, fig.asp=0.9}
+
+dcant_budget_basin_MLR_all_plot <- dcant_budget_basin_MLR_all_plot %>%
+  filter(data_source %in% c("obs"),
+         period != "1994 - 2014")
+
+dcant_budget_basin_MLR_all_plot <- left_join(dcant_budget_basin_MLR_all_plot,
+                           co2_atm %>% rename(tref1 = year,
+                                              pCO21 = pCO2))
+
+dcant_budget_basin_MLR_all_plot <- left_join(dcant_budget_basin_MLR_all_plot,
+                           co2_atm %>% rename(tref2 = year,
+                                              pCO22 = pCO2))
+
+# tcant_inv <- tcant_inv %>% 
+#   mutate(pCO21 = 280)
+# 
+# tcant_inv <- left_join(tcant_inv,
+#                        co2_atm %>% rename(tref2 = year,
+#                                           pCO22 = pCO2))
+# 
+# dcant_budget_basin_MLR_all_plot <- bind_rows(
+#   dcant_budget_basin_MLR_all_plot,
+#   tcant_inv %>% mutate(period = paste(tref1, tref2, sep = " - "))
+# )
+
+
+dcant_budget_basin_MLR_all_plot <- dcant_budget_basin_MLR_all_plot %>% 
+  mutate(delta_pCO2 = pCO22 - pCO21,
+         dcant_scaled = dcant / delta_pCO2) %>% 
+  select(-starts_with("pCO2"))
+
+
+
+
+g2 <- dcant_budget_basin_MLR_all_plot %>%
+  ggplot(aes(
+    y = dcant_scaled,
+    x = period,
+    alluvium = basin,
+    fill  = basin,
+    stratum = basin,
+    label = basin
+  )) +
+  geom_alluvium() +
+  geom_stratum() +
+  stat_stratum(geom = "text",
+               aes(label = paste(
+                 round(after_stat(count),2)
+                 # 100*round(after_stat(prop), 2), "%"
+                 ))) +
+  ggrepel::geom_label_repel(
+    data = dcant_budget_basin_MLR_all_plot %>% filter(period == "2004 - 2014"),
+    stat = "stratum",
+    size = 4,
+    nudge_x = .5,
+    point.padding = 3,
+    aes(fill = basin)
+  )+
+  scale_fill_brewer(palette = "Paired", guide = "none") +
+  scale_color_brewer(palette = "Paired", guide = "none") +
+  # scale_y_continuous(limits = c(0, 33), expand = c(0, 0)) +
+  guides(y = "none") +
+  labs(title = dcant_pgc_scaled_label) +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        plot.title = element_text(hjust = 0.5))
+
+
+newdat <- tibble(layer_data(g2))
+
+change_basin <- 
+  newdat %>% 
+  select(x, alluvium, count) %>% 
+  pivot_wider(names_from = x,
+              values_from = count) %>% 
+  mutate(dcant_change = round(100*(`2` - `1`) / `1`)) %>% 
+  select(alluvium, dcant_change)
+
+coord_basin <- newdat %>%
+  filter(x == 2) %>% 
+  select(x, y, alluvium)
+
+new_layer_basin <- full_join(
+  change_basin,
+  coord_basin
+)
+
+new_layer_basin <- new_layer_basin %>% 
+  mutate(dcant_change = as.character(dcant_change),
+         dcant_change = if_else(str_detect(dcant_change, "-"),
+                                dcant_change,
+                                paste0("+", dcant_change)),
+         dcant_change = paste(dcant_change, "%"))
+
+new_layer_total <- 
+  newdat %>% 
+  select(x, alluvium, count) %>% 
+  group_by(x) %>% 
+  summarise(dcant_change = sum(count)) %>% 
+  ungroup()
+
+new_layer_total <- new_layer_total %>% 
+  mutate(y = dcant_change,
+         dcant_change = as.character(round(dcant_change,2)),
+         dcant_change = paste("global:",dcant_change))
+
+g2 +
+  geom_text(data = new_layer_basin,
+            aes(
+              x = x - 0.3,
+              y = y,
+              label = dcant_change
+            ),
+            inherit.aes = FALSE) +
+  geom_label(data = new_layer_total,
+            aes(
+              x = x,
+              y = y + 0.05,
+              label = dcant_change
+            ),
+            inherit.aes = FALSE)
+
+
+```
+
 ## Depth layer
 
 ### Basin AIP
@@ -1479,6 +1609,7 @@ dcant_budget_basin_AIP_layer_all %>%
 ```
 
 ### 5 basins
+
 
 ```{r depth_layer_budget_basin_MLR, fig.asp=2}
 

@@ -5,7 +5,7 @@
 
 
 # commit regular changes (locally) and rebuild site
-wflow_publish(all = TRUE, message = "included Sabine column inventory as reference")
+wflow_publish(all = TRUE, message = "scaled budget to atm pco2 increase")
 
 # commit changes including _site.yml (locally) and rebuild site in the specified order
 wflow_publish(here::here(
