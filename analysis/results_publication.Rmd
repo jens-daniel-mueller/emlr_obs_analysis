@@ -1245,7 +1245,7 @@ dcant_profile_all %>%
 
 ```
 
-```{r concentration_profiles_MLR_basins}
+```{r concentration_profiles_MLR_basins, fig.asp=0.9}
 
 dcant_profile_basin_MLR_all %>%
   arrange(depth) %>%
