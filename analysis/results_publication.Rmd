@@ -69,6 +69,42 @@ print(Version_IDs)
 
 ```
 
+```{r define_Version_IDs_ensemble}
+
+version_id_pattern <- "1"
+
+# identify required version IDs
+
+Version_IDs_1 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_1", version_id_pattern))
+
+Version_IDs_2 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_2", version_id_pattern))
+
+Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_3", version_id_pattern))
+
+Version_IDs_b <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
+
+version_id_pattern <- "o"
+
+# identify required version IDs
+
+Version_IDs_1 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_1", version_id_pattern))
+
+Version_IDs_2 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_2", version_id_pattern))
+
+Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_3", version_id_pattern))
+
+Version_IDs_o <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
+
+Version_IDs_ensemble <- c(Version_IDs_b, Version_IDs_o)
+
+```
+
 ## Parameters
 
 ```{r read_parameters}
@@ -117,6 +153,57 @@ rm(params_local,
    tref)
 
 params_local_all <- params_local_all %>% 
+  select(Version_ID, period, tref1, tref2)
+
+```
+
+```{r read_parameters_ensemble}
+
+for (i_Version_IDs in Version_IDs_ensemble) {
+  path_version_data     <-
+    paste(path_observations,
+          i_Version_IDs,
+          "/data/",
+          sep = "")
+  
+  params_local <-
+    read_rds(paste(path_version_data,
+                   "params_local.rds",
+                   sep = ""))
+  
+  params_local <- bind_cols(
+    Version_ID = i_Version_IDs,
+    tref1 = params_local$tref1,
+    tref2 = params_local$tref2
+  )
+  
+  tref <- read_csv(paste(path_version_data,
+                         "tref.csv",
+                         sep = ""))
+  
+  params_local <- params_local %>%
+    mutate(
+      median_year_1 = sort(tref$median_year)[1],
+      median_year_2 = sort(tref$median_year)[2],
+      duration = median_year_2 - median_year_1,
+      period = paste(median_year_1, "-", median_year_2)
+    )
+  
+  if (exists("params_local_all_ensemble")) {
+    params_local_all_ensemble <- bind_rows(params_local_all_ensemble, params_local)
+  }
+  
+  if (!exists("params_local_all_ensemble")) {
+    params_local_all_ensemble <- params_local
+  }
+  
+  
+}
+
+rm(params_local,
+   tref)
+
+params_local_all_ensemble <- params_local_all_ensemble %>% 
   select(Version_ID, period, tref1, tref2)
 
 ```
@@ -293,6 +380,60 @@ rm(
 
 ```
 
+```{r read_budget_files_basins_hemisphere_ensemble}
+
+for (i_Version_IDs in Version_IDs_ensemble) {
+  # i_Version_IDs <- Version_IDs[1]
+  
+  print(i_Version_IDs)
+  
+  path_version_data     <-
+    paste(path_observations,
+          i_Version_IDs,
+          "/data/",
+          sep = "")
+  
+  # load and join data files
+  
+  dcant_budget_basin_MLR_ensemble <-
+    read_csv(paste(path_version_data,
+                   "dcant_budget_basin_MLR.csv",
+                   sep = ""))
+  
+  dcant_budget_basin_MLR_mod_truth_ensemble <-
+    read_csv(paste(
+      path_version_data,
+      "dcant_budget_basin_MLR_mod_truth.csv",
+      sep = ""
+    ))
+  
+    
+  dcant_budget_basin_MLR_ensemble <- bind_rows(dcant_budget_basin_MLR_ensemble,
+                                      dcant_budget_basin_MLR_mod_truth_ensemble)
+  
+  dcant_budget_basin_MLR_ensemble <- dcant_budget_basin_MLR_ensemble %>%
+    mutate(Version_ID = i_Version_IDs)
+  
+
+  if (exists("dcant_budget_basin_MLR_all_ensemble")) {
+    dcant_budget_basin_MLR_all_ensemble <-
+      bind_rows(dcant_budget_basin_MLR_all_ensemble, dcant_budget_basin_MLR_ensemble)
+  }
+  
+  if (!exists("dcant_budget_basin_MLR_all_ensemble")) {
+    dcant_budget_basin_MLR_all_ensemble <- dcant_budget_basin_MLR_ensemble
+  }
+
+}
+
+rm(
+  dcant_budget_basin_MLR_ensemble,
+  dcant_budget_basin_MLR_mod_truth_ensemble
+)
+
+
+```
+
 ```{r join_budget_data_and_meta_data, include=FALSE}
 
 
@@ -318,6 +459,14 @@ dcant_budget_basin_MLR_all <- dcant_budget_basin_MLR_all %>%
 
 dcant_budget_basin_MLR_all <- full_join(dcant_budget_basin_MLR_all,
                                         params_local_all)
+
+
+dcant_budget_basin_MLR_all_ensemble <- dcant_budget_basin_MLR_all_ensemble %>%
+  filter(MLR_basins == "5") %>% 
+  select(-MLR_basins)
+
+dcant_budget_basin_MLR_all_ensemble <- full_join(dcant_budget_basin_MLR_all_ensemble,
+                                        params_local_all_ensemble)
 
 # dcant_slab_budget_all <- full_join(dcant_slab_budget_all,
 #                                         params_local_all)
@@ -367,6 +516,15 @@ dcant_budget_basin_MLR_all <- dcant_budget_basin_MLR_all %>%
   rename(dcant = value)
 
 dcant_budget_basin_MLR_all <- dcant_budget_basin_MLR_all %>%
+  filter(inv_depth == params_global$inventory_depth_standard)
+
+dcant_budget_basin_MLR_all_ensemble <- dcant_budget_basin_MLR_all_ensemble %>%
+  filter(estimate == "dcant", 
+         method == "total") %>% 
+  select(-c(estimate, method)) %>% 
+  rename(dcant = value)
+
+dcant_budget_basin_MLR_all_ensemble <- dcant_budget_basin_MLR_all_ensemble %>%
   filter(inv_depth == params_global$inventory_depth_standard)
 
 ```
@@ -1269,6 +1427,28 @@ dcant_profile_basin_MLR_all_delta %>%
 
 # Budgets
 
+
+## Ensemble
+
+```{r dcant_budget_basin_ensemble}
+
+dcant_budget_basin_MLR_all_ensemble %>%
+  mutate(class = str_sub(Version_ID, 4, 4)) %>% 
+  ggplot(aes(period, dcant, col = class)) +
+  geom_point() +
+  facet_grid(basin ~ data_source)
+
+dcant_budget_basin_MLR_all_ensemble_summary <- dcant_budget_basin_MLR_all_ensemble %>% 
+  group_by(data_source, basin, period) %>% 
+  summarise(dcant_mean = mean(dcant),
+            dcant_sd = sd(dcant)) %>% 
+  ungroup()
+
+
+```
+
+
+
 ## Basin & hemisphere
 
 ```{r budgets_basins_hemisphere, fig.asp=1.2}
@@ -1321,6 +1501,10 @@ tcant_budget_basin_MLR <- tcant_budget_basin_MLR %>%
 dcant_budget_basin_MLR_all_plot <- bind_rows(
   dcant_budget_basin_MLR_all_plot,
   tcant_budget_basin_MLR)
+
+dcant_budget_basin_MLR_all_plot <-
+  left_join(dcant_budget_basin_MLR_all_plot,
+            dcant_budget_basin_MLR_all_ensemble_summary)
 
 dcant_budget_basin_MLR_all_plot <- dcant_budget_basin_MLR_all_plot %>% 
   mutate(
@@ -1521,7 +1705,8 @@ dcant_budget_basin_MLR_all_plot <- left_join(dcant_budget_basin_MLR_all_plot,
 
 dcant_budget_basin_MLR_all_plot <- dcant_budget_basin_MLR_all_plot %>% 
   mutate(delta_pCO2 = pCO22 - pCO21,
-         dcant_scaled = dcant / delta_pCO2) %>% 
+         dcant_scaled = dcant / delta_pCO2,
+         dcant_sd_scaled = dcant_sd / delta_pCO2) %>% 
   select(-starts_with("pCO2"))
 
 g2 <- dcant_budget_basin_MLR_all_plot %>%
@@ -1619,6 +1804,101 @@ g2 +
 ```
 
 ```{r budgets_basins_hemisphere_alluvial_order_basin_scaled_incl_sabine}
+
+g2 <- dcant_budget_basin_MLR_all_plot %>%
+  ggplot(aes(
+    y = dcant_scaled,
+    x = period,
+    alluvium = basin,
+    fill  = basin,
+    stratum = basin,
+    label = basin
+  )) +
+  geom_alluvium() +
+  geom_stratum() +
+  stat_stratum(geom = "text",
+               aes(label = paste(
+                 round(after_stat(count),2)
+                 # 100*round(after_stat(prop), 2), "%"
+                 ))) +
+  ggrepel::geom_label_repel(
+    data = dcant_budget_basin_MLR_all_plot %>% filter(period == "2004 - 2014"),
+    stat = "stratum",
+    size = 4,
+    nudge_x = .5,
+    point.padding = 3,
+    aes(fill = basin)
+  )+
+  scale_fill_brewer(palette = "Paired", guide = "none") +
+  scale_color_brewer(palette = "Paired", guide = "none") +
+  scale_y_continuous(limits = c(0, 1.7), expand = c(0, 0)) +
+  guides(y = "none") +
+  labs(title = dcant_pgc_scaled_label) +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        plot.title = element_text(hjust = 0.5))
+
+
+newdat <- tibble(layer_data(g2))
+
+change_basin <- 
+  newdat %>% 
+  select(x, alluvium, count) %>% 
+  group_by(alluvium) %>% 
+  arrange(x) %>% 
+  mutate(dcant_change = round(100*(count - lag(count)) / lag(count))) %>% 
+  ungroup()
+
+coord_basin <- newdat %>%
+  select(x, y, alluvium)
+
+new_layer_basin <- left_join(
+  change_basin %>% drop_na(),
+  coord_basin
+)
+
+new_layer_basin <- new_layer_basin %>% 
+  mutate(dcant_change = as.character(dcant_change),
+         dcant_change = if_else(str_detect(dcant_change, "-"),
+                                dcant_change,
+                                paste0("+", dcant_change)),
+         dcant_change = paste(dcant_change, "%"))
+
+new_layer_total <- 
+  newdat %>% 
+  select(x, alluvium, count) %>% 
+  group_by(x) %>% 
+  summarise(dcant_change = sum(count)) %>% 
+  ungroup()
+
+new_layer_total <- new_layer_total %>% 
+  mutate(y = dcant_change,
+         dcant_change = as.character(round(dcant_change,2)),
+         dcant_change = paste("global:",dcant_change))
+
+g2 +
+  geom_text(data = new_layer_basin,
+            aes(
+              x = x - 0.3,
+              y = y,
+              label = dcant_change
+            ),
+            inherit.aes = FALSE) +
+  geom_label(data = new_layer_total,
+            aes(
+              x = x,
+              y = y + 0.1,
+              label = dcant_change
+            ),
+            inherit.aes = FALSE)
+
+
+```
+
+
+```{r budgets_basins_hemisphere_alluvial_order_basin_scaled_incl_sabine_uncertainty}
 
 g2 <- dcant_budget_basin_MLR_all_plot %>%
   ggplot(aes(
