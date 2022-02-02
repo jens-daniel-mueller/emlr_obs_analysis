@@ -5,7 +5,7 @@
 
 
 # commit regular changes (locally) and rebuild site
-wflow_publish(all = TRUE, message = "incl ensemble uncertainties in plot")
+wflow_publish(all = TRUE, message = "ensemble uncertainties in time series")
 
 # commit changes including _site.yml (locally) and rebuild site in the specified order
 wflow_publish(here::here(
