@@ -673,16 +673,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree33feacf0e6d7970df2330c1427633b629edccdb1targetblank33feacfa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/33feacf0e6d7970df2330c1427633b629edccdb1" target="_blank">33feacf</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreed3f7f0520476ca1f400c294d036acb9a5a650229targetblankd3f7f05a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/d3f7f0520476ca1f400c294d036acb9a5a650229" target="_blank">d3f7f05</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree33feacf0e6d7970df2330c1427633b629edccdb1targetblank33feacfa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreed3f7f0520476ca1f400c294d036acb9a5a650229targetblankd3f7f05a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/33feacf0e6d7970df2330c1427633b629edccdb1" target="_blank">33feacf</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/d3f7f0520476ca1f400c294d036acb9a5a650229" target="_blank">d3f7f05</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -732,6 +732,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d3f7f0520476ca1f400c294d036acb9a5a650229/analysis/results_publication.Rmd" target="_blank">d3f7f05</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-02-02
+</td>
+<td>
+incl ensemble uncertainties
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/fa46251d84a17fcc0982d0ddd20a79ed29ec3288/docs/results_publication.html" target="_blank">fa46251</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-02-02
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1834,6 +1868,37 @@ Version_IDs &lt;- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 
 print(Version_IDs)</code></pre>
 <pre><code>[1] &quot;v_1103&quot; &quot;v_2103&quot; &quot;v_3103&quot;</code></pre>
+<pre class="r"><code>version_id_pattern &lt;- &quot;1&quot;
+
+# identify required version IDs
+
+Version_IDs_1 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
+                            pattern = paste0(&quot;v_1&quot;, version_id_pattern))
+
+Version_IDs_2 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
+                            pattern = paste0(&quot;v_2&quot;, version_id_pattern))
+
+Version_IDs_3 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
+                            pattern = paste0(&quot;v_3&quot;, version_id_pattern))
+
+Version_IDs_b &lt;- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
+
+version_id_pattern &lt;- &quot;o&quot;
+
+# identify required version IDs
+
+Version_IDs_1 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
+                            pattern = paste0(&quot;v_1&quot;, version_id_pattern))
+
+Version_IDs_2 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
+                            pattern = paste0(&quot;v_2&quot;, version_id_pattern))
+
+Version_IDs_3 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
+                            pattern = paste0(&quot;v_3&quot;, version_id_pattern))
+
+Version_IDs_o &lt;- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
+
+Version_IDs_ensemble &lt;- c(Version_IDs_b, Version_IDs_o)</code></pre>
 </div>
 <div id="parameters" class="section level2" number="2.2">
 <h2><span class="header-section-number">2.2</span> Parameters</h2>
@@ -1881,6 +1946,52 @@ rm(params_local,
    tref)
 
 params_local_all &lt;- params_local_all %&gt;% 
+  select(Version_ID, period, tref1, tref2)</code></pre>
+<pre class="r"><code>for (i_Version_IDs in Version_IDs_ensemble) {
+  path_version_data     &lt;-
+    paste(path_observations,
+          i_Version_IDs,
+          &quot;/data/&quot;,
+          sep = &quot;&quot;)
+  
+  params_local &lt;-
+    read_rds(paste(path_version_data,
+                   &quot;params_local.rds&quot;,
+                   sep = &quot;&quot;))
+  
+  params_local &lt;- bind_cols(
+    Version_ID = i_Version_IDs,
+    tref1 = params_local$tref1,
+    tref2 = params_local$tref2
+  )
+  
+  tref &lt;- read_csv(paste(path_version_data,
+                         &quot;tref.csv&quot;,
+                         sep = &quot;&quot;))
+  
+  params_local &lt;- params_local %&gt;%
+    mutate(
+      median_year_1 = sort(tref$median_year)[1],
+      median_year_2 = sort(tref$median_year)[2],
+      duration = median_year_2 - median_year_1,
+      period = paste(median_year_1, &quot;-&quot;, median_year_2)
+    )
+  
+  if (exists(&quot;params_local_all_ensemble&quot;)) {
+    params_local_all_ensemble &lt;- bind_rows(params_local_all_ensemble, params_local)
+  }
+  
+  if (!exists(&quot;params_local_all_ensemble&quot;)) {
+    params_local_all_ensemble &lt;- params_local
+  }
+  
+  
+}
+
+rm(params_local,
+   tref)
+
+params_local_all_ensemble &lt;- params_local_all_ensemble %&gt;% 
   select(Version_ID, period, tref1, tref2)</code></pre>
 </div>
 <div id="budgets" class="section level2" number="2.3">
@@ -2044,6 +2155,89 @@ rm(
   dcant_budget_basin_MLR,
   dcant_budget_basin_MLR_mod_truth
 )</code></pre>
+<pre class="r"><code>for (i_Version_IDs in Version_IDs_ensemble) {
+  # i_Version_IDs &lt;- Version_IDs[1]
+  
+  print(i_Version_IDs)
+  
+  path_version_data     &lt;-
+    paste(path_observations,
+          i_Version_IDs,
+          &quot;/data/&quot;,
+          sep = &quot;&quot;)
+  
+  # load and join data files
+  
+  dcant_budget_basin_MLR_ensemble &lt;-
+    read_csv(paste(path_version_data,
+                   &quot;dcant_budget_basin_MLR.csv&quot;,
+                   sep = &quot;&quot;))
+  
+  dcant_budget_basin_MLR_mod_truth_ensemble &lt;-
+    read_csv(paste(
+      path_version_data,
+      &quot;dcant_budget_basin_MLR_mod_truth.csv&quot;,
+      sep = &quot;&quot;
+    ))
+  
+    
+  dcant_budget_basin_MLR_ensemble &lt;- bind_rows(dcant_budget_basin_MLR_ensemble,
+                                      dcant_budget_basin_MLR_mod_truth_ensemble)
+  
+  dcant_budget_basin_MLR_ensemble &lt;- dcant_budget_basin_MLR_ensemble %&gt;%
+    mutate(Version_ID = i_Version_IDs)
+  
+
+  if (exists(&quot;dcant_budget_basin_MLR_all_ensemble&quot;)) {
+    dcant_budget_basin_MLR_all_ensemble &lt;-
+      bind_rows(dcant_budget_basin_MLR_all_ensemble, dcant_budget_basin_MLR_ensemble)
+  }
+  
+  if (!exists(&quot;dcant_budget_basin_MLR_all_ensemble&quot;)) {
+    dcant_budget_basin_MLR_all_ensemble &lt;- dcant_budget_basin_MLR_ensemble
+  }
+
+}</code></pre>
+<pre><code>[1] &quot;v_1101&quot;
+[1] &quot;v_1102&quot;
+[1] &quot;v_1103&quot;
+[1] &quot;v_1104&quot;
+[1] &quot;v_1105&quot;
+[1] &quot;v_1106&quot;
+[1] &quot;v_2101&quot;
+[1] &quot;v_2102&quot;
+[1] &quot;v_2103&quot;
+[1] &quot;v_2104&quot;
+[1] &quot;v_2105&quot;
+[1] &quot;v_2106&quot;
+[1] &quot;v_3101&quot;
+[1] &quot;v_3102&quot;
+[1] &quot;v_3103&quot;
+[1] &quot;v_3104&quot;
+[1] &quot;v_3105&quot;
+[1] &quot;v_3106&quot;
+[1] &quot;v_1o01&quot;
+[1] &quot;v_1o02&quot;
+[1] &quot;v_1o03&quot;
+[1] &quot;v_1o04&quot;
+[1] &quot;v_1o05&quot;
+[1] &quot;v_1o06&quot;
+[1] &quot;v_2o01&quot;
+[1] &quot;v_2o02&quot;
+[1] &quot;v_2o03&quot;
+[1] &quot;v_2o04&quot;
+[1] &quot;v_2o05&quot;
+[1] &quot;v_2o06&quot;
+[1] &quot;v_3o01&quot;
+[1] &quot;v_3o02&quot;
+[1] &quot;v_3o03&quot;
+[1] &quot;v_3o04&quot;
+[1] &quot;v_3o05&quot;
+[1] &quot;v_3o06&quot;</code></pre>
+<pre class="r"><code>rm(
+  dcant_budget_basin_MLR_ensemble,
+  dcant_budget_basin_MLR_mod_truth_ensemble
+)</code></pre>
 <pre class="r"><code>dcant_budget_global_all &lt;- dcant_budget_global_all %&gt;%
   filter(estimate == &quot;dcant&quot;, 
          method == &quot;total&quot;) %&gt;% 
@@ -2070,6 +2264,15 @@ dcant_budget_global_all &lt;- dcant_budget_global_all %&gt;%
   rename(dcant = value)
 
 dcant_budget_basin_MLR_all &lt;- dcant_budget_basin_MLR_all %&gt;%
+  filter(inv_depth == params_global$inventory_depth_standard)
+
+dcant_budget_basin_MLR_all_ensemble &lt;- dcant_budget_basin_MLR_all_ensemble %&gt;%
+  filter(estimate == &quot;dcant&quot;, 
+         method == &quot;total&quot;) %&gt;% 
+  select(-c(estimate, method)) %&gt;% 
+  rename(dcant = value)
+
+dcant_budget_basin_MLR_all_ensemble &lt;- dcant_budget_basin_MLR_all_ensemble %&gt;%
   filter(inv_depth == params_global$inventory_depth_standard)</code></pre>
 </div>
 <div id="inventories" class="section level2" number="2.4">
@@ -4495,8 +4698,22 @@ jens-daniel-mueller
 </div>
 <div id="budgets-1" class="section level1" number="7">
 <h1><span class="header-section-number">7</span> Budgets</h1>
-<div id="basin-hemisphere" class="section level2" number="7.1">
-<h2><span class="header-section-number">7.1</span> Basin &amp; hemisphere</h2>
+<div id="ensemble" class="section level2" number="7.1">
+<h2><span class="header-section-number">7.1</span> Ensemble</h2>
+<pre class="r"><code>dcant_budget_basin_MLR_all_ensemble %&gt;%
+  mutate(class = str_sub(Version_ID, 4, 4)) %&gt;% 
+  ggplot(aes(period, dcant, col = class)) +
+  geom_point() +
+  facet_grid(basin ~ data_source)</code></pre>
+<p><img src="figure/results_publication.Rmd/dcant_budget_basin_ensemble-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dcant_budget_basin_MLR_all_ensemble_summary &lt;- dcant_budget_basin_MLR_all_ensemble %&gt;% 
+  group_by(data_source, basin, period) %&gt;% 
+  summarise(dcant_mean = mean(dcant),
+            dcant_sd = sd(dcant)) %&gt;% 
+  ungroup()</code></pre>
+</div>
+<div id="basin-hemisphere" class="section level2" number="7.2">
+<h2><span class="header-section-number">7.2</span> Basin &amp; hemisphere</h2>
 <pre class="r"><code>dcant_budget_basin_MLR_all &lt;- left_join(dcant_budget_basin_MLR_all,
                            co2_atm %&gt;% rename(tref1 = year,
                                               pCO21 = pCO2))
@@ -4539,6 +4756,10 @@ tcant_budget_basin_MLR &lt;- tcant_budget_basin_MLR %&gt;%
 dcant_budget_basin_MLR_all_plot &lt;- bind_rows(
   dcant_budget_basin_MLR_all_plot,
   tcant_budget_basin_MLR)
+
+dcant_budget_basin_MLR_all_plot &lt;-
+  left_join(dcant_budget_basin_MLR_all_plot,
+            dcant_budget_basin_MLR_all_ensemble_summary)
 
 dcant_budget_basin_MLR_all_plot &lt;- dcant_budget_basin_MLR_all_plot %&gt;% 
   mutate(
@@ -4872,7 +5093,8 @@ dcant_budget_basin_MLR_all_plot &lt;- left_join(dcant_budget_basin_MLR_all_plot,
 
 dcant_budget_basin_MLR_all_plot &lt;- dcant_budget_basin_MLR_all_plot %&gt;% 
   mutate(delta_pCO2 = pCO22 - pCO21,
-         dcant_scaled = dcant / delta_pCO2) %&gt;% 
+         dcant_scaled = dcant / delta_pCO2,
+         dcant_sd_scaled = dcant_sd / delta_pCO2) %&gt;% 
   select(-starts_with(&quot;pCO2&quot;))
 
 g2 &lt;- dcant_budget_basin_MLR_all_plot %&gt;%
@@ -5116,6 +5338,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/fa46251d84a17fcc0982d0ddd20a79ed29ec3288/docs/figure/results_publication.Rmd/budgets_basins_hemisphere_alluvial_order_basin_scaled_incl_sabine-1.png" target="_blank">fa46251</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-02-02
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76550850f9e9bed6b874655dc06d382303d020c9/docs/figure/results_publication.Rmd/budgets_basins_hemisphere_alluvial_order_basin_scaled_incl_sabine-1.png" target="_blank">7655085</a>
 </td>
 <td>
@@ -5140,11 +5373,100 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
+<pre class="r"><code>g2 &lt;- dcant_budget_basin_MLR_all_plot %&gt;%
+  ggplot(aes(
+    y = dcant_scaled,
+    x = period,
+    alluvium = basin,
+    fill  = basin,
+    stratum = basin,
+    label = basin
+  )) +
+  geom_alluvium() +
+  geom_stratum() +
+  stat_stratum(geom = &quot;text&quot;,
+               aes(label = paste(
+                 round(after_stat(count),2)
+                 # 100*round(after_stat(prop), 2), &quot;%&quot;
+                 ))) +
+  ggrepel::geom_label_repel(
+    data = dcant_budget_basin_MLR_all_plot %&gt;% filter(period == &quot;2004 - 2014&quot;),
+    stat = &quot;stratum&quot;,
+    size = 4,
+    nudge_x = .5,
+    point.padding = 3,
+    aes(fill = basin)
+  )+
+  scale_fill_brewer(palette = &quot;Paired&quot;, guide = &quot;none&quot;) +
+  scale_color_brewer(palette = &quot;Paired&quot;, guide = &quot;none&quot;) +
+  scale_y_continuous(limits = c(0, 1.7), expand = c(0, 0)) +
+  guides(y = &quot;none&quot;) +
+  labs(title = dcant_pgc_scaled_label) +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        plot.title = element_text(hjust = 0.5))
+
+
+newdat &lt;- tibble(layer_data(g2))
+
+change_basin &lt;- 
+  newdat %&gt;% 
+  select(x, alluvium, count) %&gt;% 
+  group_by(alluvium) %&gt;% 
+  arrange(x) %&gt;% 
+  mutate(dcant_change = round(100*(count - lag(count)) / lag(count))) %&gt;% 
+  ungroup()
+
+coord_basin &lt;- newdat %&gt;%
+  select(x, y, alluvium)
+
+new_layer_basin &lt;- left_join(
+  change_basin %&gt;% drop_na(),
+  coord_basin
+)
+
+new_layer_basin &lt;- new_layer_basin %&gt;% 
+  mutate(dcant_change = as.character(dcant_change),
+         dcant_change = if_else(str_detect(dcant_change, &quot;-&quot;),
+                                dcant_change,
+                                paste0(&quot;+&quot;, dcant_change)),
+         dcant_change = paste(dcant_change, &quot;%&quot;))
+
+new_layer_total &lt;- 
+  newdat %&gt;% 
+  select(x, alluvium, count) %&gt;% 
+  group_by(x) %&gt;% 
+  summarise(dcant_change = sum(count)) %&gt;% 
+  ungroup()
+
+new_layer_total &lt;- new_layer_total %&gt;% 
+  mutate(y = dcant_change,
+         dcant_change = as.character(round(dcant_change,2)),
+         dcant_change = paste(&quot;global:&quot;,dcant_change))
+
+g2 +
+  geom_text(data = new_layer_basin,
+            aes(
+              x = x - 0.3,
+              y = y,
+              label = dcant_change
+            ),
+            inherit.aes = FALSE) +
+  geom_label(data = new_layer_total,
+            aes(
+              x = x,
+              y = y + 0.1,
+              label = dcant_change
+            ),
+            inherit.aes = FALSE)</code></pre>
+<p><img src="figure/results_publication.Rmd/budgets_basins_hemisphere_alluvial_order_basin_scaled_incl_sabine_uncertainty-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
-<div id="depth-layer" class="section level2" number="7.2">
-<h2><span class="header-section-number">7.2</span> Depth layer</h2>
-<div id="basin-aip" class="section level3" number="7.2.1">
-<h3><span class="header-section-number">7.2.1</span> Basin AIP</h3>
+<div id="depth-layer" class="section level2" number="7.3">
+<h2><span class="header-section-number">7.3</span> Depth layer</h2>
+<div id="basin-aip" class="section level3" number="7.3.1">
+<h3><span class="header-section-number">7.3.1</span> Basin AIP</h3>
 <pre class="r"><code>dcant_budget_basin_AIP_layer_all %&gt;%
   filter(estimate == &quot;dcant&quot;,
          period != &quot;1994 - 2014&quot;,
@@ -5221,8 +5543,8 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="basins" class="section level3" number="7.2.2">
-<h3><span class="header-section-number">7.2.2</span> 5 basins</h3>
+<div id="basins" class="section level3" number="7.3.2">
+<h3><span class="header-section-number">7.3.2</span> 5 basins</h3>
 <pre class="r"><code>dcant_budget_change &lt;- dcant_budget_basin_MLR_layer_all %&gt;%
   filter(estimate == &quot;dcant&quot;,
          period != &quot;1994 - 2014&quot;,
