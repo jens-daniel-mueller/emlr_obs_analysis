@@ -2327,7 +2327,7 @@ tcant_ts %>%
                      ) +
   scale_fill_grey() +
   scale_color_manual(values = "black") +
-  geom_text(aes(label = year), nudge_x = -8, nudge_y = 5) +
+  geom_text(aes(label = year), nudge_x = -6, nudge_y = 5) +
   labs(x = expression(Atmospheric~pCO[2]~(µatm)),
        y = expression(Total~oceanic~C[ant]~(PgC))) +
   theme(legend.title = element_blank(),
