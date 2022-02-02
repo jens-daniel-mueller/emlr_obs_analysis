@@ -1646,7 +1646,7 @@ g2 <- dcant_budget_basin_MLR_all_plot %>%
   )+
   scale_fill_brewer(palette = "Paired", guide = "none") +
   scale_color_brewer(palette = "Paired", guide = "none") +
-  # scale_y_continuous(limits = c(0, 33), expand = c(0, 0)) +
+  scale_y_continuous(limits = c(0, 1.7), expand = c(0, 0)) +
   guides(y = "none") +
   labs(title = dcant_pgc_scaled_label) +
   theme_classic() +
