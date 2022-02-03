@@ -673,16 +673,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreec0c3be121693ca0cad58ad9fe9798fc6a735b3d4targetblankc0c3be1a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/c0c3be121693ca0cad58ad9fe9798fc6a735b3d4" target="_blank">c0c3be1</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree66d89a9004bf334eb7ee4d35d31b412864fe3ba3targetblank66d89a9a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/66d89a9004bf334eb7ee4d35d31b412864fe3ba3" target="_blank">66d89a9</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreec0c3be121693ca0cad58ad9fe9798fc6a735b3d4targetblankc0c3be1a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree66d89a9004bf334eb7ee4d35d31b412864fe3ba3targetblank66d89a9a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/c0c3be121693ca0cad58ad9fe9798fc6a735b3d4" target="_blank">c0c3be1</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/66d89a9004bf334eb7ee4d35d31b412864fe3ba3" target="_blank">66d89a9</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -732,6 +732,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/66d89a9004bf334eb7ee4d35d31b412864fe3ba3/analysis/results_publication.Rmd" target="_blank">66d89a9</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-02-03
+</td>
+<td>
+added surface flux model products
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/4077397ad300fbabc546b1e3e1e4f97c574af60d/docs/results_publication.html" target="_blank">4077397</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-02-03
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -2775,8 +2809,11 @@ tcant_inv &lt;- tcant_inv %&gt;%
 </div>
 <div id="reccap2-ocean-flux-products" class="section level2" number="2.8">
 <h2><span class="header-section-number">2.8</span> RECCAP2-ocean flux products</h2>
-<pre class="r"><code>RECCAP2_fgco2_glob_all_annual &lt;-
+<pre class="r"><code>RECCAP2_fgco2_glob_all_annual_obs &lt;-
   read_csv(paste0(path_preprocessing,
+                   &quot;RECCAP2_fgco2_glob_all_annual.csv&quot;))</code></pre>
+<pre class="r"><code>RECCAP2_fgco2_glob_all_annual_mod &lt;-
+  read_csv(paste0(path_preprocessing_model,
                    &quot;RECCAP2_fgco2_glob_all_annual.csv&quot;))</code></pre>
 </div>
 </div>
@@ -6576,8 +6613,8 @@ jens-daniel-mueller
 </div>
 <div id="incl-fluxes" class="section level2" number="8.2">
 <h2><span class="header-section-number">8.2</span> incl fluxes</h2>
-<pre class="r"><code>RECCAP2_fgco2_glob_all_annual_cum_1994 &lt;- RECCAP2_fgco2_glob_all_annual %&gt;%
-  filter(year &gt;= 1994, year &lt;= 2014) %&gt;%
+<pre class="r"><code>RECCAP2_fgco2_glob_all_annual_cum_1994 &lt;- RECCAP2_fgco2_glob_all_annual_obs %&gt;%
+  filter(year &gt;= 1994, year &lt;= 2018) %&gt;%
   mutate(fgco2_glob = if_else(year == 1994, 0, fgco2_glob),
          fgco2_glob_corr = fgco2_glob + 0.62) %&gt;% 
   arrange(year) %&gt;%
@@ -6596,10 +6633,111 @@ RECCAP2_fgco2_glob_all_annual_cum_1994 %&gt;%
   geom_point(shape = 21, fill = &quot;white&quot;) +
   theme(legend.position = &quot;bottom&quot;)</code></pre>
 <p><img src="figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-mean_tcant_over_atm_co2_incl_fluxes-1">
+Past versions of mean_tcant_over_atm_co2_incl_fluxes-1.png
+</button>
+</p>
+<div id="fig-mean_tcant_over_atm_co2_incl_fluxes-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/4077397ad300fbabc546b1e3e1e4f97c574af60d/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes-1.png" target="_blank">4077397</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-02-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>RECCAP2_fgco2_glob_all_annual_cum_1994_mod &lt;- RECCAP2_fgco2_glob_all_annual_mod %&gt;%
+  filter(year &gt;= 1994, year &lt;= 2018) %&gt;%
+  mutate(fgco2_glob = if_else(year == 1994, 0, fgco2_glob),
+         fgco2_glob_corr = fgco2_glob) %&gt;% 
+  arrange(year) %&gt;%
+  group_by(product) %&gt;%
+  mutate(fgco2_glob_cum = cumsum(fgco2_glob),
+         fgco2_glob_corr_cum = cumsum(fgco2_glob_corr)) %&gt;%
+  ungroup()
+
+RECCAP2_fgco2_glob_all_annual_cum_1994_mod &lt;-
+left_join(RECCAP2_fgco2_glob_all_annual_cum_1994_mod,
+          co2_atm) 
+
+RECCAP2_fgco2_glob_all_annual_cum_1994_mod %&gt;%
+  ggplot(aes(pCO2, fgco2_glob_cum, col = product)) +
+  geom_line() +
+  geom_point(shape = 21, fill = &quot;white&quot;) +
+  theme(legend.position = &quot;bottom&quot;)</code></pre>
+<p><img src="figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-mean_tcant_over_atm_co2_incl_fluxes-2">
+Past versions of mean_tcant_over_atm_co2_incl_fluxes-2.png
+</button>
+</p>
+<div id="fig-mean_tcant_over_atm_co2_incl_fluxes-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/4077397ad300fbabc546b1e3e1e4f97c574af60d/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes-2.png" target="_blank">4077397</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-02-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>RECCAP2_fgco2_glob_all_annual_cum_1994 &lt;- RECCAP2_fgco2_glob_all_annual_cum_1994 %&gt;% 
   mutate(fgco2_glob_cum = fgco2_glob_cum + 102,
          fgco2_glob_corr_cum = fgco2_glob_corr_cum + 102) %&gt;%
   select(pCO2, product, fgco2_glob_cum, fgco2_glob_corr_cum)
+
+RECCAP2_fgco2_glob_all_annual_cum_1994_mod &lt;- RECCAP2_fgco2_glob_all_annual_cum_1994_mod %&gt;% 
+  mutate(fgco2_glob_cum = fgco2_glob_cum + 102,
+         fgco2_glob_corr_cum = fgco2_glob_corr_cum + 102) %&gt;%
+  select(pCO2, product, fgco2_glob_cum, fgco2_glob_corr_cum)
+
+
 
 tcant_ts &lt;- tcant_ts %&gt;%
     filter(year != 1750)
@@ -6609,17 +6747,19 @@ tcant_ts %&gt;%
   ggplot(aes(pCO2, tcant)) +
   geom_ribbon(aes(ymin = tcant - tcant_sd, ymax = tcant + tcant_sd), fill = &quot;grey50&quot;,
               alpha = 0.2) +
+  geom_line(data = RECCAP2_fgco2_glob_all_annual_cum_1994_mod,
+            aes(pCO2, fgco2_glob_corr_cum, group = product, col=&quot;Models&quot;)) +
   geom_line(data = RECCAP2_fgco2_glob_all_annual_cum_1994,
-            aes(pCO2, fgco2_glob_corr_cum, group = product, col=&quot;Surface flux products&quot;)) +
+            aes(pCO2, fgco2_glob_corr_cum, group = product, col=&quot;pCO2 observations&quot;)) +
   geom_linerange(aes(ymin = tcant - dcant_sd, ymax = tcant + dcant_sd)) +
   geom_line(aes(col = &quot;eMLR(C*) estimate&quot;)) +
-  scale_color_manual(values = c(&quot;black&quot;, &quot;red&quot;)) +
+  scale_color_manual(values = c(&quot;black&quot;, &quot;red&quot;, &quot;blue&quot;)) +
   labs(x = expression(Atmospheric~pCO[2]~(µatm)),
        y = expression(Total~oceanic~C[ant]~(PgC))) +
   theme(legend.title = element_blank(),
         legend.background = element_rect(fill = &quot;transparent&quot;),
         legend.position=c(0.85, 0.2))</code></pre>
-<p><img src="figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes-3.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code># ggsave(path = &quot;output/publication&quot;,
 #        filename = &quot;Fig_global_dcant_budget_vs_atm_pCO2.png&quot;,
 #        height = 4,
