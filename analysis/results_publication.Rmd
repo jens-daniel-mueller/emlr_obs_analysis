@@ -870,10 +870,18 @@ tcant_inv <- tcant_inv %>%
 
 ## RECCAP2-ocean flux products
 
-```{r read_RECCAP2_flux_products}
+```{r read_RECCAP2_flux_products_observations}
 
-RECCAP2_fgco2_glob_all_annual <-
+RECCAP2_fgco2_glob_all_annual_obs <-
   read_csv(paste0(path_preprocessing,
+                   "RECCAP2_fgco2_glob_all_annual.csv"))
+
+```
+
+```{r read_RECCAP2_flux_products_models}
+
+RECCAP2_fgco2_glob_all_annual_mod <-
+  read_csv(paste0(path_preprocessing_model,
                    "RECCAP2_fgco2_glob_all_annual.csv"))
 
 ```
@@ -2359,8 +2367,8 @@ tcant_ts %>%
 
 ```{r mean_tcant_over_atm_co2_incl_fluxes, fig.asp=0.6}
 
-RECCAP2_fgco2_glob_all_annual_cum_1994 <- RECCAP2_fgco2_glob_all_annual %>%
-  filter(year >= 1994, year <= 2014) %>%
+RECCAP2_fgco2_glob_all_annual_cum_1994 <- RECCAP2_fgco2_glob_all_annual_obs %>%
+  filter(year >= 1994, year <= 2018) %>%
   mutate(fgco2_glob = if_else(year == 1994, 0, fgco2_glob),
          fgco2_glob_corr = fgco2_glob + 0.62) %>% 
   arrange(year) %>%
@@ -2379,10 +2387,37 @@ RECCAP2_fgco2_glob_all_annual_cum_1994 %>%
   geom_point(shape = 21, fill = "white") +
   theme(legend.position = "bottom")
 
+RECCAP2_fgco2_glob_all_annual_cum_1994_mod <- RECCAP2_fgco2_glob_all_annual_mod %>%
+  filter(year >= 1994, year <= 2018) %>%
+  mutate(fgco2_glob = if_else(year == 1994, 0, fgco2_glob),
+         fgco2_glob_corr = fgco2_glob) %>% 
+  arrange(year) %>%
+  group_by(product) %>%
+  mutate(fgco2_glob_cum = cumsum(fgco2_glob),
+         fgco2_glob_corr_cum = cumsum(fgco2_glob_corr)) %>%
+  ungroup()
+
+RECCAP2_fgco2_glob_all_annual_cum_1994_mod <-
+left_join(RECCAP2_fgco2_glob_all_annual_cum_1994_mod,
+          co2_atm) 
+
+RECCAP2_fgco2_glob_all_annual_cum_1994_mod %>%
+  ggplot(aes(pCO2, fgco2_glob_cum, col = product)) +
+  geom_line() +
+  geom_point(shape = 21, fill = "white") +
+  theme(legend.position = "bottom")
+
 RECCAP2_fgco2_glob_all_annual_cum_1994 <- RECCAP2_fgco2_glob_all_annual_cum_1994 %>% 
   mutate(fgco2_glob_cum = fgco2_glob_cum + 102,
          fgco2_glob_corr_cum = fgco2_glob_corr_cum + 102) %>%
   select(pCO2, product, fgco2_glob_cum, fgco2_glob_corr_cum)
+
+RECCAP2_fgco2_glob_all_annual_cum_1994_mod <- RECCAP2_fgco2_glob_all_annual_cum_1994_mod %>% 
+  mutate(fgco2_glob_cum = fgco2_glob_cum + 102,
+         fgco2_glob_corr_cum = fgco2_glob_corr_cum + 102) %>%
+  select(pCO2, product, fgco2_glob_cum, fgco2_glob_corr_cum)
+
+
 
 tcant_ts <- tcant_ts %>%
     filter(year != 1750)
@@ -2392,11 +2427,13 @@ tcant_ts %>%
   ggplot(aes(pCO2, tcant)) +
   geom_ribbon(aes(ymin = tcant - tcant_sd, ymax = tcant + tcant_sd), fill = "grey50",
               alpha = 0.2) +
+  geom_line(data = RECCAP2_fgco2_glob_all_annual_cum_1994_mod,
+            aes(pCO2, fgco2_glob_corr_cum, group = product, col="Models")) +
   geom_line(data = RECCAP2_fgco2_glob_all_annual_cum_1994,
-            aes(pCO2, fgco2_glob_corr_cum, group = product, col="Surface flux products")) +
+            aes(pCO2, fgco2_glob_corr_cum, group = product, col="pCO2 observations")) +
   geom_linerange(aes(ymin = tcant - dcant_sd, ymax = tcant + dcant_sd)) +
   geom_line(aes(col = "eMLR(C*) estimate")) +
-  scale_color_manual(values = c("black", "red")) +
+  scale_color_manual(values = c("black", "red", "blue")) +
   labs(x = expression(Atmospheric~pCO[2]~(µatm)),
        y = expression(Total~oceanic~C[ant]~(PgC))) +
   theme(legend.title = element_blank(),
