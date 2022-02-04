@@ -53,34 +53,19 @@ GLODAP_preprocessed <-
 
 # Time series histogram
 
-```{r identify_G19_added_cruise_2013_2014, eval=FALSE}
-
-map +
-  geom_raster(data = GLODAP_preprocessed %>% 
-                filter(year %in% c(2013, 2014),
-                       cruise < 2000,
-                       lon > 300,
-                       lon < 350) %>% 
-                count(lat, lon, cruise),
-              aes(lon, lat, fill = as.factor(cruise))) +
-  scale_fill_brewer(palette = "Set1")
-
-```
-
-
 ```{r time_series_post_Gruber_2019, fig.asp=0.4}
 
 time_histo <- GLODAP_preprocessed %>% 
   drop_na() %>% 
   mutate(version = if_else(cruise <1000, "Gruber et al. (2019)", 
-                           "Data added"),
+                           "New observations"),
          version = if_else(cruise %in% c(1041, 1042), "Gruber et al. (2019)", version)) %>% 
   count(year, version)
 
 GLODAP_preprocessed %>% 
   drop_na() %>% 
   mutate(version = if_else(cruise <1000, "Gruber et al. (2019)", 
-                           "Data added"),
+                           "New observations"),
          version = if_else(cruise %in% c(1041, 1042), "Gruber et al. (2019)", version)) %>% 
   count(version)
 
@@ -102,13 +87,14 @@ p_time_histo_G19 <-
 
 p_time_histo_all <-
   time_histo %>%
+  mutate(version = fct_rev(version)) %>% 
   ggplot() +
   geom_col(aes(year, n, fill = version),
            col = "grey20") +
   scale_fill_manual(values = c("darkgoldenrod1", "grey70"),
                     name = "") +
   scale_x_continuous(breaks = seq(1900, 2100, 5),
-                     limits = c(1981, 2020)) +
+                     limits = c(1981, 2021)) +
   scale_y_continuous(limits = c(0, max(time_histo$n) + 500)) +
   coord_cartesian(expand = 0) +
   labs(title = "Observations per year") +
@@ -145,7 +131,7 @@ p_time_histo_all
 
 time_histo <- GLODAP_preprocessed %>% 
   filter(year >= 1989,
-         year <= 2019) %>% 
+         year <= 2020) %>% 
   count(year, basin_AIP)
 
 p_time_histo_basin <-
@@ -173,9 +159,9 @@ rm(p_time_histo_basin)
 
 
 
-# Time series histogram
+# Basin maps
 
-```{r time_series_histo}
+```{r basin_maps}
 
 MLR_basins_in <- c("1", "2", "AIP", "SO_2", "5", "SO_AIP", "SO")
 
@@ -269,8 +255,8 @@ ggsave(plot = basin_maps,
 
 GLODAP_era_grid <- GLODAP_preprocessed %>% 
   mutate(era = cut(year,
-                   c(1989, 2000, 2010, 2020),
-                   labels = c("1989 - 1999", "2000 - 2009", "2010 - 2019"),
+                   c(1989, 2000, 2010, 2021),
+                   labels = c("1989 - 1999", "2000 - 2009", "2010 - 2020"),
                    right = FALSE)) %>% 
   group_by(lon, lat, era) %>% 
   summarise(year_max = max(year),
@@ -292,11 +278,7 @@ coverage_map <-
 coverage_map
 
 
-ggsave(plot = coverage_map,
-       path = here::here("output/publication"),
-       filename = "FigS_coverage_map_observations.png",
-       height = 4,
-       width = 7)
+
 
 
 ```

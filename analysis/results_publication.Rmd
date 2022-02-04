@@ -839,6 +839,51 @@ dcant_zonal_bias_all <- full_join(dcant_zonal_bias_all,
 
 ```
 
+## Observations coverage
+
+```{r read_coverage_grid_files}
+
+
+for (i_Version_IDs in Version_IDs) {
+  path_version_data     <-
+    paste(path_observations,
+          i_Version_IDs,
+          "/data/",
+          sep = "")
+  
+  # load and join data files
+  
+  GLODAP_grid_era  <-
+    read_csv(paste(
+      path_version_data,
+      "GLODAPv2.2020_clean_obs_grid_era.csv",
+      sep = ""
+    ))
+  
+  
+  GLODAP_grid_era <- GLODAP_grid_era %>%
+    mutate(Version_ID = i_Version_IDs)
+  
+  if (exists("GLODAP_grid_era_all")) {
+    GLODAP_grid_era_all <-
+      bind_rows(GLODAP_grid_era_all, GLODAP_grid_era)
+  }
+  
+  if (!exists("GLODAP_grid_era_all")) {
+    GLODAP_grid_era_all <- GLODAP_grid_era
+  }
+  
+}
+
+rm(GLODAP_grid_era)
+
+GLODAP_grid_era_all <- full_join(GLODAP_grid_era_all,
+                                 params_local_all)
+
+```
+
+
+
 ## Atm CO2
 
 ```{r read_atm_co2}
@@ -902,6 +947,27 @@ dcant_layer_budget_label <-
   expression(Delta ~ C[ant] ~ "budget per 500m depth layer (PgC)")
 
 ```
+
+# Coverage maps
+
+```{r coverage_maps}
+
+coverage_map <- map +
+  geom_tile(data = GLODAP_grid_era_all,
+            aes(lon, lat)) +
+  facet_grid(. ~ era) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())
+
+
+ggsave(plot = coverage_map,
+       path = here::here("output/publication"),
+       filename = "FigS_coverage_map_observations.png",
+       height = 2,
+       width = 8)
+
+```
+
 
 
 # Inventory maps
