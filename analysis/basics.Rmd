@@ -78,7 +78,7 @@ p_time_histo_G19 <-
   scale_fill_manual(values = c("grey70"),
                     name = "") +
   scale_x_continuous(breaks = seq(1900, 2100, 5),
-                     limits = c(1981, 2020)) +
+                     limits = c(1981, 2021)) +
   scale_y_continuous(limits = c(0, max(time_histo$n) + 500)) +
   coord_cartesian(expand = 0) +
   labs(title = "Observations per year") +
