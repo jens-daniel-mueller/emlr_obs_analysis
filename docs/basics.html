@@ -557,7 +557,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Basics</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">01 February, 2022</h4>
+<h4 class="date">04 February, 2022</h4>
 
 </div>
 
@@ -582,7 +582,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-02-01
+<strong>Last updated:</strong> 2022-02-04
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -673,16 +673,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeafc3d83a5c23ad796539ef086d86b33a7f053e33targetblankafc3d83a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/afc3d83a5c23ad796539ef086d86b33a7f053e33" target="_blank">afc3d83</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree79a54fee5dedaf37204985896e5759bf7c225e8etargetblank79a54fea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/79a54fee5dedaf37204985896e5759bf7c225e8e" target="_blank">79a54fe</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeafc3d83a5c23ad796539ef086d86b33a7f053e33targetblankafc3d83a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree79a54fee5dedaf37204985896e5759bf7c225e8etargetblank79a54fea" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/afc3d83a5c23ad796539ef086d86b33a7f053e33" target="_blank">afc3d83</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/79a54fee5dedaf37204985896e5759bf7c225e8e" target="_blank">79a54fe</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -732,6 +732,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/79a54fee5dedaf37204985896e5759bf7c225e8e/analysis/basics.Rmd" target="_blank">79a54fe</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-02-04
+</td>
+<td>
+new coaverage map
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/accfd87d4e1484870bedf765efe40ca01543bd64/docs/basics.html" target="_blank">accfd87</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-02-01
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1262,33 +1296,24 @@ rebuildt with vif results
 </div>
 <div id="time-series-histogram" class="section level1" number="2">
 <h1><span class="header-section-number">2</span> Time series histogram</h1>
-<pre class="r"><code>map +
-  geom_raster(data = GLODAP_preprocessed %&gt;% 
-                filter(year %in% c(2013, 2014),
-                       cruise &lt; 2000,
-                       lon &gt; 300,
-                       lon &lt; 350) %&gt;% 
-                count(lat, lon, cruise),
-              aes(lon, lat, fill = as.factor(cruise))) +
-  scale_fill_brewer(palette = &quot;Set1&quot;)</code></pre>
 <pre class="r"><code>time_histo &lt;- GLODAP_preprocessed %&gt;% 
   drop_na() %&gt;% 
   mutate(version = if_else(cruise &lt;1000, &quot;Gruber et al. (2019)&quot;, 
-                           &quot;Data added&quot;),
+                           &quot;New observations&quot;),
          version = if_else(cruise %in% c(1041, 1042), &quot;Gruber et al. (2019)&quot;, version)) %&gt;% 
   count(year, version)
 
 GLODAP_preprocessed %&gt;% 
   drop_na() %&gt;% 
   mutate(version = if_else(cruise &lt;1000, &quot;Gruber et al. (2019)&quot;, 
-                           &quot;Data added&quot;),
+                           &quot;New observations&quot;),
          version = if_else(cruise %in% c(1041, 1042), &quot;Gruber et al. (2019)&quot;, version)) %&gt;% 
   count(version)</code></pre>
 <pre><code># A tibble: 2 × 2
   version                   n
   &lt;chr&gt;                 &lt;int&gt;
-1 Data added            92136
-2 Gruber et al. (2019) 221034</code></pre>
+1 Gruber et al. (2019) 221034
+2 New observations      92136</code></pre>
 <pre class="r"><code>p_time_histo_G19 &lt;-
   time_histo %&gt;%
   filter(version == &quot;Gruber et al. (2019)&quot;) %&gt;% 
@@ -1307,13 +1332,14 @@ GLODAP_preprocessed %&gt;%
 
 p_time_histo_all &lt;-
   time_histo %&gt;%
+  mutate(version = fct_rev(version)) %&gt;% 
   ggplot() +
   geom_col(aes(year, n, fill = version),
            col = &quot;grey20&quot;) +
   scale_fill_manual(values = c(&quot;darkgoldenrod1&quot;, &quot;grey70&quot;),
                     name = &quot;&quot;) +
   scale_x_continuous(breaks = seq(1900, 2100, 5),
-                     limits = c(1981, 2020)) +
+                     limits = c(1981, 2021)) +
   scale_y_continuous(limits = c(0, max(time_histo$n) + 500)) +
   coord_cartesian(expand = 0) +
   labs(title = &quot;Observations per year&quot;) +
@@ -1461,7 +1487,7 @@ p_time_histo_all
 )</code></pre>
 <pre class="r"><code>time_histo &lt;- GLODAP_preprocessed %&gt;% 
   filter(year &gt;= 1989,
-         year &lt;= 2019) %&gt;% 
+         year &lt;= 2020) %&gt;% 
   count(year, basin_AIP)
 
 p_time_histo_basin &lt;-
@@ -1532,8 +1558,8 @@ jens-daniel-mueller
 
 rm(p_time_histo_basin)</code></pre>
 </div>
-<div id="time-series-histogram-1" class="section level1" number="3">
-<h1><span class="header-section-number">3</span> Time series histogram</h1>
+<div id="basin-maps" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Basin maps</h1>
 <pre class="r"><code>MLR_basins_in &lt;- c(&quot;1&quot;, &quot;2&quot;, &quot;AIP&quot;, &quot;SO_2&quot;, &quot;5&quot;, &quot;SO_AIP&quot;, &quot;SO&quot;)
 
 basinmask &lt;- basinmask %&gt;%
@@ -1555,66 +1581,7 @@ basin_maps &lt;-
         axis.ticks = element_blank())
 
 basin_maps</code></pre>
-<p><img src="figure/basics.Rmd/time_series_histo-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-time_series_histo-1">
-Past versions of time_series_histo-1.png
-</button>
-</p>
-<div id="fig-time_series_histo-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e1743e74cc2cd46e5d212c25423130bbd61d222a/docs/figure/basics.Rmd/time_series_histo-1.png" target="_blank">e1743e7</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-11-03
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ae935655171dacbc390bc3e3cb6cb651f716b450/docs/figure/basics.Rmd/time_series_histo-1.png" target="_blank">ae93565</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-29
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/0573621298d48f093cb510f5480c33616920cf55/docs/figure/basics.Rmd/time_series_histo-1.png" target="_blank">0573621</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2021-09-29
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/basics.Rmd/basin_maps-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>ggsave(plot = basin_maps,
        path = here::here(&quot;output/publication&quot;),
        filename = &quot;FigS_basin_masks.png&quot;,
@@ -1664,6 +1631,43 @@ basin_maps &lt;-
 
 basin_maps</code></pre>
 <p><img src="figure/basics.Rmd/5_basin_map-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-5_basin_map-1">
+Past versions of 5_basin_map-1.png
+</button>
+</p>
+<div id="fig-5_basin_map-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/accfd87d4e1484870bedf765efe40ca01543bd64/docs/figure/basics.Rmd/5_basin_map-1.png" target="_blank">accfd87</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-02-01
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>ggsave(plot = basin_maps,
        path = here::here(&quot;output/publication&quot;),
        filename = &quot;FigS_basin_mask_5.png&quot;,
@@ -1674,8 +1678,8 @@ basin_maps</code></pre>
 <h1><span class="header-section-number">4</span> coverage maps</h1>
 <pre class="r"><code>GLODAP_era_grid &lt;- GLODAP_preprocessed %&gt;% 
   mutate(era = cut(year,
-                   c(1989, 2000, 2010, 2020),
-                   labels = c(&quot;1989 - 1999&quot;, &quot;2000 - 2009&quot;, &quot;2010 - 2019&quot;),
+                   c(1989, 2000, 2010, 2021),
+                   labels = c(&quot;1989 - 1999&quot;, &quot;2000 - 2009&quot;, &quot;2010 - 2020&quot;),
                    right = FALSE)) %&gt;% 
   group_by(lon, lat, era) %&gt;% 
   summarise(year_max = max(year),
@@ -1744,11 +1748,6 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
-<pre class="r"><code>ggsave(plot = coverage_map,
-       path = here::here(&quot;output/publication&quot;),
-       filename = &quot;FigS_coverage_map_observations.png&quot;,
-       height = 4,
-       width = 7)</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
