@@ -893,6 +893,11 @@ co2_atm <-
                  "co2_atm.csv",
                  sep = ""))
 
+co2_atm_reccap2 <-
+  read_csv(paste(path_preprocessing,
+                  "co2_atm_reccap2.csv",
+                  sep = ""))
+
 ```
 
 ## Sabine total Cant
@@ -2028,7 +2033,7 @@ g2 +
 ```
 
 
-```{r budgets_basins_hemisphere_alluvial_order_basin_scaled_incl_sabine_uncertainty, fig.asp=0.8}
+```{r budgets_basins_hemisphere_alluvial_order_basin_scaled_incl_sabine_uncertainty, fig.asp=0.9}
 
 g2 <- dcant_budget_basin_MLR_all_plot %>%
   ggplot(aes(
@@ -2403,7 +2408,7 @@ dcant_budget_layer %>%
 
 ## eMLR only
 
-```{r mean_tcant_over_atm_co2, fig.asp=0.6}
+```{r mean_tcant_over_time, fig.asp=0.6}
 
 dcant_budget_global_ts <- dcant_budget_global_all %>% 
   filter(data_source == "obs",
@@ -2430,24 +2435,76 @@ tcant_ts <- tcant_ts %>%
   mutate(tcant = cumsum(dcant_mean),
          tcant_sd = cumsum(dcant_sd))
 
+beta <- 1.32
+co2_atm_pi_value <- 277
+tCant_col <- "red"
+
+tcant_ts %>%
+  ggplot(aes(year, (tcant / beta + co2_atm_pi_value))) +
+  # geom_hline(yintercept = co2_atm_pi_value, col=tCant_col) +
+  geom_line(data = co2_atm_reccap2 %>% filter(year > 1740),
+            aes(year, pCO2)) +
+  geom_point(fill = tCant_col, shape = 21, size = 5) +
+  geom_text(aes(label = year), nudge_x = -10, nudge_y = 3) +
+  scale_y_continuous(name = expression(Atm. ~ pCO[2] ~ (µatm)),
+                     sec.axis = sec_axis(~ (. - 278) * beta,
+                                         name = expression(Total ~ oceanic ~ C[ant] ~ (PgC)))) +
+  scale_x_continuous(name = "Year", breaks = seq(1750, 2000, 50)) +
+  theme(
+    axis.title.y.right = element_text(color = tCant_col),
+    axis.text.y.right = element_text(color = tCant_col)
+  )
+
+# ggsave(path = "output/publication",
+#        filename = "Fig_global_dcant_budget_vs_atm_pCO2.png",
+#        height = 4,
+#        width = 7)
+
+```
+
+```{r mean_tcant_over_atm_co2, fig.asp=0.6}
+
+dcant_uncert_2004 <- tcant_ts %>%
+  filter(year %in% c(1994, 2004)) %>% 
+  mutate(dcant_sd = if_else(year == 1994, 0, dcant_sd),
+         period = "1994 - 2004")
+
+dcant_uncert_2014 <- tcant_ts %>%
+  filter(year %in% c(2004, 2014)) %>% 
+  mutate(dcant_sd = if_else(year == 2004, 0, dcant_sd),
+         period = "2004 - 2014")
+
+dcant_uncert_ind <- bind_rows(
+  dcant_uncert_2004,
+  dcant_uncert_2014
+)
+
+dcant_uncert_2014_combined <-
+  tcant_ts %>%
+  filter(year %in% c(1994, 2004, 2014)) %>% 
+  mutate(dcant_sd = if_else(year == 1994, 0, dcant_sd),
+         dcant_sd_combined = sqrt(dcant_sd^2 + lag(dcant_sd, default = 0)^2),
+         period = "1994 - 2014")
 
 tcant_ts %>% 
   ggplot(aes(pCO2, tcant)) +
-  geom_ribbon(aes(ymin = tcant - tcant_sd, ymax = tcant + tcant_sd, fill = "cummulative\nuncertainty"),
-              alpha = 0.2) +
+  geom_ribbon(aes(ymin = tcant - tcant_sd, ymax = tcant + tcant_sd, fill = "1750 - 2014"),
+              alpha = 0.5) +
+  geom_ribbon(data = dcant_uncert_2014_combined,
+              aes(ymin = tcant - dcant_sd_combined, ymax = tcant + dcant_sd_combined, fill = "1994 - 2014"),
+              alpha = 0.5) +
   geom_linerange(aes(ymin = tcant - dcant_sd, ymax = tcant + dcant_sd, col = "interval\nuncertainty")) +
   geom_line() +
   scale_x_continuous(breaks = seq(280, 400, 30)
                      # sec.axis = dup_axis(labels =  c(1750, 1940, 1980, 2000, 2015),
                      #                     name = "Year")
                      ) +
-  scale_fill_grey() +
-  scale_color_manual(values = "black") +
+  scale_fill_manual(values = c("grey60", "grey30"), name = "Cumulative\nuncertainty") +
+  scale_color_manual(values = "black", name = "") +
   geom_text(aes(label = year), nudge_x = -6, nudge_y = 5) +
   labs(x = expression(Atmospheric~pCO[2]~(µatm)),
        y = expression(Total~oceanic~C[ant]~(PgC))) +
-  theme(legend.title = element_blank(),
-        legend.background = element_rect(fill = "transparent"),
+  theme(legend.background = element_rect(fill = "transparent"),
         legend.position=c(0.85, 0.2))
 
 # ggsave(path = "output/publication",
@@ -2515,25 +2572,36 @@ RECCAP2_fgco2_glob_all_annual_cum_1994_mod <- RECCAP2_fgco2_glob_all_annual_cum_
 
 
 tcant_ts <- tcant_ts %>%
-    filter(year != 1750)
+  filter(year != 1750) %>% 
+  mutate(dcant_sd = if_else(year == 1994,0,dcant_sd))
 
 
-tcant_ts %>% 
+tcant_ts %>%
   ggplot(aes(pCO2, tcant)) +
-  geom_ribbon(aes(ymin = tcant - tcant_sd, ymax = tcant + tcant_sd), fill = "grey50",
-              alpha = 0.2) +
+  geom_ribbon(
+    data = dcant_uncert_2014_combined,
+    aes(
+      ymin = tcant - dcant_sd_combined,
+      ymax = tcant + dcant_sd_combined,
+      fill = "1994 - 2014"
+    ),
+    alpha = 0.5
+  ) +
   geom_line(data = RECCAP2_fgco2_glob_all_annual_cum_1994_mod,
-            aes(pCO2, fgco2_glob_corr_cum, group = product, col="Models")) +
+            aes(pCO2, fgco2_glob_corr_cum, group = product, col = "Models")) +
   geom_line(data = RECCAP2_fgco2_glob_all_annual_cum_1994,
-            aes(pCO2, fgco2_glob_corr_cum, group = product, col="pCO2 observations")) +
+            aes(pCO2, fgco2_glob_corr_cum, group = product, col = "pCO2 observations")) +
   geom_linerange(aes(ymin = tcant - dcant_sd, ymax = tcant + dcant_sd)) +
   geom_line(aes(col = "eMLR(C*) estimate")) +
-  scale_color_manual(values = c("black", "red", "blue")) +
-  labs(x = expression(Atmospheric~pCO[2]~(µatm)),
-       y = expression(Total~oceanic~C[ant]~(PgC))) +
-  theme(legend.title = element_blank(),
-        legend.background = element_rect(fill = "transparent"),
-        legend.position=c(0.85, 0.2))
+  scale_color_manual(values = c("black", "red", "blue"), name = "Data source") +
+    scale_fill_manual(values = c("grey60", "grey30"), name = "Cumulative\nuncertainty") +
+  labs(x = expression(Atmospheric ~ pCO[2] ~ (µatm)),
+       y = expression(Total ~ oceanic ~ C[ant] ~ (PgC))) +
+  theme(
+    legend.background = element_rect(fill = "transparent"),
+    legend.position = c(0.85, 0.2)
+  )
+
 
 # ggsave(path = "output/publication",
 #        filename = "Fig_global_dcant_budget_vs_atm_pCO2.png",
