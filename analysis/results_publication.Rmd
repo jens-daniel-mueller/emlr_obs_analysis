@@ -2081,11 +2081,9 @@ budget_layer_basin <- budget_basin %>%
 
 uncertainty_basin <- 
   dcant_budget_basin_MLR_all_plot %>% 
-  
   mutate(x = fct_recode(period,
                         "2" = "1994 - 2004",
-                        "3" = "2004 - 2014"),
-         x = ) %>% 
+                        "3" = "2004 - 2014")) %>% 
   select(x, alluvium = basin, dcant_sd_scaled) %>% 
   drop_na() %>% 
   arrange(x, alluvium)
@@ -2437,32 +2435,34 @@ tcant_ts <- tcant_ts %>%
 
 beta <- 1.32
 co2_atm_pi_value <- 277
-tCant_col <- "red"
+tCant_col <- "#56B4E9"
 
-tcant_ts %>%
+p_tcant_year <- tcant_ts %>%
   ggplot(aes(year, (tcant / beta + co2_atm_pi_value))) +
   # geom_hline(yintercept = co2_atm_pi_value, col=tCant_col) +
   geom_line(data = co2_atm_reccap2 %>% filter(year > 1740),
-            aes(year, pCO2)) +
-  geom_point(fill = tCant_col, shape = 21, size = 5) +
-  geom_text(aes(label = year), nudge_x = -10, nudge_y = 3) +
+            aes(year, pCO2), col = tCant_col) +
+  geom_point(fill = "white", shape = 21) +
+  geom_text(aes(label = year), nudge_x = -13, nudge_y = 5) +
   scale_y_continuous(name = expression(Atm. ~ pCO[2] ~ (µatm)),
                      sec.axis = sec_axis(~ (. - 278) * beta,
                                          name = expression(Total ~ oceanic ~ C[ant] ~ (PgC)))) +
   scale_x_continuous(name = "Year", breaks = seq(1750, 2000, 50)) +
   theme(
-    axis.title.y.right = element_text(color = tCant_col),
-    axis.text.y.right = element_text(color = tCant_col)
+    axis.title.y.left = element_text(color = tCant_col),
+    axis.text.y.left = element_text(color = tCant_col)
   )
 
-# ggsave(path = "output/publication",
+# p_tcant_year
+
+# ggsave(path = here::here("output/publication"),
 #        filename = "Fig_global_dcant_budget_vs_atm_pCO2.png",
 #        height = 4,
 #        width = 7)
 
 ```
 
-```{r mean_tcant_over_atm_co2, fig.asp=0.6}
+```{r mean_tcant_over_atm_co2, fig.asp=1}
 
 dcant_uncert_2004 <- tcant_ts %>%
   filter(year %in% c(1994, 2004)) %>% 
@@ -2486,15 +2486,16 @@ dcant_uncert_2014_combined <-
          dcant_sd_combined = sqrt(dcant_sd^2 + lag(dcant_sd, default = 0)^2),
          period = "1994 - 2014")
 
-tcant_ts %>% 
+p_tcant_atm_co2 <- tcant_ts %>% 
   ggplot(aes(pCO2, tcant)) +
   geom_ribbon(aes(ymin = tcant - tcant_sd, ymax = tcant + tcant_sd, fill = "1750 - 2014"),
               alpha = 0.5) +
   geom_ribbon(data = dcant_uncert_2014_combined,
               aes(ymin = tcant - dcant_sd_combined, ymax = tcant + dcant_sd_combined, fill = "1994 - 2014"),
               alpha = 0.5) +
-  geom_linerange(aes(ymin = tcant - dcant_sd, ymax = tcant + dcant_sd, col = "interval\nuncertainty")) +
+  # geom_linerange(aes(ymin = tcant - dcant_sd, ymax = tcant + dcant_sd, col = "interval\nuncertainty")) +
   geom_line() +
+  geom_point(shape = 21, fill = "white") +
   scale_x_continuous(breaks = seq(280, 400, 30)
                      # sec.axis = dup_axis(labels =  c(1750, 1940, 1980, 2000, 2015),
                      #                     name = "Year")
@@ -2507,10 +2508,12 @@ tcant_ts %>%
   theme(legend.background = element_rect(fill = "transparent"),
         legend.position=c(0.85, 0.2))
 
-# ggsave(path = "output/publication",
-#        filename = "Fig_global_dcant_budget_vs_atm_pCO2.png",
-#        height = 4,
-#        width = 7)
+p_tcant_year / p_tcant_atm_co2
+
+ggsave(path = here::here("output/publication"),
+       filename = "Fig_global_dcant_budget_vs_atm_pCO2.png",
+       height = 7,
+       width = 7)
 
 ```
 
@@ -2571,12 +2574,12 @@ RECCAP2_fgco2_glob_all_annual_cum_1994_mod <- RECCAP2_fgco2_glob_all_annual_cum_
 
 
 
-tcant_ts <- tcant_ts %>%
+tcant_ts_zoom <- tcant_ts %>%
   filter(year != 1750) %>% 
   mutate(dcant_sd = if_else(year == 1994,0,dcant_sd))
 
 
-tcant_ts %>%
+tcant_ts_zoom %>%
   ggplot(aes(pCO2, tcant)) +
   geom_ribbon(
     data = dcant_uncert_2014_combined,
@@ -2591,22 +2594,28 @@ tcant_ts %>%
             aes(pCO2, fgco2_glob_corr_cum, group = product, col = "Models")) +
   geom_line(data = RECCAP2_fgco2_glob_all_annual_cum_1994,
             aes(pCO2, fgco2_glob_corr_cum, group = product, col = "pCO2 observations")) +
-  geom_linerange(aes(ymin = tcant - dcant_sd, ymax = tcant + dcant_sd)) +
   geom_line(aes(col = "eMLR(C*) estimate")) +
-  scale_color_manual(values = c("black", "red", "blue"), name = "Data source") +
-    scale_fill_manual(values = c("grey60", "grey30"), name = "Cumulative\nuncertainty") +
+  geom_point(shape = 21, fill = "white") +
+  geom_text(aes(label = year), nudge_x = -3, nudge_y = 3) +
+  scale_color_manual(values = c("black", "#E69F00", "#56B4E9"),
+                     name = "Data source") +
+  scale_fill_manual(values = c("grey60", "grey30"), name = "Cumulative\nuncertainty") +
+  scale_x_continuous(limits = c(NA, 409)) +
   labs(x = expression(Atmospheric ~ pCO[2] ~ (µatm)),
        y = expression(Total ~ oceanic ~ C[ant] ~ (PgC))) +
+  guides(colour = guide_legend(order = 2),
+         fill = guide_legend(order = 1)) +
   theme(
     legend.background = element_rect(fill = "transparent"),
-    legend.position = c(0.85, 0.2)
+    legend.position = c(0.75, 0.2),
+    legend.box = "horizontal"
   )
 
 
-# ggsave(path = "output/publication",
-#        filename = "Fig_global_dcant_budget_vs_atm_pCO2.png",
-#        height = 4,
-#        width = 7)
+ggsave(path = here::here("output/publication"),
+       filename = "Fig_global_dcant_budget_vs_atm_pCO2_RECCAP2.png",
+       height = 4,
+       width = 7)
 
 ```
 
