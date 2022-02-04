@@ -2028,7 +2028,7 @@ g2 +
 ```
 
 
-```{r budgets_basins_hemisphere_alluvial_order_basin_scaled_incl_sabine_uncertainty}
+```{r budgets_basins_hemisphere_alluvial_order_basin_scaled_incl_sabine_uncertainty, fig.asp=0.8}
 
 g2 <- dcant_budget_basin_MLR_all_plot %>%
   ggplot(aes(
