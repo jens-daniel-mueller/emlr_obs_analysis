@@ -2095,9 +2095,9 @@ uncertainty_layer_basin <- bind_cols(
   uncertainty_basin %>% select(dcant_sd_scaled),
 )
 
-uncertainty_layer_basin <- uncertainty_layer_basin %>% 
-  mutate(dcant_sd_scaled = as.character(round(dcant_sd_scaled,2)),
-         dcant_sd_scaled = paste0("±",dcant_sd_scaled))
+# uncertainty_layer_basin <- uncertainty_layer_basin %>% 
+#   mutate(dcant_sd_scaled = as.character(round(dcant_sd_scaled,2)),
+#          dcant_sd_scaled = paste0("±",dcant_sd_scaled))
 
 # construct change labels
 
@@ -2106,7 +2106,8 @@ change_basin <-
   select(x, alluvium, count) %>% 
   group_by(alluvium) %>% 
   arrange(x) %>% 
-  mutate(dcant_change = round(100*(count - lag(count)) / lag(count))) %>% 
+  mutate(dcant_change_abs = count - lag(count),
+         dcant_change = round(100*(dcant_change_abs) / lag(count))) %>% 
   ungroup()
 
 coord_basin <- newdat %>%
@@ -2122,7 +2123,7 @@ new_layer_basin <- new_layer_basin %>%
          dcant_change = if_else(str_detect(dcant_change, "-"),
                                 dcant_change,
                                 paste0("+", dcant_change)),
-         dcant_change = paste(dcant_change, "%"))
+         dcant_change = paste0(dcant_change, "%"))
 
 # construct global budget labels
 
@@ -2143,29 +2144,57 @@ new_layer_total <- bind_cols(new_layer_total, dcant_sd_scaled = dcant_sd_scaled)
 
 new_layer_total <- new_layer_total %>% 
   mutate(y = dcant_change,
+         dcant_sd_scaled_rel = round(100 * dcant_sd_scaled/dcant_change),
          dcant_change = as.character(round(dcant_change,2)),
-         dcant_change = paste0(dcant_change, "\n±", dcant_sd_scaled))
+         dcant_sd_scaled = round(dcant_sd_scaled,1),
+         dcant_change = paste0(dcant_change, "\n(±", dcant_sd_scaled, ")"))
+
+# basin change + uncertainty
+
+budget_layer_basin <- full_join(budget_layer_basin,
+                                uncertainty_layer_basin)
+
+budget_layer_basin <- 
+  budget_layer_basin %>% 
+  mutate(dcant_sd_scaled_rel = 100*dcant_sd_scaled/count,
+         dcant_sd_scaled_rel = as.character(round(dcant_sd_scaled_rel)),
+         dcant_sd_scaled_numeric = dcant_sd_scaled,
+         dcant_sd_scaled = round(dcant_sd_scaled, 2),
+         dcant_sd_scaled = paste0("(±", dcant_sd_scaled, ")"),
+         dcant_label = if_else(dcant_sd_scaled != "(±NA)",
+                               paste0(dcant, "\n", dcant_sd_scaled),
+                               dcant))
+
+
+# uncertainty changes
+
+uncertainty_changes <- budget_layer_basin %>% 
+  select(x, alluvium, dcant_sd_scaled = dcant_sd_scaled_numeric) %>% 
+  group_by(alluvium) %>% 
+  mutate(dcant_change_uncert = sqrt(dcant_sd_scaled^2 + lag(dcant_sd_scaled)^2)) %>% 
+  ungroup()
+
+
+new_layer_basin <- left_join(new_layer_basin, uncertainty_changes) %>% 
+  mutate(dcant_change_uncert_rel = 100*dcant_change_uncert/abs((count + lag(count))/2),
+         dcant_change_label = if_else(!is.na(dcant_change_uncert),
+                                      paste0(dcant_change, "\n(±", round(dcant_change_uncert_rel), "%)"),
+                                      dcant_change))
+
 
 g2 +
   geom_text(data = budget_layer_basin,
             aes(
               x = x,
-              y = y + 0.03,
-              label = dcant
-            ),
-            inherit.aes = FALSE) +
-  geom_text(data = uncertainty_layer_basin,
-            aes(
-              x = x,
-              y = y - 0.03,
-              label = dcant_sd_scaled
+              y = y,
+              label = dcant_label
             ),
             inherit.aes = FALSE) +
   geom_text(data = new_layer_basin,
             aes(
               x = x - 0.3,
               y = y,
-              label = dcant_change
+              label = dcant_change_label
             ),
             inherit.aes = FALSE) +
   geom_label(data = new_layer_total,
