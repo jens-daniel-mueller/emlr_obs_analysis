@@ -2698,7 +2698,7 @@ ggsave(path = here::here("output/publication"),
 RECCAP2_fgco2_glob_all_annual_cum_1994 <- RECCAP2_fgco2_glob_all_annual_obs %>%
   filter(year >= 1994, year <= 2018) %>%
   mutate(fgco2_glob = if_else(year == 1994, 0, fgco2_glob),
-         fgco2_glob_corr = 1.1*fgco2_glob + 0.62) %>% 
+         fgco2_glob_corr = fgco2_glob + 0.62 + 0.12) %>% 
   arrange(year) %>%
   group_by(product) %>%
   mutate(fgco2_glob_cum = cumsum(fgco2_glob),
