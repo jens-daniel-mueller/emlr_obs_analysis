@@ -2530,6 +2530,10 @@ dcant_budget_global_ts <- dcant_budget_global_all %>%
 dcant_budget_global_ts <- dcant_budget_global_ts %>% 
   mutate(dcant_mean = dcant_mean * dcant_scaling)
 
+dcant_budget_global_all_ensemble_summary <-
+  dcant_budget_global_all_ensemble_summary %>%
+  mutate(dcant_sd = dcant_sd * dcant_scaling)
+
 
 dcant_budget_global_ts <- left_join(dcant_budget_global_ts,
                                     dcant_budget_global_all_ensemble_summary %>% 
@@ -2551,7 +2555,7 @@ tcant_ts <- tcant_ts %>%
   mutate(tcant = cumsum(dcant_mean),
          tcant_sd = cumsum(dcant_sd))
 
-beta <- 1.35
+beta <- 1.5
 co2_atm_pi_value <- 277
 tCant_col <- "#56B4E9"
 
