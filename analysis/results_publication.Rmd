@@ -918,13 +918,13 @@ tcant_inv <- tcant_inv %>%
 
 ```
 
-## RECCAP2-ocean flux products
+## Surface flux products
 
 ```{r read_RECCAP2_flux_products_observations}
 
 RECCAP2_fgco2_glob_all_annual_obs <-
   read_csv(paste0(path_preprocessing,
-                   "RECCAP2_fgco2_glob_all_annual.csv"))
+                   "fgco2_glob_RECCAP2_all_annual.csv"))
 
 ```
 
@@ -936,6 +936,14 @@ RECCAP2_fgco2_glob_all_annual_mod <-
 
 ```
 
+
+```{r read_SeaFlux_flux_products_observations}
+
+SeaFlux_fgco2_glob_all_annual_obs <-
+  read_csv(paste0(path_preprocessing,
+                   "fgco2_glob_Seaflux_annual.csv"))
+
+```
 
 
 # Define labels
@@ -2684,12 +2692,13 @@ ggsave(path = here::here("output/publication"),
 
 ## incl fluxes
 
-```{r mean_tcant_over_atm_co2_incl_fluxes, fig.asp=0.6}
+```{r RECCAP2_fluxes}
+
 
 RECCAP2_fgco2_glob_all_annual_cum_1994 <- RECCAP2_fgco2_glob_all_annual_obs %>%
   filter(year >= 1994, year <= 2018) %>%
   mutate(fgco2_glob = if_else(year == 1994, 0, fgco2_glob),
-         fgco2_glob_corr = fgco2_glob + 0.62) %>% 
+         fgco2_glob_corr = 1.1*fgco2_glob + 0.62) %>% 
   arrange(year) %>%
   group_by(product) %>%
   mutate(fgco2_glob_cum = cumsum(fgco2_glob),
@@ -2701,7 +2710,7 @@ left_join(RECCAP2_fgco2_glob_all_annual_cum_1994,
           co2_atm) 
 
 RECCAP2_fgco2_glob_all_annual_cum_1994 %>%
-  ggplot(aes(pCO2, fgco2_glob_cum, col = product)) +
+  ggplot(aes(pCO2, fgco2_glob_corr_cum, col = product)) +
   geom_line() +
   geom_point(shape = 21, fill = "white") +
   theme(legend.position = "bottom")
@@ -2721,7 +2730,7 @@ left_join(RECCAP2_fgco2_glob_all_annual_cum_1994_mod,
           co2_atm) 
 
 RECCAP2_fgco2_glob_all_annual_cum_1994_mod %>%
-  ggplot(aes(pCO2, fgco2_glob_cum, col = product)) +
+  ggplot(aes(pCO2, fgco2_glob_corr_cum, col = product)) +
   geom_line() +
   geom_point(shape = 21, fill = "white") +
   theme(legend.position = "bottom")
@@ -2737,6 +2746,43 @@ RECCAP2_fgco2_glob_all_annual_cum_1994_mod <- RECCAP2_fgco2_glob_all_annual_cum_
   select(pCO2, product, fgco2_glob_cum, fgco2_glob_corr_cum)
 
 
+```
+
+```{r SeaFlux_fluxes}
+
+
+SeaFlux_fgco2_glob_all_annual_cum_1994 <- SeaFlux_fgco2_glob_all_annual_obs %>%
+  filter(year >= 1994, year <= 2018) %>%
+  mutate(fgco2_glob = if_else(year == 1994, 0, fgco2_glob),
+         fgco2_glob_corr = fgco2_glob + 0.62) %>% 
+  arrange(year) %>%
+  group_by(product) %>%
+  mutate(fgco2_glob_cum = cumsum(fgco2_glob),
+         fgco2_glob_corr_cum = cumsum(fgco2_glob_corr)) %>%
+  ungroup()
+
+SeaFlux_fgco2_glob_all_annual_cum_1994 <-
+left_join(SeaFlux_fgco2_glob_all_annual_cum_1994,
+          co2_atm) 
+
+SeaFlux_fgco2_glob_all_annual_cum_1994 %>%
+  ggplot(aes(pCO2, fgco2_glob_corr_cum, col = product)) +
+  geom_line() +
+  geom_point(shape = 21, fill = "white") +
+  theme(legend.position = "bottom")
+
+
+SeaFlux_fgco2_glob_all_annual_cum_1994 <- SeaFlux_fgco2_glob_all_annual_cum_1994 %>% 
+  mutate(fgco2_glob_cum = fgco2_glob_cum + 118,
+         fgco2_glob_corr_cum = fgco2_glob_corr_cum + 118) %>%
+  select(pCO2, product, fgco2_glob_cum, fgco2_glob_corr_cum)
+
+
+```
+
+
+
+```{r mean_tcant_over_atm_co2_incl_fluxes, fig.asp=0.6}
 
 tcant_ts_zoom <- tcant_ts %>%
   filter(year != 1750) %>% 
@@ -2756,17 +2802,21 @@ tcant_ts_zoom %>%
   ) +
   geom_line(data = RECCAP2_fgco2_glob_all_annual_cum_1994_mod,
             aes(pCO2, fgco2_glob_corr_cum, group = product, col = "Models")) +
-  geom_line(data = RECCAP2_fgco2_glob_all_annual_cum_1994 %>%
-              filter(product != "UOEX_Wat20_1985_2019_v20211204"),
-            aes(pCO2, fgco2_glob_corr_cum, group = product, col = "pCO2 observations")) +
+  # geom_line(data = RECCAP2_fgco2_glob_all_annual_cum_1994 %>%
+  #             filter(product != "UOEX_Wat20_1985_2019_v20211204"),
+  #           aes(pCO2, fgco2_glob_corr_cum, group = product, col = "1.1 x RECCAP2 flux")) +
   geom_line(data = RECCAP2_fgco2_glob_all_annual_cum_1994 %>%
               filter(product == "UOEX_Wat20_1985_2019_v20211204"),
-            aes(pCO2, fgco2_glob_corr_cum, group = product, col = "pCO2 observations"),
+            aes(pCO2, fgco2_glob_corr_cum, group = product, col = "Watson x 1.1"),
             linetype = 2) +
+  geom_line(data = SeaFlux_fgco2_glob_all_annual_cum_1994,
+            aes(pCO2, fgco2_glob_corr_cum, group = product, col = "SeaFlux")) +
   geom_line(aes(col = "eMLR(C*) estimate")) +
-  geom_point(shape = 21, fill = "white") +
+  geom_point(aes(col = "eMLR(C*) estimate"),
+             shape = 21, fill = "white") +
   geom_text(aes(label = year), nudge_x = -3, nudge_y = 3) +
-  scale_color_manual(values = c("black", "#E69F00", "#56B4E9"),
+  scale_color_brewer(palette = "Set1",
+    #values = c("black", "#E69F00", "#56B4E9"),
                      name = "Data source") +
   scale_fill_manual(values = c("grey60", "grey30"), name = "Cumulative\nuncertainty") +
   scale_x_continuous(limits = c(NA, 409)) +
