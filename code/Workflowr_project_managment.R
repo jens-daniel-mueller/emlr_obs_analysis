@@ -5,7 +5,7 @@
 
 
 # commit regular changes (locally) and rebuild site
-wflow_publish(all = TRUE, message = "updated plots")
+wflow_publish(all = TRUE, message = "scaled budgets to global coverage")
 
 # commit changes including _site.yml (locally) and rebuild site in the specified order
 wflow_publish(here::here(
@@ -65,3 +65,4 @@ message = "rerun with vif_max = 0.95, and layer budgets per MLR_basin")
 # Push latest version to GitHub
 wflow_git_push()
 jens-daniel-mueller
+

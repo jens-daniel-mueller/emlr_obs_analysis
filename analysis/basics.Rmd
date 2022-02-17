@@ -51,6 +51,17 @@ GLODAP_preprocessed <-
 
 ```
 
+
+```{r read_landseamask_file}
+# land sea mask
+landseamask <-
+  read_csv(paste(path_files,
+                  "land_sea_mask_WOA18.csv",
+                  sep = ""))
+
+```
+
+
 # Time series histogram
 
 ```{r time_series_post_Gruber_2019, fig.asp=0.4}
@@ -161,6 +172,8 @@ rm(p_time_histo_basin)
 
 # Basin maps
 
+## MLR basins
+
 ```{r basin_maps}
 
 MLR_basins_in <- c("1", "2", "AIP", "SO_2", "5", "SO_AIP", "SO")
@@ -193,6 +206,7 @@ ggsave(plot = basin_maps,
 
 ```
 
+## 5 basins
 
 ```{r 5_basin_map}
 
@@ -246,6 +260,39 @@ ggsave(plot = basin_maps,
        height = 5,
        width = 10)
 
+```
+
+## Area scaling
+
+```{r area_scaling}
+
+mapped_ocean_mask <- full_join(
+  landseamask %>% 
+    filter(region == "ocean") %>% 
+    select(lon, lat),
+  basinmask %>% 
+    select(lon, lat) %>% 
+    mutate(mapped_ocean = "1")
+) %>% 
+  mutate(mapped_ocean = replace_na(mapped_ocean, 0))
+
+
+map +
+  geom_raster(data = mapped_ocean_mask,
+              aes(lon, lat, fill = mapped_ocean)) +
+  scale_fill_brewer(palette = "Set1") +
+  theme(
+    axis.text = element_blank(),
+    axis.ticks = element_blank()
+  )
+
+mapped_ocean_mask %>% 
+  mutate(surface_area = earth_surf(lat, lon)) %>% 
+  group_by(mapped_ocean) %>% 
+  summarise(surface_area = sum(surface_area)) %>% 
+  ungroup() %>% 
+  mutate(surface_area_ratio = surface_area / lead(surface_area))
+  
 ```
 
 

@@ -1078,22 +1078,22 @@ scico_continous_palettes <- c(
   "turku"
 )
 
-
-for (i_palette in scico_continous_palettes) {
+p_test_scico <- function(df, i_palette) {
   p_reg <- map +
-    geom_tile(data = dcant_inv_all_color_test,
-              aes(lon, lat, fill = dcant_int)) +
+    geom_raster(data = df,
+                aes(lon, lat, fill = dcant_int)) +
     scale_fill_scico_d(
       palette = i_palette,
       drop = FALSE,
       name = legend_title,
       guide = "none"
     ) +
-    # guides(fill = guide_colorsteps(barheight = unit(3, "cm"))) +
-    labs(title = i_palette)
+    labs(title = i_palette) +
+    theme(axis.text = element_blank(),
+          axis.ticks = element_blank())
   
   p_rev <- map +
-    geom_tile(data = dcant_inv_all_color_test,
+    geom_raster(data = df,
               aes(lon, lat, fill = dcant_int)) +
     scale_fill_scico_d(
       palette = i_palette,
@@ -1102,37 +1102,44 @@ for (i_palette in scico_continous_palettes) {
       direction = -1,
       guide = "none"
     ) +
-    # guides(fill = guide_colorsteps(barheight = unit(3, "cm"))) +
-    labs(title = paste(i_palette, "rev"))
+    labs(title = paste(i_palette, "rev")) +
+    theme(axis.text = element_blank(),
+          axis.ticks = element_blank())
   
-  print(p_reg | p_rev)
+  p_comb <- p_reg / p_rev
   
+  return(p_comb)
 }
 
 
+all_plots_scico <- scico_continous_palettes %>% 
+  # head(1) %>% 
+  map(~p_test_scico(df = dcant_inv_all_color_test,
+                      i_palette = .x))
+
 viridis_continous_palettes <- c(
-  "civides",
+  "viridis",
   "magma",
   "inferno",
   "plasma"
 )
 
-
-for (i_palette in viridis_continous_palettes) {
+p_test_viridis <- function(df, i_palette) {
   p_reg <- map +
-    geom_tile(data = dcant_inv_all_color_test,
-              aes(lon, lat, fill = dcant_int)) +
+    geom_raster(data = df,
+                aes(lon, lat, fill = dcant_int)) +
     scale_fill_viridis_d(
       option = i_palette,
       drop = FALSE,
       name = legend_title,
       guide = "none"
     ) +
-    # guides(fill = guide_colorsteps(barheight = unit(3, "cm"))) +
-    labs(title = i_palette)
-
+    labs(title = i_palette) +
+    theme(axis.text = element_blank(),
+          axis.ticks = element_blank())
+  
   p_rev <- map +
-    geom_tile(data = dcant_inv_all_color_test,
+    geom_raster(data = df,
               aes(lon, lat, fill = dcant_int)) +
     scale_fill_viridis_d(
       option = i_palette,
@@ -1141,13 +1148,96 @@ for (i_palette in viridis_continous_palettes) {
       direction = -1,
       guide = "none"
     ) +
-    # guides(fill = guide_colorsteps(barheight = unit(3, "cm"))) +
-    labs(title = paste(i_palette, "rev"))
-
-  print(p_reg | p_rev)
-
+    labs(title = paste(i_palette, "rev")) +
+    theme(axis.text = element_blank(),
+          axis.ticks = element_blank())
+  
+  p_comb <- p_reg / p_rev
+  
+  return(p_comb)
 }
 
+all_plots_viridis <- viridis_continous_palettes %>% 
+  # head(1) %>% 
+  map(~p_test_viridis(df = dcant_inv_all_color_test,
+                      i_palette = .x))
+
+
+
+library(colorspace)
+
+colorspace_continous_palettes <- c(
+  # "Purple - Blue",
+  # "Red - Purple",
+  # "Blue - Yellow",
+  # "Heat",
+  # "Heat 2",
+  "Rocket"
+  # "Mako",
+  # "Dark",
+  # "Mint",
+  # "Mint",
+  # "BluGrn",
+  # "Teal",
+  # "Sunset",
+  # "SunsetDark",
+  # "ag_Sunset",
+  # "YlOrRd",
+  # "YlGnBu",
+  # "RdPu"
+)
+
+p_test_colorspace <- function(df, i_palette) {
+  
+  i_palette <<- i_palette
+  
+  p_reg <- map +
+    geom_raster(data = df,
+                aes(lon, lat, fill = dcant_int)) +
+    scale_fill_discrete_sequential(
+      palette = i_palette,
+      drop = FALSE,
+      name = legend_title,
+      guide = "none"
+    ) +
+    labs(title = i_palette) +
+    theme(axis.text = element_blank(),
+          axis.ticks = element_blank())
+  
+  p_rev <- map +
+    geom_raster(data = df,
+                aes(lon, lat, fill = dcant_int)) +
+    scale_fill_discrete_sequential(
+      palette = i_palette,
+      drop = FALSE,
+      name = legend_title,
+      rev = FALSE,
+      guide = "none"
+    ) +
+    labs(title = paste(i_palette, "rev")) +
+    theme(axis.text = element_blank(),
+          axis.ticks = element_blank())
+
+  p_comb <- p_reg / p_rev
+  
+  return(p_comb)
+  rm(i_palette)
+  
+}
+
+all_plots_colorspace <- colorspace_continous_palettes %>%
+  # head(2) %>%
+  map(~p_test_colorspace(df = dcant_inv_all_color_test,
+                           i_palette = .x))
+
+all_plots_colorspace
+
+all_plots <- c(all_plots_colorspace, all_plots_viridis, all_plots_scico)
+
+pdf(here::here("output/publication/test_color_scales.pdf"),
+    width = 4, height = 4)
+all_plots
+dev.off()
 
 ```
 
@@ -2409,7 +2499,26 @@ dcant_budget_layer %>%
 
 # Time series
 
+## Scale globale
+
+- Accumulation beneath 3000m: +2%
+- unmapped regions south of 65N: +1.5%
+- Nordic Seas: +1%
+- Arctic Ocean: +2%
+
+```{r scaling_factor_budgets_to_global_coverage}
+
+dcant_scaling <- 1.02*1.015*1.01*1.02
+
+
+```
+
+
+
+
 ## eMLR only
+
+
 
 ```{r mean_tcant_over_time, fig.asp=0.6}
 
@@ -2418,12 +2527,16 @@ dcant_budget_global_ts <- dcant_budget_global_all %>%
          period != "1994 - 2014") %>% 
   select(year = tref2, dcant_mean = dcant)
 
+dcant_budget_global_ts <- dcant_budget_global_ts %>% 
+  mutate(dcant_mean = dcant_mean * dcant_scaling)
+
+
 dcant_budget_global_ts <- left_join(dcant_budget_global_ts,
                                     dcant_budget_global_all_ensemble_summary %>% 
                                       select(year = tref2, dcant_sd))
 
 
-tcant_S04 <- bind_cols(year = 1994, dcant_mean = 102, dcant_sd = 19)
+tcant_S04 <- bind_cols(year = 1994, dcant_mean = 118, dcant_sd = 19)
 
 tcant_ts <- full_join(dcant_budget_global_ts, tcant_S04)
 
@@ -2438,7 +2551,7 @@ tcant_ts <- tcant_ts %>%
   mutate(tcant = cumsum(dcant_mean),
          tcant_sd = cumsum(dcant_sd))
 
-beta <- 1.32
+beta <- 1.35
 co2_atm_pi_value <- 277
 tCant_col <- "#56B4E9"
 
@@ -2610,13 +2723,13 @@ RECCAP2_fgco2_glob_all_annual_cum_1994_mod %>%
   theme(legend.position = "bottom")
 
 RECCAP2_fgco2_glob_all_annual_cum_1994 <- RECCAP2_fgco2_glob_all_annual_cum_1994 %>% 
-  mutate(fgco2_glob_cum = fgco2_glob_cum + 102,
-         fgco2_glob_corr_cum = fgco2_glob_corr_cum + 102) %>%
+  mutate(fgco2_glob_cum = fgco2_glob_cum + 118,
+         fgco2_glob_corr_cum = fgco2_glob_corr_cum + 118) %>%
   select(pCO2, product, fgco2_glob_cum, fgco2_glob_corr_cum)
 
 RECCAP2_fgco2_glob_all_annual_cum_1994_mod <- RECCAP2_fgco2_glob_all_annual_cum_1994_mod %>% 
-  mutate(fgco2_glob_cum = fgco2_glob_cum + 102,
-         fgco2_glob_corr_cum = fgco2_glob_corr_cum + 102) %>%
+  mutate(fgco2_glob_cum = fgco2_glob_cum + 118,
+         fgco2_glob_corr_cum = fgco2_glob_corr_cum + 118) %>%
   select(pCO2, product, fgco2_glob_cum, fgco2_glob_corr_cum)
 
 
