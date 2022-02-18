@@ -1037,12 +1037,12 @@ dcant_inv_all %>%
         axis.ticks = element_blank())
 
 dcant_inv_all %>%
-  p_map_cant_inv(var = "dcant_pos_scaled",
+  filter(period != "1750 - 1994") %>% 
+  p_map_cant_inv(var = "dcant_scaled",
                  breaks = c(-Inf, seq(0, 1, 0.1), Inf),) +
   facet_grid(period ~ .) +
   theme(axis.text = element_blank(),
         axis.ticks = element_blank())
-
 
 
 ```
@@ -2154,7 +2154,7 @@ g2 <- dcant_budget_basin_MLR_all_plot %>%
   )+
   scale_fill_brewer(palette = "Paired", guide = "none") +
   scale_color_brewer(palette = "Paired", guide = "none") +
-  scale_y_continuous(limits = c(0, 1.8), expand = c(0, 0)) +
+  scale_y_continuous(limits = c(0, 1.6), expand = c(0, 0)) +
   guides(y = "none") +
   labs(title = dcant_pgc_scaled_label) +
   theme_classic() +
@@ -2295,15 +2295,15 @@ g2 +
               label = dcant_change_label
             ),
             size = 4,
-            inherit.aes = FALSE) +
-  geom_label(data = new_layer_total,
-            aes(
-              x = x,
-              y = y + 0.13,
-              label = dcant_change
-            ),
-            size = 4,
             inherit.aes = FALSE)
+  # geom_label(data = new_layer_total,
+  #           aes(
+  #             x = x,
+  #             y = y + 0.13,
+  #             label = dcant_change
+  #           ),
+  #           size = 4,
+  #           inherit.aes = FALSE)
 
 
 ggsave(path = here::here("output/publication"),
@@ -2313,6 +2313,7 @@ ggsave(path = here::here("output/publication"),
 
 
 ```
+
 
 
 ## Depth layer
@@ -2807,16 +2808,15 @@ tcant_ts_zoom %>%
   #           aes(pCO2, fgco2_glob_corr_cum, group = product, col = "1.1 x RECCAP2 flux")) +
   geom_line(data = RECCAP2_fgco2_glob_all_annual_cum_1994 %>%
               filter(product == "UOEX_Wat20_1985_2019_v20211204"),
-            aes(pCO2, fgco2_glob_corr_cum, group = product, col = "Watson x 1.1"),
+            aes(pCO2, fgco2_glob_corr_cum, group = product, col = "Observation-based\nflux products"),
             linetype = 2) +
   geom_line(data = SeaFlux_fgco2_glob_all_annual_cum_1994,
-            aes(pCO2, fgco2_glob_corr_cum, group = product, col = "SeaFlux")) +
-  geom_line(aes(col = "eMLR(C*) estimate")) +
-  geom_point(aes(col = "eMLR(C*) estimate"),
+            aes(pCO2, fgco2_glob_corr_cum, group = product, col = "Observation-based\nflux products")) +
+  geom_line(aes(col = "eMLR(C*)")) +
+  geom_point(aes(col = "eMLR(C*)"),
              shape = 21, fill = "white") +
   geom_text(aes(label = year), nudge_x = -3, nudge_y = 3) +
-  scale_color_brewer(palette = "Set1",
-    #values = c("black", "#E69F00", "#56B4E9"),
+  scale_color_manual(values = c("black", "#E69F00", "#56B4E9", "pink"),
                      name = "Data source") +
   scale_fill_manual(values = c("grey60", "grey30"), name = "Cumulative\nuncertainty") +
   scale_x_continuous(limits = c(NA, 409)) +
