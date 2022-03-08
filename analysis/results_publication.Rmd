@@ -2826,14 +2826,15 @@ tcant_ts_zoom %>%
          fill = guide_legend(order = 1)) +
   theme(
     legend.background = element_rect(fill = "transparent"),
-    legend.position = c(0.75, 0.2),
+    legend.position = c(0.73, 0.25),
+    legend.box.just = "bottom",
     legend.box = "horizontal"
   )
 
 ggsave(path = here::here("output/publication"),
        filename = "Fig_global_dcant_budget_vs_atm_pCO2_RECCAP2.png",
-       height = 4,
-       width = 7)
+       height = 3.2,
+       width = 5.7)
 
 ```
 

@@ -1,0 +1,163 @@
+---
+title: "Column inventories"
+author: "Jens Daniel Müller"
+date:  "`r format(Sys.time(), '%d %B, %Y')`"
+output: 
+  workflowr::wflow_html:
+    number_sections: true
+    toc_depth: 3
+    toc_float:
+      collapsed: false
+editor_options:
+  chunk_output_type: console
+---
+
+
+```{r define_parameters}
+
+version_id_pattern <- "m"
+config <- "MLR_basins"
+
+```
+
+
+
+```{r source_read_data_child, include = FALSE}
+
+
+read <-
+  knitr::knit_expand(
+    file = here::here("analysis/child/column_inventories_analysis_read_data.Rmd"),
+    version_id_pattern = version_id_pattern,
+    config = config
+  )
+
+
+```
+
+`r knitr::knit(text = unlist(read))`
+
+
+```{r r join_data_and_meta_data, include=FALSE}
+
+
+dcant_inv_all <- full_join(dcant_inv_all,
+                           params_local_all)
+
+dcant_inv_bias_all <- full_join(dcant_inv_bias_all,
+                                params_local_all)
+
+
+dcant_budget_lat_grid_all <- full_join(dcant_budget_lat_grid_all,
+                                       params_local_all)
+
+dcant_budget_lon_grid_all <- full_join(dcant_budget_lon_grid_all,
+                                       params_local_all)
+
+```
+
+
+```{r adapt_format}
+
+dcant_budget_lat_grid_all <- dcant_budget_lat_grid_all %>%
+  pivot_wider(names_from = estimate,
+              values_from = value) %>%
+  filter(period != "1994 - 2014",
+         method == "total")
+
+dcant_budget_lon_grid_all <- dcant_budget_lon_grid_all %>%
+  pivot_wider(names_from = estimate,
+              values_from = value) %>%
+  filter(period != "1994 - 2014",
+         method == "total")
+
+
+```
+
+
+
+```{r load_libraries_specific, include = FALSE}
+library(patchwork)
+```
+
+
+# Individual cases
+
+## Absoulte values
+
+```{r cases_absolute, fig.asp=2}
+
+
+dcant_inv_all %>%
+  filter(data_source %in% c("mod", "obs")) %>%
+  p_map_cant_inv(var = "dcant") +
+  facet_grid(period ~ data_source) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())
+
+```
+
+## Biases
+
+```{r cases_bias, fig.asp=2}
+
+
+dcant_inv_bias_all %>%
+  p_map_cant_inv(var = "dcant_bias",
+                 col = "bias") +
+  facet_grid(period ~ .) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())
+
+
+  
+```
+
+
+
+### Density distribution
+
+```{r bias_density_distribution}
+
+dcant_inv_bias_all %>%
+  filter(abs(dcant_bias) < 10) %>% 
+  ggplot(aes(dcant_bias, col = period)) +
+  scale_color_brewer(palette = "Paired") +
+  geom_vline(xintercept = 0) +
+  geom_density()
+
+```
+
+
+## Lat grid budgets
+
+```{r lat_grid_budget_all, fig.asp=1}
+
+dcant_budget_lat_grid_all %>%
+  arrange(lat_grid) %>%
+  ggplot(aes(lat_grid, dcant, col = period)) +
+  geom_hline(yintercept = 0) +
+  geom_path() +
+  coord_flip() +
+  scale_color_viridis_d() +
+  facet_grid(basin_AIP ~ data_source)
+
+```
+
+## Lon grid budgets
+
+```{r lon_grid_budget_all, fig.asp=1}
+
+dcant_budget_lon_grid_all %>%
+  arrange(lon_grid) %>%
+  ggplot(aes(lon_grid, dcant, col = period)) +
+  geom_hline(yintercept = 0) +
+  geom_path() +
+  scale_color_viridis_d() +
+  facet_grid(basin_AIP ~ data_source)
+
+
+```
+
+
+

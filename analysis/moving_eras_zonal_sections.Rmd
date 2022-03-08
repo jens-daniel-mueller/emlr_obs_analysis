@@ -1,0 +1,181 @@
+---
+title: "Zonal sections"
+author: "Jens Daniel Müller"
+date:  "`r format(Sys.time(), '%d %B, %Y')`"
+output: 
+  workflowr::wflow_html:
+    number_sections: true
+    toc_depth: 3
+    toc_float:
+      collapsed: false
+editor_options:
+  chunk_output_type: console
+---
+
+```{r define_parameters}
+
+version_id_pattern <- "m"
+config <- "MLR_basins"
+
+```
+
+
+
+```{r source_read_data_child, include = FALSE}
+
+
+read <-
+  knitr::knit_expand(
+    file = here::here("analysis/child/zonal_sections_analysis_read_data.Rmd"),
+    version_id_pattern = version_id_pattern,
+    config = config
+  )
+
+
+```
+
+`r knitr::knit(text = unlist(read))`
+
+
+```{r r join_data_and_meta_data, include=FALSE}
+
+dcant_zonal_all <- full_join(dcant_zonal_all,
+                           params_local_all)
+
+dcant_profile_all <- full_join(dcant_profile_all,
+                           params_local_all)
+
+dcant_budget_basin_AIP_layer_all <-
+  full_join(dcant_budget_basin_AIP_layer_all,
+            params_local_all)
+
+dcant_zonal_bias_all <- full_join(dcant_zonal_bias_all,
+                                params_local_all)
+
+```
+
+
+# Individual cases
+
+## Absoulte values
+
+```{r cases_absolute, fig.asp=1.2}
+
+dcant_zonal_all %>%
+  group_by(basin_AIP) %>%
+  group_split() %>%
+  # head(1) %>%
+  map(
+    ~ p_section_zonal_continous_depth(
+      df = .x,
+      var = "dcant",
+      plot_slabs = "n",
+      subtitle_text = paste(
+        "basin:",
+        unique(.x$basin_AIP)
+      )
+    ) +
+      facet_grid(period ~ data_source)
+  )
+
+```
+
+## Biases
+
+```{r cases_bias, fig.asp=1.2}
+
+dcant_zonal_bias_all %>%
+  group_by(basin_AIP) %>%
+  group_split() %>%
+  # head(1) %>%
+  map(
+    ~ p_section_zonal_continous_depth(
+      df = .x,
+      var = "dcant_bias",
+      col = "divergent",
+      plot_slabs = "n",
+      subtitle_text = paste("basin:",
+        unique(.x$basin_AIP)
+      )
+    ) +
+      facet_grid(period ~.)
+  )
+
+
+```
+
+
+### Density distribution
+
+```{r bias_density_distribution, fig.asp=1}
+
+dcant_zonal_bias_all %>%
+  ggplot(aes(dcant_bias, col = period)) +
+  scale_color_viridis_d() +
+  geom_vline(xintercept = 0) +
+  geom_density() +
+  coord_cartesian(xlim = c(-10, 10))
+
+```
+
+
+## Concentration profiles
+
+### Data source
+
+```{r profiles_per_data_source, fig.asp=1.5}
+
+dcant_profile_all %>%
+  ggplot(aes(dcant, depth,
+             col = data_source, fill = data_source)) +
+  geom_hline(yintercept = params_global$inventory_depth_standard) +
+  geom_vline(xintercept = 0) +
+  geom_ribbon(aes(xmin = dcant - dcant_sd,
+                  xmax = dcant + dcant_sd),
+              alpha = 0.2,
+              col = "transparent") +
+  geom_path() +
+  scale_y_reverse() +
+  facet_grid(period ~ basin_AIP)
+
+```
+
+### Basin separation
+
+```{r profiles_per_{{config}}, fig.asp=1}
+
+dcant_profile_all %>%
+  ggplot(aes(dcant, depth,
+             col = period)) +
+  geom_hline(yintercept = params_global$inventory_depth_standard) +
+  geom_vline(xintercept = 0) +
+  geom_path() +
+  scale_y_reverse() +
+  scale_color_viridis_d() +
+  facet_grid(data_source ~ basin_AIP)
+
+```
+
+## Layer budgets
+
+```{r layer_budget_per_data_source, fig.asp=1.5}
+
+dcant_budget_basin_AIP_layer_all %>%
+  filter(estimate == "dcant") %>%
+  mutate(dcant = value,
+         inv_depth = fct_inorder(as.factor(inv_depth))) %>%
+  ggplot(aes(dcant, inv_depth,
+             fill = period)) +
+  geom_vline(xintercept = 0) +
+  geom_col(position = "dodge") +
+  scale_y_discrete(limits = rev) +
+  scale_fill_viridis_d() +
+  facet_grid(data_source ~ basin_AIP)
+
+```
+
+
+
+
+
+
