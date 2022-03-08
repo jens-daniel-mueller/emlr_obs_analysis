@@ -12,6 +12,9 @@ wflow_publish(here::here(
   "analysis",
   c(
     "index.Rmd",
+    "moving_eras_budgets.Rmd",
+    "moving_eras_column_inventories.Rmd",
+    "moving_eras_zonal_sections.Rmd",
     "reoccupation_budgets.Rmd",
     "reoccupation_column_inventories.Rmd",
     "reoccupation_zonal_sections.Rmd",
@@ -46,7 +49,7 @@ wflow_publish(here::here(
     "MLR_predictor_nitrate_zonal_sections.Rmd"
   )
 ),
-message = "reoccupation filter implemented",
+message = "moving eras analysis implemented",
 republish = TRUE)
 
 

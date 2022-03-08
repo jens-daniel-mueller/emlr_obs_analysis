@@ -129,14 +129,14 @@ navbar:
         href: G19_column_inventories.html
       - text: Zonal sections
         href: G19_zonal_sections.html
-    # - text: C* correction
-    #   menu:
-    #   - text: Budgets
-    #     href: cstar_correction_budgets.html
-    #   - text: Column inventories
-    #     href: cstar_correction_column_inventories.html
-    #   - text: Zonal sections
-    #     href: cstar_correction_zonal_sections.html
+    - text: Moving eras
+      menu:
+      - text: Budgets
+        href: moving_eras_budgets.html
+      - text: Column inventories
+        href: moving_eras_column_inventories.html
+      - text: Zonal sections
+        href: moving_eras_zonal_sections.html
   right:
   - icon: fa-github
     text: Source code
