@@ -913,7 +913,7 @@ tcant_inv <- tcant_inv %>%
   filter(inv_depth == 3000) %>% 
   rename(dcant = tcant,
          dcant_pos = tcant_pos) %>% 
-  mutate(tref1 = 1750,
+  mutate(tref1 = 1800,
          tref2 = 1994)
 
 ```
@@ -1037,7 +1037,7 @@ dcant_inv_all %>%
         axis.ticks = element_blank())
 
 dcant_inv_all %>%
-  filter(period != "1750 - 1994") %>% 
+  filter(period != "1800 - 1994") %>% 
   p_map_cant_inv(var = "dcant_scaled",
                  breaks = c(-Inf, seq(0, 1, 0.1), Inf),) +
   facet_grid(period ~ .) +
@@ -1694,7 +1694,7 @@ tcant_budget_basin_MLR <-
 
 tcant_budget_basin_MLR <- tcant_budget_basin_MLR %>% 
   mutate(pCO21 = 280,
-         tref1 = 1750,
+         tref1 = 1800,
          tref2 = 1994)
 
 tcant_budget_basin_MLR <- left_join(tcant_budget_basin_MLR,
@@ -1735,7 +1735,7 @@ dcant_budget_basin_MLR_all_plot <- dcant_budget_basin_MLR_all_plot %>%
 ```{r budgets_basins_hemisphere_alluvial_order_budget, fig.asp=0.9}
 
 g1 <- dcant_budget_basin_MLR_all_plot %>%
-  filter(period != "1750 - 1994") %>% 
+  filter(period != "1800 - 1994") %>% 
   ggplot(aes(
     y = dcant,
     x = period,
@@ -1809,7 +1809,7 @@ g1 +
 ```{r budgets_basins_hemisphere_alluvial_order_basin, fig.asp=0.9}
 
 g2 <- dcant_budget_basin_MLR_all_plot %>%
-    filter(period != "1750 - 1994") %>%
+    filter(period != "1800 - 1994") %>%
   ggplot(aes(
     y = dcant,
     x = period,
@@ -1943,7 +1943,7 @@ dcant_budget_global_all_ensemble_summary <- dcant_budget_global_all_ensemble_sum
 ```{r budgets_basins_hemisphere_alluvial_order_basin_scaled, fig.asp=0.9}
 
 g2 <- dcant_budget_basin_MLR_all_plot %>%
-  filter(period != "1750 - 1994") %>% 
+  filter(period != "1800 - 1994") %>% 
   ggplot(aes(
     y = dcant_scaled,
     x = period,
@@ -2555,7 +2555,7 @@ tcant_ts <- full_join(dcant_budget_global_ts, tcant_S04)
 
 tcant_ts <- left_join(tcant_ts, co2_atm)
 
-co2_atm_pi <- bind_cols(pCO2 = 280, dcant_mean = 0, year = 1750, dcant_sd = 0)
+co2_atm_pi <- bind_cols(pCO2 = 280, dcant_mean = 0, year = 1800, dcant_sd = 0)
 
 tcant_ts <- full_join(tcant_ts, co2_atm_pi)
 
@@ -2583,7 +2583,7 @@ p_tcant_year <- tcant_ts %>%
   scale_y_continuous(name = expression(Total ~ oceanic ~ C[ant] ~ (PgC)),
                      sec.axis = sec_axis( ~ (. / beta + co2_atm_pi_value),
                                           name = expression(Atm. ~ pCO[2] ~ (µatm)))) +
-  scale_x_continuous(name = "Year", breaks = seq(1750, 2000, 50)) +
+  scale_x_continuous(name = "Year", breaks = seq(1800, 2000, 50)) +
   scale_color_manual(values = "black") +
   theme(
     axis.title.y.right = element_text(color = tCant_col),
@@ -2613,7 +2613,7 @@ p_tcant_year_trans <- tcant_ts %>%
   scale_y_continuous(name = expression(Total ~ oceanic ~ C[ant] ~ (PgC)),
                      sec.axis = sec_axis( ~ (. / beta + co2_atm_pi_value),
                                           name = expression(Atm. ~ pCO[2] ~ (µatm)))) +
-  scale_x_continuous(name = "Year", breaks = seq(1750, 2000, 50)) +
+  scale_x_continuous(name = "Year", breaks = seq(1800, 2000, 50)) +
   scale_color_manual(values = "black") +
   theme(
     axis.title.y.right = element_text(color = tCant_col),
@@ -2654,7 +2654,7 @@ dcant_uncert_2014_combined <-
 
 p_tcant_atm_co2 <- tcant_ts %>% 
   ggplot(aes(pCO2, tcant)) +
-  geom_ribbon(aes(ymin = tcant - tcant_sd, ymax = tcant + tcant_sd, fill = "1750 - 2014"),
+  geom_ribbon(aes(ymin = tcant - tcant_sd, ymax = tcant + tcant_sd, fill = "1800 - 2014"),
               alpha = 0.5) +
   geom_ribbon(data = dcant_uncert_2014_combined,
               aes(ymin = tcant - dcant_sd_combined, ymax = tcant + dcant_sd_combined, fill = "1994 - 2014"),
@@ -2663,7 +2663,7 @@ p_tcant_atm_co2 <- tcant_ts %>%
   geom_line() +
   geom_point(shape = 21, fill = "white") +
   scale_x_continuous(breaks = seq(280, 400, 30)
-                     # sec.axis = dup_axis(labels =  c(1750, 1940, 1980, 2000, 2015),
+                     # sec.axis = dup_axis(labels =  c(1800, 1940, 1980, 2000, 2015),
                      #                     name = "Year")
                      ) +
   scale_fill_manual(values = c("grey60", "grey30"), name = "Cumulative\nuncertainty") +
@@ -2786,7 +2786,7 @@ SeaFlux_fgco2_glob_all_annual_cum_1994 <- SeaFlux_fgco2_glob_all_annual_cum_1994
 ```{r mean_tcant_over_atm_co2_incl_fluxes, fig.asp=0.6}
 
 tcant_ts_zoom <- tcant_ts %>%
-  filter(year != 1750) %>% 
+  filter(year != 1800) %>% 
   mutate(dcant_sd = if_else(year == 1994,0,dcant_sd))
 
 

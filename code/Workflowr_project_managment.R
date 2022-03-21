@@ -5,7 +5,7 @@
 
 
 # commit regular changes (locally) and rebuild site
-wflow_publish(all = TRUE, message = "updated plots")
+wflow_publish(all = TRUE, message = "use 1800 as tref for sabine estimates")
 
 # commit changes including _site.yml (locally) and rebuild site in the specified order
 wflow_publish(here::here(
@@ -62,7 +62,7 @@ wflow_publish(here::here(
     "classic_zonal_sections.Rmd"
   )
 ),
-message = "rerun with vif_max = 0.95, and layer budgets per MLR_basin")
+message = "rerun with corrected C* calculation")
 
 
 # Push latest version to GitHub
