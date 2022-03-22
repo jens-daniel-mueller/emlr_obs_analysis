@@ -2690,6 +2690,14 @@ ggsave(path = here::here("output/publication"),
 
 ```
 
+```{r beta_factors}
+
+tcant_ts %>% 
+  mutate(beta = dcant_mean / (pCO2-lag(pCO2)))
+
+```
+
+
 
 ## incl fluxes
 

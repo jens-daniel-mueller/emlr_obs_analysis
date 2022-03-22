@@ -57,12 +57,10 @@ republish = TRUE)
 wflow_publish(here::here(
   "analysis",
   c(
-    "classic_budgets.Rmd",
-    "classic_column_inventories.Rmd",
-    "classic_zonal_sections.Rmd"
+    "results_publication.Rmd"
   )
 ),
-message = "rerun with corrected C* calculation")
+message = "rerun with NP 2021 talk correction")
 
 
 # Push latest version to GitHub
