@@ -2564,13 +2564,13 @@ tcant_ts <- tcant_ts %>%
   mutate(tcant = cumsum(dcant_mean),
          tcant_sd = cumsum(dcant_sd))
 
-beta <- 1.5
-co2_atm_pi_value <- 277
+beta <- 1.57
+co2_atm_pi_value <- 283
 tCant_col <- "#56B4E9"
 
 p_tcant_year <- tcant_ts %>%
   ggplot(aes(year, tcant)) +
-  geom_line(data = co2_atm_reccap2 %>% filter(year > 1740),
+  geom_line(data = co2_atm_reccap2 %>% filter(year > 1790),
             aes(year, (pCO2 - co2_atm_pi_value) * beta),
             col = tCant_col) +
   geom_linerange(aes(
@@ -2600,7 +2600,7 @@ tCant_col <- "transparent"
 
 p_tcant_year_trans <- tcant_ts %>%
   ggplot(aes(year, tcant)) +
-  geom_line(data = co2_atm_reccap2 %>% filter(year > 1740),
+  geom_line(data = co2_atm_reccap2 %>% filter(year > 1790),
             aes(year, (pCO2 - co2_atm_pi_value) * beta),
             col = tCant_col) +
   geom_linerange(aes(
