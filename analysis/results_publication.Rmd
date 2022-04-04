@@ -1405,32 +1405,54 @@ dcant_inv_all_ensemble_lat_mean_average <- dcant_inv_all_ensemble_lat_mean %>%
 dcant_inv_all_lat_mean <- full_join(dcant_inv_all_lat_mean,
                                     dcant_inv_all_ensemble_lat_mean_average)
 
-dcant_inv_all_lat_mean %>% 
-  ggplot(aes(lat_grid, beta, fill=period)) +
+dcant_inv_all_lat_mean %>%
+  ggplot(aes(lat_grid, beta, fill = period)) +
   geom_hline(yintercept = 0) +
   geom_ribbon(aes(ymin = beta - beta_sd,
                   ymax = beta + beta_sd),
               alpha = 0.3) +
-  geom_path(aes(col=period)) +
+  geom_path(aes(col = period)) +
   geom_point(shape = 21) +
-  scale_color_viridis_d() +
-  scale_fill_viridis_d() +
+  scale_color_brewer(palette = "Dark2", name = "Mean ± SD") +
+  scale_fill_brewer(palette = "Dark2", name = "Mean ± SD") +
   coord_flip() +
   facet_grid(. ~ basin_AIP) +
   labs(x = "Latitude (°N)",
-       y = beta_label)
+       y = beta_label) +
+  scale_x_continuous(breaks = seq(-75,75, 15))
 
 dcant_inv_all_ensemble_lat_mean %>% 
   ggplot(aes(lat_grid, beta_mean, fill=period, group=Version_ID)) +
   geom_hline(yintercept = 0) +
   geom_path(aes(col=period)) +
-  geom_point(shape = 21) +
-  scale_color_viridis_d() +
-  scale_fill_viridis_d() +
+  scale_color_brewer(palette = "Dark2") +
+  scale_fill_brewer(palette = "Dark2") +
   coord_flip() +
   facet_grid(. ~ basin_AIP) +
   labs(x = "Latitude (°N)",
        y = beta_label)
+
+```
+
+```{r zonal_mean_storage_Atlantic, fig.asp=1}
+
+dcant_inv_all_lat_mean %>%
+  filter(basin_AIP == "Atlantic") %>% 
+  ggplot(aes(lat_grid, beta, fill = period)) +
+  geom_hline(yintercept = 0) +
+  geom_ribbon(aes(ymin = beta - beta_sd,
+                  ymax = beta + beta_sd),
+              alpha = 0.3) +
+  geom_path(aes(col = period)) +
+  geom_point(shape = 21) +
+  scale_color_brewer(palette = "Dark2", name = "Mean ± SD") +
+  scale_fill_brewer(palette = "Dark2", name = "Mean ± SD") +
+  coord_flip() +
+  facet_grid(. ~ basin_AIP) +
+  labs(x = "Latitude (°N)",
+       y = beta_label) +
+  scale_x_continuous(breaks = seq(-75,75, 15))
+
 
 ```
 

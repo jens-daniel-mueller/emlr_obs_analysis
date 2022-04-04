@@ -5,7 +5,7 @@
 
 
 # commit regular changes (locally) and rebuild site
-wflow_publish(all = TRUE, message = "added zonal mean beta distribution ensemble sd")
+wflow_publish(all = TRUE, message = "added zonal mean beta distribution new figure")
 
 # commit changes including _site.yml (locally) and rebuild site in the specified order
 wflow_publish(here::here(
