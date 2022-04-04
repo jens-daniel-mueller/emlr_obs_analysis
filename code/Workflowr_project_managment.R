@@ -5,7 +5,7 @@
 
 
 # commit regular changes (locally) and rebuild site
-wflow_publish(all = TRUE, message = "added zonal mean beta distribution")
+wflow_publish(all = TRUE, message = "added zonal mean beta distribution ensemble sd")
 
 # commit changes including _site.yml (locally) and rebuild site in the specified order
 wflow_publish(here::here(
@@ -60,7 +60,7 @@ wflow_publish(here::here(
     "results_publication.Rmd"
   )
 ),
-message = "rerun with NP 2021 talk correction")
+message = "added zonal mean beta distribution")
 
 
 # Push latest version to GitHub

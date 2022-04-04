@@ -533,9 +533,9 @@ dcant_budget_basin_MLR_all_ensemble <- dcant_budget_basin_MLR_all_ensemble %>%
 
 ## Inventories
 
-```{r read_iventory_files}
+```{r read_inventory_files_ensemble}
 
-for (i_Version_IDs in Version_IDs) {
+for (i_Version_IDs in Version_IDs_ensemble) {
   # i_Version_IDs <- Version_IDs[1]
   
   path_version_data     <-
@@ -637,20 +637,19 @@ dcant_budget_lon_grid_all <- dcant_budget_lon_grid_all %>%
 
 
 dcant_inv_all <- full_join(dcant_inv_all,
-                           params_local_all)
+                           params_local_all_ensemble)
 
 dcant_inv_bias_all <- full_join(dcant_inv_bias_all,
-                                params_local_all)
+                                params_local_all_ensemble)
 
 
 dcant_budget_lat_grid_all <- full_join(dcant_budget_lat_grid_all,
-                                       params_local_all)
+                                       params_local_all_ensemble)
 
 dcant_budget_lon_grid_all <- full_join(dcant_budget_lon_grid_all,
-                                       params_local_all)
+                                       params_local_all_ensemble)
 
 ```
-
 
 ```{r adapt_iventory_format}
 
@@ -666,6 +665,26 @@ dcant_budget_lon_grid_all <- dcant_budget_lon_grid_all %>%
   filter(period != "1994 - 2014",
          method == "total")
 
+
+```
+
+
+```{r r distuinguish_standard_case_and_ensemble, include=FALSE}
+
+
+dcant_inv_bias_all_ensemble <- dcant_inv_bias_all
+dcant_inv_bias_all <- dcant_inv_bias_all %>% 
+  filter(Version_ID %in% Version_IDs)
+
+
+dcant_budget_lat_grid_all_ensemble <- dcant_budget_lat_grid_all
+dcant_budget_lat_grid_all <- dcant_budget_lat_grid_all %>% 
+  filter(Version_ID %in% Version_IDs)
+
+
+dcant_budget_lon_grid_all_ensemble <- dcant_budget_lon_grid_all
+dcant_budget_lon_grid_all <- dcant_budget_lon_grid_all %>% 
+  filter(Version_ID %in% Version_IDs)
 
 ```
 
@@ -972,12 +991,13 @@ coverage_map <- map +
   theme(axis.text = element_blank(),
         axis.ticks = element_blank())
 
+coverage_map
 
-ggsave(plot = coverage_map,
-       path = here::here("output/publication"),
-       filename = "FigS_coverage_map_observations.png",
-       height = 2,
-       width = 8)
+# ggsave(plot = coverage_map,
+#        path = "output/publication",
+#        filename = "FigS_coverage_map_observations.png",
+#        height = 2,
+#        width = 8)
 
 ```
 
@@ -989,7 +1009,7 @@ ggsave(plot = coverage_map,
 
 ### dcant - absolute
 
-```{r invetory_maps_absolute, fig.asp=1.2}
+```{r calculate_scaled_inventories}
 
 dcant_inv_all <- dcant_inv_all %>%
   filter(data_source %in% c("obs"),
@@ -1019,9 +1039,23 @@ dcant_inv_all <- bind_rows(
 
 dcant_inv_all <- dcant_inv_all %>% 
   mutate(delta_pCO2 = pCO22 - pCO21,
-         dcant_scaled = dcant / delta_pCO2,
-         dcant_pos_scaled = dcant_pos / delta_pCO2) %>% 
+         beta = dcant / delta_pCO2,
+         beta_pos = dcant_pos / delta_pCO2) %>% 
   select(-starts_with("pCO2"))
+
+dcant_inv_all_ensemble <- dcant_inv_all
+
+unique(dcant_inv_all$Version_ID)
+
+dcant_inv_all <- dcant_inv_all %>% 
+  filter(Version_ID %in% Version_IDs | is.na(Version_ID))
+
+
+```
+
+
+```{r invetory_maps_absolute, fig.asp=1.2}
+
 
 dcant_inv_all %>%
   p_map_cant_inv(var = "dcant") +
@@ -1030,7 +1064,7 @@ dcant_inv_all %>%
         axis.ticks = element_blank())
 
 dcant_inv_all %>%
-  p_map_cant_inv(var = "dcant_scaled",
+  p_map_cant_inv(var = "beta",
                  breaks = c(-Inf, seq(0, 1, 0.1), Inf),) +
   facet_grid(period ~ .) +
   theme(axis.text = element_blank(),
@@ -1038,7 +1072,7 @@ dcant_inv_all %>%
 
 dcant_inv_all %>%
   filter(period != "1800 - 1994") %>% 
-  p_map_cant_inv(var = "dcant_scaled",
+  p_map_cant_inv(var = "beta",
                  breaks = c(-Inf, seq(0, 1, 0.1), Inf),) +
   facet_grid(period ~ .) +
   theme(axis.text = element_blank(),
@@ -1351,12 +1385,43 @@ beta_label <- expression(beta~(mol ~ m ^ {-2} ~ µatm ^ {-1}))
 dcant_inv_all <- m_grid_horizontal_coarse(dcant_inv_all)
 
 dcant_inv_all_lat_mean <- dcant_inv_all %>% 
-  group_by(basin_AIP, inv_depth, period, lat_grid) %>% 
-  summarise(dcant_scaled = mean(dcant_scaled, na.rm = TRUE)) %>% 
+  group_by(basin_AIP, period, lat_grid) %>% 
+  summarise(beta = mean(beta, na.rm = TRUE)) %>% 
   ungroup()
 
+dcant_inv_all_ensemble <- m_grid_horizontal_coarse(dcant_inv_all_ensemble)
+
+dcant_inv_all_ensemble_lat_mean <- dcant_inv_all_ensemble %>% 
+  group_by(basin_AIP, period, lat_grid, Version_ID) %>% 
+  summarise(beta_mean = mean(beta, na.rm = TRUE)) %>% 
+  ungroup()
+
+dcant_inv_all_ensemble_lat_mean_average <- dcant_inv_all_ensemble_lat_mean %>% 
+  group_by(basin_AIP, period, lat_grid) %>% 
+  summarise(beta_sd = sd(beta_mean, na.rm = TRUE),
+            beta_mean = mean(beta_mean, na.rm = TRUE)) %>% 
+  ungroup()
+
+dcant_inv_all_lat_mean <- full_join(dcant_inv_all_lat_mean,
+                                    dcant_inv_all_ensemble_lat_mean_average)
+
 dcant_inv_all_lat_mean %>% 
-  ggplot(aes(lat_grid, dcant_scaled, fill=period)) +
+  ggplot(aes(lat_grid, beta, fill=period)) +
+  geom_hline(yintercept = 0) +
+  geom_ribbon(aes(ymin = beta - beta_sd,
+                  ymax = beta + beta_sd),
+              alpha = 0.3) +
+  geom_path(aes(col=period)) +
+  geom_point(shape = 21) +
+  scale_color_viridis_d() +
+  scale_fill_viridis_d() +
+  coord_flip() +
+  facet_grid(. ~ basin_AIP) +
+  labs(x = "Latitude (°N)",
+       y = beta_label)
+
+dcant_inv_all_ensemble_lat_mean %>% 
+  ggplot(aes(lat_grid, beta_mean, fill=period, group=Version_ID)) +
   geom_hline(yintercept = 0) +
   geom_path(aes(col=period)) +
   geom_point(shape = 21) +
@@ -1944,7 +2009,7 @@ dcant_budget_basin_MLR_all_plot <- left_join(dcant_budget_basin_MLR_all_plot,
 
 dcant_budget_basin_MLR_all_plot <- dcant_budget_basin_MLR_all_plot %>% 
   mutate(delta_pCO2 = pCO22 - pCO21,
-         dcant_scaled = dcant / delta_pCO2,
+         beta = dcant / delta_pCO2,
          dcant_sd_scaled = dcant_sd / delta_pCO2) %>% 
   select(-starts_with("pCO2"))
 
@@ -1959,7 +2024,7 @@ dcant_budget_global_all_ensemble_summary <- left_join(dcant_budget_global_all_en
 
 dcant_budget_global_all_ensemble_summary <- dcant_budget_global_all_ensemble_summary %>% 
   mutate(delta_pCO2 = pCO22 - pCO21,
-         dcant_scaled = dcant_mean / delta_pCO2,
+         beta = dcant_mean / delta_pCO2,
          dcant_sd_scaled = dcant_sd / delta_pCO2) %>% 
   select(-starts_with("pCO2"))
 
@@ -1972,7 +2037,7 @@ dcant_budget_global_all_ensemble_summary <- dcant_budget_global_all_ensemble_sum
 g2 <- dcant_budget_basin_MLR_all_plot %>%
   filter(period != "1800 - 1994") %>% 
   ggplot(aes(
-    y = dcant_scaled,
+    y = beta,
     x = period,
     alluvium = basin,
     fill  = basin,
@@ -2067,7 +2132,7 @@ g2 +
 
 g2 <- dcant_budget_basin_MLR_all_plot %>%
   ggplot(aes(
-    y = dcant_scaled,
+    y = beta,
     x = period,
     alluvium = basin,
     fill  = basin,
@@ -2162,7 +2227,7 @@ g2 +
 
 g2 <- dcant_budget_basin_MLR_all_plot %>%
   ggplot(aes(
-    y = dcant_scaled,
+    y = beta,
     x = period,
     alluvium = basin,
     fill  = basin,
