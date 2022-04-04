@@ -1434,7 +1434,7 @@ dcant_inv_all_ensemble_lat_mean %>%
 
 ```
 
-```{r zonal_mean_storage_Atlantic, fig.asp=1}
+```{r zonal_mean_storage_Atlantic, fig.asp=1.5}
 
 dcant_inv_all_lat_mean %>%
   filter(basin_AIP == "Atlantic") %>% 
