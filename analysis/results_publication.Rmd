@@ -1342,6 +1342,33 @@ dcant_inv_all %>%
 
 ```
 
+## Zonal means
+
+```{r zonal_mean_storage}
+
+beta_label <- expression(beta~(mol ~ m ^ {-2} ~ µatm ^ {-1}))
+
+dcant_inv_all <- m_grid_horizontal_coarse(dcant_inv_all)
+
+dcant_inv_all_lat_mean <- dcant_inv_all %>% 
+  group_by(basin_AIP, inv_depth, period, lat_grid) %>% 
+  summarise(dcant_scaled = mean(dcant_scaled, na.rm = TRUE)) %>% 
+  ungroup()
+
+dcant_inv_all_lat_mean %>% 
+  ggplot(aes(lat_grid, dcant_scaled, fill=period)) +
+  geom_hline(yintercept = 0) +
+  geom_path(aes(col=period)) +
+  geom_point(shape = 21) +
+  scale_color_viridis_d() +
+  scale_fill_viridis_d() +
+  coord_flip() +
+  facet_grid(. ~ basin_AIP) +
+  labs(x = "Latitude (°N)",
+       y = beta_label)
+
+```
+
 
 # Zonal sections
 

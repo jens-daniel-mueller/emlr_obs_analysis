@@ -5,7 +5,7 @@
 
 
 # commit regular changes (locally) and rebuild site
-wflow_publish(all = TRUE, message = "use 1800 as tref for sabine estimates")
+wflow_publish(all = TRUE, message = "added zonal mean beta distribution")
 
 # commit changes including _site.yml (locally) and rebuild site in the specified order
 wflow_publish(here::here(
