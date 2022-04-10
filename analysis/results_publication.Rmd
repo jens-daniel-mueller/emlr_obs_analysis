@@ -101,7 +101,22 @@ Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observat
 
 Version_IDs_o <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 
-Version_IDs_ensemble <- c(Version_IDs_b, Version_IDs_o)
+version_id_pattern <- "d"
+
+# identify required version IDs
+
+Version_IDs_1 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_1", version_id_pattern))
+
+Version_IDs_2 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_2", version_id_pattern))
+
+Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_3", version_id_pattern))
+
+Version_IDs_d <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
+
+Version_IDs_ensemble <- c(Version_IDs_b, Version_IDs_o, Version_IDs_d)
 
 ```
 
