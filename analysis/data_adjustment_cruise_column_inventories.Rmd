@@ -1,0 +1,64 @@
+---
+title: "Column inventories"
+author: "Jens Daniel Müller"
+date:  "`r format(Sys.time(), '%d %B, %Y')`"
+output: 
+  workflowr::wflow_html:
+    number_sections: true
+    toc_depth: 3
+    toc_float:
+      collapsed: false
+editor_options:
+  chunk_output_type: console
+---
+
+
+```{r define_parameters}
+
+version_id_pattern <- "c"
+config <- "MLR_basins"
+
+```
+
+
+
+```{r source_read_data_child, include = FALSE}
+
+
+read <-
+  knitr::knit_expand(
+    file = here::here("analysis/child/column_inventories_analysis_read_data.Rmd"),
+    version_id_pattern = version_id_pattern,
+    config = config
+  )
+
+
+```
+
+`r knitr::knit(text = unlist(read))`
+
+```{r find_removed_predictor, eval=FALSE}
+
+all_predictors <- c("saltempaouoxygenphosphatenitratesilicate")
+
+params_local_all <- params_local_all %>%
+  mutate(MLR_predictors = str_remove_all(all_predictors,
+                                         MLR_predictors))
+
+
+```
+
+```{r source_plot_data_child, include = FALSE}
+
+
+plot <-
+  knitr::knit_expand(
+    file = here::here("analysis/child/column_inventories_analysis_plot_data.Rmd"),
+    version_id_pattern = version_id_pattern,
+    config = config
+  )
+
+
+```
+
+`r knitr::knit(text = unlist(plot))`
