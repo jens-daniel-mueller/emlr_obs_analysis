@@ -7,36 +7,34 @@ navbar:
     href: basics.html
   - text: Results publication
     href: results_publication.html
-  - text: Spatial splits
+  - text: Data adjustements
     menu:
-    - text: Classic cases
+    - text: Bulk
       menu:
       - text: Budgets
-        href: classic_budgets.html
+        href: data_adjustment_bulk_budgets.html
       - text: Column inventories
-        href: classic_column_inventories.html
+        href: data_adjustment_bulk_column_inventories.html
       - text: Zonal sections
-        href: classic_zonal_sections.html
-    # - text: slab cases
-    #   menu:
-    #   - text: Budgets
-    #     href: slab_budgets.html
-    #   - text: Column inventories
-    #     href: slab_column_inventories.html
-    #   - text: Zonal sections
-    #     href: slab_zonal_sections.html
+        href: data_adjustment_bulk_zonal_sections.html
+    - text: Cruise
+      menu:
+      - text: Budgets
+        href: data_adjustment_cruise_budgets.html
+      - text: Column inventories
+        href: data_adjustment_cruise_column_inventories.html
+      - text: Zonal sections
+        href: data_adjustment_cruise_zonal_sections.html
+    - text: None
+      menu:
+      - text: Budgets
+        href: data_adjustment_none_budgets.html
+      - text: Column inventories
+        href: data_adjustment_none_column_inventories.html
+      - text: Zonal sections
+        href: data_adjustment_none_zonal_sections.html
   - text: Data cleaning
     menu:
-    # - text: CANYON-B
-    #   menu:
-    #   - text: Overview
-    #     href: canyon_b_cleaning_overview.html
-    #   - text: Budgets
-    #     href: canyon_b_cleaning_budgets.html
-    #   - text: Column inventories
-    #     href: canyon_b_cleaning_column_inventories.html
-    #   - text: Zonal sections
-    #     href: canyon_b_cleaning_zonal_sections.html
     - text: No gap-filling and filter
       menu:
       - text: Budgets
@@ -45,14 +43,6 @@ navbar:
         href: gaps_filter_column_inventories.html
       - text: Zonal sections
         href: gaps_filter_zonal_sections.html
-    # - text: Global MLR
-    #   menu:
-    #   - text: Budgets
-    #     href: global_MLR_cleaning_budgets.html
-    #   - text: Column inventories
-    #     href: global_MLR_cleaning_column_inventories.html
-    #   - text: Zonal sections
-    #     href: global_MLR_cleaning_zonal_sections.html
     - text: Reoccupation
       menu:
       - text: Budgets
@@ -95,14 +85,6 @@ navbar:
         href: MLR_target_column_inventories.html
       - text: Zonal sections
         href: MLR_target_zonal_sections.html
-  #   - text: no_P
-  #     menu:
-  #     - text: Budgets
-  #       href: no_p_budgets.html
-  #     - text: Column inventories
-  #       href: no_p_column_inventories.html
-  #     - text: Zonal sections
-  #       href: no_p_zonal_sections.html
     - text: VIF
       menu:
       - text: Budgets

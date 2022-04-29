@@ -5,13 +5,29 @@
 
 
 # commit regular changes (locally) and rebuild site
-wflow_publish(all = TRUE, message = "added zonal mean beta distribution new figure")
+wflow_publish(all = TRUE, message = "standard case uncorrected data")
 
 # commit changes including _site.yml (locally) and rebuild site in the specified order
 wflow_publish(here::here(
   "analysis",
   c(
     "index.Rmd",
+    "results_publication.Rmd",
+    "data_adjustment_none_budgets.Rmd",
+    "data_adjustment_none_column_inventories.Rmd",
+    "data_adjustment_none_zonal_sections.Rmd",
+    "data_adjustment_cruise_budgets.Rmd",
+    "data_adjustment_cruise_column_inventories.Rmd",
+    "data_adjustment_cruise_zonal_sections.Rmd",
+    "MLR_target_budgets.Rmd",
+    "MLR_target_column_inventories.Rmd",
+    "MLR_target_zonal_sections.Rmd",
+    "data_adjustment_bulk_budgets.Rmd",
+    "data_adjustment_bulk_column_inventories.Rmd",
+    "data_adjustment_bulk_zonal_sections.Rmd",
+    "data_adjustment_none_budgets.Rmd",
+    "data_adjustment_none_column_inventories.Rmd",
+    "data_adjustment_none_zonal_sections.Rmd",
     "moving_eras_budgets.Rmd",
     "moving_eras_column_inventories.Rmd",
     "moving_eras_zonal_sections.Rmd",
@@ -22,10 +38,6 @@ wflow_publish(here::here(
     "rarefication_column_inventories.Rmd",
     "rarefication_zonal_sections.Rmd",
     "basics.Rmd",
-    "results_publication.Rmd",
-    "classic_budgets.Rmd",
-    "classic_column_inventories.Rmd",
-    "classic_zonal_sections.Rmd",
     "G19_budgets.Rmd",
     "G19_column_inventories.Rmd",
     "G19_zonal_sections.Rmd",
@@ -35,9 +47,6 @@ wflow_publish(here::here(
     "MLR_predictor_budgets.Rmd",
     "MLR_predictor_column_inventories.Rmd",
     "MLR_predictor_zonal_sections.Rmd",
-    "MLR_target_budgets.Rmd",
-    "MLR_target_column_inventories.Rmd",
-    "MLR_target_zonal_sections.Rmd",
     "vif_budgets.Rmd",
     "vif_column_inventories.Rmd",
     "vif_zonal_sections.Rmd",
@@ -49,18 +58,22 @@ wflow_publish(here::here(
     "MLR_predictor_nitrate_zonal_sections.Rmd"
   )
 ),
-message = "moving eras analysis implemented",
+message = "3 data adjustment procedures implemented",
 republish = TRUE)
 
 
-# commit changes including _site.yml (locally) and rebuild site in the specified order
 wflow_publish(here::here(
   "analysis",
   c(
+    "index.Rmd",
+    "reoccupation_budgets.Rmd",
+    "reoccupation_column_inventories.Rmd",
+    "reoccupation_zonal_sections.Rmd",
     "results_publication.Rmd"
   )
 ),
-message = "added zonal mean beta distribution")
+message = "reoccupation incl data adjustments")
+
 
 
 # Push latest version to GitHub
