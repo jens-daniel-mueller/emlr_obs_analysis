@@ -1505,6 +1505,21 @@ dcant_zonal_all %>%
 
 ```
 
+```{r zonal_sections_basin, fig.asp=1}
+
+dcant_zonal_all %>%
+  filter(data_source == "obs",
+         period != "1994 - 2014",
+         depth <= params_global$inventory_depth_standard,
+         basin_AIP == "Indian") %>%
+  p_section_zonal_continous_depth(var = "dcant",
+                                  plot_slabs = "n",
+                                  title_text = NULL) +
+  facet_grid(period ~ .)
+
+
+```
+
 ## dcant - absolute delta
 
 ```{r inventory_maps_absolute_delta}
