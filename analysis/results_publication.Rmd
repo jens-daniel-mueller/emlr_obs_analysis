@@ -1505,7 +1505,7 @@ dcant_zonal_all %>%
 
 ```
 
-```{r zonal_sections_basin, fig.asp=1}
+```{r zonal_sections_basin}
 
 dcant_zonal_all %>%
   filter(data_source == "obs",
