@@ -1086,8 +1086,8 @@ dcant_inv_all <- dcant_inv_all %>%
 
 ```{r invetory_maps_absolute, fig.asp=1.2}
 
-
 dcant_inv_all %>%
+  filter(period != "1800 - 1994") %>%
   p_map_cant_inv(var = "dcant") +
   facet_grid(period ~ .) +
   theme(axis.text = element_blank(),
@@ -1623,6 +1623,59 @@ dcant_profile_basin_MLR_all %>%
         x = dcant_umol_label
       ) +
       facet_wrap(~ basin, ncol = 3, dir = "v") +
+      theme(legend.position = c(0.8,0.2))
+  )
+
+
+```
+
+```{r concentration_profiles_MLR_basins_seperate, fig.asp=1.2}
+
+dcant_profile_basin_MLR_all %>%
+  arrange(depth) %>%
+  filter(period != "1994 - 2014",
+         MLR_basins == "5", 
+         depth <= params_global$inventory_depth_standard) %>%
+    mutate(
+    basin = str_replace(basin, "_", ". "),
+    basin = fct_relevel(
+      basin,
+      "N. Pacific",
+      "S. Pacific",
+      "N. Atlantic",
+      "S. Atlantic",
+      "Indian"
+    )
+  ) %>% 
+  group_split(data_source, basin) %>%
+  # head(1) %>%
+  map(
+    ~ ggplot(data = .x,
+             aes(dcant,
+                 depth)) +
+      geom_hline(yintercept = params_global$inventory_depth_standard) +
+      geom_vline(xintercept = 0) +
+      geom_ribbon(
+        aes(
+          xmin = dcant - dcant_sd,
+          xmax = dcant + dcant_sd,
+          fill = period
+        ),
+        alpha = 0.3
+      ) +
+      geom_path(aes(col = period)) +
+      scale_y_continuous(trans = trans_reverser("sqrt"),
+                         breaks = c(0, 100, 500, seq(1500, 5000, 1000))) +
+      coord_cartesian(expand = 0) +
+      scale_color_brewer(palette = "Set1", name = "mean \u00B1 sd", direction = -1) +
+      scale_fill_brewer(palette = "Set1", name = "mean \u00B1 sd", direction = -1) +
+      labs(
+        title = paste("data_source", unique(.x$data_source),
+                      "|", unique(.x$basin)),
+        y = "Depth (m)",
+        x = dcant_umol_label
+      ) +
+      # facet_wrap(~ basin, ncol = 3, dir = "v") +
       theme(legend.position = c(0.8,0.2))
   )
 
