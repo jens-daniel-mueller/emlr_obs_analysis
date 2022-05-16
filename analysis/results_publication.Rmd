@@ -12,7 +12,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-```{r parent, child = "/nfs/kryo/work/jenmueller/emlr_cant/utilities/setup_obs.Rmd"}
+```{r parent, child = "/nfs/kryo/work/jenmueller/emlr_cant/utilities/setup.Rmd"}
 # this chunk runs the code stored in setup.Rmd
 # if required, please refer to instructions given here:
 # https://jdblischak.github.io/workflowr/articles/wflow-07-common-code.html
@@ -977,7 +977,7 @@ RECCAP2_fgco2_glob_all_annual_obs <-
 
 ```
 
-```{r read_RECCAP2_flux_products_models}
+```{r read_RECCAP2_flux_products_models, eval=FALSE}
 
 RECCAP2_fgco2_glob_all_annual_mod <-
   read_csv(paste0(path_preprocessing_model,
@@ -1508,14 +1508,23 @@ dcant_zonal_all %>%
 ```{r zonal_sections_basin}
 
 dcant_zonal_all %>%
-  filter(data_source == "obs",
-         period != "1994 - 2014",
-         depth <= params_global$inventory_depth_standard,
-         basin_AIP == "Indian") %>%
-  p_section_zonal_continous_depth(var = "dcant",
-                                  plot_slabs = "n",
-                                  title_text = NULL) +
-  facet_grid(period ~ .)
+  filter(
+    data_source == "obs",
+    period != "1994 - 2014",
+    depth <= params_global$inventory_depth_standard
+  ) %>%
+  group_split(basin_AIP) %>%
+  head(1) %>%
+  map(
+    ~ p_section_zonal_continous_depth(
+      df = .x,
+      var = "dcant",
+      plot_slabs = "n",
+      title_text = .x$basin_AIP,
+      subtitle_text = NULL
+    ) +
+      facet_grid(period ~ .)
+  )
 
 
 ```
@@ -2913,7 +2922,7 @@ tcant_ts %>%
 
 ## incl fluxes
 
-```{r RECCAP2_fluxes}
+```{r RECCAP2_fluxes, eval=FALSE}
 
 
 RECCAP2_fgco2_glob_all_annual_cum_1994 <- RECCAP2_fgco2_glob_all_annual_obs %>%
@@ -2969,7 +2978,7 @@ RECCAP2_fgco2_glob_all_annual_cum_1994_mod <- RECCAP2_fgco2_glob_all_annual_cum_
 
 ```
 
-```{r SeaFlux_fluxes}
+```{r SeaFlux_fluxes, eval=FALSE}
 
 
 SeaFlux_fgco2_glob_all_annual_cum_1994 <- SeaFlux_fgco2_glob_all_annual_obs %>%
@@ -3003,7 +3012,7 @@ SeaFlux_fgco2_glob_all_annual_cum_1994 <- SeaFlux_fgco2_glob_all_annual_cum_1994
 
 
 
-```{r mean_tcant_over_atm_co2_incl_fluxes, fig.asp=0.6}
+```{r mean_tcant_over_atm_co2_incl_fluxes, fig.asp=0.6, eval=FALSE}
 
 tcant_ts_zoom <- tcant_ts %>%
   filter(year != 1800) %>% 
