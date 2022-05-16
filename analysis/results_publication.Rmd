@@ -1519,6 +1519,7 @@ dcant_zonal_all %>%
     ~ p_section_zonal_continous_depth(
       df = .x,
       var = "dcant",
+      breaks = c(-Inf, -1, 0, 1, seq(2,16,2), Inf),
       plot_slabs = "n",
       title_text = .x$basin_AIP,
       subtitle_text = NULL
