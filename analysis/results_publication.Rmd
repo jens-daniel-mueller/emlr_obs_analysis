@@ -1514,7 +1514,7 @@ dcant_zonal_all %>%
     depth <= params_global$inventory_depth_standard
   ) %>%
   group_split(basin_AIP) %>%
-  head(1) %>%
+  # head(1) %>%
   map(
     ~ p_section_zonal_continous_depth(
       df = .x,
