@@ -348,7 +348,7 @@ div.tocify {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Data adjustements
+    Adjustements
      
     <span class="caret"></span>
   </a>
@@ -399,7 +399,7 @@ div.tocify {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Data cleaning
+    Filtering
      
     <span class="caret"></span>
   </a>
@@ -515,6 +515,24 @@ div.tocify {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    MMA
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="multi_model_assesment_budgets.html">Budgets</a>
+    </li>
+    <li>
+      <a href="multi_model_assesment_column_inventories.html">Column inventories</a>
+    </li>
+    <li>
+      <a href="multi_model_assesment_zonal_sections.html">Zonal sections</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     Robustness
      
     <span class="caret"></span>
@@ -599,7 +617,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Budgets</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">12 April, 2022</h4>
+<h4 class="date">24 May, 2022</h4>
 
 </div>
 
@@ -624,7 +642,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-04-12
+<strong>Last updated:</strong> 2022-05-24
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -715,16 +733,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree0dec180b8d5598483155299ec5d1612c278a27f6targetblank0dec180a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/0dec180b8d5598483155299ec5d1612c278a27f6" target="_blank">0dec180</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeaba19e46c38d2cbb7c15de210e64e3cc69c68fd9targetblankaba19e4a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/aba19e46c38d2cbb7c15de210e64e3cc69c68fd9" target="_blank">aba19e4</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree0dec180b8d5598483155299ec5d1612c278a27f6targetblank0dec180a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeaba19e46c38d2cbb7c15de210e64e3cc69c68fd9targetblankaba19e4a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/0dec180b8d5598483155299ec5d1612c278a27f6" target="_blank">0dec180</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/aba19e46c38d2cbb7c15de210e64e3cc69c68fd9" target="_blank">aba19e4</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -739,12 +757,9 @@ Ignored files:
 
 Unstaged changes:
     Modified:   analysis/_site.yml
-    Deleted:    analysis/classic_budgets.Rmd
-    Deleted:    analysis/classic_column_inventories.Rmd
-    Deleted:    analysis/classic_zonal_sections.Rmd
-    Deleted:    analysis/data_adjustment_budgets.Rmd
-    Deleted:    analysis/data_adjustment_column_inventories.Rmd
-    Deleted:    analysis/data_adjustment_zonal_sections.Rmd
+    Modified:   analysis/child/budget_analysis_read_data.Rmd
+    Modified:   analysis/child/column_inventories_analysis_read_data.Rmd
+    Modified:   analysis/child/zonal_sections_analysis_read_data.Rmd
     Modified:   code/Workflowr_project_managment.R
 
 </code></pre>
@@ -784,6 +799,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/e09320dbac0aa32bf9e9b7d45301d7958d187167/docs/MLR_predictor_budgets.html" target="_blank">e09320d</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-04-12
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -2276,7 +2308,8 @@ jens-daniel-mueller
       facet_grid(period ~ data_source) +
       labs(title = paste(&quot;data_source:&quot;, unique(.x$basin_AIP)))
   )</code></pre>
-<pre><code>`summarise()` has grouped output by &#39;data_source&#39;, &#39;basin_AIP&#39;, &#39;gamma_slab&#39;. You can override using the `.groups` argument.</code></pre>
+<pre><code>`summarise()` has grouped output by &#39;data_source&#39;, &#39;basin_AIP&#39;, &#39;gamma_slab&#39;.
+You can override using the `.groups` argument.</code></pre>
 <pre><code>[[1]]</code></pre>
 <p><img src="figure/MLR_predictor_budgets.Rmd/slab_budgets_spread-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
@@ -2478,7 +2511,8 @@ dcant_budget_global_ensemble &lt;- dcant_budget_global_all_in %&gt;%
             dcant_sd = sd(dcant),
             dcant_range = max(dcant)- min(dcant)) %&gt;% 
   ungroup()</code></pre>
-<pre><code>`summarise()` has grouped output by &#39;data_source&#39;, &#39;period&#39;. You can override using the `.groups` argument.</code></pre>
+<pre><code>`summarise()` has grouped output by &#39;data_source&#39;, &#39;period&#39;. You can override
+using the `.groups` argument.</code></pre>
 <div id="mean" class="section level3" number="6.1.1">
 <h3><span class="header-section-number">6.1.1</span> Mean</h3>
 <pre class="r"><code>legend_title = expression(Delta * C[ant]~(PgC))
@@ -3184,7 +3218,8 @@ jens-daniel-mueller
             dcant_sd = sd(dcant),
             dcant_range = max(dcant)- min(dcant)) %&gt;% 
   ungroup()</code></pre>
-<pre><code>`summarise()` has grouped output by &#39;basin_AIP&#39;, &#39;data_source&#39;. You can override using the `.groups` argument.</code></pre>
+<pre><code>`summarise()` has grouped output by &#39;basin_AIP&#39;, &#39;data_source&#39;. You can override
+using the `.groups` argument.</code></pre>
 <div id="mean-1" class="section level3" number="6.2.1">
 <h3><span class="header-section-number">6.2.1</span> Mean</h3>
 <pre class="r"><code>dcant_budget_basin_AIP_ensemble %&gt;%
@@ -4440,8 +4475,8 @@ other attached packages:
 [17] tidyverse_1.3.1  workflowr_1.7.0 
 
 loaded via a namespace (and not attached):
- [1] fs_1.5.2           gghalves_0.1.1     bit64_4.0.5        gsw_1.0-6         
- [5] lubridate_1.8.0    RColorBrewer_1.1-2 httr_1.4.2         rprojroot_2.0.2   
+ [1] fs_1.5.2           gghalves_0.1.1     bit64_4.0.5        lubridate_1.8.0   
+ [5] gsw_1.0-6          RColorBrewer_1.1-2 httr_1.4.2         rprojroot_2.0.2   
  [9] tools_4.1.2        backports_1.4.1    bslib_0.3.1        utf8_1.2.2        
 [13] R6_2.5.1           DBI_1.1.2          withr_2.4.3        tidyselect_1.1.1  
 [17] processx_3.5.2     bit_4.0.4          compiler_4.1.2     git2r_0.29.0      
@@ -4449,7 +4484,7 @@ loaded via a namespace (and not attached):
 [25] sass_0.4.0         scales_1.1.1       checkmate_2.0.0    SolveSAPHE_2.1.0  
 [29] callr_3.7.0        digest_0.6.29      rmarkdown_2.11     oce_1.5-0         
 [33] pkgconfig_2.0.3    htmltools_0.5.2    highr_0.9          dbplyr_2.1.1      
-[37] fastmap_1.1.0      rlang_0.4.12       readxl_1.3.1       rstudioapi_0.13   
+[37] fastmap_1.1.0      rlang_1.0.2        readxl_1.3.1       rstudioapi_0.13   
 [41] jquerylib_0.1.4    generics_0.1.1     farver_2.1.0       jsonlite_1.7.3    
 [45] vroom_1.5.7        magrittr_2.0.1     Rcpp_1.0.8         munsell_0.5.0     
 [49] fansi_1.0.2        lifecycle_1.0.1    stringi_1.7.6      whisker_0.4       
