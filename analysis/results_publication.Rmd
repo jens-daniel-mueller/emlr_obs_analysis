@@ -50,7 +50,7 @@ path_preprocessing_model    <-
 
 ```{r define_Version_IDs}
 
-version_id_pattern <- "d03"
+version_id_pattern <- "103"
 
 # identify required version IDs
 
@@ -116,7 +116,7 @@ Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observat
 
 Version_IDs_d <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 
-version_id_pattern <- "c"
+version_id_pattern <- "g"
 
 # identify required version IDs
 

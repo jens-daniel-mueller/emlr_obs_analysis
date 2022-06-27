@@ -5,12 +5,15 @@
 
 
 # commit regular changes (locally) and rebuild site
-wflow_publish(all = TRUE, message = "rerun with adjusted data")
+wflow_publish(all = TRUE, message = "1 as standard case and new ensemble members")
 
 # commit changes including _site.yml (locally) and rebuild site in the specified order
 wflow_publish(here::here(
   "analysis",
   c(
+    "data_adjustment_cruise_budgets.Rmd",
+    "data_adjustment_cruise_column_inventories.Rmd",
+    "data_adjustment_cruise_zonal_sections.Rmd",
     "index.Rmd",
     "multi_model_assesment_budgets.Rmd",
     "multi_model_assesment_column_inventories.Rmd",
@@ -19,9 +22,6 @@ wflow_publish(here::here(
     "data_adjustment_none_budgets.Rmd",
     "data_adjustment_none_column_inventories.Rmd",
     "data_adjustment_none_zonal_sections.Rmd",
-    "data_adjustment_cruise_budgets.Rmd",
-    "data_adjustment_cruise_column_inventories.Rmd",
-    "data_adjustment_cruise_zonal_sections.Rmd",
     "MLR_target_budgets.Rmd",
     "MLR_target_column_inventories.Rmd",
     "MLR_target_zonal_sections.Rmd",
@@ -61,7 +61,7 @@ wflow_publish(here::here(
     "MLR_predictor_nitrate_zonal_sections.Rmd"
   )
 ),
-message = "revised plots, including decadal offset comparison",
+message = "rebuild with rerun analysis",
 republish = TRUE)
 
 
