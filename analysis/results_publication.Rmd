@@ -930,9 +930,9 @@ tcant_inv <- tcant_inv %>%
 
 ```
 
-## Surface flux products
+## GCB carbon sink
 
-```{r read_RECCAP2_flux_products_observations}
+```{r read_RECCAP2_flux_products_observations, eval=FALSE}
 
 RECCAP2_fgco2_glob_all_annual_obs <-
   read_csv(paste0(path_preprocessing,
@@ -949,11 +949,20 @@ RECCAP2_fgco2_glob_all_annual_mod <-
 ```
 
 
-```{r read_SeaFlux_flux_products_observations}
+```{r read_SeaFlux_flux_products_observations, eval=FALSE}
 
 SeaFlux_fgco2_glob_all_annual_obs <-
   read_csv(paste0(path_preprocessing,
                    "fgco2_glob_Seaflux_annual.csv"))
+
+```
+
+```{r read_GCB_ocean_carbon_sink}
+
+Ocean_Sink <-
+  read_csv(paste(path_preprocessing,
+                  "Ocean_Sink.csv",
+                  sep = ""))
 
 ```
 
@@ -2920,7 +2929,6 @@ tcant_ts %>%
 
 ```{r RECCAP2_fluxes, eval=FALSE}
 
-
 RECCAP2_fgco2_glob_all_annual_cum_1994 <- RECCAP2_fgco2_glob_all_annual_obs %>%
   filter(year >= 1994, year <= 2018) %>%
   mutate(fgco2_glob = if_else(year == 1994, 0, fgco2_glob),
@@ -3007,8 +3015,45 @@ SeaFlux_fgco2_glob_all_annual_cum_1994 <- SeaFlux_fgco2_glob_all_annual_cum_1994
 ```
 
 
+```{r GCB_carbon_sink}
 
-```{r mean_tcant_over_atm_co2_incl_fluxes, fig.asp=0.6, eval=FALSE}
+Ocean_Sink_cum_1994 <-
+  Ocean_Sink %>%
+  filter(year >= 1994) %>%
+  mutate(fgco2_glob = if_else(year == 1994, 0, GtC_yr),
+         fgco2_glob = fgco2_glob) %>% 
+  arrange(year) %>%
+  group_by(product, type) %>%
+  mutate(fgco2_glob_cum = cumsum(fgco2_glob)) %>%
+  ungroup()
+
+Ocean_Sink_cum_1994 <-
+  left_join(Ocean_Sink_cum_1994,
+            co2_atm) 
+
+Ocean_Sink_cum_1994 %>%
+  ggplot(aes(pCO2, fgco2_glob_cum, col = product)) +
+  geom_line() +
+  geom_point(shape = 21, fill = "white") +
+  theme(legend.position = "bottom") +
+  facet_grid(.~ type)
+
+
+Ocean_Sink_cum_1994 <- Ocean_Sink_cum_1994 %>% 
+  mutate(fgco2_glob_cum = fgco2_glob_cum + 118) %>%
+  select(pCO2, product, fgco2_glob_cum, type)
+
+Ocean_Sink_cum_1994 <- Ocean_Sink_cum_1994 %>% 
+  mutate(type = case_when(
+    type == "data_products" ~ "Observation-based\nflux products",
+    TRUE ~ "Hindcast models"
+  ))
+
+```
+
+
+
+```{r mean_tcant_over_atm_co2_incl_fluxes, fig.asp=0.6}
 
 tcant_ts_zoom <- tcant_ts %>%
   filter(year != 1800) %>% 
@@ -3026,17 +3071,8 @@ tcant_ts_zoom %>%
     ),
     alpha = 0.5
   ) +
-  geom_line(data = RECCAP2_fgco2_glob_all_annual_cum_1994_mod,
-            aes(pCO2, fgco2_glob_corr_cum, group = product, col = "Models")) +
-  # geom_line(data = RECCAP2_fgco2_glob_all_annual_cum_1994 %>%
-  #             filter(product != "UOEX_Wat20_1985_2019_v20211204"),
-  #           aes(pCO2, fgco2_glob_corr_cum, group = product, col = "1.1 x RECCAP2 flux")) +
-  geom_line(data = RECCAP2_fgco2_glob_all_annual_cum_1994 %>%
-              filter(product == "UOEX_Wat20_1985_2019_v20211204"),
-            aes(pCO2, fgco2_glob_corr_cum, group = product, col = "Observation-based\nflux products"),
-            linetype = 2) +
-  geom_line(data = SeaFlux_fgco2_glob_all_annual_cum_1994,
-            aes(pCO2, fgco2_glob_corr_cum, group = product, col = "Observation-based\nflux products")) +
+  geom_line(data = Ocean_Sink_cum_1994,
+            aes(pCO2, fgco2_glob_cum, group = product, col = type)) +
   geom_line(aes(col = "eMLR(C*)")) +
   geom_point(aes(col = "eMLR(C*)"),
              shape = 21, fill = "white") +
