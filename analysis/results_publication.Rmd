@@ -256,9 +256,9 @@ params_local_all_ensemble <-
 
 ## Budgets
 
-```{r read_budget_files_global}
+```{r read_budget_files_global_ensemble}
 
-for (i_Version_IDs in Version_IDs) {
+for (i_Version_IDs in Version_IDs_ensemble) {
   # i_Version_IDs <- Version_IDs[1]
   
   path_version_data     <-
@@ -280,37 +280,13 @@ for (i_Version_IDs in Version_IDs) {
       "dcant_budget_global_mod_truth.csv",
       sep = ""
     ))
-  # 
-  # dcant_budget_global_bias <-
-  #   read_csv(paste(path_version_data,
-  #                  "dcant_budget_global_bias.csv",
-  #                  sep = ""))
-  # 
-  # lm_best_predictor_counts <-
-  #   read_csv(paste(path_version_data,
-  #                  "lm_best_predictor_counts.csv",
-  #                  sep = ""))
-  # 
-  # lm_best_dcant <-
-  #   read_csv(paste(path_version_data,
-  #                  "lm_best_dcant.csv",
-  #                  sep = ""))
   
   dcant_budget_global <- bind_rows(dcant_budget_global,
-                                      dcant_budget_global_mod_truth)
+                                   dcant_budget_global_mod_truth)
   
   dcant_budget_global <- dcant_budget_global %>%
     mutate(Version_ID = i_Version_IDs)
   
-  # dcant_budget_global_bias <- dcant_budget_global_bias %>%
-  #   mutate(Version_ID = i_Version_IDs)
-  # 
-  # lm_best_predictor_counts <- lm_best_predictor_counts %>%
-  #   mutate(Version_ID = i_Version_IDs)
-  # 
-  # lm_best_dcant <- lm_best_dcant %>%
-  #   mutate(Version_ID = i_Version_IDs)
-
   if (exists("dcant_budget_global_all")) {
     dcant_budget_global_all <-
       bind_rows(dcant_budget_global_all, dcant_budget_global)
@@ -320,60 +296,17 @@ for (i_Version_IDs in Version_IDs) {
     dcant_budget_global_all <- dcant_budget_global
   }
   
-  # if (exists("dcant_budget_global_bias_all")) {
-  #   dcant_budget_global_bias_all <-
-  #     bind_rows(dcant_budget_global_bias_all,
-  #               dcant_budget_global_bias)
-  # }
-  # 
-  # if (!exists("dcant_budget_global_bias_all")) {
-  #   dcant_budget_global_bias_all <- dcant_budget_global_bias
-  # }
-  # 
-  #   
-  # if (exists("lm_best_predictor_counts_all")) {
-  #   lm_best_predictor_counts_all <-
-  #     bind_rows(lm_best_predictor_counts_all, lm_best_predictor_counts)
-  # }
-  # 
-  # if (!exists("lm_best_predictor_counts_all")) {
-  #   lm_best_predictor_counts_all <- lm_best_predictor_counts
-  # }
-  #   
-  # if (exists("lm_best_dcant_all")) {
-  #   lm_best_dcant_all <-
-  #     bind_rows(lm_best_dcant_all, lm_best_dcant)
-  # }
-  # 
-  # if (!exists("lm_best_dcant_all")) {
-  #   lm_best_dcant_all <- lm_best_dcant
-  # }
-  # 
-  # if (exists("params_local_all")) {
-  #   params_local_all <- bind_rows(params_local_all, params_local)
-  # }
-  # 
-  # if (!exists("params_local_all")) {
-  #   params_local_all <- params_local
-  # }
-  # 
-  
 }
 
-rm(
-  dcant_budget_global,
-  # dcant_budget_global_bias,
-  dcant_budget_global_mod_truth
-  # lm_best_predictor_counts,
-  # lm_best_dcant
-)
-
+rm(dcant_budget_global,
+   dcant_budget_global_mod_truth)
+   
 ```
 
 
-```{r read_budget_files_basins_hemisphere}
+```{r read_budget_files_basins_hemisphere_ensemble}
 
-for (i_Version_IDs in Version_IDs) {
+for (i_Version_IDs in Version_IDs_ensemble) {
   # i_Version_IDs <- Version_IDs[1]
   
   print(i_Version_IDs)
@@ -425,77 +358,11 @@ rm(
 
 ```
 
-```{r read_budget_files_basins_hemisphere_ensemble}
-
-for (i_Version_IDs in Version_IDs_ensemble) {
-  # i_Version_IDs <- Version_IDs[1]
-  
-  print(i_Version_IDs)
-  
-  path_version_data     <-
-    paste(path_observations,
-          i_Version_IDs,
-          "/data/",
-          sep = "")
-  
-  # load and join data files
-  
-  dcant_budget_basin_MLR_ensemble <-
-    read_csv(paste(path_version_data,
-                   "dcant_budget_basin_MLR.csv",
-                   sep = ""))
-  
-  dcant_budget_basin_MLR_mod_truth_ensemble <-
-    read_csv(paste(
-      path_version_data,
-      "dcant_budget_basin_MLR_mod_truth.csv",
-      sep = ""
-    ))
-  
-    
-  dcant_budget_basin_MLR_ensemble <- bind_rows(dcant_budget_basin_MLR_ensemble,
-                                      dcant_budget_basin_MLR_mod_truth_ensemble)
-  
-  dcant_budget_basin_MLR_ensemble <- dcant_budget_basin_MLR_ensemble %>%
-    mutate(Version_ID = i_Version_IDs)
-  
-
-  if (exists("dcant_budget_basin_MLR_all_ensemble")) {
-    dcant_budget_basin_MLR_all_ensemble <-
-      bind_rows(dcant_budget_basin_MLR_all_ensemble, dcant_budget_basin_MLR_ensemble)
-  }
-  
-  if (!exists("dcant_budget_basin_MLR_all_ensemble")) {
-    dcant_budget_basin_MLR_all_ensemble <- dcant_budget_basin_MLR_ensemble
-  }
-
-}
-
-rm(
-  dcant_budget_basin_MLR_ensemble,
-  dcant_budget_basin_MLR_mod_truth_ensemble
-)
-
-
-```
-
 ```{r join_budget_data_and_meta_data, include=FALSE}
 
 
 dcant_budget_global_all <- full_join(dcant_budget_global_all,
-                                     params_local_all)
-
-# dcant_budget_global_bias_all <-
-#   full_join(dcant_budget_global_bias_all,
-#             params_local_all)
-# 
-# 
-# dcant_budget_basin_AIP_all <- full_join(dcant_budget_basin_AIP_all,
-#                                         params_local_all)
-# 
-# dcant_budget_basin_AIP_bias_all <-
-#   full_join(dcant_budget_basin_AIP_bias_all,
-#             params_local_all)
+                                     params_local_all_ensemble)
 
 
 dcant_budget_basin_MLR_all <- dcant_budget_basin_MLR_all %>%
@@ -503,26 +370,7 @@ dcant_budget_basin_MLR_all <- dcant_budget_basin_MLR_all %>%
   select(-MLR_basins)
 
 dcant_budget_basin_MLR_all <- full_join(dcant_budget_basin_MLR_all,
-                                        params_local_all)
-
-
-dcant_budget_basin_MLR_all_ensemble <- dcant_budget_basin_MLR_all_ensemble %>%
-  filter(MLR_basins == "5") %>% 
-  select(-MLR_basins)
-
-dcant_budget_basin_MLR_all_ensemble <- full_join(dcant_budget_basin_MLR_all_ensemble,
                                         params_local_all_ensemble)
-
-# dcant_slab_budget_all <- full_join(dcant_slab_budget_all,
-#                                         params_local_all)
-# 
-# dcant_slab_budget_bias_all <-
-#   full_join(dcant_slab_budget_bias_all,
-#             params_local_all)
-# 
-# 
-# dcant_obs_budget_all <- full_join(dcant_obs_budget_all,
-#                              params_local_all)
 
 
 ```
@@ -536,19 +384,8 @@ dcant_budget_global_all <- dcant_budget_global_all %>%
   select(-c(estimate, method)) %>% 
   rename(dcant = value)
 
-# dcant_budget_global_all_depth <- dcant_budget_global_all
-
 dcant_budget_global_all <- dcant_budget_global_all %>%
   filter(inv_depth == params_global$inventory_depth_standard)
-
-# dcant_budget_global_bias_all <- dcant_budget_global_bias_all %>%
-#   filter(estimate == "dcant") %>%
-#   select(-c(estimate))
-
-# dcant_budget_global_bias_all_depth <- dcant_budget_global_bias_all
-# 
-# dcant_budget_global_bias_all <- dcant_budget_global_bias_all %>%
-#   filter(inv_depth == params_global$inventory_depth_standard)
 
 ```
 
@@ -563,17 +400,23 @@ dcant_budget_basin_MLR_all <- dcant_budget_basin_MLR_all %>%
 dcant_budget_basin_MLR_all <- dcant_budget_basin_MLR_all %>%
   filter(inv_depth == params_global$inventory_depth_standard)
 
-dcant_budget_basin_MLR_all_ensemble <- dcant_budget_basin_MLR_all_ensemble %>%
-  filter(estimate == "dcant", 
-         method == "total") %>% 
-  select(-c(estimate, method)) %>% 
-  rename(dcant = value)
-
-dcant_budget_basin_MLR_all_ensemble <- dcant_budget_basin_MLR_all_ensemble %>%
-  filter(inv_depth == params_global$inventory_depth_standard)
-
 ```
 
+
+```{r r distuinguish_standard_case_and_ensemble_budget, include=FALSE}
+
+
+dcant_budget_global_all_ensemble <- dcant_budget_global_all
+dcant_budget_global_all <- dcant_budget_global_all %>%
+  filter(Version_ID %in% Version_IDs)
+
+
+dcant_budget_basin_MLR_all_ensemble <- dcant_budget_basin_MLR_all
+dcant_budget_basin_MLR_all <- dcant_budget_basin_MLR_all %>%
+  filter(Version_ID %in% Version_IDs)
+
+
+```
 
 
 ## Column inventories
@@ -714,7 +557,7 @@ dcant_budget_lon_grid_all <- dcant_budget_lon_grid_all %>%
 ```
 
 
-```{r r distuinguish_standard_case_and_ensemble, include=FALSE}
+```{r r distuinguish_standard_case_and_ensemble_inventories, include=FALSE}
 
 
 dcant_inv_bias_all_ensemble <- dcant_inv_bias_all
@@ -738,7 +581,7 @@ dcant_budget_lon_grid_all <- dcant_budget_lon_grid_all %>%
 
 ```{r read_zonal_section_files}
 
-for (i_Version_IDs in Version_IDs) {
+for (i_Version_IDs in Version_IDs_ensemble) {
 
   path_version_data     <-
   paste(path_observations,
@@ -875,166 +718,22 @@ rm(dcant_zonal, dcant_zonal_bias, dcant_zonal_mod_truth,
 
 ```
 
-
-```{r read_zonal_section_files_ensemble}
-
-for (i_Version_IDs in Version_IDs_ensemble) {
-
-  path_version_data     <-
-  paste(path_observations,
-        i_Version_IDs,
-        "/data/",
-        sep = "")
-  
-  # load and join data files
-  
-  dcant_zonal <-
-    read_csv(paste(path_version_data,
-                   "dcant_zonal.csv",
-                   sep = ""))
-  
-  dcant_zonal_mod_truth <-
-    read_csv(paste(path_version_data,
-                   "dcant_zonal_mod_truth.csv",
-                   sep = ""))
-  
-  dcant_zonal <- bind_rows(dcant_zonal,
-                         dcant_zonal_mod_truth)
-  
-  dcant_profile <-
-    read_csv(paste(path_version_data,
-                   "dcant_profile.csv",
-                   sep = ""))
-  
-  dcant_profile_mod_truth <-
-    read_csv(paste(path_version_data,
-                   "dcant_profile_mod_truth.csv",
-                   sep = ""))
-  
-  
-  dcant_profile_basin_MLR <-
-    read_csv(paste(path_version_data,
-                   "dcant_profile_basin_MLR.csv",
-                   sep = ""))
-  
-  dcant_profile <- bind_rows(dcant_profile,
-                             dcant_profile_mod_truth)
-  
-  dcant_budget_basin_AIP_layer <-
-    read_csv(paste(path_version_data,
-                   "dcant_budget_basin_AIP_layer.csv",
-                   sep = ""))
-
-  dcant_budget_basin_MLR_layer <-
-    read_csv(paste(path_version_data,
-                   "dcant_budget_basin_MLR_layer.csv",
-                   sep = ""))
-  
-  dcant_zonal_bias <-
-    read_csv(paste(path_version_data,
-                   "dcant_zonal_bias.csv",
-                   sep = ""))
-  
-
-  dcant_zonal <- dcant_zonal %>% 
-    mutate(Version_ID = i_Version_IDs)
-  
-  dcant_profile <- dcant_profile %>% 
-    mutate(Version_ID = i_Version_IDs)
-
-  dcant_profile_basin_MLR <- dcant_profile_basin_MLR %>% 
-    mutate(Version_ID = i_Version_IDs)
-  
-  dcant_budget_basin_AIP_layer <- dcant_budget_basin_AIP_layer %>% 
-    mutate(Version_ID = i_Version_IDs)
-  
-  dcant_budget_basin_MLR_layer <- dcant_budget_basin_MLR_layer %>% 
-    mutate(Version_ID = i_Version_IDs)
-  
-  dcant_zonal_bias <- dcant_zonal_bias %>% 
-    mutate(Version_ID = i_Version_IDs)
-
-  
-  if (exists("dcant_zonal_all_ensemble")) {
-    dcant_zonal_all_ensemble <- bind_rows(dcant_zonal_all_ensemble, dcant_zonal)
-  }
-  
-  if (!exists("dcant_zonal_all_ensemble")) {
-    dcant_zonal_all_ensemble <- dcant_zonal
-  }
-
-  if (exists("dcant_profile_all_ensemble")) {
-    dcant_profile_all_ensemble <- bind_rows(dcant_profile_all_ensemble, dcant_profile)
-  }
-  
-  if (!exists("dcant_profile_all_ensemble")) {
-    dcant_profile_all_ensemble <- dcant_profile
-  }
-
-  if (exists("dcant_profile_basin_MLR_all_ensemble")) {
-    dcant_profile_basin_MLR_all_ensemble <- bind_rows(dcant_profile_basin_MLR_all_ensemble, dcant_profile_basin_MLR)
-  }
-  
-  if (!exists("dcant_profile_basin_MLR_all_ensemble")) {
-    dcant_profile_basin_MLR_all_ensemble <- dcant_profile_basin_MLR
-  }
-
-  if (exists("dcant_budget_basin_AIP_layer_all_ensemble")) {
-    dcant_budget_basin_AIP_layer_all_ensemble <-
-      bind_rows(dcant_budget_basin_AIP_layer_all_ensemble,
-                dcant_budget_basin_AIP_layer)
-  }
-  
-  if (!exists("dcant_budget_basin_AIP_layer_all_ensemble")) {
-    dcant_budget_basin_AIP_layer_all_ensemble <- dcant_budget_basin_AIP_layer
-  }
-
-  if (exists("dcant_budget_basin_MLR_layer_all_ensemble")) {
-    dcant_budget_basin_MLR_layer_all_ensemble <-
-      bind_rows(dcant_budget_basin_MLR_layer_all_ensemble,
-                dcant_budget_basin_MLR_layer)
-  }
-  
-  if (!exists("dcant_budget_basin_MLR_layer_all_ensemble")) {
-    dcant_budget_basin_MLR_layer_all_ensemble <- dcant_budget_basin_MLR_layer
-  }
-
-  if (exists("dcant_zonal_bias_all_ensemble")) {
-    dcant_zonal_bias_all_ensemble <- bind_rows(dcant_zonal_bias_all_ensemble, dcant_zonal_bias)
-  }
-  
-  if (!exists("dcant_zonal_bias_all_ensemble")) {
-    dcant_zonal_bias_all_ensemble <- dcant_zonal_bias
-  }
-
-}
-
-rm(dcant_zonal, dcant_zonal_bias, dcant_zonal_mod_truth,
-   dcant_budget_basin_AIP_layer, dcant_budget_basin_MLR_layer,
-   dcant_profile, dcant_profile_basin_MLR)
-
-```
-
-
 ```{r r join_zonal_section_data_and_meta_data, include=FALSE}
 
-
-# standard cases
-
 dcant_zonal_all <- full_join(dcant_zonal_all,
-                             params_local_all)
+                             params_local_all_ensemble)
 
 dcant_profile_all <- full_join(dcant_profile_all,
-                               params_local_all)
+                               params_local_all_ensemble)
 
 dcant_profile_basin_MLR_all <-
   full_join(dcant_profile_basin_MLR_all,
-            params_local_all)
+            params_local_all_ensemble)
 
 
 dcant_budget_basin_AIP_layer_all <-
   full_join(dcant_budget_basin_AIP_layer_all,
-            params_local_all)
+            params_local_all_ensemble)
 
 dcant_budget_basin_MLR_layer_all <-
   dcant_budget_basin_MLR_layer_all %>%
@@ -1043,42 +742,46 @@ dcant_budget_basin_MLR_layer_all <-
 
 dcant_budget_basin_MLR_layer_all <-
   full_join(dcant_budget_basin_MLR_layer_all,
-            params_local_all)
+            params_local_all_ensemble)
 
 dcant_zonal_bias_all <- full_join(dcant_zonal_bias_all,
-                                  params_local_all)
+                                  params_local_all_ensemble)
 
-# ensemble members
-
-dcant_zonal_all_ensemble <- full_join(dcant_zonal_all_ensemble,
-                                      params_local_all_ensemble)
-
-dcant_profile_all_ensemble <- full_join(dcant_profile_all_ensemble,
-                                        params_local_all_ensemble)
-
-dcant_profile_basin_MLR_all_ensemble <-
-  full_join(dcant_profile_basin_MLR_all_ensemble,
-            params_local_all_ensemble)
-
-
-dcant_budget_basin_AIP_layer_all_ensemble <-
-  full_join(dcant_budget_basin_AIP_layer_all_ensemble,
-            params_local_all_ensemble)
-
-dcant_budget_basin_MLR_layer_all_ensemble <-
-  dcant_budget_basin_MLR_layer_all_ensemble %>%
-  filter(MLR_basins == "5") %>%
-  select(-MLR_basins)
-
-dcant_budget_basin_MLR_layer_all_ensemble <-
-  full_join(dcant_budget_basin_MLR_layer_all_ensemble,
-            params_local_all_ensemble)
-
-dcant_zonal_bias_all_ensemble <-
-  full_join(dcant_zonal_bias_all_ensemble,
-            params_local_all_ensemble)
 
 ```
+
+
+```{r r distuinguish_standard_case_and_ensemble_sections_and_profiles, include=FALSE}
+
+
+dcant_zonal_all_ensemble <- dcant_zonal_all
+dcant_zonal_all <- dcant_zonal_all %>% 
+  filter(Version_ID %in% Version_IDs)
+
+
+dcant_profile_all_ensemble <- dcant_profile_all
+dcant_profile_all <- dcant_profile_all %>% 
+  filter(Version_ID %in% Version_IDs)
+
+dcant_profile_basin_MLR_all_ensemble <- dcant_profile_basin_MLR_all
+dcant_profile_basin_MLR_all <- dcant_profile_basin_MLR_all %>% 
+  filter(Version_ID %in% Version_IDs)
+
+dcant_budget_basin_AIP_layer_all_ensemble <- dcant_budget_basin_AIP_layer_all
+dcant_budget_basin_AIP_layer_all <- dcant_budget_basin_AIP_layer_all %>% 
+  filter(Version_ID %in% Version_IDs)
+
+dcant_budget_basin_MLR_layer_all_ensemble <- dcant_budget_basin_MLR_layer_all
+dcant_budget_basin_MLR_layer_all <- dcant_budget_basin_MLR_layer_all %>% 
+  filter(Version_ID %in% Version_IDs)
+
+dcant_zonal_bias_all_ensemble <- dcant_zonal_bias_all
+dcant_zonal_bias_all <- dcant_zonal_bias_all %>% 
+  filter(Version_ID %in% Version_IDs)
+
+```
+
+
 
 ## Observations coverage
 
