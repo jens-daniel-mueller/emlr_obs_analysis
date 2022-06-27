@@ -733,16 +733,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreedd2063a6e18b6cc61da0fff28447c00881195e7etargetblankdd2063aa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/dd2063a6e18b6cc61da0fff28447c00881195e7e" target="_blank">dd2063a</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree426c5bf5207c158239ce5581a79a71c6158f71batargetblank426c5bfa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/426c5bf5207c158239ce5581a79a71c6158f71ba" target="_blank">426c5bf</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreedd2063a6e18b6cc61da0fff28447c00881195e7etargetblankdd2063aa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree426c5bf5207c158239ce5581a79a71c6158f71batargetblank426c5bfa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/dd2063a6e18b6cc61da0fff28447c00881195e7e" target="_blank">dd2063a</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/426c5bf5207c158239ce5581a79a71c6158f71ba" target="_blank">426c5bf</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -793,6 +793,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/426c5bf5207c158239ce5581a79a71c6158f71ba/analysis/results_publication.Rmd" target="_blank">426c5bf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-27
+</td>
+<td>
+cleaned read-in section
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/16dc3afa7157809f9b5557f0d71b1fe2e2a71684/docs/results_publication.html" target="_blank">16dc3af</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-27
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -3613,7 +3647,7 @@ params_local_all_ensemble &lt;-
 </div>
 <div id="budgets" class="section level2" number="2.3">
 <h2><span class="header-section-number">2.3</span> Budgets</h2>
-<pre class="r"><code>for (i_Version_IDs in Version_IDs) {
+<pre class="r"><code>for (i_Version_IDs in Version_IDs_ensemble) {
   # i_Version_IDs &lt;- Version_IDs[1]
   
   path_version_data     &lt;-
@@ -3635,37 +3669,13 @@ params_local_all_ensemble &lt;-
       &quot;dcant_budget_global_mod_truth.csv&quot;,
       sep = &quot;&quot;
     ))
-  # 
-  # dcant_budget_global_bias &lt;-
-  #   read_csv(paste(path_version_data,
-  #                  &quot;dcant_budget_global_bias.csv&quot;,
-  #                  sep = &quot;&quot;))
-  # 
-  # lm_best_predictor_counts &lt;-
-  #   read_csv(paste(path_version_data,
-  #                  &quot;lm_best_predictor_counts.csv&quot;,
-  #                  sep = &quot;&quot;))
-  # 
-  # lm_best_dcant &lt;-
-  #   read_csv(paste(path_version_data,
-  #                  &quot;lm_best_dcant.csv&quot;,
-  #                  sep = &quot;&quot;))
   
   dcant_budget_global &lt;- bind_rows(dcant_budget_global,
-                                      dcant_budget_global_mod_truth)
+                                   dcant_budget_global_mod_truth)
   
   dcant_budget_global &lt;- dcant_budget_global %&gt;%
     mutate(Version_ID = i_Version_IDs)
   
-  # dcant_budget_global_bias &lt;- dcant_budget_global_bias %&gt;%
-  #   mutate(Version_ID = i_Version_IDs)
-  # 
-  # lm_best_predictor_counts &lt;- lm_best_predictor_counts %&gt;%
-  #   mutate(Version_ID = i_Version_IDs)
-  # 
-  # lm_best_dcant &lt;- lm_best_dcant %&gt;%
-  #   mutate(Version_ID = i_Version_IDs)
-
   if (exists(&quot;dcant_budget_global_all&quot;)) {
     dcant_budget_global_all &lt;-
       bind_rows(dcant_budget_global_all, dcant_budget_global)
@@ -3675,54 +3685,11 @@ params_local_all_ensemble &lt;-
     dcant_budget_global_all &lt;- dcant_budget_global
   }
   
-  # if (exists(&quot;dcant_budget_global_bias_all&quot;)) {
-  #   dcant_budget_global_bias_all &lt;-
-  #     bind_rows(dcant_budget_global_bias_all,
-  #               dcant_budget_global_bias)
-  # }
-  # 
-  # if (!exists(&quot;dcant_budget_global_bias_all&quot;)) {
-  #   dcant_budget_global_bias_all &lt;- dcant_budget_global_bias
-  # }
-  # 
-  #   
-  # if (exists(&quot;lm_best_predictor_counts_all&quot;)) {
-  #   lm_best_predictor_counts_all &lt;-
-  #     bind_rows(lm_best_predictor_counts_all, lm_best_predictor_counts)
-  # }
-  # 
-  # if (!exists(&quot;lm_best_predictor_counts_all&quot;)) {
-  #   lm_best_predictor_counts_all &lt;- lm_best_predictor_counts
-  # }
-  #   
-  # if (exists(&quot;lm_best_dcant_all&quot;)) {
-  #   lm_best_dcant_all &lt;-
-  #     bind_rows(lm_best_dcant_all, lm_best_dcant)
-  # }
-  # 
-  # if (!exists(&quot;lm_best_dcant_all&quot;)) {
-  #   lm_best_dcant_all &lt;- lm_best_dcant
-  # }
-  # 
-  # if (exists(&quot;params_local_all&quot;)) {
-  #   params_local_all &lt;- bind_rows(params_local_all, params_local)
-  # }
-  # 
-  # if (!exists(&quot;params_local_all&quot;)) {
-  #   params_local_all &lt;- params_local
-  # }
-  # 
-  
 }
 
-rm(
-  dcant_budget_global,
-  # dcant_budget_global_bias,
-  dcant_budget_global_mod_truth
-  # lm_best_predictor_counts,
-  # lm_best_dcant
-)</code></pre>
-<pre class="r"><code>for (i_Version_IDs in Version_IDs) {
+rm(dcant_budget_global,
+   dcant_budget_global_mod_truth)</code></pre>
+<pre class="r"><code>for (i_Version_IDs in Version_IDs_ensemble) {
   # i_Version_IDs &lt;- Version_IDs[1]
   
   print(i_Version_IDs)
@@ -3762,56 +3729,6 @@ rm(
   
   if (!exists(&quot;dcant_budget_basin_MLR_all&quot;)) {
     dcant_budget_basin_MLR_all &lt;- dcant_budget_basin_MLR
-  }
-
-}</code></pre>
-<pre><code>[1] &quot;v_1103&quot;
-[1] &quot;v_2103&quot;
-[1] &quot;v_3103&quot;</code></pre>
-<pre class="r"><code>rm(
-  dcant_budget_basin_MLR,
-  dcant_budget_basin_MLR_mod_truth
-)</code></pre>
-<pre class="r"><code>for (i_Version_IDs in Version_IDs_ensemble) {
-  # i_Version_IDs &lt;- Version_IDs[1]
-  
-  print(i_Version_IDs)
-  
-  path_version_data     &lt;-
-    paste(path_observations,
-          i_Version_IDs,
-          &quot;/data/&quot;,
-          sep = &quot;&quot;)
-  
-  # load and join data files
-  
-  dcant_budget_basin_MLR_ensemble &lt;-
-    read_csv(paste(path_version_data,
-                   &quot;dcant_budget_basin_MLR.csv&quot;,
-                   sep = &quot;&quot;))
-  
-  dcant_budget_basin_MLR_mod_truth_ensemble &lt;-
-    read_csv(paste(
-      path_version_data,
-      &quot;dcant_budget_basin_MLR_mod_truth.csv&quot;,
-      sep = &quot;&quot;
-    ))
-  
-    
-  dcant_budget_basin_MLR_ensemble &lt;- bind_rows(dcant_budget_basin_MLR_ensemble,
-                                      dcant_budget_basin_MLR_mod_truth_ensemble)
-  
-  dcant_budget_basin_MLR_ensemble &lt;- dcant_budget_basin_MLR_ensemble %&gt;%
-    mutate(Version_ID = i_Version_IDs)
-  
-
-  if (exists(&quot;dcant_budget_basin_MLR_all_ensemble&quot;)) {
-    dcant_budget_basin_MLR_all_ensemble &lt;-
-      bind_rows(dcant_budget_basin_MLR_all_ensemble, dcant_budget_basin_MLR_ensemble)
-  }
-  
-  if (!exists(&quot;dcant_budget_basin_MLR_all_ensemble&quot;)) {
-    dcant_budget_basin_MLR_all_ensemble &lt;- dcant_budget_basin_MLR_ensemble
   }
 
 }</code></pre>
@@ -3888,8 +3805,8 @@ rm(
 [1] &quot;v_3g05&quot;
 [1] &quot;v_3g06&quot;</code></pre>
 <pre class="r"><code>rm(
-  dcant_budget_basin_MLR_ensemble,
-  dcant_budget_basin_MLR_mod_truth_ensemble
+  dcant_budget_basin_MLR,
+  dcant_budget_basin_MLR_mod_truth
 )</code></pre>
 <pre class="r"><code>dcant_budget_global_all &lt;- dcant_budget_global_all %&gt;%
   filter(estimate == &quot;dcant&quot;, 
@@ -3897,19 +3814,8 @@ rm(
   select(-c(estimate, method)) %&gt;% 
   rename(dcant = value)
 
-# dcant_budget_global_all_depth &lt;- dcant_budget_global_all
-
 dcant_budget_global_all &lt;- dcant_budget_global_all %&gt;%
-  filter(inv_depth == params_global$inventory_depth_standard)
-
-# dcant_budget_global_bias_all &lt;- dcant_budget_global_bias_all %&gt;%
-#   filter(estimate == &quot;dcant&quot;) %&gt;%
-#   select(-c(estimate))
-
-# dcant_budget_global_bias_all_depth &lt;- dcant_budget_global_bias_all
-# 
-# dcant_budget_global_bias_all &lt;- dcant_budget_global_bias_all %&gt;%
-#   filter(inv_depth == params_global$inventory_depth_standard)</code></pre>
+  filter(inv_depth == params_global$inventory_depth_standard)</code></pre>
 <pre class="r"><code>dcant_budget_basin_MLR_all &lt;- dcant_budget_basin_MLR_all %&gt;%
   filter(estimate == &quot;dcant&quot;, 
          method == &quot;total&quot;) %&gt;% 
@@ -3917,15 +3823,6 @@ dcant_budget_global_all &lt;- dcant_budget_global_all %&gt;%
   rename(dcant = value)
 
 dcant_budget_basin_MLR_all &lt;- dcant_budget_basin_MLR_all %&gt;%
-  filter(inv_depth == params_global$inventory_depth_standard)
-
-dcant_budget_basin_MLR_all_ensemble &lt;- dcant_budget_basin_MLR_all_ensemble %&gt;%
-  filter(estimate == &quot;dcant&quot;, 
-         method == &quot;total&quot;) %&gt;% 
-  select(-c(estimate, method)) %&gt;% 
-  rename(dcant = value)
-
-dcant_budget_basin_MLR_all_ensemble &lt;- dcant_budget_basin_MLR_all_ensemble %&gt;%
   filter(inv_depth == params_global$inventory_depth_standard)</code></pre>
 </div>
 <div id="column-inventories" class="section level2" number="2.4">
@@ -4034,7 +3931,7 @@ dcant_budget_lon_grid_all &lt;- dcant_budget_lon_grid_all %&gt;%
 </div>
 <div id="sections-profiles" class="section level2" number="2.5">
 <h2><span class="header-section-number">2.5</span> Sections / profiles</h2>
-<pre class="r"><code>for (i_Version_IDs in Version_IDs) {
+<pre class="r"><code>for (i_Version_IDs in Version_IDs_ensemble) {
 
   path_version_data     &lt;-
   paste(path_observations,
@@ -4168,140 +4065,6 @@ dcant_budget_lon_grid_all &lt;- dcant_budget_lon_grid_all %&gt;%
 rm(dcant_zonal, dcant_zonal_bias, dcant_zonal_mod_truth,
    dcant_budget_basin_AIP_layer, dcant_budget_basin_MLR_layer,
    dcant_profile, dcant_profile_basin_MLR)</code></pre>
-<pre class="r"><code>for (i_Version_IDs in Version_IDs_ensemble) {
-
-  path_version_data     &lt;-
-  paste(path_observations,
-        i_Version_IDs,
-        &quot;/data/&quot;,
-        sep = &quot;&quot;)
-  
-  # load and join data files
-  
-  dcant_zonal &lt;-
-    read_csv(paste(path_version_data,
-                   &quot;dcant_zonal.csv&quot;,
-                   sep = &quot;&quot;))
-  
-  dcant_zonal_mod_truth &lt;-
-    read_csv(paste(path_version_data,
-                   &quot;dcant_zonal_mod_truth.csv&quot;,
-                   sep = &quot;&quot;))
-  
-  dcant_zonal &lt;- bind_rows(dcant_zonal,
-                         dcant_zonal_mod_truth)
-  
-  dcant_profile &lt;-
-    read_csv(paste(path_version_data,
-                   &quot;dcant_profile.csv&quot;,
-                   sep = &quot;&quot;))
-  
-  dcant_profile_mod_truth &lt;-
-    read_csv(paste(path_version_data,
-                   &quot;dcant_profile_mod_truth.csv&quot;,
-                   sep = &quot;&quot;))
-  
-  
-  dcant_profile_basin_MLR &lt;-
-    read_csv(paste(path_version_data,
-                   &quot;dcant_profile_basin_MLR.csv&quot;,
-                   sep = &quot;&quot;))
-  
-  dcant_profile &lt;- bind_rows(dcant_profile,
-                             dcant_profile_mod_truth)
-  
-  dcant_budget_basin_AIP_layer &lt;-
-    read_csv(paste(path_version_data,
-                   &quot;dcant_budget_basin_AIP_layer.csv&quot;,
-                   sep = &quot;&quot;))
-
-  dcant_budget_basin_MLR_layer &lt;-
-    read_csv(paste(path_version_data,
-                   &quot;dcant_budget_basin_MLR_layer.csv&quot;,
-                   sep = &quot;&quot;))
-  
-  dcant_zonal_bias &lt;-
-    read_csv(paste(path_version_data,
-                   &quot;dcant_zonal_bias.csv&quot;,
-                   sep = &quot;&quot;))
-  
-
-  dcant_zonal &lt;- dcant_zonal %&gt;% 
-    mutate(Version_ID = i_Version_IDs)
-  
-  dcant_profile &lt;- dcant_profile %&gt;% 
-    mutate(Version_ID = i_Version_IDs)
-
-  dcant_profile_basin_MLR &lt;- dcant_profile_basin_MLR %&gt;% 
-    mutate(Version_ID = i_Version_IDs)
-  
-  dcant_budget_basin_AIP_layer &lt;- dcant_budget_basin_AIP_layer %&gt;% 
-    mutate(Version_ID = i_Version_IDs)
-  
-  dcant_budget_basin_MLR_layer &lt;- dcant_budget_basin_MLR_layer %&gt;% 
-    mutate(Version_ID = i_Version_IDs)
-  
-  dcant_zonal_bias &lt;- dcant_zonal_bias %&gt;% 
-    mutate(Version_ID = i_Version_IDs)
-
-  
-  if (exists(&quot;dcant_zonal_all_ensemble&quot;)) {
-    dcant_zonal_all_ensemble &lt;- bind_rows(dcant_zonal_all_ensemble, dcant_zonal)
-  }
-  
-  if (!exists(&quot;dcant_zonal_all_ensemble&quot;)) {
-    dcant_zonal_all_ensemble &lt;- dcant_zonal
-  }
-
-  if (exists(&quot;dcant_profile_all_ensemble&quot;)) {
-    dcant_profile_all_ensemble &lt;- bind_rows(dcant_profile_all_ensemble, dcant_profile)
-  }
-  
-  if (!exists(&quot;dcant_profile_all_ensemble&quot;)) {
-    dcant_profile_all_ensemble &lt;- dcant_profile
-  }
-
-  if (exists(&quot;dcant_profile_basin_MLR_all_ensemble&quot;)) {
-    dcant_profile_basin_MLR_all_ensemble &lt;- bind_rows(dcant_profile_basin_MLR_all_ensemble, dcant_profile_basin_MLR)
-  }
-  
-  if (!exists(&quot;dcant_profile_basin_MLR_all_ensemble&quot;)) {
-    dcant_profile_basin_MLR_all_ensemble &lt;- dcant_profile_basin_MLR
-  }
-
-  if (exists(&quot;dcant_budget_basin_AIP_layer_all_ensemble&quot;)) {
-    dcant_budget_basin_AIP_layer_all_ensemble &lt;-
-      bind_rows(dcant_budget_basin_AIP_layer_all_ensemble,
-                dcant_budget_basin_AIP_layer)
-  }
-  
-  if (!exists(&quot;dcant_budget_basin_AIP_layer_all_ensemble&quot;)) {
-    dcant_budget_basin_AIP_layer_all_ensemble &lt;- dcant_budget_basin_AIP_layer
-  }
-
-  if (exists(&quot;dcant_budget_basin_MLR_layer_all_ensemble&quot;)) {
-    dcant_budget_basin_MLR_layer_all_ensemble &lt;-
-      bind_rows(dcant_budget_basin_MLR_layer_all_ensemble,
-                dcant_budget_basin_MLR_layer)
-  }
-  
-  if (!exists(&quot;dcant_budget_basin_MLR_layer_all_ensemble&quot;)) {
-    dcant_budget_basin_MLR_layer_all_ensemble &lt;- dcant_budget_basin_MLR_layer
-  }
-
-  if (exists(&quot;dcant_zonal_bias_all_ensemble&quot;)) {
-    dcant_zonal_bias_all_ensemble &lt;- bind_rows(dcant_zonal_bias_all_ensemble, dcant_zonal_bias)
-  }
-  
-  if (!exists(&quot;dcant_zonal_bias_all_ensemble&quot;)) {
-    dcant_zonal_bias_all_ensemble &lt;- dcant_zonal_bias
-  }
-
-}
-
-rm(dcant_zonal, dcant_zonal_bias, dcant_zonal_mod_truth,
-   dcant_budget_basin_AIP_layer, dcant_budget_basin_MLR_layer,
-   dcant_profile, dcant_profile_basin_MLR)</code></pre>
 </div>
 <div id="observations-coverage" class="section level2" number="2.6">
 <h2><span class="header-section-number">2.6</span> Observations coverage</h2>
@@ -4427,6 +4190,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16dc3afa7157809f9b5557f0d71b1fe2e2a71684/docs/figure/results_publication.Rmd/coverage_maps-1.png" target="_blank">16dc3af</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-27
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/3d81135a4f54b29142afccdba5f2d2d8d3d567ea/docs/figure/results_publication.Rmd/coverage_maps-1.png" target="_blank">3d81135</a>
@@ -5793,6 +5567,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16dc3afa7157809f9b5557f0d71b1fe2e2a71684/docs/figure/results_publication.Rmd/invetory_maps_absolute_delta_scaled-1.png" target="_blank">16dc3af</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-27
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/87e9eb8133c170512ac89b7902bd95df2648a67f/docs/figure/results_publication.Rmd/invetory_maps_absolute_delta_scaled-1.png" target="_blank">87e9eb8</a>
 </td>
 <td>
@@ -6018,6 +5803,43 @@ dcant_inv_all_ensemble_mean %&gt;%   p_map_cant_inv(var = &quot;dcant_sd&quot;,
   theme(axis.text = element_blank(),
         axis.ticks = element_blank())</code></pre>
 <p><img src="figure/results_publication.Rmd/column_inventory_standard_deviation-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-column_inventory_standard_deviation-1">
+Past versions of column_inventory_standard_deviation-1.png
+</button>
+</p>
+<div id="fig-column_inventory_standard_deviation-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16dc3afa7157809f9b5557f0d71b1fe2e2a71684/docs/figure/results_publication.Rmd/column_inventory_standard_deviation-1.png" target="_blank">16dc3af</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="zonal-means" class="section level2" number="5.2">
@@ -6569,6 +6391,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16dc3afa7157809f9b5557f0d71b1fe2e2a71684/docs/figure/results_publication.Rmd/zonal_sections-1.png" target="_blank">16dc3af</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-27
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/87e9eb8133c170512ac89b7902bd95df2648a67f/docs/figure/results_publication.Rmd/zonal_sections-1.png" target="_blank">87e9eb8</a>
 </td>
 <td>
@@ -6814,6 +6647,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16dc3afa7157809f9b5557f0d71b1fe2e2a71684/docs/figure/results_publication.Rmd/zonal_sections_basin-1.png" target="_blank">16dc3af</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-27
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/87e9eb8133c170512ac89b7902bd95df2648a67f/docs/figure/results_publication.Rmd/zonal_sections_basin-1.png" target="_blank">87e9eb8</a>
 </td>
 <td>
@@ -6942,6 +6786,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16dc3afa7157809f9b5557f0d71b1fe2e2a71684/docs/figure/results_publication.Rmd/zonal_sections_basin-2.png" target="_blank">16dc3af</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-27
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/87e9eb8133c170512ac89b7902bd95df2648a67f/docs/figure/results_publication.Rmd/zonal_sections_basin-2.png" target="_blank">87e9eb8</a>
 </td>
 <td>
@@ -7035,6 +6890,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16dc3afa7157809f9b5557f0d71b1fe2e2a71684/docs/figure/results_publication.Rmd/zonal_sections_basin-3.png" target="_blank">16dc3af</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-27
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/87e9eb8133c170512ac89b7902bd95df2648a67f/docs/figure/results_publication.Rmd/zonal_sections_basin-3.png" target="_blank">87e9eb8</a>
@@ -7152,6 +7018,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16dc3afa7157809f9b5557f0d71b1fe2e2a71684/docs/figure/results_publication.Rmd/inventory_maps_absolute_delta-1.png" target="_blank">16dc3af</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-27
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/87e9eb8133c170512ac89b7902bd95df2648a67f/docs/figure/results_publication.Rmd/inventory_maps_absolute_delta-1.png" target="_blank">87e9eb8</a>
@@ -7368,6 +7245,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16dc3afa7157809f9b5557f0d71b1fe2e2a71684/docs/figure/results_publication.Rmd/inventory_maps_absolute_delta-2.png" target="_blank">16dc3af</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-27
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/87e9eb8133c170512ac89b7902bd95df2648a67f/docs/figure/results_publication.Rmd/inventory_maps_absolute_delta-2.png" target="_blank">87e9eb8</a>
@@ -8575,9 +8463,83 @@ jens-daniel-mueller
   )</code></pre>
 <pre><code>[[1]]</code></pre>
 <p><img src="figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-concentration_profiles_MLR_basins_ensemble-1">
+Past versions of concentration_profiles_MLR_basins_ensemble-1.png
+</button>
+</p>
+<div id="fig-concentration_profiles_MLR_basins_ensemble-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16dc3afa7157809f9b5557f0d71b1fe2e2a71684/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble-1.png" target="_blank">16dc3af</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>
 [[2]]</code></pre>
 <p><img src="figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-concentration_profiles_MLR_basins_ensemble-2">
+Past versions of concentration_profiles_MLR_basins_ensemble-2.png
+</button>
+</p>
+<div id="fig-concentration_profiles_MLR_basins_ensemble-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16dc3afa7157809f9b5557f0d71b1fe2e2a71684/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble-2.png" target="_blank">16dc3af</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
        filename = &quot;Fig_concentration_profiles.png&quot;,
        height = 6,
@@ -9758,6 +9720,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16dc3afa7157809f9b5557f0d71b1fe2e2a71684/docs/figure/results_publication.Rmd/dcant_budget_basin_ensemble-1.png" target="_blank">16dc3af</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-27
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/87e9eb8133c170512ac89b7902bd95df2648a67f/docs/figure/results_publication.Rmd/dcant_budget_basin_ensemble-1.png" target="_blank">87e9eb8</a>
 </td>
 <td>
@@ -9916,6 +9889,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16dc3afa7157809f9b5557f0d71b1fe2e2a71684/docs/figure/results_publication.Rmd/dcant_budget_basin_ensemble-2.png" target="_blank">16dc3af</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-27
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/87e9eb8133c170512ac89b7902bd95df2648a67f/docs/figure/results_publication.Rmd/dcant_budget_basin_ensemble-2.png" target="_blank">87e9eb8</a>
 </td>
 <td>
@@ -10046,6 +10030,43 @@ jens-daniel-mueller
   geom_density() +
   facet_grid(basin ~ period, scales = &quot;free&quot;)</code></pre>
 <p><img src="figure/results_publication.Rmd/dcant_budget_basin_ensemble-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-dcant_budget_basin_ensemble-3">
+Past versions of dcant_budget_basin_ensemble-3.png
+</button>
+</p>
+<div id="fig-dcant_budget_basin_ensemble-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16dc3afa7157809f9b5557f0d71b1fe2e2a71684/docs/figure/results_publication.Rmd/dcant_budget_basin_ensemble-3.png" target="_blank">16dc3af</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>dcant_budget_basin_MLR_all_ensemble_summary &lt;- dcant_budget_basin_MLR_all_ensemble %&gt;% 
   group_by(data_source, basin, period) %&gt;% 
   summarise(dcant_mean = mean(dcant),
