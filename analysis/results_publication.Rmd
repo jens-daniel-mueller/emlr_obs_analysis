@@ -372,6 +372,19 @@ dcant_budget_basin_MLR_all <- dcant_budget_basin_MLR_all %>%
 dcant_budget_basin_MLR_all <- full_join(dcant_budget_basin_MLR_all,
                                         params_local_all_ensemble)
 
+dcant_budget_basin_MLR_all <- dcant_budget_basin_MLR_all %>%
+  mutate(
+    basin = str_replace(basin, "_", ". "),
+    basin = fct_relevel(
+      basin,
+      "N. Pacific",
+      "S. Pacific",
+      "N. Atlantic",
+      "S. Atlantic",
+      "Indian"
+    )
+  )
+
 
 ```
 
@@ -731,6 +744,26 @@ dcant_profile_basin_MLR_all <-
             params_local_all_ensemble)
 
 
+dcant_profile_basin_MLR_all <-
+  dcant_profile_basin_MLR_all %>%
+  filter(MLR_basins == "5") %>%
+  select(-MLR_basins)
+
+dcant_profile_basin_MLR_all <-
+  dcant_profile_basin_MLR_all %>%
+  mutate(
+    basin = str_replace(basin, "_", ". "),
+    basin = fct_relevel(
+      basin,
+      "N. Pacific",
+      "S. Pacific",
+      "N. Atlantic",
+      "S. Atlantic",
+      "Indian"
+    )
+  )
+
+
 dcant_budget_basin_AIP_layer_all <-
   full_join(dcant_budget_basin_AIP_layer_all,
             params_local_all_ensemble)
@@ -739,6 +772,20 @@ dcant_budget_basin_MLR_layer_all <-
   dcant_budget_basin_MLR_layer_all %>%
   filter(MLR_basins == "5") %>%
   select(-MLR_basins)
+
+dcant_budget_basin_MLR_layer_all <-
+  dcant_budget_basin_MLR_layer_all %>%
+  mutate(
+    basin = str_replace(basin, "_", ". "),
+    basin = fct_relevel(
+      basin,
+      "N. Pacific",
+      "S. Pacific",
+      "N. Atlantic",
+      "S. Atlantic",
+      "Indian"
+    )
+  )
 
 dcant_budget_basin_MLR_layer_all <-
   full_join(dcant_budget_basin_MLR_layer_all,
@@ -1232,7 +1279,7 @@ dcant_inv_all %>%
                      var = "delta_dcant",
                      subtitle_text = paste("data_source:",
                                            unique(.x$data_source)),
-                     col = "divergent") +
+                     col = "bias") +
       theme(axis.text = element_blank(),
             axis.ticks = element_blank())
   )
@@ -1266,7 +1313,7 @@ left_join(dcant_inv_all %>% filter(data_source == "obs"),
   map(
     ~ p_map_cant_inv(df = .x,
                      var = "delta_dcant",
-                     col = "divergent") +
+                     col = "bias") +
       # facet_grid(period ~ .) +
       theme(axis.text = element_blank(),
             axis.ticks = element_blank())
@@ -1453,7 +1500,6 @@ dcant_zonal_all %>%
 
 ```{r concentration_profiles, fig.asp=1.6}
 
-
 dcant_profile_all %>%
   arrange(depth) %>%
   filter(period != "1994 - 2014") %>%
@@ -1495,21 +1541,9 @@ dcant_profile_all %>%
 dcant_profile_basin_MLR_all %>%
   arrange(depth) %>%
   filter(period != "1994 - 2014",
-         MLR_basins == "5", 
          depth <= params_global$inventory_depth_standard) %>%
-    mutate(
-    basin = str_replace(basin, "_", ". "),
-    basin = fct_relevel(
-      basin,
-      "N. Pacific",
-      "S. Pacific",
-      "N. Atlantic",
-      "S. Atlantic",
-      "Indian"
-    )
-  ) %>% 
   group_split(data_source) %>%
-  head(1) %>%
+  # head(1) %>%
   map(
     ~ ggplot(data = .x,
              aes(dcant,
@@ -1548,19 +1582,7 @@ dcant_profile_basin_MLR_all_ensemble %>%
   arrange(depth) %>%
   filter(
     period != "1994 - 2014",
-    MLR_basins == "5",
     depth <= params_global$inventory_depth_standard
-  ) %>%
-  mutate(
-    basin = str_replace(basin, "_", ". "),
-    basin = fct_relevel(
-      basin,
-      "N. Pacific",
-      "S. Pacific",
-      "N. Atlantic",
-      "S. Atlantic",
-      "Indian"
-    )
   ) %>%
   group_split(data_source) %>%
   # head(1) %>%
@@ -1626,19 +1648,7 @@ ggsave(path = here::here("output/publication"),
 dcant_profile_basin_MLR_all %>%
   arrange(depth) %>%
   filter(period != "1994 - 2014",
-         MLR_basins == "5", 
          depth <= params_global$inventory_depth_standard) %>%
-    mutate(
-    basin = str_replace(basin, "_", ". "),
-    basin = fct_relevel(
-      basin,
-      "N. Pacific",
-      "S. Pacific",
-      "N. Atlantic",
-      "S. Atlantic",
-      "Indian"
-    )
-  ) %>% 
   group_split(data_source, basin) %>%
   # head(1) %>%
   map(
@@ -1735,8 +1745,7 @@ dcant_profile_all_delta %>%
 
 delta <- dcant_profile_basin_MLR_all %>%
   arrange(depth) %>%
-  filter(period != "1994 - 2014",
-         MLR_basins == "5") %>%
+  filter(period != "1994 - 2014") %>%
   select(data_source, depth, basin, period, dcant) %>%
   pivot_wider(names_from = period,
               values_from = dcant) %>%
@@ -1745,8 +1754,7 @@ delta <- dcant_profile_basin_MLR_all %>%
 
 delta_sd <- dcant_profile_basin_MLR_all %>%
   arrange(depth) %>%
-  filter(period != "1994 - 2014",
-         MLR_basins == "5") %>%
+  filter(period != "1994 - 2014") %>%
   select(data_source, depth, basin, period, dcant_sd) %>% 
   pivot_wider(names_from = period,
               values_from = dcant_sd) %>%
@@ -1759,17 +1767,6 @@ rm(delta, delta_sd)
 
 
 dcant_profile_basin_MLR_all_delta %>%
-  mutate(
-    basin = str_replace(basin, "_", ". "),
-    basin = fct_relevel(
-      basin,
-      "N. Pacific",
-      "S. Pacific",
-      "N. Atlantic",
-      "S. Atlantic",
-      "Indian"
-    )
-  ) %>%
   group_split(data_source) %>%
   # head(3) %>%
   map(
@@ -1802,10 +1799,7 @@ dcant_profile_basin_MLR_all_delta %>%
 ```
 
 
-
-
 # Budgets
-
 
 ## Ensemble
 
@@ -1817,15 +1811,39 @@ dcant_budget_basin_MLR_all_ensemble %>%
   facet_grid(basin ~ data_source)
 
 dcant_budget_basin_MLR_all_ensemble %>%
-  filter(data_source != "mod_truth",
-         # basin == "S_Pacific",
+  filter(data_source == "obs",
          period != "1994 - 2014") %>%
-  ggplot(aes(period, dcant, col=Version_ID_group, group = NA)) +
-  scale_fill_brewer(palette = "Set1") +
-  scale_color_brewer(palette = "Set1") +
-  geom_dots(binwidth = 0.5, side = "both", shape=16) +
-  scale_y_continuous(limits = c(0,NA)) +
-  facet_grid(basin ~ data_source)
+  ggplot(aes(period, dcant)) +
+  scale_fill_viridis_d() +
+  scale_color_viridis_d() +
+  geom_boxplot(
+    width = .15,
+    outlier.shape = NA,
+    fill = "grey",
+    alpha = 0.3,
+    position = position_nudge(x = 0.2)
+  ) +
+  geom_point(
+    aes(fill = Version_ID_group),
+    size = 1.3,
+    alpha = .5,
+    shape = 21,
+    position = position_jitter(seed = 1, width = .1)
+  ) +
+  geom_point(
+    data = dcant_budget_basin_MLR_all_ensemble %>%
+      filter(
+        data_source == "obs",
+        period != "1994 - 2014",
+        Version_ID %in% Version_IDs
+      ),
+    aes(period, dcant),
+    position = position_nudge(x = -0.2),
+    size = 3,
+    col = "red",
+    shape = 95
+  ) +
+  facet_grid(basin ~ ., scales = "free_y")
 
 dcant_budget_basin_MLR_all_ensemble %>%
   filter(data_source == "obs") %>% 
@@ -1913,18 +1931,7 @@ dcant_budget_basin_MLR_all_plot <-
   left_join(dcant_budget_basin_MLR_all_plot,
             dcant_budget_basin_MLR_all_ensemble_summary)
 
-dcant_budget_basin_MLR_all_plot <- dcant_budget_basin_MLR_all_plot %>% 
-  mutate(
-    basin = str_replace(basin, "_", ". "),
-        basin = fct_relevel(
-      basin,
-      "N. Pacific",
-      "S. Pacific",
-      "N. Atlantic",
-      "S. Atlantic",
-      "Indian"
-    )
-  )
+dcant_budget_basin_MLR_all_plot <- dcant_budget_basin_MLR_all_plot
 
 ```
 
@@ -1964,6 +1971,7 @@ g1 <- dcant_budget_basin_MLR_all_plot %>%
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         axis.title.x = element_blank()) +
   theme_classic()
+
 
 newdat <- tibble(layer_data(g1))
 
@@ -2554,18 +2562,7 @@ dcant_budget_change <- dcant_budget_basin_MLR_layer_all %>%
               values_from = dcant) %>%
   mutate(sign = if_else(`2004 - 2014` - `1994 - 2004` > 0,
                         "increase",
-                        "decrease")) %>%
-  mutate(
-    basin = str_replace(basin, "_", ". "),
-    basin = fct_relevel(
-      basin,
-      "N. Pacific",
-      "S. Pacific",
-      "N. Atlantic",
-      "S. Atlantic",
-      "Indian"
-    )
-  )
+                        "decrease"))
 
 dcant_budget_layer <- dcant_budget_basin_MLR_layer_all %>%
   filter(estimate == "dcant",
@@ -2573,17 +2570,6 @@ dcant_budget_layer <- dcant_budget_basin_MLR_layer_all %>%
          inv_depth <= 3400,
          data_source == "obs") %>%
   rename(dcant = value) %>%
-  mutate(
-    basin = str_replace(basin, "_", ". "),
-    basin = fct_relevel(
-      basin,
-      "N. Pacific",
-      "S. Pacific",
-      "N. Atlantic",
-      "S. Atlantic",
-      "Indian"
-    )
-  ) %>% 
   group_by(basin, period, data_source) %>% 
   mutate(dcant = if_else(is.na(lead(dcant)), 888, dcant),
          dcant = na_if(dcant, 888)) %>%
@@ -2635,18 +2621,7 @@ dcant_budget_change <- dcant_budget_basin_MLR_layer_all %>%
               values_from = dcant_cum) %>%
   mutate(sign = if_else(`2004 - 2014` - `1994 - 2004` > 0,
                         "increase",
-                        "decrease")) %>%
-  mutate(
-    basin = str_replace(basin, "_", ". "),
-    basin = fct_relevel(
-      basin,
-      "N. Pacific",
-      "S. Pacific",
-      "N. Atlantic",
-      "S. Atlantic",
-      "Indian"
-    )
-  )
+                        "decrease"))
 
 dcant_budget_layer <- dcant_budget_basin_MLR_layer_all %>%
   filter(estimate == "dcant",
@@ -2658,17 +2633,6 @@ dcant_budget_layer <- dcant_budget_basin_MLR_layer_all %>%
   group_by(data_source, basin, period) %>% 
   mutate(dcant_cum = cumsum(dcant)) %>% 
   ungroup() %>%
-  mutate(
-    basin = str_replace(basin, "_", ". "),
-    basin = fct_relevel(
-      basin,
-      "N. Pacific",
-      "S. Pacific",
-      "N. Atlantic",
-      "S. Atlantic",
-      "Indian"
-    )
-  ) %>% 
   group_by(basin, period, data_source) %>% 
   mutate(dcant_cum = if_else(is.na(lead(dcant_cum)), 888, dcant_cum),
          dcant_cum = na_if(dcant_cum, 888)) %>%
