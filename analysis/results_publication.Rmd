@@ -25,6 +25,7 @@ editor_options:
 library(patchwork)
 library(ggalluvial)
 library(marelac)
+library(ggdist)
 ```
 
 
@@ -235,6 +236,20 @@ rm(params_local,
 
 params_local_all_ensemble <- params_local_all_ensemble %>% 
   select(Version_ID, period, tref1, tref2)
+
+params_local_all_ensemble <-
+  params_local_all_ensemble %>%
+  mutate(
+    Version_ID_group = str_sub(Version_ID, 4, 4),
+    Version_ID_group = case_when(
+      Version_ID_group == "1" ~ "standard",
+      Version_ID_group == "o" ~ "reoccupation filter",
+      Version_ID_group == "d" ~ "no data adjustment",
+      Version_ID_group == "g" ~ "no gap filling",
+      TRUE ~ Version_ID_group
+    )
+  )
+
 
 ```
 
@@ -561,7 +576,7 @@ dcant_budget_basin_MLR_all_ensemble <- dcant_budget_basin_MLR_all_ensemble %>%
 
 
 
-## Inventories
+## Column inventories
 
 ```{r read_inventory_files_ensemble}
 
@@ -719,7 +734,7 @@ dcant_budget_lon_grid_all <- dcant_budget_lon_grid_all %>%
 ```
 
 
-## Zonal sections
+## Sections / profiles
 
 ```{r read_zonal_section_files}
 
@@ -855,11 +870,156 @@ for (i_Version_IDs in Version_IDs) {
 }
 
 rm(dcant_zonal, dcant_zonal_bias, dcant_zonal_mod_truth,
-   dcant_budget_basin_AIP_layer, dcant_budget_basin_MLR_layer)
+   dcant_budget_basin_AIP_layer, dcant_budget_basin_MLR_layer,
+   dcant_profile, dcant_profile_basin_MLR)
 
 ```
 
+
+```{r read_zonal_section_files_ensemble}
+
+for (i_Version_IDs in Version_IDs_ensemble) {
+
+  path_version_data     <-
+  paste(path_observations,
+        i_Version_IDs,
+        "/data/",
+        sep = "")
+  
+  # load and join data files
+  
+  dcant_zonal <-
+    read_csv(paste(path_version_data,
+                   "dcant_zonal.csv",
+                   sep = ""))
+  
+  dcant_zonal_mod_truth <-
+    read_csv(paste(path_version_data,
+                   "dcant_zonal_mod_truth.csv",
+                   sep = ""))
+  
+  dcant_zonal <- bind_rows(dcant_zonal,
+                         dcant_zonal_mod_truth)
+  
+  dcant_profile <-
+    read_csv(paste(path_version_data,
+                   "dcant_profile.csv",
+                   sep = ""))
+  
+  dcant_profile_mod_truth <-
+    read_csv(paste(path_version_data,
+                   "dcant_profile_mod_truth.csv",
+                   sep = ""))
+  
+  
+  dcant_profile_basin_MLR <-
+    read_csv(paste(path_version_data,
+                   "dcant_profile_basin_MLR.csv",
+                   sep = ""))
+  
+  dcant_profile <- bind_rows(dcant_profile,
+                             dcant_profile_mod_truth)
+  
+  dcant_budget_basin_AIP_layer <-
+    read_csv(paste(path_version_data,
+                   "dcant_budget_basin_AIP_layer.csv",
+                   sep = ""))
+
+  dcant_budget_basin_MLR_layer <-
+    read_csv(paste(path_version_data,
+                   "dcant_budget_basin_MLR_layer.csv",
+                   sep = ""))
+  
+  dcant_zonal_bias <-
+    read_csv(paste(path_version_data,
+                   "dcant_zonal_bias.csv",
+                   sep = ""))
+  
+
+  dcant_zonal <- dcant_zonal %>% 
+    mutate(Version_ID = i_Version_IDs)
+  
+  dcant_profile <- dcant_profile %>% 
+    mutate(Version_ID = i_Version_IDs)
+
+  dcant_profile_basin_MLR <- dcant_profile_basin_MLR %>% 
+    mutate(Version_ID = i_Version_IDs)
+  
+  dcant_budget_basin_AIP_layer <- dcant_budget_basin_AIP_layer %>% 
+    mutate(Version_ID = i_Version_IDs)
+  
+  dcant_budget_basin_MLR_layer <- dcant_budget_basin_MLR_layer %>% 
+    mutate(Version_ID = i_Version_IDs)
+  
+  dcant_zonal_bias <- dcant_zonal_bias %>% 
+    mutate(Version_ID = i_Version_IDs)
+
+  
+  if (exists("dcant_zonal_all_ensemble")) {
+    dcant_zonal_all_ensemble <- bind_rows(dcant_zonal_all_ensemble, dcant_zonal)
+  }
+  
+  if (!exists("dcant_zonal_all_ensemble")) {
+    dcant_zonal_all_ensemble <- dcant_zonal
+  }
+
+  if (exists("dcant_profile_all_ensemble")) {
+    dcant_profile_all_ensemble <- bind_rows(dcant_profile_all_ensemble, dcant_profile)
+  }
+  
+  if (!exists("dcant_profile_all_ensemble")) {
+    dcant_profile_all_ensemble <- dcant_profile
+  }
+
+  if (exists("dcant_profile_basin_MLR_all_ensemble")) {
+    dcant_profile_basin_MLR_all_ensemble <- bind_rows(dcant_profile_basin_MLR_all_ensemble, dcant_profile_basin_MLR)
+  }
+  
+  if (!exists("dcant_profile_basin_MLR_all_ensemble")) {
+    dcant_profile_basin_MLR_all_ensemble <- dcant_profile_basin_MLR
+  }
+
+  if (exists("dcant_budget_basin_AIP_layer_all_ensemble")) {
+    dcant_budget_basin_AIP_layer_all_ensemble <-
+      bind_rows(dcant_budget_basin_AIP_layer_all_ensemble,
+                dcant_budget_basin_AIP_layer)
+  }
+  
+  if (!exists("dcant_budget_basin_AIP_layer_all_ensemble")) {
+    dcant_budget_basin_AIP_layer_all_ensemble <- dcant_budget_basin_AIP_layer
+  }
+
+  if (exists("dcant_budget_basin_MLR_layer_all_ensemble")) {
+    dcant_budget_basin_MLR_layer_all_ensemble <-
+      bind_rows(dcant_budget_basin_MLR_layer_all_ensemble,
+                dcant_budget_basin_MLR_layer)
+  }
+  
+  if (!exists("dcant_budget_basin_MLR_layer_all_ensemble")) {
+    dcant_budget_basin_MLR_layer_all_ensemble <- dcant_budget_basin_MLR_layer
+  }
+
+  if (exists("dcant_zonal_bias_all_ensemble")) {
+    dcant_zonal_bias_all_ensemble <- bind_rows(dcant_zonal_bias_all_ensemble, dcant_zonal_bias)
+  }
+  
+  if (!exists("dcant_zonal_bias_all_ensemble")) {
+    dcant_zonal_bias_all_ensemble <- dcant_zonal_bias
+  }
+
+}
+
+rm(dcant_zonal, dcant_zonal_bias, dcant_zonal_mod_truth,
+   dcant_budget_basin_AIP_layer, dcant_budget_basin_MLR_layer,
+   dcant_profile, dcant_profile_basin_MLR)
+
+```
+
+
 ```{r r join_zonal_section_data_and_meta_data, include=FALSE}
+
+
+# standard cases
 
 dcant_zonal_all <- full_join(dcant_zonal_all,
                              params_local_all)
@@ -867,16 +1027,18 @@ dcant_zonal_all <- full_join(dcant_zonal_all,
 dcant_profile_all <- full_join(dcant_profile_all,
                                params_local_all)
 
-dcant_profile_basin_MLR_all <- full_join(dcant_profile_basin_MLR_all,
-                               params_local_all)
+dcant_profile_basin_MLR_all <-
+  full_join(dcant_profile_basin_MLR_all,
+            params_local_all)
 
 
 dcant_budget_basin_AIP_layer_all <-
   full_join(dcant_budget_basin_AIP_layer_all,
             params_local_all)
 
-dcant_budget_basin_MLR_layer_all <- dcant_budget_basin_MLR_layer_all %>%
-  filter(MLR_basins == "5") %>% 
+dcant_budget_basin_MLR_layer_all <-
+  dcant_budget_basin_MLR_layer_all %>%
+  filter(MLR_basins == "5") %>%
   select(-MLR_basins)
 
 dcant_budget_basin_MLR_layer_all <-
@@ -885,6 +1047,36 @@ dcant_budget_basin_MLR_layer_all <-
 
 dcant_zonal_bias_all <- full_join(dcant_zonal_bias_all,
                                   params_local_all)
+
+# ensemble members
+
+dcant_zonal_all_ensemble <- full_join(dcant_zonal_all_ensemble,
+                                      params_local_all_ensemble)
+
+dcant_profile_all_ensemble <- full_join(dcant_profile_all_ensemble,
+                                        params_local_all_ensemble)
+
+dcant_profile_basin_MLR_all_ensemble <-
+  full_join(dcant_profile_basin_MLR_all_ensemble,
+            params_local_all_ensemble)
+
+
+dcant_budget_basin_AIP_layer_all_ensemble <-
+  full_join(dcant_budget_basin_AIP_layer_all_ensemble,
+            params_local_all_ensemble)
+
+dcant_budget_basin_MLR_layer_all_ensemble <-
+  dcant_budget_basin_MLR_layer_all_ensemble %>%
+  filter(MLR_basins == "5") %>%
+  select(-MLR_basins)
+
+dcant_budget_basin_MLR_layer_all_ensemble <-
+  full_join(dcant_budget_basin_MLR_layer_all_ensemble,
+            params_local_all_ensemble)
+
+dcant_zonal_bias_all_ensemble <-
+  full_join(dcant_zonal_bias_all_ensemble,
+            params_local_all_ensemble)
 
 ```
 
@@ -1008,6 +1200,8 @@ ddcant_umol_label <- expression(Delta * Delta * C[ant]~(mu * mol ~ kg ^ {-1}))
 dcant_layer_budget_label <- 
   expression(Delta ~ C[ant] ~ "budget per 500m depth layer (PgC)")
 
+beta_label <- expression(beta~(mol ~ m ^ {-2} ~ µatm ^ {-1}))
+
 ```
 
 # Coverage maps
@@ -1016,18 +1210,20 @@ dcant_layer_budget_label <-
 
 coverage_map <- map +
   geom_tile(data = GLODAP_grid_era_all,
-            aes(lon, lat)) +
-  facet_grid(. ~ era) +
+            aes(lon, lat),
+            fill = "#377eb8",
+            col = "#377eb8") +
+  facet_wrap( ~ era, ncol = 2) +
   theme(axis.text = element_blank(),
         axis.ticks = element_blank())
 
 coverage_map
 
-# ggsave(plot = coverage_map,
-#        path = "output/publication",
-#        filename = "FigS_coverage_map_observations.png",
-#        height = 2,
-#        width = 8)
+ggsave(plot = coverage_map,
+       path = here::here("output/publication"),
+       filename = "FigS_coverage_map_observations.png",
+       height = 4,
+       width = 8)
 
 ```
 
@@ -1334,7 +1530,6 @@ dcant_inv_all %>%
                      subtitle_text = paste("data_source:",
                                            unique(.x$data_source)),
                      col = "divergent") +
-      # facet_grid(period ~ .) +
       theme(axis.text = element_blank(),
             axis.ticks = element_blank())
   )
@@ -1347,8 +1542,7 @@ dcant_inv_all %>%
 ```{r invetory_maps_absolute_delta_scaled}
 
 dcant_budget_scaling <- dcant_budget_global_all %>%
-  filter(#data_source %in% c("mod", "obs"),
-         period != "1994 - 2014") %>%
+  filter(period != "1994 - 2014") %>%
   select(data_source, period, dcant) %>%
   pivot_wider(names_from = period,
               values_from = dcant) %>% 
@@ -1356,10 +1550,9 @@ dcant_budget_scaling <- dcant_budget_global_all %>%
   select(data_source, dcant_scaling)
 
 
-left_join(dcant_inv_all,
-          dcant_budget_scaling) %>%
-  filter(#data_source %in% c("mod", "obs"),
-         period != "1994 - 2014") %>%
+left_join(dcant_inv_all %>% filter(data_source == "obs"),
+          dcant_budget_scaling %>% filter(data_source == "obs")) %>%
+  filter(period != "1994 - 2014") %>%
   select(data_source, lon, lat, basin_AIP, period, dcant, dcant_scaling) %>% 
   pivot_wider(names_from = period,
               values_from = dcant) %>% 
@@ -1370,8 +1563,6 @@ left_join(dcant_inv_all,
   map(
     ~ p_map_cant_inv(df = .x,
                      var = "delta_dcant",
-                     subtitle_text = paste("data_source:",
-                                           unique(.x$data_source)),
                      col = "divergent") +
       # facet_grid(period ~ .) +
       theme(axis.text = element_blank(),
@@ -1381,36 +1572,30 @@ left_join(dcant_inv_all,
 
 ```
 
-
-### dcant pos - absolute
-
-```{r cases_absolute_dcant_pos, fig.asp=0.9}
+```{r column_inventory_standard_deviation}
 
 
-dcant_inv_all %>%
-  filter(data_source %in% c("mod", "obs"),
-         period != "1994 - 2014") %>%
-  group_by(data_source) %>%
-  group_split() %>%
-  # head(1) %>%
-  map(
-    ~ p_map_cant_inv(df = .x,
-                     var = "dcant_pos",
-                     subtitle_text = paste("data_source:",
-                                           unique(.x$data_source))) +
-      facet_grid(period ~ .) +
-      theme(axis.text = element_blank(),
-            axis.ticks = element_blank())
-  )
+dcant_inv_all_ensemble_mean <-
+  dcant_inv_all_ensemble %>%
+  filter(period != "1800 - 1994") %>%
+  group_by(data_source, period, lon, lat) %>%
+  summarise(dcant_sd = sd(dcant)) %>%
+  ungroup()
 
+
+dcant_inv_all_ensemble_mean %>%   p_map_cant_inv(var = "dcant_sd",
+                                                 breaks = c(seq(0, 5, 0.5), Inf)) +
+  facet_grid(period ~ data_source) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())
 
 ```
+
+
 
 ## Zonal means
 
 ```{r zonal_mean_storage}
-
-beta_label <- expression(beta~(mol ~ m ^ {-2} ~ µatm ^ {-1}))
 
 dcant_inv_all <- m_grid_horizontal_coarse(dcant_inv_all)
 
@@ -1621,7 +1806,7 @@ dcant_profile_basin_MLR_all %>%
     )
   ) %>% 
   group_split(data_source) %>%
-  # head(1) %>%
+  head(1) %>%
   map(
     ~ ggplot(data = .x,
              aes(dcant,
@@ -1654,7 +1839,86 @@ dcant_profile_basin_MLR_all %>%
 
 ```
 
-```{r concentration_profiles_MLR_basins_seperate, fig.asp=1.2}
+```{r concentration_profiles_MLR_basins_ensemble, fig.asp=0.9}
+
+dcant_profile_basin_MLR_all_ensemble %>%
+  arrange(depth) %>%
+  filter(
+    period != "1994 - 2014",
+    MLR_basins == "5",
+    depth <= params_global$inventory_depth_standard
+  ) %>%
+  mutate(
+    basin = str_replace(basin, "_", ". "),
+    basin = fct_relevel(
+      basin,
+      "N. Pacific",
+      "S. Pacific",
+      "N. Atlantic",
+      "S. Atlantic",
+      "Indian"
+    )
+  ) %>%
+  group_split(data_source) %>%
+  # head(1) %>%
+  map(
+    ~ ggplot() +
+      geom_hline(yintercept = params_global$inventory_depth_standard) +
+      geom_vline(xintercept = 0) +
+      geom_path(
+        data = .x,
+        aes(
+          dcant,
+          depth,
+          col = period,
+          group = Version_ID,
+          linetype = "ensemble member",
+          size = "ensemble member"
+        ), alpha = 0.5
+      ) +
+      geom_path(
+        data = .x %>% filter(Version_ID %in% Version_IDs),
+        aes(
+          dcant,
+          depth,
+          col = period,
+          group = Version_ID,
+          linetype = "stamdard case",
+          size = "stamdard case"
+        )
+      ) +
+      scale_size_manual(values = c(0.5, 2), name="x") +
+      scale_linetype_manual(values = c(2, 1), name="x") +
+      scale_y_continuous(trans = trans_reverser("sqrt"),
+                         breaks = c(0, 100, 500, seq(1500, 5000, 1000))) +
+      coord_cartesian(expand = 0) +
+      scale_color_brewer(
+        palette = "Set1",
+        direction = -1
+      ) +
+      scale_fill_brewer(
+        palette = "Set1",
+        direction = -1
+      ) +
+      labs(
+        title = paste("data_source", unique(.x$data_source)),
+        y = "Depth (m)",
+        x = dcant_umol_label
+      ) +
+      facet_wrap( ~ basin, ncol = 3, dir = "v") +
+      theme(legend.position = c(0.8, 0.2),
+            legend.title = element_blank())
+  )
+
+
+ggsave(path = here::here("output/publication"),
+       filename = "Fig_concentration_profiles.png",
+       height = 6,
+       width = 8)
+
+```
+
+```{r concentration_profiles_MLR_basins_seperate, fig.asp=1.2, eval=FALSE}
 
 dcant_profile_basin_MLR_all %>%
   arrange(depth) %>%
@@ -1845,14 +2109,23 @@ dcant_profile_basin_MLR_all_delta %>%
 ```{r dcant_budget_basin_ensemble}
 
 dcant_budget_basin_MLR_all_ensemble %>%
-  mutate(class = str_sub(Version_ID, 4, 4)) %>% 
-  ggplot(aes(period, dcant, col = class)) +
+  ggplot(aes(period, dcant, col = Version_ID_group)) +
   geom_point() +
   facet_grid(basin ~ data_source)
 
 dcant_budget_basin_MLR_all_ensemble %>%
+  filter(data_source != "mod_truth",
+         # basin == "S_Pacific",
+         period != "1994 - 2014") %>%
+  ggplot(aes(period, dcant, col=Version_ID_group, group = NA)) +
+  scale_fill_brewer(palette = "Set1") +
+  scale_color_brewer(palette = "Set1") +
+  geom_dots(binwidth = 0.5, side = "both", shape=16) +
+  scale_y_continuous(limits = c(0,NA)) +
+  facet_grid(basin ~ data_source)
+
+dcant_budget_basin_MLR_all_ensemble %>%
   filter(data_source == "obs") %>% 
-  mutate(class = str_sub(Version_ID, 4, 4)) %>% 
   ggplot(aes(dcant)) +
   geom_histogram() +
   geom_density() +
