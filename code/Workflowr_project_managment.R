@@ -12,6 +12,9 @@ wflow_publish(here::here(
   "analysis",
   c(
     "index.Rmd",
+    "multi_model_assesment_budgets.Rmd",
+    "multi_model_assesment_column_inventories.Rmd",
+    "multi_model_assesment_zonal_sections.Rmd",
     "results_publication.Rmd",
     "data_adjustment_none_budgets.Rmd",
     "data_adjustment_none_column_inventories.Rmd",
@@ -58,21 +61,22 @@ wflow_publish(here::here(
     "MLR_predictor_nitrate_zonal_sections.Rmd"
   )
 ),
-message = "3 data adjustment procedures implemented",
+message = "revised plots, including decadal offset comparison",
 republish = TRUE)
 
 
 wflow_publish(here::here(
   "analysis",
   c(
-    "index.Rmd",
-    "reoccupation_budgets.Rmd",
-    "reoccupation_column_inventories.Rmd",
-    "reoccupation_zonal_sections.Rmd",
-    "results_publication.Rmd"
+    "multi_model_assesment_budgets.Rmd",
+    "multi_model_assesment_column_inventories.Rmd",
+    "multi_model_assesment_zonal_sections.Rmd",
+    "gaps_filter_budgets.Rmd",
+    "gaps_filter_column_inventories.Rmd",
+    "gaps_filter_zonal_sections.Rmd"
   )
 ),
-message = "reoccupation incl data adjustments")
+message = "rebuild with rerun analysis")
 
 
 

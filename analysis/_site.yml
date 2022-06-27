@@ -7,7 +7,7 @@ navbar:
     href: basics.html
   - text: Results publication
     href: results_publication.html
-  - text: Data adjustements
+  - text: Adjustements
     menu:
     - text: Bulk
       menu:
@@ -33,7 +33,7 @@ navbar:
         href: data_adjustment_none_column_inventories.html
       - text: Zonal sections
         href: data_adjustment_none_zonal_sections.html
-  - text: Data cleaning
+  - text: Filtering
     menu:
     - text: No gap-filling and filter
       menu:
@@ -93,6 +93,14 @@ navbar:
         href: vif_column_inventories.html
       - text: Zonal sections
         href: vif_zonal_sections.html
+  - text: MMA
+    menu:
+    - text: Budgets
+      href: multi_model_assesment_budgets.html
+    - text: Column inventories
+      href: multi_model_assesment_column_inventories.html
+    - text: Zonal sections
+      href: multi_model_assesment_zonal_sections.html
   - text: Robustness
     menu:
     - text: Indian Ocean

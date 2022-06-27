@@ -35,11 +35,6 @@ dcant_budget_lon_grid_all <- dcant_budget_lon_grid_all %>%
 ```
 
 
-
-```{r load_libraries_specific, include = FALSE}
-library(patchwork)
-```
-
 # Uncertainty limit
 
 ```{r define_sd_uncertainty_limit}
@@ -58,7 +53,7 @@ sd_uncertainty_limit <- 4
 
 
 dcant_inv_all %>%
-  filter(data_source %in% c("mod", "obs"),
+  filter(#data_source %in% c("mod", "obs"),
          period != "1994 - 2014") %>%
   group_by(data_source) %>%
   group_split() %>%
@@ -72,6 +67,19 @@ dcant_inv_all %>%
       theme(axis.text = element_blank(),
             axis.ticks = element_blank())
   )
+
+dcant_inv_all %>%
+  filter(data_source %in% c("mod", "obs"),
+         period == "1994 - 2014") %>%
+  p_map_cant_inv(
+    var = "dcant",
+    subtitle_text = "1994 - 2014",
+    breaks = c(-Inf, seq(0, 16, 2), Inf) * 2
+  ) +
+  facet_grid({{config}} ~ data_source) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())
+
 
 p_dcant_inv_all_1994_2004 <-
   dcant_inv_all %>%
@@ -146,6 +154,54 @@ p_dcant_1994_2004
 #        width = 8)
 
 ```
+
+## Decadal offset
+
+```{r decadal_dcant_offset_column_inventory_map, fig.asp=1.2}
+
+dcant_inv_all %>%
+  filter(period != "1994 - 2014") %>%
+  select(data_source, lon, lat, {{config}}, period, dcant_pos) %>% 
+  pivot_wider(values_from = dcant_pos,
+              names_from = period) %>% 
+  mutate(dcant_pos_bias = `2004 - 2014`- `1994 - 2004`) %>% 
+  group_by(data_source) %>%
+  group_split() %>%
+  # head(1) %>%
+  map(
+    ~ p_map_cant_inv(df = .x,
+                     var = "dcant_pos_bias",
+                     col = "bias",
+                     subtitle_text = paste("data_source:",
+                                           unique(.x$data_source))) +
+      facet_grid({{config}} ~ .) +
+      theme(axis.text = element_blank(),
+            axis.ticks = element_blank())
+  )
+
+
+
+```
+
+
+```{r decadal_bias_offset_column_inventory_map, fig.asp=1.2}
+
+dcant_inv_bias_all %>%
+  filter(period != "1994 - 2014") %>%
+  select(lon, lat, {{config}}, period, dcant_pos_bias) %>%
+  pivot_wider(values_from = dcant_pos_bias,
+              names_from = period) %>%
+  mutate(dcant_pos_bias = `2004 - 2014` - `1994 - 2004`) %>%
+  p_map_cant_inv(var = "dcant_pos_bias",
+                 col = "bias") +
+  facet_grid({{config}} ~ .) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())
+
+
+```
+
+
 
 ### Density distribution
 
