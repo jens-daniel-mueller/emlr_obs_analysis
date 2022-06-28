@@ -768,16 +768,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreefe42644e9268bfe24c24e253b491bd23f67750c9targetblankfe42644a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/fe42644e9268bfe24c24e253b491bd23f67750c9" target="_blank">fe42644</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreed45761003e3f35c8dc89f0f1b2d14102f57053c5targetblankd457610a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/d45761003e3f35c8dc89f0f1b2d14102f57053c5" target="_blank">d457610</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreefe42644e9268bfe24c24e253b491bd23f67750c9targetblankfe42644a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreed45761003e3f35c8dc89f0f1b2d14102f57053c5targetblankd457610a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/fe42644e9268bfe24c24e253b491bd23f67750c9" target="_blank">fe42644</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/d45761003e3f35c8dc89f0f1b2d14102f57053c5" target="_blank">d457610</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -828,6 +828,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d45761003e3f35c8dc89f0f1b2d14102f57053c5/analysis/results_publication.Rmd" target="_blank">d457610</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-28
+</td>
+<td>
+save figures for publication
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/ee307487c089692b6b3bc94905ab47352b3ceb3d/docs/results_publication.html" target="_blank">ee30748</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-28
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -4541,7 +4575,8 @@ unique(dcant_inv_all$Version_ID)</code></pre>
   filter(Version_ID %in% Version_IDs | is.na(Version_ID))</code></pre>
 <pre class="r"><code>dcant_inv_all %&gt;%
   filter(period != &quot;1800 - 1994&quot;) %&gt;%
-  p_map_cant_inv(var = &quot;dcant&quot;) +
+  p_map_cant_inv(var = &quot;dcant&quot;,
+                 title_text = NULL) +
   facet_grid(period ~ .) +
   theme(axis.text = element_blank(),
         axis.ticks = element_blank())</code></pre>
@@ -4814,9 +4849,15 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
-<pre class="r"><code>dcant_inv_all %&gt;%
+<pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
+       filename = &quot;Fig_column_inventory_map_dcant.png&quot;,
+       height = 4,
+       width = 6)
+
+dcant_inv_all %&gt;%
   p_map_cant_inv(var = &quot;beta&quot;,
-                 breaks = c(-Inf, seq(0, 1, 0.1), Inf),) +
+                 breaks = c(-Inf, seq(0, 1, 0.1), Inf),
+                 title_text = NULL) +
   facet_grid(period ~ .) +
   theme(axis.text = element_blank(),
         axis.ticks = element_blank())</code></pre>
@@ -5089,7 +5130,14 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
-<pre class="r"><code>dcant_inv_all %&gt;%
+<pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
+       filename = &quot;FigS_column_inventory_map_beta.png&quot;,
+       height = 6,
+       width = 6)
+
+
+
+dcant_inv_all %&gt;%
   filter(period != &quot;1800 - 1994&quot;) %&gt;% 
   p_map_cant_inv(var = &quot;beta&quot;,
                  breaks = c(-Inf, seq(0, 1, 0.1), Inf),) +
@@ -5512,18 +5560,18 @@ dev.off()</code></pre>
 <div id="dcant---absolute-delta" class="section level3" number="5.1.2">
 <h3><span class="header-section-number">5.1.2</span> dcant - absolute delta</h3>
 <pre class="r"><code>dcant_inv_all %&gt;%
-  filter(data_source %in% c(&quot;mod&quot;, &quot;obs&quot;),
+  filter(data_source %in% c(&quot;obs&quot;),
          period != &quot;1994 - 2014&quot;) %&gt;%
   select(data_source, lon, lat, basin_AIP, period, dcant) %&gt;% 
   pivot_wider(names_from = period,
               values_from = dcant) %&gt;% 
-  mutate(delta_dcant = `2004 - 2014` - `1994 - 2004`) %&gt;% 
+  mutate(dcant_offset = `2004 - 2014` - `1994 - 2004`) %&gt;% 
   group_by(data_source) %&gt;%
   group_split() %&gt;%
   # head(1) %&gt;%
   map(
     ~ p_map_cant_inv(df = .x,
-                     var = &quot;delta_dcant&quot;,
+                     var = &quot;dcant_offset&quot;,
                      subtitle_text = paste(&quot;data_source:&quot;,
                                            unique(.x$data_source)),
                      col = &quot;bias&quot;) +
@@ -5778,6 +5826,10 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
+<pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
+       filename = &quot;FigS_column_inventory_map_dcant_decadal_offset.png&quot;,
+       height = 3.5,
+       width = 6)</code></pre>
 </div>
 <div id="dcant---absolute-delta-scaled" class="section level3" number="5.1.3">
 <h3><span class="header-section-number">5.1.3</span> dcant - absolute delta scaled</h3>
@@ -6069,15 +6121,18 @@ jens-daniel-mueller
 </div>
 <pre class="r"><code>dcant_inv_all_ensemble_mean &lt;-
   dcant_inv_all_ensemble %&gt;%
-  filter(period != &quot;1800 - 1994&quot;) %&gt;%
+  filter(period != &quot;1800 - 1994&quot;,
+         data_source == &quot;obs&quot;) %&gt;%
   group_by(data_source, period, lon, lat) %&gt;%
   summarise(dcant_sd = sd(dcant)) %&gt;%
   ungroup()
 
 
-dcant_inv_all_ensemble_mean %&gt;%   p_map_cant_inv(var = &quot;dcant_sd&quot;,
-                                                 breaks = c(seq(0, 5, 0.5), Inf)) +
-  facet_grid(period ~ data_source) +
+dcant_inv_all_ensemble_mean %&gt;%
+  p_map_cant_inv(var = &quot;dcant_sd&quot;,
+                 breaks = c(seq(0, 5, 0.5), Inf),
+                 title_text = NULL) +
+  facet_grid(period ~ .) +
   theme(axis.text = element_blank(),
         axis.ticks = element_blank())</code></pre>
 <p><img src="figure/results_publication.Rmd/column_inventory_standard_deviation-1.png" width="672" style="display: block; margin: auto;" /></p>
@@ -6118,6 +6173,10 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
+<pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
+       filename = &quot;FigS_column_inventory_map_dcant_ensemble_standard_deviation.png&quot;,
+       height = 4,
+       width = 6)</code></pre>
 </div>
 </div>
 <div id="zonal-means" class="section level2" number="5.2">
@@ -6880,6 +6939,10 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
+<pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
+       filename = &quot;FigS_zonal_mean_sections_dcant.png&quot;,
+       height = 5,
+       width = 9)</code></pre>
 <pre class="r"><code>dcant_zonal_all %&gt;%
   filter(
     data_source == &quot;obs&quot;,
@@ -7267,7 +7330,7 @@ jens-daniel-mueller
       df = .x,
       var = &quot;delta_dcant&quot;,
       plot_slabs = &quot;n&quot;,
-      title_text = NULL,
+      subtitle_text = unique(.x$data_source),
       col = &quot;bias&quot;
     ) +
       facet_grid(basin_AIP ~ .)
@@ -7725,6 +7788,33 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
+<pre class="r"><code>dcant_zonal_all %&gt;%
+  filter(data_source %in% c(&quot;obs&quot;),
+         period != &quot;1994 - 2014&quot;) %&gt;%
+  select(data_source, lat, depth, basin_AIP, period, dcant) %&gt;%
+  pivot_wider(names_from = period,
+              values_from = dcant) %&gt;%
+  mutate(delta_dcant = `2004 - 2014` - `1994 - 2004`) %&gt;%
+  group_by(data_source) %&gt;%
+  group_split() %&gt;%
+  # head(1) %&gt;%
+  map(
+    ~ p_section_zonal_continous_depth(
+      df = .x,
+      var = &quot;delta_dcant&quot;,
+      plot_slabs = &quot;n&quot;,
+      subtitle_text = NULL,
+      title_text = NULL,
+      col = &quot;bias&quot;
+    ) +
+      facet_grid(basin_AIP ~ .)
+  )</code></pre>
+<pre><code>[[1]]</code></pre>
+<p><img src="figure/results_publication.Rmd/inventory_maps_absolute_delta-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
+       filename = &quot;FigS_zonal_mean_sections_dcant_decadal_offset.png&quot;,
+       height = 5,
+       width = 6)</code></pre>
 </div>
 </div>
 <div id="concentration-profiles" class="section level1" number="7">
@@ -8945,7 +9035,8 @@ jens-daniel-mueller
   arrange(depth) %&gt;%
   filter(
     period != &quot;1994 - 2014&quot;,
-    depth &lt;= params_global$inventory_depth_standard
+    depth &lt;= params_global$inventory_depth_standard,
+    data_source == &quot;obs&quot;
   ) %&gt;%
   group_split(data_source) %&gt;%
   # head(1) %&gt;%
@@ -8989,12 +9080,12 @@ jens-daniel-mueller
         direction = -1
       ) +
       labs(
-        title = paste(&quot;data_source&quot;, unique(.x$data_source)),
+        # title = paste(&quot;data_source&quot;, unique(.x$data_source)),
         y = &quot;Depth (m)&quot;,
         x = dcant_umol_label
       ) +
       facet_wrap( ~ basin, ncol = 3, dir = &quot;v&quot;) +
-      theme(legend.position = c(0.8, 0.2),
+      theme(legend.position = c(0.85, 0.3),
             legend.title = element_blank())
   )</code></pre>
 <pre><code>[[1]]</code></pre>
@@ -9036,48 +9127,8 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
-<pre><code>
-[[2]]</code></pre>
-<p><img src="figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble-2.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-concentration_profiles_MLR_basins_ensemble-2">
-Past versions of concentration_profiles_MLR_basins_ensemble-2.png
-</button>
-</p>
-<div id="fig-concentration_profiles_MLR_basins_ensemble-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16dc3afa7157809f9b5557f0d71b1fe2e2a71684/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble-2.png" target="_blank">16dc3af</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-06-27
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
 <pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
-       filename = &quot;Fig_concentration_profiles.png&quot;,
+       filename = &quot;Fig_concentration_profiles_dcant.png&quot;,
        height = 6,
        width = 8)</code></pre>
 <pre class="r"><code>dcant_profile_basin_MLR_all %&gt;%
@@ -10377,38 +10428,31 @@ jens-daniel-mueller
 </div>
 </div>
 <pre class="r"><code>dcant_budget_basin_MLR_all_ensemble %&gt;%
+  mutate(ensemble_role = if_else(Version_ID %in% Version_IDs,
+                                 &quot;standard case&quot;,
+                                 &quot;others&quot;)) %&gt;% 
   filter(data_source == &quot;obs&quot;,
          period != &quot;1994 - 2014&quot;) %&gt;%
   ggplot(aes(period, dcant)) +
-  scale_fill_viridis_d() +
-  scale_color_viridis_d() +
+  scale_fill_viridis_d(name = &quot;ensemble group&quot;) +
+  scale_color_manual(values = c(&quot;grey&quot;, &quot;red&quot;),
+                     name = &quot;ensemble member&quot;) +
   geom_boxplot(
-    width = .15,
+    width = .1,
     outlier.shape = NA,
     fill = &quot;grey&quot;,
-    alpha = 0.3,
+    alpha = 0.7,
     position = position_nudge(x = 0.2)
   ) +
   geom_point(
-    aes(fill = Version_ID_group),
+    aes(fill = Version_ID_group,
+        col = ensemble_role),
     size = 1.3,
-    alpha = .5,
+    alpha = .7,
     shape = 21,
     position = position_dodge2(width = 0.2)
   ) +
-  geom_point(
-    data = dcant_budget_basin_MLR_all_ensemble %&gt;%
-      filter(
-        data_source == &quot;obs&quot;,
-        period != &quot;1994 - 2014&quot;,
-        Version_ID %in% Version_IDs
-      ),
-    aes(period, dcant),
-    position = position_nudge(x = -0.2),
-    size = 3,
-    col = &quot;red&quot;,
-    shape = 95
-  ) +
+  scale_y_continuous(name = dcant_pgc_label) +
   facet_grid(basin ~ ., scales = &quot;free_y&quot;)</code></pre>
 <p><img src="figure/results_publication.Rmd/dcant_budget_basin_ensemble-2.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
@@ -10591,62 +10635,13 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
-<pre class="r"><code>dcant_budget_basin_MLR_all_ensemble %&gt;%
-  filter(data_source == &quot;obs&quot;) %&gt;% 
-  ggplot(aes(dcant)) +
-  geom_histogram() +
-  geom_density() +
-  facet_grid(basin ~ period, scales = &quot;free&quot;)</code></pre>
-<p><img src="figure/results_publication.Rmd/dcant_budget_basin_ensemble-3.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-dcant_budget_basin_ensemble-3">
-Past versions of dcant_budget_basin_ensemble-3.png
-</button>
-</p>
-<div id="fig-dcant_budget_basin_ensemble-3" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/748aa43065598720a2424ed5101afdfb6dd4ccfe/docs/figure/results_publication.Rmd/dcant_budget_basin_ensemble-3.png" target="_blank">748aa43</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-06-27
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16dc3afa7157809f9b5557f0d71b1fe2e2a71684/docs/figure/results_publication.Rmd/dcant_budget_basin_ensemble-3.png" target="_blank">16dc3af</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-06-27
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre class="r"><code>dcant_budget_basin_MLR_all_ensemble_summary &lt;- dcant_budget_basin_MLR_all_ensemble %&gt;% 
+<pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
+       filename = &quot;FigS_budget_dcant_basin_hemisphere_ensemble_member.png&quot;,
+       height = 6,
+       width = 6)
+
+
+dcant_budget_basin_MLR_all_ensemble_summary &lt;- dcant_budget_basin_MLR_all_ensemble %&gt;% 
   group_by(data_source, basin, period) %&gt;% 
   summarise(dcant_mean = mean(dcant),
             dcant_sd = sd(dcant)*2) %&gt;% 
@@ -12540,8 +12535,9 @@ jens-daniel-mueller
   #           inherit.aes = FALSE)
 
 
+
 ggsave(path = here::here(&quot;output/publication&quot;),
-       filename = &quot;Fig_beta_budget_per_basin_hemisphere.png&quot;,
+       filename = &quot;Fig_budget_beta_basin_hemisphere.png&quot;,
        height = 6,
        width = 8)</code></pre>
 </div>
@@ -12766,7 +12762,7 @@ jens-daniel-mueller
          inv_depth &lt;= 3000,
          data_source == &quot;obs&quot;) %&gt;%
   rename(dcant = value) %&gt;%
-  select(-c(tref2, Version_ID)) %&gt;%
+  select(-c(tref1, tref2, Version_ID)) %&gt;%
   pivot_wider(names_from = period,
               values_from = dcant) %&gt;%
   mutate(sign = if_else(`2004 - 2014` - `1994 - 2004` &gt; 0,
@@ -12797,18 +12793,17 @@ dcant_budget_layer %&gt;%
       ymax = `2004 - 2014`,
       fill = sign
     ),
-    alpha = 0.3
+    alpha = 0.4
   ) +
   geom_step(aes(inv_depth - 250, dcant, col = period), direction = &quot;vh&quot;,
             size = 1) +
   coord_flip() +
   scale_x_reverse(breaks = seq(0, 3000, 500)) +
-  scale_color_brewer(palette = &quot;Set1&quot;, direction = -1, name = &quot;Decade&quot;) +
-  scale_fill_brewer(palette = &quot;Set1&quot;, direction = -1, name = &quot;Decadal change&quot;) +
+  scale_color_brewer(palette = &quot;Set1&quot;, direction = -1, name = &quot;period&quot;) +
+  scale_fill_brewer(palette = &quot;Set1&quot;, direction = -1, name = &quot;&quot;) +
   facet_grid(basin ~ .) +
   labs(y = dcant_layer_budget_label,
-       x = &quot;Depth (m)&quot;,
-       title = &quot;Layer inventory change&quot;)</code></pre>
+       x = &quot;Depth (m)&quot;)</code></pre>
 <p><img src="figure/results_publication.Rmd/depth_layer_budget_basin_MLR-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-depth_layer_budget_basin_MLR-1">
@@ -13045,6 +13040,10 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
+<pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
+       filename = &quot;FigS_budget_dcant_basin_hemisphere_depth_layer.png&quot;,
+       height = 6,
+       width = 5)</code></pre>
 <pre class="r"><code>dcant_budget_change &lt;- dcant_budget_basin_MLR_layer_all %&gt;%
   filter(estimate == &quot;dcant&quot;,
          period != &quot;1994 - 2014&quot;,
@@ -14295,7 +14294,7 @@ jens-daniel-mueller
 </div>
 </div>
 <pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
-       filename = &quot;Fig_global_dcant_budget_vs_atm_pCO2.png&quot;,
+       filename = &quot;FigS_budget_dcant_global_vs_atm_pCO2.png&quot;,
        height = 6,
        width = 7)
 
@@ -14525,10 +14524,10 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
-<pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
-       filename = &quot;Fig_global_dcant_budget_vs_atm_pCO2_trans.png&quot;,
-       height = 6,
-       width = 7)</code></pre>
+<pre class="r"><code># ggsave(path = here::here(&quot;output/publication&quot;),
+#        filename = &quot;Fig_global_dcant_budget_vs_atm_pCO2_trans.png&quot;,
+#        height = 6,
+#        width = 7)</code></pre>
 <pre class="r"><code>tcant_ts %&gt;% 
   mutate(beta = dcant_mean / (pCO2-lag(pCO2)))</code></pre>
 <pre><code># A tibble: 4 × 7
@@ -15015,9 +15014,40 @@ jens-daniel-mueller
 </div>
 </div>
 <pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
-       filename = &quot;Fig_global_dcant_budget_vs_GCB_ocean_sink.png&quot;,
+       filename = &quot;Fig_budget_dcant_global_vs_GCB_ocean_sink.png&quot;,
        height = 6,
-       width = 9)</code></pre>
+       width = 9)
+
+dcant_type_box %&gt;%
+  filter(period == &quot;1994 - 2014&quot;) %&gt;%
+  mutate(dcant = dcant - 118) %&gt;%
+  group_by(type) %&gt;%
+  summarise(
+    dcant_sd = sd(dcant),
+    dcant_mean = mean(dcant),
+    dcant_median = median(dcant)
+  ) %&gt;%
+  ungroup() %&gt;% 
+  mutate(dcant_mean_rel = dcant_mean / first(dcant_mean))</code></pre>
+<pre><code># A tibble: 3 × 5
+  type                           dcant_sd dcant_mean dcant_median dcant_mean_rel
+  &lt;chr&gt;                             &lt;dbl&gt;      &lt;dbl&gt;        &lt;dbl&gt;          &lt;dbl&gt;
+1 &quot;eMLR(C*)&quot;                         2.16       54.2         54.4          1    
+2 &quot;Hindcast models&quot;                  5.49       42.3         40.2          0.780
+3 &quot;Observation-based\nflux prod…     4.41       48.8         47.6          0.900</code></pre>
+<pre class="r"><code>dcant_type_box %&gt;%
+  filter(period == &quot;1994 - 2014&quot;,
+         type != &quot;eMLR(C*)&quot;) %&gt;%
+  mutate(dcant = dcant - 118) %&gt;%
+  summarise(
+    dcant_sd = sd(dcant),
+    dcant_mean = mean(dcant),
+    dcant_median = median(dcant)
+  )</code></pre>
+<pre><code># A tibble: 1 × 3
+  dcant_sd dcant_mean dcant_median
+     &lt;dbl&gt;      &lt;dbl&gt;        &lt;dbl&gt;
+1     5.83       45.8         45.9</code></pre>
 </div>
 </div>
 <div id="emission-removal" class="section level1" number="10">
