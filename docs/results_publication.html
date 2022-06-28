@@ -766,16 +766,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeef081b3967f73bb003786494a83bc5e9501f2495targetblankef081b3a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/ef081b3967f73bb003786494a83bc5e9501f2495" target="_blank">ef081b3</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreed35ddb101278958f4886ad6493604fa5f5c18b23targetblankd35ddb1a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/d35ddb101278958f4886ad6493604fa5f5c18b23" target="_blank">d35ddb1</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeef081b3967f73bb003786494a83bc5e9501f2495targetblankef081b3a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreed35ddb101278958f4886ad6493604fa5f5c18b23targetblankd35ddb1a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/ef081b3967f73bb003786494a83bc5e9501f2495" target="_blank">ef081b3</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/d35ddb101278958f4886ad6493604fa5f5c18b23" target="_blank">d35ddb1</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -788,13 +788,6 @@ Ignored files:
     Ignored:    figure/
     Ignored:    output/other/
     Ignored:    output/publication/
-
-Unstaged changes:
-    Modified:   analysis/_site.yml
-    Deleted:    analysis/multi_model_assesment_budgets.Rmd
-    Deleted:    analysis/multi_model_assesment_column_inventories.Rmd
-    Deleted:    analysis/multi_model_assesment_zonal_sections.Rmd
-    Modified:   code/Workflowr_project_managment.R
 
 </code></pre>
 <p>
@@ -833,6 +826,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d35ddb101278958f4886ad6493604fa5f5c18b23/analysis/results_publication.Rmd" target="_blank">d35ddb1</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-28
+</td>
+<td>
+included GCB ocean sink data as boxplot
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/results_publication.html" target="_blank">a13a7cf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-28
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -13262,6 +13289,20 @@ dcant_budget_global_ts &lt;- dcant_budget_global_ts %&gt;%
   mutate(dcant_mean = dcant_mean * dcant_scaling)
 
 dcant_budget_global_all_ensemble_summary &lt;-
+  dcant_budget_basin_MLR_all_ensemble %&gt;%
+  filter(period != &quot;2004 - 2014&quot;) %&gt;%
+  group_by(data_source, Version_ID, tref1, tref2, period) %&gt;%
+  summarise(dcant = sum(dcant)) %&gt;%
+  ungroup() %&gt;%
+  group_by(data_source, tref1, tref2, period) %&gt;%
+  summarise(dcant_mean = mean(dcant),
+            dcant_sd = sd(dcant)*2) %&gt;%
+  ungroup() %&gt;%
+  filter(data_source == &quot;obs&quot;)
+
+
+
+dcant_budget_global_all_ensemble_summary &lt;-
   dcant_budget_global_all_ensemble_summary %&gt;%
   mutate(dcant_sd = dcant_sd * dcant_scaling)
 
@@ -13823,7 +13864,7 @@ p_tcant_atm_co2 &lt;- tcant_ts %&gt;%
   geom_ribbon(aes(ymin = tcant - tcant_sd, ymax = tcant + tcant_sd, fill = &quot;1800 - 2014&quot;),
               alpha = 0.5) +
   geom_ribbon(data = dcant_uncert_2014_combined,
-              aes(ymin = tcant - dcant_sd_combined, ymax = tcant + dcant_sd_combined, fill = &quot;1994 - 2014&quot;),
+              aes(ymin = tcant - dcant_sd, ymax = tcant + dcant_sd, fill = &quot;1994 - 2014&quot;),
               alpha = 0.5) +
   # geom_linerange(aes(ymin = tcant - dcant_sd, ymax = tcant + dcant_sd, col = &quot;interval\nuncertainty&quot;)) +
   geom_line() +
@@ -14386,87 +14427,13 @@ jens-daniel-mueller
 1  1800        0       0     280     0       0   NA   
 2  1994      118      19     358.  118      19    1.51
 3  2004       29.1     3.41  377.  147.     22.4  1.56
-4  2014       27.1     5.28  397.  174.     27.7  1.33</code></pre>
+4  2014       27.1     4.61  397.  174.     27.0  1.33</code></pre>
 </div>
 <div id="incl-fluxes" class="section level2" number="9.3">
 <h2><span class="header-section-number">9.3</span> incl fluxes</h2>
-<pre class="r"><code>RECCAP2_fgco2_glob_all_annual_cum_1994 &lt;- RECCAP2_fgco2_glob_all_annual_obs %&gt;%
-  filter(year &gt;= 1994, year &lt;= 2018) %&gt;%
-  mutate(fgco2_glob = if_else(year == 1994, 0, fgco2_glob),
-         fgco2_glob_corr = fgco2_glob + 0.62 + 0.12) %&gt;% 
-  arrange(year) %&gt;%
-  group_by(product) %&gt;%
-  mutate(fgco2_glob_cum = cumsum(fgco2_glob),
-         fgco2_glob_corr_cum = cumsum(fgco2_glob_corr)) %&gt;%
-  ungroup()
-
-RECCAP2_fgco2_glob_all_annual_cum_1994 &lt;-
-left_join(RECCAP2_fgco2_glob_all_annual_cum_1994,
-          co2_atm) 
-
-RECCAP2_fgco2_glob_all_annual_cum_1994 %&gt;%
-  ggplot(aes(pCO2, fgco2_glob_corr_cum, col = product)) +
-  geom_line() +
-  geom_point(shape = 21, fill = &quot;white&quot;) +
-  theme(legend.position = &quot;bottom&quot;)
-
-RECCAP2_fgco2_glob_all_annual_cum_1994_mod &lt;- RECCAP2_fgco2_glob_all_annual_mod %&gt;%
-  filter(year &gt;= 1994, year &lt;= 2018) %&gt;%
-  mutate(fgco2_glob = if_else(year == 1994, 0, fgco2_glob),
-         fgco2_glob_corr = fgco2_glob) %&gt;% 
-  arrange(year) %&gt;%
-  group_by(product) %&gt;%
-  mutate(fgco2_glob_cum = cumsum(fgco2_glob),
-         fgco2_glob_corr_cum = cumsum(fgco2_glob_corr)) %&gt;%
-  ungroup()
-
-RECCAP2_fgco2_glob_all_annual_cum_1994_mod &lt;-
-left_join(RECCAP2_fgco2_glob_all_annual_cum_1994_mod,
-          co2_atm) 
-
-RECCAP2_fgco2_glob_all_annual_cum_1994_mod %&gt;%
-  ggplot(aes(pCO2, fgco2_glob_corr_cum, col = product)) +
-  geom_line() +
-  geom_point(shape = 21, fill = &quot;white&quot;) +
-  theme(legend.position = &quot;bottom&quot;)
-
-RECCAP2_fgco2_glob_all_annual_cum_1994 &lt;- RECCAP2_fgco2_glob_all_annual_cum_1994 %&gt;% 
-  mutate(fgco2_glob_cum = fgco2_glob_cum + 118,
-         fgco2_glob_corr_cum = fgco2_glob_corr_cum + 118) %&gt;%
-  select(pCO2, product, fgco2_glob_cum, fgco2_glob_corr_cum)
-
-RECCAP2_fgco2_glob_all_annual_cum_1994_mod &lt;- RECCAP2_fgco2_glob_all_annual_cum_1994_mod %&gt;% 
-  mutate(fgco2_glob_cum = fgco2_glob_cum + 118,
-         fgco2_glob_corr_cum = fgco2_glob_corr_cum + 118) %&gt;%
-  select(pCO2, product, fgco2_glob_cum, fgco2_glob_corr_cum)</code></pre>
-<pre class="r"><code>SeaFlux_fgco2_glob_all_annual_cum_1994 &lt;- SeaFlux_fgco2_glob_all_annual_obs %&gt;%
-  filter(year &gt;= 1994, year &lt;= 2018) %&gt;%
-  mutate(fgco2_glob = if_else(year == 1994, 0, fgco2_glob),
-         fgco2_glob_corr = fgco2_glob + 0.62) %&gt;% 
-  arrange(year) %&gt;%
-  group_by(product) %&gt;%
-  mutate(fgco2_glob_cum = cumsum(fgco2_glob),
-         fgco2_glob_corr_cum = cumsum(fgco2_glob_corr)) %&gt;%
-  ungroup()
-
-SeaFlux_fgco2_glob_all_annual_cum_1994 &lt;-
-left_join(SeaFlux_fgco2_glob_all_annual_cum_1994,
-          co2_atm) 
-
-SeaFlux_fgco2_glob_all_annual_cum_1994 %&gt;%
-  ggplot(aes(pCO2, fgco2_glob_corr_cum, col = product)) +
-  geom_line() +
-  geom_point(shape = 21, fill = &quot;white&quot;) +
-  theme(legend.position = &quot;bottom&quot;)
-
-
-SeaFlux_fgco2_glob_all_annual_cum_1994 &lt;- SeaFlux_fgco2_glob_all_annual_cum_1994 %&gt;% 
-  mutate(fgco2_glob_cum = fgco2_glob_cum + 118,
-         fgco2_glob_corr_cum = fgco2_glob_corr_cum + 118) %&gt;%
-  select(pCO2, product, fgco2_glob_cum, fgco2_glob_corr_cum)</code></pre>
 <pre class="r"><code>Ocean_Sink_cum_1994 &lt;-
   Ocean_Sink %&gt;%
-  filter(year &gt;= 1994) %&gt;%
+  filter(year &gt;= 1994, year &lt;= 2014) %&gt;%
   mutate(fgco2_glob = if_else(year == 1994, 0, GtC_yr),
          fgco2_glob = fgco2_glob) %&gt;% 
   arrange(year) %&gt;%
@@ -14523,8 +14490,8 @@ jens-daniel-mueller
 </div>
 </div>
 <pre class="r"><code>Ocean_Sink_cum_1994 &lt;- Ocean_Sink_cum_1994 %&gt;% 
-  mutate(fgco2_glob_cum = fgco2_glob_cum + 118) %&gt;%
-  select(pCO2, product, fgco2_glob_cum, type)
+  mutate(fgco2_glob_cum_total = fgco2_glob_cum + 118) %&gt;%
+  select(year, pCO2, product, fgco2_glob_cum, fgco2_glob_cum_total, type)
 
 Ocean_Sink_cum_1994 &lt;- Ocean_Sink_cum_1994 %&gt;% 
   mutate(type = case_when(
@@ -14535,20 +14502,20 @@ Ocean_Sink_cum_1994 &lt;- Ocean_Sink_cum_1994 %&gt;%
   filter(year != 1800) %&gt;% 
   mutate(dcant_sd = if_else(year == 1994,0,dcant_sd))
 
-
+p_tcant_ts_zoom &lt;- 
 tcant_ts_zoom %&gt;%
   ggplot(aes(pCO2, tcant)) +
   geom_ribbon(
     data = dcant_uncert_2014_combined,
     aes(
-      ymin = tcant - dcant_sd_combined,
-      ymax = tcant + dcant_sd_combined,
+      ymin = tcant - dcant_sd,
+      ymax = tcant + dcant_sd,
       fill = &quot;1994 - 2014&quot;
     ),
     alpha = 0.5
   ) +
   geom_line(data = Ocean_Sink_cum_1994,
-            aes(pCO2, fgco2_glob_cum, group = product, col = type)) +
+            aes(pCO2, fgco2_glob_cum_total, group = product, col = type)) +
   geom_line(aes(col = &quot;eMLR(C*)&quot;)) +
   geom_point(aes(col = &quot;eMLR(C*)&quot;),
              shape = 21, fill = &quot;white&quot;) +
@@ -14556,17 +14523,20 @@ tcant_ts_zoom %&gt;%
   scale_color_manual(values = c(&quot;black&quot;, &quot;#E69F00&quot;, &quot;#56B4E9&quot;, &quot;pink&quot;),
                      name = &quot;Data source&quot;) +
   scale_fill_manual(values = c(&quot;grey60&quot;, &quot;grey30&quot;), name = &quot;Cumulative\nuncertainty&quot;) +
-  scale_x_continuous(limits = c(NA, 409)) +
+  # scale_x_continuous(limits = c(NA, 409)) +
   labs(x = expression(Atmospheric ~ pCO[2] ~ (µatm)),
        y = expression(Total ~ oceanic ~ C[ant] ~ (PgC))) +
   guides(colour = guide_legend(order = 2),
          fill = guide_legend(order = 1)) +
+  theme_classic() +
   theme(
     legend.background = element_rect(fill = &quot;transparent&quot;),
     legend.position = c(0.73, 0.25),
     legend.box.just = &quot;bottom&quot;,
     legend.box = &quot;horizontal&quot;
-  )</code></pre>
+  )
+
+p_tcant_ts_zoom</code></pre>
 <p><img src="figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-mean_tcant_over_atm_co2_incl_fluxes-1">
@@ -14803,8 +14773,44 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
+<pre class="r"><code>dcant_type_box &lt;-
+  bind_rows(
+    dcant_budget_global_all_ensemble %&gt;%
+      filter(data_source == &quot;obs&quot;,
+             period != &quot;2004 - 2014&quot;) %&gt;%
+      select(period, dcant) %&gt;%
+      mutate(type = &quot;eMLR(C*)&quot;),
+    Ocean_Sink_cum_1994 %&gt;%
+      filter(year %in% c(2004, 2014)) %&gt;%
+      mutate(period = if_else(year == 2004,
+                              &quot;1994 - 2004&quot;,
+                              &quot;1994 - 2014&quot;)) %&gt;%
+      select(period, dcant = fgco2_glob_cum, type)
+  )
+
+p_tcant_box &lt;-
+  dcant_type_box %&gt;%
+  filter(period == &quot;1994 - 2014&quot;) %&gt;% 
+  ggplot(aes(period, dcant, col = type)) +
+  geom_boxplot() +
+  # geom_jitter(position = position_dodge(width = 1)) +
+  scale_color_manual(values = c(&quot;black&quot;, &quot;#E69F00&quot;, &quot;#56B4E9&quot;, &quot;pink&quot;),
+                     name = &quot;Data source&quot;,
+                     guide = &quot;none&quot;) +
+  scale_y_continuous(limits = c(0, NA)) +
+  theme(
+    legend.background = element_rect(fill = &quot;transparent&quot;),
+    legend.position = c(0.73, 0.25),
+    legend.box.just = &quot;bottom&quot;,
+    legend.box = &quot;horizontal&quot;
+  ) +
+  theme_void()
+
+p_tcant_ts_zoom + p_tcant_box +
+  plot_layout(ncol = 2, widths = c(7,1))</code></pre>
+<p><img src="figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_boxplot-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
-       filename = &quot;Fig_global_dcant_budget_vs_atm_pCO2_RECCAP2.png&quot;,
+       filename = &quot;Fig_global_dcant_budget_vs_GCB_ocean_sink.png&quot;,
        height = 3.2,
        width = 5.7)</code></pre>
 <br>
