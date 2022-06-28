@@ -26,6 +26,7 @@ library(patchwork)
 library(ggalluvial)
 library(marelac)
 library(ggdist)
+library(kableExtra)
 ```
 
 
@@ -932,36 +933,16 @@ tcant_inv <- tcant_inv %>%
 
 ## GCB carbon sink
 
-```{r read_RECCAP2_flux_products_observations, eval=FALSE}
-
-RECCAP2_fgco2_glob_all_annual_obs <-
-  read_csv(paste0(path_preprocessing,
-                   "fgco2_glob_RECCAP2_all_annual.csv"))
-
-```
-
-```{r read_RECCAP2_flux_products_models, eval=FALSE}
-
-RECCAP2_fgco2_glob_all_annual_mod <-
-  read_csv(paste0(path_preprocessing_model,
-                   "RECCAP2_fgco2_glob_all_annual.csv"))
-
-```
-
-
-```{r read_SeaFlux_flux_products_observations, eval=FALSE}
-
-SeaFlux_fgco2_glob_all_annual_obs <-
-  read_csv(paste0(path_preprocessing,
-                   "fgco2_glob_Seaflux_annual.csv"))
-
-```
-
 ```{r read_GCB_ocean_carbon_sink}
 
 Ocean_Sink <-
   read_csv(paste(path_preprocessing,
                   "Ocean_Sink.csv",
+                  sep = ""))
+
+Global_Carbon_Budget <-
+  read_csv(paste(path_preprocessing,
+                  "GCB_Global_Carbon_Budget.csv",
                   sep = ""))
 
 ```
@@ -3082,5 +3063,35 @@ ggsave(path = here::here("output/publication"),
        width = 9)
 
 ```
+
+# Emission removal
+
+```{r removal_relative_to_emissions}
+
+GCB_Cant_emissions <- Global_Carbon_Budget %>%
+  mutate(year = cut(year, c(1994, 2004, 2014), c("2004", "2014")),
+         year = as.numeric(as.character(year))) %>%
+  drop_na() %>%
+  filter(estimate %in% c(
+    "fossil emissions excluding carbonation",
+    "land-use change emissions"
+  )) %>%
+  group_by(year) %>%
+  summarise(cant_emissions = sum(GtC_yr)) %>%
+  ungroup()
+
+left_join(GCB_Cant_emissions,
+          tcant_ts_zoom) %>%
+  mutate(
+    dcant_per_emission = 100 * dcant_mean / cant_emissions,
+    dcant_per_emission_sd = 100 * dcant_sd / cant_emissions
+  ) %>%
+  kable() %>%
+  kable_styling() %>%
+  scroll_box(height = "300px")
+
+```
+
+
 
 
