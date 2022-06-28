@@ -61,7 +61,7 @@ navbar:
         href: rarefication_zonal_sections.html
   - text: MLR
     menu:
-    - text: MLR_predictors
+    - text: predictor removal C(P)
       menu:
       - text: Budgets
         href: MLR_predictor_budgets.html
@@ -69,7 +69,7 @@ navbar:
         href: MLR_predictor_column_inventories.html
       - text: Zonal sections
         href: MLR_predictor_zonal_sections.html
-    - text: MLR_predictors nitrate
+    - text: predictor removal C(N)
       menu:
       - text: Budgets
         href: MLR_predictor_nitrate_budgets.html
@@ -77,6 +77,14 @@ navbar:
         href: MLR_predictor_nitrate_column_inventories.html
       - text: Zonal sections
         href: MLR_predictor_nitrate_zonal_sections.html
+    - text: C(N) target
+      menu:
+      - text: Budgets
+        href: CN_target_budgets.html
+      - text: Column inventories
+        href: CN_target_column_inventories.html
+      - text: Zonal sections
+        href: CN_target_zonal_sections.html
     - text: MLR_target
       menu:
       - text: Budgets
@@ -95,12 +103,22 @@ navbar:
         href: vif_zonal_sections.html
   - text: MMA
     menu:
-    - text: Budgets
-      href: multi_model_assesment_budgets.html
-    - text: Column inventories
-      href: multi_model_assesment_column_inventories.html
-    - text: Zonal sections
-      href: multi_model_assesment_zonal_sections.html
+    - text: Five basins
+      menu:
+      - text: Budgets
+        href: multi_model_assesment_5_budgets.html
+      - text: Column inventories
+        href: multi_model_assesment_5_column_inventories.html
+      - text: Zonal sections
+        href: multi_model_assesment_5_zonal_sections.html
+    - text: Three basins
+      menu:
+      - text: Budgets
+        href: multi_model_assesment_AIP_budgets.html
+      - text: Column inventories
+        href: multi_model_assesment_AIP_column_inventories.html
+      - text: Zonal sections
+        href: multi_model_assesment_AIP_zonal_sections.html
   - text: Robustness
     menu:
     - text: Indian Ocean

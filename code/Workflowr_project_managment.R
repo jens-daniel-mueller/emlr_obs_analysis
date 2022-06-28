@@ -5,19 +5,22 @@
 
 
 # commit regular changes (locally) and rebuild site
-wflow_publish(all = TRUE, message = "included GCB ocean sink data")
+wflow_publish(all = TRUE, message = "included GCB ocean sink data as boxplot")
 
 # commit changes including _site.yml (locally) and rebuild site in the specified order
 wflow_publish(here::here(
   "analysis",
   c(
+    "multi_model_assesment_AIP_budgets.Rmd",
+    "multi_model_assesment_AIP_column_inventories.Rmd",
+    "multi_model_assesment_AIP_zonal_sections.Rmd",
+    "multi_model_assesment_5_budgets.Rmd",
+    "multi_model_assesment_5_column_inventories.Rmd",
+    "multi_model_assesment_5_zonal_sections.Rmd",
     "data_adjustment_cruise_budgets.Rmd",
     "data_adjustment_cruise_column_inventories.Rmd",
     "data_adjustment_cruise_zonal_sections.Rmd",
     "index.Rmd",
-    "multi_model_assesment_budgets.Rmd",
-    "multi_model_assesment_column_inventories.Rmd",
-    "multi_model_assesment_zonal_sections.Rmd",
     "results_publication.Rmd",
     "data_adjustment_none_budgets.Rmd",
     "data_adjustment_none_column_inventories.Rmd",
@@ -25,6 +28,9 @@ wflow_publish(here::here(
     "MLR_target_budgets.Rmd",
     "MLR_target_column_inventories.Rmd",
     "MLR_target_zonal_sections.Rmd",
+    "CN_target_budgets.Rmd",
+    "CN_target_column_inventories.Rmd",
+    "CN_target_zonal_sections.Rmd",
     "data_adjustment_bulk_budgets.Rmd",
     "data_adjustment_bulk_column_inventories.Rmd",
     "data_adjustment_bulk_zonal_sections.Rmd",
@@ -61,7 +67,7 @@ wflow_publish(here::here(
     "MLR_predictor_nitrate_zonal_sections.Rmd"
   )
 ),
-message = "rebuild with rerun analysis",
+message = "rebuild with additional analysis",
 republish = TRUE)
 
 
