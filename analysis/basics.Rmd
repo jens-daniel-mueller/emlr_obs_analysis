@@ -117,16 +117,16 @@ p_time_histo_G19
 p_time_histo_all
 
 
-ggsave(plot = p_time_histo_G19,
-       path = here::here("output/publication"),
-       filename = "time_histo_G19.png",
-       height = 2,
-       width = 10)
+# ggsave(plot = p_time_histo_G19,
+#        path = here::here("output/publication"),
+#        filename = "time_histo_G19.png",
+#        height = 2,
+#        width = 10)
 
 ggsave(plot = p_time_histo_all,
        path = here::here("output/publication"),
-       filename = "time_histo_all.png",
-       height = 2,
+       filename = "FigS_coverage_time_series.png",
+       height = 4,
        width = 10)
 
 rm(
@@ -158,11 +158,11 @@ p_time_histo_basin <-
 p_time_histo_basin
 
 
-ggsave(plot = p_time_histo_basin,
-       path = here::here("output/publication"),
-       filename = "FigS_time_series_observations.png",
-       height = 2,
-       width = 10)
+# ggsave(plot = p_time_histo_basin,
+#        path = here::here("output/publication"),
+#        filename = "FigS_time_series_observations.png",
+#        height = 2,
+#        width = 10)
 
 rm(p_time_histo_basin)
 
@@ -254,11 +254,11 @@ basin_maps <-
 
 basin_maps
 
-ggsave(plot = basin_maps,
-       path = here::here("output/publication"),
-       filename = "FigS_basin_mask_5.png",
-       height = 5,
-       width = 10)
+# ggsave(plot = basin_maps,
+#        path = here::here("output/publication"),
+#        filename = "FigS_basin_mask_5.png",
+#        height = 5,
+#        width = 10)
 
 ```
 
@@ -296,7 +296,7 @@ mapped_ocean_mask %>%
 ```
 
 
-# coverage maps
+# coverage maps all
 
 ```{r coverage_maps}
 
