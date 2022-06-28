@@ -37,6 +37,8 @@
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -766,16 +768,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree2a3cf973687078de700e6f553e106933dcf21ee3targetblank2a3cf97a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/2a3cf973687078de700e6f553e106933dcf21ee3" target="_blank">2a3cf97</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreefe42644e9268bfe24c24e253b491bd23f67750c9targetblankfe42644a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/fe42644e9268bfe24c24e253b491bd23f67750c9" target="_blank">fe42644</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree2a3cf973687078de700e6f553e106933dcf21ee3targetblank2a3cf97a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreefe42644e9268bfe24c24e253b491bd23f67750c9targetblankfe42644a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/2a3cf973687078de700e6f553e106933dcf21ee3" target="_blank">2a3cf97</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/fe42644e9268bfe24c24e253b491bd23f67750c9" target="_blank">fe42644</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -826,6 +828,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/fe42644e9268bfe24c24e253b491bd23f67750c9/analysis/results_publication.Rmd" target="_blank">fe42644</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-28
+</td>
+<td>
+GCB emissions ratio included
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/results_publication.html" target="_blank">9393c07</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-28
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -4351,18 +4387,14 @@ tcant_inv &lt;- tcant_inv %&gt;%
 </div>
 <div id="gcb-carbon-sink" class="section level2" number="2.9">
 <h2><span class="header-section-number">2.9</span> GCB carbon sink</h2>
-<pre class="r"><code>RECCAP2_fgco2_glob_all_annual_obs &lt;-
-  read_csv(paste0(path_preprocessing,
-                   &quot;fgco2_glob_RECCAP2_all_annual.csv&quot;))</code></pre>
-<pre class="r"><code>RECCAP2_fgco2_glob_all_annual_mod &lt;-
-  read_csv(paste0(path_preprocessing_model,
-                   &quot;RECCAP2_fgco2_glob_all_annual.csv&quot;))</code></pre>
-<pre class="r"><code>SeaFlux_fgco2_glob_all_annual_obs &lt;-
-  read_csv(paste0(path_preprocessing,
-                   &quot;fgco2_glob_Seaflux_annual.csv&quot;))</code></pre>
 <pre class="r"><code>Ocean_Sink &lt;-
   read_csv(paste(path_preprocessing,
                   &quot;Ocean_Sink.csv&quot;,
+                  sep = &quot;&quot;))
+
+Global_Carbon_Budget &lt;-
+  read_csv(paste(path_preprocessing,
+                  &quot;GCB_Global_Carbon_Budget.csv&quot;,
                   sep = &quot;&quot;))</code></pre>
 </div>
 </div>
@@ -14658,6 +14690,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes-1.png" target="_blank">9393c07</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-28
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/0825298ebf2d3951cb31eb7199d0f001da15ad0d/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes-1.png" target="_blank">0825298</a>
 </td>
 <td>
@@ -14947,6 +14990,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_boxplot-1.png" target="_blank">9393c07</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-28
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/0825298ebf2d3951cb31eb7199d0f001da15ad0d/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_boxplot-1.png" target="_blank">0825298</a>
 </td>
 <td>
@@ -14964,6 +15018,126 @@ jens-daniel-mueller
        filename = &quot;Fig_global_dcant_budget_vs_GCB_ocean_sink.png&quot;,
        height = 6,
        width = 9)</code></pre>
+</div>
+</div>
+<div id="emission-removal" class="section level1" number="10">
+<h1><span class="header-section-number">10</span> Emission removal</h1>
+<pre class="r"><code>GCB_Cant_emissions &lt;- Global_Carbon_Budget %&gt;%
+  mutate(year = cut(year, c(1994, 2004, 2014), c(&quot;2004&quot;, &quot;2014&quot;)),
+         year = as.numeric(as.character(year))) %&gt;%
+  drop_na() %&gt;%
+  filter(estimate %in% c(
+    &quot;fossil emissions excluding carbonation&quot;,
+    &quot;land-use change emissions&quot;
+  )) %&gt;%
+  group_by(year) %&gt;%
+  summarise(cant_emissions = sum(GtC_yr)) %&gt;%
+  ungroup()
+
+left_join(GCB_Cant_emissions,
+          tcant_ts_zoom) %&gt;%
+  mutate(
+    dcant_per_emission = 100 * dcant_mean / cant_emissions,
+    dcant_per_emission_sd = 100 * dcant_sd / cant_emissions
+  ) %&gt;%
+  kable() %&gt;%
+  kable_styling() %&gt;%
+  scroll_box(height = &quot;300px&quot;)</code></pre>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; ">
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+year
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+cant_emissions
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+dcant_mean
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+dcant_sd
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+pCO2
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+tcant
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+tcant_sd
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+dcant_per_emission
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+dcant_per_emission_sd
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+2004
+</td>
+<td style="text-align:right;">
+82.66365
+</td>
+<td style="text-align:right;">
+29.06819
+</td>
+<td style="text-align:right;">
+3.405825
+</td>
+<td style="text-align:right;">
+376.95
+</td>
+<td style="text-align:right;">
+147.0682
+</td>
+<td style="text-align:right;">
+22.40582
+</td>
+<td style="text-align:right;">
+35.16442
+</td>
+<td style="text-align:right;">
+4.120099
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:right;">
+101.81399
+</td>
+<td style="text-align:right;">
+27.12704
+</td>
+<td style="text-align:right;">
+4.608849
+</td>
+<td style="text-align:right;">
+397.34
+</td>
+<td style="text-align:right;">
+174.1952
+</td>
+<td style="text-align:right;">
+27.01467
+</td>
+<td style="text-align:right;">
+26.64373
+</td>
+<td style="text-align:right;">
+4.526735
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -14992,43 +15166,44 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] ggdist_3.1.1      ggalluvial_0.12.3 colorspace_2.0-2  marelac_2.1.10   
- [5] shape_1.4.6       ggforce_0.3.3     metR_0.11.0       scico_1.3.0      
- [9] patchwork_1.1.1   collapse_1.7.0    forcats_0.5.1     stringr_1.4.0    
-[13] dplyr_1.0.7       purrr_0.3.4       readr_2.1.1       tidyr_1.1.4      
-[17] tibble_3.1.6      ggplot2_3.3.5     tidyverse_1.3.1   workflowr_1.7.0  
+ [1] kableExtra_1.3.4  ggdist_3.1.1      ggalluvial_0.12.3 colorspace_2.0-2 
+ [5] marelac_2.1.10    shape_1.4.6       ggforce_0.3.3     metR_0.11.0      
+ [9] scico_1.3.0       patchwork_1.1.1   collapse_1.7.0    forcats_0.5.1    
+[13] stringr_1.4.0     dplyr_1.0.7       purrr_0.3.4       readr_2.1.1      
+[17] tidyr_1.1.4       tibble_3.1.6      ggplot2_3.3.5     tidyverse_1.3.1  
+[21] workflowr_1.7.0  
 
 loaded via a namespace (and not attached):
  [1] fs_1.5.2             bit64_4.0.5          lubridate_1.8.0     
- [4] gsw_1.0-6            RColorBrewer_1.1-2   httr_1.4.2          
- [7] rprojroot_2.0.2      tools_4.1.2          backports_1.4.1     
-[10] bslib_0.3.1          utf8_1.2.2           R6_2.5.1            
-[13] DBI_1.1.2            withr_2.4.3          tidyselect_1.1.1    
-[16] processx_3.5.2       bit_4.0.4            compiler_4.1.2      
-[19] git2r_0.29.0         cli_3.1.1            rvest_1.0.2         
-[22] xml2_1.3.3           isoband_0.2.5        labeling_0.4.2      
-[25] sass_0.4.0           scales_1.1.1         checkmate_2.0.0     
-[28] SolveSAPHE_2.1.0     callr_3.7.0          digest_0.6.29       
-[31] rmarkdown_2.11       oce_1.5-0            pkgconfig_2.0.3     
-[34] htmltools_0.5.2      highr_0.9            dbplyr_2.1.1        
-[37] fastmap_1.1.0        rlang_1.0.2          readxl_1.3.1        
-[40] rstudioapi_0.13      jquerylib_0.1.4      generics_0.1.1      
-[43] farver_2.1.0         jsonlite_1.7.3       vroom_1.5.7         
-[46] distributional_0.3.0 magrittr_2.0.1       Rcpp_1.0.8          
-[49] munsell_0.5.0        fansi_1.0.2          lifecycle_1.0.1     
-[52] stringi_1.7.6        whisker_0.4          yaml_2.2.1          
-[55] MASS_7.3-55          grid_4.1.2           ggrepel_0.9.1       
-[58] parallel_4.1.2       promises_1.2.0.1     crayon_1.4.2        
-[61] haven_2.4.3          hms_1.1.1            seacarb_3.3.0       
-[64] knitr_1.37           ps_1.6.0             pillar_1.6.4        
-[67] reprex_2.0.1         glue_1.6.0           evaluate_0.14       
-[70] getPass_0.2-2        data.table_1.14.2    modelr_0.1.8        
-[73] vctrs_0.3.8          tzdb_0.2.0           tweenr_1.0.2        
-[76] httpuv_1.6.5         cellranger_1.1.0     gtable_0.3.0        
-[79] polyclip_1.10-0      assertthat_0.2.1     xfun_0.29           
-[82] broom_0.7.11         later_1.3.0          viridisLite_0.4.0   
-[85] ellipsis_0.3.2       here_1.0.1          </code></pre>
-</div>
+ [4] gsw_1.0-6            RColorBrewer_1.1-2   webshot_0.5.2       
+ [7] httr_1.4.2           rprojroot_2.0.2      tools_4.1.2         
+[10] backports_1.4.1      bslib_0.3.1          utf8_1.2.2          
+[13] R6_2.5.1             DBI_1.1.2            withr_2.4.3         
+[16] tidyselect_1.1.1     processx_3.5.2       bit_4.0.4           
+[19] compiler_4.1.2       git2r_0.29.0         cli_3.1.1           
+[22] rvest_1.0.2          xml2_1.3.3           isoband_0.2.5       
+[25] labeling_0.4.2       sass_0.4.0           scales_1.1.1        
+[28] checkmate_2.0.0      SolveSAPHE_2.1.0     callr_3.7.0         
+[31] systemfonts_1.0.3    digest_0.6.29        svglite_2.0.0       
+[34] rmarkdown_2.11       oce_1.5-0            pkgconfig_2.0.3     
+[37] htmltools_0.5.2      highr_0.9            dbplyr_2.1.1        
+[40] fastmap_1.1.0        rlang_1.0.2          readxl_1.3.1        
+[43] rstudioapi_0.13      jquerylib_0.1.4      generics_0.1.1      
+[46] farver_2.1.0         jsonlite_1.7.3       vroom_1.5.7         
+[49] distributional_0.3.0 magrittr_2.0.1       Rcpp_1.0.8          
+[52] munsell_0.5.0        fansi_1.0.2          lifecycle_1.0.1     
+[55] stringi_1.7.6        whisker_0.4          yaml_2.2.1          
+[58] MASS_7.3-55          grid_4.1.2           ggrepel_0.9.1       
+[61] parallel_4.1.2       promises_1.2.0.1     crayon_1.4.2        
+[64] haven_2.4.3          hms_1.1.1            seacarb_3.3.0       
+[67] knitr_1.37           ps_1.6.0             pillar_1.6.4        
+[70] reprex_2.0.1         glue_1.6.0           evaluate_0.14       
+[73] getPass_0.2-2        data.table_1.14.2    modelr_0.1.8        
+[76] vctrs_0.3.8          tzdb_0.2.0           tweenr_1.0.2        
+[79] httpuv_1.6.5         cellranger_1.1.0     gtable_0.3.0        
+[82] polyclip_1.10-0      assertthat_0.2.1     xfun_0.29           
+[85] broom_0.7.11         later_1.3.0          viridisLite_0.4.0   
+[88] ellipsis_0.3.2       here_1.0.1          </code></pre>
 </div>
 </div>
 
