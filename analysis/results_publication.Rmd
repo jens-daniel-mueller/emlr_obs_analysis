@@ -2985,6 +2985,12 @@ tcant_ts_zoom <- tcant_ts %>%
   filter(year != 1800) %>% 
   mutate(dcant_sd = if_else(year == 1994,0,dcant_sd))
 
+tcant_min = tcant_ts_zoom %>% pull(tcant) %>% min()
+tcant_max = 
+  tcant_ts_zoom %>% pull(tcant) %>% max() +
+  tcant_ts_zoom %>% pull(dcant_sd) %>% max()
+
+
 p_tcant_ts_zoom <- 
 tcant_ts_zoom %>%
   ggplot(aes(pCO2, tcant)) +
@@ -3007,6 +3013,7 @@ tcant_ts_zoom %>%
                      name = "Data source") +
   scale_fill_manual(values = c("grey60", "grey30"), name = "Cumulative\nuncertainty") +
   # scale_x_continuous(limits = c(NA, 409)) +
+  scale_y_continuous(limits = c(tcant_min, tcant_max)) +
   labs(x = expression(Atmospheric ~ pCO[2] ~ (µatm)),
        y = expression(Total ~ oceanic ~ C[ant] ~ (PgC))) +
   guides(colour = guide_legend(order = 2),
@@ -3014,7 +3021,7 @@ tcant_ts_zoom %>%
   theme_classic() +
   theme(
     legend.background = element_rect(fill = "transparent"),
-    legend.position = c(0.73, 0.25),
+    legend.position = c(0.8, 0.2),
     legend.box.just = "bottom",
     legend.box = "horizontal"
   )
@@ -3032,40 +3039,47 @@ dcant_type_box <-
       filter(data_source == "obs",
              period != "2004 - 2014") %>%
       select(period, dcant) %>%
-      mutate(type = "eMLR(C*)"),
+      mutate(type = "eMLR(C*)",
+             dcant = dcant + 118),
     Ocean_Sink_cum_1994 %>%
       filter(year %in% c(2004, 2014)) %>%
       mutate(period = if_else(year == 2004,
                               "1994 - 2004",
                               "1994 - 2014")) %>%
-      select(period, dcant = fgco2_glob_cum, type)
+      select(period, dcant = fgco2_glob_cum_total, type)
   )
 
 p_tcant_box <-
   dcant_type_box %>%
   filter(period == "1994 - 2014") %>% 
   ggplot(aes(period, dcant, col = type)) +
-  geom_boxplot() +
-  # geom_jitter(position = position_dodge(width = 1)) +
+  geom_boxplot(position = position_dodge(width = 1)) +
+  geom_jitter(position = position_dodge(width = 1),
+              shape = 21) +
   scale_color_manual(values = c("black", "#E69F00", "#56B4E9", "pink"),
                      name = "Data source",
                      guide = "none") +
-  scale_y_continuous(limits = c(0, NA)) +
+  scale_y_continuous(limits = c(tcant_min, tcant_max))+
+  theme_classic() +
   theme(
+    axis.line.y.left = element_blank(),
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.title.y = element_blank(),
     legend.background = element_rect(fill = "transparent"),
     legend.position = c(0.73, 0.25),
     legend.box.just = "bottom",
-    legend.box = "horizontal"
-  ) +
-  theme_void()
+    legend.box = "horizontal",
+    axis.line.y =
+  )
 
 p_tcant_ts_zoom + p_tcant_box +
   plot_layout(ncol = 2, widths = c(7,1))
 
 ggsave(path = here::here("output/publication"),
        filename = "Fig_global_dcant_budget_vs_GCB_ocean_sink.png",
-       height = 3.2,
-       width = 5.7)
+       height = 6,
+       width = 9)
 
 ```
 

@@ -51,7 +51,6 @@ sd_uncertainty_limit <- 4
 
 ```{r cases_absolute, fig.asp=1.2}
 
-
 dcant_inv_all %>%
   filter(#data_source %in% c("mod", "obs"),
          period != "1994 - 2014") %>%

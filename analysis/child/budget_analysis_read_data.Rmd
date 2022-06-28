@@ -337,16 +337,9 @@ for (i_Version_IDs in Version_IDs) {
   dcant_budget_basin_MLR <- bind_rows(dcant_budget_basin_MLR,
                                       dcant_budget_basin_MLR_mod_truth)
   
-  # dcant_budget_basin_MLR_bias <-
-  #   read_csv(paste(path_version_data,
-  #                  "dcant_budget_basin_MLR_bias.csv",
-  #                  sep = ""))
-  
+
   dcant_budget_basin_MLR <- dcant_budget_basin_MLR %>%
     mutate(Version_ID = i_Version_IDs)
-  
-  # dcant_budget_basin_MLR_bias <- dcant_budget_basin_MLR_bias %>%
-  #   mutate(Version_ID = i_Version_IDs)
 
   if (exists("dcant_budget_basin_MLR_all")) {
     dcant_budget_basin_MLR_all <-
@@ -356,22 +349,12 @@ for (i_Version_IDs in Version_IDs) {
   if (!exists("dcant_budget_basin_MLR_all")) {
     dcant_budget_basin_MLR_all <- dcant_budget_basin_MLR
   }
-  
-  # if (exists("dcant_budget_basin_MLR_bias_all")) {
-  #   dcant_budget_basin_MLR_bias_all <-
-  #     bind_rows(dcant_budget_basin_MLR_bias_all,
-  #               dcant_budget_basin_MLR_bias)
-  # }
-  # 
-  # if (!exists("dcant_budget_basin_MLR_bias_all")) {
-  #   dcant_budget_basin_MLR_bias_all <- dcant_budget_basin_MLR_bias
-  # }
+
   
 }
 
 rm(
   dcant_budget_basin_MLR,
-  # dcant_budget_basin_MLR_bias,
   dcant_budget_basin_MLR_mod_truth
 )
 

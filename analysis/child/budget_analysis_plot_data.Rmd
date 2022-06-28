@@ -115,22 +115,24 @@ dcant_budget_basin_MLR_all <- dcant_budget_basin_MLR_all %>%
 
 ```{r load_libraries_specific, include = FALSE}
 library(patchwork)
+library(kableExtra)
 ```
 
 # Bias thresholds
 
 ```{r define_bias_threshold}
 
-global_bias_rel_max <- 12.5
+global_bias_rel_max <- 10
 global_bias_rel_max
-regional_bias_rel_max <- 30
+regional_bias_rel_max <- 20
 regional_bias_rel_max
 
 ```
 
-# Global
+# Individual cases
 
-## Individual cases
+## Global
+
 
 ### Absoulte values
 
@@ -165,12 +167,13 @@ dcant_budget_global_bias_all %>%
   scale_color_brewer(palette = "Dark2") +
   labs(y = expression(atop(Delta * C[ant] ~ bias,
                                (mu * mol ~ kg ^ {-1})))) +
-  geom_point()
+  geom_point() +
+  facet_grid(. ~ contribution)
 
-p_global_bias <- 
+p_global_bias <-
   dcant_budget_global_bias_all %>%
   ggplot() +
-  geom_hline(yintercept = global_bias_rel_max * c(-1,1),
+  geom_hline(yintercept = global_bias_rel_max * c(-1, 1),
              linetype = 2) +
   geom_hline(yintercept = 0) +
   scale_color_brewer(palette = "Dark2") +
@@ -178,17 +181,29 @@ p_global_bias <-
        title = "Model-based assesment") +
   theme(axis.title.x = element_blank()) +
   geom_point(aes(period, dcant_bias_rel, col = {{config}}),
-             alpha = 0.7) +
-    theme(axis.text.x = element_text(angle = 45, hjust=1),
-        axis.title.x = element_blank())
+  alpha = 0.7) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        axis.title.x = element_blank()) +
+  facet_grid(. ~ contribution)
 
 p_global_bias
 
+dcant_budget_global_bias_all %>%
+  group_by(period, contribution) %>%
+  summarise(
+    dcant_bias_sd = sd(dcant_bias),
+    dcant_bias = mean(dcant_bias),
+    dcant_bias_rel_sd = sd(dcant_bias_rel),
+    dcant_bias_rel = mean(dcant_bias_rel)
+  ) %>%
+  ungroup() %>%
+  kable() %>%
+  kable_styling() %>%
+  scroll_box(height = "300px")
+
 ```
 
-# Basins
-
-## Individual cases
+## Basins
 
 ### Absoulte values
 
@@ -213,7 +228,7 @@ dcant_budget_basin_AIP_bias_all %>%
   ggplot(aes(period, dcant_bias, col={{config}})) +
   geom_hline(yintercept = 0) +
   geom_point() +
-  facet_grid(basin_AIP ~ .)
+  facet_grid(basin_AIP ~ contribution)
 
 dcant_budget_basin_AIP_bias_all %>%
   ggplot() +
@@ -341,9 +356,7 @@ dcant_slab_budget_all %>%
 ```
 
 
-# Basins hemisphere
-
-## Individual cases
+## Basins hemisphere
 
 ### Absoulte values
 
@@ -361,6 +374,76 @@ dcant_budget_basin_MLR_all %>%
 ```
 
 
+### Biases
+
+```{r cases_bias_basins_hemisphere, fig.asp=0.9}
+
+
+dcant_budget_basin_MLR_bias_all <-
+  dcant_budget_basin_MLR_all %>%
+  filter(data_source %in% c("mod", "mod_truth")) %>%
+  pivot_wider(names_from = data_source,
+              values_from = dcant) %>%
+  mutate(dcant_bias = mod - mod_truth,
+         dcant_bias_rel = 100*(mod - mod_truth)/mod_truth)
+  
+dcant_budget_basin_MLR_bias_all %>%   
+  ggplot(aes(period, dcant_bias, col={{config}})) +
+  geom_hline(yintercept = 0) +
+  geom_point() +
+  facet_grid(basin ~ .)
+
+dcant_budget_basin_MLR_bias_all %>%
+  ggplot() +
+  geom_tile(aes(y = 0, height = regional_bias_rel_max * 2,
+                x = "2004 - 2014", width = Inf,
+                fill = "bias\nthreshold"), alpha = 0.5) +
+  geom_hline(yintercept = 0) +
+  scale_fill_manual(values = "grey70", name = "") +
+  scale_color_brewer(palette = "Dark2") +
+  labs(y = expression(Delta ~ C[ant] ~ bias)) +
+  theme(axis.title.x = element_blank()) +
+  geom_jitter(aes(period, dcant_bias_rel, col = {{config}}),
+              width = 0.05, height = 0) +
+  facet_grid(. ~ basin)
+
+p_regional_bias <- 
+  dcant_budget_basin_MLR_bias_all %>%
+  ggplot() +
+  geom_hline(yintercept = regional_bias_rel_max * c(-1,1),
+             linetype = 2) +
+  geom_hline(yintercept = 0) +
+  scale_color_brewer(palette = "Dark2") +
+  labs(y = expression(Delta * C[ant] ~ bias ~ ("%")),
+       title = "Model-based assesment") +
+  theme(axis.title.x = element_blank()) +
+  geom_point(aes(period, dcant_bias_rel, col = {{config}}),
+             alpha = 0.7) +
+    theme(axis.text.x = element_text(angle = 45, hjust=1),
+        axis.title.x = element_blank()) +
+  facet_grid(. ~ basin) +
+  theme(
+  strip.background = element_blank(),
+  strip.text.x = element_blank()
+)
+
+p_regional_bias
+
+dcant_budget_basin_MLR_bias_all %>%
+  group_by(period, basin) %>%
+  summarise(
+    dcant_bias_sd = sd(dcant_bias),
+    dcant_bias = mean(dcant_bias),
+    dcant_bias_rel_sd = sd(dcant_bias_rel),
+    dcant_bias_rel = mean(dcant_bias_rel)
+  ) %>%
+  ungroup() %>%
+  kable() %>%
+  kable_styling() %>%
+  scroll_box(height = "300px")
+  
+
+```
 # Ensemble
 
 ## Global
