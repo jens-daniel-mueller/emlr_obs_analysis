@@ -5,7 +5,7 @@
 
 
 # commit regular changes (locally) and rebuild site
-wflow_publish(all = TRUE, message = "save figures for publication")
+wflow_publish(all = TRUE, message = "ensemble without unadjusted data")
 
 # commit changes including _site.yml (locally) and rebuild site in the specified order
 wflow_publish(here::here(
@@ -74,15 +74,10 @@ republish = TRUE)
 wflow_publish(here::here(
   "analysis",
   c(
-    "multi_model_assesment_budgets.Rmd",
-    "multi_model_assesment_column_inventories.Rmd",
-    "multi_model_assesment_zonal_sections.Rmd",
-    "gaps_filter_budgets.Rmd",
-    "gaps_filter_column_inventories.Rmd",
-    "gaps_filter_zonal_sections.Rmd"
+    "results_publication.Rmd"
   )
 ),
-message = "rebuild with rerun analysis")
+message = "included Cstar N in ensemble")
 
 
 
