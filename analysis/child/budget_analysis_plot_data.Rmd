@@ -708,7 +708,7 @@ dcant_budget_global_bias_all_depth %>%
 ```
 
 
-```{r clean_environment}
+```{r clean_environment, eval=FALSE}
 
 rm(dcant_budget_global_all,
    dcant_budget_global_all_depth,

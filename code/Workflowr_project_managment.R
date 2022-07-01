@@ -5,7 +5,7 @@
 
 
 # commit regular changes (locally) and rebuild site
-wflow_publish(all = TRUE, message = "updated regional budget plots")
+wflow_publish(all = TRUE, message = "included drift assesment")
 
 # commit changes including _site.yml (locally) and rebuild site in the specified order
 wflow_publish(here::here(
@@ -74,10 +74,17 @@ republish = TRUE)
 wflow_publish(here::here(
   "analysis",
   c(
-    "results_publication.Rmd"
+    "index.Rmd",
+    "results_publication.Rmd",
+    "multi_model_assesment_AIP_budgets.Rmd",
+    "multi_model_assesment_AIP_column_inventories.Rmd",
+    "multi_model_assesment_AIP_zonal_sections.Rmd",
+    "multi_model_assesment_5_budgets.Rmd",
+    "multi_model_assesment_5_column_inventories.Rmd",
+    "multi_model_assesment_5_zonal_sections.Rmd"
   )
 ),
-message = "included Cstar N in ensemble")
+message = "rebuild")
 
 
 
