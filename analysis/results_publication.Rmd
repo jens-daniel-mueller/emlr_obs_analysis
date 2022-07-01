@@ -168,8 +168,10 @@ Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observat
                             pattern = paste0("v_3", version_id_pattern))
 
 Version_IDs_n <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
+rm(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 
 Version_IDs_ensemble <- c(Version_IDs_x, Version_IDs_o, Version_IDs_d, Version_IDs_g, Version_IDs_n)
+
 rm(Version_IDs_x, Version_IDs_o, Version_IDs_d, Version_IDs_g, Version_IDs_n)
 
 ```
@@ -179,6 +181,8 @@ rm(Version_IDs_x, Version_IDs_o, Version_IDs_d, Version_IDs_g, Version_IDs_n)
 ```{r read_parameters}
 
 for (i_Version_IDs in Version_IDs) {
+  # i_Version_IDs <- Version_IDs[1]
+  
   path_version_data     <-
     paste(path_observations,
           i_Version_IDs,
@@ -193,8 +197,8 @@ for (i_Version_IDs in Version_IDs) {
   params_local <- bind_cols(
     Version_ID = i_Version_IDs,
     tref1 = params_local$tref1,
-    tref2 = params_local$tref2
-    # MLR_basins = params_local$MLR_basins
+    tref2 = params_local$tref2,
+    MLR_basins = params_local$MLR_basins
   )
   
   tref <- read_csv(paste(path_version_data,
@@ -223,13 +227,14 @@ rm(params_local,
    tref)
 
 params_local_all <- params_local_all %>% 
-  select(Version_ID, period, tref1, tref2)
+  select(Version_ID, period, MLR_basins, tref1, tref2)
 
 ```
 
 ```{r read_parameters_ensemble}
 
 for (i_Version_IDs in Version_IDs_ensemble) {
+  
   path_version_data     <-
     paste(path_observations,
           i_Version_IDs,
@@ -244,8 +249,8 @@ for (i_Version_IDs in Version_IDs_ensemble) {
   params_local <- bind_cols(
     Version_ID = i_Version_IDs,
     tref1 = params_local$tref1,
-    tref2 = params_local$tref2
-    # MLR_basins = params_local$MLR_basins
+    tref2 = params_local$tref2,
+    MLR_basins = params_local$MLR_basins
   )
   
   tref <- read_csv(paste(path_version_data,
@@ -276,7 +281,7 @@ rm(params_local,
 
 
 params_local_all_ensemble <- params_local_all_ensemble %>%
-  select(Version_ID, period, tref1, tref2)
+  select(Version_ID, period, MLR_basins, tref1, tref2)
 
 params_local_all_ensemble <-
   params_local_all_ensemble %>%
@@ -781,15 +786,15 @@ dcant_zonal_all <- full_join(dcant_zonal_all,
 dcant_profile_all <- full_join(dcant_profile_all,
                                params_local_all_ensemble)
 
-dcant_profile_basin_MLR_all <-
-  full_join(dcant_profile_basin_MLR_all,
-            params_local_all_ensemble)
-
 
 dcant_profile_basin_MLR_all <-
   dcant_profile_basin_MLR_all %>%
   filter(MLR_basins == "5") %>%
   select(-MLR_basins)
+
+dcant_profile_basin_MLR_all <-
+  full_join(dcant_profile_basin_MLR_all,
+            params_local_all_ensemble)
 
 dcant_profile_basin_MLR_all <-
   dcant_profile_basin_MLR_all %>%
@@ -1737,6 +1742,43 @@ ggsave(path = here::here("output/publication"),
 
 ```
 
+```{r concentration_profiles_MLR_basins_ensemble_basin_separation, fig.asp=0.9}
+
+
+dcant_profile_basin_MLR_all_ensemble %>%
+  arrange(depth) %>%
+  filter(
+    period != "1994 - 2014",
+    depth <= params_global$inventory_depth_standard,
+    data_source == "obs"
+  ) %>%
+  group_split(data_source) %>%
+  map(
+    ~ ggplot() +
+      geom_hline(yintercept = params_global$inventory_depth_standard) +
+      geom_vline(xintercept = 0) +
+      geom_path(
+        data = .x,
+        aes(dcant,
+            depth,
+            col = MLR_basins,
+            group = Version_ID),
+        alpha = 0.5
+      ) +
+      scale_size_manual(values = c(0.5, 2), name = "x") +
+      scale_linetype_manual(values = c(2, 1), name = "x") +
+      scale_y_continuous(trans = trans_reverser("sqrt"),
+                         breaks = c(0, 100, 500, seq(1500, 5000, 1000))) +
+      coord_cartesian(expand = 0) +
+      scale_color_brewer(palette = "Dark2") +
+      labs(y = "Depth (m)",
+           x = dcant_umol_label) +
+      facet_grid(basin ~ period)
+  )
+
+
+```
+
 ```{r concentration_profiles_MLR_basins_ensemble_member, fig.asp=1.2}
 
 dcant_profile_basin_MLR_all_ensemble %>%
@@ -2003,6 +2045,44 @@ ggsave(path = here::here("output/publication"),
        width = 6)
 
 
+dcant_budget_global_all_ensemble %>%
+  mutate(ensemble_role = if_else(Version_ID %in% Version_IDs,
+                                 "standard case",
+                                 "others")) %>%
+  filter(data_source == "obs") %>%
+  ggplot(aes(period, dcant)) +
+  scale_fill_brewer(palette = "Dark2") +
+  scale_color_manual(values = c("grey", "red"),
+                     name = "ensemble member") +
+  geom_boxplot(
+    width = .1,
+    outlier.shape = NA,
+    fill = "grey",
+    alpha = 0.7,
+    position = position_nudge(x = 0.3)
+  ) +
+  geom_point(
+    aes(group = Version_ID_group,
+        fill = MLR_basins,
+        col = ensemble_role),
+    size = 1.3,
+    alpha = .7,
+    shape = 21,
+    position = position_dodge2(width = 0.3)
+  ) +
+  stat_summary(
+    fun.data = "mean_sdl",
+    fun.args = list(mult = 2),
+    position = position_nudge(x = -0.3),
+    col = "grey"
+  ) +
+  stat_summary(
+    fun.data = "mean_sdl",
+    fun.args = list(mult = 1),
+    position = position_nudge(x = -0.3)
+  ) +
+  scale_y_continuous(name = dcant_pgc_label, breaks = seq(0, 100, 2))
+
 # dcant_budget_global_all_ensemble_summary <- dcant_budget_global_all_ensemble %>% 
 #   group_by(data_source, period) %>% 
 #   summarise(dcant_mean = mean(dcant),
@@ -2066,6 +2146,43 @@ ggsave(path = here::here("output/publication"),
        height = 6,
        width = 6)
 
+dcant_budget_basin_MLR_all_ensemble %>%
+   mutate(ensemble_role = if_else(Version_ID %in% Version_IDs,
+                                 "standard case",
+                                 "others")) %>%
+  filter(data_source == "obs") %>%
+  ggplot(aes(period, dcant)) +
+  scale_fill_brewer(palette = "Dark2") +
+  scale_color_manual(values = c("grey", "red"),
+                     name = "ensemble member") +
+  geom_boxplot(
+    width = .1,
+    outlier.shape = NA,
+    fill = "grey",
+    alpha = 0.7,
+    position = position_nudge(x = 0.3)
+  ) +
+  geom_point(
+    aes(fill = MLR_basins,
+        col = ensemble_role),
+    size = 1.3,
+    alpha = .7,
+    shape = 21,
+    position = position_dodge2(width = 0.3)
+  ) +
+  stat_summary(
+    fun.data = "mean_sdl",
+    fun.args = list(mult = 2),
+    position = position_nudge(x = -0.3),
+    col = "grey"
+  ) +
+  stat_summary(
+    fun.data = "mean_sdl",
+    fun.args = list(mult = 1),
+    position = position_nudge(x = -0.3)
+  ) +
+  scale_y_continuous(name = dcant_pgc_label, breaks = seq(0, 100, 2)) +
+  facet_grid(basin ~ ., scales = "free_y")
 
 dcant_budget_basin_MLR_all_ensemble_summary <- dcant_budget_basin_MLR_all_ensemble %>% 
   group_by(data_source, basin, period) %>% 
@@ -2951,6 +3068,50 @@ dcant_scaling <- 1.02*1.015*1.01*1.02
 
 ## eMLR only
 
+```{r dcant_budget_time_series_member_connections}
+
+dcant_budget_global_all_ensemble %>% 
+  filter(data_source == "obs",
+         period != "1994 - 2014") %>% 
+  ggplot(aes(tref2, dcant, group = interaction(MLR_basins, Version_ID_group),
+             col=Version_ID_group)) +
+  geom_path() +
+  geom_point()
+
+dcant_budget_global_all_ensemble %>% 
+  filter(data_source == "obs") %>% 
+  select(MLR_basins, Version_ID_group, period, dcant) %>% 
+  pivot_wider(names_from = period,
+              values_from = dcant) %>% 
+  ggplot(aes(`1994 - 2004`, `2004 - 2014`,
+             col=Version_ID_group)) +
+  coord_equal() +
+  geom_point()
+
+dcant_budget_global_all_ensemble %>% 
+  filter(data_source == "obs") %>% 
+  select(MLR_basins, Version_ID_group, period, dcant) %>% 
+  pivot_wider(names_from = period,
+              values_from = dcant) %>% 
+  ggplot(aes(`1994 - 2004`, `1994 - 2014`,
+             col=Version_ID_group)) +
+  coord_equal() +
+  geom_point()
+
+dcant_budget_global_all_ensemble %>% 
+  filter(data_source == "obs") %>% 
+  select(MLR_basins, Version_ID_group, period, dcant) %>% 
+  pivot_wider(names_from = period,
+              values_from = dcant) %>% 
+  ggplot(aes(`1994 - 2004` + `2004 - 2014`, `1994 - 2014`,
+             col=Version_ID_group)) +
+  geom_abline(intercept = 0, slope = 1) +
+  coord_equal() +
+  scale_x_continuous(breaks = seq(0,100,1)) +
+  scale_y_continuous(breaks = seq(0,100,1)) +
+  geom_point()
+
+```
 
 
 ```{r mean_tcant_over_time, fig.asp=0.6}
