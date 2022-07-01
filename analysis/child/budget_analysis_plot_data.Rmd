@@ -162,13 +162,15 @@ dcant_budget_global_all %>%
 ```{r cases_bias_global}
 
 dcant_budget_global_bias_all %>%
-  ggplot(aes(period, dcant_bias, col = {{config}})) +
+  ggplot(aes(contribution, dcant_bias, fill=contribution)) +
   geom_hline(yintercept = 0) +
-  scale_color_brewer(palette = "Dark2") +
+  scale_fill_brewer(palette = "Dark2") +
   labs(y = expression(atop(Delta * C[ant] ~ bias,
-                               (mu * mol ~ kg ^ {-1})))) +
-  geom_point() +
-  facet_grid(. ~ contribution)
+                               (PgC)))) +
+  geom_col() +
+  facet_grid({{config}} ~ period) +
+  theme(axis.text.x = element_blank(),
+        axis.title.x = element_blank())
 
 p_global_bias <-
   dcant_budget_global_bias_all %>%

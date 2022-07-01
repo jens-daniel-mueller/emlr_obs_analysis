@@ -24,6 +24,8 @@ path_preprocessing_model    <-
 
 ```{r define_Version_IDs}
 
+print(version_id_pattern)
+
 # identify required version IDs
 
 Version_IDs_1 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
@@ -47,7 +49,7 @@ print(Version_IDs)
 for (i_Version_IDs in Version_IDs) {
   # i_Version_IDs <- Version_IDs[1]
   
-  print(i_Version_IDs)
+  # print(i_Version_IDs)
   
   path_version_data     <-
     paste(path_observations,

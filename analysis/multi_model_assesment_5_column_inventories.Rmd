@@ -64,7 +64,7 @@ plot <-
 
 
 
-```{r read_files_dissic}
+```{r read_files_dissic, include=FALSE}
 
 
 for (i_Version_IDs in Version_IDs) {
@@ -108,6 +108,10 @@ rm(dcant_inv_dissic)
 dcant_inv_all_dissic <- full_join(dcant_inv_all_dissic,
                                   params_local_all)
 
+```
+
+```{r dissic_change_maps}
+
 dcant_inv_all_dissic %>%
   group_split(inv_depth, period) %>%
   # head(1) %>% 
@@ -116,6 +120,7 @@ dcant_inv_all_dissic %>%
       df = .x,
       var = "dcant",
       col = "divergent",
+      legend_title = "DIC change\n(PgC)",
       subtitle_text = paste0(
         "inv_depth : ", unique(.x$inv_depth),
         " | period : ", unique(.x$period)
@@ -123,6 +128,6 @@ dcant_inv_all_dissic %>%
     ) +
       facet_grid(data_source ~ gobm)
   )
-
 ```
+
 
