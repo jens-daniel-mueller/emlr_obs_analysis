@@ -2014,7 +2014,7 @@ ggsave(path = here::here("output/publication"),
 
 ### basin hemisphere
 
-```{r dcant_budget_basin_hemisphere_ensemble}
+```{r dcant_budget_basin_hemisphere_ensemble, fig.asp=1}
 
 dcant_budget_basin_MLR_all_ensemble %>%
   ggplot(aes(period, dcant, col = Version_ID_group)) +
@@ -2847,7 +2847,7 @@ dcant_budget_layer %>%
   scale_x_reverse(breaks = seq(0, 3000, 500)) +
   scale_color_brewer(palette = "Set1", direction = -1, name = "period") +
   scale_fill_brewer(palette = "Set1", direction = -1, name = "") +
-  facet_grid(basin ~ .) +
+  facet_wrap(~ basin, ncol = 3, dir = "v") +
   labs(y = dcant_layer_budget_label,
        x = "Depth (m)")
 
@@ -2856,7 +2856,7 @@ dcant_budget_layer %>%
 ggsave(path = here::here("output/publication"),
        filename = "FigS_budget_dcant_basin_hemisphere_depth_layer.png",
        height = 6,
-       width = 5)
+       width = 8)
 
 
 ```
@@ -2916,9 +2916,14 @@ dcant_budget_layer %>%
             size = 1) +
   coord_flip() +
   scale_x_reverse(breaks = seq(0, 3000, 500)) +
-  scale_color_brewer(palette = "Set1", direction = -1, name = "Decade") +
-  scale_fill_brewer(palette = "Set1", direction = -1, name = "Decadal change") +
-  facet_grid(basin ~ .) +
+  scale_color_brewer(palette = "Set1",
+                     direction = -1,
+                     name = "Decade") +
+  scale_fill_brewer(palette = "Set1",
+                    direction = -1,
+                    name = "Decadal change") +
+  
+  facet_wrap( ~ basin, ncol = 3, dir = "v") +
   labs(y = dcant_layer_budget_label,
        x = "Depth (m)",
        title = "Cumulative layer inventory change")
