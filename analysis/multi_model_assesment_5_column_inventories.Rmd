@@ -58,3 +58,71 @@ plot <-
 ```
 
 `r knitr::knit(text = unlist(plot))`
+
+
+# Dissic changes
+
+
+
+```{r read_files_dissic}
+
+
+for (i_Version_IDs in Version_IDs) {
+  # i_Version_IDs <- Version_IDs[1]
+  
+  print(i_Version_IDs)
+  
+  path_version_data     <-
+    paste(path_observations,
+          i_Version_IDs,
+          "/data/",
+          sep = "")
+  
+  # load and join data files
+  
+  dcant_inv_dissic <-
+    read_csv(paste(path_version_data,
+                   "dcant_inv_dissic.csv",
+                   sep = ""))
+ 
+  dcant_inv_dissic <- dcant_inv_dissic %>%
+    mutate(Version_ID = i_Version_IDs)
+  
+ 
+  if (exists("dcant_inv_all_dissic")) {
+    dcant_inv_all_dissic <- bind_rows(dcant_inv_all_dissic, dcant_inv_dissic)
+  }
+  
+  if (!exists("dcant_inv_all_dissic")) {
+    dcant_inv_all_dissic <- dcant_inv_dissic
+  }
+  
+
+  
+}
+
+rm(dcant_inv_dissic)
+
+
+
+dcant_inv_all_dissic <- full_join(dcant_inv_all_dissic,
+                                  params_local_all)
+
+dcant_inv_all_dissic %>%
+  group_split(inv_depth, period) %>%
+  # head(1) %>% 
+  map(
+    ~ p_map_cant_inv(
+      df = .x,
+      var = "dcant",
+      col = "divergent",
+      subtitle_text = paste0(
+        "inv_depth : ", unique(.x$inv_depth),
+        " | period : ", unique(.x$period)
+      )
+    ) +
+      facet_grid(data_source ~ gobm)
+  )
+
+```
+
