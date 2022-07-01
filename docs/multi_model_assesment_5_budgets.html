@@ -768,16 +768,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeefca8158b9d8e8db16cd94ab28a33ebc34bfe53ctargetblankefca815a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/efca8158b9d8e8db16cd94ab28a33ebc34bfe53c" target="_blank">efca815</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreec9a2845e87ce6ea3659710accf9c942b9f65d972targetblankc9a2845a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/c9a2845e87ce6ea3659710accf9c942b9f65d972" target="_blank">c9a2845</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeefca8158b9d8e8db16cd94ab28a33ebc34bfe53ctargetblankefca815a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreec9a2845e87ce6ea3659710accf9c942b9f65d972targetblankc9a2845a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/efca8158b9d8e8db16cd94ab28a33ebc34bfe53c" target="_blank">efca815</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/c9a2845e87ce6ea3659710accf9c942b9f65d972" target="_blank">c9a2845</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -786,6 +786,7 @@ Note that you need to be careful to ensure that all relevant files for the analy
 Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
+    Ignored:    analysis/figure/
     Ignored:    data/
     Ignored:    output/other/
     Ignored:    output/publication/
@@ -830,6 +831,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/c9a2845e87ce6ea3659710accf9c942b9f65d972/analysis/multi_model_assesment_5_budgets.Rmd" target="_blank">c9a2845</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-01
+</td>
+<td>
+cleaned drift assesment
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/7c3661a72e2e22ddd4c90bd172aac9cfb57b1dff/docs/multi_model_assesment_5_budgets.html" target="_blank">7c3661a</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-01
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -994,6 +1029,8 @@ rebuild with additional analysis
 config &lt;- &quot;gobm&quot;</code></pre>
 <div id="read-files" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Read files</h1>
+<pre class="r"><code>print(version_id_pattern)</code></pre>
+<pre><code>[1] &quot;s&quot;</code></pre>
 <pre class="r"><code># identify required version IDs
 
 Version_IDs_1 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
@@ -1007,15 +1044,13 @@ Version_IDs_3 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/
 
 Version_IDs &lt;- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 
-print(Version_IDs)</code></pre>
-<pre><code> [1] &quot;v_1s01&quot; &quot;v_1s02&quot; &quot;v_1s03&quot; &quot;v_1s04&quot; &quot;v_1s05&quot; &quot;v_2s01&quot; &quot;v_2s02&quot; &quot;v_2s03&quot;
- [9] &quot;v_2s04&quot; &quot;v_2s05&quot; &quot;v_3s01&quot; &quot;v_3s02&quot; &quot;v_3s03&quot; &quot;v_3s04&quot; &quot;v_3s05&quot;</code></pre>
+# print(Version_IDs)</code></pre>
 <div id="global" class="section level2" number="1.1">
 <h2><span class="header-section-number">1.1</span> Global</h2>
 <pre class="r"><code>for (i_Version_IDs in Version_IDs) {
   # i_Version_IDs &lt;- Version_IDs[1]
   
-  print(i_Version_IDs)
+  # print(i_Version_IDs)
   
   path_version_data     &lt;-
     paste(path_observations,
@@ -1137,23 +1172,9 @@ print(Version_IDs)</code></pre>
   }
   
   
-}</code></pre>
-<pre><code>[1] &quot;v_1s01&quot;
-[1] &quot;v_1s02&quot;
-[1] &quot;v_1s03&quot;
-[1] &quot;v_1s04&quot;
-[1] &quot;v_1s05&quot;
-[1] &quot;v_2s01&quot;
-[1] &quot;v_2s02&quot;
-[1] &quot;v_2s03&quot;
-[1] &quot;v_2s04&quot;
-[1] &quot;v_2s05&quot;
-[1] &quot;v_3s01&quot;
-[1] &quot;v_3s02&quot;
-[1] &quot;v_3s03&quot;
-[1] &quot;v_3s04&quot;
-[1] &quot;v_3s05&quot;</code></pre>
-<pre class="r"><code>rm(
+}
+
+rm(
   dcant_budget_global,
   dcant_budget_global_bias,
   dcant_budget_global_mod_truth,
@@ -1170,7 +1191,7 @@ print(Version_IDs)</code></pre>
 for (i_Version_IDs in Version_IDs) {
   # i_Version_IDs &lt;- Version_IDs[1]
   
-  print(i_Version_IDs)
+  # print(i_Version_IDs)
   
   path_version_data     &lt;-
     paste(path_observations,
@@ -1259,23 +1280,9 @@ for (i_Version_IDs in Version_IDs) {
     dcant_slab_budget_bias_all &lt;- dcant_slab_budget_bias
   }
   
-}</code></pre>
-<pre><code>[1] &quot;v_1s01&quot;
-[1] &quot;v_1s02&quot;
-[1] &quot;v_1s03&quot;
-[1] &quot;v_1s04&quot;
-[1] &quot;v_1s05&quot;
-[1] &quot;v_2s01&quot;
-[1] &quot;v_2s02&quot;
-[1] &quot;v_2s03&quot;
-[1] &quot;v_2s04&quot;
-[1] &quot;v_2s05&quot;
-[1] &quot;v_3s01&quot;
-[1] &quot;v_3s02&quot;
-[1] &quot;v_3s03&quot;
-[1] &quot;v_3s04&quot;
-[1] &quot;v_3s05&quot;</code></pre>
-<pre class="r"><code>rm(
+}
+
+rm(
   dcant_budget_basin_AIP,
   dcant_budget_basin_AIP_bias,
   dcant_budget_basin_AIP_mod_truth,
@@ -1290,7 +1297,7 @@ for (i_Version_IDs in Version_IDs) {
 for (i_Version_IDs in Version_IDs) {
   # i_Version_IDs &lt;- Version_IDs[1]
   
-  print(i_Version_IDs)
+  # print(i_Version_IDs)
   
   path_version_data     &lt;-
     paste(path_observations,
@@ -1330,23 +1337,9 @@ for (i_Version_IDs in Version_IDs) {
   }
 
   
-}</code></pre>
-<pre><code>[1] &quot;v_1s01&quot;
-[1] &quot;v_1s02&quot;
-[1] &quot;v_1s03&quot;
-[1] &quot;v_1s04&quot;
-[1] &quot;v_1s05&quot;
-[1] &quot;v_2s01&quot;
-[1] &quot;v_2s02&quot;
-[1] &quot;v_2s03&quot;
-[1] &quot;v_2s04&quot;
-[1] &quot;v_2s05&quot;
-[1] &quot;v_3s01&quot;
-[1] &quot;v_3s02&quot;
-[1] &quot;v_3s03&quot;
-[1] &quot;v_3s04&quot;
-[1] &quot;v_3s05&quot;</code></pre>
-<pre class="r"><code>rm(
+}
+
+rm(
   dcant_budget_basin_MLR,
   dcant_budget_basin_MLR_mod_truth
 )</code></pre>
@@ -1356,7 +1349,7 @@ for (i_Version_IDs in Version_IDs) {
 <pre class="r"><code>for (i_Version_IDs in Version_IDs) {
   # i_Version_IDs &lt;- Version_IDs[1]
   
-  print(i_Version_IDs)
+  # print(i_Version_IDs)
   
   path_version_data     &lt;-
     paste(path_observations,
@@ -1382,23 +1375,10 @@ for (i_Version_IDs in Version_IDs) {
     dcant_obs_budget_all &lt;- dcant_obs_budget
   }
   
-}</code></pre>
-<pre><code>[1] &quot;v_1s01&quot;
-[1] &quot;v_1s02&quot;
-[1] &quot;v_1s03&quot;
-[1] &quot;v_1s04&quot;
-[1] &quot;v_1s05&quot;
-[1] &quot;v_2s01&quot;
-[1] &quot;v_2s02&quot;
-[1] &quot;v_2s03&quot;
-[1] &quot;v_2s04&quot;
-[1] &quot;v_2s05&quot;
-[1] &quot;v_3s01&quot;
-[1] &quot;v_3s02&quot;
-[1] &quot;v_3s03&quot;
-[1] &quot;v_3s04&quot;
-[1] &quot;v_3s05&quot;</code></pre>
-<pre class="r"><code>rm(dcant_obs_budget)</code></pre>
+}
+
+
+rm(dcant_obs_budget)</code></pre>
 </div>
 <div id="atm-co2" class="section level2" number="1.5">
 <h2><span class="header-section-number">1.5</span> Atm CO2</h2>
@@ -1559,13 +1539,15 @@ jens-daniel-mueller
 <div id="biases" class="section level3" number="3.1.2">
 <h3><span class="header-section-number">3.1.2</span> Biases</h3>
 <pre class="r"><code>dcant_budget_global_bias_all %&gt;%
-  ggplot(aes(period, dcant_bias, col = gobm)) +
+  ggplot(aes(contribution, dcant_bias, fill=contribution)) +
   geom_hline(yintercept = 0) +
-  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  scale_fill_brewer(palette = &quot;Dark2&quot;) +
   labs(y = expression(atop(Delta * C[ant] ~ bias,
-                               (mu * mol ~ kg ^ {-1})))) +
-  geom_point() +
-  facet_grid(. ~ contribution)</code></pre>
+                               (PgC)))) +
+  geom_col() +
+  facet_grid(gobm ~ period) +
+  theme(axis.text.x = element_blank(),
+        axis.title.x = element_blank())</code></pre>
 <p><img src="figure/multi_model_assesment_5_budgets.Rmd/cases_bias_global-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_bias_global-1">
@@ -5795,420 +5777,55 @@ jens-daniel-mueller
 </div>
 <div id="drift-and-bias" class="section level1" number="7">
 <h1><span class="header-section-number">7</span> Drift and bias</h1>
-<pre class="r"><code>for (i_Version_IDs in Version_IDs) {
-  # i_Version_IDs &lt;- Version_IDs[1]
-  
-  print(i_Version_IDs)
-  
-  path_version_data     &lt;-
-    paste(path_observations,
-          i_Version_IDs,
-          &quot;/data/&quot;,
-          sep = &quot;&quot;)
-  
-  # load and join data files
-  
-  dcant_budget_global_dissic &lt;-
-    read_csv(paste(path_version_data,
-                   &quot;dcant_budget_global_dissic.csv&quot;,
-                   sep = &quot;&quot;))
-  
-  dcant_budget_global_dissic &lt;- dcant_budget_global_dissic %&gt;%
-    mutate(Version_ID = i_Version_IDs)
-  
-  
-  if (exists(&quot;dcant_budget_global_all_dissic&quot;)) {
-    dcant_budget_global_all_dissic &lt;-
-      bind_rows(dcant_budget_global_all_dissic, dcant_budget_global_dissic)
-  }
-  
-  if (!exists(&quot;dcant_budget_global_all_dissic&quot;)) {
-    dcant_budget_global_all_dissic &lt;- dcant_budget_global_dissic
-  }
-   
-}</code></pre>
-<pre><code>[1] &quot;v_1s01&quot;</code></pre>
-<pre><code>Rows: 40 Columns: 5
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: &quot;,&quot;
-chr (3): data_source, method, estimate
-dbl (2): inv_depth, value
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre><code>[1] &quot;v_1s02&quot;</code></pre>
-<pre><code>Rows: 40 Columns: 5
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: &quot;,&quot;
-chr (3): data_source, method, estimate
-dbl (2): inv_depth, value
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre><code>[1] &quot;v_1s03&quot;</code></pre>
-<pre><code>Rows: 40 Columns: 5
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: &quot;,&quot;
-chr (3): data_source, method, estimate
-dbl (2): inv_depth, value
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre><code>[1] &quot;v_1s04&quot;</code></pre>
-<pre><code>Rows: 40 Columns: 5
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: &quot;,&quot;
-chr (3): data_source, method, estimate
-dbl (2): inv_depth, value
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre><code>[1] &quot;v_1s05&quot;</code></pre>
-<pre><code>Rows: 40 Columns: 5
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: &quot;,&quot;
-chr (3): data_source, method, estimate
-dbl (2): inv_depth, value
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre><code>[1] &quot;v_2s01&quot;</code></pre>
-<pre><code>Rows: 40 Columns: 5
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: &quot;,&quot;
-chr (3): data_source, method, estimate
-dbl (2): inv_depth, value
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre><code>[1] &quot;v_2s02&quot;</code></pre>
-<pre><code>Rows: 40 Columns: 5
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: &quot;,&quot;
-chr (3): data_source, method, estimate
-dbl (2): inv_depth, value
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre><code>[1] &quot;v_2s03&quot;</code></pre>
-<pre><code>Rows: 40 Columns: 5
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: &quot;,&quot;
-chr (3): data_source, method, estimate
-dbl (2): inv_depth, value
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre><code>[1] &quot;v_2s04&quot;</code></pre>
-<pre><code>Rows: 40 Columns: 5
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: &quot;,&quot;
-chr (3): data_source, method, estimate
-dbl (2): inv_depth, value
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre><code>[1] &quot;v_2s05&quot;</code></pre>
-<pre><code>Rows: 40 Columns: 5
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: &quot;,&quot;
-chr (3): data_source, method, estimate
-dbl (2): inv_depth, value
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre><code>[1] &quot;v_3s01&quot;</code></pre>
-<pre><code>Rows: 40 Columns: 5
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: &quot;,&quot;
-chr (3): data_source, method, estimate
-dbl (2): inv_depth, value
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre><code>[1] &quot;v_3s02&quot;</code></pre>
-<pre><code>Rows: 40 Columns: 5
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: &quot;,&quot;
-chr (3): data_source, method, estimate
-dbl (2): inv_depth, value
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre><code>[1] &quot;v_3s03&quot;</code></pre>
-<pre><code>Rows: 40 Columns: 5
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: &quot;,&quot;
-chr (3): data_source, method, estimate
-dbl (2): inv_depth, value
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre><code>[1] &quot;v_3s04&quot;</code></pre>
-<pre><code>Rows: 40 Columns: 5
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: &quot;,&quot;
-chr (3): data_source, method, estimate
-dbl (2): inv_depth, value
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre><code>[1] &quot;v_3s05&quot;</code></pre>
-<pre><code>Rows: 40 Columns: 5
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: &quot;,&quot;
-chr (3): data_source, method, estimate
-dbl (2): inv_depth, value
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>rm(dcant_budget_global_dissic)
-
-
-
-dcant_budget_global_all_dissic &lt;-
-  full_join(dcant_budget_global_all_dissic,
-            params_local_all)</code></pre>
-<pre><code>Joining, by = &quot;Version_ID&quot;</code></pre>
 <pre class="r"><code>dcant_budget_global_all_dissic %&gt;%
   filter(estimate == &quot;dcant&quot;) %&gt;%
-  mutate(inv_depth = inv_depth) %&gt;% 
   ggplot(aes(inv_depth, value, col = gobm)) +
   geom_hline(yintercept = 0) +
   scale_color_brewer(palette = &quot;Dark2&quot;) +
   geom_point() +
   geom_path() +
+  labs(y = &quot;DIC change (PgC)&quot;) +
   facet_grid(data_source ~ period, scales = &quot;free_y&quot;)</code></pre>
-<p><img src="figure/multi_model_assesment_5_budgets.Rmd/read_files_global_dissic-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-read_files_global_dissic-1">
-Past versions of read_files_global_dissic-1.png
-</button>
-</p>
-<div id="fig-read_files_global_dissic-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1273e73e48557d1b6c2188b6ad276295861380fe/docs/figure/multi_model_assesment_5_budgets.Rmd/read_files_global_dissic-1.png" target="_blank">1273e73</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-07-01
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre class="r"><code>dcant_budget_global_bias_all_depth %&gt;%
-  ggplot(aes(period, dcant_bias, col = gobm)) +
-  geom_hline(yintercept = 0) +
-  scale_color_brewer(palette = &quot;Dark2&quot;) +
-  labs(y = expression(atop(Delta * C[ant] ~ bias,
-                               (mu * mol ~ kg ^ {-1})))) +
-  geom_point() +
-  facet_grid(inv_depth ~ contribution)</code></pre>
-<p><img src="figure/multi_model_assesment_5_budgets.Rmd/read_files_global_dissic-2.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-read_files_global_dissic-2">
-Past versions of read_files_global_dissic-2.png
-</button>
-</p>
-<div id="fig-read_files_global_dissic-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1273e73e48557d1b6c2188b6ad276295861380fe/docs/figure/multi_model_assesment_5_budgets.Rmd/read_files_global_dissic-2.png" target="_blank">1273e73</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-07-01
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/drift_bias_plots-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>dcant_budget_global_bias_all_depth %&gt;%
   select(inv_depth, dcant_bias, contribution, gobm, period) %&gt;%
   pivot_wider(names_from = contribution,
-              values_from = dcant_bias) %&gt;% 
+              values_from = dcant_bias) %&gt;%
   ggplot(aes(`dcant offset`, `delta C* - mod_truth`, col = gobm)) +
   geom_vline(xintercept = 0) +
   geom_hline(yintercept = 0) +
   geom_point() +
+  coord_fixed() +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
   facet_grid(inv_depth ~ period)</code></pre>
-<p><img src="figure/multi_model_assesment_5_budgets.Rmd/read_files_global_dissic-3.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-read_files_global_dissic-3">
-Past versions of read_files_global_dissic-3.png
-</button>
-</p>
-<div id="fig-read_files_global_dissic-3" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1273e73e48557d1b6c2188b6ad276295861380fe/docs/figure/multi_model_assesment_5_budgets.Rmd/read_files_global_dissic-3.png" target="_blank">1273e73</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-07-01
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/drift_bias_plots-2.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>dcant_budget_global_bias_all_depth %&gt;%
   select(inv_depth, dcant_bias, contribution, gobm, period) %&gt;%
   pivot_wider(names_from = contribution,
-              values_from = dcant_bias) %&gt;% 
+              values_from = dcant_bias) %&gt;%
   ggplot(aes(`dcant offset`, `C* prediction error`, col = gobm)) +
   geom_vline(xintercept = 0) +
   geom_hline(yintercept = 0) +
   geom_point() +
+  coord_fixed() +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
   facet_grid(inv_depth ~ period)</code></pre>
-<p><img src="figure/multi_model_assesment_5_budgets.Rmd/read_files_global_dissic-4.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-read_files_global_dissic-4">
-Past versions of read_files_global_dissic-4.png
-</button>
-</p>
-<div id="fig-read_files_global_dissic-4" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1273e73e48557d1b6c2188b6ad276295861380fe/docs/figure/multi_model_assesment_5_budgets.Rmd/read_files_global_dissic-4.png" target="_blank">1273e73</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-07-01
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/drift_bias_plots-3.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>dcant_budget_global_bias_all_depth %&gt;%
   select(inv_depth, dcant_bias, contribution, gobm, period) %&gt;%
   pivot_wider(names_from = contribution,
-              values_from = dcant_bias) %&gt;% 
+              values_from = dcant_bias) %&gt;%
   ggplot(aes(`dcant offset`, `C* prediction error` + `delta C* - mod_truth`, col = gobm)) +
   geom_vline(xintercept = 0) +
   geom_hline(yintercept = 0) +
   geom_point() +
+  coord_fixed() +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
   facet_grid(inv_depth ~ period)</code></pre>
-<p><img src="figure/multi_model_assesment_5_budgets.Rmd/read_files_global_dissic-5.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-read_files_global_dissic-5">
-Past versions of read_files_global_dissic-5.png
-</button>
-</p>
-<div id="fig-read_files_global_dissic-5" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1273e73e48557d1b6c2188b6ad276295861380fe/docs/figure/multi_model_assesment_5_budgets.Rmd/read_files_global_dissic-5.png" target="_blank">1273e73</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-07-01
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/drift_bias_plots-4.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>drift_bias &lt;- full_join(
   dcant_budget_global_bias_all_depth %&gt;%
     select(inv_depth, dcant_bias, contribution, gobm, period),
-    # pivot_wider(names_from = contribution,
-    #             values_from = dcant_bias),
   dcant_budget_global_all_dissic %&gt;%
     filter(data_source == &quot;B&quot;,
            estimate == &quot;dcant&quot;) %&gt;%
@@ -6216,95 +5833,26 @@ jens-daniel-mueller
 )</code></pre>
 <pre><code>Joining, by = c(&quot;inv_depth&quot;, &quot;gobm&quot;, &quot;period&quot;)</code></pre>
 <pre class="r"><code>drift_bias %&gt;%
-  filter(period == &quot;1994 - 2014&quot;) %&gt;% 
-  ggplot(aes(dcant_bias, drift, col = gobm)) +
+  filter(period == &quot;1994 - 2014&quot;) %&gt;%
+  ggplot(aes(drift, dcant_bias, col = gobm)) +
   geom_vline(xintercept = 0) +
   geom_hline(yintercept = 0) +
   geom_point() +
-  facet_grid(contribution ~ inv_depth)</code></pre>
-<p><img src="figure/multi_model_assesment_5_budgets.Rmd/read_files_global_dissic-6.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-read_files_global_dissic-6">
-Past versions of read_files_global_dissic-6.png
-</button>
-</p>
-<div id="fig-read_files_global_dissic-6" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1273e73e48557d1b6c2188b6ad276295861380fe/docs/figure/multi_model_assesment_5_budgets.Rmd/read_files_global_dissic-6.png" target="_blank">1273e73</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-07-01
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+  coord_fixed() +
+  labs(title = &quot;period : 1994 - 2014&quot;) +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  facet_grid(inv_depth ~ contribution)</code></pre>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/drift_bias_plots-5.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>drift_bias %&gt;%
-  filter(inv_depth == 3000) %&gt;% 
+  filter(inv_depth == 3000) %&gt;%
   ggplot(aes(dcant_bias, drift, col = gobm)) +
   geom_vline(xintercept = 0) +
   geom_hline(yintercept = 0) +
   geom_point() +
-  facet_grid(contribution ~ period)</code></pre>
-<p><img src="figure/multi_model_assesment_5_budgets.Rmd/read_files_global_dissic-7.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-read_files_global_dissic-7">
-Past versions of read_files_global_dissic-7.png
-</button>
-</p>
-<div id="fig-read_files_global_dissic-7" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1273e73e48557d1b6c2188b6ad276295861380fe/docs/figure/multi_model_assesment_5_budgets.Rmd/read_files_global_dissic-7.png" target="_blank">1273e73</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-07-01
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+  coord_fixed() +
+  labs(title = &quot;inv_depth : 3000&quot;)+
+  facet_grid(period ~ contribution)</code></pre>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/drift_bias_plots-6.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
