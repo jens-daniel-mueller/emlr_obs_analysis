@@ -768,16 +768,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree63298d85d6c6e75cc701a37e883492156e84c0c0targetblank63298d8a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/63298d85d6c6e75cc701a37e883492156e84c0c0" target="_blank">63298d8</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeefca8158b9d8e8db16cd94ab28a33ebc34bfe53ctargetblankefca815a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/efca8158b9d8e8db16cd94ab28a33ebc34bfe53c" target="_blank">efca815</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree63298d85d6c6e75cc701a37e883492156e84c0c0targetblank63298d8a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeefca8158b9d8e8db16cd94ab28a33ebc34bfe53ctargetblankefca815a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/63298d85d6c6e75cc701a37e883492156e84c0c0" target="_blank">63298d8</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/efca8158b9d8e8db16cd94ab28a33ebc34bfe53c" target="_blank">efca815</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -830,6 +830,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/efca8158b9d8e8db16cd94ab28a33ebc34bfe53c/analysis/multi_model_assesment_5_budgets.Rmd" target="_blank">efca815</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-01
+</td>
+<td>
+included drift assesment
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/1273e73e48557d1b6c2188b6ad276295861380fe/docs/multi_model_assesment_5_budgets.html" target="_blank">1273e73</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-01
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -5758,6 +5792,9 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
+</div>
+<div id="drift-and-bias" class="section level1" number="7">
+<h1><span class="header-section-number">7</span> Drift and bias</h1>
 <pre class="r"><code>for (i_Version_IDs in Version_IDs) {
   # i_Version_IDs &lt;- Version_IDs[1]
   
@@ -5943,6 +5980,43 @@ dcant_budget_global_all_dissic &lt;-
   geom_path() +
   facet_grid(data_source ~ period, scales = &quot;free_y&quot;)</code></pre>
 <p><img src="figure/multi_model_assesment_5_budgets.Rmd/read_files_global_dissic-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-read_files_global_dissic-1">
+Past versions of read_files_global_dissic-1.png
+</button>
+</p>
+<div id="fig-read_files_global_dissic-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1273e73e48557d1b6c2188b6ad276295861380fe/docs/figure/multi_model_assesment_5_budgets.Rmd/read_files_global_dissic-1.png" target="_blank">1273e73</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-01
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>dcant_budget_global_bias_all_depth %&gt;%
   ggplot(aes(period, dcant_bias, col = gobm)) +
   geom_hline(yintercept = 0) +
@@ -5952,6 +6026,43 @@ dcant_budget_global_all_dissic &lt;-
   geom_point() +
   facet_grid(inv_depth ~ contribution)</code></pre>
 <p><img src="figure/multi_model_assesment_5_budgets.Rmd/read_files_global_dissic-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-read_files_global_dissic-2">
+Past versions of read_files_global_dissic-2.png
+</button>
+</p>
+<div id="fig-read_files_global_dissic-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1273e73e48557d1b6c2188b6ad276295861380fe/docs/figure/multi_model_assesment_5_budgets.Rmd/read_files_global_dissic-2.png" target="_blank">1273e73</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-01
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>dcant_budget_global_bias_all_depth %&gt;%
   select(inv_depth, dcant_bias, contribution, gobm, period) %&gt;%
   pivot_wider(names_from = contribution,
@@ -5962,6 +6073,43 @@ dcant_budget_global_all_dissic &lt;-
   geom_point() +
   facet_grid(inv_depth ~ period)</code></pre>
 <p><img src="figure/multi_model_assesment_5_budgets.Rmd/read_files_global_dissic-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-read_files_global_dissic-3">
+Past versions of read_files_global_dissic-3.png
+</button>
+</p>
+<div id="fig-read_files_global_dissic-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1273e73e48557d1b6c2188b6ad276295861380fe/docs/figure/multi_model_assesment_5_budgets.Rmd/read_files_global_dissic-3.png" target="_blank">1273e73</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-01
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>dcant_budget_global_bias_all_depth %&gt;%
   select(inv_depth, dcant_bias, contribution, gobm, period) %&gt;%
   pivot_wider(names_from = contribution,
@@ -5972,6 +6120,43 @@ dcant_budget_global_all_dissic &lt;-
   geom_point() +
   facet_grid(inv_depth ~ period)</code></pre>
 <p><img src="figure/multi_model_assesment_5_budgets.Rmd/read_files_global_dissic-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-read_files_global_dissic-4">
+Past versions of read_files_global_dissic-4.png
+</button>
+</p>
+<div id="fig-read_files_global_dissic-4" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1273e73e48557d1b6c2188b6ad276295861380fe/docs/figure/multi_model_assesment_5_budgets.Rmd/read_files_global_dissic-4.png" target="_blank">1273e73</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-01
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>dcant_budget_global_bias_all_depth %&gt;%
   select(inv_depth, dcant_bias, contribution, gobm, period) %&gt;%
   pivot_wider(names_from = contribution,
@@ -5982,6 +6167,43 @@ dcant_budget_global_all_dissic &lt;-
   geom_point() +
   facet_grid(inv_depth ~ period)</code></pre>
 <p><img src="figure/multi_model_assesment_5_budgets.Rmd/read_files_global_dissic-5.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-read_files_global_dissic-5">
+Past versions of read_files_global_dissic-5.png
+</button>
+</p>
+<div id="fig-read_files_global_dissic-5" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1273e73e48557d1b6c2188b6ad276295861380fe/docs/figure/multi_model_assesment_5_budgets.Rmd/read_files_global_dissic-5.png" target="_blank">1273e73</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-01
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>drift_bias &lt;- full_join(
   dcant_budget_global_bias_all_depth %&gt;%
     select(inv_depth, dcant_bias, contribution, gobm, period),
@@ -6001,6 +6223,43 @@ dcant_budget_global_all_dissic &lt;-
   geom_point() +
   facet_grid(contribution ~ inv_depth)</code></pre>
 <p><img src="figure/multi_model_assesment_5_budgets.Rmd/read_files_global_dissic-6.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-read_files_global_dissic-6">
+Past versions of read_files_global_dissic-6.png
+</button>
+</p>
+<div id="fig-read_files_global_dissic-6" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1273e73e48557d1b6c2188b6ad276295861380fe/docs/figure/multi_model_assesment_5_budgets.Rmd/read_files_global_dissic-6.png" target="_blank">1273e73</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-01
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>drift_bias %&gt;%
   filter(inv_depth == 3000) %&gt;% 
   ggplot(aes(dcant_bias, drift, col = gobm)) +
@@ -6009,6 +6268,43 @@ dcant_budget_global_all_dissic &lt;-
   geom_point() +
   facet_grid(contribution ~ period)</code></pre>
 <p><img src="figure/multi_model_assesment_5_budgets.Rmd/read_files_global_dissic-7.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-read_files_global_dissic-7">
+Past versions of read_files_global_dissic-7.png
+</button>
+</p>
+<div id="fig-read_files_global_dissic-7" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1273e73e48557d1b6c2188b6ad276295861380fe/docs/figure/multi_model_assesment_5_budgets.Rmd/read_files_global_dissic-7.png" target="_blank">1273e73</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-01
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
