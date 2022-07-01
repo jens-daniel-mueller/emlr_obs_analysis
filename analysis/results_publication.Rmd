@@ -2917,7 +2917,7 @@ dcant_budget_basin_AIP_layer_all %>%
 ### 5 basins
 
 
-```{r depth_layer_budget_basin_MLR, fig.asp=2}
+```{r depth_layer_budget_basin_MLR, fig.asp=0.9}
 
 dcant_budget_change <- dcant_budget_basin_MLR_layer_all %>%
   filter(estimate == "dcant",
@@ -2978,7 +2978,7 @@ ggsave(path = here::here("output/publication"),
 
 ```
 
-```{r depth_layer_budget_basin_MLR_cumulative, fig.asp=2}
+```{r depth_layer_budget_basin_MLR_cumulative, fig.asp=0.9}
 
 dcant_budget_change <- dcant_budget_basin_MLR_layer_all %>%
   filter(estimate == "dcant",
