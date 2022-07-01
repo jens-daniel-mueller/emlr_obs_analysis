@@ -1,0 +1,2282 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Jens Daniel Müller" />
+
+
+<title>Home</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">emlr obs analysis</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="basics.html">Basics</a>
+</li>
+<li>
+  <a href="results_publication.html">Results publication</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Adjustements
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Bulk</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="data_adjustment_bulk_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="data_adjustment_bulk_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="data_adjustment_bulk_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Cruise</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="data_adjustment_cruise_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="data_adjustment_cruise_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="data_adjustment_cruise_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">None</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="data_adjustment_none_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="data_adjustment_none_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="data_adjustment_none_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Filtering
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">No gap-filling and filter</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="gaps_filter_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="gaps_filter_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="gaps_filter_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Reoccupation</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="reoccupation_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="reoccupation_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="reoccupation_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Rarefication</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="rarefication_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="rarefication_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="rarefication_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    MLR
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">predictor removal C(P)</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="MLR_predictor_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="MLR_predictor_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="MLR_predictor_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">predictor removal C(N)</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="MLR_predictor_nitrate_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="MLR_predictor_nitrate_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="MLR_predictor_nitrate_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">C(N) target</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="CN_target_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="CN_target_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="CN_target_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MLR_target</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="MLR_target_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="MLR_target_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="MLR_target_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">VIF</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="vif_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="vif_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="vif_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    MMA
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Five basins</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="multi_model_assesment_5_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="multi_model_assesment_5_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="multi_model_assesment_5_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Three basins</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="multi_model_assesment_AIP_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="multi_model_assesment_AIP_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="multi_model_assesment_AIP_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Robustness
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Indian Ocean</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="indian_test_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="indian_test_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="indian_test_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Gruber_2019</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="G19_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="G19_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="G19_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Moving eras</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="moving_eras_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="moving_eras_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="moving_eras_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis">
+    <span class="fa fa-github"></span>
+     
+    Source code
+  </a>
+</li>
+<li>
+  <a href="https://jens-daniel-mueller.github.io/">
+    <span class="fa fa-home"></span>
+     
+    Jens' homepage
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Home</h1>
+<h4 class="author">Jens Daniel Müller</h4>
+<h4 class="date">01 July, 2022</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2022-07-01
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>emlr_obs_analysis/analysis/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version 1.7.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20210412code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20210412)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20210412code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20210412)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree2bbfba03b76000d4c69aabe558ef31aac64704dftargetblank2bbfba0a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/2bbfba03b76000d4c69aabe558ef31aac64704df" target="_blank">2bbfba0</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree2bbfba03b76000d4c69aabe558ef31aac64704dftargetblank2bbfba0a" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/2bbfba03b76000d4c69aabe558ef31aac64704df" target="_blank">2bbfba0</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    data/
+    Ignored:    figure/
+    Ignored:    output/other/
+    Ignored:    output/publication/
+
+Unstaged changes:
+    Modified:   code/Workflowr_project_managment.R
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/index.Rmd</code>) and HTML (<code>docs/index.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/6e173bfaabf9d4dffe3e9d5546fb474c484accec/docs/index.html" target="_blank">6e173bf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-30
+</td>
+<td>
+updated regional budget plots
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/index.html" target="_blank">a13a7cf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-28
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/b52b1593c5ffb5fe66ec61b477d14037610ac6a7/docs/index.html" target="_blank">b52b159</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-27
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/09b0780dbaaaefed666bcfc8060d3cf38421e3ff/docs/index.html" target="_blank">09b0780</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-05-24
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/25da2fbe4f3b43f7997e3ea253b0a5d06a0b23ab/docs/index.html" target="_blank">25da2fb</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-05-24
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/e09320dbac0aa32bf9e9b7d45301d7958d187167/docs/index.html" target="_blank">e09320d</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-04-12
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/8dca96ab5be0d936129430a3e130b3848251a695/docs/index.html" target="_blank">8dca96a</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-04-12
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/2f20ea6ec11c3bbd07fddbccfc8d14fce30f1a78/docs/index.html" target="_blank">2f20ea6</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-04-11
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/209c9b6f3d5ca0bde070c663bd39fe88ee0a6a1e/docs/index.html" target="_blank">209c9b6</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-04-10
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/acad2e2d0e0eddef9ef8ba3931ab5958ea2914e4/docs/index.html" target="_blank">acad2e2</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-04-09
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/c3a6238feb081ed1cb2e9bd6a96a189edd12d734/docs/index.html" target="_blank">c3a6238</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-03-08
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/de557de3db75fa741ddcf6c83c76fe356067991a/docs/index.html" target="_blank">de557de</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-28
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/9753eb8e236f37cf8403c83e65ccb27d8adea6b2/docs/index.html" target="_blank">9753eb8</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-26
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/f347cd7cc318143d8617a95860cb03fbef545874/docs/index.html" target="_blank">f347cd7</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/513630f665f7d61ef36ff55709f91aec107842f2/docs/index.html" target="_blank">513630f</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/d7dfc7c54b56e9777bdfb390ed28ee9a0aa94449/docs/index.html" target="_blank">d7dfc7c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-18
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/269809ec8c7a944db1d9b477d6ebb65a7240f7f5/docs/index.html" target="_blank">269809e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-12
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/1696b98a5f8dae46bd5fffb4d932776f4b223441/docs/index.html" target="_blank">1696b98</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-11
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/570e7388d8bac566e36e8dd897e720ee99b9b2c9/docs/index.html" target="_blank">570e738</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-10
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/9bf678935a2ad4f41062d5c7958bf08396207ef0/docs/index.html" target="_blank">9bf6789</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-10
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/030836b576d9cd3f0907a3f92f7b6a024d8aabad/docs/index.html" target="_blank">030836b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-06
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/b10afbc5c39c5b7c7ea60f8703301afb9774de1a/docs/index.html" target="_blank">b10afbc</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-01-05
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/bc2c18285d2160b78c764260ae808c07f0624c18/docs/index.html" target="_blank">bc2c182</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-12-23
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/e55f86857be0ef2bdeb6cbbe516c6afc0fd1694f/docs/index.html" target="_blank">e55f868</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-12-23
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/f0c828af35444b34510ce612b3764ee4f5ac787b/docs/index.html" target="_blank">f0c828a</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-12-22
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/db09d70516a4a6aee7807f567b0c91c0748ac796/docs/index.html" target="_blank">db09d70</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-12-10
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/316ea5f4a8568570f7000651c1e2a6b6b5069548/docs/index.html" target="_blank">316ea5f</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-12-09
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/9c72ef3aa64047d5cd5f13a286dd9f4f89e72469/docs/index.html" target="_blank">9c72ef3</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-12-08
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/f4250b07a4a6c4097647bd141562af9989de0407/docs/index.html" target="_blank">f4250b0</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-12-08
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/bd4091fdad3fb328d11be3f70ab7bceb5802acde/docs/index.html" target="_blank">bd4091f</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-12-04
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/7e0a36bb5ea8b08849cf1f15ea21c813bf3c5ea1/docs/index.html" target="_blank">7e0a36b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-11-21
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/e9138fd02a2209dec54a2b41d4f400d27f6da76f/docs/index.html" target="_blank">e9138fd</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-11-10
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/3a1c6c580707d3e1fe30eea9ec88f014d9dc113b/docs/index.html" target="_blank">3a1c6c5</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-11-09
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/4f8de7a9d82940f1669c559ed475013e5a640f8b/docs/index.html" target="_blank">4f8de7a</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-11-09
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/e505a4ba8e026763684aa92e599fc3f2899a049f/docs/index.html" target="_blank">e505a4b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-11-09
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/71920dea35283f41593daa8b9cfdda298a3e3dbe/docs/index.html" target="_blank">71920de</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-11-04
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/f7c3da2aa04a8a3793f6c755815e0e23203fb44f/docs/index.html" target="_blank">f7c3da2</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-11-03
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/e534f5121b8bcabaf723ef513a4bd56e403f1d35/docs/index.html" target="_blank">e534f51</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-11-02
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/57cfc36dd3070936d6f56353a5e7287c8a5c5042/docs/index.html" target="_blank">57cfc36</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-11-01
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/7abe2b2424cd3e3eb74c83c81e475fdffe648867/docs/index.html" target="_blank">7abe2b2</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-11-01
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/4331a226e144f2c06d3cba5eada242098814731f/docs/index.html" target="_blank">4331a22</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-29
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/ae5ae64585372fa5b40ae2e0ee60e853a4e638b3/docs/index.html" target="_blank">ae5ae64</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-26
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/8c9fa17201eae22c6d7a15592456c754580e2073/docs/index.html" target="_blank">8c9fa17</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-22
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/968fe946dfc157043a60ab481ac5e763c2c37621/docs/index.html" target="_blank">968fe94</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-18
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/581baa0d35440dd859d84bf65eb16f40c6963174/docs/index.html" target="_blank">581baa0</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-07
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/a7af62fa5b6f1aa55061e9941982e4c0754b9a13/docs/index.html" target="_blank">a7af62f</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-06
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/f9b4f939ab30cff063dee16dbda80a7967144e73/docs/index.html" target="_blank">f9b4f93</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-10-05
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/960d1588ac630a8cb976434900f87e2f256a9d2c/docs/index.html" target="_blank">960d158</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-09-29
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/0573621298d48f093cb510f5480c33616920cf55/docs/index.html" target="_blank">0573621</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-09-29
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/f51dcb905c1ae1d9bb76aa3f87abed1b938e14f2/docs/index.html" target="_blank">f51dcb9</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-09-28
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/55d2059692961516ef30014e6c6e382745469cf1/docs/index.html" target="_blank">55d2059</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-09-28
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/09002a75cd5a454f1332e861528068fdacfb26fb/docs/index.html" target="_blank">09002a7</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-09-26
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/ec4f702cd2ae66a263bfd1301195333d6862ee20/docs/index.html" target="_blank">ec4f702</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-09-22
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/65256805bbf1938f23c3e5212cefdc35cc9fa9ed/docs/index.html" target="_blank">6525680</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-09-21
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/6bf38c95426f076b1b3c2e825efe0dad75b00d83/docs/index.html" target="_blank">6bf38c9</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-09-21
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/63911d0c299aff821a8292874e270a3cf4be5d48/docs/index.html" target="_blank">63911d0</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-09-21
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/499c9d5dfce0aee0cae658f5fc7a134476a0387e/docs/index.html" target="_blank">499c9d5</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-09-21
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/271a3acbf43f16020723dd6210e3cdb99e827a12/docs/index.html" target="_blank">271a3ac</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-09-21
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/35ad8b5f21422505d0d05ee312155902eeccf030/docs/index.html" target="_blank">35ad8b5</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-09-20
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/0189ffe7a1f11c0a7baef74286d254807de27884/docs/index.html" target="_blank">0189ffe</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-30
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/731c2fa4020e593d8601768e1a39eb757d051ed5/docs/index.html" target="_blank">731c2fa</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-17
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/6fd82032142870694ac57a01e25d81ac76e4321b/docs/index.html" target="_blank">6fd8203</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-11
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/77ab07cdbce27db804bd556c46c2af26040abc87/docs/index.html" target="_blank">77ab07c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-11
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/6d4b1397a853e40945392f2cd00d2214e906b36a/docs/index.html" target="_blank">6d4b139</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-11
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/bd9ce6b16b55517d1793a2a63a8d259a077c22ce/docs/index.html" target="_blank">bd9ce6b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-08-02
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/e66fc02be4ca3a538681bf0f5ff11a5f60d6d34f/docs/index.html" target="_blank">e66fc02</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-07-30
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/964b616e0545ff8c9ddf2f6a1dc755d6a6985ab8/docs/index.html" target="_blank">964b616</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-07-30
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/0a09f3e629dfb1c4e70163bb84f9434a963a7498/docs/index.html" target="_blank">0a09f3e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-07-30
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/3a48c916b403de5d78b6f2f3cb17421fdf838b1f/docs/index.html" target="_blank">3a48c91</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-07-27
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/b32149b89909fd6eab9a5124914af4b56669d905/docs/index.html" target="_blank">b32149b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-07-27
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/93a27dde341d897d9672026eebad038b30110f68/docs/index.html" target="_blank">93a27dd</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-07-26
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/7493389448c53ccfbe36129b13958405274ffff9/docs/index.html" target="_blank">7493389</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-07-05
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/8b2e4d3aee2a5bc949e1d909005d46b34f7267c0/docs/index.html" target="_blank">8b2e4d3</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-06-22
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/57ddd1f4d776e4fda1d31d26473b48e9d3217b50/docs/index.html" target="_blank">57ddd1f</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-05-27
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/7be394f496bb69346de63d093cb1521a60eaeac7/docs/index.html" target="_blank">7be394f</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-04-15
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/117a5c3c1c51b16535ce326f690a6c0b4710da38/docs/index.html" target="_blank">117a5c3</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-04-14
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/c9407be94d6b6ff737b771e0f69c56e861d2c908/docs/index.html" target="_blank">c9407be</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-04-12
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/c9eb29b15060165242a8151dba4c5ec82d3a280d/docs/index.html" target="_blank">c9eb29b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-04-12
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/f4e283cba5621ffea952ccebacc9a39d6b5613a4/analysis/index.Rmd" target="_blank">f4e283c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-04-12
+</td>
+<td>
+include G19 comparison
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/bfcfa12e260bea1130de7fb9f0df2ffd934b4786/docs/index.html" target="_blank">bfcfa12</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-04-12
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/012caf35948e155bfbe2273e615efe857b53d414/docs/index.html" target="_blank">012caf3</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-04-12
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/0be5bda4b1706a8a59037a9c1ed120ab3528436f/docs/index.html" target="_blank">0be5bda</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-04-12
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/739c1fa962e693194dfa72656ebb7303fe991aaf/analysis/index.Rmd" target="_blank">739c1fa</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2021-04-12
+</td>
+<td>
+Start workflowr project.
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<div id="welcome" class="section level1">
+<h1>WELCOME!</h1>
+<p>On this website we present our ongoing ambition to quantify anthropogenic CO<sub>2</sub> in the ocean based on observations.</p>
+<p>Navigate trough the navbar on top to take a look at the various chapters of this project. The links in the upper right corner bring you to the source code of this project and to Jens’ homepage.</p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.1.2 (2021-11-01)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: openSUSE Leap 15.3
+
+Matrix products: default
+BLAS:   /usr/local/R-4.1.2/lib64/R/lib/libRblas.so
+LAPACK: /usr/local/R-4.1.2/lib64/R/lib/libRlapack.so
+
+locale:
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] workflowr_1.7.0
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.8       bslib_0.3.1      compiler_4.1.2   pillar_1.6.4    
+ [5] later_1.3.0      git2r_0.29.0     jquerylib_0.1.4  tools_4.1.2     
+ [9] getPass_0.2-2    digest_0.6.29    jsonlite_1.7.3   evaluate_0.14   
+[13] tibble_3.1.6     lifecycle_1.0.1  pkgconfig_2.0.3  rlang_1.0.2     
+[17] cli_3.1.1        rstudioapi_0.13  yaml_2.2.1       xfun_0.29       
+[21] fastmap_1.1.0    httr_1.4.2       stringr_1.4.0    knitr_1.37      
+[25] sass_0.4.0       fs_1.5.2         vctrs_0.3.8      rprojroot_2.0.2 
+[29] glue_1.6.0       R6_2.5.1         processx_3.5.2   fansi_1.0.2     
+[33] rmarkdown_2.11   callr_3.7.0      magrittr_2.0.1   whisker_0.4     
+[37] ps_1.6.0         promises_1.2.0.1 htmltools_0.5.2  ellipsis_0.3.2  
+[41] httpuv_1.6.5     utf8_1.2.2       stringi_1.7.6    crayon_1.4.2    </code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -807,7 +807,7 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <div id="versions" class="tab-pane fade">
 
 <p>
-These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/multi_model_assesment_AIP_budgets.Rmd</code>) and HTML (<code>docs/multi_model_assesment_AIP_budgets.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/multi_model_assesment_5_budgets.Rmd</code>) and HTML (<code>docs/multi_model_assesment_5_budgets.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
 </p>
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
@@ -836,7 +836,24 @@ Message
 html
 </td>
 <td>
-<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/multi_model_assesment_AIP_budgets.html" target="_blank">9393c07</a>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/6e173bfaabf9d4dffe3e9d5546fb474c484accec/docs/multi_model_assesment_5_budgets.html" target="_blank">6e173bf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-30
+</td>
+<td>
+updated regional budget plots
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/multi_model_assesment_5_budgets.html" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -853,7 +870,7 @@ Build site.
 Rmd
 </td>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2a3cf973687078de700e6f553e106933dcf21ee3/analysis/multi_model_assesment_AIP_budgets.Rmd" target="_blank">2a3cf97</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2a3cf973687078de700e6f553e106933dcf21ee3/analysis/multi_model_assesment_5_budgets.Rmd" target="_blank">2a3cf97</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -870,7 +887,7 @@ included basin-hemisphere bias, and bias contributions
 html
 </td>
 <td>
-<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/multi_model_assesment_AIP_budgets.html" target="_blank">a13a7cf</a>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/multi_model_assesment_5_budgets.html" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -887,7 +904,7 @@ Build site.
 Rmd
 </td>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ef081b3967f73bb003786494a83bc5e9501f2495/analysis/multi_model_assesment_AIP_budgets.Rmd" target="_blank">ef081b3</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ef081b3967f73bb003786494a83bc5e9501f2495/analysis/multi_model_assesment_5_budgets.Rmd" target="_blank">ef081b3</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -906,26 +923,26 @@ rebuild with additional analysis
 </div>
 </div>
 </div>
-<pre class="r"><code>version_id_pattern &lt;- &quot;y&quot;
+<pre class="r"><code>version_id_pattern &lt;- &quot;s&quot;
 config &lt;- &quot;gobm&quot;</code></pre>
 <div id="read-files" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Read files</h1>
 <pre class="r"><code># identify required version IDs
 
 Version_IDs_1 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
-                            pattern = paste0(&quot;v_1&quot;, &quot;y&quot;))
+                            pattern = paste0(&quot;v_1&quot;, &quot;s&quot;))
 
 Version_IDs_2 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
-                            pattern = paste0(&quot;v_2&quot;, &quot;y&quot;))
+                            pattern = paste0(&quot;v_2&quot;, &quot;s&quot;))
 
 Version_IDs_3 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
-                            pattern = paste0(&quot;v_3&quot;, &quot;y&quot;))
+                            pattern = paste0(&quot;v_3&quot;, &quot;s&quot;))
 
 Version_IDs &lt;- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 
 print(Version_IDs)</code></pre>
-<pre><code> [1] &quot;v_1y01&quot; &quot;v_1y02&quot; &quot;v_1y03&quot; &quot;v_1y04&quot; &quot;v_1y05&quot; &quot;v_2y01&quot; &quot;v_2y02&quot; &quot;v_2y03&quot;
- [9] &quot;v_2y04&quot; &quot;v_2y05&quot; &quot;v_3y01&quot; &quot;v_3y02&quot; &quot;v_3y03&quot; &quot;v_3y04&quot; &quot;v_3y05&quot;</code></pre>
+<pre><code> [1] &quot;v_1s01&quot; &quot;v_1s02&quot; &quot;v_1s03&quot; &quot;v_1s04&quot; &quot;v_1s05&quot; &quot;v_2s01&quot; &quot;v_2s02&quot; &quot;v_2s03&quot;
+ [9] &quot;v_2s04&quot; &quot;v_2s05&quot; &quot;v_3s01&quot; &quot;v_3s02&quot; &quot;v_3s03&quot; &quot;v_3s04&quot; &quot;v_3s05&quot;</code></pre>
 <div id="global" class="section level2" number="1.1">
 <h2><span class="header-section-number">1.1</span> Global</h2>
 <pre class="r"><code>for (i_Version_IDs in Version_IDs) {
@@ -1054,21 +1071,21 @@ print(Version_IDs)</code></pre>
   
   
 }</code></pre>
-<pre><code>[1] &quot;v_1y01&quot;
-[1] &quot;v_1y02&quot;
-[1] &quot;v_1y03&quot;
-[1] &quot;v_1y04&quot;
-[1] &quot;v_1y05&quot;
-[1] &quot;v_2y01&quot;
-[1] &quot;v_2y02&quot;
-[1] &quot;v_2y03&quot;
-[1] &quot;v_2y04&quot;
-[1] &quot;v_2y05&quot;
-[1] &quot;v_3y01&quot;
-[1] &quot;v_3y02&quot;
-[1] &quot;v_3y03&quot;
-[1] &quot;v_3y04&quot;
-[1] &quot;v_3y05&quot;</code></pre>
+<pre><code>[1] &quot;v_1s01&quot;
+[1] &quot;v_1s02&quot;
+[1] &quot;v_1s03&quot;
+[1] &quot;v_1s04&quot;
+[1] &quot;v_1s05&quot;
+[1] &quot;v_2s01&quot;
+[1] &quot;v_2s02&quot;
+[1] &quot;v_2s03&quot;
+[1] &quot;v_2s04&quot;
+[1] &quot;v_2s05&quot;
+[1] &quot;v_3s01&quot;
+[1] &quot;v_3s02&quot;
+[1] &quot;v_3s03&quot;
+[1] &quot;v_3s04&quot;
+[1] &quot;v_3s05&quot;</code></pre>
 <pre class="r"><code>rm(
   dcant_budget_global,
   dcant_budget_global_bias,
@@ -1176,21 +1193,21 @@ for (i_Version_IDs in Version_IDs) {
   }
   
 }</code></pre>
-<pre><code>[1] &quot;v_1y01&quot;
-[1] &quot;v_1y02&quot;
-[1] &quot;v_1y03&quot;
-[1] &quot;v_1y04&quot;
-[1] &quot;v_1y05&quot;
-[1] &quot;v_2y01&quot;
-[1] &quot;v_2y02&quot;
-[1] &quot;v_2y03&quot;
-[1] &quot;v_2y04&quot;
-[1] &quot;v_2y05&quot;
-[1] &quot;v_3y01&quot;
-[1] &quot;v_3y02&quot;
-[1] &quot;v_3y03&quot;
-[1] &quot;v_3y04&quot;
-[1] &quot;v_3y05&quot;</code></pre>
+<pre><code>[1] &quot;v_1s01&quot;
+[1] &quot;v_1s02&quot;
+[1] &quot;v_1s03&quot;
+[1] &quot;v_1s04&quot;
+[1] &quot;v_1s05&quot;
+[1] &quot;v_2s01&quot;
+[1] &quot;v_2s02&quot;
+[1] &quot;v_2s03&quot;
+[1] &quot;v_2s04&quot;
+[1] &quot;v_2s05&quot;
+[1] &quot;v_3s01&quot;
+[1] &quot;v_3s02&quot;
+[1] &quot;v_3s03&quot;
+[1] &quot;v_3s04&quot;
+[1] &quot;v_3s05&quot;</code></pre>
 <pre class="r"><code>rm(
   dcant_budget_basin_AIP,
   dcant_budget_basin_AIP_bias,
@@ -1247,21 +1264,21 @@ for (i_Version_IDs in Version_IDs) {
 
   
 }</code></pre>
-<pre><code>[1] &quot;v_1y01&quot;
-[1] &quot;v_1y02&quot;
-[1] &quot;v_1y03&quot;
-[1] &quot;v_1y04&quot;
-[1] &quot;v_1y05&quot;
-[1] &quot;v_2y01&quot;
-[1] &quot;v_2y02&quot;
-[1] &quot;v_2y03&quot;
-[1] &quot;v_2y04&quot;
-[1] &quot;v_2y05&quot;
-[1] &quot;v_3y01&quot;
-[1] &quot;v_3y02&quot;
-[1] &quot;v_3y03&quot;
-[1] &quot;v_3y04&quot;
-[1] &quot;v_3y05&quot;</code></pre>
+<pre><code>[1] &quot;v_1s01&quot;
+[1] &quot;v_1s02&quot;
+[1] &quot;v_1s03&quot;
+[1] &quot;v_1s04&quot;
+[1] &quot;v_1s05&quot;
+[1] &quot;v_2s01&quot;
+[1] &quot;v_2s02&quot;
+[1] &quot;v_2s03&quot;
+[1] &quot;v_2s04&quot;
+[1] &quot;v_2s05&quot;
+[1] &quot;v_3s01&quot;
+[1] &quot;v_3s02&quot;
+[1] &quot;v_3s03&quot;
+[1] &quot;v_3s04&quot;
+[1] &quot;v_3s05&quot;</code></pre>
 <pre class="r"><code>rm(
   dcant_budget_basin_MLR,
   dcant_budget_basin_MLR_mod_truth
@@ -1299,21 +1316,21 @@ for (i_Version_IDs in Version_IDs) {
   }
   
 }</code></pre>
-<pre><code>[1] &quot;v_1y01&quot;
-[1] &quot;v_1y02&quot;
-[1] &quot;v_1y03&quot;
-[1] &quot;v_1y04&quot;
-[1] &quot;v_1y05&quot;
-[1] &quot;v_2y01&quot;
-[1] &quot;v_2y02&quot;
-[1] &quot;v_2y03&quot;
-[1] &quot;v_2y04&quot;
-[1] &quot;v_2y05&quot;
-[1] &quot;v_3y01&quot;
-[1] &quot;v_3y02&quot;
-[1] &quot;v_3y03&quot;
-[1] &quot;v_3y04&quot;
-[1] &quot;v_3y05&quot;</code></pre>
+<pre><code>[1] &quot;v_1s01&quot;
+[1] &quot;v_1s02&quot;
+[1] &quot;v_1s03&quot;
+[1] &quot;v_1s04&quot;
+[1] &quot;v_1s05&quot;
+[1] &quot;v_2s01&quot;
+[1] &quot;v_2s02&quot;
+[1] &quot;v_2s03&quot;
+[1] &quot;v_2s04&quot;
+[1] &quot;v_2s05&quot;
+[1] &quot;v_3s01&quot;
+[1] &quot;v_3s02&quot;
+[1] &quot;v_3s03&quot;
+[1] &quot;v_3s04&quot;
+[1] &quot;v_3s05&quot;</code></pre>
 <pre class="r"><code>rm(dcant_obs_budget)</code></pre>
 </div>
 <div id="atm-co2" class="section level2" number="1.5">
@@ -1411,7 +1428,7 @@ dcant_budget_global_all %&gt;%
   ylim(0,NA) +
   theme(axis.text.x = element_text(angle = 45, hjust=1),
         axis.title.x = element_blank())</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/cases_absolute_global-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/cases_absolute_global-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_absolute_global-1">
 Past versions of cases_absolute_global-1.png
@@ -1436,7 +1453,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/cases_absolute_global-1.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/cases_absolute_global-1.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -1447,7 +1464,7 @@ jens-daniel-mueller
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/cases_absolute_global-1.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/cases_absolute_global-1.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -1471,7 +1488,7 @@ jens-daniel-mueller
                                (mu * mol ~ kg ^ {-1})))) +
   geom_point() +
   facet_grid(. ~ contribution)</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/cases_bias_global-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/cases_bias_global-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_bias_global-1">
 Past versions of cases_bias_global-1.png
@@ -1496,7 +1513,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/cases_bias_global-1.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/cases_bias_global-1.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -1507,7 +1524,7 @@ jens-daniel-mueller
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/cases_bias_global-1.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/cases_bias_global-1.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -1538,7 +1555,7 @@ jens-daniel-mueller
 
 p_global_bias</code></pre>
 <pre><code>Warning: Removed 30 rows containing missing values (geom_point).</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/cases_bias_global-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/cases_bias_global-2.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_bias_global-2">
 Past versions of cases_bias_global-2.png
@@ -1563,7 +1580,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/cases_bias_global-2.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/cases_bias_global-2.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -1574,7 +1591,7 @@ jens-daniel-mueller
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/cases_bias_global-2.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/cases_bias_global-2.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -1634,10 +1651,10 @@ dcant_bias_rel
 C* prediction error
 </td>
 <td style="text-align:right;">
-1.9848351
+2.3554479
 </td>
 <td style="text-align:right;">
--1.3808
+-1.2738
 </td>
 <td style="text-align:right;">
 NA
@@ -1654,16 +1671,16 @@ NA
 dcant offset
 </td>
 <td style="text-align:right;">
-0.9379199
+4.3999936
 </td>
 <td style="text-align:right;">
--0.4034
+-2.4542
 </td>
 <td style="text-align:right;">
-5.180678
+21.533999
 </td>
 <td style="text-align:right;">
--2.0929796
+-12.236735
 </td>
 </tr>
 <tr>
@@ -1694,10 +1711,10 @@ NA
 C* prediction error
 </td>
 <td style="text-align:right;">
-2.0709851
+2.8435495
 </td>
 <td style="text-align:right;">
--0.7226
+-2.1388
 </td>
 <td style="text-align:right;">
 NA
@@ -1714,16 +1731,16 @@ NA
 dcant offset
 </td>
 <td style="text-align:right;">
-2.5621285
+2.2099364
 </td>
 <td style="text-align:right;">
-0.0584
+-1.3562
 </td>
 <td style="text-align:right;">
-6.300561
+5.363207
 </td>
 <td style="text-align:right;">
-0.5347441
+-3.145757
 </td>
 </tr>
 <tr>
@@ -1754,10 +1771,10 @@ NA
 C* prediction error
 </td>
 <td style="text-align:right;">
-1.0283048
+0.9230514
 </td>
 <td style="text-align:right;">
-0.5626
+-0.6966
 </td>
 <td style="text-align:right;">
 NA
@@ -1774,16 +1791,16 @@ NA
 dcant offset
 </td>
 <td style="text-align:right;">
-2.0774567
+1.5258108
 </td>
 <td style="text-align:right;">
-0.3410
+-0.7468
 </td>
 <td style="text-align:right;">
-9.432274
+6.487867
 </td>
 <td style="text-align:right;">
-2.2313108
+-2.962719
 </td>
 </tr>
 <tr>
@@ -1823,7 +1840,8 @@ NA
   ylim(0,NA) +
   theme(axis.text.x = element_text(angle = 45, hjust=1),
         axis.title.x = element_blank())</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/cases_absolute-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>Warning: Removed 1 rows containing missing values (geom_point).</code></pre>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/cases_absolute-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_absolute-1">
 Past versions of cases_absolute-1.png
@@ -1848,7 +1866,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/cases_absolute-1.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/cases_absolute-1.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -1859,7 +1877,7 @@ jens-daniel-mueller
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/cases_absolute-1.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/cases_absolute-1.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -1880,7 +1898,7 @@ jens-daniel-mueller
   geom_hline(yintercept = 0) +
   geom_point() +
   facet_grid(basin_AIP ~ contribution)</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/cases_bias-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/cases_bias-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_bias-1">
 Past versions of cases_bias-1.png
@@ -1905,7 +1923,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/cases_bias-1.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/cases_bias-1.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -1916,7 +1934,7 @@ jens-daniel-mueller
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/cases_bias-1.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/cases_bias-1.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -1943,7 +1961,7 @@ jens-daniel-mueller
               width = 0.05, height = 0) +
   facet_grid(. ~ basin_AIP)</code></pre>
 <pre><code>Warning: Removed 90 rows containing missing values (geom_point).</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/cases_bias-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/cases_bias-2.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_bias-2">
 Past versions of cases_bias-2.png
@@ -1968,7 +1986,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/cases_bias-2.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/cases_bias-2.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -1979,7 +1997,7 @@ jens-daniel-mueller
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/cases_bias-2.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/cases_bias-2.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -2014,7 +2032,7 @@ jens-daniel-mueller
 
 p_regional_bias</code></pre>
 <pre><code>Warning: Removed 90 rows containing missing values (geom_point).</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/cases_bias-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/cases_bias-3.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_bias-3">
 Past versions of cases_bias-3.png
@@ -2039,7 +2057,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/cases_bias-3.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/cases_bias-3.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -2050,7 +2068,7 @@ jens-daniel-mueller
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/cases_bias-3.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/cases_bias-3.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -2077,7 +2095,7 @@ jens-daniel-mueller
   geom_col() +
   scale_fill_scico_d(direction = -1) +
   facet_grid(basin_AIP ~ period)</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/slab_budgets-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/slab_budgets-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-slab_budgets-1">
 Past versions of slab_budgets-1.png
@@ -2102,7 +2120,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/slab_budgets-1.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/slab_budgets-1.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -2113,7 +2131,7 @@ jens-daniel-mueller
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/slab_budgets-1.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/slab_budgets-1.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -2141,7 +2159,7 @@ jens-daniel-mueller
       facet_grid(gamma_slab ~ period)
   )</code></pre>
 <pre><code>[[1]]</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/slab_budgets_individual-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/slab_budgets_individual-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-slab_budgets_individual-1">
 Past versions of slab_budgets_individual-1.png
@@ -2166,7 +2184,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/slab_budgets_individual-1.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/slab_budgets_individual-1.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -2177,7 +2195,7 @@ jens-daniel-mueller
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/slab_budgets_individual-1.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/slab_budgets_individual-1.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -2192,7 +2210,7 @@ jens-daniel-mueller
 </div>
 <pre><code>
 [[2]]</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/slab_budgets_individual-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/slab_budgets_individual-2.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-slab_budgets_individual-2">
 Past versions of slab_budgets_individual-2.png
@@ -2217,7 +2235,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/slab_budgets_individual-2.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/slab_budgets_individual-2.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -2228,7 +2246,7 @@ jens-daniel-mueller
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/slab_budgets_individual-2.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/slab_budgets_individual-2.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -2243,7 +2261,7 @@ jens-daniel-mueller
 </div>
 <pre><code>
 [[3]]</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/slab_budgets_individual-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/slab_budgets_individual-3.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-slab_budgets_individual-3">
 Past versions of slab_budgets_individual-3.png
@@ -2268,7 +2286,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/slab_budgets_individual-3.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/slab_budgets_individual-3.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -2279,7 +2297,7 @@ jens-daniel-mueller
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/slab_budgets_individual-3.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/slab_budgets_individual-3.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -2311,8 +2329,8 @@ jens-daniel-mueller
       labs(title = paste(&quot;data_source:&quot;, unique(.x$basin_AIP)))
     )</code></pre>
 <pre><code>[[1]]</code></pre>
-<pre><code>Warning: Removed 12 rows containing missing values (position_stack).</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/slab_budgets_bias-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>Warning: Removed 18 rows containing missing values (position_stack).</code></pre>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/slab_budgets_bias-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-slab_budgets_bias-1">
 Past versions of slab_budgets_bias-1.png
@@ -2337,7 +2355,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/slab_budgets_bias-1.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/slab_budgets_bias-1.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -2348,7 +2366,7 @@ jens-daniel-mueller
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/slab_budgets_bias-1.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/slab_budgets_bias-1.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -2364,7 +2382,7 @@ jens-daniel-mueller
 <pre><code>
 [[2]]</code></pre>
 <pre><code>Warning: Removed 22 rows containing missing values (position_stack).</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/slab_budgets_bias-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/slab_budgets_bias-2.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-slab_budgets_bias-2">
 Past versions of slab_budgets_bias-2.png
@@ -2389,7 +2407,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/slab_budgets_bias-2.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/slab_budgets_bias-2.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -2400,7 +2418,7 @@ jens-daniel-mueller
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/slab_budgets_bias-2.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/slab_budgets_bias-2.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -2416,7 +2434,7 @@ jens-daniel-mueller
 <pre><code>
 [[3]]</code></pre>
 <pre><code>Warning: Removed 44 rows containing missing values (position_stack).</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/slab_budgets_bias-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/slab_budgets_bias-3.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-slab_budgets_bias-3">
 Past versions of slab_budgets_bias-3.png
@@ -2441,7 +2459,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/slab_budgets_bias-3.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/slab_budgets_bias-3.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -2452,7 +2470,7 @@ jens-daniel-mueller
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/slab_budgets_bias-3.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/slab_budgets_bias-3.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -2489,7 +2507,7 @@ jens-daniel-mueller
 <pre><code>`summarise()` has grouped output by &#39;data_source&#39;, &#39;basin_AIP&#39;, &#39;gamma_slab&#39;.
 You can override using the `.groups` argument.</code></pre>
 <pre><code>[[1]]</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/slab_budgets_spread-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/slab_budgets_spread-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-slab_budgets_spread-1">
 Past versions of slab_budgets_spread-1.png
@@ -2514,7 +2532,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/slab_budgets_spread-1.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/slab_budgets_spread-1.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -2529,7 +2547,7 @@ jens-daniel-mueller
 </div>
 <pre><code>
 [[2]]</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/slab_budgets_spread-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/slab_budgets_spread-2.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-slab_budgets_spread-2">
 Past versions of slab_budgets_spread-2.png
@@ -2554,7 +2572,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/slab_budgets_spread-2.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/slab_budgets_spread-2.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -2569,7 +2587,7 @@ jens-daniel-mueller
 </div>
 <pre><code>
 [[3]]</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/slab_budgets_spread-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/slab_budgets_spread-3.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-slab_budgets_spread-3">
 Past versions of slab_budgets_spread-3.png
@@ -2594,7 +2612,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/slab_budgets_spread-3.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/slab_budgets_spread-3.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -2621,7 +2639,8 @@ jens-daniel-mueller
   ylim(0,NA) +
   theme(axis.text.x = element_text(angle = 45, hjust=1),
         axis.title.x = element_blank())</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/cases_absolute_basins_hemisphere-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>Warning: Removed 1 rows containing missing values (geom_point).</code></pre>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/cases_absolute_basins_hemisphere-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_absolute_basins_hemisphere-1">
 Past versions of cases_absolute_basins_hemisphere-1.png
@@ -2646,7 +2665,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/cases_absolute_basins_hemisphere-1.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/cases_absolute_basins_hemisphere-1.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -2657,7 +2676,7 @@ jens-daniel-mueller
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/cases_absolute_basins_hemisphere-1.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/cases_absolute_basins_hemisphere-1.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -2686,7 +2705,7 @@ dcant_budget_basin_MLR_bias_all %&gt;%
   geom_hline(yintercept = 0) +
   geom_point() +
   facet_grid(basin ~ .)</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/cases_bias_basins_hemisphere-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/cases_bias_basins_hemisphere-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_bias_basins_hemisphere-1">
 Past versions of cases_bias_basins_hemisphere-1.png
@@ -2711,7 +2730,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/cases_bias_basins_hemisphere-1.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/cases_bias_basins_hemisphere-1.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -2737,7 +2756,7 @@ jens-daniel-mueller
   geom_jitter(aes(period, dcant_bias_rel, col = gobm),
               width = 0.05, height = 0) +
   facet_grid(. ~ basin)</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/cases_bias_basins_hemisphere-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/cases_bias_basins_hemisphere-2.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_bias_basins_hemisphere-2">
 Past versions of cases_bias_basins_hemisphere-2.png
@@ -2762,7 +2781,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/cases_bias_basins_hemisphere-2.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/cases_bias_basins_hemisphere-2.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -2796,7 +2815,7 @@ jens-daniel-mueller
 )
 
 p_regional_bias</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/cases_bias_basins_hemisphere-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/cases_bias_basins_hemisphere-3.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_bias_basins_hemisphere-3">
 Past versions of cases_bias_basins_hemisphere-3.png
@@ -2821,7 +2840,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/cases_bias_basins_hemisphere-3.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/cases_bias_basins_hemisphere-3.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -2881,16 +2900,16 @@ dcant_bias_rel
 Indian
 </td>
 <td style="text-align:right;">
-0.9011114
+0.9090730
 </td>
 <td style="text-align:right;">
--0.0412
+-0.0328
 </td>
 <td style="text-align:right;">
-22.150833
+22.302473
 </td>
 <td style="text-align:right;">
--2.6117653
+-2.4435549
 </td>
 </tr>
 <tr>
@@ -2901,16 +2920,16 @@ Indian
 N_Atlantic
 </td>
 <td style="text-align:right;">
-0.2349251
+4.4545964
 </td>
 <td style="text-align:right;">
-0.0714
+-2.0636
 </td>
 <td style="text-align:right;">
-10.350499
+120.435164
 </td>
 <td style="text-align:right;">
-4.9787914
+-54.5268879
 </td>
 </tr>
 <tr>
@@ -2921,16 +2940,16 @@ N_Atlantic
 N_Pacific
 </td>
 <td style="text-align:right;">
-0.4722810
+0.7216647
 </td>
 <td style="text-align:right;">
--0.0194
+-0.0070
 </td>
 <td style="text-align:right;">
-13.696741
+18.476824
 </td>
 <td style="text-align:right;">
-2.0912062
+4.2625363
 </td>
 </tr>
 <tr>
@@ -2941,16 +2960,16 @@ N_Pacific
 S_Atlantic
 </td>
 <td style="text-align:right;">
-0.5120610
+0.2124389
 </td>
 <td style="text-align:right;">
--0.2830
+0.1426
 </td>
 <td style="text-align:right;">
-19.737917
+8.942749
 </td>
 <td style="text-align:right;">
--11.9340318
+5.4655099
 </td>
 </tr>
 <tr>
@@ -2961,16 +2980,16 @@ S_Atlantic
 S_Pacific
 </td>
 <td style="text-align:right;">
-0.5449319
+0.3170848
 </td>
 <td style="text-align:right;">
--0.1316
+-0.4934
 </td>
 <td style="text-align:right;">
-10.715814
+6.189531
 </td>
 <td style="text-align:right;">
--1.3874559
+-9.7588648
 </td>
 </tr>
 <tr>
@@ -2981,16 +3000,16 @@ S_Pacific
 Indian
 </td>
 <td style="text-align:right;">
-0.9455135
+0.9433765
 </td>
 <td style="text-align:right;">
-0.0978
+0.0914
 </td>
 <td style="text-align:right;">
-9.401816
+9.381732
 </td>
 <td style="text-align:right;">
-0.7387551
+0.6669674
 </td>
 </tr>
 <tr>
@@ -3001,16 +3020,16 @@ Indian
 N_Atlantic
 </td>
 <td style="text-align:right;">
-0.4806334
+0.4298864
 </td>
 <td style="text-align:right;">
--0.2040
+-0.4944
 </td>
 <td style="text-align:right;">
-7.532666
+5.293292
 </td>
 <td style="text-align:right;">
--1.6866599
+-7.9416345
 </td>
 </tr>
 <tr>
@@ -3021,16 +3040,16 @@ N_Atlantic
 N_Pacific
 </td>
 <td style="text-align:right;">
-0.9676446
+0.9626174
 </td>
 <td style="text-align:right;">
-0.0010
+-0.0716
 </td>
 <td style="text-align:right;">
-14.395323
+11.252882
 </td>
 <td style="text-align:right;">
-1.8363237
+1.8013456
 </td>
 </tr>
 <tr>
@@ -3041,16 +3060,16 @@ N_Pacific
 S_Atlantic
 </td>
 <td style="text-align:right;">
-0.2696043
+0.3204125
 </td>
 <td style="text-align:right;">
-0.7360
+0.2508
 </td>
 <td style="text-align:right;">
-5.643119
+6.139831
 </td>
 <td style="text-align:right;">
-13.9009412
+4.4455632
 </td>
 </tr>
 <tr>
@@ -3061,16 +3080,16 @@ S_Atlantic
 S_Pacific
 </td>
 <td style="text-align:right;">
-1.0875263
+0.4621180
 </td>
 <td style="text-align:right;">
--0.5720
+-1.1320
 </td>
 <td style="text-align:right;">
-8.370594
+3.730150
 </td>
 <td style="text-align:right;">
--4.1055503
+-9.5528047
 </td>
 </tr>
 <tr>
@@ -3081,16 +3100,16 @@ S_Pacific
 Indian
 </td>
 <td style="text-align:right;">
-1.2229304
+1.2252531
 </td>
 <td style="text-align:right;">
-0.1068
+0.1058
 </td>
 <td style="text-align:right;">
-25.050053
+25.078488
 </td>
 <td style="text-align:right;">
-3.0917162
+3.0819388
 </td>
 </tr>
 <tr>
@@ -3101,16 +3120,16 @@ Indian
 N_Atlantic
 </td>
 <td style="text-align:right;">
-0.3149675
+0.4169175
 </td>
 <td style="text-align:right;">
--0.2830
+-0.2292
 </td>
 <td style="text-align:right;">
-7.832823
+10.371385
 </td>
 <td style="text-align:right;">
--7.5976651
+-7.7415819
 </td>
 </tr>
 <tr>
@@ -3121,16 +3140,16 @@ N_Atlantic
 N_Pacific
 </td>
 <td style="text-align:right;">
-0.5677004
+0.2669114
 </td>
 <td style="text-align:right;">
--0.0222
+-0.0432
 </td>
 <td style="text-align:right;">
-16.057155
+6.092021
 </td>
 <td style="text-align:right;">
-0.2370719
+0.2466435
 </td>
 </tr>
 <tr>
@@ -3141,16 +3160,16 @@ N_Pacific
 S_Atlantic
 </td>
 <td style="text-align:right;">
-0.7236562
+0.1185356
 </td>
 <td style="text-align:right;">
-0.9814
+0.0912
 </td>
 <td style="text-align:right;">
-23.023099
+4.270572
 </td>
 <td style="text-align:right;">
-34.8540888
+3.2041276
 </td>
 </tr>
 <tr>
@@ -3161,16 +3180,16 @@ S_Atlantic
 S_Pacific
 </td>
 <td style="text-align:right;">
-0.8191435
+0.3887998
 </td>
 <td style="text-align:right;">
--0.4420
+-0.6716
 </td>
 <td style="text-align:right;">
-11.310538
+4.806270
 </td>
 <td style="text-align:right;">
--6.5116542
+-9.9636034
 </td>
 </tr>
 </tbody>
@@ -3225,7 +3244,7 @@ ggplot() +
   labs(y = legend_title) +
   theme(axis.text.x = element_text(angle = 45, hjust=1),
         axis.title.x = element_blank())</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/ensemble_mean_global-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/ensemble_mean_global-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_mean_global-1">
 Past versions of ensemble_mean_global-1.png
@@ -3250,7 +3269,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/ensemble_mean_global-1.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/ensemble_mean_global-1.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -3261,7 +3280,7 @@ jens-daniel-mueller
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/ensemble_mean_global-1.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/ensemble_mean_global-1.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -3312,7 +3331,7 @@ p_global_dcant / p_global_bias +
 
 p_global_dcant_bias</code></pre>
 <pre><code>Warning: Removed 30 rows containing missing values (geom_point).</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/ensemble_mean_global-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/ensemble_mean_global-2.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_mean_global-2">
 Past versions of ensemble_mean_global-2.png
@@ -3337,7 +3356,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/ensemble_mean_global-2.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/ensemble_mean_global-2.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -3348,7 +3367,7 @@ jens-daniel-mueller
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/ensemble_mean_global-2.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/ensemble_mean_global-2.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -3402,7 +3421,7 @@ tcant_ensemble %&gt;%
   geom_text(aes(label = year), nudge_x = -5, nudge_y = 5) +
   labs(x = expression(Atmospheric~pCO[2]~(µatm)),
        y = expression(Total~oceanic~C[ant]~(PgC)))</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/mean_tcant_over_atm_co2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/mean_tcant_over_atm_co2-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-mean_tcant_over_atm_co2-1">
 Past versions of mean_tcant_over_atm_co2-1.png
@@ -3427,7 +3446,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/mean_tcant_over_atm_co2-1.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/mean_tcant_over_atm_co2-1.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -3477,7 +3496,7 @@ ggplot() +
   facet_grid(. ~ data_source) +
   theme(axis.text.x = element_text(angle = 45, hjust=1),
         axis.title.x = element_blank())</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/summed_decades-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/summed_decades-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-summed_decades-1">
 Past versions of summed_decades-1.png
@@ -3502,7 +3521,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/summed_decades-1.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/summed_decades-1.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -3513,7 +3532,7 @@ jens-daniel-mueller
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/summed_decades-1.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/summed_decades-1.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -3547,7 +3566,7 @@ dcant_budget_global_ensemble_bias %&gt;%
   ggplot(aes(period, dcant_mean_bias)) +
   geom_hline(yintercept = 0) +
   geom_point()</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/ensemble_mean_bias_global-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/ensemble_mean_bias_global-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_mean_bias_global-1">
 Past versions of ensemble_mean_bias_global-1.png
@@ -3572,7 +3591,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/ensemble_mean_bias_global-1.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/ensemble_mean_bias_global-1.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -3589,7 +3608,7 @@ jens-daniel-mueller
   ggplot(aes(period, dcant_mean_bias_rel)) +
   geom_hline(yintercept = 0) +
   geom_point()</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/ensemble_mean_bias_global-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/ensemble_mean_bias_global-2.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_mean_bias_global-2">
 Past versions of ensemble_mean_bias_global-2.png
@@ -3614,7 +3633,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/ensemble_mean_bias_global-2.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/ensemble_mean_bias_global-2.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -3647,7 +3666,7 @@ jens-daniel-mueller
       labs(title = paste(&quot;data_source:&quot;, unique(.x$data_source)))
   )</code></pre>
 <pre><code>[[1]]</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/cases_absolute_depth_global-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/cases_absolute_depth_global-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_absolute_depth_global-1">
 Past versions of cases_absolute_depth_global-1.png
@@ -3672,7 +3691,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/cases_absolute_depth_global-1.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/cases_absolute_depth_global-1.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -3683,7 +3702,7 @@ jens-daniel-mueller
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/cases_absolute_depth_global-1.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/cases_absolute_depth_global-1.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -3698,7 +3717,7 @@ jens-daniel-mueller
 </div>
 <pre><code>
 [[2]]</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/cases_absolute_depth_global-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/cases_absolute_depth_global-2.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_absolute_depth_global-2">
 Past versions of cases_absolute_depth_global-2.png
@@ -3723,7 +3742,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/cases_absolute_depth_global-2.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/cases_absolute_depth_global-2.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -3734,7 +3753,7 @@ jens-daniel-mueller
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/cases_absolute_depth_global-2.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/cases_absolute_depth_global-2.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -3756,7 +3775,7 @@ jens-daniel-mueller
   geom_col(position = &quot;dodge&quot;) +
   scale_fill_brewer(palette = &quot;Dark2&quot;) +
   facet_grid(inv_depth ~ .)</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/cases_bias_depth_global-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/cases_bias_depth_global-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_bias_depth_global-1">
 Past versions of cases_bias_depth_global-1.png
@@ -3781,7 +3800,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/cases_bias_depth_global-1.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/cases_bias_depth_global-1.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -3792,7 +3811,7 @@ jens-daniel-mueller
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/cases_bias_depth_global-1.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/cases_bias_depth_global-1.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -3812,7 +3831,7 @@ jens-daniel-mueller
   scale_fill_brewer(palette = &quot;Dark2&quot;) +
   facet_grid(inv_depth ~ .)</code></pre>
 <pre><code>Warning: Removed 150 rows containing missing values (geom_col).</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/cases_bias_rel_depth_global-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/cases_bias_rel_depth_global-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_bias_rel_depth_global-1">
 Past versions of cases_bias_rel_depth_global-1.png
@@ -3837,7 +3856,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/cases_bias_rel_depth_global-1.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/cases_bias_rel_depth_global-1.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -3848,7 +3867,7 @@ jens-daniel-mueller
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/cases_bias_rel_depth_global-1.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/cases_bias_rel_depth_global-1.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -3889,7 +3908,7 @@ using the `.groups` argument.</code></pre>
                       ymin = dcant_mean - dcant_sd),
                   shape = 21) +
   facet_grid(. ~ data_source)</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/ensemble_mean-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/ensemble_mean-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_mean-1">
 Past versions of ensemble_mean-1.png
@@ -3914,7 +3933,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/ensemble_mean-1.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/ensemble_mean-1.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -3967,7 +3986,7 @@ p_regional_dcant / p_regional_bias +
               heights = c(2,1))
 
 p_regional_dcant_bias</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/ensemble_mean-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/ensemble_mean-2.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_mean-2">
 Past versions of ensemble_mean-2.png
@@ -3992,7 +4011,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/ensemble_mean-2.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/ensemble_mean-2.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -4003,7 +4022,7 @@ jens-daniel-mueller
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/ensemble_mean-2.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/ensemble_mean-2.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -4045,7 +4064,7 @@ dcant_budget_basin_AIP_ensemble_bias %&gt;%
   ggplot(aes(period, dcant_mean_bias, col = basin_AIP)) +
   geom_hline(yintercept = 0) +
   geom_point()</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/ensemble_mean_bias-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/ensemble_mean_bias-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_mean_bias-1">
 Past versions of ensemble_mean_bias-1.png
@@ -4070,7 +4089,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/ensemble_mean_bias-1.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/ensemble_mean_bias-1.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -4087,7 +4106,7 @@ jens-daniel-mueller
   ggplot(aes(period, dcant_mean_bias_rel, col = basin_AIP)) +
   geom_hline(yintercept = 0) +
   geom_point()</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/ensemble_mean_bias-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/ensemble_mean_bias-2.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ensemble_mean_bias-2">
 Past versions of ensemble_mean_bias-2.png
@@ -4112,7 +4131,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/ensemble_mean_bias-2.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/ensemble_mean_bias-2.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -4145,7 +4164,7 @@ jens-daniel-mueller
       labs(title = paste(&quot;data_source:&quot;, unique(.x$data_source)))
   )</code></pre>
 <pre><code>[[1]]</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/cases_absolute_depth-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/cases_absolute_depth-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_absolute_depth-1">
 Past versions of cases_absolute_depth-1.png
@@ -4170,7 +4189,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/cases_absolute_depth-1.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/cases_absolute_depth-1.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -4181,7 +4200,7 @@ jens-daniel-mueller
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/cases_absolute_depth-1.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/cases_absolute_depth-1.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -4196,7 +4215,7 @@ jens-daniel-mueller
 </div>
 <pre><code>
 [[2]]</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/cases_absolute_depth-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/cases_absolute_depth-2.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_absolute_depth-2">
 Past versions of cases_absolute_depth-2.png
@@ -4221,7 +4240,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/cases_absolute_depth-2.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/cases_absolute_depth-2.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -4232,7 +4251,7 @@ jens-daniel-mueller
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/cases_absolute_depth-2.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/cases_absolute_depth-2.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -4254,7 +4273,7 @@ jens-daniel-mueller
   geom_col() +
   scale_fill_brewer(palette = &quot;Dark2&quot;) +
   facet_grid(inv_depth ~ period)</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/cases_bias_depth-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/cases_bias_depth-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_bias_depth-1">
 Past versions of cases_bias_depth-1.png
@@ -4279,7 +4298,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/cases_bias_depth-1.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/cases_bias_depth-1.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -4290,7 +4309,7 @@ jens-daniel-mueller
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/cases_bias_depth-1.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/cases_bias_depth-1.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -4310,7 +4329,7 @@ jens-daniel-mueller
   scale_fill_brewer(palette = &quot;Dark2&quot;) +
   facet_grid(inv_depth ~ period)</code></pre>
 <pre><code>Warning: Removed 450 rows containing missing values (geom_col).</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/cases_bias_rel_depth-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/cases_bias_rel_depth-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_bias_rel_depth-1">
 Past versions of cases_bias_rel_depth-1.png
@@ -4335,7 +4354,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/cases_bias_rel_depth-1.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/cases_bias_rel_depth-1.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -4346,7 +4365,7 @@ jens-daniel-mueller
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/cases_bias_rel_depth-1.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/cases_bias_rel_depth-1.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -4378,7 +4397,7 @@ jens-daniel-mueller
       labs(title = paste(&quot;inventory depth:&quot;,unique(.x$inv_depth)))
   )</code></pre>
 <pre><code>[[1]]</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/steady_state_comparison-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/steady_state_comparison-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-steady_state_comparison-1">
 Past versions of steady_state_comparison-1.png
@@ -4403,7 +4422,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/steady_state_comparison-1.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/steady_state_comparison-1.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -4414,7 +4433,7 @@ jens-daniel-mueller
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/steady_state_comparison-1.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/steady_state_comparison-1.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -4429,7 +4448,7 @@ jens-daniel-mueller
 </div>
 <pre><code>
 [[2]]</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/steady_state_comparison-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/steady_state_comparison-2.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-steady_state_comparison-2">
 Past versions of steady_state_comparison-2.png
@@ -4454,7 +4473,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/steady_state_comparison-2.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/steady_state_comparison-2.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -4465,7 +4484,7 @@ jens-daniel-mueller
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/steady_state_comparison-2.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/steady_state_comparison-2.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -4480,7 +4499,7 @@ jens-daniel-mueller
 </div>
 <pre><code>
 [[3]]</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/steady_state_comparison-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/steady_state_comparison-3.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-steady_state_comparison-3">
 Past versions of steady_state_comparison-3.png
@@ -4505,7 +4524,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/steady_state_comparison-3.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/steady_state_comparison-3.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -4516,7 +4535,7 @@ jens-daniel-mueller
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/steady_state_comparison-3.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/steady_state_comparison-3.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -4531,7 +4550,7 @@ jens-daniel-mueller
 </div>
 <pre><code>
 [[4]]</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/steady_state_comparison-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/steady_state_comparison-4.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-steady_state_comparison-4">
 Past versions of steady_state_comparison-4.png
@@ -4556,7 +4575,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/steady_state_comparison-4.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/steady_state_comparison-4.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -4567,7 +4586,7 @@ jens-daniel-mueller
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/steady_state_comparison-4.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/steady_state_comparison-4.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -4582,7 +4601,7 @@ jens-daniel-mueller
 </div>
 <pre><code>
 [[5]]</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/steady_state_comparison-5.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/steady_state_comparison-5.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-steady_state_comparison-5">
 Past versions of steady_state_comparison-5.png
@@ -4607,7 +4626,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/steady_state_comparison-5.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/steady_state_comparison-5.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -4618,7 +4637,7 @@ jens-daniel-mueller
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/steady_state_comparison-5.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/steady_state_comparison-5.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -4660,7 +4679,7 @@ lm_best_predictor_counts_all %&gt;%
   ) +
   scale_color_viridis_d() +
   facet_grid(basin ~ data_source)</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/predictor_analysis-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/predictor_analysis-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-predictor_analysis-1">
 Past versions of predictor_analysis-1.png
@@ -4685,7 +4704,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/predictor_analysis-1.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/predictor_analysis-1.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -4696,7 +4715,7 @@ jens-daniel-mueller
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/predictor_analysis-1.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/predictor_analysis-1.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -4725,7 +4744,8 @@ jens-daniel-mueller
       facet_grid(basin ~ data_source)
   )</code></pre>
 <pre><code>[[1]]</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/predictor_analysis-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>Warning: Removed 2 rows containing missing values (geom_point).</code></pre>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/predictor_analysis-2.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-predictor_analysis-2">
 Past versions of predictor_analysis-2.png
@@ -4750,7 +4770,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/predictor_analysis-2.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/predictor_analysis-2.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -4761,7 +4781,7 @@ jens-daniel-mueller
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/predictor_analysis-2.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/predictor_analysis-2.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -4776,8 +4796,8 @@ jens-daniel-mueller
 </div>
 <pre><code>
 [[2]]</code></pre>
-<pre><code>Warning: Removed 17 rows containing missing values (geom_point).</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/predictor_analysis-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>Warning: Removed 16 rows containing missing values (geom_point).</code></pre>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/predictor_analysis-3.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-predictor_analysis-3">
 Past versions of predictor_analysis-3.png
@@ -4802,7 +4822,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/predictor_analysis-3.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/predictor_analysis-3.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -4813,7 +4833,7 @@ jens-daniel-mueller
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/predictor_analysis-3.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/predictor_analysis-3.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -4828,8 +4848,8 @@ jens-daniel-mueller
 </div>
 <pre><code>
 [[3]]</code></pre>
-<pre><code>Warning: Removed 2 rows containing missing values (geom_point).</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/predictor_analysis-4.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>Warning: Removed 13 rows containing missing values (geom_point).</code></pre>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/predictor_analysis-4.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-predictor_analysis-4">
 Past versions of predictor_analysis-4.png
@@ -4854,7 +4874,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/predictor_analysis-4.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/predictor_analysis-4.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -4865,7 +4885,7 @@ jens-daniel-mueller
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/predictor_analysis-4.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/predictor_analysis-4.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -4880,8 +4900,8 @@ jens-daniel-mueller
 </div>
 <pre><code>
 [[4]]</code></pre>
-<pre><code>Warning: Removed 15 rows containing missing values (geom_point).</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/predictor_analysis-5.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>Warning: Removed 17 rows containing missing values (geom_point).</code></pre>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/predictor_analysis-5.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-predictor_analysis-5">
 Past versions of predictor_analysis-5.png
@@ -4906,7 +4926,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/predictor_analysis-5.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/predictor_analysis-5.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -4917,7 +4937,7 @@ jens-daniel-mueller
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/predictor_analysis-5.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/predictor_analysis-5.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -4932,8 +4952,8 @@ jens-daniel-mueller
 </div>
 <pre><code>
 [[5]]</code></pre>
-<pre><code>Warning: Removed 1 rows containing missing values (geom_point).</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/predictor_analysis-6.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>Warning: Removed 3 rows containing missing values (geom_point).</code></pre>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/predictor_analysis-6.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-predictor_analysis-6">
 Past versions of predictor_analysis-6.png
@@ -4958,7 +4978,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/predictor_analysis-6.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/predictor_analysis-6.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -4969,7 +4989,7 @@ jens-daniel-mueller
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/predictor_analysis-6.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/predictor_analysis-6.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -4984,7 +5004,8 @@ jens-daniel-mueller
 </div>
 <pre><code>
 [[6]]</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/predictor_analysis-7.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>Warning: Removed 8 rows containing missing values (geom_point).</code></pre>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/predictor_analysis-7.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-predictor_analysis-7">
 Past versions of predictor_analysis-7.png
@@ -5009,7 +5030,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/predictor_analysis-7.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/predictor_analysis-7.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -5020,7 +5041,7 @@ jens-daniel-mueller
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/predictor_analysis-7.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/predictor_analysis-7.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -5035,7 +5056,8 @@ jens-daniel-mueller
 </div>
 <pre><code>
 [[7]]</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/predictor_analysis-8.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>Warning: Removed 7 rows containing missing values (geom_point).</code></pre>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/predictor_analysis-8.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-predictor_analysis-8">
 Past versions of predictor_analysis-8.png
@@ -5060,7 +5082,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/predictor_analysis-8.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/predictor_analysis-8.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -5071,7 +5093,7 @@ jens-daniel-mueller
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/predictor_analysis-8.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/predictor_analysis-8.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -5093,7 +5115,7 @@ jens-daniel-mueller
   ggplot(aes(gobm, n)) +
   geom_jitter(height = 0, alpha = 0.3) +
   facet_grid(basin ~ data_source)</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/predictor_analysis-9.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/multi_model_assesment_5_budgets.Rmd/predictor_analysis-9.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-predictor_analysis-9">
 Past versions of predictor_analysis-9.png
@@ -5118,7 +5140,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_AIP_budgets.Rmd/predictor_analysis-9.png" target="_blank">9393c07</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9393c07d6152cbe6b174a7db6782b5ffb6f21580/docs/figure/multi_model_assesment_5_budgets.Rmd/predictor_analysis-9.png" target="_blank">9393c07</a>
 </td>
 <td>
 jens-daniel-mueller
@@ -5129,7 +5151,7 @@ jens-daniel-mueller
 </tr>
 <tr>
 <td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_AIP_budgets.Rmd/predictor_analysis-9.png" target="_blank">a13a7cf</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/multi_model_assesment_5_budgets.Rmd/predictor_analysis-9.png" target="_blank">a13a7cf</a>
 </td>
 <td>
 jens-daniel-mueller
