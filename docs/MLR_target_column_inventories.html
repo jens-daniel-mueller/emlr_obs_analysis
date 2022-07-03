@@ -650,7 +650,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Column inventories</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">28 June, 2022</h4>
+<h4 class="date">03 July, 2022</h4>
 
 </div>
 
@@ -675,7 +675,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-06-28
+<strong>Last updated:</strong> 2022-07-03
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -766,16 +766,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeef081b3967f73bb003786494a83bc5e9501f2495targetblankef081b3a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/ef081b3967f73bb003786494a83bc5e9501f2495" target="_blank">ef081b3</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree157af41d74539e8753442471c164f9357ca4f2cctargetblank157af41a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/157af41d74539e8753442471c164f9357ca4f2cc" target="_blank">157af41</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeef081b3967f73bb003786494a83bc5e9501f2495targetblankef081b3a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree157af41d74539e8753442471c164f9357ca4f2cctargetblank157af41a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/ef081b3967f73bb003786494a83bc5e9501f2495" target="_blank">ef081b3</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/157af41d74539e8753442471c164f9357ca4f2cc" target="_blank">157af41</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -785,15 +785,14 @@ Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
     Ignored:    data/
-    Ignored:    figure/
     Ignored:    output/other/
     Ignored:    output/publication/
 
+Untracked files:
+    Untracked:  figure/
+
 Unstaged changes:
-    Modified:   analysis/_site.yml
-    Deleted:    analysis/multi_model_assesment_budgets.Rmd
-    Deleted:    analysis/multi_model_assesment_column_inventories.Rmd
-    Deleted:    analysis/multi_model_assesment_zonal_sections.Rmd
+    Modified:   analysis/child/budget_analysis_plot_data.Rmd
     Modified:   code/Workflowr_project_managment.R
 
 </code></pre>
@@ -833,6 +832,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/MLR_target_column_inventories.html" target="_blank">a13a7cf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-28
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -1150,6 +1166,8 @@ rebuild with child docs
 config &lt;- &quot;MLR_target&quot;</code></pre>
 <div id="read-files" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Read files</h1>
+<pre class="r"><code>print(version_id_pattern)</code></pre>
+<pre><code>[1] &quot;t&quot;</code></pre>
 <pre class="r"><code># identify required version IDs
 
 Version_IDs_1 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
@@ -1170,7 +1188,7 @@ print(Version_IDs)</code></pre>
 <pre class="r"><code>for (i_Version_IDs in Version_IDs) {
   # i_Version_IDs &lt;- Version_IDs[1]
   
-  print(i_Version_IDs)
+  # print(i_Version_IDs)
   
   path_version_data     &lt;-
     paste(path_observations,
@@ -1279,26 +1297,9 @@ print(Version_IDs)</code></pre>
   }
   
   
-}</code></pre>
-<pre><code>[1] &quot;v_1t01&quot;
-[1] &quot;v_1t02&quot;
-[1] &quot;v_1t03&quot;
-[1] &quot;v_1t04&quot;
-[1] &quot;v_1t05&quot;
-[1] &quot;v_1t06&quot;
-[1] &quot;v_2t01&quot;
-[1] &quot;v_2t02&quot;
-[1] &quot;v_2t03&quot;
-[1] &quot;v_2t04&quot;
-[1] &quot;v_2t05&quot;
-[1] &quot;v_2t06&quot;
-[1] &quot;v_3t01&quot;
-[1] &quot;v_3t02&quot;
-[1] &quot;v_3t03&quot;
-[1] &quot;v_3t04&quot;
-[1] &quot;v_3t05&quot;
-[1] &quot;v_3t06&quot;</code></pre>
-<pre class="r"><code>rm(dcant_inv,
+}
+
+rm(dcant_inv,
    dcant_inv_bias,
    dcant_inv_mod_truth,
    dcant_budget_lat_grid,
@@ -3094,6 +3095,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/MLR_target_column_inventories.Rmd/ensemble_sd-1.png" target="_blank">a13a7cf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-28
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/09b0780dbaaaefed666bcfc8060d3cf38421e3ff/docs/figure/MLR_target_column_inventories.Rmd/ensemble_sd-1.png" target="_blank">09b0780</a>

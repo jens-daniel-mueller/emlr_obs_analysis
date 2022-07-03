@@ -650,7 +650,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Zonal sections</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">28 June, 2022</h4>
+<h4 class="date">03 July, 2022</h4>
 
 </div>
 
@@ -675,7 +675,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-06-28
+<strong>Last updated:</strong> 2022-07-03
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -766,16 +766,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeef081b3967f73bb003786494a83bc5e9501f2495targetblankef081b3a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/ef081b3967f73bb003786494a83bc5e9501f2495" target="_blank">ef081b3</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree157af41d74539e8753442471c164f9357ca4f2cctargetblank157af41a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/157af41d74539e8753442471c164f9357ca4f2cc" target="_blank">157af41</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeef081b3967f73bb003786494a83bc5e9501f2495targetblankef081b3a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree157af41d74539e8753442471c164f9357ca4f2cctargetblank157af41a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/ef081b3967f73bb003786494a83bc5e9501f2495" target="_blank">ef081b3</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/157af41d74539e8753442471c164f9357ca4f2cc" target="_blank">157af41</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -785,15 +785,14 @@ Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
     Ignored:    data/
-    Ignored:    figure/
     Ignored:    output/other/
     Ignored:    output/publication/
 
+Untracked files:
+    Untracked:  figure/
+
 Unstaged changes:
-    Modified:   analysis/_site.yml
-    Deleted:    analysis/multi_model_assesment_budgets.Rmd
-    Deleted:    analysis/multi_model_assesment_column_inventories.Rmd
-    Deleted:    analysis/multi_model_assesment_zonal_sections.Rmd
+    Modified:   analysis/child/budget_analysis_plot_data.Rmd
     Modified:   code/Workflowr_project_managment.R
 
 </code></pre>
@@ -833,6 +832,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/reoccupation_zonal_sections.html" target="_blank">a13a7cf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-28
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -1048,6 +1064,8 @@ reoccupation filter implemented
 config &lt;- &quot;MLR_basins&quot;</code></pre>
 <div id="read-files" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Read files</h1>
+<pre class="r"><code>print(version_id_pattern)</code></pre>
+<pre><code>[1] &quot;o&quot;</code></pre>
 <pre class="r"><code># identify required version IDs
 
 Version_IDs_1 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
@@ -1061,14 +1079,11 @@ Version_IDs_3 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/
 
 Version_IDs &lt;- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 
-print(Version_IDs)</code></pre>
-<pre><code> [1] &quot;v_1o01&quot; &quot;v_1o02&quot; &quot;v_1o03&quot; &quot;v_1o04&quot; &quot;v_1o05&quot; &quot;v_1o06&quot; &quot;v_2o01&quot; &quot;v_2o02&quot;
- [9] &quot;v_2o03&quot; &quot;v_2o04&quot; &quot;v_2o05&quot; &quot;v_2o06&quot; &quot;v_3o01&quot; &quot;v_3o02&quot; &quot;v_3o03&quot; &quot;v_3o04&quot;
-[17] &quot;v_3o05&quot; &quot;v_3o06&quot;</code></pre>
+# print(Version_IDs)</code></pre>
 <pre class="r"><code>for (i_Version_IDs in Version_IDs) {
   # i_Version_IDs &lt;- Version_IDs[1]
   
-  print(i_Version_IDs)
+  # print(i_Version_IDs)
   
   path_version_data     &lt;-
   paste(path_observations,
@@ -1191,26 +1206,9 @@ print(Version_IDs)</code></pre>
   }
   
   
-}</code></pre>
-<pre><code>[1] &quot;v_1o01&quot;
-[1] &quot;v_1o02&quot;
-[1] &quot;v_1o03&quot;
-[1] &quot;v_1o04&quot;
-[1] &quot;v_1o05&quot;
-[1] &quot;v_1o06&quot;
-[1] &quot;v_2o01&quot;
-[1] &quot;v_2o02&quot;
-[1] &quot;v_2o03&quot;
-[1] &quot;v_2o04&quot;
-[1] &quot;v_2o05&quot;
-[1] &quot;v_2o06&quot;
-[1] &quot;v_3o01&quot;
-[1] &quot;v_3o02&quot;
-[1] &quot;v_3o03&quot;
-[1] &quot;v_3o04&quot;
-[1] &quot;v_3o05&quot;
-[1] &quot;v_3o06&quot;</code></pre>
-<pre class="r"><code>rm(dcant_zonal, dcant_zonal_bias, dcant_zonal_mod_truth,
+}
+
+rm(dcant_zonal, dcant_zonal_bias, dcant_zonal_mod_truth,
    dcant_budget_basin_AIP_layer,
    tref)</code></pre>
 <pre class="r"><code>all_predictors &lt;- c(&quot;saltempaouoxygenphosphatenitratesilicate&quot;)
@@ -1271,6 +1269,28 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6e173bfaabf9d4dffe3e9d5546fb474c484accec/docs/figure/reoccupation_zonal_sections.Rmd/cases_absolute-1.png" target="_blank">6e173bf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-30
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/reoccupation_zonal_sections.Rmd/cases_absolute-1.png" target="_blank">a13a7cf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-28
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76009511b442f3a30a80802f5e6e50a9cdc18128/docs/figure/reoccupation_zonal_sections.Rmd/cases_absolute-1.png" target="_blank">7600951</a>
@@ -1358,6 +1378,28 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6e173bfaabf9d4dffe3e9d5546fb474c484accec/docs/figure/reoccupation_zonal_sections.Rmd/cases_absolute-2.png" target="_blank">6e173bf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-30
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/reoccupation_zonal_sections.Rmd/cases_absolute-2.png" target="_blank">a13a7cf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-28
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76009511b442f3a30a80802f5e6e50a9cdc18128/docs/figure/reoccupation_zonal_sections.Rmd/cases_absolute-2.png" target="_blank">7600951</a>
 </td>
 <td>
@@ -1441,6 +1483,28 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6e173bfaabf9d4dffe3e9d5546fb474c484accec/docs/figure/reoccupation_zonal_sections.Rmd/cases_absolute-3.png" target="_blank">6e173bf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-30
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/reoccupation_zonal_sections.Rmd/cases_absolute-3.png" target="_blank">a13a7cf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-28
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76009511b442f3a30a80802f5e6e50a9cdc18128/docs/figure/reoccupation_zonal_sections.Rmd/cases_absolute-3.png" target="_blank">7600951</a>
@@ -1528,6 +1592,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/reoccupation_zonal_sections.Rmd/cases_absolute-4.png" target="_blank">a13a7cf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-28
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76009511b442f3a30a80802f5e6e50a9cdc18128/docs/figure/reoccupation_zonal_sections.Rmd/cases_absolute-4.png" target="_blank">7600951</a>
 </td>
 <td>
@@ -1613,6 +1688,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/reoccupation_zonal_sections.Rmd/cases_absolute-5.png" target="_blank">a13a7cf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-28
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76009511b442f3a30a80802f5e6e50a9cdc18128/docs/figure/reoccupation_zonal_sections.Rmd/cases_absolute-5.png" target="_blank">7600951</a>
 </td>
 <td>
@@ -1696,6 +1782,28 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6e173bfaabf9d4dffe3e9d5546fb474c484accec/docs/figure/reoccupation_zonal_sections.Rmd/cases_absolute-6.png" target="_blank">6e173bf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-30
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/reoccupation_zonal_sections.Rmd/cases_absolute-6.png" target="_blank">a13a7cf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-28
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76009511b442f3a30a80802f5e6e50a9cdc18128/docs/figure/reoccupation_zonal_sections.Rmd/cases_absolute-6.png" target="_blank">7600951</a>
@@ -1832,6 +1940,28 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6e173bfaabf9d4dffe3e9d5546fb474c484accec/docs/figure/reoccupation_zonal_sections.Rmd/cases_bias-1.png" target="_blank">6e173bf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-30
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/reoccupation_zonal_sections.Rmd/cases_bias-1.png" target="_blank">a13a7cf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-28
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76009511b442f3a30a80802f5e6e50a9cdc18128/docs/figure/reoccupation_zonal_sections.Rmd/cases_bias-1.png" target="_blank">7600951</a>
 </td>
 <td>
@@ -1917,6 +2047,28 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6e173bfaabf9d4dffe3e9d5546fb474c484accec/docs/figure/reoccupation_zonal_sections.Rmd/cases_bias-2.png" target="_blank">6e173bf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-30
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/reoccupation_zonal_sections.Rmd/cases_bias-2.png" target="_blank">a13a7cf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-28
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76009511b442f3a30a80802f5e6e50a9cdc18128/docs/figure/reoccupation_zonal_sections.Rmd/cases_bias-2.png" target="_blank">7600951</a>
 </td>
 <td>
@@ -2000,6 +2152,28 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6e173bfaabf9d4dffe3e9d5546fb474c484accec/docs/figure/reoccupation_zonal_sections.Rmd/cases_bias-3.png" target="_blank">6e173bf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-30
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/reoccupation_zonal_sections.Rmd/cases_bias-3.png" target="_blank">a13a7cf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-28
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76009511b442f3a30a80802f5e6e50a9cdc18128/docs/figure/reoccupation_zonal_sections.Rmd/cases_bias-3.png" target="_blank">7600951</a>
@@ -2094,6 +2268,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6e173bfaabf9d4dffe3e9d5546fb474c484accec/docs/figure/reoccupation_zonal_sections.Rmd/bias_density_distribution-1.png" target="_blank">6e173bf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-30
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76009511b442f3a30a80802f5e6e50a9cdc18128/docs/figure/reoccupation_zonal_sections.Rmd/bias_density_distribution-1.png" target="_blank">7600951</a>
 </td>
 <td>
@@ -2171,6 +2356,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6e173bfaabf9d4dffe3e9d5546fb474c484accec/docs/figure/reoccupation_zonal_sections.Rmd/cases_bias_correlation-1.png" target="_blank">6e173bf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-30
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76009511b442f3a30a80802f5e6e50a9cdc18128/docs/figure/reoccupation_zonal_sections.Rmd/cases_bias_correlation-1.png" target="_blank">7600951</a>
@@ -2258,6 +2454,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6e173bfaabf9d4dffe3e9d5546fb474c484accec/docs/figure/reoccupation_zonal_sections.Rmd/profiles_per_data_source-1.png" target="_blank">6e173bf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-30
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76009511b442f3a30a80802f5e6e50a9cdc18128/docs/figure/reoccupation_zonal_sections.Rmd/profiles_per_data_source-1.png" target="_blank">7600951</a>
@@ -2384,6 +2591,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6e173bfaabf9d4dffe3e9d5546fb474c484accec/docs/figure/reoccupation_zonal_sections.Rmd/profiles_per_data_source-3.png" target="_blank">6e173bf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-30
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76009511b442f3a30a80802f5e6e50a9cdc18128/docs/figure/reoccupation_zonal_sections.Rmd/profiles_per_data_source-3.png" target="_blank">7600951</a>
 </td>
 <td>
@@ -2463,6 +2681,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6e173bfaabf9d4dffe3e9d5546fb474c484accec/docs/figure/reoccupation_zonal_sections.Rmd/profiles_per_MLR_basins-1.png" target="_blank">6e173bf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-30
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76009511b442f3a30a80802f5e6e50a9cdc18128/docs/figure/reoccupation_zonal_sections.Rmd/profiles_per_MLR_basins-1.png" target="_blank">7600951</a>
 </td>
 <td>
@@ -2525,6 +2754,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6e173bfaabf9d4dffe3e9d5546fb474c484accec/docs/figure/reoccupation_zonal_sections.Rmd/profiles_per_MLR_basins-2.png" target="_blank">6e173bf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-30
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76009511b442f3a30a80802f5e6e50a9cdc18128/docs/figure/reoccupation_zonal_sections.Rmd/profiles_per_MLR_basins-2.png" target="_blank">7600951</a>
 </td>
 <td>
@@ -2585,6 +2825,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6e173bfaabf9d4dffe3e9d5546fb474c484accec/docs/figure/reoccupation_zonal_sections.Rmd/profiles_per_MLR_basins-3.png" target="_blank">6e173bf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-30
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76009511b442f3a30a80802f5e6e50a9cdc18128/docs/figure/reoccupation_zonal_sections.Rmd/profiles_per_MLR_basins-3.png" target="_blank">7600951</a>
@@ -2670,6 +2921,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6e173bfaabf9d4dffe3e9d5546fb474c484accec/docs/figure/reoccupation_zonal_sections.Rmd/profiles_per_period-1.png" target="_blank">6e173bf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-30
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76009511b442f3a30a80802f5e6e50a9cdc18128/docs/figure/reoccupation_zonal_sections.Rmd/profiles_per_period-1.png" target="_blank">7600951</a>
@@ -2772,6 +3034,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6e173bfaabf9d4dffe3e9d5546fb474c484accec/docs/figure/reoccupation_zonal_sections.Rmd/profiles_per_period-3.png" target="_blank">6e173bf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-30
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76009511b442f3a30a80802f5e6e50a9cdc18128/docs/figure/reoccupation_zonal_sections.Rmd/profiles_per_period-3.png" target="_blank">7600951</a>
@@ -2918,6 +3191,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6e173bfaabf9d4dffe3e9d5546fb474c484accec/docs/figure/reoccupation_zonal_sections.Rmd/layer_budget_per_data_source-2.png" target="_blank">6e173bf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-30
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76009511b442f3a30a80802f5e6e50a9cdc18128/docs/figure/reoccupation_zonal_sections.Rmd/layer_budget_per_data_source-2.png" target="_blank">7600951</a>
 </td>
 <td>
@@ -2978,6 +3262,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6e173bfaabf9d4dffe3e9d5546fb474c484accec/docs/figure/reoccupation_zonal_sections.Rmd/layer_budget_per_data_source-3.png" target="_blank">6e173bf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-30
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76009511b442f3a30a80802f5e6e50a9cdc18128/docs/figure/reoccupation_zonal_sections.Rmd/layer_budget_per_data_source-3.png" target="_blank">7600951</a>
@@ -3089,6 +3384,28 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6e173bfaabf9d4dffe3e9d5546fb474c484accec/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_mean-1.png" target="_blank">6e173bf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-30
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_mean-1.png" target="_blank">a13a7cf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-28
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76009511b442f3a30a80802f5e6e50a9cdc18128/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_mean-1.png" target="_blank">7600951</a>
 </td>
 <td>
@@ -3174,6 +3491,28 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6e173bfaabf9d4dffe3e9d5546fb474c484accec/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_mean-2.png" target="_blank">6e173bf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-30
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_mean-2.png" target="_blank">a13a7cf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-28
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76009511b442f3a30a80802f5e6e50a9cdc18128/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_mean-2.png" target="_blank">7600951</a>
 </td>
 <td>
@@ -3257,6 +3596,28 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6e173bfaabf9d4dffe3e9d5546fb474c484accec/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_mean-3.png" target="_blank">6e173bf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-30
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_mean-3.png" target="_blank">a13a7cf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-28
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76009511b442f3a30a80802f5e6e50a9cdc18128/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_mean-3.png" target="_blank">7600951</a>
@@ -3375,6 +3736,28 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6e173bfaabf9d4dffe3e9d5546fb474c484accec/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_mean_bias-1.png" target="_blank">6e173bf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-30
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_mean_bias-1.png" target="_blank">a13a7cf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-28
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76009511b442f3a30a80802f5e6e50a9cdc18128/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_mean_bias-1.png" target="_blank">7600951</a>
 </td>
 <td>
@@ -3460,6 +3843,28 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6e173bfaabf9d4dffe3e9d5546fb474c484accec/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_mean_bias-2.png" target="_blank">6e173bf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-30
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_mean_bias-2.png" target="_blank">a13a7cf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-28
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76009511b442f3a30a80802f5e6e50a9cdc18128/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_mean_bias-2.png" target="_blank">7600951</a>
 </td>
 <td>
@@ -3543,6 +3948,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_mean_bias-3.png" target="_blank">a13a7cf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-28
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76009511b442f3a30a80802f5e6e50a9cdc18128/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_mean_bias-3.png" target="_blank">7600951</a>
@@ -3637,6 +4053,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6e173bfaabf9d4dffe3e9d5546fb474c484accec/docs/figure/reoccupation_zonal_sections.Rmd/bias_density_distribution_ensemble-1.png" target="_blank">6e173bf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-30
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76009511b442f3a30a80802f5e6e50a9cdc18128/docs/figure/reoccupation_zonal_sections.Rmd/bias_density_distribution_ensemble-1.png" target="_blank">7600951</a>
@@ -3739,6 +4166,28 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6e173bfaabf9d4dffe3e9d5546fb474c484accec/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_sd-1.png" target="_blank">6e173bf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-30
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_sd-1.png" target="_blank">a13a7cf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-28
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76009511b442f3a30a80802f5e6e50a9cdc18128/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_sd-1.png" target="_blank">7600951</a>
 </td>
 <td>
@@ -3824,6 +4273,28 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6e173bfaabf9d4dffe3e9d5546fb474c484accec/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_sd-2.png" target="_blank">6e173bf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-30
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_sd-2.png" target="_blank">a13a7cf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-28
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76009511b442f3a30a80802f5e6e50a9cdc18128/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_sd-2.png" target="_blank">7600951</a>
 </td>
 <td>
@@ -3907,6 +4378,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_sd-3.png" target="_blank">a13a7cf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-28
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76009511b442f3a30a80802f5e6e50a9cdc18128/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_sd-3.png" target="_blank">7600951</a>
@@ -4015,6 +4497,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6e173bfaabf9d4dffe3e9d5546fb474c484accec/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_sd_uncertainty-1.png" target="_blank">6e173bf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-30
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76009511b442f3a30a80802f5e6e50a9cdc18128/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_sd_uncertainty-1.png" target="_blank">7600951</a>
 </td>
 <td>
@@ -4081,6 +4574,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6e173bfaabf9d4dffe3e9d5546fb474c484accec/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_sd_vs_bias-1.png" target="_blank">6e173bf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-30
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76009511b442f3a30a80802f5e6e50a9cdc18128/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_sd_vs_bias-1.png" target="_blank">7600951</a>
@@ -4151,6 +4655,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6e173bfaabf9d4dffe3e9d5546fb474c484accec/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_sd_vs_bias-2.png" target="_blank">6e173bf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-30
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76009511b442f3a30a80802f5e6e50a9cdc18128/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_sd_vs_bias-2.png" target="_blank">7600951</a>
 </td>
 <td>
@@ -4215,6 +4730,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6e173bfaabf9d4dffe3e9d5546fb474c484accec/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_sd_vs_bias-3.png" target="_blank">6e173bf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-30
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76009511b442f3a30a80802f5e6e50a9cdc18128/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_sd_vs_bias-3.png" target="_blank">7600951</a>
@@ -4369,6 +4895,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/reoccupation_zonal_sections.Rmd/composed_figure-1.png" target="_blank">a13a7cf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-28
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76009511b442f3a30a80802f5e6e50a9cdc18128/docs/figure/reoccupation_zonal_sections.Rmd/composed_figure-1.png" target="_blank">7600951</a>
 </td>
 <td>
@@ -4492,6 +5029,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_deviation_from_mean-1.png" target="_blank">a13a7cf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-28
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76009511b442f3a30a80802f5e6e50a9cdc18128/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_deviation_from_mean-1.png" target="_blank">7600951</a>
 </td>
 <td>
@@ -4575,6 +5123,28 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6e173bfaabf9d4dffe3e9d5546fb474c484accec/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_deviation_from_mean-2.png" target="_blank">6e173bf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-30
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_deviation_from_mean-2.png" target="_blank">a13a7cf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-28
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76009511b442f3a30a80802f5e6e50a9cdc18128/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_deviation_from_mean-2.png" target="_blank">7600951</a>
@@ -4662,6 +5232,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_deviation_from_mean-3.png" target="_blank">a13a7cf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-28
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76009511b442f3a30a80802f5e6e50a9cdc18128/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_deviation_from_mean-3.png" target="_blank">7600951</a>
 </td>
 <td>
@@ -4745,6 +5326,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_deviation_from_mean-4.png" target="_blank">a13a7cf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-28
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76009511b442f3a30a80802f5e6e50a9cdc18128/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_deviation_from_mean-4.png" target="_blank">7600951</a>
@@ -4832,6 +5424,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_deviation_from_mean-5.png" target="_blank">a13a7cf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-28
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76009511b442f3a30a80802f5e6e50a9cdc18128/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_deviation_from_mean-5.png" target="_blank">7600951</a>
 </td>
 <td>
@@ -4915,6 +5518,28 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6e173bfaabf9d4dffe3e9d5546fb474c484accec/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_deviation_from_mean-6.png" target="_blank">6e173bf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-30
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_deviation_from_mean-6.png" target="_blank">a13a7cf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-28
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/76009511b442f3a30a80802f5e6e50a9cdc18128/docs/figure/reoccupation_zonal_sections.Rmd/ensemble_deviation_from_mean-6.png" target="_blank">7600951</a>

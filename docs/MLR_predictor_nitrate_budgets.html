@@ -37,6 +37,8 @@
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -650,7 +652,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Budgets</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">28 June, 2022</h4>
+<h4 class="date">03 July, 2022</h4>
 
 </div>
 
@@ -675,7 +677,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-06-28
+<strong>Last updated:</strong> 2022-07-03
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -766,16 +768,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeef081b3967f73bb003786494a83bc5e9501f2495targetblankef081b3a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/ef081b3967f73bb003786494a83bc5e9501f2495" target="_blank">ef081b3</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree157af41d74539e8753442471c164f9357ca4f2cctargetblank157af41a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/157af41d74539e8753442471c164f9357ca4f2cc" target="_blank">157af41</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeef081b3967f73bb003786494a83bc5e9501f2495targetblankef081b3a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree157af41d74539e8753442471c164f9357ca4f2cctargetblank157af41a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/ef081b3967f73bb003786494a83bc5e9501f2495" target="_blank">ef081b3</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/157af41d74539e8753442471c164f9357ca4f2cc" target="_blank">157af41</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -785,15 +787,14 @@ Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
     Ignored:    data/
-    Ignored:    figure/
     Ignored:    output/other/
     Ignored:    output/publication/
 
+Untracked files:
+    Untracked:  figure/
+
 Unstaged changes:
-    Modified:   analysis/_site.yml
-    Deleted:    analysis/multi_model_assesment_budgets.Rmd
-    Deleted:    analysis/multi_model_assesment_column_inventories.Rmd
-    Deleted:    analysis/multi_model_assesment_zonal_sections.Rmd
+    Modified:   analysis/child/budget_analysis_plot_data.Rmd
     Modified:   code/Workflowr_project_managment.R
 
 </code></pre>
@@ -833,6 +834,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/a13a7cf53d9d378c87de88de4a166276ed0902ee/docs/MLR_predictor_nitrate_budgets.html" target="_blank">a13a7cf</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-06-28
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -1099,6 +1117,8 @@ rebuild with nitrate based C* predictor removal
 config &lt;- &quot;MLR_predictors&quot;</code></pre>
 <div id="read-files" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Read files</h1>
+<pre class="r"><code>print(version_id_pattern)</code></pre>
+<pre><code>[1] &quot;q&quot;</code></pre>
 <pre class="r"><code># identify required version IDs
 
 Version_IDs_1 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
@@ -1112,16 +1132,13 @@ Version_IDs_3 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/
 
 Version_IDs &lt;- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 
-print(Version_IDs)</code></pre>
-<pre><code> [1] &quot;v_1q01&quot; &quot;v_1q02&quot; &quot;v_1q03&quot; &quot;v_1q04&quot; &quot;v_1q05&quot; &quot;v_1q06&quot; &quot;v_1q07&quot; &quot;v_1q08&quot;
- [9] &quot;v_2q01&quot; &quot;v_2q02&quot; &quot;v_2q03&quot; &quot;v_2q04&quot; &quot;v_2q05&quot; &quot;v_2q06&quot; &quot;v_2q07&quot; &quot;v_2q08&quot;
-[17] &quot;v_3q01&quot; &quot;v_3q02&quot; &quot;v_3q03&quot; &quot;v_3q04&quot; &quot;v_3q05&quot; &quot;v_3q06&quot; &quot;v_3q07&quot; &quot;v_3q08&quot;</code></pre>
+# print(Version_IDs)</code></pre>
 <div id="global" class="section level2" number="1.1">
 <h2><span class="header-section-number">1.1</span> Global</h2>
 <pre class="r"><code>for (i_Version_IDs in Version_IDs) {
   # i_Version_IDs &lt;- Version_IDs[1]
   
-  print(i_Version_IDs)
+  # print(i_Version_IDs)
   
   path_version_data     &lt;-
     paste(path_observations,
@@ -1243,32 +1260,9 @@ print(Version_IDs)</code></pre>
   }
   
   
-}</code></pre>
-<pre><code>[1] &quot;v_1q01&quot;
-[1] &quot;v_1q02&quot;
-[1] &quot;v_1q03&quot;
-[1] &quot;v_1q04&quot;
-[1] &quot;v_1q05&quot;
-[1] &quot;v_1q06&quot;
-[1] &quot;v_1q07&quot;
-[1] &quot;v_1q08&quot;
-[1] &quot;v_2q01&quot;
-[1] &quot;v_2q02&quot;
-[1] &quot;v_2q03&quot;
-[1] &quot;v_2q04&quot;
-[1] &quot;v_2q05&quot;
-[1] &quot;v_2q06&quot;
-[1] &quot;v_2q07&quot;
-[1] &quot;v_2q08&quot;
-[1] &quot;v_3q01&quot;
-[1] &quot;v_3q02&quot;
-[1] &quot;v_3q03&quot;
-[1] &quot;v_3q04&quot;
-[1] &quot;v_3q05&quot;
-[1] &quot;v_3q06&quot;
-[1] &quot;v_3q07&quot;
-[1] &quot;v_3q08&quot;</code></pre>
-<pre class="r"><code>rm(
+}
+
+rm(
   dcant_budget_global,
   dcant_budget_global_bias,
   dcant_budget_global_mod_truth,
@@ -1285,7 +1279,7 @@ print(Version_IDs)</code></pre>
 for (i_Version_IDs in Version_IDs) {
   # i_Version_IDs &lt;- Version_IDs[1]
   
-  print(i_Version_IDs)
+  # print(i_Version_IDs)
   
   path_version_data     &lt;-
     paste(path_observations,
@@ -1374,32 +1368,9 @@ for (i_Version_IDs in Version_IDs) {
     dcant_slab_budget_bias_all &lt;- dcant_slab_budget_bias
   }
   
-}</code></pre>
-<pre><code>[1] &quot;v_1q01&quot;
-[1] &quot;v_1q02&quot;
-[1] &quot;v_1q03&quot;
-[1] &quot;v_1q04&quot;
-[1] &quot;v_1q05&quot;
-[1] &quot;v_1q06&quot;
-[1] &quot;v_1q07&quot;
-[1] &quot;v_1q08&quot;
-[1] &quot;v_2q01&quot;
-[1] &quot;v_2q02&quot;
-[1] &quot;v_2q03&quot;
-[1] &quot;v_2q04&quot;
-[1] &quot;v_2q05&quot;
-[1] &quot;v_2q06&quot;
-[1] &quot;v_2q07&quot;
-[1] &quot;v_2q08&quot;
-[1] &quot;v_3q01&quot;
-[1] &quot;v_3q02&quot;
-[1] &quot;v_3q03&quot;
-[1] &quot;v_3q04&quot;
-[1] &quot;v_3q05&quot;
-[1] &quot;v_3q06&quot;
-[1] &quot;v_3q07&quot;
-[1] &quot;v_3q08&quot;</code></pre>
-<pre class="r"><code>rm(
+}
+
+rm(
   dcant_budget_basin_AIP,
   dcant_budget_basin_AIP_bias,
   dcant_budget_basin_AIP_mod_truth,
@@ -1414,7 +1385,7 @@ for (i_Version_IDs in Version_IDs) {
 for (i_Version_IDs in Version_IDs) {
   # i_Version_IDs &lt;- Version_IDs[1]
   
-  print(i_Version_IDs)
+  # print(i_Version_IDs)
   
   path_version_data     &lt;-
     paste(path_observations,
@@ -1440,16 +1411,9 @@ for (i_Version_IDs in Version_IDs) {
   dcant_budget_basin_MLR &lt;- bind_rows(dcant_budget_basin_MLR,
                                       dcant_budget_basin_MLR_mod_truth)
   
-  # dcant_budget_basin_MLR_bias &lt;-
-  #   read_csv(paste(path_version_data,
-  #                  &quot;dcant_budget_basin_MLR_bias.csv&quot;,
-  #                  sep = &quot;&quot;))
-  
+
   dcant_budget_basin_MLR &lt;- dcant_budget_basin_MLR %&gt;%
     mutate(Version_ID = i_Version_IDs)
-  
-  # dcant_budget_basin_MLR_bias &lt;- dcant_budget_basin_MLR_bias %&gt;%
-  #   mutate(Version_ID = i_Version_IDs)
 
   if (exists(&quot;dcant_budget_basin_MLR_all&quot;)) {
     dcant_budget_basin_MLR_all &lt;-
@@ -1459,45 +1423,12 @@ for (i_Version_IDs in Version_IDs) {
   if (!exists(&quot;dcant_budget_basin_MLR_all&quot;)) {
     dcant_budget_basin_MLR_all &lt;- dcant_budget_basin_MLR
   }
+
   
-  # if (exists(&quot;dcant_budget_basin_MLR_bias_all&quot;)) {
-  #   dcant_budget_basin_MLR_bias_all &lt;-
-  #     bind_rows(dcant_budget_basin_MLR_bias_all,
-  #               dcant_budget_basin_MLR_bias)
-  # }
-  # 
-  # if (!exists(&quot;dcant_budget_basin_MLR_bias_all&quot;)) {
-  #   dcant_budget_basin_MLR_bias_all &lt;- dcant_budget_basin_MLR_bias
-  # }
-  
-}</code></pre>
-<pre><code>[1] &quot;v_1q01&quot;
-[1] &quot;v_1q02&quot;
-[1] &quot;v_1q03&quot;
-[1] &quot;v_1q04&quot;
-[1] &quot;v_1q05&quot;
-[1] &quot;v_1q06&quot;
-[1] &quot;v_1q07&quot;
-[1] &quot;v_1q08&quot;
-[1] &quot;v_2q01&quot;
-[1] &quot;v_2q02&quot;
-[1] &quot;v_2q03&quot;
-[1] &quot;v_2q04&quot;
-[1] &quot;v_2q05&quot;
-[1] &quot;v_2q06&quot;
-[1] &quot;v_2q07&quot;
-[1] &quot;v_2q08&quot;
-[1] &quot;v_3q01&quot;
-[1] &quot;v_3q02&quot;
-[1] &quot;v_3q03&quot;
-[1] &quot;v_3q04&quot;
-[1] &quot;v_3q05&quot;
-[1] &quot;v_3q06&quot;
-[1] &quot;v_3q07&quot;
-[1] &quot;v_3q08&quot;</code></pre>
-<pre class="r"><code>rm(
+}
+
+rm(
   dcant_budget_basin_MLR,
-  # dcant_budget_basin_MLR_bias,
   dcant_budget_basin_MLR_mod_truth
 )</code></pre>
 </div>
@@ -1506,7 +1437,7 @@ for (i_Version_IDs in Version_IDs) {
 <pre class="r"><code>for (i_Version_IDs in Version_IDs) {
   # i_Version_IDs &lt;- Version_IDs[1]
   
-  print(i_Version_IDs)
+  # print(i_Version_IDs)
   
   path_version_data     &lt;-
     paste(path_observations,
@@ -1532,32 +1463,10 @@ for (i_Version_IDs in Version_IDs) {
     dcant_obs_budget_all &lt;- dcant_obs_budget
   }
   
-}</code></pre>
-<pre><code>[1] &quot;v_1q01&quot;
-[1] &quot;v_1q02&quot;
-[1] &quot;v_1q03&quot;
-[1] &quot;v_1q04&quot;
-[1] &quot;v_1q05&quot;
-[1] &quot;v_1q06&quot;
-[1] &quot;v_1q07&quot;
-[1] &quot;v_1q08&quot;
-[1] &quot;v_2q01&quot;
-[1] &quot;v_2q02&quot;
-[1] &quot;v_2q03&quot;
-[1] &quot;v_2q04&quot;
-[1] &quot;v_2q05&quot;
-[1] &quot;v_2q06&quot;
-[1] &quot;v_2q07&quot;
-[1] &quot;v_2q08&quot;
-[1] &quot;v_3q01&quot;
-[1] &quot;v_3q02&quot;
-[1] &quot;v_3q03&quot;
-[1] &quot;v_3q04&quot;
-[1] &quot;v_3q05&quot;
-[1] &quot;v_3q06&quot;
-[1] &quot;v_3q07&quot;
-[1] &quot;v_3q08&quot;</code></pre>
-<pre class="r"><code>rm(dcant_obs_budget)</code></pre>
+}
+
+
+rm(dcant_obs_budget)</code></pre>
 </div>
 <div id="atm-co2" class="section level2" number="1.5">
 <h2><span class="header-section-number">1.5</span> Atm CO2</h2>
@@ -1631,17 +1540,17 @@ dcant_budget_basin_MLR_all &lt;- dcant_budget_basin_MLR_all %&gt;%
 </div>
 <div id="bias-thresholds" class="section level1" number="2">
 <h1><span class="header-section-number">2</span> Bias thresholds</h1>
-<pre class="r"><code>global_bias_rel_max &lt;- 12.5
+<pre class="r"><code>global_bias_rel_max &lt;- 10
 global_bias_rel_max</code></pre>
-<pre><code>[1] 12.5</code></pre>
-<pre class="r"><code>regional_bias_rel_max &lt;- 30
+<pre><code>[1] 10</code></pre>
+<pre class="r"><code>regional_bias_rel_max &lt;- 20
 regional_bias_rel_max</code></pre>
-<pre><code>[1] 30</code></pre>
+<pre><code>[1] 20</code></pre>
 </div>
-<div id="global-1" class="section level1" number="3">
-<h1><span class="header-section-number">3</span> Global</h1>
-<div id="individual-cases" class="section level2" number="3.1">
-<h2><span class="header-section-number">3.1</span> Individual cases</h2>
+<div id="individual-cases" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Individual cases</h1>
+<div id="global-1" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Global</h2>
 <div id="absoulte-values" class="section level3" number="3.1.1">
 <h3><span class="header-section-number">3.1.1</span> Absoulte values</h3>
 <pre class="r"><code>legend_title = expression(atop(Delta * C[ant],
@@ -1710,12 +1619,14 @@ jens-daniel-mueller
 <div id="biases" class="section level3" number="3.1.2">
 <h3><span class="header-section-number">3.1.2</span> Biases</h3>
 <pre class="r"><code>dcant_budget_global_bias_all %&gt;%
-  ggplot(aes(period, dcant_bias, col = MLR_predictors)) +
+  ggplot(aes(period, dcant_bias, col=MLR_predictors)) +
   geom_hline(yintercept = 0) +
   scale_color_brewer(palette = &quot;Dark2&quot;) +
   labs(y = expression(atop(Delta * C[ant] ~ bias,
-                               (mu * mol ~ kg ^ {-1})))) +
-  geom_point()</code></pre>
+                               (PgC)))) +
+  geom_point() +
+  theme(axis.text.x = element_blank(),
+        axis.title.x = element_blank())</code></pre>
 <p><img src="figure/MLR_predictor_nitrate_budgets.Rmd/cases_bias_global-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cases_bias_global-1">
@@ -1754,10 +1665,10 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
-<pre class="r"><code>p_global_bias &lt;- 
+<pre class="r"><code>p_global_bias &lt;-
   dcant_budget_global_bias_all %&gt;%
   ggplot() +
-  geom_hline(yintercept = global_bias_rel_max * c(-1,1),
+  geom_hline(yintercept = global_bias_rel_max * c(-1, 1),
              linetype = 2) +
   geom_hline(yintercept = 0) +
   scale_color_brewer(palette = &quot;Dark2&quot;) +
@@ -1765,8 +1676,8 @@ jens-daniel-mueller
        title = &quot;Model-based assesment&quot;) +
   theme(axis.title.x = element_blank()) +
   geom_point(aes(period, dcant_bias_rel, col = MLR_predictors),
-             alpha = 0.7) +
-    theme(axis.text.x = element_text(angle = 45, hjust=1),
+  alpha = 0.7) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
         axis.title.x = element_blank())
 
 p_global_bias</code></pre>
@@ -1808,15 +1719,100 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
+<pre class="r"><code>dcant_budget_global_bias_all %&gt;%
+  group_by(period) %&gt;%
+  summarise(
+    dcant_bias_sd = sd(dcant_bias),
+    dcant_bias = mean(dcant_bias),
+    dcant_bias_rel_sd = sd(dcant_bias_rel),
+    dcant_bias_rel = mean(dcant_bias_rel)
+  ) %&gt;%
+  ungroup() %&gt;%
+  kable() %&gt;%
+  kable_styling() %&gt;%
+  scroll_box(height = &quot;300px&quot;)</code></pre>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; ">
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+period
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+dcant_bias_sd
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+dcant_bias
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+dcant_bias_rel_sd
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+dcant_bias_rel
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+2.814056
+</td>
+<td style="text-align:right;">
+1.501750
+</td>
+<td style="text-align:right;">
+15.952698
+</td>
+<td style="text-align:right;">
+8.513322
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+1.075819
+</td>
+<td style="text-align:right;">
+4.017625
+</td>
+<td style="text-align:right;">
+2.796661
+</td>
+<td style="text-align:right;">
+10.444070
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+2.319680
+</td>
+<td style="text-align:right;">
+2.359500
+</td>
+<td style="text-align:right;">
+11.137317
+</td>
+<td style="text-align:right;">
+11.328500
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
-<div id="basins-1" class="section level1" number="4">
-<h1><span class="header-section-number">4</span> Basins</h1>
-<div id="individual-cases-1" class="section level2" number="4.1">
-<h2><span class="header-section-number">4.1</span> Individual cases</h2>
-<div id="absoulte-values-1" class="section level3" number="4.1.1">
-<h3><span class="header-section-number">4.1.1</span> Absoulte values</h3>
+<div id="basins-1" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Basins</h2>
+<div id="absoulte-values-1" class="section level3" number="3.2.1">
+<h3><span class="header-section-number">3.2.1</span> Absoulte values</h3>
 <pre class="r"><code>dcant_budget_basin_AIP_all %&gt;%
   ggplot(aes(period, dcant, col = MLR_predictors)) +
   geom_jitter(width = 0.05, height = 0) +
@@ -1875,8 +1871,8 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="biases-1" class="section level3" number="4.1.2">
-<h3><span class="header-section-number">4.1.2</span> Biases</h3>
+<div id="biases-1" class="section level3" number="3.2.2">
+<h3><span class="header-section-number">3.2.2</span> Biases</h3>
 <pre class="r"><code>dcant_budget_basin_AIP_bias_all %&gt;%
   ggplot(aes(period, dcant_bias, col=MLR_predictors)) +
   geom_hline(yintercept = 0) +
@@ -2032,10 +2028,10 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="slab-budgets" class="section level2" number="4.2">
-<h2><span class="header-section-number">4.2</span> Slab budgets</h2>
-<div id="absolute-values" class="section level3" number="4.2.1">
-<h3><span class="header-section-number">4.2.1</span> Absolute values</h3>
+<div id="slab-budgets" class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> Slab budgets</h2>
+<div id="absolute-values" class="section level3" number="3.3.1">
+<h3><span class="header-section-number">3.3.1</span> Absolute values</h3>
 <pre class="r"><code>dcant_slab_budget_all %&gt;%
   filter(data_source == &quot;obs&quot;,
          period != &quot;1994 - 2014&quot;) %&gt;% 
@@ -2216,8 +2212,8 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="bias" class="section level3" number="4.2.2">
-<h3><span class="header-section-number">4.2.2</span> Bias</h3>
+<div id="bias" class="section level3" number="3.3.2">
+<h3><span class="header-section-number">3.3.2</span> Bias</h3>
 <pre class="r"><code>dcant_slab_budget_bias_all %&gt;%
   filter(period != &quot;1994 - 2014&quot;) %&gt;%
   group_by(basin_AIP) %&gt;%
@@ -2356,8 +2352,8 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="spread" class="section level3" number="4.2.3">
-<h3><span class="header-section-number">4.2.3</span> Spread</h3>
+<div id="spread" class="section level3" number="3.3.3">
+<h3><span class="header-section-number">3.3.3</span> Spread</h3>
 <pre class="r"><code>dcant_slab_budget_all %&gt;%
   filter(period != &quot;1994 - 2014&quot;,
          data_source != &quot;mod_truth&quot;) %&gt;%
@@ -2499,13 +2495,10 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-</div>
-<div id="basins-hemisphere-1" class="section level1" number="5">
-<h1><span class="header-section-number">5</span> Basins hemisphere</h1>
-<div id="individual-cases-2" class="section level2" number="5.1">
-<h2><span class="header-section-number">5.1</span> Individual cases</h2>
-<div id="absoulte-values-2" class="section level3" number="5.1.1">
-<h3><span class="header-section-number">5.1.1</span> Absoulte values</h3>
+<div id="basins-hemisphere-1" class="section level2" number="3.4">
+<h2><span class="header-section-number">3.4</span> Basins hemisphere</h2>
+<div id="absoulte-values-2" class="section level3" number="3.4.1">
+<h3><span class="header-section-number">3.4.1</span> Absoulte values</h3>
 <pre class="r"><code>dcant_budget_basin_MLR_all %&gt;%
   ggplot(aes(period, dcant, col = MLR_predictors)) +
   geom_jitter(width = 0.05, height = 0) +
@@ -2565,12 +2558,407 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
+<div id="biases-2" class="section level3" number="3.4.2">
+<h3><span class="header-section-number">3.4.2</span> Biases</h3>
+<pre class="r"><code>dcant_budget_basin_MLR_bias_all &lt;-
+  dcant_budget_basin_MLR_all %&gt;%
+  filter(data_source %in% c(&quot;mod&quot;, &quot;mod_truth&quot;)) %&gt;%
+  pivot_wider(names_from = data_source,
+              values_from = dcant) %&gt;%
+  mutate(dcant_bias = mod - mod_truth,
+         dcant_bias_rel = 100*(mod - mod_truth)/mod_truth)
+  
+dcant_budget_basin_MLR_bias_all %&gt;%   
+  ggplot(aes(period, dcant_bias, col=MLR_predictors)) +
+  geom_hline(yintercept = 0) +
+  geom_point() +
+  facet_grid(basin ~ .)</code></pre>
+<p><img src="figure/MLR_predictor_nitrate_budgets.Rmd/cases_bias_basins_hemisphere-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dcant_budget_basin_MLR_bias_all %&gt;%
+  ggplot() +
+  geom_tile(aes(y = 0, height = regional_bias_rel_max * 2,
+                x = &quot;2004 - 2014&quot;, width = Inf,
+                fill = &quot;bias\nthreshold&quot;), alpha = 0.5) +
+  geom_hline(yintercept = 0) +
+  scale_fill_manual(values = &quot;grey70&quot;, name = &quot;&quot;) +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  labs(y = expression(Delta ~ C[ant] ~ bias)) +
+  theme(axis.title.x = element_blank()) +
+  geom_jitter(aes(period, dcant_bias_rel, col = MLR_predictors),
+              width = 0.05, height = 0) +
+  facet_grid(. ~ basin)</code></pre>
+<p><img src="figure/MLR_predictor_nitrate_budgets.Rmd/cases_bias_basins_hemisphere-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>p_regional_bias &lt;- 
+  dcant_budget_basin_MLR_bias_all %&gt;%
+  ggplot() +
+  geom_hline(yintercept = regional_bias_rel_max * c(-1,1),
+             linetype = 2) +
+  geom_hline(yintercept = 0) +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  labs(y = expression(Delta * C[ant] ~ bias ~ (&quot;%&quot;)),
+       title = &quot;Model-based assesment&quot;) +
+  theme(axis.title.x = element_blank()) +
+  geom_point(aes(period, dcant_bias_rel, col = MLR_predictors),
+             alpha = 0.7) +
+    theme(axis.text.x = element_text(angle = 45, hjust=1),
+        axis.title.x = element_blank()) +
+  facet_grid(. ~ basin) +
+  theme(
+  strip.background = element_blank(),
+  strip.text.x = element_blank()
+)
+
+p_regional_bias</code></pre>
+<p><img src="figure/MLR_predictor_nitrate_budgets.Rmd/cases_bias_basins_hemisphere-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dcant_budget_basin_MLR_bias_all %&gt;%
+  group_by(period, basin) %&gt;%
+  summarise(
+    dcant_bias_sd = sd(dcant_bias),
+    dcant_bias = mean(dcant_bias),
+    dcant_bias_rel_sd = sd(dcant_bias_rel),
+    dcant_bias_rel = mean(dcant_bias_rel)
+  ) %&gt;%
+  ungroup() %&gt;%
+  kable() %&gt;%
+  kable_styling() %&gt;%
+  scroll_box(height = &quot;300px&quot;)</code></pre>
+<pre><code>`summarise()` has grouped output by &#39;period&#39;. You can override using the
+`.groups` argument.</code></pre>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; ">
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+period
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+basin
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+dcant_bias_sd
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+dcant_bias
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+dcant_bias_rel_sd
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+dcant_bias_rel
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:left;">
+Indian
+</td>
+<td style="text-align:right;">
+0.7155773
+</td>
+<td style="text-align:right;">
+-0.160625
+</td>
+<td style="text-align:right;">
+14.842922
+</td>
+<td style="text-align:right;">
+-3.3317776
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:left;">
+N_Atlantic
+</td>
+<td style="text-align:right;">
+0.1063078
+</td>
+<td style="text-align:right;">
+0.217750
+</td>
+<td style="text-align:right;">
+5.448890
+</td>
+<td style="text-align:right;">
+11.1609431
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:left;">
+N_Pacific
+</td>
+<td style="text-align:right;">
+1.2653143
+</td>
+<td style="text-align:right;">
+0.917750
+</td>
+<td style="text-align:right;">
+46.587418
+</td>
+<td style="text-align:right;">
+33.7905007
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:left;">
+S_Atlantic
+</td>
+<td style="text-align:right;">
+0.0996207
+</td>
+<td style="text-align:right;">
+0.169000
+</td>
+<td style="text-align:right;">
+3.984828
+</td>
+<td style="text-align:right;">
+6.7600000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:left;">
+S_Pacific
+</td>
+<td style="text-align:right;">
+0.9265530
+</td>
+<td style="text-align:right;">
+0.357875
+</td>
+<td style="text-align:right;">
+16.393365
+</td>
+<td style="text-align:right;">
+6.3318294
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:left;">
+Indian
+</td>
+<td style="text-align:right;">
+0.1277551
+</td>
+<td style="text-align:right;">
+1.619250
+</td>
+<td style="text-align:right;">
+1.222770
+</td>
+<td style="text-align:right;">
+15.4981815
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:left;">
+N_Atlantic
+</td>
+<td style="text-align:right;">
+0.0906302
+</td>
+<td style="text-align:right;">
+0.254875
+</td>
+<td style="text-align:right;">
+2.109642
+</td>
+<td style="text-align:right;">
+5.9328445
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:left;">
+N_Pacific
+</td>
+<td style="text-align:right;">
+0.4672457
+</td>
+<td style="text-align:right;">
+0.821000
+</td>
+<td style="text-align:right;">
+8.003524
+</td>
+<td style="text-align:right;">
+14.0630353
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:left;">
+S_Atlantic
+</td>
+<td style="text-align:right;">
+0.1040603
+</td>
+<td style="text-align:right;">
+0.788625
+</td>
+<td style="text-align:right;">
+1.967486
+</td>
+<td style="text-align:right;">
+14.9106636
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:left;">
+S_Pacific
+</td>
+<td style="text-align:right;">
+0.6242436
+</td>
+<td style="text-align:right;">
+0.533125
+</td>
+<td style="text-align:right;">
+4.955495
+</td>
+<td style="text-align:right;">
+4.2321585
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:left;">
+Indian
+</td>
+<td style="text-align:right;">
+0.6374456
+</td>
+<td style="text-align:right;">
+1.665000
+</td>
+<td style="text-align:right;">
+11.330351
+</td>
+<td style="text-align:right;">
+29.5947387
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:left;">
+N_Atlantic
+</td>
+<td style="text-align:right;">
+0.1220269
+</td>
+<td style="text-align:right;">
+0.004500
+</td>
+<td style="text-align:right;">
+5.203707
+</td>
+<td style="text-align:right;">
+0.1918977
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:left;">
+N_Pacific
+</td>
+<td style="text-align:right;">
+1.2818292
+</td>
+<td style="text-align:right;">
+-0.125875
+</td>
+<td style="text-align:right;">
+41.057950
+</td>
+<td style="text-align:right;">
+-4.0318706
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:left;">
+S_Atlantic
+</td>
+<td style="text-align:right;">
+0.0766755
+</td>
+<td style="text-align:right;">
+0.657375
+</td>
+<td style="text-align:right;">
+2.749210
+</td>
+<td style="text-align:right;">
+23.5702761
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:left;">
+S_Pacific
+</td>
+<td style="text-align:right;">
+0.4982337
+</td>
+<td style="text-align:right;">
+0.159500
+</td>
+<td style="text-align:right;">
+7.173992
+</td>
+<td style="text-align:right;">
+2.2966163
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
-<div id="ensemble" class="section level1" number="6">
-<h1><span class="header-section-number">6</span> Ensemble</h1>
-<div id="global-2" class="section level2" number="6.1">
-<h2><span class="header-section-number">6.1</span> Global</h2>
+</div>
+</div>
+<div id="ensemble" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Ensemble</h1>
+<div id="global-2" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Global</h2>
 <pre class="r"><code>dcant_budget_global_all_in &lt;- dcant_budget_global_all %&gt;% 
   filter(data_source %in% c(&quot;mod&quot;, &quot;obs&quot;))
 
@@ -2582,8 +2970,8 @@ dcant_budget_global_ensemble &lt;- dcant_budget_global_all_in %&gt;%
   ungroup()</code></pre>
 <pre><code>`summarise()` has grouped output by &#39;data_source&#39;, &#39;period&#39;. You can override
 using the `.groups` argument.</code></pre>
-<div id="mean" class="section level3" number="6.1.1">
-<h3><span class="header-section-number">6.1.1</span> Mean</h3>
+<div id="mean" class="section level3" number="4.1.1">
+<h3><span class="header-section-number">4.1.1</span> Mean</h3>
 <pre class="r"><code>legend_title = expression(Delta * C[ant]~(PgC))
 
 ggplot() +
@@ -2778,8 +3166,8 @@ jens-daniel-mueller
 
 rm(p_global_bias, p_global_dcant, p_global_dcant_bias)</code></pre>
 </div>
-<div id="mean-vs-atm-co2" class="section level3" number="6.1.2">
-<h3><span class="header-section-number">6.1.2</span> Mean vs atm CO2</h3>
+<div id="mean-vs-atm-co2" class="section level3" number="4.1.2">
+<h3><span class="header-section-number">4.1.2</span> Mean vs atm CO2</h3>
 <pre class="r"><code>dcant_ensemble &lt;- dcant_budget_global_ensemble %&gt;% 
   filter(data_source == &quot;obs&quot;,
          period != &quot;1994 - 2014&quot;) %&gt;% 
@@ -2887,8 +3275,8 @@ jens-daniel-mueller
 #        height = 4,
 #        width = 7)</code></pre>
 </div>
-<div id="sum-decades" class="section level3" number="6.1.3">
-<h3><span class="header-section-number">6.1.3</span> Sum decades</h3>
+<div id="sum-decades" class="section level3" number="4.1.3">
+<h3><span class="header-section-number">4.1.3</span> Sum decades</h3>
 <pre class="r"><code>dcant_budget_global_all_in_sum &lt;-
   dcant_budget_global_all_in %&gt;%
   filter(period != &quot;1994 - 2014&quot;) %&gt;%
@@ -2969,8 +3357,8 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="mean-bias" class="section level3" number="6.1.4">
-<h3><span class="header-section-number">6.1.4</span> Mean bias</h3>
+<div id="mean-bias" class="section level3" number="4.1.4">
+<h3><span class="header-section-number">4.1.4</span> Mean bias</h3>
 <pre class="r"><code>dcant_budget_global_ensemble_bias &lt;- full_join(
   dcant_budget_global_ensemble %&gt;%
     filter(data_source == &quot;mod&quot;) %&gt;% 
@@ -3092,10 +3480,10 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="vertical-patterns" class="section level3" number="6.1.5">
-<h3><span class="header-section-number">6.1.5</span> Vertical patterns</h3>
-<div id="absoulte-values-3" class="section level4" number="6.1.5.1">
-<h4><span class="header-section-number">6.1.5.1</span> Absoulte values</h4>
+<div id="vertical-patterns" class="section level3" number="4.1.5">
+<h3><span class="header-section-number">4.1.5</span> Vertical patterns</h3>
+<div id="absoulte-values-3" class="section level4" number="4.1.5.1">
+<h4><span class="header-section-number">4.1.5.1</span> Absoulte values</h4>
 <pre class="r"><code>dcant_budget_global_all_depth %&gt;%
   filter(data_source != &quot;mod_truth&quot;) %&gt;% 
   group_by(data_source) %&gt;%
@@ -3190,8 +3578,8 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="biases-2" class="section level4" number="6.1.5.2">
-<h4><span class="header-section-number">6.1.5.2</span> Biases</h4>
+<div id="biases-3" class="section level4" number="4.1.5.2">
+<h4><span class="header-section-number">4.1.5.2</span> Biases</h4>
 <pre class="r"><code>dcant_budget_global_bias_all_depth %&gt;%
   ggplot(aes(dcant_bias, MLR_predictors, fill = period)) +
   geom_vline(xintercept = 0) +
@@ -3289,8 +3677,8 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="basins-2" class="section level2" number="6.2">
-<h2><span class="header-section-number">6.2</span> Basins</h2>
+<div id="basins-2" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Basins</h2>
 <pre class="r"><code>dcant_budget_basin_AIP_ensemble &lt;- dcant_budget_basin_AIP_all %&gt;% 
   filter(data_source %in% c(&quot;mod&quot;, &quot;obs&quot;)) %&gt;% 
   group_by(basin_AIP, data_source, period) %&gt;% 
@@ -3300,8 +3688,8 @@ jens-daniel-mueller
   ungroup()</code></pre>
 <pre><code>`summarise()` has grouped output by &#39;basin_AIP&#39;, &#39;data_source&#39;. You can override
 using the `.groups` argument.</code></pre>
-<div id="mean-1" class="section level3" number="6.2.1">
-<h3><span class="header-section-number">6.2.1</span> Mean</h3>
+<div id="mean-1" class="section level3" number="4.2.1">
+<h3><span class="header-section-number">4.2.1</span> Mean</h3>
 <pre class="r"><code>dcant_budget_basin_AIP_ensemble %&gt;%
   ggplot(aes(period, dcant_mean, col=basin_AIP)) +
   geom_pointrange(aes(ymax = dcant_mean + dcant_sd,
@@ -3465,8 +3853,8 @@ jens-daniel-mueller
 
 rm(p_regional_bias, p_regional_dcant, p_regional_dcant_bias)</code></pre>
 </div>
-<div id="mean-bias-1" class="section level3" number="6.2.2">
-<h3><span class="header-section-number">6.2.2</span> Mean bias</h3>
+<div id="mean-bias-1" class="section level3" number="4.2.2">
+<h3><span class="header-section-number">4.2.2</span> Mean bias</h3>
 <pre class="r"><code>dcant_budget_basin_AIP_ensemble_bias &lt;- full_join(
   dcant_budget_basin_AIP_ensemble %&gt;%
     filter(data_source == &quot;mod&quot;) %&gt;% 
@@ -3589,10 +3977,10 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="vertical-patterns-1" class="section level3" number="6.2.3">
-<h3><span class="header-section-number">6.2.3</span> Vertical patterns</h3>
-<div id="absoulte-values-4" class="section level4" number="6.2.3.1">
-<h4><span class="header-section-number">6.2.3.1</span> Absoulte values</h4>
+<div id="vertical-patterns-1" class="section level3" number="4.2.3">
+<h3><span class="header-section-number">4.2.3</span> Vertical patterns</h3>
+<div id="absoulte-values-4" class="section level4" number="4.2.3.1">
+<h4><span class="header-section-number">4.2.3.1</span> Absoulte values</h4>
 <pre class="r"><code>dcant_budget_basin_AIP_all_depth %&gt;%
   filter(data_source != &quot;mod_truth&quot;) %&gt;%
   group_by(data_source) %&gt;%
@@ -3698,8 +4086,8 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="biases-3" class="section level4" number="6.2.3.2">
-<h4><span class="header-section-number">6.2.3.2</span> Biases</h4>
+<div id="biases-4" class="section level4" number="4.2.3.2">
+<h4><span class="header-section-number">4.2.3.2</span> Biases</h4>
 <pre class="r"><code>dcant_budget_basin_AIP_bias_all_depth %&gt;%
   ggplot(aes(dcant_bias, MLR_predictors, fill = basin_AIP)) +
   geom_vline(xintercept = 0) +
@@ -3792,8 +4180,8 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="steady-state-1" class="section level1" number="7">
-<h1><span class="header-section-number">7</span> Steady state</h1>
+<div id="steady-state-1" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Steady state</h1>
 <pre class="r"><code>dcant_obs_budget_all %&gt;%
   group_by(inv_depth) %&gt;%
   group_split() %&gt;%
@@ -4006,8 +4394,8 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="predictor-analysis" class="section level1" number="8">
-<h1><span class="header-section-number">8</span> Predictor analysis</h1>
+<div id="predictor-analysis" class="section level1" number="6">
+<h1><span class="header-section-number">6</span> Predictor analysis</h1>
 <pre class="r"><code>lm_best_predictor_counts_all &lt;-
   full_join(lm_best_predictor_counts_all,
             params_local_all)</code></pre>
@@ -4547,34 +4935,35 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] colorspace_2.0-2 marelac_2.1.10   shape_1.4.6      ggforce_0.3.3   
- [5] metR_0.11.0      scico_1.3.0      patchwork_1.1.1  collapse_1.7.0  
- [9] forcats_0.5.1    stringr_1.4.0    dplyr_1.0.7      purrr_0.3.4     
-[13] readr_2.1.1      tidyr_1.1.4      tibble_3.1.6     ggplot2_3.3.5   
-[17] tidyverse_1.3.1  workflowr_1.7.0 
+ [1] kableExtra_1.3.4 colorspace_2.0-2 marelac_2.1.10   shape_1.4.6     
+ [5] ggforce_0.3.3    metR_0.11.0      scico_1.3.0      patchwork_1.1.1 
+ [9] collapse_1.7.0   forcats_0.5.1    stringr_1.4.0    dplyr_1.0.7     
+[13] purrr_0.3.4      readr_2.1.1      tidyr_1.1.4      tibble_3.1.6    
+[17] ggplot2_3.3.5    tidyverse_1.3.1  workflowr_1.7.0 
 
 loaded via a namespace (and not attached):
  [1] fs_1.5.2           gghalves_0.1.1     bit64_4.0.5        lubridate_1.8.0   
- [5] gsw_1.0-6          RColorBrewer_1.1-2 httr_1.4.2         rprojroot_2.0.2   
- [9] tools_4.1.2        backports_1.4.1    bslib_0.3.1        utf8_1.2.2        
-[13] R6_2.5.1           DBI_1.1.2          withr_2.4.3        tidyselect_1.1.1  
-[17] processx_3.5.2     bit_4.0.4          compiler_4.1.2     git2r_0.29.0      
-[21] cli_3.1.1          rvest_1.0.2        xml2_1.3.3         labeling_0.4.2    
-[25] sass_0.4.0         scales_1.1.1       checkmate_2.0.0    SolveSAPHE_2.1.0  
-[29] callr_3.7.0        digest_0.6.29      rmarkdown_2.11     oce_1.5-0         
-[33] pkgconfig_2.0.3    htmltools_0.5.2    highr_0.9          dbplyr_2.1.1      
-[37] fastmap_1.1.0      rlang_1.0.2        readxl_1.3.1       rstudioapi_0.13   
-[41] jquerylib_0.1.4    generics_0.1.1     farver_2.1.0       jsonlite_1.7.3    
-[45] vroom_1.5.7        magrittr_2.0.1     Rcpp_1.0.8         munsell_0.5.0     
-[49] fansi_1.0.2        lifecycle_1.0.1    stringi_1.7.6      whisker_0.4       
-[53] yaml_2.2.1         MASS_7.3-55        grid_4.1.2         parallel_4.1.2    
-[57] promises_1.2.0.1   crayon_1.4.2       haven_2.4.3        hms_1.1.1         
-[61] seacarb_3.3.0      knitr_1.37         ps_1.6.0           pillar_1.6.4      
-[65] reprex_2.0.1       glue_1.6.0         evaluate_0.14      getPass_0.2-2     
-[69] data.table_1.14.2  modelr_0.1.8       vctrs_0.3.8        tzdb_0.2.0        
-[73] tweenr_1.0.2       httpuv_1.6.5       cellranger_1.1.0   gtable_0.3.0      
-[77] polyclip_1.10-0    assertthat_0.2.1   xfun_0.29          broom_0.7.11      
-[81] later_1.3.0        viridisLite_0.4.0  ellipsis_0.3.2     here_1.0.1        </code></pre>
+ [5] gsw_1.0-6          RColorBrewer_1.1-2 webshot_0.5.2      httr_1.4.2        
+ [9] rprojroot_2.0.2    tools_4.1.2        backports_1.4.1    bslib_0.3.1       
+[13] utf8_1.2.2         R6_2.5.1           DBI_1.1.2          withr_2.4.3       
+[17] tidyselect_1.1.1   processx_3.5.2     bit_4.0.4          compiler_4.1.2    
+[21] git2r_0.29.0       cli_3.1.1          rvest_1.0.2        xml2_1.3.3        
+[25] labeling_0.4.2     sass_0.4.0         scales_1.1.1       checkmate_2.0.0   
+[29] SolveSAPHE_2.1.0   callr_3.7.0        systemfonts_1.0.3  digest_0.6.29     
+[33] svglite_2.0.0      rmarkdown_2.11     oce_1.5-0          pkgconfig_2.0.3   
+[37] htmltools_0.5.2    highr_0.9          dbplyr_2.1.1       fastmap_1.1.0     
+[41] rlang_1.0.2        readxl_1.3.1       rstudioapi_0.13    jquerylib_0.1.4   
+[45] generics_0.1.1     farver_2.1.0       jsonlite_1.7.3     vroom_1.5.7       
+[49] magrittr_2.0.1     Rcpp_1.0.8         munsell_0.5.0      fansi_1.0.2       
+[53] lifecycle_1.0.1    stringi_1.7.6      whisker_0.4        yaml_2.2.1        
+[57] MASS_7.3-55        grid_4.1.2         parallel_4.1.2     promises_1.2.0.1  
+[61] crayon_1.4.2       haven_2.4.3        hms_1.1.1          seacarb_3.3.0     
+[65] knitr_1.37         ps_1.6.0           pillar_1.6.4       reprex_2.0.1      
+[69] glue_1.6.0         evaluate_0.14      getPass_0.2-2      data.table_1.14.2 
+[73] modelr_0.1.8       vctrs_0.3.8        tzdb_0.2.0         tweenr_1.0.2      
+[77] httpuv_1.6.5       cellranger_1.1.0   gtable_0.3.0       polyclip_1.10-0   
+[81] assertthat_0.2.1   xfun_0.29          broom_0.7.11       later_1.3.0       
+[85] viridisLite_0.4.0  ellipsis_0.3.2     here_1.0.1        </code></pre>
 </div>
 </div>
 
