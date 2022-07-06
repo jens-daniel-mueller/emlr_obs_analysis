@@ -58,3 +58,246 @@ plot <-
 ```
 
 `r knitr::knit(text = unlist(plot))`
+
+
+
+# Drift and bias
+
+```{r read_files_global_dissic, include=FALSE}
+
+for (i_Version_IDs in Version_IDs) {
+  # i_Version_IDs <- Version_IDs[1]
+  
+  print(i_Version_IDs)
+  
+  path_version_data     <-
+    paste(path_observations,
+          i_Version_IDs,
+          "/data/",
+          sep = "")
+  
+  # load and join dissic files
+  
+  dcant_budget_global_dissic <-
+    read_csv(paste(path_version_data,
+                   "dcant_budget_global_dissic.csv",
+                   sep = ""))
+  
+
+  dcant_budget_global_dissic <- dcant_budget_global_dissic %>%
+    mutate(Version_ID = i_Version_IDs)
+  
+  
+  if (exists("dcant_budget_global_all_dissic")) {
+    dcant_budget_global_all_dissic <-
+      bind_rows(dcant_budget_global_all_dissic, dcant_budget_global_dissic)
+  }
+  
+  if (!exists("dcant_budget_global_all_dissic")) {
+    dcant_budget_global_all_dissic <- dcant_budget_global_dissic
+  }
+  
+  # load and join global bias files
+  
+  dcant_budget_global_bias_decomposition <-
+    read_csv(paste(path_version_data,
+                   "dcant_budget_global_bias_decomposition.csv",
+                   sep = ""))
+  
+
+  dcant_budget_global_bias_decomposition <- dcant_budget_global_bias_decomposition %>%
+    mutate(Version_ID = i_Version_IDs)
+  
+  
+  if (exists("dcant_budget_global_bias_all_decomposition")) {
+    dcant_budget_global_bias_all_decomposition <-
+      bind_rows(dcant_budget_global_bias_all_decomposition, dcant_budget_global_bias_decomposition)
+  }
+  
+  if (!exists("dcant_budget_global_bias_all_decomposition")) {
+    dcant_budget_global_bias_all_decomposition <- dcant_budget_global_bias_decomposition
+  }
+  
+  
+  # load and join basin_AIP bias files
+  
+  dcant_budget_basin_AIP_bias_decomposition <-
+    read_csv(paste(path_version_data,
+                   "dcant_budget_basin_AIP_bias_decomposition.csv",
+                   sep = ""))
+  
+
+  dcant_budget_basin_AIP_bias_decomposition <- dcant_budget_basin_AIP_bias_decomposition %>%
+    mutate(Version_ID = i_Version_IDs)
+  
+  
+  if (exists("dcant_budget_basin_AIP_bias_all_decomposition")) {
+    dcant_budget_basin_AIP_bias_all_decomposition <-
+      bind_rows(dcant_budget_basin_AIP_bias_all_decomposition, dcant_budget_basin_AIP_bias_decomposition)
+  }
+  
+  if (!exists("dcant_budget_basin_AIP_bias_all_decomposition")) {
+    dcant_budget_basin_AIP_bias_all_decomposition <- dcant_budget_basin_AIP_bias_decomposition
+  }
+   
+  # load and join 5 basins bias files
+  
+  dcant_budget_basin_MLR_bias_decomposition <-
+    read_csv(paste(path_version_data,
+                   "dcant_budget_basin_MLR_bias_decomposition.csv",
+                   sep = ""))
+  
+
+  dcant_budget_basin_MLR_bias_decomposition <- dcant_budget_basin_MLR_bias_decomposition %>%
+    mutate(Version_ID = i_Version_IDs)
+  
+  
+  if (exists("dcant_budget_basin_MLR_bias_all_decomposition")) {
+    dcant_budget_basin_MLR_bias_all_decomposition <-
+      bind_rows(dcant_budget_basin_MLR_bias_all_decomposition, dcant_budget_basin_MLR_bias_decomposition)
+  }
+  
+  if (!exists("dcant_budget_basin_MLR_bias_all_decomposition")) {
+    dcant_budget_basin_MLR_bias_all_decomposition <- dcant_budget_basin_MLR_bias_decomposition
+  }
+   
+}
+
+rm(dcant_budget_global_dissic,
+   dcant_budget_global_bias_decomposition,
+   dcant_budget_basin_AIP_bias_decomposition,
+   dcant_budget_basin_MLR_bias_decomposition)
+
+dcant_budget_global_all_dissic <-
+  full_join(dcant_budget_global_all_dissic,
+            params_local_all)
+
+dcant_budget_global_bias_all_decomposition <-
+  full_join(dcant_budget_global_bias_all_decomposition,
+            params_local_all)
+
+dcant_budget_basin_AIP_bias_all_decomposition <-
+  full_join(dcant_budget_basin_AIP_bias_all_decomposition,
+            params_local_all)
+
+dcant_budget_basin_MLR_bias_all_decomposition <-
+  full_join(dcant_budget_basin_MLR_bias_all_decomposition,
+            params_local_all)
+
+
+
+```
+
+```{r drift_bias_plots}
+
+
+dcant_budget_global_all_dissic %>%
+  filter(estimate == "dcant") %>%
+  ggplot(aes(inv_depth, value, col = gobm)) +
+  geom_hline(yintercept = 0) +
+  scale_color_brewer(palette = "Dark2") +
+  geom_point() +
+  geom_path() +
+  labs(y = "DIC change (PgC)") +
+  facet_grid(data_source ~ period, scales = "free_y")
+
+
+
+dcant_budget_global_bias_all_decomposition %>%
+  filter(estimate == "dcant") %>% 
+  select(inv_depth, dcant_bias, contribution, gobm, period) %>%
+  pivot_wider(names_from = contribution,
+              values_from = dcant_bias) %>%
+  ggplot(aes(`dcant offset`, `delta C* - mod_truth`, col = gobm)) +
+  geom_vline(xintercept = 0) +
+  geom_hline(yintercept = 0) +
+  geom_point() +
+  coord_fixed() +
+  scale_color_brewer(palette = "Dark2") +
+  facet_grid(inv_depth ~ period)
+
+dcant_budget_global_bias_all_decomposition %>%
+  filter(estimate == "dcant") %>% 
+  select(inv_depth, dcant_bias, contribution, gobm, period) %>%
+  pivot_wider(names_from = contribution,
+              values_from = dcant_bias) %>%
+  ggplot(aes(`dcant offset`, `C* prediction error`, col = gobm)) +
+  geom_vline(xintercept = 0) +
+  geom_hline(yintercept = 0) +
+  geom_point() +
+  coord_fixed() +
+  scale_color_brewer(palette = "Dark2") +
+  facet_grid(inv_depth ~ period)
+
+dcant_budget_global_bias_all_decomposition %>%
+  filter(estimate == "dcant") %>% 
+  select(inv_depth, dcant_bias, contribution, gobm, period) %>%
+  pivot_wider(names_from = contribution,
+              values_from = dcant_bias) %>%
+  ggplot(aes(`dcant offset`, `C* prediction error` + `delta C* - mod_truth`, col = gobm)) +
+  geom_vline(xintercept = 0) +
+  geom_hline(yintercept = 0) +
+  geom_point() +
+  coord_fixed() +
+  scale_color_brewer(palette = "Dark2") +
+  facet_grid(inv_depth ~ period)
+
+dcant_budget_global_bias_all_decomposition %>%
+  filter(estimate == "dcant") %>% 
+  select(inv_depth, dcant_bias, contribution, gobm, period) %>%
+  pivot_wider(names_from = contribution,
+              values_from = dcant_bias) %>%
+  ggplot(aes(`dcant offset`, `C* drift`, col = gobm)) +
+  geom_vline(xintercept = 0) +
+  geom_hline(yintercept = 0) +
+  geom_point() +
+  coord_fixed() +
+  scale_color_brewer(palette = "Dark2") +
+  facet_grid(inv_depth ~ period)
+
+dcant_budget_global_bias_all_decomposition %>%
+  filter(estimate == "dcant") %>% 
+  select(inv_depth, dcant_bias, contribution, gobm, period) %>%
+  pivot_wider(names_from = contribution,
+              values_from = dcant_bias) %>%
+  ggplot(aes(`dcant offset` - `C* drift`, `C* prediction error`, col = gobm)) +
+  geom_vline(xintercept = 0) +
+  geom_hline(yintercept = 0) +
+  geom_point() +
+  coord_fixed() +
+  scale_color_brewer(palette = "Dark2") +
+  facet_grid(inv_depth ~ period)
+
+
+dcant_budget_global_bias_all_decomposition %>%
+  filter(estimate == "dcant") %>% 
+  select(inv_depth, dcant_bias, contribution, gobm, period) %>%
+  pivot_wider(names_from = contribution,
+              values_from = dcant_bias) %>%
+  ggplot(aes(x = period, col = gobm)) +
+  geom_hline(yintercept = 0) +
+  geom_point(aes(y = `dcant offset`, shape = "dcant offset")) +
+  geom_point(aes(y = `dcant offset` - `C* drift`, shape = "dcant offset - C* drift"),
+             position = position_nudge(x=0.1)) +
+  scale_color_brewer(palette = "Dark2") +
+  facet_grid(inv_depth ~ .)
+
+dcant_budget_global_bias_all_decomposition %>%
+  filter(estimate == "dcant",
+         gobm == "CESM-ETHZ") %>% 
+  select(inv_depth, dcant_bias, contribution, gobm, period) %>%
+  pivot_wider(names_from = contribution,
+              values_from = dcant_bias) %>%
+  ggplot(aes(x = period, col = gobm)) +
+  geom_hline(yintercept = 0) +
+  geom_point(aes(y = `dcant offset`, shape = "dcant offset")) +
+  geom_point(aes(y = `dcant offset` - `C* drift`, shape = "dcant offset - C* drift"),
+             position = position_nudge(x=0.1)) +
+  scale_color_brewer(palette = "Dark2") +
+  facet_grid(inv_depth ~ .)
+
+
+```
+
+
+
