@@ -652,7 +652,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Budgets</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">06 July, 2022</h4>
+<h4 class="date">07 July, 2022</h4>
 
 </div>
 
@@ -677,7 +677,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-07-06
+<strong>Last updated:</strong> 2022-07-07
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -768,16 +768,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreede436719bf34e179b84158a604035bcfcd19bb18targetblankde43671a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/de436719bf34e179b84158a604035bcfcd19bb18" target="_blank">de43671</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree989d61669eca1abb78ad48a35c908270d4363b5btargetblank989d616a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/989d61669eca1abb78ad48a35c908270d4363b5b" target="_blank">989d616</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreede436719bf34e179b84158a604035bcfcd19bb18targetblankde43671a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree989d61669eca1abb78ad48a35c908270d4363b5btargetblank989d616a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/de436719bf34e179b84158a604035bcfcd19bb18" target="_blank">de43671</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/989d61669eca1abb78ad48a35c908270d4363b5b" target="_blank">989d616</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -834,6 +834,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/989d61669eca1abb78ad48a35c908270d4363b5b/analysis/multi_model_assesment_AIP_budgets.Rmd" target="_blank">989d616</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-07
+</td>
+<td>
+generalized plots to config parameter
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/15b7172fcd999c5515229ac47d899c649712e2d6/docs/multi_model_assesment_AIP_budgets.html" target="_blank">15b7172</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-06
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -5650,7 +5684,7 @@ jens-daniel-mueller
 <h1><span class="header-section-number">7</span> Drift and bias</h1>
 <pre class="r"><code>dcant_budget_global_all_dissic %&gt;%
   filter(estimate == &quot;dcant&quot;) %&gt;%
-  ggplot(aes(inv_depth, value, col = gobm)) +
+  ggplot(aes(inv_depth, value, col = {{config}})) +
   geom_hline(yintercept = 0) +
   scale_color_brewer(palette = &quot;Dark2&quot;) +
   geom_point() +
@@ -5658,12 +5692,49 @@ jens-daniel-mueller
   labs(y = &quot;DIC change (PgC)&quot;) +
   facet_grid(data_source ~ period, scales = &quot;free_y&quot;)</code></pre>
 <p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/drift_bias_plots-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-drift_bias_plots-1">
+Past versions of drift_bias_plots-1.png
+</button>
+</p>
+<div id="fig-drift_bias_plots-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/15b7172fcd999c5515229ac47d899c649712e2d6/docs/figure/multi_model_assesment_AIP_budgets.Rmd/drift_bias_plots-1.png" target="_blank">15b7172</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>dcant_budget_global_bias_all_decomposition %&gt;%
   filter(estimate == &quot;dcant&quot;) %&gt;% 
-  select(inv_depth, dcant_bias, contribution, gobm, period) %&gt;%
+  select(inv_depth, dcant_bias, contribution, {{config}}, period) %&gt;%
   pivot_wider(names_from = contribution,
               values_from = dcant_bias) %&gt;%
-  ggplot(aes(`dcant offset`, `delta C* - mod_truth`, col = gobm)) +
+  ggplot(aes(`dcant offset`, `delta C* - mod_truth`, col = {{config}})) +
   geom_vline(xintercept = 0) +
   geom_hline(yintercept = 0) +
   geom_point() +
@@ -5671,12 +5742,49 @@ jens-daniel-mueller
   scale_color_brewer(palette = &quot;Dark2&quot;) +
   facet_grid(inv_depth ~ period)</code></pre>
 <p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/drift_bias_plots-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-drift_bias_plots-2">
+Past versions of drift_bias_plots-2.png
+</button>
+</p>
+<div id="fig-drift_bias_plots-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/15b7172fcd999c5515229ac47d899c649712e2d6/docs/figure/multi_model_assesment_AIP_budgets.Rmd/drift_bias_plots-2.png" target="_blank">15b7172</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>dcant_budget_global_bias_all_decomposition %&gt;%
   filter(estimate == &quot;dcant&quot;) %&gt;% 
-  select(inv_depth, dcant_bias, contribution, gobm, period) %&gt;%
+  select(inv_depth, dcant_bias, contribution, {{config}}, period) %&gt;%
   pivot_wider(names_from = contribution,
               values_from = dcant_bias) %&gt;%
-  ggplot(aes(`dcant offset`, `C* prediction error`, col = gobm)) +
+  ggplot(aes(`dcant offset`, `C* prediction error`, col = {{config}})) +
   geom_vline(xintercept = 0) +
   geom_hline(yintercept = 0) +
   geom_point() +
@@ -5684,12 +5792,49 @@ jens-daniel-mueller
   scale_color_brewer(palette = &quot;Dark2&quot;) +
   facet_grid(inv_depth ~ period)</code></pre>
 <p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/drift_bias_plots-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-drift_bias_plots-3">
+Past versions of drift_bias_plots-3.png
+</button>
+</p>
+<div id="fig-drift_bias_plots-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/15b7172fcd999c5515229ac47d899c649712e2d6/docs/figure/multi_model_assesment_AIP_budgets.Rmd/drift_bias_plots-3.png" target="_blank">15b7172</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>dcant_budget_global_bias_all_decomposition %&gt;%
   filter(estimate == &quot;dcant&quot;) %&gt;% 
-  select(inv_depth, dcant_bias, contribution, gobm, period) %&gt;%
+  select(inv_depth, dcant_bias, contribution, {{config}}, period) %&gt;%
   pivot_wider(names_from = contribution,
               values_from = dcant_bias) %&gt;%
-  ggplot(aes(`dcant offset`, `C* prediction error` + `delta C* - mod_truth`, col = gobm)) +
+  ggplot(aes(`dcant offset`, `C* prediction error` + `delta C* - mod_truth`, col = {{config}})) +
   geom_vline(xintercept = 0) +
   geom_hline(yintercept = 0) +
   geom_point() +
@@ -5697,12 +5842,49 @@ jens-daniel-mueller
   scale_color_brewer(palette = &quot;Dark2&quot;) +
   facet_grid(inv_depth ~ period)</code></pre>
 <p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/drift_bias_plots-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-drift_bias_plots-4">
+Past versions of drift_bias_plots-4.png
+</button>
+</p>
+<div id="fig-drift_bias_plots-4" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/15b7172fcd999c5515229ac47d899c649712e2d6/docs/figure/multi_model_assesment_AIP_budgets.Rmd/drift_bias_plots-4.png" target="_blank">15b7172</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>dcant_budget_global_bias_all_decomposition %&gt;%
   filter(estimate == &quot;dcant&quot;) %&gt;% 
-  select(inv_depth, dcant_bias, contribution, gobm, period) %&gt;%
+  select(inv_depth, dcant_bias, contribution, {{config}}, period) %&gt;%
   pivot_wider(names_from = contribution,
               values_from = dcant_bias) %&gt;%
-  ggplot(aes(`dcant offset`, `C* drift`, col = gobm)) +
+  ggplot(aes(`dcant offset`, `C* drift`, col = {{config}})) +
   geom_vline(xintercept = 0) +
   geom_hline(yintercept = 0) +
   geom_point() +
@@ -5710,12 +5892,49 @@ jens-daniel-mueller
   scale_color_brewer(palette = &quot;Dark2&quot;) +
   facet_grid(inv_depth ~ period)</code></pre>
 <p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/drift_bias_plots-5.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-drift_bias_plots-5">
+Past versions of drift_bias_plots-5.png
+</button>
+</p>
+<div id="fig-drift_bias_plots-5" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/15b7172fcd999c5515229ac47d899c649712e2d6/docs/figure/multi_model_assesment_AIP_budgets.Rmd/drift_bias_plots-5.png" target="_blank">15b7172</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>dcant_budget_global_bias_all_decomposition %&gt;%
   filter(estimate == &quot;dcant&quot;) %&gt;% 
-  select(inv_depth, dcant_bias, contribution, gobm, period) %&gt;%
+  select(inv_depth, dcant_bias, contribution, {{config}}, period) %&gt;%
   pivot_wider(names_from = contribution,
               values_from = dcant_bias) %&gt;%
-  ggplot(aes(`dcant offset` - `C* drift`, `C* prediction error`, col = gobm)) +
+  ggplot(aes(`dcant offset` - `C* drift`, `C* prediction error`, col = {{config}})) +
   geom_vline(xintercept = 0) +
   geom_hline(yintercept = 0) +
   geom_point() +
@@ -5723,12 +5942,49 @@ jens-daniel-mueller
   scale_color_brewer(palette = &quot;Dark2&quot;) +
   facet_grid(inv_depth ~ period)</code></pre>
 <p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/drift_bias_plots-6.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-drift_bias_plots-6">
+Past versions of drift_bias_plots-6.png
+</button>
+</p>
+<div id="fig-drift_bias_plots-6" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/15b7172fcd999c5515229ac47d899c649712e2d6/docs/figure/multi_model_assesment_AIP_budgets.Rmd/drift_bias_plots-6.png" target="_blank">15b7172</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>dcant_budget_global_bias_all_decomposition %&gt;%
   filter(estimate == &quot;dcant&quot;) %&gt;% 
-  select(inv_depth, dcant_bias, contribution, gobm, period) %&gt;%
+  select(inv_depth, dcant_bias, contribution, {{config}}, period) %&gt;%
   pivot_wider(names_from = contribution,
               values_from = dcant_bias) %&gt;%
-  ggplot(aes(x = period, col = gobm)) +
+  ggplot(aes(x = period, col = {{config}})) +
   geom_hline(yintercept = 0) +
   geom_point(aes(y = `dcant offset`, shape = &quot;dcant offset&quot;)) +
   geom_point(aes(y = `dcant offset` - `C* drift`, shape = &quot;dcant offset - C* drift&quot;),
@@ -5736,20 +5992,43 @@ jens-daniel-mueller
   scale_color_brewer(palette = &quot;Dark2&quot;) +
   facet_grid(inv_depth ~ .)</code></pre>
 <p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/drift_bias_plots-7.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>dcant_budget_global_bias_all_decomposition %&gt;%
-  filter(estimate == &quot;dcant&quot;,
-         gobm == &quot;CESM-ETHZ&quot;) %&gt;% 
-  select(inv_depth, dcant_bias, contribution, gobm, period) %&gt;%
-  pivot_wider(names_from = contribution,
-              values_from = dcant_bias) %&gt;%
-  ggplot(aes(x = period, col = gobm)) +
-  geom_hline(yintercept = 0) +
-  geom_point(aes(y = `dcant offset`, shape = &quot;dcant offset&quot;)) +
-  geom_point(aes(y = `dcant offset` - `C* drift`, shape = &quot;dcant offset - C* drift&quot;),
-             position = position_nudge(x=0.1)) +
-  scale_color_brewer(palette = &quot;Dark2&quot;) +
-  facet_grid(inv_depth ~ .)</code></pre>
-<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/drift_bias_plots-8.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-drift_bias_plots-7">
+Past versions of drift_bias_plots-7.png
+</button>
+</p>
+<div id="fig-drift_bias_plots-7" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/15b7172fcd999c5515229ac47d899c649712e2d6/docs/figure/multi_model_assesment_AIP_budgets.Rmd/drift_bias_plots-7.png" target="_blank">15b7172</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
