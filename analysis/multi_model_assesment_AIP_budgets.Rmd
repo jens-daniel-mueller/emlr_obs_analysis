@@ -193,7 +193,7 @@ dcant_budget_basin_MLR_bias_all_decomposition <-
 
 dcant_budget_global_all_dissic %>%
   filter(estimate == "dcant") %>%
-  ggplot(aes(inv_depth, value, col = gobm)) +
+  ggplot(aes(inv_depth, value, col = {{config}})) +
   geom_hline(yintercept = 0) +
   scale_color_brewer(palette = "Dark2") +
   geom_point() +
@@ -205,10 +205,10 @@ dcant_budget_global_all_dissic %>%
 
 dcant_budget_global_bias_all_decomposition %>%
   filter(estimate == "dcant") %>% 
-  select(inv_depth, dcant_bias, contribution, gobm, period) %>%
+  select(inv_depth, dcant_bias, contribution, {{config}}, period) %>%
   pivot_wider(names_from = contribution,
               values_from = dcant_bias) %>%
-  ggplot(aes(`dcant offset`, `delta C* - mod_truth`, col = gobm)) +
+  ggplot(aes(`dcant offset`, `delta C* - mod_truth`, col = {{config}})) +
   geom_vline(xintercept = 0) +
   geom_hline(yintercept = 0) +
   geom_point() +
@@ -218,10 +218,10 @@ dcant_budget_global_bias_all_decomposition %>%
 
 dcant_budget_global_bias_all_decomposition %>%
   filter(estimate == "dcant") %>% 
-  select(inv_depth, dcant_bias, contribution, gobm, period) %>%
+  select(inv_depth, dcant_bias, contribution, {{config}}, period) %>%
   pivot_wider(names_from = contribution,
               values_from = dcant_bias) %>%
-  ggplot(aes(`dcant offset`, `C* prediction error`, col = gobm)) +
+  ggplot(aes(`dcant offset`, `C* prediction error`, col = {{config}})) +
   geom_vline(xintercept = 0) +
   geom_hline(yintercept = 0) +
   geom_point() +
@@ -231,10 +231,10 @@ dcant_budget_global_bias_all_decomposition %>%
 
 dcant_budget_global_bias_all_decomposition %>%
   filter(estimate == "dcant") %>% 
-  select(inv_depth, dcant_bias, contribution, gobm, period) %>%
+  select(inv_depth, dcant_bias, contribution, {{config}}, period) %>%
   pivot_wider(names_from = contribution,
               values_from = dcant_bias) %>%
-  ggplot(aes(`dcant offset`, `C* prediction error` + `delta C* - mod_truth`, col = gobm)) +
+  ggplot(aes(`dcant offset`, `C* prediction error` + `delta C* - mod_truth`, col = {{config}})) +
   geom_vline(xintercept = 0) +
   geom_hline(yintercept = 0) +
   geom_point() +
@@ -244,10 +244,10 @@ dcant_budget_global_bias_all_decomposition %>%
 
 dcant_budget_global_bias_all_decomposition %>%
   filter(estimate == "dcant") %>% 
-  select(inv_depth, dcant_bias, contribution, gobm, period) %>%
+  select(inv_depth, dcant_bias, contribution, {{config}}, period) %>%
   pivot_wider(names_from = contribution,
               values_from = dcant_bias) %>%
-  ggplot(aes(`dcant offset`, `C* drift`, col = gobm)) +
+  ggplot(aes(`dcant offset`, `C* drift`, col = {{config}})) +
   geom_vline(xintercept = 0) +
   geom_hline(yintercept = 0) +
   geom_point() +
@@ -257,10 +257,10 @@ dcant_budget_global_bias_all_decomposition %>%
 
 dcant_budget_global_bias_all_decomposition %>%
   filter(estimate == "dcant") %>% 
-  select(inv_depth, dcant_bias, contribution, gobm, period) %>%
+  select(inv_depth, dcant_bias, contribution, {{config}}, period) %>%
   pivot_wider(names_from = contribution,
               values_from = dcant_bias) %>%
-  ggplot(aes(`dcant offset` - `C* drift`, `C* prediction error`, col = gobm)) +
+  ggplot(aes(`dcant offset` - `C* drift`, `C* prediction error`, col = {{config}})) +
   geom_vline(xintercept = 0) +
   geom_hline(yintercept = 0) +
   geom_point() +
@@ -271,10 +271,10 @@ dcant_budget_global_bias_all_decomposition %>%
 
 dcant_budget_global_bias_all_decomposition %>%
   filter(estimate == "dcant") %>% 
-  select(inv_depth, dcant_bias, contribution, gobm, period) %>%
+  select(inv_depth, dcant_bias, contribution, {{config}}, period) %>%
   pivot_wider(names_from = contribution,
               values_from = dcant_bias) %>%
-  ggplot(aes(x = period, col = gobm)) +
+  ggplot(aes(x = period, col = {{config}})) +
   geom_hline(yintercept = 0) +
   geom_point(aes(y = `dcant offset`, shape = "dcant offset")) +
   geom_point(aes(y = `dcant offset` - `C* drift`, shape = "dcant offset - C* drift"),
@@ -282,19 +282,6 @@ dcant_budget_global_bias_all_decomposition %>%
   scale_color_brewer(palette = "Dark2") +
   facet_grid(inv_depth ~ .)
 
-dcant_budget_global_bias_all_decomposition %>%
-  filter(estimate == "dcant",
-         gobm == "CESM-ETHZ") %>% 
-  select(inv_depth, dcant_bias, contribution, gobm, period) %>%
-  pivot_wider(names_from = contribution,
-              values_from = dcant_bias) %>%
-  ggplot(aes(x = period, col = gobm)) +
-  geom_hline(yintercept = 0) +
-  geom_point(aes(y = `dcant offset`, shape = "dcant offset")) +
-  geom_point(aes(y = `dcant offset` - `C* drift`, shape = "dcant offset - C* drift"),
-             position = position_nudge(x=0.1)) +
-  scale_color_brewer(palette = "Dark2") +
-  facet_grid(inv_depth ~ .)
 
 
 ```
