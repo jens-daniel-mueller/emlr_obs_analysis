@@ -652,7 +652,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Budgets</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">07 July, 2022</h4>
+<h4 class="date">12 July, 2022</h4>
 
 </div>
 
@@ -677,7 +677,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-07-07
+<strong>Last updated:</strong> 2022-07-12
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -768,16 +768,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree32ccba597839c6bc307f5599d6c3ba75f238e62atargetblank32ccba5a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/32ccba597839c6bc307f5599d6c3ba75f238e62a" target="_blank">32ccba5</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree567c3ed9560e7573700a3328cf1884e07ea628a8targetblank567c3eda"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/567c3ed9560e7573700a3328cf1884e07ea628a8" target="_blank">567c3ed</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree32ccba597839c6bc307f5599d6c3ba75f238e62atargetblank32ccba5a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree567c3ed9560e7573700a3328cf1884e07ea628a8targetblank567c3eda" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/32ccba597839c6bc307f5599d6c3ba75f238e62a" target="_blank">32ccba5</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/567c3ed9560e7573700a3328cf1884e07ea628a8" target="_blank">567c3ed</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -834,6 +834,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/567c3ed9560e7573700a3328cf1884e07ea628a8/analysis/multi_model_assesment_AIP_budgets.Rmd" target="_blank">567c3ed</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-12
+</td>
+<td>
+revised bias decomposition
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/19a6206b72af405988c9bf50f37884c519f41d4f/docs/multi_model_assesment_AIP_budgets.html" target="_blank">19a6206</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-07
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -5750,6 +5784,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/19a6206b72af405988c9bf50f37884c519f41d4f/docs/figure/multi_model_assesment_AIP_budgets.Rmd/drift_bias_plots-1.png" target="_blank">19a6206</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-07
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a607959c8174cff7df23b54535daae5dfb3f024a/docs/figure/multi_model_assesment_AIP_budgets.Rmd/drift_bias_plots-1.png" target="_blank">a607959</a>
 </td>
 <td>
@@ -5774,14 +5819,25 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
-<pre class="r"><code>dcant_budget_global_bias_all_decomposition %&gt;%
-  filter(estimate == &quot;dcant&quot;) %&gt;% 
+<pre class="r"><code>dcant_budget_global_bias_all_decomposition &lt;-
+  dcant_budget_global_bias_all_decomposition %&gt;%
+  filter(estimate == &quot;dcant&quot;) %&gt;%
   select(inv_depth, dcant_bias, contribution, !!sym(config), period) %&gt;%
   pivot_wider(names_from = contribution,
-              values_from = dcant_bias) %&gt;%
+              values_from = dcant_bias)
+
+dcant_budget_global_bias_all_decomposition &lt;-
+  full_join(
+    dcant_budget_global_bias_all_decomposition,
+    dcant_budget_global_bias_all_depth %&gt;%
+      select(inv_depth, !!sym(config), period, mod_truth)
+  )</code></pre>
+<pre><code>Joining, by = c(&quot;inv_depth&quot;, &quot;gobm&quot;, &quot;period&quot;)</code></pre>
+<pre class="r"><code>dcant_budget_global_bias_all_decomposition %&gt;%
   ggplot(aes(`dcant offset`, `delta C* - mod_truth`, col = !!sym(config))) +
-  geom_vline(xintercept = 0) +
-  geom_hline(yintercept = 0) +
+  geom_vline(xintercept = 0, col = &quot;grey50&quot;) +
+  geom_hline(yintercept = 0, col = &quot;grey50&quot;) +
+  geom_abline(intercept = 0, slope = 1) +
   geom_point() +
   coord_fixed() +
   scale_color_brewer(palette = &quot;Dark2&quot;) +
@@ -5811,6 +5867,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/19a6206b72af405988c9bf50f37884c519f41d4f/docs/figure/multi_model_assesment_AIP_budgets.Rmd/drift_bias_plots-2.png" target="_blank">19a6206</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-07
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a607959c8174cff7df23b54535daae5dfb3f024a/docs/figure/multi_model_assesment_AIP_budgets.Rmd/drift_bias_plots-2.png" target="_blank">a607959</a>
 </td>
 <td>
@@ -5836,13 +5903,10 @@ jens-daniel-mueller
 </div>
 </div>
 <pre class="r"><code>dcant_budget_global_bias_all_decomposition %&gt;%
-  filter(estimate == &quot;dcant&quot;) %&gt;% 
-  select(inv_depth, dcant_bias, contribution, !!sym(config), period) %&gt;%
-  pivot_wider(names_from = contribution,
-              values_from = dcant_bias) %&gt;%
   ggplot(aes(`dcant offset`, `C* prediction error`, col = !!sym(config))) +
-  geom_vline(xintercept = 0) +
-  geom_hline(yintercept = 0) +
+  geom_vline(xintercept = 0, col = &quot;grey50&quot;) +
+  geom_hline(yintercept = 0, col = &quot;grey50&quot;) +
+  geom_abline(intercept = 0, slope = 1) +
   geom_point() +
   coord_fixed() +
   scale_color_brewer(palette = &quot;Dark2&quot;) +
@@ -5872,6 +5936,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/19a6206b72af405988c9bf50f37884c519f41d4f/docs/figure/multi_model_assesment_AIP_budgets.Rmd/drift_bias_plots-3.png" target="_blank">19a6206</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-07
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a607959c8174cff7df23b54535daae5dfb3f024a/docs/figure/multi_model_assesment_AIP_budgets.Rmd/drift_bias_plots-3.png" target="_blank">a607959</a>
 </td>
 <td>
@@ -5897,13 +5972,14 @@ jens-daniel-mueller
 </div>
 </div>
 <pre class="r"><code>dcant_budget_global_bias_all_decomposition %&gt;%
-  filter(estimate == &quot;dcant&quot;) %&gt;% 
-  select(inv_depth, dcant_bias, contribution, !!sym(config), period) %&gt;%
-  pivot_wider(names_from = contribution,
-              values_from = dcant_bias) %&gt;%
-  ggplot(aes(`dcant offset`, `C* prediction error` + `delta C* - mod_truth`, col = !!sym(config))) +
-  geom_vline(xintercept = 0) +
-  geom_hline(yintercept = 0) +
+  ggplot(aes(
+    `dcant offset`,
+    `C* prediction error` + `delta C* - mod_truth`,
+    col = !!sym(config)
+  )) +
+  geom_vline(xintercept = 0, col = &quot;grey50&quot;) +
+  geom_hline(yintercept = 0, col = &quot;grey50&quot;) +
+  geom_abline(intercept = 0, slope = 1) +
   geom_point() +
   coord_fixed() +
   scale_color_brewer(palette = &quot;Dark2&quot;) +
@@ -5933,6 +6009,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/19a6206b72af405988c9bf50f37884c519f41d4f/docs/figure/multi_model_assesment_AIP_budgets.Rmd/drift_bias_plots-4.png" target="_blank">19a6206</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-07
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a607959c8174cff7df23b54535daae5dfb3f024a/docs/figure/multi_model_assesment_AIP_budgets.Rmd/drift_bias_plots-4.png" target="_blank">a607959</a>
 </td>
 <td>
@@ -5958,13 +6045,10 @@ jens-daniel-mueller
 </div>
 </div>
 <pre class="r"><code>dcant_budget_global_bias_all_decomposition %&gt;%
-  filter(estimate == &quot;dcant&quot;) %&gt;% 
-  select(inv_depth, dcant_bias, contribution, !!sym(config), period) %&gt;%
-  pivot_wider(names_from = contribution,
-              values_from = dcant_bias) %&gt;%
   ggplot(aes(`dcant offset`, `C* drift`, col = !!sym(config))) +
-  geom_vline(xintercept = 0) +
-  geom_hline(yintercept = 0) +
+  geom_vline(xintercept = 0, col = &quot;grey50&quot;) +
+  geom_hline(yintercept = 0, col = &quot;grey50&quot;) +
+  geom_abline(intercept = 0, slope = 1) +
   geom_point() +
   coord_fixed() +
   scale_color_brewer(palette = &quot;Dark2&quot;) +
@@ -5994,6 +6078,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/19a6206b72af405988c9bf50f37884c519f41d4f/docs/figure/multi_model_assesment_AIP_budgets.Rmd/drift_bias_plots-5.png" target="_blank">19a6206</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-07
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a607959c8174cff7df23b54535daae5dfb3f024a/docs/figure/multi_model_assesment_AIP_budgets.Rmd/drift_bias_plots-5.png" target="_blank">a607959</a>
 </td>
 <td>
@@ -6019,13 +6114,14 @@ jens-daniel-mueller
 </div>
 </div>
 <pre class="r"><code>dcant_budget_global_bias_all_decomposition %&gt;%
-  filter(estimate == &quot;dcant&quot;) %&gt;% 
-  select(inv_depth, dcant_bias, contribution, !!sym(config), period) %&gt;%
-  pivot_wider(names_from = contribution,
-              values_from = dcant_bias) %&gt;%
-  ggplot(aes(`dcant offset` - `C* drift`, `C* prediction error`, col = !!sym(config))) +
-  geom_vline(xintercept = 0) +
-  geom_hline(yintercept = 0) +
+  ggplot(aes(
+    `dcant offset` - `C* drift`,
+    `C* prediction error`,
+    col = !!sym(config)
+  )) +
+  geom_vline(xintercept = 0, col = &quot;grey50&quot;) +
+  geom_hline(yintercept = 0, col = &quot;grey50&quot;) +
+  geom_abline(intercept = 0, slope = 1) +
   geom_point() +
   coord_fixed() +
   scale_color_brewer(palette = &quot;Dark2&quot;) +
@@ -6055,6 +6151,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/19a6206b72af405988c9bf50f37884c519f41d4f/docs/figure/multi_model_assesment_AIP_budgets.Rmd/drift_bias_plots-6.png" target="_blank">19a6206</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-07
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a607959c8174cff7df23b54535daae5dfb3f024a/docs/figure/multi_model_assesment_AIP_budgets.Rmd/drift_bias_plots-6.png" target="_blank">a607959</a>
 </td>
 <td>
@@ -6080,16 +6187,25 @@ jens-daniel-mueller
 </div>
 </div>
 <pre class="r"><code>dcant_budget_global_bias_all_decomposition %&gt;%
-  filter(estimate == &quot;dcant&quot;) %&gt;% 
-  select(inv_depth, dcant_bias, contribution, !!sym(config), period) %&gt;%
-  pivot_wider(names_from = contribution,
-              values_from = dcant_bias) %&gt;%
-  ggplot(aes(x = period, col = !!sym(config))) +
+  ggplot(aes(
+    x = period,
+    fill = !!sym(config),
+    col = !!sym(config)
+  )) +
   geom_hline(yintercept = 0) +
-  geom_point(aes(y = `dcant offset`, shape = &quot;dcant offset&quot;)) +
-  geom_point(aes(y = `dcant offset` - `C* drift`, shape = &quot;dcant offset - C* drift&quot;),
-             position = position_nudge(x=0.1)) +
+  geom_point(
+    aes(y = `dcant offset`, shape = &quot;dcant offset&quot;),
+    position = position_nudge(x = -0.05),
+    alpha = 0.5
+  ) +
+  geom_point(
+    aes(y = `dcant offset` - `C* drift`, shape = &quot;dcant offset - C* drift&quot;),
+    position = position_nudge(x = 0.05),
+    alpha = 0.5
+  ) +
   scale_color_brewer(palette = &quot;Dark2&quot;) +
+  scale_fill_brewer(palette = &quot;Dark2&quot;) +
+  scale_shape_manual(values = c(21,23)) +
   facet_grid(inv_depth ~ .)</code></pre>
 <p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/drift_bias_plots-7.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
@@ -6116,6 +6232,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/19a6206b72af405988c9bf50f37884c519f41d4f/docs/figure/multi_model_assesment_AIP_budgets.Rmd/drift_bias_plots-7.png" target="_blank">19a6206</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-07
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a607959c8174cff7df23b54535daae5dfb3f024a/docs/figure/multi_model_assesment_AIP_budgets.Rmd/drift_bias_plots-7.png" target="_blank">a607959</a>
 </td>
 <td>
@@ -6139,6 +6266,2758 @@ jens-daniel-mueller
 </tbody>
 </table>
 </div>
+</div>
+<pre class="r"><code>dcant_budget_global_bias_all_decomposition &lt;-
+  dcant_budget_global_bias_all_decomposition %&gt;%
+  mutate(
+    `dcant offset rel` = 100 * `dcant offset` / mod_truth,
+    `dcant offset rel corr` = 100 * (`dcant offset` - `C* drift`) / mod_truth,
+    `C* prediction error rel` = 100 * (`C* prediction error`) / mod_truth
+  )
+
+dcant_budget_global_bias_all_decomposition %&gt;%
+  ggplot(aes(
+    x = period,
+    fill = !!sym(config),
+    col = !!sym(config)
+  )) +
+  geom_hline(yintercept = 0) +
+  geom_point(
+    aes(y = `dcant offset rel`, shape = &quot;dcant offset&quot;),
+    position = position_nudge(x = -0.05),
+    alpha = 0.5
+  ) +
+  geom_point(
+    aes(y = `dcant offset rel corr`, shape = &quot;dcant offset - C* drift&quot;),
+    position = position_nudge(x = 0.05),
+    alpha = 0.5
+  ) +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  scale_fill_brewer(palette = &quot;Dark2&quot;) +
+  scale_shape_manual(values = c(21,23)) +
+  facet_grid(inv_depth ~ .)</code></pre>
+<p><img src="figure/multi_model_assesment_AIP_budgets.Rmd/drift_bias_plots-8.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-drift_bias_plots-8">
+Past versions of drift_bias_plots-8.png
+</button>
+</p>
+<div id="fig-drift_bias_plots-8" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a607959c8174cff7df23b54535daae5dfb3f024a/docs/figure/multi_model_assesment_AIP_budgets.Rmd/drift_bias_plots-8.png" target="_blank">a607959</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-07
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/15b7172fcd999c5515229ac47d899c649712e2d6/docs/figure/multi_model_assesment_AIP_budgets.Rmd/drift_bias_plots-8.png" target="_blank">15b7172</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>dcant_budget_global_bias_all_decomposition &lt;-
+  dcant_budget_global_bias_all_decomposition %&gt;%
+  pivot_longer(-c(inv_depth:period),
+               names_to = &quot;estimate&quot;,
+               values_to = &quot;value&quot;)
+
+
+dcant_budget_global_bias_all_decomposition %&gt;%
+  group_by(inv_depth, estimate) %&gt;%
+  summarise(mean = mean(value),
+            sd = sd(value)) %&gt;%
+  ungroup() %&gt;%
+  kable() %&gt;%
+  kable_styling() %&gt;%
+  scroll_box(height = &quot;300px&quot;)</code></pre>
+<pre><code>`summarise()` has grouped output by &#39;inv_depth&#39;. You can override using the
+`.groups` argument.</code></pre>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; ">
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+inv_depth
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+estimate
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+mean
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+sd
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+C* drift
+</td>
+<td style="text-align:right;">
+0.1633333
+</td>
+<td style="text-align:right;">
+0.1710567
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+C* prediction error
+</td>
+<td style="text-align:right;">
+-0.0312667
+</td>
+<td style="text-align:right;">
+0.6405197
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+C* prediction error rel
+</td>
+<td style="text-align:right;">
+-1.0436107
+</td>
+<td style="text-align:right;">
+16.9355123
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+dcant offset
+</td>
+<td style="text-align:right;">
+0.4414000
+</td>
+<td style="text-align:right;">
+0.2574745
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+dcant offset rel
+</td>
+<td style="text-align:right;">
+9.3751238
+</td>
+<td style="text-align:right;">
+4.4571134
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+dcant offset rel corr
+</td>
+<td style="text-align:right;">
+5.9257890
+</td>
+<td style="text-align:right;">
+5.2377855
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+delta C* - mod_truth
+</td>
+<td style="text-align:right;">
+-0.4052667
+</td>
+<td style="text-align:right;">
+0.2440399
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:right;">
+4.6806667
+</td>
+<td style="text-align:right;">
+1.7266649
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+C* drift
+</td>
+<td style="text-align:right;">
+0.7099333
+</td>
+<td style="text-align:right;">
+0.8009617
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+C* prediction error
+</td>
+<td style="text-align:right;">
+-0.5059333
+</td>
+<td style="text-align:right;">
+0.9965189
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+C* prediction error rel
+</td>
+<td style="text-align:right;">
+-2.8984298
+</td>
+<td style="text-align:right;">
+6.2769646
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+dcant offset
+</td>
+<td style="text-align:right;">
+0.2129333
+</td>
+<td style="text-align:right;">
+0.7892171
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+dcant offset rel
+</td>
+<td style="text-align:right;">
+1.6295952
+</td>
+<td style="text-align:right;">
+5.4628266
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+dcant offset rel corr
+</td>
+<td style="text-align:right;">
+-2.6876093
+</td>
+<td style="text-align:right;">
+5.9847749
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+delta C* - mod_truth
+</td>
+<td style="text-align:right;">
+-0.6005333
+</td>
+<td style="text-align:right;">
+0.7226971
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:right;">
+16.2416000
+</td>
+<td style="text-align:right;">
+6.0717693
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+C* drift
+</td>
+<td style="text-align:right;">
+1.2996000
+</td>
+<td style="text-align:right;">
+1.5895238
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+C* prediction error
+</td>
+<td style="text-align:right;">
+-1.1192000
+</td>
+<td style="text-align:right;">
+1.2330623
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+C* prediction error rel
+</td>
+<td style="text-align:right;">
+-5.2463822
+</td>
+<td style="text-align:right;">
+6.0424515
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+dcant offset
+</td>
+<td style="text-align:right;">
+-0.0748000
+</td>
+<td style="text-align:right;">
+0.7153128
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+dcant offset rel
+</td>
+<td style="text-align:right;">
+-0.3627622
+</td>
+<td style="text-align:right;">
+3.2024571
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+dcant offset rel corr
+</td>
+<td style="text-align:right;">
+-6.2851543
+</td>
+<td style="text-align:right;">
+5.3690952
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+delta C* - mod_truth
+</td>
+<td style="text-align:right;">
+-0.2750667
+</td>
+<td style="text-align:right;">
+1.4726121
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:right;">
+21.9682667
+</td>
+<td style="text-align:right;">
+8.1719535
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+C* drift
+</td>
+<td style="text-align:right;">
+1.0312667
+</td>
+<td style="text-align:right;">
+2.6474791
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+C* prediction error
+</td>
+<td style="text-align:right;">
+-0.0789333
+</td>
+<td style="text-align:right;">
+1.7583971
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+C* prediction error rel
+</td>
+<td style="text-align:right;">
+-1.0198587
+</td>
+<td style="text-align:right;">
+8.3489093
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+dcant offset
+</td>
+<td style="text-align:right;">
+0.2418000
+</td>
+<td style="text-align:right;">
+1.7611901
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+dcant offset rel
+</td>
+<td style="text-align:right;">
+1.0295826
+</td>
+<td style="text-align:right;">
+6.6388331
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+dcant offset rel corr
+</td>
+<td style="text-align:right;">
+-3.3944487
+</td>
+<td style="text-align:right;">
+7.9351738
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+delta C* - mod_truth
+</td>
+<td style="text-align:right;">
+-0.9985333
+</td>
+<td style="text-align:right;">
+2.7568477
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:right;">
+26.9395333
+</td>
+<td style="text-align:right;">
+10.5539591
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+C* drift
+</td>
+<td style="text-align:right;">
+0.5536000
+</td>
+<td style="text-align:right;">
+2.3199567
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+C* prediction error
+</td>
+<td style="text-align:right;">
+0.4213333
+</td>
+<td style="text-align:right;">
+2.1438709
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+C* prediction error rel
+</td>
+<td style="text-align:right;">
+0.7642686
+</td>
+<td style="text-align:right;">
+10.1691404
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+dcant offset
+</td>
+<td style="text-align:right;">
+0.3358667
+</td>
+<td style="text-align:right;">
+2.0422875
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+dcant offset rel
+</td>
+<td style="text-align:right;">
+1.1584124
+</td>
+<td style="text-align:right;">
+8.4808972
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+dcant offset rel corr
+</td>
+<td style="text-align:right;">
+-1.3241870
+</td>
+<td style="text-align:right;">
+9.5095944
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+delta C* - mod_truth
+</td>
+<td style="text-align:right;">
+-1.4048000
+</td>
+<td style="text-align:right;">
+2.3443270
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:right;">
+27.4528000
+</td>
+<td style="text-align:right;">
+10.6671793
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<pre class="r"><code>dcant_budget_global_bias_all_decomposition %&gt;%
+  group_by(inv_depth, estimate, period) %&gt;%
+  summarise(mean = mean(value),
+            sd = sd(value)) %&gt;%
+  ungroup() %&gt;%
+  kable() %&gt;%
+  kable_styling() %&gt;%
+  scroll_box(height = &quot;300px&quot;)</code></pre>
+<pre><code>`summarise()` has grouped output by &#39;inv_depth&#39;, &#39;estimate&#39;. You can override
+using the `.groups` argument.</code></pre>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; ">
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+inv_depth
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+estimate
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+period
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+mean
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+sd
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+C* drift
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+0.1264000
+</td>
+<td style="text-align:right;">
+0.1223797
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+C* drift
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+0.2450000
+</td>
+<td style="text-align:right;">
+0.2445557
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+C* drift
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+0.1186000
+</td>
+<td style="text-align:right;">
+0.1228161
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+C* prediction error
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+-0.4626000
+</td>
+<td style="text-align:right;">
+0.6315464
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+C* prediction error
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+-0.0558000
+</td>
+<td style="text-align:right;">
+0.4961670
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+C* prediction error
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+0.4246000
+</td>
+<td style="text-align:right;">
+0.5457250
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+C* prediction error rel
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+-13.8381946
+</td>
+<td style="text-align:right;">
+18.5352883
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+C* prediction error rel
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+-0.7131767
+</td>
+<td style="text-align:right;">
+7.0158549
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+C* prediction error rel
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+11.4205392
+</td>
+<td style="text-align:right;">
+14.5638041
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+dcant offset
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+0.2404000
+</td>
+<td style="text-align:right;">
+0.1299550
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+dcant offset
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+0.6600000
+</td>
+<td style="text-align:right;">
+0.2540492
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+dcant offset
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+0.4238000
+</td>
+<td style="text-align:right;">
+0.1999392
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+dcant offset rel
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+7.3062593
+</td>
+<td style="text-align:right;">
+3.9299005
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+dcant offset rel
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+9.4129577
+</td>
+<td style="text-align:right;">
+3.6914916
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+dcant offset rel
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+11.4061545
+</td>
+<td style="text-align:right;">
+5.4727400
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+dcant offset rel corr
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+3.5264312
+</td>
+<td style="text-align:right;">
+6.2280762
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+dcant offset rel corr
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+5.9762800
+</td>
+<td style="text-align:right;">
+4.4761463
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+dcant offset rel corr
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+8.2746559
+</td>
+<td style="text-align:right;">
+4.8062214
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+delta C* - mod_truth
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+-0.4960000
+</td>
+<td style="text-align:right;">
+0.1123766
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+delta C* - mod_truth
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+-0.6078000
+</td>
+<td style="text-align:right;">
+0.1415528
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+delta C* - mod_truth
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+-0.1120000
+</td>
+<td style="text-align:right;">
+0.0818932
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+3.2988000
+</td>
+<td style="text-align:right;">
+0.0765029
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+7.0210000
+</td>
+<td style="text-align:right;">
+0.1854926
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+3.7222000
+</td>
+<td style="text-align:right;">
+0.1132374
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+C* drift
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+0.5312000
+</td>
+<td style="text-align:right;">
+0.5660664
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+C* drift
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+1.0648000
+</td>
+<td style="text-align:right;">
+1.1569806
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+C* drift
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+0.5338000
+</td>
+<td style="text-align:right;">
+0.5918021
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+C* prediction error
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+-0.3940000
+</td>
+<td style="text-align:right;">
+0.7408380
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+C* prediction error
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+-0.7568000
+</td>
+<td style="text-align:right;">
+1.3079041
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+C* prediction error
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+-0.3670000
+</td>
+<td style="text-align:right;">
+1.0477421
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+C* prediction error rel
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+-3.3150638
+</td>
+<td style="text-align:right;">
+6.3127917
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+C* prediction error rel
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+-2.8671621
+</td>
+<td style="text-align:right;">
+5.4512596
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+C* prediction error rel
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+-2.5130636
+</td>
+<td style="text-align:right;">
+8.2419410
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+dcant offset
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+0.6942000
+</td>
+<td style="text-align:right;">
+0.2699957
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+dcant offset
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+0.3294000
+</td>
+<td style="text-align:right;">
+0.9130642
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+dcant offset
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+-0.3848000
+</td>
+<td style="text-align:right;">
+0.7213562
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+dcant offset rel
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+6.2441089
+</td>
+<td style="text-align:right;">
+2.7726387
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+dcant offset rel
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+1.4624678
+</td>
+<td style="text-align:right;">
+3.8951990
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+dcant offset rel
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+-2.8177913
+</td>
+<td style="text-align:right;">
+5.4965821
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+dcant offset rel corr
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+1.6029467
+</td>
+<td style="text-align:right;">
+4.6432751
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+dcant offset rel corr
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+-2.8384871
+</td>
+<td style="text-align:right;">
+4.8397104
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+dcant offset rel corr
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+-6.8272875
+</td>
+<td style="text-align:right;">
+5.9931495
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+delta C* - mod_truth
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+-0.4180000
+</td>
+<td style="text-align:right;">
+0.5539418
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+delta C* - mod_truth
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+-0.9008000
+</td>
+<td style="text-align:right;">
+1.0411300
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+delta C* - mod_truth
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+-0.4828000
+</td>
+<td style="text-align:right;">
+0.5153069
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+11.2928000
+</td>
+<td style="text-align:right;">
+0.6955877
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+24.3624000
+</td>
+<td style="text-align:right;">
+1.5054598
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+13.0696000
+</td>
+<td style="text-align:right;">
+0.8109179
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+C* drift
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+0.9632000
+</td>
+<td style="text-align:right;">
+1.1404338
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+C* drift
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+1.9492000
+</td>
+<td style="text-align:right;">
+2.3157796
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+C* drift
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+0.9864000
+</td>
+<td style="text-align:right;">
+1.1781669
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+C* prediction error
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+-1.2892000
+</td>
+<td style="text-align:right;">
+1.0834137
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+C* prediction error
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+-1.6686000
+</td>
+<td style="text-align:right;">
+1.4784929
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+C* prediction error
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+-0.3998000
+</td>
+<td style="text-align:right;">
+0.9494613
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+C* prediction error rel
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+-8.5559132
+</td>
+<td style="text-align:right;">
+7.4231131
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+C* prediction error rel
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+-5.0379750
+</td>
+<td style="text-align:right;">
+4.4688004
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+C* prediction error rel
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+-2.1452586
+</td>
+<td style="text-align:right;">
+5.1913139
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+dcant offset
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+0.0754000
+</td>
+<td style="text-align:right;">
+0.6068878
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+dcant offset
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+-0.0938000
+</td>
+<td style="text-align:right;">
+1.0264622
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+dcant offset
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+-0.2060000
+</td>
+<td style="text-align:right;">
+0.5645777
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+dcant offset rel
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+0.4195485
+</td>
+<td style="text-align:right;">
+3.9426250
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+dcant offset rel
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+-0.3290955
+</td>
+<td style="text-align:right;">
+3.0419614
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+dcant offset rel
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+-1.1787397
+</td>
+<td style="text-align:right;">
+3.0819694
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+dcant offset rel corr
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+-5.9082890
+</td>
+<td style="text-align:right;">
+7.0997961
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+dcant offset rel corr
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+-6.2297624
+</td>
+<td style="text-align:right;">
+5.3948598
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+dcant offset rel corr
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+-6.7174114
+</td>
+<td style="text-align:right;">
+4.5791480
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+delta C* - mod_truth
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+-0.1420000
+</td>
+<td style="text-align:right;">
+1.1237411
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+delta C* - mod_truth
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+-0.4124000
+</td>
+<td style="text-align:right;">
+2.2248976
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+delta C* - mod_truth
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+-0.2708000
+</td>
+<td style="text-align:right;">
+1.1538447
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+15.2022000
+</td>
+<td style="text-align:right;">
+0.6975544
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+32.9522000
+</td>
+<td style="text-align:right;">
+1.5164777
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+17.7504000
+</td>
+<td style="text-align:right;">
+0.8219095
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+C* drift
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+0.7580000
+</td>
+<td style="text-align:right;">
+1.9961306
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+C* drift
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+1.5470000
+</td>
+<td style="text-align:right;">
+4.0023757
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+C* drift
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+0.7888000
+</td>
+<td style="text-align:right;">
+2.0072749
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+C* prediction error
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+-1.1414000
+</td>
+<td style="text-align:right;">
+2.0082257
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+C* prediction error
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+-0.0894000
+</td>
+<td style="text-align:right;">
+1.8964548
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+C* prediction error
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+0.9940000
+</td>
+<td style="text-align:right;">
+0.5849671
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+C* prediction error rel
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+-6.9363306
+</td>
+<td style="text-align:right;">
+11.5872045
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+C* prediction error rel
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+-0.6150967
+</td>
+<td style="text-align:right;">
+4.5304746
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+C* prediction error rel
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+4.4918512
+</td>
+<td style="text-align:right;">
+2.6911377
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+dcant offset
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+-0.3138000
+</td>
+<td style="text-align:right;">
+0.8376077
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+dcant offset
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+0.3994000
+</td>
+<td style="text-align:right;">
+2.3573210
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+dcant offset
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+0.6398000
+</td>
+<td style="text-align:right;">
+1.9956957
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+dcant offset rel
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+-1.6912222
+</td>
+<td style="text-align:right;">
+4.7861609
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+dcant offset rel
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+1.2927988
+</td>
+<td style="text-align:right;">
+5.8209107
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+dcant offset rel
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+3.4871712
+</td>
+<td style="text-align:right;">
+8.9765960
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+dcant offset rel corr
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+-6.4214999
+</td>
+<td style="text-align:right;">
+11.3892983
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+dcant offset rel corr
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+-3.1145758
+</td>
+<td style="text-align:right;">
+6.4233854
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+dcant offset rel corr
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+-0.6472704
+</td>
+<td style="text-align:right;">
+5.3313224
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+delta C* - mod_truth
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+-0.6786000
+</td>
+<td style="text-align:right;">
+1.9899151
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+delta C* - mod_truth
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+-1.4980000
+</td>
+<td style="text-align:right;">
+4.1639329
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+delta C* - mod_truth
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+-0.8190000
+</td>
+<td style="text-align:right;">
+2.1960331
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+18.5858000
+</td>
+<td style="text-align:right;">
+2.4063525
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+40.4094000
+</td>
+<td style="text-align:right;">
+5.3503176
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+21.8234000
+</td>
+<td style="text-align:right;">
+2.9476288
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+C* drift
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+0.4126000
+</td>
+<td style="text-align:right;">
+1.7614975
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+C* drift
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+0.8304000
+</td>
+<td style="text-align:right;">
+3.5297635
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+C* drift
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+0.4178000
+</td>
+<td style="text-align:right;">
+1.7697222
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+C* prediction error
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+-0.9288000
+</td>
+<td style="text-align:right;">
+2.5605655
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+C* prediction error
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+0.7434000
+</td>
+<td style="text-align:right;">
+1.8957720
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+C* prediction error
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+1.4494000
+</td>
+<td style="text-align:right;">
+1.4855325
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+C* prediction error rel
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+-5.8662487
+</td>
+<td style="text-align:right;">
+14.0691777
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+C* prediction error rel
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+1.4217831
+</td>
+<td style="text-align:right;">
+4.3388021
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+C* prediction error rel
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+6.7372713
+</td>
+<td style="text-align:right;">
+6.7143085
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+dcant offset
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+-0.3582000
+</td>
+<td style="text-align:right;">
+1.5052962
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+dcant offset
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+0.6230000
+</td>
+<td style="text-align:right;">
+2.0526338
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+dcant offset
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+0.7428000
+</td>
+<td style="text-align:right;">
+2.6845577
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+dcant offset rel
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+-2.2206170
+</td>
+<td style="text-align:right;">
+8.0567393
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+dcant offset rel
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+1.6779302
+</td>
+<td style="text-align:right;">
+5.1601749
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+dcant offset rel
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+4.0179241
+</td>
+<td style="text-align:right;">
+11.6348840
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+dcant offset rel corr
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+-4.8938233
+</td>
+<td style="text-align:right;">
+12.8815358
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+dcant offset rel corr
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+-0.7937951
+</td>
+<td style="text-align:right;">
+6.1508113
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+dcant offset rel corr
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+1.7150575
+</td>
+<td style="text-align:right;">
+9.2152657
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+delta C* - mod_truth
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+-0.9356000
+</td>
+<td style="text-align:right;">
+1.6575388
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+delta C* - mod_truth
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+-2.1072000
+</td>
+<td style="text-align:right;">
+3.4780208
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+delta C* - mod_truth
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+-1.1716000
+</td>
+<td style="text-align:right;">
+1.8524601
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+18.9678000
+</td>
+<td style="text-align:right;">
+2.2522747
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+41.1792000
+</td>
+<td style="text-align:right;">
+5.0491414
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+22.2114000
+</td>
+<td style="text-align:right;">
+2.8003547
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 <br>
 <p>
