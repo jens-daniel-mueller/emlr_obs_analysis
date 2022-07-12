@@ -170,9 +170,25 @@ Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observat
 Version_IDs_n <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 rm(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 
-Version_IDs_ensemble <- c(Version_IDs_x, Version_IDs_o, Version_IDs_d, Version_IDs_g, Version_IDs_n)
+version_id_pattern <- "c"
 
-rm(Version_IDs_x, Version_IDs_o, Version_IDs_d, Version_IDs_g, Version_IDs_n)
+# identify required version IDs
+
+Version_IDs_1 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_1", version_id_pattern))
+
+Version_IDs_2 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_2", version_id_pattern))
+
+Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_3", version_id_pattern))
+
+Version_IDs_c <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
+rm(Version_IDs_1, Version_IDs_2, Version_IDs_3)
+
+Version_IDs_ensemble <- c(Version_IDs_x, Version_IDs_o, Version_IDs_d, Version_IDs_g, Version_IDs_n, Version_IDs_c)
+
+rm(Version_IDs_x, Version_IDs_o, Version_IDs_d, Version_IDs_g, Version_IDs_n, Version_IDs_c)
 
 ```
 
@@ -293,6 +309,7 @@ params_local_all_ensemble <-
       Version_ID_group == "d" ~ "no data adjustment",
       Version_ID_group == "g" ~ "no gap filling",
       Version_ID_group == "n" ~ "C*(N)",
+      Version_ID_group == "c" ~ "cruise adjustment",
       TRUE ~ Version_ID_group
     )
   )
