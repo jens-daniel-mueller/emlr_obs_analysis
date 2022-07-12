@@ -188,7 +188,7 @@ rm(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 
 Version_IDs_ensemble <- c(Version_IDs_x, Version_IDs_o, Version_IDs_d, Version_IDs_g, Version_IDs_n, Version_IDs_c)
 
-rm(Version_IDs_x, Version_IDs_o, Version_IDs_d, Version_IDs_g, Version_IDs_n, Version_IDs_c)
+rm(Version_IDs_x, Version_IDs_o, Version_IDs_g, Version_IDs_n, Version_IDs_c)
 
 ```
 
@@ -483,12 +483,22 @@ dcant_budget_basin_MLR_all <- dcant_budget_basin_MLR_all %>%
 ```{r r distuinguish_standard_case_and_ensemble_budget, include=FALSE}
 
 
-dcant_budget_global_all_ensemble <- dcant_budget_global_all
+dcant_budget_global_all_ensemble <- dcant_budget_global_all %>% 
+  filter(!(Version_ID %in% Version_IDs_d))
+
+dcant_budget_global_all_no_adj <- dcant_budget_global_all %>% 
+  filter(Version_ID %in% Version_IDs_d)
+  
 dcant_budget_global_all <- dcant_budget_global_all %>%
   filter(Version_ID %in% Version_IDs)
 
 
-dcant_budget_basin_MLR_all_ensemble <- dcant_budget_basin_MLR_all
+dcant_budget_basin_MLR_all_ensemble <- dcant_budget_basin_MLR_all %>% 
+  filter(!(Version_ID %in% Version_IDs_d))
+
+dcant_budget_basin_MLR_all_no_adj <- dcant_budget_basin_MLR_all %>% 
+  filter(Version_ID %in% Version_IDs_d)
+
 dcant_budget_basin_MLR_all <- dcant_budget_basin_MLR_all %>%
   filter(Version_ID %in% Version_IDs)
 
@@ -637,17 +647,23 @@ dcant_budget_lon_grid_all <- dcant_budget_lon_grid_all %>%
 ```{r r distuinguish_standard_case_and_ensemble_inventories, include=FALSE}
 
 
-dcant_inv_bias_all_ensemble <- dcant_inv_bias_all
+dcant_inv_bias_all_ensemble <- dcant_inv_bias_all %>% 
+  filter(!(Version_ID %in% Version_IDs_d))
+
 dcant_inv_bias_all <- dcant_inv_bias_all %>% 
   filter(Version_ID %in% Version_IDs)
 
 
-dcant_budget_lat_grid_all_ensemble <- dcant_budget_lat_grid_all
+dcant_budget_lat_grid_all_ensemble <- dcant_budget_lat_grid_all %>% 
+  filter(!(Version_ID %in% Version_IDs_d))
+
 dcant_budget_lat_grid_all <- dcant_budget_lat_grid_all %>% 
   filter(Version_ID %in% Version_IDs)
 
 
-dcant_budget_lon_grid_all_ensemble <- dcant_budget_lon_grid_all
+dcant_budget_lon_grid_all_ensemble <- dcant_budget_lon_grid_all %>% 
+  filter(!(Version_ID %in% Version_IDs_d))
+
 dcant_budget_lon_grid_all <- dcant_budget_lon_grid_all %>% 
   filter(Version_ID %in% Version_IDs)
 
@@ -865,28 +881,34 @@ dcant_zonal_bias_all <- full_join(dcant_zonal_bias_all,
 ```{r r distuinguish_standard_case_and_ensemble_sections_and_profiles, include=FALSE}
 
 
-dcant_zonal_all_ensemble <- dcant_zonal_all
+dcant_zonal_all_ensemble <- dcant_zonal_all %>% 
+  filter(!(Version_ID %in% Version_IDs_d))
 dcant_zonal_all <- dcant_zonal_all %>% 
   filter(Version_ID %in% Version_IDs)
 
 
-dcant_profile_all_ensemble <- dcant_profile_all
+dcant_profile_all_ensemble <- dcant_profile_all %>% 
+  filter(!(Version_ID %in% Version_IDs_d))
 dcant_profile_all <- dcant_profile_all %>% 
   filter(Version_ID %in% Version_IDs)
 
-dcant_profile_basin_MLR_all_ensemble <- dcant_profile_basin_MLR_all
+dcant_profile_basin_MLR_all_ensemble <- dcant_profile_basin_MLR_all %>% 
+  filter(!(Version_ID %in% Version_IDs_d))
 dcant_profile_basin_MLR_all <- dcant_profile_basin_MLR_all %>% 
   filter(Version_ID %in% Version_IDs)
 
-dcant_budget_basin_AIP_layer_all_ensemble <- dcant_budget_basin_AIP_layer_all
+dcant_budget_basin_AIP_layer_all_ensemble <- dcant_budget_basin_AIP_layer_all %>% 
+  filter(!(Version_ID %in% Version_IDs_d))
 dcant_budget_basin_AIP_layer_all <- dcant_budget_basin_AIP_layer_all %>% 
   filter(Version_ID %in% Version_IDs)
 
-dcant_budget_basin_MLR_layer_all_ensemble <- dcant_budget_basin_MLR_layer_all
+dcant_budget_basin_MLR_layer_all_ensemble <- dcant_budget_basin_MLR_layer_all %>% 
+  filter(!(Version_ID %in% Version_IDs_d))
 dcant_budget_basin_MLR_layer_all <- dcant_budget_basin_MLR_layer_all %>% 
   filter(Version_ID %in% Version_IDs)
 
-dcant_zonal_bias_all_ensemble <- dcant_zonal_bias_all
+dcant_zonal_bias_all_ensemble <- dcant_zonal_bias_all %>% 
+  filter(!(Version_ID %in% Version_IDs_d))
 dcant_zonal_bias_all <- dcant_zonal_bias_all %>% 
   filter(Version_ID %in% Version_IDs)
 
