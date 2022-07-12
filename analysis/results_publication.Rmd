@@ -889,11 +889,15 @@ dcant_zonal_all <- dcant_zonal_all %>%
 
 dcant_profile_all_ensemble <- dcant_profile_all %>% 
   filter(!(Version_ID %in% Version_IDs_d))
+dcant_profile_all_no_adj <- dcant_profile_all %>% 
+  filter(Version_ID %in% Version_IDs_d)
 dcant_profile_all <- dcant_profile_all %>% 
   filter(Version_ID %in% Version_IDs)
 
 dcant_profile_basin_MLR_all_ensemble <- dcant_profile_basin_MLR_all %>% 
   filter(!(Version_ID %in% Version_IDs_d))
+dcant_profile_basin_MLR_all_no_adj <- dcant_profile_basin_MLR_all %>% 
+  filter(Version_ID %in% Version_IDs_d)
 dcant_profile_basin_MLR_all <- dcant_profile_basin_MLR_all %>% 
   filter(Version_ID %in% Version_IDs)
 
@@ -904,6 +908,8 @@ dcant_budget_basin_AIP_layer_all <- dcant_budget_basin_AIP_layer_all %>%
 
 dcant_budget_basin_MLR_layer_all_ensemble <- dcant_budget_basin_MLR_layer_all %>% 
   filter(!(Version_ID %in% Version_IDs_d))
+dcant_budget_basin_MLR_layer_all_no_adj <- dcant_budget_basin_MLR_layer_all %>% 
+  filter(Version_ID %in% Version_IDs_d)
 dcant_budget_basin_MLR_layer_all <- dcant_budget_basin_MLR_layer_all %>% 
   filter(Version_ID %in% Version_IDs)
 
@@ -2033,21 +2039,23 @@ dcant_profile_basin_MLR_all_delta %>%
 
 ```{r dcant_budget_global_ensemble}
 
-dcant_budget_global_all_ensemble %>%
+
+bind_rows(dcant_budget_global_all_no_adj,
+          dcant_budget_global_all_ensemble) %>%
   ggplot(aes(period, dcant, col = Version_ID_group)) +
   geom_jitter() +
   scale_color_brewer(palette = "Dark2") +
   facet_grid(. ~ data_source)
 
 
+
 dcant_budget_global_all_ensemble %>%
-  mutate(ensemble_role = if_else(Version_ID %in% Version_IDs,
-                                 "standard case",
-                                 "others")) %>%
+  mutate(ensemble_role = case_when(Version_ID %in% Version_IDs ~ "standard case",
+                                   TRUE ~ "others")) %>%
   filter(data_source == "obs") %>%
   ggplot(aes(period, dcant)) +
-  scale_fill_viridis_d(name = "ensemble group") +
-  scale_color_manual(values = c("grey", "red"),
+  scale_fill_brewer(palette = "Dark2",name = "ensemble group") +
+  scale_color_manual(values = c( "black", "red", "grey"),
                      name = "ensemble member") +
   geom_boxplot(
     width = .1,
@@ -2056,27 +2064,36 @@ dcant_budget_global_all_ensemble %>%
     alpha = 0.7,
     position = position_nudge(x = 0.3)
   ) +
-  geom_point(
+  geom_point(data = dcant_budget_global_all_no_adj %>%
+  mutate(ensemble_role = "unadjusted") %>%
+  filter(data_source == "obs"),
     aes(fill = Version_ID_group,
         col = ensemble_role),
-    size = 1.3,
+    size = 2,
     alpha = .7,
     shape = 21,
     position = position_dodge2(width = 0.3)
   ) +
-  stat_summary(
-    fun.data = "mean_sdl",
-    fun.args = list(mult = 2),
-    position = position_nudge(x = -0.3),
-    col = "grey"
+  geom_point(
+    aes(fill = Version_ID_group,
+        col = ensemble_role),
+    size = 2,
+    alpha = .5,
+    shape = 21,
+    position = position_dodge2(width = 0.3)
   ) +
-  stat_summary(
-    fun.data = "mean_sdl",
-    fun.args = list(mult = 1),
-    position = position_nudge(x = -0.3)
-  ) +
+  # stat_summary(
+  #   fun.data = "mean_sdl",
+  #   fun.args = list(mult = 2),
+  #   position = position_nudge(x = -0.3),
+  #   col = "grey"
+  # ) +
+  # stat_summary(
+  #   fun.data = "mean_sdl",
+  #   fun.args = list(mult = 1),
+  #   position = position_nudge(x = -0.3)
+  # ) +
   scale_y_continuous(name = dcant_pgc_label, breaks = seq(0, 100, 2))
-
 
 ggsave(path = here::here("output/publication"),
        filename = "FigS_budget_dcant_global_ensemble_member.png",
@@ -2141,14 +2158,15 @@ dcant_budget_basin_MLR_all_ensemble %>%
   scale_color_brewer(palette = "Dark2") +
   facet_grid(basin ~ data_source)
 
+
 dcant_budget_basin_MLR_all_ensemble %>%
-   mutate(ensemble_role = if_else(Version_ID %in% Version_IDs,
+  mutate(ensemble_role = if_else(Version_ID %in% Version_IDs,
                                  "standard case",
                                  "others")) %>%
   filter(data_source == "obs") %>%
   ggplot(aes(period, dcant)) +
-  scale_fill_viridis_d(name = "ensemble group") +
-  scale_color_manual(values = c("grey", "red"),
+  scale_fill_brewer(palette = "Dark2", name = "ensemble group") +
+  scale_color_manual(values = c("grey", "black", "red"),
                      name = "ensemble member") +
   geom_boxplot(
     width = .1,
@@ -2158,6 +2176,9 @@ dcant_budget_basin_MLR_all_ensemble %>%
     position = position_nudge(x = 0.3)
   ) +
   geom_point(
+    data = dcant_budget_basin_MLR_all_no_adj %>%
+      mutate(ensemble_role = "no adjustment") %>%
+      filter(data_source == "obs"),
     aes(fill = Version_ID_group,
         col = ensemble_role),
     size = 1.3,
@@ -2165,18 +2186,26 @@ dcant_budget_basin_MLR_all_ensemble %>%
     shape = 21,
     position = position_dodge2(width = 0.3)
   ) +
-  stat_summary(
-    fun.data = "mean_sdl",
-    fun.args = list(mult = 2),
-    position = position_nudge(x = -0.3),
-    col = "grey"
+  geom_point(
+    aes(fill = Version_ID_group,
+        col = ensemble_role),
+    size = 1.3,
+    alpha = .7,
+    shape = 21,
+    position = position_dodge2(width = 0.3)
   ) +
-  stat_summary(
-    fun.data = "mean_sdl",
-    fun.args = list(mult = 1),
-    position = position_nudge(x = -0.3)
-  ) +
-  scale_y_continuous(name = dcant_pgc_label, breaks = seq(0, 100, 2)) +
+  # stat_summary(
+  #   fun.data = "mean_sdl",
+  #   fun.args = list(mult = 2),
+  #   position = position_nudge(x = -0.3),
+  #   col = "grey"
+  # ) +
+  # stat_summary(
+  #   fun.data = "mean_sdl",
+  #   fun.args = list(mult = 1),
+  #   position = position_nudge(x = -0.3)
+  # ) +
+scale_y_continuous(name = dcant_pgc_label, breaks = seq(0, 100, 2)) +
   facet_grid(basin ~ ., scales = "free_y")
 
 
@@ -2956,7 +2985,7 @@ dcant_budget_basin_AIP_layer_all %>%
 ### 5 basins
 
 
-```{r depth_layer_budget_basin_MLR, fig.asp=0.9}
+```{r depth_layer_budget_basin_MLR_standard_case, fig.asp=0.9}
 
 dcant_budget_change <- dcant_budget_basin_MLR_layer_all %>%
   filter(estimate == "dcant",
@@ -3005,7 +3034,8 @@ dcant_budget_layer %>%
   scale_fill_brewer(palette = "Set1", direction = -1, name = "") +
   facet_wrap(~ basin, ncol = 3, dir = "v") +
   labs(y = dcant_layer_budget_label,
-       x = "Depth (m)")
+       x = "Depth (m)") +
+      theme(legend.position = c(0.8,0.2))
 
 
 
@@ -3013,6 +3043,51 @@ ggsave(path = here::here("output/publication"),
        filename = "FigS_budget_dcant_basin_hemisphere_depth_layer.png",
        height = 6,
        width = 8)
+
+
+```
+
+```{r depth_layer_budget_basin_MLR_ensemble, fig.asp=0.9}
+
+dcant_budget_range <- dcant_budget_basin_MLR_layer_all_ensemble %>%
+  filter(estimate == "dcant",
+         period != "1994 - 2014",
+         inv_depth <= 3000,
+         data_source == "obs") %>%
+  rename(dcant = value) %>%
+  select(-c(tref1, tref2, Version_ID)) %>%
+  group_by(basin, inv_depth, period) %>% 
+  summarise(dcant_sd = sd(dcant)*2) %>%
+  ungroup()
+
+dcant_budget_layer <-
+  full_join(dcant_budget_range,
+            dcant_budget_layer)
+
+dcant_budget_layer %>%
+  ggplot() +
+  geom_hline(yintercept = 0) +
+  geom_rect(
+    aes(
+      xmin = inv_depth - 250,
+      xmax = inv_depth + 250,
+      ymin = dcant - dcant_sd,
+      ymax = dcant + dcant_sd,
+      fill = period
+    ),
+    alpha = 0.4
+  ) +
+  geom_step(aes(inv_depth - 250, dcant, col = period), direction = "vh",
+            size = 1) +
+  coord_flip() +
+  scale_x_reverse(breaks = seq(0, 3000, 500), limits = c(3000,0)) +
+  scale_color_brewer(palette = "Set1", direction = -1, name = "period") +
+  scale_fill_brewer(palette = "Set1", direction = -1, name = "") +
+  facet_wrap(~ basin, ncol = 3, dir = "v") +
+  labs(y = dcant_layer_budget_label,
+       x = "Depth (m)") +
+      theme(legend.position = c(0.8,0.2))
+
 
 
 ```
@@ -3082,7 +3157,8 @@ dcant_budget_layer %>%
   facet_wrap( ~ basin, ncol = 3, dir = "v") +
   labs(y = dcant_layer_budget_label,
        x = "Depth (m)",
-       title = "Cumulative layer inventory change")
+       title = "Cumulative layer inventory change") +
+      theme(legend.position = c(0.8,0.2))
 
 ```
 
@@ -3166,6 +3242,7 @@ dcant_budget_global_ts <- dcant_budget_global_ts %>%
 dcant_budget_global_all_ensemble_summary <-
   dcant_budget_basin_MLR_all_ensemble %>%
   filter(period != "2004 - 2014") %>%
+  mutate(dcant = dcant * dcant_scaling) %>% 
   group_by(data_source, Version_ID, tref1, tref2, period) %>%
   summarise(dcant = sum(dcant)) %>%
   ungroup() %>%
@@ -3175,11 +3252,6 @@ dcant_budget_global_all_ensemble_summary <-
   ungroup() %>%
   filter(data_source == "obs")
 
-
-
-dcant_budget_global_all_ensemble_summary <-
-  dcant_budget_global_all_ensemble_summary %>%
-  mutate(dcant_sd = dcant_sd * dcant_scaling)
 
 
 dcant_budget_global_ts <- left_join(dcant_budget_global_ts,
@@ -3438,7 +3510,7 @@ dcant_type_box <-
              period != "2004 - 2014") %>%
       select(period, dcant) %>%
       mutate(type = "eMLR(C*)",
-             dcant = dcant + 118),
+             dcant = dcant * dcant_scaling + 118),
     Ocean_Sink_cum_1994 %>%
       filter(year %in% c(2004, 2014)) %>%
       mutate(period = if_else(year == 2004,
