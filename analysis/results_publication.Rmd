@@ -1080,7 +1080,8 @@ ddcant_umol_label <- expression(Delta * Delta * C[ant]~(mu * mol ~ kg ^ {-1}))
 dcant_layer_budget_label <- 
   expression(Delta ~ C[ant] ~ "budget per 500m depth layer (PgC)")
 
-beta_label <- expression(beta~(mol ~ m ^ {-2} ~ µatm ^ {-1}))
+dcant_CI_label <- expression(Delta * C[ant]~(mol ~ m ^ {-2}))
+beta_CI_label <- expression(beta~(mol ~ m ^ {-2} ~ µatm ^ {-1}))
 
 ```
 
@@ -1162,26 +1163,23 @@ dcant_inv_all <- dcant_inv_all %>%
 
 ```{r invetory_maps_absolute, fig.asp=1.2}
 
-dcant_inv_all %>%
+p_CI_absolute <- dcant_inv_all %>%
   filter(period != "1800 - 1994") %>%
   p_map_cant_inv(var = "dcant",
                  title_text = NULL) +
   facet_grid(period ~ .) +
-  theme(axis.text = element_blank(),
-        axis.ticks = element_blank())
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank())
 
-ggsave(path = here::here("output/publication"),
-       filename = "Fig_column_inventory_map_dcant.png",
-       height = 4,
-       width = 6)
+p_CI_absolute
+
+
 
 dcant_inv_all %>%
   p_map_cant_inv(var = "beta",
                  breaks = c(-Inf, seq(0, 1, 0.1), Inf),
                  title_text = NULL) +
-  facet_grid(period ~ .) +
-  theme(axis.text = element_blank(),
-        axis.ticks = element_blank())
+  facet_grid(period ~ .)
 
 ggsave(path = here::here("output/publication"),
        filename = "FigS_column_inventory_map_beta.png",
@@ -1194,246 +1192,43 @@ dcant_inv_all %>%
   filter(period != "1800 - 1994") %>% 
   p_map_cant_inv(var = "beta",
                  breaks = c(-Inf, seq(0, 1, 0.1), Inf),) +
-  facet_grid(period ~ .) +
-  theme(axis.text = element_blank(),
-        axis.ticks = element_blank())
+  facet_grid(period ~ .)
 
-
-```
-
-#### test color palettes
-
-```{r inventory_maps_absolute_test_color_scales, fig.asp=0.4, eval=FALSE}
-
-breaks <- c(-Inf, seq(0, 16, 2), Inf)
-
-legend_title <- expression(atop(Delta * C["ant"],
-                                (mol ~ m ^ {
-                                  -2
-                                })))
-
-breaks_n <- length(breaks) - 1
-
-dcant_inv_all_color_test <- dcant_inv_all %>%
-  filter(data_source %in% c("obs"),
-         period == "2004 - 2014") %>%
-  mutate(dcant_int = cut(dcant,
-                         breaks,
-                         right = FALSE))
-
-scico_continous_palettes <- c(
-  "acton",
-  "bamako",
-  "batlow",
-  "bilbao",
-  "buda",
-  "davos",
-  "devon",
-  "grayC",
-  "hawaii",
-  "imola",
-  "lajolla",
-  "lapaz",
-  "nuuk",
-  "oslo",
-  "tokyo",
-  "turku"
-)
-
-p_test_scico <- function(df, i_palette) {
-  p_reg <- map +
-    geom_raster(data = df,
-                aes(lon, lat, fill = dcant_int)) +
-    scale_fill_scico_d(
-      palette = i_palette,
-      drop = FALSE,
-      name = legend_title,
-      guide = "none"
-    ) +
-    labs(title = i_palette) +
-    theme(axis.text = element_blank(),
-          axis.ticks = element_blank())
-  
-  p_rev <- map +
-    geom_raster(data = df,
-              aes(lon, lat, fill = dcant_int)) +
-    scale_fill_scico_d(
-      palette = i_palette,
-      drop = FALSE,
-      name = legend_title,
-      direction = -1,
-      guide = "none"
-    ) +
-    labs(title = paste(i_palette, "rev")) +
-    theme(axis.text = element_blank(),
-          axis.ticks = element_blank())
-  
-  p_comb <- p_reg / p_rev
-  
-  return(p_comb)
-}
-
-
-all_plots_scico <- scico_continous_palettes %>% 
-  # head(1) %>% 
-  map(~p_test_scico(df = dcant_inv_all_color_test,
-                      i_palette = .x))
-
-viridis_continous_palettes <- c(
-  "viridis",
-  "magma",
-  "inferno",
-  "plasma"
-)
-
-p_test_viridis <- function(df, i_palette) {
-  p_reg <- map +
-    geom_raster(data = df,
-                aes(lon, lat, fill = dcant_int)) +
-    scale_fill_viridis_d(
-      option = i_palette,
-      drop = FALSE,
-      name = legend_title,
-      guide = "none"
-    ) +
-    labs(title = i_palette) +
-    theme(axis.text = element_blank(),
-          axis.ticks = element_blank())
-  
-  p_rev <- map +
-    geom_raster(data = df,
-              aes(lon, lat, fill = dcant_int)) +
-    scale_fill_viridis_d(
-      option = i_palette,
-      drop = FALSE,
-      name = legend_title,
-      direction = -1,
-      guide = "none"
-    ) +
-    labs(title = paste(i_palette, "rev")) +
-    theme(axis.text = element_blank(),
-          axis.ticks = element_blank())
-  
-  p_comb <- p_reg / p_rev
-  
-  return(p_comb)
-}
-
-all_plots_viridis <- viridis_continous_palettes %>% 
-  # head(1) %>% 
-  map(~p_test_viridis(df = dcant_inv_all_color_test,
-                      i_palette = .x))
-
-
-
-library(colorspace)
-
-colorspace_continous_palettes <- c(
-  # "Purple - Blue",
-  # "Red - Purple",
-  # "Blue - Yellow",
-  # "Heat",
-  # "Heat 2",
-  "Rocket"
-  # "Mako",
-  # "Dark",
-  # "Mint",
-  # "Mint",
-  # "BluGrn",
-  # "Teal",
-  # "Sunset",
-  # "SunsetDark",
-  # "ag_Sunset",
-  # "YlOrRd",
-  # "YlGnBu",
-  # "RdPu"
-)
-
-p_test_colorspace <- function(df, i_palette) {
-  
-  i_palette <<- i_palette
-  
-  p_reg <- map +
-    geom_raster(data = df,
-                aes(lon, lat, fill = dcant_int)) +
-    scale_fill_discrete_sequential(
-      palette = i_palette,
-      drop = FALSE,
-      name = legend_title,
-      guide = "none"
-    ) +
-    labs(title = i_palette) +
-    theme(axis.text = element_blank(),
-          axis.ticks = element_blank())
-  
-  p_rev <- map +
-    geom_raster(data = df,
-                aes(lon, lat, fill = dcant_int)) +
-    scale_fill_discrete_sequential(
-      palette = i_palette,
-      drop = FALSE,
-      name = legend_title,
-      rev = FALSE,
-      guide = "none"
-    ) +
-    labs(title = paste(i_palette, "rev")) +
-    theme(axis.text = element_blank(),
-          axis.ticks = element_blank())
-
-  p_comb <- p_reg / p_rev
-  
-  return(p_comb)
-  rm(i_palette)
-  
-}
-
-all_plots_colorspace <- colorspace_continous_palettes %>%
-  # head(2) %>%
-  map(~p_test_colorspace(df = dcant_inv_all_color_test,
-                           i_palette = .x))
-
-all_plots_colorspace
-
-all_plots <- c(all_plots_colorspace, all_plots_viridis, all_plots_scico)
-
-pdf(here::here("output/publication/test_color_scales.pdf"),
-    width = 4, height = 4)
-all_plots
-dev.off()
 
 ```
 
 ### dcant - absolute delta
 
-```{r invetory_maps_absolute_delta}
+```{r invetory_maps_absolute_delta, fig.asp=1}
 
-
-dcant_inv_all %>%
+p_CI_delta <-
+  dcant_inv_all %>%
   filter(data_source %in% c("obs"),
          period != "1994 - 2014") %>%
-  select(data_source, lon, lat, basin_AIP, period, dcant) %>% 
+  select(data_source, lon, lat, basin_AIP, period, dcant) %>%
   pivot_wider(names_from = period,
-              values_from = dcant) %>% 
-  mutate(dcant_offset = `2004 - 2014` - `1994 - 2004`) %>% 
+              values_from = dcant) %>%
+  mutate(dcant_offset = `2004 - 2014` - `1994 - 2004`) %>%
   group_by(data_source) %>%
   group_split() %>%
   # head(1) %>%
   map(
-    ~ p_map_cant_inv(df = .x,
-                     var = "dcant_offset",
-                     subtitle_text = paste("data_source:",
-                                           unique(.x$data_source)),
-                     col = "bias") +
-      theme(axis.text = element_blank(),
-            axis.ticks = element_blank())
+    ~ p_map_cant_inv(
+      df = .x,
+      var = "dcant_offset",
+      title_text = NULL,
+      subtitle_text = NULL,
+      col = "bias"
+    )
   )
 
-
+p_CI_absolute / p_CI_delta
 
 ggsave(path = here::here("output/publication"),
-       filename = "FigS_column_inventory_map_dcant_decadal_offset.png",
-       height = 3.5,
-       width = 6)
+       filename = "Fig_column_inventory_map_dcant.png",
+       height = 9,
+       width = 8)
+
 
 ```
 
@@ -1503,30 +1298,95 @@ ggsave(path = here::here("output/publication"),
 
 ## Zonal means
 
-```{r zonal_mean_storage}
+```{r calc_zonal_mean_storage}
 
 dcant_inv_all <- m_grid_horizontal_coarse(dcant_inv_all)
 
 dcant_inv_all_lat_mean <- dcant_inv_all %>% 
   group_by(basin_AIP, period, lat_grid) %>% 
-  summarise(beta = mean(beta, na.rm = TRUE)) %>% 
+  summarise(beta = mean(beta, na.rm = TRUE),
+            dcant = mean(dcant, na.rm = TRUE)) %>% 
   ungroup()
 
 dcant_inv_all_ensemble <- m_grid_horizontal_coarse(dcant_inv_all_ensemble)
 
 dcant_inv_all_ensemble_lat_mean <- dcant_inv_all_ensemble %>% 
   group_by(basin_AIP, period, lat_grid, Version_ID) %>% 
-  summarise(beta_mean = mean(beta, na.rm = TRUE)) %>% 
+  summarise(beta_mean = mean(beta, na.rm = TRUE),
+            dcant_mean = mean(dcant, na.rm = TRUE)) %>% 
   ungroup()
 
 dcant_inv_all_ensemble_lat_mean_average <- dcant_inv_all_ensemble_lat_mean %>% 
   group_by(basin_AIP, period, lat_grid) %>% 
   summarise(beta_sd = sd(beta_mean, na.rm = TRUE),
-            beta_mean = mean(beta_mean, na.rm = TRUE)) %>% 
+            beta_mean = mean(beta_mean, na.rm = TRUE),
+            dcant_sd = sd(dcant_mean, na.rm = TRUE),
+            dcant_mean = mean(dcant_mean, na.rm = TRUE)) %>% 
   ungroup()
 
 dcant_inv_all_lat_mean <- full_join(dcant_inv_all_lat_mean,
                                     dcant_inv_all_ensemble_lat_mean_average)
+
+
+```
+
+
+### dcant
+
+```{r zonal_mean_storage_dcant}
+
+dcant_inv_all_lat_mean %>%
+  filter(period != "1800 - 1994") %>% 
+  ggplot(aes(lat_grid, dcant, fill = period)) +
+  geom_hline(yintercept = c(0,10)) +
+  geom_vline(xintercept = c(-10,10)) +
+  geom_vline(xintercept = c(-40,-30,30,40)) +
+  geom_ribbon(aes(ymin = dcant - dcant_sd,
+                  ymax = dcant + dcant_sd),
+              alpha = 0.3) +
+  geom_path(aes(col = period)) +
+  geom_point(shape = 21) +
+  scale_color_brewer(palette = "Dark2", name = "Mean ± SD") +
+  scale_fill_brewer(palette = "Dark2", name = "Mean ± SD") +
+  coord_flip() +
+  facet_grid(. ~ basin_AIP) +
+  labs(x = "Latitude (°N)",
+       y = dcant_CI_label) +
+  scale_x_continuous(breaks = seq(-75,75, 15))
+
+dcant_inv_all_lat_mean %>%
+  filter(period != "1800 - 1994") %>% 
+  mutate(lat_grid = cut(lat_grid, c(-40,-30,-10,10,30,40))) %>% 
+  group_by(lat_grid) %>% 
+  summarise(dcant_mean = mean(dcant_mean, na_rm = TRUE)) %>% 
+  ungroup()
+
+dcant_inv_all_lat_mean %>%
+  filter(period != "1800 - 1994") %>% 
+  mutate(lat_grid = cut(lat_grid, c(-40,-30,-10,10,30,40))) %>% 
+  group_by(lat_grid, basin_AIP) %>% 
+  summarise(dcant_mean = mean(dcant_mean, na_rm = TRUE)) %>% 
+  ungroup()
+
+
+dcant_inv_all_ensemble_lat_mean %>% 
+  ggplot(aes(lat_grid, dcant_mean, fill=period, group=Version_ID)) +
+  geom_hline(yintercept = 0) +
+  geom_path(aes(col=period)) +
+  scale_color_brewer(palette = "Dark2") +
+  scale_fill_brewer(palette = "Dark2") +
+  coord_flip() +
+  facet_grid(. ~ basin_AIP) +
+  labs(x = "Latitude (°N)",
+       y = dcant_CI_label)
+```
+
+
+
+
+### beta
+
+```{r zonal_mean_storage_beta}
 
 dcant_inv_all_lat_mean %>%
   ggplot(aes(lat_grid, beta, fill = period)) +
@@ -1541,7 +1401,7 @@ dcant_inv_all_lat_mean %>%
   coord_flip() +
   facet_grid(. ~ basin_AIP) +
   labs(x = "Latitude (°N)",
-       y = beta_label) +
+       y = beta_CI_label) +
   scale_x_continuous(breaks = seq(-75,75, 15))
 
 dcant_inv_all_ensemble_lat_mean %>% 
@@ -1553,11 +1413,12 @@ dcant_inv_all_ensemble_lat_mean %>%
   coord_flip() +
   facet_grid(. ~ basin_AIP) +
   labs(x = "Latitude (°N)",
-       y = beta_label)
-
+       y = beta_CI_label)
 ```
 
-```{r zonal_mean_storage_Atlantic, fig.asp=1.5}
+
+
+```{r zonal_mean_storage_beta_Atlantic, fig.asp=1.5}
 
 dcant_inv_all_lat_mean %>%
   filter(basin_AIP == "Atlantic") %>% 
@@ -1573,11 +1434,12 @@ dcant_inv_all_lat_mean %>%
   coord_flip() +
   facet_grid(. ~ basin_AIP) +
   labs(x = "Latitude (°N)",
-       y = beta_label) +
+       y = beta_CI_label) +
   scale_x_continuous(breaks = seq(-75,75, 15))
 
 
 ```
+
 
 
 # Zonal sections
@@ -1586,25 +1448,38 @@ dcant_inv_all_lat_mean %>%
 
 ```{r zonal_sections}
 
-dcant_zonal_all %>%
-  filter(data_source == "obs",
-         period != "1994 - 2014",
-         depth <= params_global$inventory_depth_standard) %>%
+
+p_dcant_zonal_absolute <-
+  dcant_zonal_all %>%
+  filter(
+    data_source == "obs",
+    period != "1994 - 2014",
+    depth <= params_global$inventory_depth_standard
+  ) %>%
   p_section_zonal_continous_depth(var = "dcant",
                                   plot_slabs = "n",
                                   title_text = NULL) +
-  facet_grid(basin_AIP ~ period)
+  geom_contour(aes(lat, depth, z = dcant),
+               breaks = 5,
+               col = "white") +
+  # geom_text_contour(
+  #   aes(lat, depth, z = dcant),
+  #   breaks = 5,
+  #   stroke = 0.2,
+  #   stroke.colour = "white",
+  #   rotate = FALSE,
+  #   label.placer = label_placer_n(n = 1)
+  # ) +
+  facet_grid(period ~ basin_AIP) +
+  theme(axis.text.x = element_blank(),
+        axis.title.x = element_blank())
 
+p_dcant_zonal_absolute
 
-
-ggsave(path = here::here("output/publication"),
-       filename = "FigS_zonal_mean_sections_dcant.png",
-       height = 5,
-       width = 9)
 
 ```
 
-```{r zonal_sections_basin}
+```{r zonal_sections_basin, eval=FALSE}
 
 dcant_zonal_all %>%
   filter(
@@ -1654,6 +1529,7 @@ dcant_zonal_all %>%
       facet_grid(basin_AIP ~ .)
   )
 
+p_dcant_zonal_delta <- 
 dcant_zonal_all %>%
   filter(data_source %in% c("obs"),
          period != "1994 - 2014") %>%
@@ -1673,14 +1549,18 @@ dcant_zonal_all %>%
       title_text = NULL,
       col = "bias"
     ) +
-      facet_grid(basin_AIP ~ .)
+      facet_grid(. ~ basin_AIP)
+      # theme(strip.text = element_blank(),
+      #       strip.background = element_blank())
   )
 
+p_dcant_zonal_absolute / p_dcant_zonal_delta
 
 ggsave(path = here::here("output/publication"),
-       filename = "FigS_zonal_mean_sections_dcant_decadal_offset.png",
-       height = 5,
-       width = 6)
+       filename = "Fig_zonal_mean_sections_dcant.png",
+       height = 9,
+       width = 15)
+
 
 ```
 
@@ -1691,6 +1571,7 @@ ggsave(path = here::here("output/publication"),
 
 
 ```{r concentration_profiles_global}
+
 
 dcant_profile_global_all %>%
   arrange(depth) %>%
@@ -1715,17 +1596,44 @@ dcant_profile_global_all %>%
       geom_path(aes(col = period)) +
       scale_y_continuous(trans = trans_reverser("sqrt"),
                          breaks = c(0, 100, 500, seq(1500, 5000, 1000))) +
+      # scale_y_reverse(breaks = c(0, 100, 500, seq(1500, 5000, 1000))) +
       coord_cartesian(expand = 0) +
-      scale_color_brewer(palette = "Set1", name = "mean \u00B1 sd", direction = -1) +
-      scale_fill_brewer(palette = "Set1", name = "mean \u00B1 sd", direction = -1) +
+      scale_color_brewer(
+        palette = "Set1",
+        name = "mean \u00B1 sd",
+        direction = -1
+      ) +
+      scale_fill_brewer(
+        palette = "Set1",
+        name = "mean \u00B1 sd",
+        direction = -1
+      ) +
       labs(
         title = paste("data_source", unique(.x$data_source)),
         y = "Depth (m)",
         x = dcant_umol_label
       ) +
-      facet_wrap(~ basin, ncol = 3, dir = "v") +
-      theme(legend.position = c(0.8,0.2))
+      facet_wrap( ~ basin, ncol = 3, dir = "v") +
+      theme(legend.position = c(0.8, 0.2))
   )
+
+mean_surface_dcant <- dcant_profile_global_all %>%
+  arrange(depth) %>%
+  filter(period != "1994 - 2014",
+         data_source == "obs") %>% 
+  filter(depth <= 50) %>%
+  summarise(dcant = mean(dcant)) %>% 
+  pull()
+
+dcant_profile_global_all %>%
+  arrange(depth) %>%
+  filter(period != "1994 - 2014",
+         data_source == "obs") %>% 
+  filter(dcant >= mean_surface_dcant/2) %>%
+  group_by(period) %>% 
+  summarise(max_depth = max(depth)) %>% 
+  ungroup()
+  
 
 
 ```
@@ -1943,6 +1851,27 @@ ggsave(path = here::here("output/publication"),
        height = 6,
        width = 8)
 
+
+
+mean_surface_dcant <- dcant_profile_basin_MLR_all %>%
+  arrange(depth) %>%
+  filter(period != "1994 - 2014",
+         data_source == "obs") %>% 
+  filter(depth <= 50) %>%
+  group_by(basin) %>% 
+  summarise(mean_surface_dcant = mean(dcant)) %>% 
+  ungroup()
+
+full_join(dcant_profile_basin_MLR_all,
+          mean_surface_dcant) %>%
+  arrange(depth) %>%
+  filter(period != "1994 - 2014",
+         data_source == "obs") %>% 
+  filter(dcant >= mean_surface_dcant/2) %>%
+  group_by(period, basin) %>% 
+  summarise(max_depth = max(depth)) %>% 
+  ungroup()
+  
 
 
 ```
@@ -3891,5 +3820,207 @@ left_join(GCB_Cant_emissions,
 ```
 
 
+
+#### Map test color palettes
+
+```{r inventory_maps_absolute_test_color_scales, fig.asp=0.4, eval=FALSE}
+
+breaks <- c(-Inf, seq(0, 16, 2), Inf)
+
+legend_title <- expression(atop(Delta * C["ant"],
+                                (mol ~ m ^ {
+                                  -2
+                                })))
+
+breaks_n <- length(breaks) - 1
+
+dcant_inv_all_color_test <- dcant_inv_all %>%
+  filter(data_source %in% c("obs"),
+         period == "2004 - 2014") %>%
+  mutate(dcant_int = cut(dcant,
+                         breaks,
+                         right = FALSE))
+
+scico_continous_palettes <- c(
+  "acton",
+  "bamako",
+  "batlow",
+  "bilbao",
+  "buda",
+  "davos",
+  "devon",
+  "grayC",
+  "hawaii",
+  "imola",
+  "lajolla",
+  "lapaz",
+  "nuuk",
+  "oslo",
+  "tokyo",
+  "turku"
+)
+
+p_test_scico <- function(df, i_palette) {
+  p_reg <- map +
+    geom_raster(data = df,
+                aes(lon, lat, fill = dcant_int)) +
+    scale_fill_scico_d(
+      palette = i_palette,
+      drop = FALSE,
+      name = legend_title,
+      guide = "none"
+    ) +
+    labs(title = i_palette) +
+    theme(axis.text = element_blank(),
+          axis.ticks = element_blank())
+  
+  p_rev <- map +
+    geom_raster(data = df,
+              aes(lon, lat, fill = dcant_int)) +
+    scale_fill_scico_d(
+      palette = i_palette,
+      drop = FALSE,
+      name = legend_title,
+      direction = -1,
+      guide = "none"
+    ) +
+    labs(title = paste(i_palette, "rev")) +
+    theme(axis.text = element_blank(),
+          axis.ticks = element_blank())
+  
+  p_comb <- p_reg / p_rev
+  
+  return(p_comb)
+}
+
+
+all_plots_scico <- scico_continous_palettes %>% 
+  # head(1) %>% 
+  map(~p_test_scico(df = dcant_inv_all_color_test,
+                      i_palette = .x))
+
+viridis_continous_palettes <- c(
+  "viridis",
+  "magma",
+  "inferno",
+  "plasma"
+)
+
+p_test_viridis <- function(df, i_palette) {
+  p_reg <- map +
+    geom_raster(data = df,
+                aes(lon, lat, fill = dcant_int)) +
+    scale_fill_viridis_d(
+      option = i_palette,
+      drop = FALSE,
+      name = legend_title,
+      guide = "none"
+    ) +
+    labs(title = i_palette) +
+    theme(axis.text = element_blank(),
+          axis.ticks = element_blank())
+  
+  p_rev <- map +
+    geom_raster(data = df,
+              aes(lon, lat, fill = dcant_int)) +
+    scale_fill_viridis_d(
+      option = i_palette,
+      drop = FALSE,
+      name = legend_title,
+      direction = -1,
+      guide = "none"
+    ) +
+    labs(title = paste(i_palette, "rev")) +
+    theme(axis.text = element_blank(),
+          axis.ticks = element_blank())
+  
+  p_comb <- p_reg / p_rev
+  
+  return(p_comb)
+}
+
+all_plots_viridis <- viridis_continous_palettes %>% 
+  # head(1) %>% 
+  map(~p_test_viridis(df = dcant_inv_all_color_test,
+                      i_palette = .x))
+
+
+
+library(colorspace)
+
+colorspace_continous_palettes <- c(
+  # "Purple - Blue",
+  # "Red - Purple",
+  # "Blue - Yellow",
+  # "Heat",
+  # "Heat 2",
+  "Rocket"
+  # "Mako",
+  # "Dark",
+  # "Mint",
+  # "Mint",
+  # "BluGrn",
+  # "Teal",
+  # "Sunset",
+  # "SunsetDark",
+  # "ag_Sunset",
+  # "YlOrRd",
+  # "YlGnBu",
+  # "RdPu"
+)
+
+p_test_colorspace <- function(df, i_palette) {
+  
+  i_palette <<- i_palette
+  
+  p_reg <- map +
+    geom_raster(data = df,
+                aes(lon, lat, fill = dcant_int)) +
+    scale_fill_discrete_sequential(
+      palette = i_palette,
+      drop = FALSE,
+      name = legend_title,
+      guide = "none"
+    ) +
+    labs(title = i_palette) +
+    theme(axis.text = element_blank(),
+          axis.ticks = element_blank())
+  
+  p_rev <- map +
+    geom_raster(data = df,
+                aes(lon, lat, fill = dcant_int)) +
+    scale_fill_discrete_sequential(
+      palette = i_palette,
+      drop = FALSE,
+      name = legend_title,
+      rev = FALSE,
+      guide = "none"
+    ) +
+    labs(title = paste(i_palette, "rev")) +
+    theme(axis.text = element_blank(),
+          axis.ticks = element_blank())
+
+  p_comb <- p_reg / p_rev
+  
+  return(p_comb)
+  rm(i_palette)
+  
+}
+
+all_plots_colorspace <- colorspace_continous_palettes %>%
+  # head(2) %>%
+  map(~p_test_colorspace(df = dcant_inv_all_color_test,
+                           i_palette = .x))
+
+all_plots_colorspace
+
+all_plots <- c(all_plots_colorspace, all_plots_viridis, all_plots_scico)
+
+pdf(here::here("output/publication/test_color_scales.pdf"),
+    width = 4, height = 4)
+all_plots
+dev.off()
+
+```
 
 
