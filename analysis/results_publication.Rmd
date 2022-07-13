@@ -1169,7 +1169,7 @@ p_CI_absolute <- dcant_inv_all %>%
                  title_text = NULL) +
   facet_grid(period ~ .) +
   theme(axis.text.x = element_blank(),
-        axis.ticks.x = element_blank())
+        axis.ticks.x = element_blank()) 
 
 p_CI_absolute
 
@@ -1222,10 +1222,11 @@ p_CI_delta <-
     )
   )
 
-p_CI_absolute / p_CI_delta
+p_CI_absolute / p_CI_delta + 
+  plot_annotation(tag_levels = 'A')
 
 ggsave(path = here::here("output/publication"),
-       filename = "Fig_column_inventory_map_dcant.png",
+       filename = "Fig_column_inventories.png",
        height = 9,
        width = 8)
 
@@ -1368,6 +1369,13 @@ dcant_inv_all_lat_mean %>%
   summarise(dcant_mean = mean(dcant_mean, na_rm = TRUE)) %>% 
   ungroup()
 
+dcant_inv_all_lat_mean %>%
+  filter(period != "1800 - 1994") %>% 
+  mutate(lat_grid = cut(lat_grid, c(-90,0,90))) %>% 
+  group_by(lat_grid, basin_AIP, period) %>% 
+  summarise(dcant_mean = mean(dcant_mean, na_rm = TRUE)) %>% 
+  ungroup()
+
 
 dcant_inv_all_ensemble_lat_mean %>% 
   ggplot(aes(lat_grid, dcant_mean, fill=period, group=Version_ID)) +
@@ -1471,6 +1479,8 @@ p_dcant_zonal_absolute <-
   #   label.placer = label_placer_n(n = 1)
   # ) +
   facet_grid(period ~ basin_AIP) +
+  # geom_hline(yintercept = seq(100,1000, 100)) +
+  # geom_vline(xintercept = c(-35,0,35)) +
   theme(axis.text.x = element_blank(),
         axis.title.x = element_blank())
 
@@ -1554,10 +1564,11 @@ dcant_zonal_all %>%
       #       strip.background = element_blank())
   )
 
-p_dcant_zonal_absolute / p_dcant_zonal_delta
+p_dcant_zonal_absolute / p_dcant_zonal_delta + 
+  plot_annotation(tag_levels = 'A')
 
 ggsave(path = here::here("output/publication"),
-       filename = "Fig_zonal_mean_sections_dcant.png",
+       filename = "Fig_zonal_mean_sections.png",
        height = 9,
        width = 15)
 
@@ -1622,17 +1633,21 @@ mean_surface_dcant <- dcant_profile_global_all %>%
   filter(period != "1994 - 2014",
          data_source == "obs") %>% 
   filter(depth <= 50) %>%
-  summarise(dcant = mean(dcant)) %>% 
-  pull()
+  group_by(period) %>% 
+  summarise(mean_surface_dcant = mean(dcant)) %>% 
+  ungroup()
 
-dcant_profile_global_all %>%
+full_join(dcant_profile_global_all_ensemble,
+          mean_surface_dcant) %>%
   arrange(depth) %>%
   filter(period != "1994 - 2014",
-         data_source == "obs") %>% 
-  filter(dcant >= mean_surface_dcant/2) %>%
-  group_by(period) %>% 
-  summarise(max_depth = max(depth)) %>% 
-  ungroup()
+         data_source == "obs") %>%
+  filter(dcant >= mean_surface_dcant / 2) %>%
+  group_by(period, Version_ID) %>%
+  summarise(max_depth = max(depth)) %>%
+  ungroup() %>% 
+  summarise(sd_max_depth = sd(max_depth)*2,
+            mean_max_depth = mean(max_depth))
   
 
 
@@ -1777,16 +1792,9 @@ dcant_profile_global_all_ensemble %>%
   )
 
 
-ggsave(path = here::here("output/publication"),
-       filename = "Fig_concentration_profiles_dcant.png",
-       height = 6,
-       width = 8)
-
-
-
 ```
 
-```{r concentration_profiles_MLR_basins_ensemble, fig.asp=0.9}
+```{r concentration_profiles_MLR_basins_ensemble_individual, fig.asp=0.9}
 
 dcant_profile_basin_MLR_all_ensemble %>%
   arrange(depth) %>%
@@ -1808,8 +1816,9 @@ dcant_profile_basin_MLR_all_ensemble %>%
           col = period,
           group = Version_ID,
           linetype = "ensemble member",
-          size = "ensemble member"
-        ), alpha = 0.5
+          size = "ensemble member",
+          alpha = "ensemble member"
+        )
       ) +
       geom_path(
         data = .x %>% filter(Version_ID %in% Version_IDs),
@@ -1819,11 +1828,21 @@ dcant_profile_basin_MLR_all_ensemble %>%
           col = period,
           group = Version_ID,
           linetype = "standard case",
+          alpha = "standard case",
           size = "standard case"
         )
       ) +
-      scale_size_manual(values = c(0.5, 2), name="x") +
-      scale_linetype_manual(values = c(2, 1), name="x") +
+      geom_path(
+        data = .x %>% filter(Version_ID %in% Version_IDs),
+        aes(
+          dcant,
+          depth,
+          group = Version_ID
+        )
+      ) +
+      scale_size_manual(values = c(0.7, 1.5), name="x") +
+      scale_linetype_manual(values = c(1, 1), name="x") +
+      scale_alpha_manual(values = c(0.4, 1), name="x") +
       scale_y_continuous(trans = trans_reverser("sqrt"),
                          breaks = c(0, 100, 500, seq(1500, 5000, 1000))) +
       coord_cartesian(expand = 0) +
@@ -1846,8 +1865,108 @@ dcant_profile_basin_MLR_all_ensemble %>%
   )
 
 
+
+
+mean_surface_dcant <- dcant_profile_basin_MLR_all %>%
+  arrange(depth) %>%
+  filter(period != "1994 - 2014",
+         data_source == "obs") %>% 
+  filter(depth <= 50) %>%
+  group_by(basin, period) %>% 
+  summarise(mean_surface_dcant = mean(dcant)) %>% 
+  ungroup()
+
+full_join(dcant_profile_basin_MLR_all,
+          mean_surface_dcant) %>%
+  arrange(depth) %>%
+  filter(period != "1994 - 2014",
+         data_source == "obs") %>% 
+  filter(dcant >= mean_surface_dcant/2) %>%
+  group_by(period, basin, Version_ID) %>% 
+  summarise(max_depth = max(depth)) %>% 
+  ungroup() %>% 
+  group_by(basin, period) %>% 
+  summarise(sd_max_depth = sd(max_depth)*2,
+            mean_max_depth = mean(max_depth)) %>% 
+  ungroup()
+  
+
+full_join(dcant_profile_basin_MLR_all_ensemble,
+          mean_surface_dcant) %>%
+  arrange(depth) %>%
+  filter(period != "1994 - 2014",
+         data_source == "obs") %>% 
+  filter(dcant >= mean_surface_dcant/2) %>%
+  group_by(period, basin, Version_ID) %>% 
+  summarise(max_depth = max(depth)) %>% 
+  ungroup() %>% 
+  group_by(basin, period) %>% 
+  summarise(sd_max_depth = sd(max_depth)*2,
+            mean_max_depth = mean(max_depth)) %>% 
+  ungroup()
+  
+
+
+```
+
+```{r concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon, fig.asp=0.9}
+
+dcant_profile_basin_MLR_range <- dcant_profile_basin_MLR_all_ensemble %>%
+  filter(period != "1994 - 2014",
+         data_source == "obs") %>%
+  group_by(basin, depth, period) %>% 
+  summarise(dcant_sd = sd(dcant)*2) %>%
+  ungroup()
+
+
+full_join(dcant_profile_basin_MLR_all_ensemble %>% select(-dcant_sd),
+          dcant_profile_basin_MLR_range) %>%
+  arrange(depth) %>%
+  filter(
+    period != "1994 - 2014",
+    depth <= params_global$inventory_depth_standard,
+    data_source == "obs"
+  ) %>%
+  group_split(data_source) %>%
+  map(
+    ~ ggplot() +
+      geom_hline(yintercept = params_global$inventory_depth_standard) +
+      geom_vline(xintercept = 0) +
+      geom_ribbon(
+        data = .x %>% filter(Version_ID %in% Version_IDs),
+        aes(
+          xmin = dcant - dcant_sd,
+          xmax = dcant + dcant_sd,
+          y = depth,
+          fill = period,
+          group = Version_ID
+        ), alpha = 0.5
+      ) +
+      geom_path(
+        data = .x %>% filter(Version_ID %in% Version_IDs),
+        aes(
+          dcant,
+          depth,
+          col = period,
+          group = Version_ID,
+        )
+      ) +
+      scale_y_continuous(trans = trans_reverser("sqrt"),
+                         breaks = c(0, 100, 500, seq(1500, 5000, 1000))) +
+      coord_cartesian(expand = 0) +
+      scale_color_brewer(palette = "Set1", name = "Mean \u00B1 2 SD", direction = -1) +
+      scale_fill_brewer(palette = "Set1", name = "Mean \u00B1 2 SD", direction = -1) +
+      labs(
+        y = "Depth (m)",
+        x = dcant_umol_label
+      ) +
+      facet_wrap( ~ basin, ncol = 3, dir = "v") +
+      theme(legend.position = c(0.85, 0.3))
+  )
+
+
 ggsave(path = here::here("output/publication"),
-       filename = "Fig_concentration_profiles_dcant.png",
+       filename = "Fig_concentration_profiles.png",
        height = 6,
        width = 8)
 
@@ -1858,7 +1977,7 @@ mean_surface_dcant <- dcant_profile_basin_MLR_all %>%
   filter(period != "1994 - 2014",
          data_source == "obs") %>% 
   filter(depth <= 50) %>%
-  group_by(basin) %>% 
+  group_by(basin, period) %>% 
   summarise(mean_surface_dcant = mean(dcant)) %>% 
   ungroup()
 
@@ -1868,8 +1987,27 @@ full_join(dcant_profile_basin_MLR_all,
   filter(period != "1994 - 2014",
          data_source == "obs") %>% 
   filter(dcant >= mean_surface_dcant/2) %>%
-  group_by(period, basin) %>% 
+  group_by(period, basin, Version_ID) %>% 
   summarise(max_depth = max(depth)) %>% 
+  ungroup() %>% 
+  group_by(basin, period) %>% 
+  summarise(sd_max_depth = sd(max_depth)*2,
+            mean_max_depth = mean(max_depth)) %>% 
+  ungroup()
+  
+
+full_join(dcant_profile_basin_MLR_all_ensemble,
+          mean_surface_dcant) %>%
+  arrange(depth) %>%
+  filter(period != "1994 - 2014",
+         data_source == "obs") %>% 
+  filter(dcant >= mean_surface_dcant/2) %>%
+  group_by(period, basin, Version_ID) %>% 
+  summarise(max_depth = max(depth)) %>% 
+  ungroup() %>% 
+  group_by(basin, period) %>% 
+  summarise(sd_max_depth = sd(max_depth)*2,
+            mean_max_depth = mean(max_depth)) %>% 
   ungroup()
   
 
@@ -1958,7 +2096,7 @@ dcant_profile_basin_MLR_all_ensemble %>%
 
 
 ggsave(path = here::here("output/publication"),
-       filename = "Fig_concentration_profiles_dcant_ensemble_member.png",
+       filename = "FigS_concentration_profiles_dcant_ensemble_member.png",
        height = 6,
        width = 8)
 
