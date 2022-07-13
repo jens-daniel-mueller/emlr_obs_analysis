@@ -820,6 +820,16 @@ dcant_profile_all <- full_join(dcant_profile_all,
                                params_local_all_ensemble)
 
 
+
+dcant_profile_global_all <-
+  dcant_profile_basin_MLR_all %>%
+  filter(MLR_basins == "1") %>%
+  select(-MLR_basins)
+
+dcant_profile_global_all <-
+  full_join(dcant_profile_global_all,
+            params_local_all_ensemble)
+
 dcant_profile_basin_MLR_all <-
   dcant_profile_basin_MLR_all %>%
   filter(MLR_basins == "5") %>%
@@ -828,6 +838,7 @@ dcant_profile_basin_MLR_all <-
 dcant_profile_basin_MLR_all <-
   full_join(dcant_profile_basin_MLR_all,
             params_local_all_ensemble)
+
 
 dcant_profile_basin_MLR_all <-
   dcant_profile_basin_MLR_all %>%
@@ -848,10 +859,25 @@ dcant_budget_basin_AIP_layer_all <-
   full_join(dcant_budget_basin_AIP_layer_all,
             params_local_all_ensemble)
 
+dcant_budget_global_layer_all <-
+  dcant_budget_basin_MLR_layer_all %>%
+  filter(MLR_basins == "1") %>%
+  select(-MLR_basins)
+
+dcant_budget_global_layer_all <-
+  full_join(dcant_budget_global_layer_all,
+            params_local_all_ensemble)
+
 dcant_budget_basin_MLR_layer_all <-
   dcant_budget_basin_MLR_layer_all %>%
   filter(MLR_basins == "5") %>%
   select(-MLR_basins)
+
+
+dcant_budget_basin_MLR_layer_all <-
+  full_join(dcant_budget_basin_MLR_layer_all,
+            params_local_all_ensemble)
+
 
 dcant_budget_basin_MLR_layer_all <-
   dcant_budget_basin_MLR_layer_all %>%
@@ -867,9 +893,6 @@ dcant_budget_basin_MLR_layer_all <-
     )
   )
 
-dcant_budget_basin_MLR_layer_all <-
-  full_join(dcant_budget_basin_MLR_layer_all,
-            params_local_all_ensemble)
 
 dcant_zonal_bias_all <- full_join(dcant_zonal_bias_all,
                                   params_local_all_ensemble)
@@ -894,6 +917,13 @@ dcant_profile_all_no_adj <- dcant_profile_all %>%
 dcant_profile_all <- dcant_profile_all %>% 
   filter(Version_ID %in% Version_IDs)
 
+dcant_profile_global_all_ensemble <- dcant_profile_global_all %>% 
+  filter(!(Version_ID %in% Version_IDs_d))
+dcant_profile_global_all_no_adj <- dcant_profile_global_all %>% 
+  filter(Version_ID %in% Version_IDs_d)
+dcant_profile_global_all <- dcant_profile_global_all %>% 
+  filter(Version_ID %in% Version_IDs)
+
 dcant_profile_basin_MLR_all_ensemble <- dcant_profile_basin_MLR_all %>% 
   filter(!(Version_ID %in% Version_IDs_d))
 dcant_profile_basin_MLR_all_no_adj <- dcant_profile_basin_MLR_all %>% 
@@ -901,17 +931,36 @@ dcant_profile_basin_MLR_all_no_adj <- dcant_profile_basin_MLR_all %>%
 dcant_profile_basin_MLR_all <- dcant_profile_basin_MLR_all %>% 
   filter(Version_ID %in% Version_IDs)
 
-dcant_budget_basin_AIP_layer_all_ensemble <- dcant_budget_basin_AIP_layer_all %>% 
+
+
+dcant_budget_global_layer_all_ensemble <-
+  dcant_budget_global_layer_all %>%
   filter(!(Version_ID %in% Version_IDs_d))
-dcant_budget_basin_AIP_layer_all <- dcant_budget_basin_AIP_layer_all %>% 
+dcant_budget_global_layer_all_no_adj <-
+  dcant_budget_global_layer_all %>%
+  filter(Version_ID %in% Version_IDs_d)
+dcant_budget_global_layer_all <-
+  dcant_budget_global_layer_all %>%
   filter(Version_ID %in% Version_IDs)
 
-dcant_budget_basin_MLR_layer_all_ensemble <- dcant_budget_basin_MLR_layer_all %>% 
+
+dcant_budget_basin_AIP_layer_all_ensemble <-
+  dcant_budget_basin_AIP_layer_all %>%
   filter(!(Version_ID %in% Version_IDs_d))
-dcant_budget_basin_MLR_layer_all_no_adj <- dcant_budget_basin_MLR_layer_all %>% 
-  filter(Version_ID %in% Version_IDs_d)
-dcant_budget_basin_MLR_layer_all <- dcant_budget_basin_MLR_layer_all %>% 
+dcant_budget_basin_AIP_layer_all <-
+  dcant_budget_basin_AIP_layer_all %>%
   filter(Version_ID %in% Version_IDs)
+
+dcant_budget_basin_MLR_layer_all_ensemble <-
+  dcant_budget_basin_MLR_layer_all %>%
+  filter(!(Version_ID %in% Version_IDs_d))
+dcant_budget_basin_MLR_layer_all_no_adj <-
+  dcant_budget_basin_MLR_layer_all %>%
+  filter(Version_ID %in% Version_IDs_d)
+dcant_budget_basin_MLR_layer_all <-
+  dcant_budget_basin_MLR_layer_all %>%
+  filter(Version_ID %in% Version_IDs)
+
 
 dcant_zonal_bias_all_ensemble <- dcant_zonal_bias_all %>% 
   filter(!(Version_ID %in% Version_IDs_d))
@@ -1640,7 +1689,49 @@ ggsave(path = here::here("output/publication"),
 
 ## dcant - absolute
 
-```{r concentration_profiles, fig.asp=1.6}
+
+```{r concentration_profiles_global}
+
+dcant_profile_global_all %>%
+  arrange(depth) %>%
+  filter(period != "1994 - 2014",
+         depth <= params_global$inventory_depth_standard) %>%
+  group_split(data_source) %>%
+  # head(1) %>%
+  map(
+    ~ ggplot(data = .x,
+             aes(dcant,
+                 depth)) +
+      geom_hline(yintercept = params_global$inventory_depth_standard) +
+      geom_vline(xintercept = 0) +
+      geom_ribbon(
+        aes(
+          xmin = dcant - dcant_sd,
+          xmax = dcant + dcant_sd,
+          fill = period
+        ),
+        alpha = 0.3
+      ) +
+      geom_path(aes(col = period)) +
+      scale_y_continuous(trans = trans_reverser("sqrt"),
+                         breaks = c(0, 100, 500, seq(1500, 5000, 1000))) +
+      coord_cartesian(expand = 0) +
+      scale_color_brewer(palette = "Set1", name = "mean \u00B1 sd", direction = -1) +
+      scale_fill_brewer(palette = "Set1", name = "mean \u00B1 sd", direction = -1) +
+      labs(
+        title = paste("data_source", unique(.x$data_source)),
+        y = "Depth (m)",
+        x = dcant_umol_label
+      ) +
+      facet_wrap(~ basin, ncol = 3, dir = "v") +
+      theme(legend.position = c(0.8,0.2))
+  )
+
+
+```
+
+
+```{r concentration_profiles_basin_AIP, fig.asp=1.6}
 
 dcant_profile_all %>%
   arrange(depth) %>%
@@ -1714,6 +1805,75 @@ dcant_profile_basin_MLR_all %>%
       facet_wrap(~ basin, ncol = 3, dir = "v") +
       theme(legend.position = c(0.8,0.2))
   )
+
+
+```
+
+```{r concentration_profiles_global_ensemble}
+
+dcant_profile_global_all_ensemble %>%
+  arrange(depth) %>%
+  filter(
+    period != "1994 - 2014",
+    depth <= params_global$inventory_depth_standard,
+    data_source == "obs"
+  ) %>%
+  group_split(data_source) %>%
+  map(
+    ~ ggplot() +
+      geom_hline(yintercept = params_global$inventory_depth_standard) +
+      geom_vline(xintercept = 0) +
+      geom_path(
+        data = .x,
+        aes(
+          dcant,
+          depth,
+          col = period,
+          group = Version_ID,
+          linetype = "ensemble member",
+          size = "ensemble member"
+        ), alpha = 0.5
+      ) +
+      geom_path(
+        data = .x %>% filter(Version_ID %in% Version_IDs),
+        aes(
+          dcant,
+          depth,
+          col = period,
+          group = Version_ID,
+          linetype = "standard case",
+          size = "standard case"
+        )
+      ) +
+      scale_size_manual(values = c(0.5, 2), name="x") +
+      scale_linetype_manual(values = c(2, 1), name="x") +
+      scale_y_continuous(trans = trans_reverser("sqrt"),
+                         breaks = c(0, 100, 500, seq(1500, 5000, 1000))) +
+      coord_cartesian(expand = 0) +
+      scale_color_brewer(
+        palette = "Set1",
+        direction = -1
+      ) +
+      scale_fill_brewer(
+        palette = "Set1",
+        direction = -1
+      ) +
+      labs(
+        # title = paste("data_source", unique(.x$data_source)),
+        y = "Depth (m)",
+        x = dcant_umol_label
+      ) +
+      facet_wrap( ~ basin, ncol = 3, dir = "v") +
+      theme(legend.position = c(0.85, 0.3),
+            legend.title = element_blank())
+  )
+
+
+ggsave(path = here::here("output/publication"),
+       filename = "Fig_concentration_profiles_dcant.png",
+       height = 6,
+       width = 8)
+
 
 
 ```
@@ -2959,6 +3119,133 @@ ggsave(path = here::here("output/publication"),
 
 
 ## Depth layer
+
+### Global
+
+```{r depth_layer_budget_global_standard_case}
+
+dcant_budget_change <- dcant_budget_global_layer_all %>%
+  filter(estimate == "dcant",
+         period != "1994 - 2014",
+         inv_depth <= 3000,
+         data_source == "obs") %>%
+  rename(dcant = value) %>%
+  select(-c(tref1, tref2, Version_ID)) %>%
+  pivot_wider(names_from = period,
+              values_from = dcant) %>%
+  mutate(sign = if_else(`2004 - 2014` - `1994 - 2004` > 0,
+                        "increase",
+                        "decrease"))
+
+dcant_budget_layer <- dcant_budget_global_layer_all %>%
+  filter(estimate == "dcant",
+         period != "1994 - 2014",
+         inv_depth <= 3400,
+         data_source == "obs") %>%
+  rename(dcant = value) %>%
+  group_by(basin, period, data_source) %>% 
+  mutate(dcant = if_else(is.na(lead(dcant)), 888, dcant),
+         dcant = na_if(dcant, 888)) %>%
+  fill(dcant) %>% 
+  ungroup()
+
+dcant_budget_layer %>%
+  ggplot() +
+  geom_hline(yintercept = 0) +
+  geom_rect(
+    data = dcant_budget_change,
+    aes(
+      xmin = inv_depth - 250,
+      xmax = inv_depth + 250,
+      ymin = `1994 - 2004`,
+      ymax = `2004 - 2014`,
+      fill = sign
+    ),
+    alpha = 0.4
+  ) +
+  geom_step(aes(inv_depth - 250, dcant, col = period), direction = "vh",
+            size = 1) +
+  coord_flip() +
+  scale_x_reverse(breaks = seq(0, 3000, 500)) +
+  scale_color_brewer(palette = "Set1", direction = -1, name = "period") +
+  scale_fill_brewer(palette = "Set1", direction = -1, name = "") +
+  facet_wrap(~ basin, ncol = 3, dir = "v") +
+  labs(y = dcant_layer_budget_label,
+       x = "Depth (m)") +
+      theme(legend.position = c(0.8,0.2))
+
+```
+
+
+```{r depth_layer_budget_global_cumulative}
+
+dcant_budget_change <- dcant_budget_global_layer_all %>%
+  filter(estimate == "dcant",
+         period != "1994 - 2014",
+         inv_depth <= 3000,
+         data_source == "obs") %>%
+  rename(dcant = value) %>%
+  arrange(inv_depth) %>% 
+  group_by(data_source, basin, period) %>% 
+  mutate(dcant_cum = cumsum(dcant)) %>% 
+  ungroup() %>%
+  select(-c(tref2, Version_ID, dcant)) %>%
+  pivot_wider(names_from = period,
+              values_from = dcant_cum) %>%
+  mutate(sign = if_else(`2004 - 2014` - `1994 - 2004` > 0,
+                        "increase",
+                        "decrease"))
+
+dcant_budget_layer <- dcant_budget_global_layer_all %>%
+  filter(estimate == "dcant",
+         period != "1994 - 2014",
+         inv_depth <= 3400,
+         data_source == "obs") %>%
+  rename(dcant = value) %>%
+  arrange(inv_depth) %>% 
+  group_by(data_source, basin, period) %>% 
+  mutate(dcant_cum = cumsum(dcant)) %>% 
+  ungroup() %>%
+  group_by(basin, period, data_source) %>% 
+  mutate(dcant_cum = if_else(is.na(lead(dcant_cum)), 888, dcant_cum),
+         dcant_cum = na_if(dcant_cum, 888)) %>%
+  fill(dcant_cum) %>% 
+  ungroup()
+
+
+
+dcant_budget_layer %>%
+  ggplot() +
+  geom_hline(yintercept = 0) +
+  geom_rect(
+    data = dcant_budget_change,
+    aes(
+      xmin = inv_depth - 250,
+      xmax = inv_depth + 250,
+      ymin = `1994 - 2004`,
+      ymax = `2004 - 2014`,
+      fill = sign
+    ),
+    alpha = 0.3
+  ) +
+  geom_step(aes(inv_depth - 250, dcant_cum, col = period), direction = "vh",
+            size = 1) +
+  coord_flip() +
+  scale_x_reverse(breaks = seq(0, 3000, 500)) +
+  scale_color_brewer(palette = "Set1",
+                     direction = -1,
+                     name = "Decade") +
+  scale_fill_brewer(palette = "Set1",
+                    direction = -1,
+                    name = "Decadal change") +
+  
+  facet_wrap( ~ basin, ncol = 3, dir = "v") +
+  labs(y = dcant_layer_budget_label,
+       x = "Depth (m)",
+       title = "Cumulative layer inventory change") +
+      theme(legend.position = c(0.8,0.2))
+
+```
 
 ### Basin AIP
 
