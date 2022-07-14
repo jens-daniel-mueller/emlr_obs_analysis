@@ -1083,6 +1083,7 @@ dcant_layer_budget_label <-
 dcant_CI_label <- expression(Delta * C[ant]~(mol ~ m ^ {-2}))
 beta_CI_label <- expression(beta~(mol ~ m ^ {-2} ~ µatm ^ {-1}))
 
+
 ```
 
 # Coverage maps
@@ -1107,6 +1108,67 @@ ggsave(plot = coverage_map,
        width = 8)
 
 ```
+
+# Atm CO2
+
+##
+
+```{r atm_CO2}
+
+co2_atm <- co2_atm %>% 
+  mutate(pCO2_roll = zoo::rollmean(pCO2, 10, fill = NA))
+
+p_pco2_atm <- co2_atm %>% 
+  ggplot() +
+  geom_point(aes(year, pCO2, col="annual")) +
+  geom_path(aes(year, pCO2, col="annual")) +
+  geom_point(aes(year, pCO2_roll, col="10yr roll")) +
+  geom_path(aes(year, pCO2_roll, col="10yr roll"))
+
+co2_atm <- co2_atm %>% 
+  mutate(delta_pCO2_roll = pCO2_roll - lag(pCO2_roll,10),
+         delta_pCO2 = pCO2 - lag(pCO2,10))
+
+p_delta_pCO2_atm <- co2_atm %>% 
+  ggplot() +
+  geom_point(aes(year, delta_pCO2, col="annual")) +
+  geom_path(aes(year, delta_pCO2, col="annual")) +
+  geom_point(aes(year, delta_pCO2_roll, col="10yr roll")) +
+  geom_path(aes(year, delta_pCO2_roll, col="10yr roll"))
+
+p_pco2_atm / p_delta_pCO2_atm
+rm(p_pco2_atm, p_delta_pCO2_atm)
+
+delta_pCO2_atm <-
+  left_join(
+    params_local_all %>%
+      distinct(period, tref1, tref2),
+    co2_atm %>%
+      select(
+        tref1 = year,
+        pCO2_1 = pCO2,
+        pCO2_roll_1 = pCO2_roll
+      )
+  )
+
+delta_pCO2_atm <-
+  left_join(
+    delta_pCO2_atm,
+    co2_atm %>%
+      select(
+        tref2 = year,
+        pCO2_2 = pCO2,
+        pCO2_roll_2 = pCO2_roll
+      )
+  )
+
+delta_pCO2_atm <- delta_pCO2_atm %>% 
+  mutate(delta_pCO2 = pCO2_2 - pCO2_1,
+         delta_pCO2_roll = pCO2_roll_2 - pCO2_roll_1) %>% 
+  select(period, delta_pCO2, delta_pCO2_roll)
+
+```
+
 
 
 
@@ -2266,7 +2328,6 @@ dcant_profile_basin_MLR_all_delta %>%
 
 ```{r dcant_budget_global_ensemble}
 
-
 bind_rows(dcant_budget_global_all_no_adj,
           dcant_budget_global_all_ensemble) %>%
   ggplot(aes(period, dcant, col = Version_ID_group)) +
@@ -2309,17 +2370,6 @@ dcant_budget_global_all_ensemble %>%
     shape = 21,
     position = position_dodge2(width = 0.3)
   ) +
-  # stat_summary(
-  #   fun.data = "mean_sdl",
-  #   fun.args = list(mult = 2),
-  #   position = position_nudge(x = -0.3),
-  #   col = "grey"
-  # ) +
-  # stat_summary(
-  #   fun.data = "mean_sdl",
-  #   fun.args = list(mult = 1),
-  #   position = position_nudge(x = -0.3)
-  # ) +
   scale_y_continuous(name = dcant_pgc_label, breaks = seq(0, 100, 2))
 
 ggsave(path = here::here("output/publication"),
@@ -2366,11 +2416,41 @@ dcant_budget_global_all_ensemble %>%
   ) +
   scale_y_continuous(name = dcant_pgc_label, breaks = seq(0, 100, 2))
 
-# dcant_budget_global_all_ensemble_summary <- dcant_budget_global_all_ensemble %>% 
-#   group_by(data_source, period) %>% 
-#   summarise(dcant_mean = mean(dcant),
-#             dcant_sd = sd(dcant)*2) %>% 
-#   ungroup()
+
+```
+
+```{r beta_budget_global}
+
+full_join(dcant_budget_global_all_ensemble,
+          delta_pCO2_atm) %>%
+  mutate(ensemble_role = case_when(Version_ID %in% Version_IDs ~ "standard case",
+                                   TRUE ~ "others")) %>%
+  filter(data_source == "obs") %>%
+  ggplot(aes(period, dcant/delta_pCO2)) +
+  scale_fill_brewer(palette = "Dark2", name = "ensemble group") +
+  scale_color_manual(values = c("black", "red", "grey"),
+                     name = "ensemble member") +
+  geom_boxplot(
+    width = .1,
+    outlier.shape = NA,
+    fill = "grey",
+    alpha = 0.7,
+    position = position_nudge(x = 0.3)
+  ) +
+  geom_point(
+    aes(fill = Version_ID_group,
+        col = ensemble_role),
+    size = 2,
+    alpha = .5,
+    shape = 21,
+    position = position_dodge2(width = 0.3)
+  ) +
+  scale_y_continuous(name = dcant_pgc_scaled_label)
+
+ggsave(path = here::here("output/publication"),
+       filename = "FigS_budget_beta_global_ensemble_member.png",
+       height = 6,
+       width = 6)
 
 ```
 
@@ -2386,11 +2466,13 @@ dcant_budget_basin_MLR_all_ensemble %>%
   facet_grid(basin ~ data_source)
 
 
+
 dcant_budget_basin_MLR_all_ensemble %>%
   mutate(ensemble_role = if_else(Version_ID %in% Version_IDs,
                                  "standard case",
                                  "others")) %>%
-  filter(data_source == "obs") %>%
+  filter(data_source == "obs",
+         period != "1994 - 2014") %>%
   ggplot(aes(period, dcant)) +
   scale_fill_brewer(palette = "Dark2", name = "ensemble group") +
   scale_color_manual(values = c("grey", "black", "red"),
@@ -2421,18 +2503,7 @@ dcant_budget_basin_MLR_all_ensemble %>%
     shape = 21,
     position = position_dodge2(width = 0.3)
   ) +
-  # stat_summary(
-  #   fun.data = "mean_sdl",
-  #   fun.args = list(mult = 2),
-  #   position = position_nudge(x = -0.3),
-  #   col = "grey"
-  # ) +
-  # stat_summary(
-  #   fun.data = "mean_sdl",
-  #   fun.args = list(mult = 1),
-  #   position = position_nudge(x = -0.3)
-  # ) +
-scale_y_continuous(name = dcant_pgc_label, breaks = seq(0, 100, 2)) +
+  scale_y_continuous(name = dcant_pgc_label, breaks = seq(0, 100, 2)) +
   facet_grid(basin ~ ., scales = "free_y")
 
 
@@ -2445,7 +2516,8 @@ dcant_budget_basin_MLR_all_ensemble %>%
    mutate(ensemble_role = if_else(Version_ID %in% Version_IDs,
                                  "standard case",
                                  "others")) %>%
-  filter(data_source == "obs") %>%
+  filter(data_source == "obs",
+         period != "1994 - 2014") %>%
   ggplot(aes(period, dcant)) +
   scale_fill_brewer(palette = "Dark2") +
   scale_color_manual(values = c("grey", "red"),
@@ -2500,6 +2572,43 @@ dcant_budget_global_all_ensemble_summary <-
 ```
 
 
+```{r beta_budget_basin_hemisphere_ensemble, fig.asp=1}
+
+full_join(dcant_budget_basin_MLR_all_ensemble,
+          delta_pCO2_atm)%>%
+  mutate(ensemble_role = if_else(Version_ID %in% Version_IDs,
+                                 "standard case",
+                                 "others")) %>%
+  filter(data_source == "obs",
+         period != "1994 - 2014") %>%
+  ggplot(aes(period, dcant / delta_pCO2)) +
+  scale_fill_brewer(palette = "Dark2", name = "ensemble group") +
+  scale_color_manual(values = c("grey", "black", "red"),
+                     name = "ensemble member") +
+  geom_boxplot(
+    width = .1,
+    outlier.shape = NA,
+    fill = "grey",
+    alpha = 0.7,
+    position = position_nudge(x = 0.3)
+  ) +
+  geom_point(
+    aes(fill = Version_ID_group,
+        col = ensemble_role),
+    size = 1.3,
+    alpha = .7,
+    shape = 21,
+    position = position_dodge2(width = 0.3)
+  ) +
+  scale_y_continuous(name = dcant_pgc_label, breaks = seq(0, 100, 2)) +
+  facet_grid(basin ~ ., scales = "free_y")
+
+
+ggsave(path = here::here("output/publication"),
+       filename = "FigS_budget_beta_basin_hemisphere_ensemble_member.png",
+       height = 6,
+       width = 6)
+```
 
 ## Flow chart
 
