@@ -1115,21 +1115,21 @@ ggsave(plot = coverage_map,
 
 ```{r atm_CO2}
 
-co2_atm <- co2_atm %>% 
+co2_atm_roll <- co2_atm %>% 
   mutate(pCO2_roll = zoo::rollmean(pCO2, 10, fill = NA))
 
-p_pco2_atm <- co2_atm %>% 
+p_pco2_atm <- co2_atm_roll %>% 
   ggplot() +
   geom_point(aes(year, pCO2, col="annual")) +
   geom_path(aes(year, pCO2, col="annual")) +
   geom_point(aes(year, pCO2_roll, col="10yr roll")) +
   geom_path(aes(year, pCO2_roll, col="10yr roll"))
 
-co2_atm <- co2_atm %>% 
+co2_atm_roll <- co2_atm_roll %>% 
   mutate(delta_pCO2_roll = pCO2_roll - lag(pCO2_roll,10),
          delta_pCO2 = pCO2 - lag(pCO2,10))
 
-p_delta_pCO2_atm <- co2_atm %>% 
+p_delta_pCO2_atm <- co2_atm_roll %>% 
   ggplot() +
   geom_point(aes(year, delta_pCO2, col="annual")) +
   geom_path(aes(year, delta_pCO2, col="annual")) +
@@ -1143,7 +1143,7 @@ delta_pCO2_atm <-
   left_join(
     params_local_all %>%
       distinct(period, tref1, tref2),
-    co2_atm %>%
+    co2_atm_roll %>%
       select(
         tref1 = year,
         pCO2_1 = pCO2,
@@ -1154,7 +1154,7 @@ delta_pCO2_atm <-
 delta_pCO2_atm <-
   left_join(
     delta_pCO2_atm,
-    co2_atm %>%
+    co2_atm_roll %>%
       select(
         tref2 = year,
         pCO2_2 = pCO2,
@@ -1166,6 +1166,8 @@ delta_pCO2_atm <- delta_pCO2_atm %>%
   mutate(delta_pCO2 = pCO2_2 - pCO2_1,
          delta_pCO2_roll = pCO2_roll_2 - pCO2_roll_1) %>% 
   select(period, delta_pCO2, delta_pCO2_roll)
+
+rm(co2_atm_roll)
 
 ```
 
