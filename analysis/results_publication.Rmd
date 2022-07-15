@@ -202,7 +202,7 @@ Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observat
 Version_IDs_e <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 rm(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 
-Version_IDs_ensemble <- c(Version_IDs_x, Version_IDs_o, Version_IDs_d, Version_IDs_g, Version_IDs_n, Version_IDs_c, Version_IDs_e)
+Version_IDs_ensemble <- c(Version_IDs_x, Version_IDs_o, Version_IDs_d, Version_IDs_g, Version_IDs_n, Version_IDs_c)
 
 rm(Version_IDs_x, Version_IDs_o, Version_IDs_g, Version_IDs_n, Version_IDs_c, Version_IDs_e)
 
@@ -3936,11 +3936,14 @@ Ocean_Sink_cum_1994 <- Ocean_Sink_cum_1994 %>%
 
 ```{r GCB_carbon_sink_cum_2004}
 
+tcant_2004 <- tcant_ts %>% 
+  filter(year == 2004) %>% 
+  pull(tcant)
+
 Ocean_Sink_cum_2004 <-
   Ocean_Sink %>%
   filter(year >= 2004, year <= 2014) %>%
-  mutate(fgco2_glob = if_else(year == 2004, 0, GtC_yr),
-         fgco2_glob = fgco2_glob) %>% 
+  mutate(fgco2_glob = if_else(year == 2004, 0, GtC_yr)) %>% 
   arrange(year) %>%
   group_by(product, type) %>%
   mutate(fgco2_glob_cum = cumsum(fgco2_glob)) %>%
@@ -3959,7 +3962,7 @@ Ocean_Sink_cum_2004 %>%
 
 
 Ocean_Sink_cum_2004 <- Ocean_Sink_cum_2004 %>% 
-  mutate(fgco2_glob_cum_total = fgco2_glob_cum + 118) %>%
+  mutate(fgco2_glob_cum_total = fgco2_glob_cum + tcant_2004) %>% 
   select(year, pCO2, product, fgco2_glob_cum, fgco2_glob_cum_total, type)
 
 Ocean_Sink_cum_2004 <- Ocean_Sink_cum_2004 %>% 
@@ -3998,6 +4001,22 @@ tcant_ts_zoom %>%
   ) +
   geom_line(data = Ocean_Sink_cum_1994,
             aes(pCO2, fgco2_glob_cum_total, group = product, col = type)) +
+  # geom_point(
+  #   data = co2_atm %>% filter(year >= 1994, year <= 2014),
+  #   aes(pCO2, 118),
+  #   shape = "|"
+  # ) +
+  geom_point(
+    data = Ocean_Sink_cum_1994,
+    aes(pCO2, fgco2_glob_cum_total, group = product, col = type),
+    size = 0.3
+  )+
+  geom_point(
+    data = Ocean_Sink_cum_1994 %>% filter(year %in% c(2004,2014)),
+    aes(pCO2, fgco2_glob_cum_total, group = product, col = type),
+    shape = 21,
+    fill = "white"
+  )+
   geom_line(aes(col = "eMLR(C*)")) +
   geom_point(aes(col = "eMLR(C*)"),
              shape = 21, fill = "white") +
@@ -4005,18 +4024,19 @@ tcant_ts_zoom %>%
   scale_color_manual(values = c("black", "#E69F00", "#56B4E9", "pink"),
                      name = "Data source") +
   scale_fill_manual(values = c("grey60", "grey30"), name = "Cumulative\nuncertainty") +
-  # scale_x_continuous(limits = c(NA, 409)) +
   scale_y_continuous(limits = c(tcant_min, tcant_max)) +
   labs(x = expression(Atmospheric ~ pCO[2] ~ (µatm)),
        y = expression(Total ~ oceanic ~ C[ant] ~ (PgC))) +
-  guides(colour = guide_legend(order = 2),
-         fill = guide_legend(order = 1)) +
+  guides(colour = guide_legend(order = 1),
+         fill = "none") +
   theme_classic() +
   theme(
-    legend.background = element_rect(fill = "transparent"),
-    legend.position = c(0.8, 0.2),
-    legend.box.just = "bottom",
-    legend.box = "horizontal"
+    legend.background = element_rect(fill = "white"),
+    legend.position = c(0.2, 0.8),
+    legend.box.just = "top",
+    legend.box = "horizontal",
+    panel.grid.major.y = element_line(colour = "black",
+                                      size = 0.1)
   )
 
 p_tcant_ts_zoom
@@ -4029,45 +4049,75 @@ p_tcant_ts_zoom
 dcant_type_box <-
   bind_rows(
     dcant_budget_global_all_ensemble %>%
-      filter(data_source == "obs",
-             period != "2004 - 2014") %>%
+      filter(data_source == "obs") %>%
       select(period, dcant) %>%
       mutate(type = "eMLR(C*)",
-             dcant = dcant * dcant_scaling + 118),
+             dcant = dcant * dcant_scaling + 118,
+             dcant = if_else(period == "2004 - 2014",
+                             dcant + tcant_2004 - 118,
+                             dcant)),
     Ocean_Sink_cum_1994 %>%
       filter(year %in% c(2004, 2014)) %>%
       mutate(period = if_else(year == 2004,
                               "1994 - 2004",
                               "1994 - 2014")) %>%
+      select(period, dcant = fgco2_glob_cum_total, type),
+    Ocean_Sink_cum_2004 %>%
+      filter(year %in% c(2014)) %>%
+      mutate(period = if_else(year == 2014,
+                              "2004 - 2014",
+                              "other")) %>%
       select(period, dcant = fgco2_glob_cum_total, type)
   )
 
 p_tcant_box <-
   dcant_type_box %>%
-  filter(period == "1994 - 2014") %>% 
+  filter(period == "1994 - 2014") %>%
   ggplot(aes(period, dcant, col = type)) +
-  geom_boxplot(position = position_dodge(width = 1)) +
+  geom_boxplot(position = position_dodge(width = 1),
+               outlier.shape = NA) +
   geom_jitter(position = position_dodge(width = 1),
               shape = 21) +
   scale_color_manual(values = c("black", "#E69F00", "#56B4E9", "pink"),
                      name = "Data source",
                      guide = "none") +
   scale_y_continuous(limits = c(tcant_min, tcant_max))+
+  labs(x = "20yr period") +
   theme_classic() +
   theme(
     axis.line.y.left = element_blank(),
     axis.text.y = element_blank(),
     axis.ticks.y = element_blank(),
     axis.title.y = element_blank(),
-    legend.background = element_rect(fill = "transparent"),
-    legend.position = c(0.73, 0.25),
-    legend.box.just = "bottom",
-    legend.box = "horizontal",
-    axis.line.y =
+    panel.grid.major.y = element_line(colour = "black",
+                                      size = 0.1)
   )
 
-p_tcant_ts_zoom + p_tcant_box +
-  plot_layout(ncol = 2, widths = c(7,1))
+p_tcant_box_10 <-
+  dcant_type_box %>%
+  filter(period != "1994 - 2014") %>%
+  ggplot(aes(period, dcant, col = type)) +
+  geom_boxplot(position = position_dodge(width = 1),
+               outlier.shape = NA) +
+  geom_jitter(position = position_dodge(width = 1),
+              shape = 21) +
+  scale_color_manual(values = c("black", "#E69F00", "#56B4E9", "pink"),
+                     name = "Data source",
+                     guide = "none") +
+  scale_y_continuous(limits = c(tcant_min, tcant_max)) +
+  labs(x = "10yr periods") +
+  theme_classic() +
+  theme(
+    axis.line.y.left = element_blank(),
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.title.y = element_blank(),
+    panel.grid.major.y = element_line(colour = "black",
+                                      size = 0.1)
+  )
+
+p_tcant_ts_zoom + p_tcant_box + p_tcant_box_10 +
+  plot_layout(ncol = 3, widths = c(6,1,2))
 
 ggsave(path = here::here("output/publication"),
        filename = "Fig_budget_dcant_global_vs_GCB_ocean_sink.png",
@@ -4075,26 +4125,28 @@ ggsave(path = here::here("output/publication"),
        width = 9)
 
 dcant_type_box %>%
-  filter(period == "1994 - 2014") %>%
-  mutate(dcant = dcant - 118) %>%
-  group_by(type) %>%
+  mutate(dcant = dcant - 118,
+         dcant = if_else(period == "2004 - 2014",
+                         dcant - (tcant_2004 - 118),
+                         dcant)) %>%
+  group_by(type, period) %>%
   summarise(
-    dcant_sd = sd(dcant),
+    dcant_sd = sd(dcant)*2,
     dcant_mean = mean(dcant),
     dcant_median = median(dcant)
   ) %>%
   ungroup() %>% 
-  mutate(dcant_mean_rel = dcant_mean / first(dcant_mean))
+  group_by(period) %>% 
+  mutate(dcant_diff = dcant_mean - first(dcant_mean),
+         dcant_diff_sd = sqrt(dcant_sd^2 - first(dcant_sd)^2),
+         dcant_diff_sd_rel = sqrt(dcant_sd^2 - first(dcant_sd)^2) / mean(dcant_mean,first(dcant_mean)),
+         dcant_diff_rel = dcant_mean / first(dcant_mean)) %>% 
+  ungroup() %>% 
+  mutate() %>%
+  kable() %>%
+  kable_styling() %>%
+  scroll_box(height = "300px")
 
-dcant_type_box %>%
-  filter(period == "1994 - 2014",
-         type != "eMLR(C*)") %>%
-  mutate(dcant = dcant - 118) %>%
-  summarise(
-    dcant_sd = sd(dcant),
-    dcant_mean = mean(dcant),
-    dcant_median = median(dcant)
-  )
 
 ```
 
