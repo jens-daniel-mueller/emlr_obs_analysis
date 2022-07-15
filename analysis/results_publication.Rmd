@@ -186,9 +186,25 @@ Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observat
 Version_IDs_c <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 rm(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 
-Version_IDs_ensemble <- c(Version_IDs_x, Version_IDs_o, Version_IDs_d, Version_IDs_g, Version_IDs_n, Version_IDs_c)
+version_id_pattern <- "e"
 
-rm(Version_IDs_x, Version_IDs_o, Version_IDs_g, Version_IDs_n, Version_IDs_c)
+# identify required version IDs
+
+Version_IDs_1 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_1", version_id_pattern))
+
+Version_IDs_2 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_2", version_id_pattern))
+
+Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_3", version_id_pattern))
+
+Version_IDs_e <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
+rm(Version_IDs_1, Version_IDs_2, Version_IDs_3)
+
+Version_IDs_ensemble <- c(Version_IDs_x, Version_IDs_o, Version_IDs_d, Version_IDs_g, Version_IDs_n, Version_IDs_c, Version_IDs_e)
+
+rm(Version_IDs_x, Version_IDs_o, Version_IDs_g, Version_IDs_n, Version_IDs_c, Version_IDs_e)
 
 ```
 
@@ -308,6 +324,7 @@ params_local_all_ensemble <-
       Version_ID_group == "o" ~ "reoccupation filter",
       Version_ID_group == "d" ~ "no data adjustment",
       Version_ID_group == "g" ~ "no gap filling",
+      Version_ID_group == "e" ~ "no surface equi",
       Version_ID_group == "n" ~ "C*(N)",
       Version_ID_group == "c" ~ "cruise adjustment",
       TRUE ~ Version_ID_group
@@ -2342,7 +2359,8 @@ bind_rows(dcant_budget_global_all_no_adj,
 dcant_budget_global_all_ensemble %>%
   mutate(ensemble_role = case_when(Version_ID %in% Version_IDs ~ "standard case",
                                    TRUE ~ "others")) %>%
-  filter(data_source == "obs") %>%
+  filter(data_source == "obs",
+         period != "1994 - 2014") %>%
   ggplot(aes(period, dcant)) +
   scale_fill_brewer(palette = "Dark2",name = "ensemble group") +
   scale_color_manual(values = c( "black", "red", "grey"),
@@ -2356,7 +2374,8 @@ dcant_budget_global_all_ensemble %>%
   ) +
   geom_point(data = dcant_budget_global_all_no_adj %>%
   mutate(ensemble_role = "unadjusted") %>%
-  filter(data_source == "obs"),
+  filter(data_source == "obs",
+         period != "1994 - 2014"),
     aes(fill = Version_ID_group,
         col = ensemble_role),
     size = 2,
@@ -2384,7 +2403,8 @@ dcant_budget_global_all_ensemble %>%
   mutate(ensemble_role = if_else(Version_ID %in% Version_IDs,
                                  "standard case",
                                  "others")) %>%
-  filter(data_source == "obs") %>%
+  filter(data_source == "obs",
+         period != "1994 - 2014") %>%
   ggplot(aes(period, dcant)) +
   scale_fill_brewer(palette = "Dark2") +
   scale_color_manual(values = c("grey", "red"),
@@ -2427,7 +2447,8 @@ full_join(dcant_budget_global_all_ensemble,
           delta_pCO2_atm) %>%
   mutate(ensemble_role = case_when(Version_ID %in% Version_IDs ~ "standard case",
                                    TRUE ~ "others")) %>%
-  filter(data_source == "obs") %>%
+  filter(data_source == "obs",
+         period != "1994 - 2014") %>%
   ggplot(aes(period, dcant/delta_pCO2)) +
   scale_fill_brewer(palette = "Dark2", name = "ensemble group") +
   scale_color_manual(values = c("black", "red", "grey"),
@@ -2489,7 +2510,8 @@ dcant_budget_basin_MLR_all_ensemble %>%
   geom_point(
     data = dcant_budget_basin_MLR_all_no_adj %>%
       mutate(ensemble_role = "no adjustment") %>%
-      filter(data_source == "obs"),
+      filter(data_source == "obs",
+         period != "1994 - 2014"),
     aes(fill = Version_ID_group,
         col = ensemble_role),
     size = 1.3,
@@ -3876,7 +3898,7 @@ tcant_ts %>%
 
 ## incl fluxes
 
-```{r GCB_carbon_sink}
+```{r GCB_carbon_sink_cum_1994}
 
 Ocean_Sink_cum_1994 <-
   Ocean_Sink %>%
@@ -3905,6 +3927,42 @@ Ocean_Sink_cum_1994 <- Ocean_Sink_cum_1994 %>%
   select(year, pCO2, product, fgco2_glob_cum, fgco2_glob_cum_total, type)
 
 Ocean_Sink_cum_1994 <- Ocean_Sink_cum_1994 %>% 
+  mutate(type = case_when(
+    type == "data_products" ~ "Observation-based\nflux products",
+    TRUE ~ "Hindcast models"
+  ))
+
+```
+
+```{r GCB_carbon_sink_cum_2004}
+
+Ocean_Sink_cum_2004 <-
+  Ocean_Sink %>%
+  filter(year >= 2004, year <= 2014) %>%
+  mutate(fgco2_glob = if_else(year == 2004, 0, GtC_yr),
+         fgco2_glob = fgco2_glob) %>% 
+  arrange(year) %>%
+  group_by(product, type) %>%
+  mutate(fgco2_glob_cum = cumsum(fgco2_glob)) %>%
+  ungroup()
+
+Ocean_Sink_cum_2004 <-
+  left_join(Ocean_Sink_cum_2004,
+            co2_atm) 
+
+Ocean_Sink_cum_2004 %>%
+  ggplot(aes(pCO2, fgco2_glob_cum, col = product)) +
+  geom_line() +
+  geom_point(shape = 21, fill = "white") +
+  theme(legend.position = "bottom") +
+  facet_grid(.~ type)
+
+
+Ocean_Sink_cum_2004 <- Ocean_Sink_cum_2004 %>% 
+  mutate(fgco2_glob_cum_total = fgco2_glob_cum + 118) %>%
+  select(year, pCO2, product, fgco2_glob_cum, fgco2_glob_cum_total, type)
+
+Ocean_Sink_cum_2004 <- Ocean_Sink_cum_2004 %>% 
   mutate(type = case_when(
     type == "data_products" ~ "Observation-based\nflux products",
     TRUE ~ "Hindcast models"
