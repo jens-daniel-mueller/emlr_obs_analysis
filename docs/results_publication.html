@@ -652,7 +652,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Results publication</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">14 July, 2022</h4>
+<h4 class="date">15 July, 2022</h4>
 
 </div>
 
@@ -677,7 +677,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-07-14
+<strong>Last updated:</strong> 2022-07-15
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -768,16 +768,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree5a9e4198fa3b3316e9681e88d42d4de4dc6800a2targetblank5a9e419a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/5a9e4198fa3b3316e9681e88d42d4de4dc6800a2" target="_blank">5a9e419</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeefbb1dcdf866551d5e8dbed090e1e9df4f7eec4btargetblankefbb1dca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/efbb1dcdf866551d5e8dbed090e1e9df4f7eec4b" target="_blank">efbb1dc</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree5a9e4198fa3b3316e9681e88d42d4de4dc6800a2targetblank5a9e419a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeefbb1dcdf866551d5e8dbed090e1e9df4f7eec4btargetblankefbb1dca" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/5a9e4198fa3b3316e9681e88d42d4de4dc6800a2" target="_blank">5a9e419</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/efbb1dcdf866551d5e8dbed090e1e9df4f7eec4b" target="_blank">efbb1dc</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -786,7 +786,6 @@ Note that you need to be careful to ensure that all relevant files for the analy
 Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
-    Ignored:    analysis/figure/
     Ignored:    data/
     Ignored:    output/other/
     Ignored:    output/publication/
@@ -835,6 +834,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/efbb1dcdf866551d5e8dbed090e1e9df4f7eec4b/analysis/results_publication.Rmd" target="_blank">efbb1dc</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-15
+</td>
+<td>
+include no surface equi cases
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/022fd602eb14c9af5035bf40b1646a4e6c67bbcb/docs/results_publication.html" target="_blank">022fd60</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-14
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -4392,9 +4425,25 @@ Version_IDs_3 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/
 Version_IDs_c &lt;- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 rm(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 
-Version_IDs_ensemble &lt;- c(Version_IDs_x, Version_IDs_o, Version_IDs_d, Version_IDs_g, Version_IDs_n, Version_IDs_c)
+version_id_pattern &lt;- &quot;e&quot;
 
-rm(Version_IDs_x, Version_IDs_o, Version_IDs_g, Version_IDs_n, Version_IDs_c)</code></pre>
+# identify required version IDs
+
+Version_IDs_1 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
+                            pattern = paste0(&quot;v_1&quot;, version_id_pattern))
+
+Version_IDs_2 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
+                            pattern = paste0(&quot;v_2&quot;, version_id_pattern))
+
+Version_IDs_3 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
+                            pattern = paste0(&quot;v_3&quot;, version_id_pattern))
+
+Version_IDs_e &lt;- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
+rm(Version_IDs_1, Version_IDs_2, Version_IDs_3)
+
+Version_IDs_ensemble &lt;- c(Version_IDs_x, Version_IDs_o, Version_IDs_d, Version_IDs_g, Version_IDs_n, Version_IDs_c, Version_IDs_e)
+
+rm(Version_IDs_x, Version_IDs_o, Version_IDs_g, Version_IDs_n, Version_IDs_c, Version_IDs_e)</code></pre>
 </div>
 <div id="parameters" class="section level2" number="2.2">
 <h2><span class="header-section-number">2.2</span> Parameters</h2>
@@ -4505,6 +4554,7 @@ params_local_all_ensemble &lt;-
       Version_ID_group == &quot;o&quot; ~ &quot;reoccupation filter&quot;,
       Version_ID_group == &quot;d&quot; ~ &quot;no data adjustment&quot;,
       Version_ID_group == &quot;g&quot; ~ &quot;no gap filling&quot;,
+      Version_ID_group == &quot;e&quot; ~ &quot;no surface equi&quot;,
       Version_ID_group == &quot;n&quot; ~ &quot;C*(N)&quot;,
       Version_ID_group == &quot;c&quot; ~ &quot;cruise adjustment&quot;,
       TRUE ~ Version_ID_group
@@ -4705,7 +4755,25 @@ rm(dcant_budget_global,
 [1] &quot;v_3c03&quot;
 [1] &quot;v_3c04&quot;
 [1] &quot;v_3c05&quot;
-[1] &quot;v_3c06&quot;</code></pre>
+[1] &quot;v_3c06&quot;
+[1] &quot;v_1e01&quot;
+[1] &quot;v_1e02&quot;
+[1] &quot;v_1e03&quot;
+[1] &quot;v_1e04&quot;
+[1] &quot;v_1e05&quot;
+[1] &quot;v_1e06&quot;
+[1] &quot;v_2e01&quot;
+[1] &quot;v_2e02&quot;
+[1] &quot;v_2e03&quot;
+[1] &quot;v_2e04&quot;
+[1] &quot;v_2e05&quot;
+[1] &quot;v_2e06&quot;
+[1] &quot;v_3e01&quot;
+[1] &quot;v_3e02&quot;
+[1] &quot;v_3e03&quot;
+[1] &quot;v_3e04&quot;
+[1] &quot;v_3e05&quot;
+[1] &quot;v_3e06&quot;</code></pre>
 <pre class="r"><code>rm(
   dcant_budget_basin_MLR,
   dcant_budget_basin_MLR_mod_truth
@@ -5163,6 +5231,43 @@ p_delta_pCO2_atm &lt;- co2_atm_roll %&gt;%
 
 p_pco2_atm / p_delta_pCO2_atm</code></pre>
 <p><img src="figure/results_publication.Rmd/atm_CO2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-atm_CO2-1">
+Past versions of atm_CO2-1.png
+</button>
+</p>
+<div id="fig-atm_CO2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/022fd602eb14c9af5035bf40b1646a4e6c67bbcb/docs/figure/results_publication.Rmd/atm_CO2-1.png" target="_blank">022fd60</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-14
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>rm(p_pco2_atm, p_delta_pCO2_atm)
 
 delta_pCO2_atm &lt;-
@@ -5246,7 +5351,8 @@ unique(dcant_inv_all$Version_ID)</code></pre>
 [49] &quot;v_1n01&quot; &quot;v_1n02&quot; &quot;v_1n03&quot; &quot;v_1n04&quot; &quot;v_1n05&quot; &quot;v_1n06&quot; &quot;v_2n01&quot; &quot;v_2n02&quot;
 [57] &quot;v_2n03&quot; &quot;v_2n04&quot; &quot;v_2n05&quot; &quot;v_2n06&quot; &quot;v_1c01&quot; &quot;v_1c02&quot; &quot;v_1c03&quot; &quot;v_1c04&quot;
 [65] &quot;v_1c05&quot; &quot;v_1c06&quot; &quot;v_2c01&quot; &quot;v_2c02&quot; &quot;v_2c03&quot; &quot;v_2c04&quot; &quot;v_2c05&quot; &quot;v_2c06&quot;
-[73] NA      </code></pre>
+[73] &quot;v_1e01&quot; &quot;v_1e02&quot; &quot;v_1e03&quot; &quot;v_1e04&quot; &quot;v_1e05&quot; &quot;v_1e06&quot; &quot;v_2e01&quot; &quot;v_2e02&quot;
+[81] &quot;v_2e03&quot; &quot;v_2e04&quot; &quot;v_2e05&quot; &quot;v_2e06&quot; NA      </code></pre>
 <pre class="r"><code>dcant_inv_all &lt;- dcant_inv_all %&gt;% 
   filter(Version_ID %in% Version_IDs | is.na(Version_ID))</code></pre>
 <pre class="r"><code>p_CI_absolute &lt;- dcant_inv_all %&gt;%
@@ -6902,12 +7008,12 @@ jens-daniel-mueller
 <pre><code># A tibble: 6 × 2
   lat_grid  dcant_mean
   &lt;fct&gt;          &lt;dbl&gt;
-1 (-40,-30]      10.9 
-2 (-30,-10]       8.72
-3 (-10,10]        5.72
-4 (10,30]         5.68
-5 (30,40]         8.25
-6 &lt;NA&gt;            5.51</code></pre>
+1 (-40,-30]      10.8 
+2 (-30,-10]       8.66
+3 (-10,10]        5.62
+4 (10,30]         5.59
+5 (30,40]         8.13
+6 &lt;NA&gt;            5.42</code></pre>
 <pre class="r"><code>dcant_inv_all_lat_mean %&gt;%
   filter(period != &quot;1800 - 1994&quot;) %&gt;% 
   mutate(lat_grid = cut(lat_grid, c(-40,-30,-10,10,30,40))) %&gt;% 
@@ -6917,23 +7023,23 @@ jens-daniel-mueller
 <pre><code># A tibble: 17 × 3
    lat_grid  basin_AIP dcant_mean
    &lt;fct&gt;     &lt;chr&gt;          &lt;dbl&gt;
- 1 (-40,-30] Atlantic       11.7 
- 2 (-40,-30] Indian         11.1 
- 3 (-40,-30] Pacific         9.80
- 4 (-30,-10] Atlantic        8.68
- 5 (-30,-10] Indian          9.30
- 6 (-30,-10] Pacific         8.16
- 7 (-10,10]  Atlantic        6.80
- 8 (-10,10]  Indian          6.24
- 9 (-10,10]  Pacific         4.11
-10 (10,30]   Atlantic        9.00
-11 (10,30]   Indian          3.06
-12 (10,30]   Pacific         4.97
-13 (30,40]   Atlantic       11.9 
-14 (30,40]   Pacific         4.63
-15 &lt;NA&gt;      Atlantic        6.91
-16 &lt;NA&gt;      Indian          5.22
-17 &lt;NA&gt;      Pacific         4.28</code></pre>
+ 1 (-40,-30] Atlantic       11.6 
+ 2 (-40,-30] Indian         11.0 
+ 3 (-40,-30] Pacific         9.77
+ 4 (-30,-10] Atlantic        8.67
+ 5 (-30,-10] Indian          9.20
+ 6 (-30,-10] Pacific         8.10
+ 7 (-10,10]  Atlantic        6.77
+ 8 (-10,10]  Indian          6.07
+ 9 (-10,10]  Pacific         4.02
+10 (10,30]   Atlantic        8.99
+11 (10,30]   Indian          2.93
+12 (10,30]   Pacific         4.86
+13 (30,40]   Atlantic       11.8 
+14 (30,40]   Pacific         4.50
+15 &lt;NA&gt;      Atlantic        6.79
+16 &lt;NA&gt;      Indian          5.16
+17 &lt;NA&gt;      Pacific         4.19</code></pre>
 <pre class="r"><code>dcant_inv_all_lat_mean %&gt;%
   filter(period != &quot;1800 - 1994&quot;) %&gt;% 
   mutate(lat_grid = cut(lat_grid, c(-90,0,90))) %&gt;% 
@@ -6943,18 +7049,18 @@ jens-daniel-mueller
 <pre><code># A tibble: 12 × 4
    lat_grid basin_AIP period      dcant_mean
    &lt;fct&gt;    &lt;chr&gt;     &lt;chr&gt;            &lt;dbl&gt;
- 1 (-90,0]  Atlantic  1994 - 2004       7.35
- 2 (-90,0]  Atlantic  2004 - 2014       7.77
- 3 (-90,0]  Indian    1994 - 2004       8.07
- 4 (-90,0]  Indian    2004 - 2014       6.55
- 5 (-90,0]  Pacific   1994 - 2004       7.54
- 6 (-90,0]  Pacific   2004 - 2014       5.93
- 7 (0,90]   Atlantic  1994 - 2004       9.84
- 8 (0,90]   Atlantic  2004 - 2014       7.70
- 9 (0,90]   Indian    1994 - 2004       2.59
-10 (0,90]   Indian    2004 - 2014       5.20
+ 1 (-90,0]  Atlantic  1994 - 2004       7.27
+ 2 (-90,0]  Atlantic  2004 - 2014       7.71
+ 3 (-90,0]  Indian    1994 - 2004       8.00
+ 4 (-90,0]  Indian    2004 - 2014       6.44
+ 5 (-90,0]  Pacific   1994 - 2004       7.50
+ 6 (-90,0]  Pacific   2004 - 2014       5.86
+ 7 (0,90]   Atlantic  1994 - 2004       9.76
+ 8 (0,90]   Atlantic  2004 - 2014       7.62
+ 9 (0,90]   Indian    1994 - 2004       2.58
+10 (0,90]   Indian    2004 - 2014       4.93
 11 (0,90]   Pacific   1994 - 2004       3.04
-12 (0,90]   Pacific   2004 - 2014       4.00</code></pre>
+12 (0,90]   Pacific   2004 - 2014       3.73</code></pre>
 <pre class="r"><code>dcant_inv_all_ensemble_lat_mean %&gt;% 
   ggplot(aes(lat_grid, dcant_mean, fill=period, group=Version_ID)) +
   geom_hline(yintercept = 0) +
@@ -8224,7 +8330,7 @@ full_join(dcant_profile_global_all_ensemble,
 <pre><code># A tibble: 1 × 2
   sd_max_depth mean_max_depth
          &lt;dbl&gt;          &lt;dbl&gt;
-1         70.1           309.</code></pre>
+1         78.1           310.</code></pre>
 <pre class="r"><code>dcant_profile_all %&gt;%
   arrange(depth) %&gt;%
   filter(period != &quot;1994 - 2014&quot;) %&gt;%
@@ -9203,16 +9309,16 @@ full_join(dcant_profile_basin_MLR_all,
 <pre><code># A tibble: 10 × 4
    basin       period      sd_max_depth mean_max_depth
    &lt;fct&gt;       &lt;chr&gt;              &lt;dbl&gt;          &lt;dbl&gt;
- 1 N. Pacific  1994 - 2004         76.5           248.
- 2 N. Pacific  2004 - 2014         57.1           207.
- 3 S. Pacific  1994 - 2004        140.            383.
- 4 S. Pacific  2004 - 2014         90.0           327.
- 5 N. Atlantic 1994 - 2004         98.0           403.
- 6 N. Atlantic 2004 - 2014        142.            467.
- 7 S. Atlantic 1994 - 2004         71.2           305 
- 8 S. Atlantic 2004 - 2014        233.            430 
- 9 Indian      1994 - 2004        121.            467.
-10 Indian      2004 - 2014        117.            272.</code></pre>
+ 1 N. Pacific  1994 - 2004         75.6           250 
+ 2 N. Pacific  2004 - 2014         68.0           198.
+ 3 S. Pacific  1994 - 2004        139.            383.
+ 4 S. Pacific  2004 - 2014         90.9           328.
+ 5 N. Atlantic 1994 - 2004         89.3           403.
+ 6 N. Atlantic 2004 - 2014        138.            461.
+ 7 S. Atlantic 1994 - 2004         67.4           303.
+ 8 S. Atlantic 2004 - 2014        236.            435.
+ 9 Indian      1994 - 2004        138.            475 
+10 Indian      2004 - 2014        119.            264.</code></pre>
 <pre class="r"><code>dcant_profile_basin_MLR_range &lt;- dcant_profile_basin_MLR_all_ensemble %&gt;%
   filter(period != &quot;1994 - 2014&quot;,
          data_source == &quot;obs&quot;) %&gt;%
@@ -9362,16 +9468,16 @@ full_join(dcant_profile_basin_MLR_all,
 <pre><code># A tibble: 10 × 4
    basin       period      sd_max_depth mean_max_depth
    &lt;fct&gt;       &lt;chr&gt;              &lt;dbl&gt;          &lt;dbl&gt;
- 1 N. Pacific  1994 - 2004         76.5           248.
- 2 N. Pacific  2004 - 2014         57.1           207.
- 3 S. Pacific  1994 - 2004        140.            383.
- 4 S. Pacific  2004 - 2014         90.0           327.
- 5 N. Atlantic 1994 - 2004         98.0           403.
- 6 N. Atlantic 2004 - 2014        142.            467.
- 7 S. Atlantic 1994 - 2004         71.2           305 
- 8 S. Atlantic 2004 - 2014        233.            430 
- 9 Indian      1994 - 2004        121.            467.
-10 Indian      2004 - 2014        117.            272.</code></pre>
+ 1 N. Pacific  1994 - 2004         75.6           250 
+ 2 N. Pacific  2004 - 2014         68.0           198.
+ 3 S. Pacific  1994 - 2004        139.            383.
+ 4 S. Pacific  2004 - 2014         90.9           328.
+ 5 N. Atlantic 1994 - 2004         89.3           403.
+ 6 N. Atlantic 2004 - 2014        138.            461.
+ 7 S. Atlantic 1994 - 2004         67.4           303.
+ 8 S. Atlantic 2004 - 2014        236.            435.
+ 9 Indian      1994 - 2004        138.            475 
+10 Indian      2004 - 2014        119.            264.</code></pre>
 <pre class="r"><code>dcant_profile_basin_MLR_all_ensemble %&gt;%
   arrange(depth) %&gt;%
   filter(
@@ -10878,7 +10984,8 @@ jens-daniel-mueller
 <pre class="r"><code>dcant_budget_global_all_ensemble %&gt;%
   mutate(ensemble_role = case_when(Version_ID %in% Version_IDs ~ &quot;standard case&quot;,
                                    TRUE ~ &quot;others&quot;)) %&gt;%
-  filter(data_source == &quot;obs&quot;) %&gt;%
+  filter(data_source == &quot;obs&quot;,
+         period != &quot;1994 - 2014&quot;) %&gt;%
   ggplot(aes(period, dcant)) +
   scale_fill_brewer(palette = &quot;Dark2&quot;,name = &quot;ensemble group&quot;) +
   scale_color_manual(values = c( &quot;black&quot;, &quot;red&quot;, &quot;grey&quot;),
@@ -10892,7 +10999,8 @@ jens-daniel-mueller
   ) +
   geom_point(data = dcant_budget_global_all_no_adj %&gt;%
   mutate(ensemble_role = &quot;unadjusted&quot;) %&gt;%
-  filter(data_source == &quot;obs&quot;),
+  filter(data_source == &quot;obs&quot;,
+         period != &quot;1994 - 2014&quot;),
     aes(fill = Version_ID_group,
         col = ensemble_role),
     size = 2,
@@ -11001,7 +11109,8 @@ dcant_budget_global_all_ensemble %&gt;%
   mutate(ensemble_role = if_else(Version_ID %in% Version_IDs,
                                  &quot;standard case&quot;,
                                  &quot;others&quot;)) %&gt;%
-  filter(data_source == &quot;obs&quot;) %&gt;%
+  filter(data_source == &quot;obs&quot;,
+         period != &quot;1994 - 2014&quot;) %&gt;%
   ggplot(aes(period, dcant)) +
   scale_fill_brewer(palette = &quot;Dark2&quot;) +
   scale_color_manual(values = c(&quot;grey&quot;, &quot;red&quot;),
@@ -11109,7 +11218,8 @@ jens-daniel-mueller
           delta_pCO2_atm) %&gt;%
   mutate(ensemble_role = case_when(Version_ID %in% Version_IDs ~ &quot;standard case&quot;,
                                    TRUE ~ &quot;others&quot;)) %&gt;%
-  filter(data_source == &quot;obs&quot;) %&gt;%
+  filter(data_source == &quot;obs&quot;,
+         period != &quot;1994 - 2014&quot;) %&gt;%
   ggplot(aes(period, dcant/delta_pCO2)) +
   scale_fill_brewer(palette = &quot;Dark2&quot;, name = &quot;ensemble group&quot;) +
   scale_color_manual(values = c(&quot;black&quot;, &quot;red&quot;, &quot;grey&quot;),
@@ -11131,6 +11241,43 @@ jens-daniel-mueller
   ) +
   scale_y_continuous(name = dcant_pgc_scaled_label)</code></pre>
 <p><img src="figure/results_publication.Rmd/beta_budget_global-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-beta_budget_global-1">
+Past versions of beta_budget_global-1.png
+</button>
+</p>
+<div id="fig-beta_budget_global-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/022fd602eb14c9af5035bf40b1646a4e6c67bbcb/docs/figure/results_publication.Rmd/beta_budget_global-1.png" target="_blank">022fd60</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-14
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
        filename = &quot;FigS_budget_beta_global_ensemble_member.png&quot;,
        height = 6,
@@ -11245,7 +11392,8 @@ jens-daniel-mueller
   geom_point(
     data = dcant_budget_basin_MLR_all_no_adj %&gt;%
       mutate(ensemble_role = &quot;no adjustment&quot;) %&gt;%
-      filter(data_source == &quot;obs&quot;),
+      filter(data_source == &quot;obs&quot;,
+         period != &quot;1994 - 2014&quot;),
     aes(fill = Version_ID_group,
         col = ensemble_role),
     size = 1.3,
@@ -11286,6 +11434,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/022fd602eb14c9af5035bf40b1646a4e6c67bbcb/docs/figure/results_publication.Rmd/dcant_budget_basin_hemisphere_ensemble-2.png" target="_blank">022fd60</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-14
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/17cd1d12bef09786022a279607a335574fef5533/docs/figure/results_publication.Rmd/dcant_budget_basin_hemisphere_ensemble-2.png" target="_blank">17cd1d1</a>
@@ -11424,6 +11583,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/022fd602eb14c9af5035bf40b1646a4e6c67bbcb/docs/figure/results_publication.Rmd/dcant_budget_basin_hemisphere_ensemble-3.png" target="_blank">022fd60</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-14
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/17cd1d12bef09786022a279607a335574fef5533/docs/figure/results_publication.Rmd/dcant_budget_basin_hemisphere_ensemble-3.png" target="_blank">17cd1d1</a>
 </td>
 <td>
@@ -11516,6 +11686,43 @@ dcant_budget_global_all_ensemble_summary &lt;-
   scale_y_continuous(name = dcant_pgc_label, breaks = seq(0, 100, 2)) +
   facet_grid(basin ~ ., scales = &quot;free_y&quot;)</code></pre>
 <p><img src="figure/results_publication.Rmd/beta_budget_basin_hemisphere_ensemble-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-beta_budget_basin_hemisphere_ensemble-1">
+Past versions of beta_budget_basin_hemisphere_ensemble-1.png
+</button>
+</p>
+<div id="fig-beta_budget_basin_hemisphere_ensemble-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/022fd602eb14c9af5035bf40b1646a4e6c67bbcb/docs/figure/results_publication.Rmd/beta_budget_basin_hemisphere_ensemble-1.png" target="_blank">022fd60</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-14
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
        filename = &quot;FigS_budget_beta_basin_hemisphere_ensemble_member.png&quot;,
        height = 6,
@@ -16222,8 +16429,8 @@ jens-daniel-mueller
   &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
 1  1800        0       0     280     0       0   NA   
 2  1994      118      19     358.  118      19    1.51
-3  2004       29.1     2.98  377.  147.     22.0  1.56
-4  2014       27.1     3.69  397.  174.     25.7  1.33</code></pre>
+3  2004       29.1     3.00  377.  147.     22.0  1.56
+4  2014       27.1     4.33  397.  174.     26.3  1.33</code></pre>
 </div>
 <div id="incl-fluxes" class="section level2" number="10.3">
 <h2><span class="header-section-number">10.3</span> incl fluxes</h2>
@@ -16247,60 +16454,42 @@ Ocean_Sink_cum_1994 %&gt;%
   geom_point(shape = 21, fill = &quot;white&quot;) +
   theme(legend.position = &quot;bottom&quot;) +
   facet_grid(.~ type)</code></pre>
-<p><img src="figure/results_publication.Rmd/GCB_carbon_sink-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-GCB_carbon_sink-1">
-Past versions of GCB_carbon_sink-1.png
-</button>
-</p>
-<div id="fig-GCB_carbon_sink-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/0825298ebf2d3951cb31eb7199d0f001da15ad0d/docs/figure/results_publication.Rmd/GCB_carbon_sink-1.png" target="_blank">0825298</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-06-28
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/fb59a6fa6e237a886de5fa5215a0b1f7bbcb8acf/docs/figure/results_publication.Rmd/GCB_carbon_sink-1.png" target="_blank">fb59a6f</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-06-27
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/results_publication.Rmd/GCB_carbon_sink_cum_1994-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>Ocean_Sink_cum_1994 &lt;- Ocean_Sink_cum_1994 %&gt;% 
   mutate(fgco2_glob_cum_total = fgco2_glob_cum + 118) %&gt;%
   select(year, pCO2, product, fgco2_glob_cum, fgco2_glob_cum_total, type)
 
 Ocean_Sink_cum_1994 &lt;- Ocean_Sink_cum_1994 %&gt;% 
+  mutate(type = case_when(
+    type == &quot;data_products&quot; ~ &quot;Observation-based\nflux products&quot;,
+    TRUE ~ &quot;Hindcast models&quot;
+  ))</code></pre>
+<pre class="r"><code>Ocean_Sink_cum_2004 &lt;-
+  Ocean_Sink %&gt;%
+  filter(year &gt;= 2004, year &lt;= 2014) %&gt;%
+  mutate(fgco2_glob = if_else(year == 2004, 0, GtC_yr),
+         fgco2_glob = fgco2_glob) %&gt;% 
+  arrange(year) %&gt;%
+  group_by(product, type) %&gt;%
+  mutate(fgco2_glob_cum = cumsum(fgco2_glob)) %&gt;%
+  ungroup()
+
+Ocean_Sink_cum_2004 &lt;-
+  left_join(Ocean_Sink_cum_2004,
+            co2_atm) 
+
+Ocean_Sink_cum_2004 %&gt;%
+  ggplot(aes(pCO2, fgco2_glob_cum, col = product)) +
+  geom_line() +
+  geom_point(shape = 21, fill = &quot;white&quot;) +
+  theme(legend.position = &quot;bottom&quot;) +
+  facet_grid(.~ type)</code></pre>
+<p><img src="figure/results_publication.Rmd/GCB_carbon_sink_cum_2004-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>Ocean_Sink_cum_2004 &lt;- Ocean_Sink_cum_2004 %&gt;% 
+  mutate(fgco2_glob_cum_total = fgco2_glob_cum + 118) %&gt;%
+  select(year, pCO2, product, fgco2_glob_cum, fgco2_glob_cum_total, type)
+
+Ocean_Sink_cum_2004 &lt;- Ocean_Sink_cum_2004 %&gt;% 
   mutate(type = case_when(
     type == &quot;data_products&quot; ~ &quot;Observation-based\nflux products&quot;,
     TRUE ~ &quot;Hindcast models&quot;
@@ -16862,9 +17051,9 @@ dcant_type_box %&gt;%
 <pre><code># A tibble: 3 × 5
   type                           dcant_sd dcant_mean dcant_median dcant_mean_rel
   &lt;chr&gt;                             &lt;dbl&gt;      &lt;dbl&gt;        &lt;dbl&gt;          &lt;dbl&gt;
-1 &quot;eMLR(C*)&quot;                         1.84       56.9         56.3          1    
-2 &quot;Hindcast models&quot;                  5.49       42.3         40.2          0.744
-3 &quot;Observation-based\nflux prod…     4.41       48.8         47.6          0.858</code></pre>
+1 &quot;eMLR(C*)&quot;                         2.16       56.3         56.1          1    
+2 &quot;Hindcast models&quot;                  5.49       42.3         40.2          0.750
+3 &quot;Observation-based\nflux prod…     4.41       48.8         47.6          0.866</code></pre>
 <pre class="r"><code>dcant_type_box %&gt;%
   filter(period == &quot;1994 - 2014&quot;,
          type != &quot;eMLR(C*)&quot;) %&gt;%
@@ -16948,7 +17137,7 @@ dcant_per_emission_sd
 29.06819
 </td>
 <td style="text-align:right;">
-2.983080
+3.001807
 </td>
 <td style="text-align:right;">
 376.95
@@ -16957,13 +17146,13 @@ dcant_per_emission_sd
 147.0682
 </td>
 <td style="text-align:right;">
-21.98308
+22.00181
 </td>
 <td style="text-align:right;">
 35.16442
 </td>
 <td style="text-align:right;">
-3.608696
+3.631351
 </td>
 </tr>
 <tr>
@@ -16977,7 +17166,7 @@ dcant_per_emission_sd
 27.12704
 </td>
 <td style="text-align:right;">
-3.689235
+4.328276
 </td>
 <td style="text-align:right;">
 397.34
@@ -16986,13 +17175,13 @@ dcant_per_emission_sd
 174.1952
 </td>
 <td style="text-align:right;">
-25.67231
+26.33008
 </td>
 <td style="text-align:right;">
 26.64373
 </td>
 <td style="text-align:right;">
-3.623505
+4.251160
 </td>
 </tr>
 </tbody>
