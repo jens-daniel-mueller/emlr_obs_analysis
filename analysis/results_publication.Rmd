@@ -27,6 +27,7 @@ library(ggalluvial)
 library(marelac)
 library(ggdist)
 library(kableExtra)
+library(BSDA)
 ```
 
 
@@ -2362,8 +2363,8 @@ dcant_budget_global_all_ensemble %>%
   filter(data_source == "obs",
          period != "1994 - 2014") %>%
   ggplot(aes(period, dcant)) +
-  scale_fill_brewer(palette = "Dark2",name = "ensemble group") +
-  scale_color_manual(values = c( "black", "red", "grey"),
+  scale_fill_brewer(palette = "Dark2", name = "ensemble group") +
+  scale_color_manual(values = c("black", "red", "grey"),
                      name = "ensemble member") +
   geom_boxplot(
     width = .1,
@@ -2372,10 +2373,11 @@ dcant_budget_global_all_ensemble %>%
     alpha = 0.7,
     position = position_nudge(x = 0.3)
   ) +
-  geom_point(data = dcant_budget_global_all_no_adj %>%
-  mutate(ensemble_role = "unadjusted") %>%
-  filter(data_source == "obs",
-         period != "1994 - 2014"),
+  geom_point(
+    data = dcant_budget_global_all_no_adj %>%
+      mutate(ensemble_role = "unadjusted") %>%
+      filter(data_source == "obs",
+             period != "1994 - 2014"),
     aes(fill = Version_ID_group,
         col = ensemble_role),
     size = 2,
@@ -2437,7 +2439,6 @@ dcant_budget_global_all_ensemble %>%
     position = position_nudge(x = -0.3)
   ) +
   scale_y_continuous(name = dcant_pgc_label, breaks = seq(0, 100, 2))
-
 
 ```
 
@@ -2575,6 +2576,24 @@ dcant_budget_basin_MLR_all_ensemble %>%
   scale_y_continuous(name = dcant_pgc_label, breaks = seq(0, 100, 2)) +
   facet_grid(basin ~ ., scales = "free_y")
 
+dcant_budget_ensemble_stat <-
+  bind_rows(
+    dcant_budget_basin_MLR_all_ensemble,
+    dcant_budget_global_all_ensemble %>% mutate(basin = "global")
+  ) %>%
+  filter(data_source == "obs",
+         period != "1994 - 2014") %>%
+  group_by(period, basin) %>%
+  summarise(
+    mean = mean(dcant),
+    median = median(dcant),
+    sd = sd(dcant),
+    n = n()
+  ) %>%
+  ungroup() 
+
+
+
 dcant_budget_basin_MLR_all_ensemble_summary <- dcant_budget_basin_MLR_all_ensemble %>% 
   group_by(data_source, basin, period) %>% 
   summarise(dcant_mean = mean(dcant),
@@ -2594,6 +2613,60 @@ dcant_budget_global_all_ensemble_summary <-
   filter(data_source == "obs")
 
 ```
+
+```{r dcant_budget_stats}
+
+
+
+dcant_budget_ensemble_stat <-
+  full_join(
+    dcant_budget_ensemble_stat,
+    bind_rows(
+      dcant_budget_basin_MLR_all %>%
+        filter(data_source == "obs",
+               period != "1994 - 2014") %>%
+        select(period,
+               basin,
+               std_case = dcant),
+      dcant_budget_global_all %>%
+        filter(data_source == "obs",
+               period != "1994 - 2014") %>%
+        select(period,
+               std_case = dcant) %>%
+        mutate(basin = "global")
+    )
+  )
+
+dcant_budget_ensemble_stat %>% 
+  pivot_longer(c(mean,median,std_case),
+               names_to = "estimate",
+               values_to = "dcant") %>%
+  group_by(estimate, basin) %>%
+  mutate(
+    delta_dcant = dcant - lag(dcant),
+    delta_dcant_uncert = sqrt(2 * sd ^ 2 + lag(2 * sd ^ 2)),
+    error_prop_ratio = abs(delta_dcant_uncert / delta_dcant),
+    ttest_p = tsum.test(
+      mean.x = dcant,
+      s.x = sd,
+      n.x = n,
+      mean.y = lag(dcant),
+      s.y = lag(sd),
+      n.y = lag(n)
+    )$p.value
+  ) %>%
+  ungroup() %>% 
+  drop_na() %>% 
+  ggplot(aes(error_prop_ratio, ttest_p, col = basin)) +
+  geom_vline(xintercept = 1) +
+  geom_hline(yintercept = 0.05) +
+  geom_point() +
+  scale_y_log10() +
+  scale_color_brewer(palette = "Dark2") +
+  facet_grid(. ~ estimate)
+
+```
+
 
 
 ```{r beta_budget_basin_hemisphere_ensemble, fig.asp=1}
