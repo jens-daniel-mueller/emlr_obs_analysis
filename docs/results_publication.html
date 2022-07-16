@@ -782,16 +782,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreecbde57a62e380785062cba63180f365f9e36fa53targetblankcbde57aa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/cbde57a62e380785062cba63180f365f9e36fa53" target="_blank">cbde57a</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeb91f61911024f4d5f441df7a30cca6d6fde0c631targetblankb91f619a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/b91f61911024f4d5f441df7a30cca6d6fde0c631" target="_blank">b91f619</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreecbde57a62e380785062cba63180f365f9e36fa53targetblankcbde57aa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeb91f61911024f4d5f441df7a30cca6d6fde0c631targetblankb91f619a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/cbde57a62e380785062cba63180f365f9e36fa53" target="_blank">cbde57a</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/b91f61911024f4d5f441df7a30cca6d6fde0c631" target="_blank">b91f619</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -849,6 +849,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/b91f61911024f4d5f441df7a30cca6d6fde0c631/analysis/results_publication.Rmd" target="_blank">b91f619</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-16
+</td>
+<td>
+analysed dcant budget stats
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/08c00b4b24a747534f49b4bc7b9404472387fd81/docs/results_publication.html" target="_blank">08c00b4</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-16
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -11533,8 +11567,8 @@ jens-daniel-mueller
   filter(data_source == &quot;obs&quot;,
          period != &quot;1994 - 2014&quot;) %&gt;%
   ggplot(aes(period, dcant)) +
-  scale_fill_brewer(palette = &quot;Dark2&quot;,name = &quot;ensemble group&quot;) +
-  scale_color_manual(values = c( &quot;black&quot;, &quot;red&quot;, &quot;grey&quot;),
+  scale_fill_brewer(palette = &quot;Dark2&quot;, name = &quot;ensemble group&quot;) +
+  scale_color_manual(values = c(&quot;black&quot;, &quot;red&quot;, &quot;grey&quot;),
                      name = &quot;ensemble member&quot;) +
   geom_boxplot(
     width = .1,
@@ -11543,10 +11577,11 @@ jens-daniel-mueller
     alpha = 0.7,
     position = position_nudge(x = 0.3)
   ) +
-  geom_point(data = dcant_budget_global_all_no_adj %&gt;%
-  mutate(ensemble_role = &quot;unadjusted&quot;) %&gt;%
-  filter(data_source == &quot;obs&quot;,
-         period != &quot;1994 - 2014&quot;),
+  geom_point(
+    data = dcant_budget_global_all_no_adj %&gt;%
+      mutate(ensemble_role = &quot;unadjusted&quot;) %&gt;%
+      filter(data_source == &quot;obs&quot;,
+             period != &quot;1994 - 2014&quot;),
     aes(fill = Version_ID_group,
         col = ensemble_role),
     size = 2,
@@ -12384,7 +12419,25 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
-<pre class="r"><code>dcant_budget_basin_MLR_all_ensemble_summary &lt;- dcant_budget_basin_MLR_all_ensemble %&gt;% 
+<pre class="r"><code>dcant_budget_ensemble_stat &lt;-
+  bind_rows(
+    dcant_budget_basin_MLR_all_ensemble,
+    dcant_budget_global_all_ensemble %&gt;% mutate(basin = &quot;global&quot;)
+  ) %&gt;%
+  filter(data_source == &quot;obs&quot;,
+         period != &quot;1994 - 2014&quot;) %&gt;%
+  group_by(period, basin) %&gt;%
+  summarise(
+    mean = mean(dcant),
+    median = median(dcant),
+    sd = sd(dcant),
+    n = n()
+  ) %&gt;%
+  ungroup() 
+
+
+
+dcant_budget_basin_MLR_all_ensemble_summary &lt;- dcant_budget_basin_MLR_all_ensemble %&gt;% 
   group_by(data_source, basin, period) %&gt;% 
   summarise(dcant_mean = mean(dcant),
             dcant_sd = sd(dcant)*2) %&gt;% 
@@ -12401,6 +12454,53 @@ dcant_budget_global_all_ensemble_summary &lt;-
             dcant_sd = sd(dcant)*2) %&gt;%
   ungroup() %&gt;%
   filter(data_source == &quot;obs&quot;)</code></pre>
+<pre class="r"><code>dcant_budget_ensemble_stat &lt;-
+  full_join(
+    dcant_budget_ensemble_stat,
+    bind_rows(
+      dcant_budget_basin_MLR_all %&gt;%
+        filter(data_source == &quot;obs&quot;,
+               period != &quot;1994 - 2014&quot;) %&gt;%
+        select(period,
+               basin,
+               std_case = dcant),
+      dcant_budget_global_all %&gt;%
+        filter(data_source == &quot;obs&quot;,
+               period != &quot;1994 - 2014&quot;) %&gt;%
+        select(period,
+               std_case = dcant) %&gt;%
+        mutate(basin = &quot;global&quot;)
+    )
+  )
+
+dcant_budget_ensemble_stat %&gt;% 
+  pivot_longer(c(mean,median,std_case),
+               names_to = &quot;estimate&quot;,
+               values_to = &quot;dcant&quot;) %&gt;%
+  group_by(estimate, basin) %&gt;%
+  mutate(
+    delta_dcant = dcant - lag(dcant),
+    delta_dcant_uncert = sqrt(2 * sd ^ 2 + lag(2 * sd ^ 2)),
+    error_prop_ratio = abs(delta_dcant_uncert / delta_dcant),
+    ttest_p = tsum.test(
+      mean.x = dcant,
+      s.x = sd,
+      n.x = n,
+      mean.y = lag(dcant),
+      s.y = lag(sd),
+      n.y = lag(n)
+    )$p.value
+  ) %&gt;%
+  ungroup() %&gt;% 
+  drop_na() %&gt;% 
+  ggplot(aes(error_prop_ratio, ttest_p, col = basin)) +
+  geom_vline(xintercept = 1) +
+  geom_hline(yintercept = 0.05) +
+  geom_point() +
+  scale_y_log10() +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  facet_grid(. ~ estimate)</code></pre>
+<p><img src="figure/results_publication.Rmd/dcant_budget_stats-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>full_join(dcant_budget_basin_MLR_all_ensemble,
           delta_pCO2_atm)%&gt;%
   mutate(ensemble_role = if_else(Version_ID %in% Version_IDs,
@@ -18999,50 +19099,51 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] kableExtra_1.3.4  ggdist_3.1.1      ggalluvial_0.12.3 colorspace_2.0-2 
- [5] marelac_2.1.10    shape_1.4.6       ggforce_0.3.3     metR_0.11.0      
- [9] scico_1.3.0       patchwork_1.1.1   collapse_1.7.0    forcats_0.5.1    
-[13] stringr_1.4.0     dplyr_1.0.7       purrr_0.3.4       readr_2.1.1      
-[17] tidyr_1.1.4       tibble_3.1.6      ggplot2_3.3.5     tidyverse_1.3.1  
-[21] workflowr_1.7.0  
+ [1] BSDA_1.2.1        lattice_0.20-45   kableExtra_1.3.4  ggdist_3.1.1     
+ [5] ggalluvial_0.12.3 colorspace_2.0-2  marelac_2.1.10    shape_1.4.6      
+ [9] ggforce_0.3.3     metR_0.11.0       scico_1.3.0       patchwork_1.1.1  
+[13] collapse_1.7.0    forcats_0.5.1     stringr_1.4.0     dplyr_1.0.7      
+[17] purrr_0.3.4       readr_2.1.1       tidyr_1.1.4       tibble_3.1.6     
+[21] ggplot2_3.3.5     tidyverse_1.3.1   workflowr_1.7.0  
 
 loaded via a namespace (and not attached):
-  [1] ellipsis_0.3.2       rprojroot_2.0.2      htmlTable_2.4.0     
-  [4] base64enc_0.1-3      fs_1.5.2             rstudioapi_0.13     
-  [7] farver_2.1.0         ggrepel_0.9.1        bit64_4.0.5         
- [10] fansi_1.0.2          lubridate_1.8.0      xml2_1.3.3          
- [13] splines_4.1.2        knitr_1.37           polyclip_1.10-0     
- [16] Formula_1.2-4        jsonlite_1.7.3       gsw_1.0-6           
- [19] broom_0.7.11         cluster_2.1.2        dbplyr_2.1.1        
- [22] png_0.1-7            compiler_4.1.2       httr_1.4.2          
- [25] backports_1.4.1      assertthat_0.2.1     Matrix_1.4-0        
- [28] fastmap_1.1.0        cli_3.1.1            later_1.3.0         
- [31] tweenr_1.0.2         htmltools_0.5.2      tools_4.1.2         
- [34] gtable_0.3.0         glue_1.6.0           Rcpp_1.0.8          
- [37] cellranger_1.1.0     jquerylib_0.1.4      vctrs_0.3.8         
- [40] svglite_2.0.0        xfun_0.29            ps_1.6.0            
- [43] rvest_1.0.2          lifecycle_1.0.1      oce_1.5-0           
- [46] getPass_0.2-2        MASS_7.3-55          zoo_1.8-9           
- [49] scales_1.1.1         vroom_1.5.7          hms_1.1.1           
- [52] promises_1.2.0.1     parallel_4.1.2       RColorBrewer_1.1-2  
- [55] yaml_2.2.1           gridExtra_2.3        sass_0.4.0          
- [58] rpart_4.1-15         latticeExtra_0.6-29  stringi_1.7.6       
- [61] highr_0.9            checkmate_2.0.0      rlang_1.0.2         
- [64] pkgconfig_2.0.3      systemfonts_1.0.3    distributional_0.3.0
- [67] evaluate_0.14        lattice_0.20-45      SolveSAPHE_2.1.0    
- [70] htmlwidgets_1.5.4    labeling_0.4.2       bit_4.0.4           
- [73] processx_3.5.2       tidyselect_1.1.1     here_1.0.1          
- [76] seacarb_3.3.0        magrittr_2.0.1       R6_2.5.1            
- [79] generics_0.1.1       Hmisc_4.6-0          DBI_1.1.2           
- [82] foreign_0.8-82       pillar_1.6.4         haven_2.4.3         
- [85] whisker_0.4          withr_2.4.3          nnet_7.3-17         
- [88] survival_3.2-13      modelr_0.1.8         crayon_1.4.2        
- [91] utf8_1.2.2           tzdb_0.2.0           rmarkdown_2.11      
- [94] jpeg_0.1-9           grid_4.1.2           readxl_1.3.1        
- [97] isoband_0.2.5        data.table_1.14.2    callr_3.7.0         
-[100] git2r_0.29.0         reprex_2.0.1         digest_0.6.29       
-[103] webshot_0.5.2        httpuv_1.6.5         munsell_0.5.0       
-[106] viridisLite_0.4.0    bslib_0.3.1         </code></pre>
+  [1] ellipsis_0.3.2       class_7.3-20         rprojroot_2.0.2     
+  [4] htmlTable_2.4.0      base64enc_0.1-3      fs_1.5.2            
+  [7] rstudioapi_0.13      proxy_0.4-26         farver_2.1.0        
+ [10] ggrepel_0.9.1        bit64_4.0.5          fansi_1.0.2         
+ [13] lubridate_1.8.0      xml2_1.3.3           splines_4.1.2       
+ [16] knitr_1.37           polyclip_1.10-0      Formula_1.2-4       
+ [19] jsonlite_1.7.3       gsw_1.0-6            broom_0.7.11        
+ [22] cluster_2.1.2        dbplyr_2.1.1         png_0.1-7           
+ [25] compiler_4.1.2       httr_1.4.2           backports_1.4.1     
+ [28] Matrix_1.4-0         assertthat_0.2.1     fastmap_1.1.0       
+ [31] cli_3.1.1            later_1.3.0          tweenr_1.0.2        
+ [34] htmltools_0.5.2      tools_4.1.2          gtable_0.3.0        
+ [37] glue_1.6.0           Rcpp_1.0.8           cellranger_1.1.0    
+ [40] jquerylib_0.1.4      vctrs_0.3.8          svglite_2.0.0       
+ [43] xfun_0.29            ps_1.6.0             rvest_1.0.2         
+ [46] lifecycle_1.0.1      oce_1.5-0            getPass_0.2-2       
+ [49] MASS_7.3-55          zoo_1.8-9            scales_1.1.1        
+ [52] vroom_1.5.7          hms_1.1.1            promises_1.2.0.1    
+ [55] parallel_4.1.2       RColorBrewer_1.1-2   yaml_2.2.1          
+ [58] gridExtra_2.3        sass_0.4.0           rpart_4.1-15        
+ [61] latticeExtra_0.6-29  stringi_1.7.6        highr_0.9           
+ [64] e1071_1.7-9          checkmate_2.0.0      rlang_1.0.2         
+ [67] pkgconfig_2.0.3      systemfonts_1.0.3    distributional_0.3.0
+ [70] evaluate_0.14        SolveSAPHE_2.1.0     htmlwidgets_1.5.4   
+ [73] labeling_0.4.2       bit_4.0.4            processx_3.5.2      
+ [76] tidyselect_1.1.1     here_1.0.1           seacarb_3.3.0       
+ [79] magrittr_2.0.1       R6_2.5.1             generics_0.1.1      
+ [82] Hmisc_4.6-0          DBI_1.1.2            foreign_0.8-82      
+ [85] pillar_1.6.4         haven_2.4.3          whisker_0.4         
+ [88] withr_2.4.3          nnet_7.3-17          survival_3.2-13     
+ [91] modelr_0.1.8         crayon_1.4.2         utf8_1.2.2          
+ [94] tzdb_0.2.0           rmarkdown_2.11       jpeg_0.1-9          
+ [97] grid_4.1.2           readxl_1.3.1         isoband_0.2.5       
+[100] data.table_1.14.2    callr_3.7.0          git2r_0.29.0        
+[103] reprex_2.0.1         digest_0.6.29        webshot_0.5.2       
+[106] httpuv_1.6.5         munsell_0.5.0        viridisLite_0.4.0   
+[109] bslib_0.3.1         </code></pre>
 </div>
 </div>
 </div>
