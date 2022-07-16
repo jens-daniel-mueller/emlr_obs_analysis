@@ -262,6 +262,19 @@ rm(params_local,
 params_local_all <- params_local_all %>% 
   select(Version_ID, period, MLR_basins, tref1, tref2)
 
+
+path_version_data     <-
+  paste(path_observations,
+        Version_IDs[1],
+        "/data/",
+        sep = "")
+
+params_local_back <-
+  read_rds(paste(path_version_data,
+                 "params_local.rds",
+                 sep = ""))
+
+
 ```
 
 ```{r read_parameters_ensemble}
@@ -332,6 +345,8 @@ params_local_all_ensemble <-
     )
   )
 
+
+params_local <- params_local_back
 
 ```
 
@@ -1129,7 +1144,7 @@ ggsave(plot = coverage_map,
 
 # Atm CO2
 
-```{r atm_CO2}
+```{r atm_CO2, fig.asp=1}
 
 co2_atm_roll <- co2_atm %>% 
   mutate(pCO2_roll = zoo::rollmean(pCO2, 10, fill = NA))
@@ -1183,6 +1198,16 @@ delta_pCO2_atm <- delta_pCO2_atm %>%
          delta_pCO2_roll = pCO2_roll_2 - pCO2_roll_1) %>% 
   select(period, delta_pCO2, delta_pCO2_roll)
 
+delta_pCO2_atm <- delta_pCO2_atm %>%
+  select(period, delta_pCO2)
+
+delta_pCO2_atm <- 
+  bind_rows(
+    delta_pCO2_atm,
+    tibble(period = "1800 - 1994",
+           delta_pCO2 = co2_atm %>% filter(year==1994) %>% pull(pCO2) - 280)
+  )
+
 rm(co2_atm_roll)
 
 ```
@@ -1202,37 +1227,22 @@ dcant_inv_all <- dcant_inv_all %>%
   filter(data_source %in% c("obs"),
          period != "1994 - 2014")
 
-dcant_inv_all <- left_join(dcant_inv_all,
-                           co2_atm %>% rename(tref1 = year,
-                                              pCO21 = pCO2))
-
-dcant_inv_all <- left_join(dcant_inv_all,
-                           co2_atm %>% rename(tref2 = year,
-                                              pCO22 = pCO2))
-
-
-tcant_inv <- tcant_inv %>% 
-  mutate(pCO21 = 280)
-
-tcant_inv <- left_join(tcant_inv,
-                       co2_atm %>% rename(tref2 = year,
-                                          pCO22 = pCO2))
 
 dcant_inv_all <- bind_rows(
   dcant_inv_all,
   tcant_inv %>% mutate(period = paste(tref1, tref2, sep = " - "))
 )
 
+dcant_inv_all <- left_join(dcant_inv_all,
+                           delta_pCO2_atm)
+
 
 dcant_inv_all <- dcant_inv_all %>% 
-  mutate(delta_pCO2 = pCO22 - pCO21,
-         beta = dcant / delta_pCO2,
+  mutate(beta = dcant / delta_pCO2,
          beta_pos = dcant_pos / delta_pCO2) %>% 
   select(-starts_with("pCO2"))
 
 dcant_inv_all_ensemble <- dcant_inv_all
-
-# unique(dcant_inv_all$Version_ID)
 
 dcant_inv_all <- dcant_inv_all %>% 
   filter(Version_ID %in% Version_IDs | is.na(Version_ID))
@@ -1255,7 +1265,6 @@ p_CI_absolute
 
 
 ```
-
 
 
 ### dcant - absolute delta
@@ -1287,45 +1296,11 @@ p_CI_absolute / p_CI_delta +
   plot_annotation(tag_levels = 'A')
 
 ggsave(path = here::here("output/publication"),
-       filename = "Fig_column_inventories.png",
+       filename = "Fig_dcant_column_inventory.png",
        height = 9,
        width = 8)
 
-
-```
-
-### dcant - absolute delta scaled
-
-```{r invetory_maps_absolute_delta_scaled}
-
-dcant_budget_scaling <- dcant_budget_global_all %>%
-  filter(period != "1994 - 2014") %>%
-  select(data_source, period, dcant) %>%
-  pivot_wider(names_from = period,
-              values_from = dcant) %>% 
-  mutate(dcant_scaling = `2004 - 2014` / `1994 - 2004`) %>% 
-  select(data_source, dcant_scaling)
-
-
-left_join(dcant_inv_all %>% filter(data_source == "obs"),
-          dcant_budget_scaling %>% filter(data_source == "obs")) %>%
-  filter(period != "1994 - 2014") %>%
-  select(data_source, lon, lat, basin_AIP, period, dcant, dcant_scaling) %>% 
-  pivot_wider(names_from = period,
-              values_from = dcant) %>% 
-  mutate(delta_dcant = `2004 - 2014` - `1994 - 2004`*dcant_scaling) %>% 
-  group_by(data_source) %>%
-  group_split() %>%
-  # head(1) %>%
-  map(
-    ~ p_map_cant_inv(df = .x,
-                     var = "delta_dcant",
-                     col = "bias") +
-      # facet_grid(period ~ .) +
-      theme(axis.text = element_blank(),
-            axis.ticks = element_blank())
-  )
-
+rm(p_CI_absolute, p_CI_delta)
 
 ```
 
@@ -1339,20 +1314,20 @@ dcant_inv_all_ensemble_mean <-
   filter(period != "1800 - 1994",
          data_source == "obs") %>%
   group_by(data_source, period, lon, lat) %>%
-  summarise(dcant_sd = sd(dcant)) %>%
+  summarise(dcant_sd = sd(dcant)*2) %>%
   ungroup()
 
 
 dcant_inv_all_ensemble_mean %>%
   p_map_cant_inv(var = "dcant_sd",
-                 breaks = c(seq(0, 5, 0.5), Inf),
+                 breaks = c(seq(0, 6, 0.5), Inf),
                  title_text = NULL) +
   facet_grid(period ~ .) +
   theme(axis.text = element_blank(),
         axis.ticks = element_blank())
 
 ggsave(path = here::here("output/publication"),
-       filename = "FigS_column_inventory_map_dcant_ensemble_standard_deviation.png",
+       filename = "FigS_dcant_ensemble_standard_deviation_column_inventory.png",
        height = 4,
        width = 6)
 
@@ -1362,8 +1337,6 @@ ggsave(path = here::here("output/publication"),
 
 ```{r beta_CI_maps}
 
-
-
 dcant_inv_all %>%
   p_map_cant_inv(var = "beta",
                  breaks = c(-Inf, seq(0, 1, 0.1), Inf),
@@ -1371,7 +1344,7 @@ dcant_inv_all %>%
   facet_grid(period ~ .)
 
 ggsave(path = here::here("output/publication"),
-       filename = "FigS_column_inventory_map_beta.png",
+       filename = "FigS_beta_column_inventory.png",
        height = 6,
        width = 6)
 
@@ -1462,16 +1435,15 @@ dcant_inv_all_lat_mean %>%
 dcant_inv_all_ensemble_lat_mean %>% 
   ggplot(aes(lat_grid, dcant_mean, fill=period, group=Version_ID)) +
   geom_hline(yintercept = 0) +
-  geom_path(aes(col=period)) +
+  geom_path(aes(col=period), alpha = 0.3) +
   scale_color_brewer(palette = "Dark2") +
   scale_fill_brewer(palette = "Dark2") +
   coord_flip() +
   facet_grid(. ~ basin_AIP) +
   labs(x = "Latitude (°N)",
        y = dcant_CI_label)
+
 ```
-
-
 
 
 ### beta
@@ -1497,7 +1469,7 @@ dcant_inv_all_lat_mean %>%
 dcant_inv_all_ensemble_lat_mean %>% 
   ggplot(aes(lat_grid, beta_mean, fill=period, group=Version_ID)) +
   geom_hline(yintercept = 0) +
-  geom_path(aes(col=period)) +
+  geom_path(aes(col=period), alpha = 0.3) +
   scale_color_brewer(palette = "Dark2") +
   scale_fill_brewer(palette = "Dark2") +
   coord_flip() +
@@ -1598,18 +1570,19 @@ p_dcant_zonal_delta <-
 dcant_zonal_all %>%
   filter(data_source %in% c("obs"),
          period != "1994 - 2014") %>%
-  select(data_source, lat, depth, basin_AIP, period, dcant) %>%
+  select(data_source, lat, depth, basin_AIP, period, gamma_mean, dcant) %>%
   pivot_wider(names_from = period,
               values_from = dcant) %>%
   mutate(delta_dcant = `2004 - 2014` - `1994 - 2004`) %>%
-  group_by(data_source) %>%
+  group_by(data_source, basin_AIP) %>%
   group_split() %>%
-  # head(1) %>%
+  head(1) %>%
   map(
     ~ p_section_zonal_continous_depth(
       df = .x,
       var = "delta_dcant",
-      plot_slabs = "n",
+      plot_slabs = "y",
+      drop_slabs = 1,
       subtitle_text = NULL,
       title_text = NULL,
       col = "bias"
@@ -1623,11 +1596,11 @@ p_dcant_zonal_absolute / p_dcant_zonal_delta +
   plot_annotation(tag_levels = 'A')
 
 ggsave(path = here::here("output/publication"),
-       filename = "Fig_zonal_mean_sections.png",
+       filename = "Fig_dcant_zonal_mean_section.png",
        height = 9,
        width = 15)
 
-
+rm(p_dcant_zonal_absolute, p_dcant_zonal_delta)
 ```
 
 
@@ -1638,7 +1611,6 @@ ggsave(path = here::here("output/publication"),
 ### Global
 
 ```{r concentration_profiles_global}
-
 
 dcant_profile_global_all %>%
   arrange(depth) %>%
@@ -1991,7 +1963,7 @@ full_join(dcant_profile_basin_MLR_all_ensemble %>% select(-dcant_sd),
 
 
 ggsave(path = here::here("output/publication"),
-       filename = "Fig_concentration_profiles.png",
+       filename = "Fig_dcant_profiles_regional.png",
        height = 6,
        width = 8)
 
@@ -2119,12 +2091,6 @@ dcant_profile_basin_MLR_all_ensemble %>%
       facet_grid(basin ~ period)
   )
 
-
-ggsave(path = here::here("output/publication"),
-       filename = "FigS_concentration_profiles_dcant_ensemble_member.png",
-       height = 6,
-       width = 8)
-
 ```
 
 ```{r concentration_profiles_MLR_basins_seperate, fig.asp=1.2, eval=FALSE}
@@ -2244,16 +2210,23 @@ bind_rows(dcant_budget_global_all_no_adj,
   scale_color_brewer(palette = "Dark2") +
   facet_grid(. ~ data_source)
 
+dcant_budget_global_all_ensemble_bias <- 
 dcant_budget_global_all_ensemble %>%
   filter(data_source != "obs") %>% 
   pivot_wider(names_from = data_source,
               values_from = dcant) %>% 
-  mutate(dcant_bias = 100*(mod - mod_truth)/mod_truth) %>% 
-  ggplot(aes(period, dcant_bias, col = MLR_basins)) +
+  mutate(dcant_bias_rel = 100*(mod - mod_truth)/mod_truth)
+
+dcant_budget_global_all_ensemble_bias %>% 
+  ggplot(aes(period, dcant_bias_rel, col = MLR_basins)) +
   geom_hline(yintercept = 0) +
-  geom_jitter() +
+  geom_jitter(width = 0.2) +
   scale_color_brewer(palette = "Dark2")
 
+dcant_budget_global_all_ensemble_bias %>% 
+  group_by(period) %>% 
+  summarise(dcant_bias_rel = mean(dcant_bias_rel)) %>% 
+  ungroup()
 
 dcant_budget_global_all_ensemble %>%
   mutate(ensemble_role = case_when(Version_ID %in% Version_IDs ~ "standard case",
@@ -2294,7 +2267,7 @@ dcant_budget_global_all_ensemble %>%
   scale_y_continuous(name = dcant_pgc_label, breaks = seq(0, 100, 2))
 
 ggsave(path = here::here("output/publication"),
-       filename = "FigS_budget_dcant_global_ensemble_member.png",
+       filename = "FigS_dcant_budget_global_ensemble_member.png",
        height = 6,
        width = 6)
 
