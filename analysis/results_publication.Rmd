@@ -463,7 +463,7 @@ dcant_budget_global_all <- full_join(dcant_budget_global_all,
 
 
 dcant_budget_basin_MLR_all <- dcant_budget_basin_MLR_all %>%
-  filter(MLR_basins == "5") %>% 
+  filter(MLR_basins %in% c("5", "1")) %>% 
   select(-MLR_basins)
 
 dcant_budget_basin_MLR_all <- full_join(dcant_budget_basin_MLR_all,
@@ -865,7 +865,7 @@ dcant_profile_global_all <-
 
 dcant_profile_basin_MLR_all <-
   dcant_profile_basin_MLR_all %>%
-  filter(MLR_basins == "5") %>%
+  filter(MLR_basins %in% c("5", "1")) %>%
   select(-MLR_basins)
 
 dcant_profile_basin_MLR_all <-
@@ -903,7 +903,7 @@ dcant_budget_global_layer_all <-
 
 dcant_budget_basin_MLR_layer_all <-
   dcant_budget_basin_MLR_layer_all %>%
-  filter(MLR_basins == "5") %>%
+  filter(MLR_basins %in% c("5", "1")) %>%
   select(-MLR_basins)
 
 
