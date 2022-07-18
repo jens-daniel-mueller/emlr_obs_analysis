@@ -666,7 +666,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Results publication</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">17 July, 2022</h4>
+<h4 class="date">18 July, 2022</h4>
 
 </div>
 
@@ -691,7 +691,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-07-17
+<strong>Last updated:</strong> 2022-07-18
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -782,16 +782,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree8624c9382254df463a122b4bd8d7cb68d5c95aeftargetblank8624c93a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/8624c9382254df463a122b4bd8d7cb68d5c95aef" target="_blank">8624c93</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree85f482c29868fce117a6d71734d487429873438btargetblank85f482ca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/85f482c29868fce117a6d71734d487429873438b" target="_blank">85f482c</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree8624c9382254df463a122b4bd8d7cb68d5c95aeftargetblank8624c93a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree85f482c29868fce117a6d71734d487429873438btargetblank85f482ca" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/8624c9382254df463a122b4bd8d7cb68d5c95aef" target="_blank">8624c93</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/85f482c29868fce117a6d71734d487429873438b" target="_blank">85f482c</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -809,6 +809,7 @@ Untracked files:
 
 Unstaged changes:
     Modified:   analysis/_site.yml
+    Modified:   analysis/basics.Rmd
     Modified:   analysis/child/budget_analysis_plot_data.Rmd
     Modified:   code/Workflowr_project_managment.R
 
@@ -849,6 +850,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/85f482c29868fce117a6d71734d487429873438b/analysis/results_publication.Rmd" target="_blank">85f482c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-18
+</td>
+<td>
+include scaled Sabine data for budgets
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/2695085215416389956e9df18611f7a92e591549/docs/results_publication.html" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -4620,23 +4655,6 @@ plot hemisphere budgets and publication results
 <h1><span class="header-section-number">2</span> Read files</h1>
 <div id="paths-and-versions" class="section level2" number="2.1">
 <h2><span class="header-section-number">2.1</span> Paths and Versions</h2>
-<pre class="r"><code>version_id_pattern &lt;- &quot;103&quot;
-
-# identify required version IDs
-
-Version_IDs_1 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
-                            pattern = paste0(&quot;v_1&quot;, version_id_pattern))
-
-Version_IDs_2 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
-                            pattern = paste0(&quot;v_2&quot;, version_id_pattern))
-
-Version_IDs_3 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
-                            pattern = paste0(&quot;v_3&quot;, version_id_pattern))
-
-Version_IDs &lt;- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
-
-print(Version_IDs)</code></pre>
-<pre><code>[1] &quot;v_1103&quot; &quot;v_2103&quot; &quot;v_3103&quot;</code></pre>
 <pre class="r"><code>version_id_pattern &lt;- &quot;1&quot;
 
 # identify required version IDs
@@ -4748,69 +4766,11 @@ rm(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 Version_IDs_ensemble &lt;- c(Version_IDs_x, Version_IDs_o, Version_IDs_d, Version_IDs_g, Version_IDs_n, Version_IDs_c, Version_IDs_e)
 
 rm(Version_IDs_x, Version_IDs_o, Version_IDs_g, Version_IDs_n, Version_IDs_c, Version_IDs_e)</code></pre>
+<pre class="r"><code># subset Standard case
+Version_IDs &lt;- Version_IDs_ensemble[str_detect(Version_IDs_ensemble, &quot;103&quot;)]</code></pre>
 </div>
 <div id="parameters" class="section level2" number="2.2">
 <h2><span class="header-section-number">2.2</span> Parameters</h2>
-<pre class="r"><code>for (i_Version_IDs in Version_IDs) {
-  # i_Version_IDs &lt;- Version_IDs[1]
-  
-  path_version_data     &lt;-
-    paste(path_observations,
-          i_Version_IDs,
-          &quot;/data/&quot;,
-          sep = &quot;&quot;)
-  
-  params_local &lt;-
-    read_rds(paste(path_version_data,
-                   &quot;params_local.rds&quot;,
-                   sep = &quot;&quot;))
-  
-  params_local &lt;- bind_cols(
-    Version_ID = i_Version_IDs,
-    tref1 = params_local$tref1,
-    tref2 = params_local$tref2,
-    MLR_basins = params_local$MLR_basins
-  )
-  
-  tref &lt;- read_csv(paste(path_version_data,
-                         &quot;tref.csv&quot;,
-                         sep = &quot;&quot;))
-  
-  params_local &lt;- params_local %&gt;%
-    mutate(
-      median_year_1 = sort(tref$median_year)[1],
-      median_year_2 = sort(tref$median_year)[2],
-      duration = median_year_2 - median_year_1,
-      period = paste(median_year_1, &quot;-&quot;, median_year_2)
-    )
-  if (exists(&quot;params_local_all&quot;)) {
-    params_local_all &lt;- bind_rows(params_local_all, params_local)
-  }
-  
-  if (!exists(&quot;params_local_all&quot;)) {
-    params_local_all &lt;- params_local
-  }
-  
-  
-}
-
-rm(params_local,
-   tref)
-
-params_local_all &lt;- params_local_all %&gt;% 
-  select(Version_ID, period, MLR_basins, tref1, tref2)
-
-
-path_version_data     &lt;-
-  paste(path_observations,
-        Version_IDs[1],
-        &quot;/data/&quot;,
-        sep = &quot;&quot;)
-
-params_local_back &lt;-
-  read_rds(paste(path_version_data,
-                 &quot;params_local.rds&quot;,
-                 sep = &quot;&quot;))</code></pre>
 <pre class="r"><code>for (i_Version_IDs in Version_IDs_ensemble) {
   
   path_version_data     &lt;-
@@ -4866,19 +4826,39 @@ params_local_all_ensemble &lt;-
   mutate(
     Version_ID_group = str_sub(Version_ID, 4, 4),
     Version_ID_group = case_when(
-      Version_ID_group == &quot;1&quot; ~ &quot;standard&quot;,
-      Version_ID_group == &quot;o&quot; ~ &quot;reoccupation filter&quot;,
-      Version_ID_group == &quot;d&quot; ~ &quot;no data adjustment&quot;,
-      Version_ID_group == &quot;g&quot; ~ &quot;no gap filling&quot;,
-      Version_ID_group == &quot;e&quot; ~ &quot;no surface equi&quot;,
+      Version_ID_group == &quot;1&quot; ~ &quot;Bulk adjustment&quot;,
+      Version_ID_group == &quot;c&quot; ~ &quot;Cruise adjustment&quot;,
+      Version_ID_group == &quot;d&quot; ~ &quot;No adjustment&quot;,
+      Version_ID_group == &quot;g&quot; ~ &quot;No gap filling&quot;,
+      Version_ID_group == &quot;o&quot; ~ &quot;Reoccupation filter&quot;,
+      Version_ID_group == &quot;e&quot; ~ &quot;Surface eMLR(C*)&quot;,
       Version_ID_group == &quot;n&quot; ~ &quot;C*(N)&quot;,
-      Version_ID_group == &quot;c&quot; ~ &quot;cruise adjustment&quot;,
       TRUE ~ Version_ID_group
     )
   )
 
+params_local_all_ensemble &lt;-
+  params_local_all_ensemble %&gt;%
+  mutate(
+    MLR_basins = case_when(
+      MLR_basins == &quot;AIP&quot; ~ &quot;3&quot;,
+      MLR_basins == &quot;SO_AIP&quot; ~ &quot;3+SO&quot;,
+      MLR_basins == &quot;SO_5&quot; ~ &quot;5+SO&quot;,
+      TRUE ~ MLR_basins
+    )
+  )</code></pre>
+<pre class="r"><code>params_local_all &lt;- params_local_all_ensemble %&gt;% 
+  filter(Version_ID %in% Version_IDs)</code></pre>
+<pre class="r"><code>path_version_data     &lt;-
+  paste(path_observations,
+        Version_IDs[1],
+        &quot;/data/&quot;,
+        sep = &quot;&quot;)
 
-params_local &lt;- params_local_back</code></pre>
+params_local &lt;-
+  read_rds(paste(path_version_data,
+                 &quot;params_local.rds&quot;,
+                 sep = &quot;&quot;))</code></pre>
 </div>
 <div id="budgets" class="section level2" number="2.3">
 <h2><span class="header-section-number">2.3</span> Budgets</h2>
@@ -5305,6 +5285,10 @@ Global_Carbon_Budget &lt;-
                   &quot;GCB_Global_Carbon_Budget.csv&quot;,
                   sep = &quot;&quot;))</code></pre>
 </div>
+<div id="periods" class="section level2" number="2.10">
+<h2><span class="header-section-number">2.10</span> Periods</h2>
+<pre class="r"><code>two_decades &lt;- unique(params_local_all_ensemble$period)[1:2]</code></pre>
+</div>
 </div>
 <div id="define-labels" class="section level1" number="3">
 <h1><span class="header-section-number">3</span> Define labels</h1>
@@ -5394,7 +5378,7 @@ jens-daniel-mueller
 </div>
 <pre class="r"><code>ggsave(plot = coverage_map,
        path = here::here(&quot;output/publication&quot;),
-       filename = &quot;FigS_coverage_map_observations.png&quot;,
+       filename = &quot;FigS_observations_coverage_map.png&quot;,
        height = 4,
        width = 8)</code></pre>
 </div>
@@ -5513,8 +5497,8 @@ delta_pCO2_atm &lt;-
 
 rm(co2_atm_roll)</code></pre>
 </div>
-<div id="scale-globale" class="section level1" number="6">
-<h1><span class="header-section-number">6</span> Scale globale</h1>
+<div id="globale-scaling" class="section level1" number="6">
+<h1><span class="header-section-number">6</span> Globale scaling</h1>
 <ul>
 <li>Accumulation beneath 3000m: +2%</li>
 <li>unmapped regions south of 65N: +1.5%</li>
@@ -5530,8 +5514,7 @@ rm(co2_atm_roll)</code></pre>
 <div id="dcant---absolute" class="section level3" number="7.1.1">
 <h3><span class="header-section-number">7.1.1</span> dcant - absolute</h3>
 <pre class="r"><code>dcant_inv_all &lt;- dcant_inv_all %&gt;%
-  filter(data_source %in% c(&quot;obs&quot;),
-         period != &quot;1994 - 2014&quot;)
+  filter(data_source %in% c(&quot;obs&quot;))
 
 
 dcant_inv_all &lt;- bind_rows(
@@ -5553,12 +5536,12 @@ dcant_inv_all_ensemble &lt;- dcant_inv_all
 dcant_inv_all &lt;- dcant_inv_all %&gt;% 
   filter(Version_ID %in% Version_IDs | is.na(Version_ID))</code></pre>
 <pre class="r"><code>p_CI_absolute &lt;- dcant_inv_all %&gt;%
-  filter(period != &quot;1800 - 1994&quot;) %&gt;%
+  filter(period %in% two_decades) %&gt;%
   p_map_cant_inv(var = &quot;dcant&quot;,
                  title_text = NULL) +
-  facet_grid(period ~ .) +
-  theme(axis.text.x = element_blank(),
-        axis.ticks.x = element_blank()) 
+  facet_wrap(~ period, ncol = 1) +
+
+  theme(axis.text.x = element_blank()) 
 
 p_CI_absolute</code></pre>
 <p><img src="figure/results_publication.Rmd/invetory_maps_absolute-1.png" width="672" style="display: block; margin: auto;" /></p>
@@ -5858,11 +5841,12 @@ jens-daniel-mueller
 <pre class="r"><code>p_CI_delta &lt;-
   dcant_inv_all %&gt;%
   filter(data_source %in% c(&quot;obs&quot;),
-         period != &quot;1994 - 2014&quot;) %&gt;%
+         period %in% two_decades) %&gt;%
   select(data_source, lon, lat, basin_AIP, period, dcant) %&gt;%
   pivot_wider(names_from = period,
               values_from = dcant) %&gt;%
-  mutate(dcant_offset = `2004 - 2014` - `1994 - 2004`) %&gt;%
+  mutate(dcant_offset = `2004 - 2014` - `1994 - 2004`,
+         period = &quot;(2004 - 2014) - (1994 - 2004)&quot;) %&gt;%
   group_by(data_source) %&gt;%
   group_split() %&gt;%
   # head(1) %&gt;%
@@ -5873,7 +5857,8 @@ jens-daniel-mueller
       title_text = NULL,
       subtitle_text = NULL,
       col = &quot;bias&quot;
-    )
+    ) +
+      facet_wrap(~ period)
   )
 
 p_CI_absolute / p_CI_delta + 
@@ -6171,7 +6156,7 @@ jens-daniel-mueller
 </div>
 <pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
        filename = &quot;Fig_dcant_column_inventory.png&quot;,
-       height = 9,
+       height = 10,
        width = 8)
 
 rm(p_CI_absolute, p_CI_delta)</code></pre>
@@ -6189,7 +6174,7 @@ rm(p_CI_absolute, p_CI_delta)</code></pre>
 
 dcant_inv_all_ensemble_mean %&gt;%
   p_map_cant_inv(var = &quot;dcant_sd&quot;,
-                 breaks = c(seq(0, 6, 0.5), Inf),
+                 breaks = c(seq(0, 8, 1), Inf),
                  title_text = NULL) +
   facet_grid(period ~ .) +
   theme(axis.text = element_blank(),
@@ -6217,6 +6202,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/column_inventory_standard_deviation-1.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/535196ad32bf3969daa545c158687498a7e75448/docs/figure/results_publication.Rmd/column_inventory_standard_deviation-1.png" target="_blank">535196a</a>
@@ -6355,7 +6351,7 @@ jens-daniel-mueller
 </div>
 <pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
        filename = &quot;FigS_dcant_ensemble_standard_deviation_column_inventory.png&quot;,
-       height = 4,
+       height = 6,
        width = 6)</code></pre>
 </div>
 <div id="beta" class="section level3" number="7.1.4">
@@ -6405,7 +6401,7 @@ jens-daniel-mueller
 </div>
 <pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
        filename = &quot;FigS_beta_column_inventory.png&quot;,
-       height = 6,
+       height = 8,
        width = 6)</code></pre>
 </div>
 </div>
@@ -6482,6 +6478,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/zonal_mean_storage_dcant-1.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/535196ad32bf3969daa545c158687498a7e75448/docs/figure/results_publication.Rmd/zonal_mean_storage_dcant-1.png" target="_blank">535196a</a>
 </td>
 <td>
@@ -6548,12 +6555,12 @@ jens-daniel-mueller
 <pre><code># A tibble: 6 × 2
   lat_grid  dcant_mean
   &lt;fct&gt;          &lt;dbl&gt;
-1 (-40,-30]      10.9 
-2 (-30,-10]       8.70
-3 (-10,10]        5.65
-4 (10,30]         5.62
-5 (30,40]         8.15
-6 &lt;NA&gt;            5.49</code></pre>
+1 (-40,-30]      14.4 
+2 (-30,-10]      11.6 
+3 (-10,10]        7.46
+4 (10,30]         7.46
+5 (30,40]        11.0 
+6 &lt;NA&gt;            7.36</code></pre>
 <pre class="r"><code>dcant_inv_all_lat_mean %&gt;%
   filter(period != &quot;1800 - 1994&quot;) %&gt;% 
   mutate(lat_grid = cut(lat_grid, c(-40,-30,-10,10,30,40))) %&gt;% 
@@ -6563,44 +6570,50 @@ jens-daniel-mueller
 <pre><code># A tibble: 17 × 3
    lat_grid  basin_AIP dcant_mean
    &lt;fct&gt;     &lt;chr&gt;          &lt;dbl&gt;
- 1 (-40,-30] Atlantic       11.7 
- 2 (-40,-30] Indian         11.0 
- 3 (-40,-30] Pacific         9.96
- 4 (-30,-10] Atlantic        8.68
- 5 (-30,-10] Indian          9.22
- 6 (-30,-10] Pacific         8.19
- 7 (-10,10]  Atlantic        6.78
- 8 (-10,10]  Indian          6.08
- 9 (-10,10]  Pacific         4.08
-10 (10,30]   Atlantic        8.99
-11 (10,30]   Indian          2.93
-12 (10,30]   Pacific         4.94
-13 (30,40]   Atlantic       11.8 
-14 (30,40]   Pacific         4.54
-15 &lt;NA&gt;      Atlantic        6.83
-16 &lt;NA&gt;      Indian          5.17
-17 &lt;NA&gt;      Pacific         4.33</code></pre>
+ 1 (-40,-30] Atlantic       15.6 
+ 2 (-40,-30] Indian         14.5 
+ 3 (-40,-30] Pacific        13.3 
+ 4 (-30,-10] Atlantic       11.7 
+ 5 (-30,-10] Indian         12.2 
+ 6 (-30,-10] Pacific        10.9 
+ 7 (-10,10]  Atlantic        9.12
+ 8 (-10,10]  Indian          7.82
+ 9 (-10,10]  Pacific         5.42
+10 (10,30]   Atlantic       12.1 
+11 (10,30]   Indian          3.64
+12 (10,30]   Pacific         6.67
+13 (30,40]   Atlantic       15.7 
+14 (30,40]   Pacific         6.26
+15 &lt;NA&gt;      Atlantic        9.13
+16 &lt;NA&gt;      Indian          6.88
+17 &lt;NA&gt;      Pacific         5.86</code></pre>
 <pre class="r"><code>dcant_inv_all_lat_mean %&gt;%
   filter(period != &quot;1800 - 1994&quot;) %&gt;% 
   mutate(lat_grid = cut(lat_grid, c(-90,0,90))) %&gt;% 
   group_by(lat_grid, basin_AIP, period) %&gt;% 
   summarise(dcant_mean = mean(dcant_mean, na_rm = TRUE)) %&gt;% 
   ungroup()</code></pre>
-<pre><code># A tibble: 12 × 4
+<pre><code># A tibble: 18 × 4
    lat_grid basin_AIP period      dcant_mean
    &lt;fct&gt;    &lt;chr&gt;     &lt;chr&gt;            &lt;dbl&gt;
  1 (-90,0]  Atlantic  1994 - 2004       7.35
- 2 (-90,0]  Atlantic  2004 - 2014       7.71
- 3 (-90,0]  Indian    1994 - 2004       8.03
- 4 (-90,0]  Indian    2004 - 2014       6.45
- 5 (-90,0]  Pacific   1994 - 2004       7.82
- 6 (-90,0]  Pacific   2004 - 2014       5.87
- 7 (0,90]   Atlantic  1994 - 2004       9.76
- 8 (0,90]   Atlantic  2004 - 2014       7.62
- 9 (0,90]   Indian    1994 - 2004       2.59
-10 (0,90]   Indian    2004 - 2014       4.93
-11 (0,90]   Pacific   1994 - 2004       3.13
-12 (0,90]   Pacific   2004 - 2014       3.74</code></pre>
+ 2 (-90,0]  Atlantic  1994 - 2014      15.2 
+ 3 (-90,0]  Atlantic  2004 - 2014       7.71
+ 4 (-90,0]  Indian    1994 - 2004       8.03
+ 5 (-90,0]  Indian    1994 - 2014      14.2 
+ 6 (-90,0]  Indian    2004 - 2014       6.45
+ 7 (-90,0]  Pacific   1994 - 2004       7.82
+ 8 (-90,0]  Pacific   1994 - 2014      13.7 
+ 9 (-90,0]  Pacific   2004 - 2014       5.87
+10 (0,90]   Atlantic  1994 - 2004       9.76
+11 (0,90]   Atlantic  1994 - 2014      17.5 
+12 (0,90]   Atlantic  2004 - 2014       7.62
+13 (0,90]   Indian    1994 - 2004       2.59
+14 (0,90]   Indian    1994 - 2014       6.64
+15 (0,90]   Indian    2004 - 2014       4.93
+16 (0,90]   Pacific   1994 - 2004       3.13
+17 (0,90]   Pacific   1994 - 2014       7.27
+18 (0,90]   Pacific   2004 - 2014       3.74</code></pre>
 <pre class="r"><code>dcant_inv_all_ensemble_lat_mean %&gt;% 
   ggplot(aes(lat_grid, dcant_mean, fill=period, group=Version_ID)) +
   geom_hline(yintercept = 0) +
@@ -6634,6 +6647,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/zonal_mean_storage_dcant-2.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/535196ad32bf3969daa545c158687498a7e75448/docs/figure/results_publication.Rmd/zonal_mean_storage_dcant-2.png" target="_blank">535196a</a>
@@ -6747,6 +6771,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/zonal_mean_storage_beta-1.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/535196ad32bf3969daa545c158687498a7e75448/docs/figure/results_publication.Rmd/zonal_mean_storage_beta-1.png" target="_blank">535196a</a>
 </td>
 <td>
@@ -6839,6 +6874,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/zonal_mean_storage_beta-2.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/535196ad32bf3969daa545c158687498a7e75448/docs/figure/results_publication.Rmd/zonal_mean_storage_beta-2.png" target="_blank">535196a</a>
 </td>
 <td>
@@ -6918,7 +6964,7 @@ jens-daniel-mueller
   dcant_zonal_all %&gt;%
   filter(
     data_source == &quot;obs&quot;,
-    period != &quot;1994 - 2014&quot;,
+    period %in% two_decades,
     depth &lt;= params_global$inventory_depth_standard
   ) %&gt;%
   p_section_zonal_continous_depth(var = &quot;dcant&quot;,
@@ -7838,8 +7884,8 @@ jens-daniel-mueller
 </div>
 <pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
        filename = &quot;Fig_dcant_zonal_mean_section.png&quot;,
-       height = 9,
-       width = 15)
+       height = 8,
+       width = 13)
 
 rm(p_dcant_zonal_absolute, p_dcant_zonal_delta)</code></pre>
 </div>
@@ -8057,6 +8103,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins-1.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/87e9eb8133c170512ac89b7902bd95df2648a67f/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins-1.png" target="_blank">87e9eb8</a>
@@ -8317,6 +8374,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins-2.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/748aa43065598720a2424ed5101afdfb6dd4ccfe/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins-2.png" target="_blank">748aa43</a>
@@ -8599,8 +8667,8 @@ jens-daniel-mueller
           depth,
           col = period,
           group = Version_ID,
-          linetype = &quot;ensemble member&quot;,
-          size = &quot;ensemble member&quot;
+          linetype = &quot;Ensemble member&quot;,
+          size = &quot;Ensemble member&quot;
         ), alpha = 0.5
       ) +
       geom_path(
@@ -8610,8 +8678,8 @@ jens-daniel-mueller
           depth,
           col = period,
           group = Version_ID,
-          linetype = &quot;standard case&quot;,
-          size = &quot;standard case&quot;
+          linetype = &quot;Standard case&quot;,
+          size = &quot;Standard case&quot;
         )
       ) +
       scale_size_manual(values = c(0.5, 2), name=&quot;x&quot;) +
@@ -8660,6 +8728,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/concentration_profiles_global_ensemble-1.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/535196ad32bf3969daa545c158687498a7e75448/docs/figure/results_publication.Rmd/concentration_profiles_global_ensemble-1.png" target="_blank">535196a</a>
@@ -8741,9 +8820,9 @@ jens-daniel-mueller
           depth,
           col = period,
           group = Version_ID,
-          linetype = &quot;ensemble member&quot;,
-          size = &quot;ensemble member&quot;,
-          alpha = &quot;ensemble member&quot;
+          linetype = &quot;Ensemble member&quot;,
+          size = &quot;Ensemble member&quot;,
+          alpha = &quot;Ensemble member&quot;
         )
       ) +
       geom_path(
@@ -8753,9 +8832,9 @@ jens-daniel-mueller
           depth,
           col = period,
           group = Version_ID,
-          linetype = &quot;standard case&quot;,
-          alpha = &quot;standard case&quot;,
-          size = &quot;standard case&quot;
+          linetype = &quot;Standard case&quot;,
+          alpha = &quot;Standard case&quot;,
+          size = &quot;Standard case&quot;
         )
       ) +
       geom_path(
@@ -8786,8 +8865,7 @@ jens-daniel-mueller
         x = dcant_umol_label
       ) +
       facet_wrap( ~ basin, ncol = 3, dir = &quot;v&quot;) +
-      theme(legend.position = c(0.85, 0.3),
-            legend.title = element_blank())
+      theme(legend.position = &quot;top&quot;)
   )</code></pre>
 <pre><code>[[1]]</code></pre>
 <p><img src="figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_individual-1.png" width="672" style="display: block; margin: auto;" /></p>
@@ -8813,6 +8891,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_individual-1.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/535196ad32bf3969daa545c158687498a7e75448/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_individual-1.png" target="_blank">535196a</a>
@@ -8907,8 +8996,8 @@ full_join(dcant_profile_basin_MLR_all,
  8 S. Atlantic 2004 - 2014           NA            600
  9 Indian      1994 - 2004           NA            400
 10 Indian      2004 - 2014           NA            250
-11 global      1994 - 2004           NA            300
-12 global      2004 - 2014           NA            300</code></pre>
+11 Global      1994 - 2004           NA            300
+12 Global      2004 - 2014           NA            300</code></pre>
 <pre class="r"><code>full_join(dcant_profile_basin_MLR_all_ensemble,
           mean_surface_dcant) %&gt;%
   arrange(depth) %&gt;%
@@ -8935,8 +9024,8 @@ full_join(dcant_profile_basin_MLR_all,
  8 S. Atlantic 2004 - 2014        236.            435.
  9 Indian      1994 - 2004        144.            478.
 10 Indian      2004 - 2014        119.            264.
-11 global      1994 - 2004        111.            342.
-12 global      2004 - 2014         37.8           292.</code></pre>
+11 Global      1994 - 2004        111.            342.
+12 Global      2004 - 2014         37.8           292.</code></pre>
 <pre class="r"><code>dcant_profile_basin_MLR_range &lt;- dcant_profile_basin_MLR_all_ensemble %&gt;%
   filter(period != &quot;1994 - 2014&quot;,
          data_source == &quot;obs&quot;) %&gt;%
@@ -8944,9 +9033,12 @@ full_join(dcant_profile_basin_MLR_all,
   summarise(dcant_sd = sd(dcant)*2) %&gt;%
   ungroup()
 
-
+dcant_profile_basin_MLR_all_ensemble &lt;-
 full_join(dcant_profile_basin_MLR_all_ensemble %&gt;% select(-dcant_sd),
-          dcant_profile_basin_MLR_range) %&gt;%
+          dcant_profile_basin_MLR_range)
+
+p_dcant_profiles &lt;-
+  dcant_profile_basin_MLR_all_ensemble %&gt;% 
   arrange(depth) %&gt;%
   filter(
     period != &quot;1994 - 2014&quot;,
@@ -8980,15 +9072,19 @@ full_join(dcant_profile_basin_MLR_all_ensemble %&gt;% select(-dcant_sd),
       scale_y_continuous(trans = trans_reverser(&quot;sqrt&quot;),
                          breaks = c(0, 100, 500, seq(1500, 5000, 1000))) +
       coord_cartesian(expand = 0) +
-      scale_color_brewer(palette = &quot;Set1&quot;, name = &quot;Mean \u00B1 2 SD&quot;, direction = -1) +
-      scale_fill_brewer(palette = &quot;Set1&quot;, name = &quot;Mean \u00B1 2 SD&quot;, direction = -1) +
+      # scale_color_brewer(palette = &quot;Dark2&quot;, name = &quot;Mean \u00B1 2 SD&quot;, direction = -1) +
+      # scale_fill_brewer(palette = &quot;Dark2&quot;, name = &quot;Mean \u00B1 2 SD&quot;, direction = -1) +
+      scale_color_manual(values = c(&quot;#d95f02&quot;, &quot;#7570b3&quot;), name = &quot;Mean \u00B1 2 SD&quot;) +
+      scale_fill_manual(values = c(&quot;#d95f02&quot;, &quot;#7570b3&quot;), name = &quot;Mean \u00B1 2 SD&quot;) +
       labs(
         y = &quot;Depth (m)&quot;,
         x = dcant_umol_label
       ) +
       facet_wrap( ~ basin, ncol = 3, dir = &quot;v&quot;) +
-      theme(legend.position = c(0.85, 0.3))
-  )</code></pre>
+      theme(legend.position = c(0.9, 0.1))
+  )
+
+p_dcant_profiles</code></pre>
 <pre><code>[[1]]</code></pre>
 <p><img src="figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
@@ -9013,6 +9109,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon-1.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/535196ad32bf3969daa545c158687498a7e75448/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon-1.png" target="_blank">535196a</a>
@@ -9073,7 +9180,7 @@ jens-daniel-mueller
 </div>
 </div>
 <pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
-       filename = &quot;Fig_dcant_profiles_regional.png&quot;,
+       filename = &quot;Fig_dcant_profiles.png&quot;,
        height = 6,
        width = 8)
 
@@ -9114,8 +9221,8 @@ full_join(dcant_profile_basin_MLR_all,
  8 S. Atlantic 2004 - 2014           NA            600
  9 Indian      1994 - 2004           NA            400
 10 Indian      2004 - 2014           NA            250
-11 global      1994 - 2004           NA            300
-12 global      2004 - 2014           NA            300</code></pre>
+11 Global      1994 - 2004           NA            300
+12 Global      2004 - 2014           NA            300</code></pre>
 <pre class="r"><code>full_join(dcant_profile_basin_MLR_all_ensemble,
           mean_surface_dcant) %&gt;%
   arrange(depth) %&gt;%
@@ -9142,8 +9249,8 @@ full_join(dcant_profile_basin_MLR_all,
  8 S. Atlantic 2004 - 2014        236.            435.
  9 Indian      1994 - 2004        144.            478.
 10 Indian      2004 - 2014        119.            264.
-11 global      1994 - 2004        111.            342.
-12 global      2004 - 2014         37.8           292.</code></pre>
+11 Global      1994 - 2004        111.            342.
+12 Global      2004 - 2014         37.8           292.</code></pre>
 <pre class="r"><code>dcant_profile_basin_MLR_all_ensemble %&gt;%
   arrange(depth) %&gt;%
   filter(
@@ -9198,6 +9305,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_basin_separation-1.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/535196ad32bf3969daa545c158687498a7e75448/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_basin_separation-1.png" target="_blank">535196a</a>
@@ -9356,6 +9474,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_member-1.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/535196ad32bf3969daa545c158687498a7e75448/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_member-1.png" target="_blank">535196a</a>
 </td>
 <td>
@@ -9471,6 +9600,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_member-2.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/535196ad32bf3969daa545c158687498a7e75448/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_member-2.png" target="_blank">535196a</a>
@@ -9617,7 +9757,7 @@ delta_sd &lt;- dcant_profile_basin_MLR_all %&gt;%
   select(data_source, depth, basin, period, dcant_sd) %&gt;% 
   pivot_wider(names_from = period,
               values_from = dcant_sd) %&gt;%
-  mutate(delta_dcant_sd = (`2004 - 2014` + `1994 - 2004`) / 2) %&gt;% 
+  mutate(delta_dcant_sd = sqrt(`2004 - 2014`^2 + `1994 - 2004`^2)) %&gt;% 
   select(-c(`2004 - 2014`, `1994 - 2004`))
 
 dcant_profile_basin_MLR_all_delta &lt;- full_join(delta, delta_sd)
@@ -9652,7 +9792,7 @@ dcant_profile_basin_MLR_all_delta %&gt;%
         y = &quot;Depth (m)&quot;,
         x = ddcant_umol_label
       ) +
-      facet_grid(basin ~ .)
+      facet_wrap(~ basin, ncol = 3)
   )</code></pre>
 <pre><code>[[1]]</code></pre>
 <p><img src="figure/results_publication.Rmd/concentration_profiles_MLR_basins_offset-1.png" width="672" style="display: block; margin: auto;" /></p>
@@ -9678,6 +9818,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_offset-1.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/87e9eb8133c170512ac89b7902bd95df2648a67f/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_offset-1.png" target="_blank">87e9eb8</a>
@@ -9907,6 +10058,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_offset-2.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/87e9eb8133c170512ac89b7902bd95df2648a67f/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_offset-2.png" target="_blank">87e9eb8</a>
 </td>
 <td>
@@ -10118,11 +10280,25 @@ dcant_budget_global_all &lt;- dcant_budget_global_all %&gt;%
   mutate(dcant = dcant * dcant_scaling)
 
 dcant_budget_global_all_no_adj &lt;- dcant_budget_global_all_no_adj %&gt;% 
-  mutate(dcant = dcant * dcant_scaling)</code></pre>
+  mutate(dcant = dcant * dcant_scaling)
+
+dcant_budget_basin_MLR_all_ensemble &lt;- dcant_budget_basin_MLR_all_ensemble %&gt;% 
+  mutate(dcant = if_else(basin == &quot;Global&quot;,
+                         dcant * dcant_scaling,
+                         dcant))
+
+dcant_budget_basin_MLR_all &lt;- dcant_budget_basin_MLR_all %&gt;% 
+  mutate(dcant = if_else(basin == &quot;Global&quot;,
+                         dcant * dcant_scaling,
+                         dcant))
+
+dcant_budget_basin_MLR_all_no_adj &lt;- dcant_budget_basin_MLR_all_no_adj %&gt;% 
+  mutate(dcant = if_else(basin == &quot;Global&quot;,
+                         dcant * dcant_scaling,
+                         dcant))</code></pre>
 <pre class="r"><code>dcant_budget_ensemble_stat &lt;-
   bind_rows(
-    dcant_budget_basin_MLR_all_ensemble,
-    dcant_budget_global_all_ensemble %&gt;% mutate(basin = &quot;global&quot;)
+    dcant_budget_basin_MLR_all_ensemble
   ) %&gt;%
   filter(data_source == &quot;obs&quot;,
          period != &quot;1994 - 2014&quot;) %&gt;%
@@ -10139,22 +10315,13 @@ dcant_budget_global_all_no_adj &lt;- dcant_budget_global_all_no_adj %&gt;%
 dcant_budget_ensemble_stat &lt;-
   full_join(
     dcant_budget_ensemble_stat,
-    bind_rows(
-      dcant_budget_basin_MLR_all_ensemble %&gt;%
+    dcant_budget_basin_MLR_all_ensemble %&gt;%
         filter(Version_ID %in% Version_IDs,
                data_source == &quot;obs&quot;,
                period != &quot;1994 - 2014&quot;) %&gt;%
         select(period,
                basin,
-               std_case = dcant),
-      dcant_budget_global_all %&gt;%
-        filter(Version_ID %in% Version_IDs,
-               data_source == &quot;obs&quot;,
-               period != &quot;1994 - 2014&quot;) %&gt;%
-        select(period,
-               std_case = dcant) %&gt;%
-        mutate(basin = &quot;global&quot;)
-    )
+               std_case = dcant)
   )
 
 dcant_budget_ensemble_significance &lt;- dcant_budget_ensemble_stat %&gt;% 
@@ -10210,242 +10377,122 @@ ttest_p
 <tbody>
 <tr>
 <td style="text-align:left;">
-global
+N. Pacific
 </td>
 <td style="text-align:left;">
 mean
 </td>
 <td style="text-align:right;">
-0.0000000
+0.5579167
 </td>
 <td style="text-align:right;">
-4.9616402
+1.8112000
 </td>
 <td style="text-align:right;">
-Inf
+3.2463630
 </td>
 <td style="text-align:right;">
-1.0000000
+0.0110377
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-global
+N. Pacific
 </td>
 <td style="text-align:left;">
 median
 </td>
 <td style="text-align:right;">
-0.0000000
+0.6600000
 </td>
 <td style="text-align:right;">
-4.9616402
+1.8112000
 </td>
 <td style="text-align:right;">
-Inf
+2.7442424
 </td>
 <td style="text-align:right;">
-1.0000000
+0.0028919
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-global
+N. Pacific
 </td>
 <td style="text-align:left;">
 std_case
 </td>
 <td style="text-align:right;">
-1.8141914
+0.4200000
 </td>
 <td style="text-align:right;">
-4.9616402
+1.8112000
 </td>
 <td style="text-align:right;">
-2.7349045
+4.3123810
 </td>
 <td style="text-align:right;">
-0.0000222
+0.0532294
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-global
+S. Pacific
 </td>
 <td style="text-align:left;">
 mean
 </td>
 <td style="text-align:right;">
--2.0813765
+-1.6318056
 </td>
 <td style="text-align:right;">
-4.3475277
+2.2180875
 </td>
 <td style="text-align:right;">
-2.0887753
+1.3592842
 </td>
 <td style="text-align:right;">
-0.0000001
+0.0000000
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-global
+S. Pacific
 </td>
 <td style="text-align:left;">
 median
 </td>
 <td style="text-align:right;">
--2.0930558
+-1.1625000
 </td>
 <td style="text-align:right;">
-4.3475277
+2.2180875
 </td>
 <td style="text-align:right;">
-2.0771198
+1.9080323
 </td>
 <td style="text-align:right;">
-0.0000001
+0.0000361
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-global
+S. Pacific
 </td>
 <td style="text-align:left;">
 std_case
 </td>
 <td style="text-align:right;">
--3.6341914
+-1.1640000
 </td>
 <td style="text-align:right;">
-4.3475277
+2.2180875
 </td>
 <td style="text-align:right;">
-1.1962847
+1.9055735
 </td>
 <td style="text-align:right;">
-0.0000000
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-global
-</td>
-<td style="text-align:left;">
-mean
-</td>
-<td style="text-align:right;">
-0.0000000
-</td>
-<td style="text-align:right;">
-3.6309943
-</td>
-<td style="text-align:right;">
-Inf
-</td>
-<td style="text-align:right;">
-1.0000000
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-global
-</td>
-<td style="text-align:left;">
-median
-</td>
-<td style="text-align:right;">
-0.0000000
-</td>
-<td style="text-align:right;">
-3.6309943
-</td>
-<td style="text-align:right;">
-Inf
-</td>
-<td style="text-align:right;">
-1.0000000
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-global
-</td>
-<td style="text-align:left;">
-std_case
-</td>
-<td style="text-align:right;">
-1.6930412
-</td>
-<td style="text-align:right;">
-3.6309943
-</td>
-<td style="text-align:right;">
-2.1446580
-</td>
-<td style="text-align:right;">
-0.0000001
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Indian
-</td>
-<td style="text-align:left;">
-mean
-</td>
-<td style="text-align:right;">
--0.6596944
-</td>
-<td style="text-align:right;">
-1.5041904
-</td>
-<td style="text-align:right;">
-2.2801320
-</td>
-<td style="text-align:right;">
-0.0003979
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Indian
-</td>
-<td style="text-align:left;">
-median
-</td>
-<td style="text-align:right;">
--1.1665000
-</td>
-<td style="text-align:right;">
-1.5041904
-</td>
-<td style="text-align:right;">
-1.2894903
-</td>
-<td style="text-align:right;">
-0.0000000
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Indian
-</td>
-<td style="text-align:left;">
-std_case
-</td>
-<td style="text-align:right;">
--1.3580000
-</td>
-<td style="text-align:right;">
-1.5041904
-</td>
-<td style="text-align:right;">
-1.1076513
-</td>
-<td style="text-align:right;">
-0.0000000
+0.0000354
 </td>
 </tr>
 <tr>
@@ -10510,66 +10557,6 @@ std_case
 </tr>
 <tr>
 <td style="text-align:left;">
-N. Pacific
-</td>
-<td style="text-align:left;">
-mean
-</td>
-<td style="text-align:right;">
-0.5579167
-</td>
-<td style="text-align:right;">
-1.8112000
-</td>
-<td style="text-align:right;">
-3.2463630
-</td>
-<td style="text-align:right;">
-0.0110377
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-N. Pacific
-</td>
-<td style="text-align:left;">
-median
-</td>
-<td style="text-align:right;">
-0.6600000
-</td>
-<td style="text-align:right;">
-1.8112000
-</td>
-<td style="text-align:right;">
-2.7442424
-</td>
-<td style="text-align:right;">
-0.0028919
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-N. Pacific
-</td>
-<td style="text-align:left;">
-std_case
-</td>
-<td style="text-align:right;">
-0.4200000
-</td>
-<td style="text-align:right;">
-1.8112000
-</td>
-<td style="text-align:right;">
-4.3123810
-</td>
-<td style="text-align:right;">
-0.0532294
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
 S. Atlantic
 </td>
 <td style="text-align:left;">
@@ -10630,19 +10617,39 @@ std_case
 </tr>
 <tr>
 <td style="text-align:left;">
-S. Pacific
+Indian
 </td>
 <td style="text-align:left;">
 mean
 </td>
 <td style="text-align:right;">
--1.6318056
+-0.6596944
 </td>
 <td style="text-align:right;">
-2.2180875
+1.5041904
 </td>
 <td style="text-align:right;">
-1.3592842
+2.2801320
+</td>
+<td style="text-align:right;">
+0.0003979
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Indian
+</td>
+<td style="text-align:left;">
+median
+</td>
+<td style="text-align:right;">
+-1.1665000
+</td>
+<td style="text-align:right;">
+1.5041904
+</td>
+<td style="text-align:right;">
+1.2894903
 </td>
 <td style="text-align:right;">
 0.0000000
@@ -10650,42 +10657,82 @@ mean
 </tr>
 <tr>
 <td style="text-align:left;">
-S. Pacific
-</td>
-<td style="text-align:left;">
-median
-</td>
-<td style="text-align:right;">
--1.1625000
-</td>
-<td style="text-align:right;">
-2.2180875
-</td>
-<td style="text-align:right;">
-1.9080323
-</td>
-<td style="text-align:right;">
-0.0000361
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-S. Pacific
+Indian
 </td>
 <td style="text-align:left;">
 std_case
 </td>
 <td style="text-align:right;">
--1.1640000
+-1.3580000
 </td>
 <td style="text-align:right;">
-2.2180875
+1.5041904
 </td>
 <td style="text-align:right;">
-1.9055735
+1.1076513
 </td>
 <td style="text-align:right;">
-0.0000354
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Global
+</td>
+<td style="text-align:left;">
+mean
+</td>
+<td style="text-align:right;">
+-2.1484196
+</td>
+<td style="text-align:right;">
+4.1161433
+</td>
+<td style="text-align:right;">
+1.9158936
+</td>
+<td style="text-align:right;">
+0.0000389
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Global
+</td>
+<td style="text-align:left;">
+median
+</td>
+<td style="text-align:right;">
+-1.7662334
+</td>
+<td style="text-align:right;">
+4.1161433
+</td>
+<td style="text-align:right;">
+2.3304640
+</td>
+<td style="text-align:right;">
+0.0005533
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Global
+</td>
+<td style="text-align:left;">
+std_case
+</td>
+<td style="text-align:right;">
+-1.9411502
+</td>
+<td style="text-align:right;">
+4.1161433
+</td>
+<td style="text-align:right;">
+2.1204661
+</td>
+<td style="text-align:right;">
+0.0001695
 </td>
 </tr>
 </tbody>
@@ -10724,6 +10771,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/dcant_budget_stats-1.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/535196ad32bf3969daa545c158687498a7e75448/docs/figure/results_publication.Rmd/dcant_budget_stats-1.png" target="_blank">535196a</a>
 </td>
 <td>
@@ -10748,6 +10806,74 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
+<pre class="r"><code># estimate area scaling factor to achieve identical coverage
+
+tcant_inv &lt;-
+  inner_join(tcant_inv, basinmask)
+
+dcant_inv_all &lt;-
+  inner_join(dcant_inv_all, basinmask)
+
+area_scaling &lt;- 
+bind_rows(
+  tcant_inv %&gt;% distinct(lat, lon, basin) %&gt;%
+    mutate(source = &quot;SO4&quot;),
+  dcant_inv_all %&gt;% distinct(lat, lon, basin) %&gt;%
+    mutate(source = &quot;M22&quot;)
+)
+
+
+map +
+  geom_tile(data = area_scaling,
+            aes(lon, lat, fill = basin)) +
+  facet_wrap( ~ source)</code></pre>
+<p><img src="figure/results_publication.Rmd/budgets_basins_hemisphere_tcant_for_scatterplot-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>area_scaling &lt;- area_scaling %&gt;% 
+  mutate(area = earth_surf(lat, lon)) %&gt;% 
+  group_by(basin, source) %&gt;% 
+  summarise(area_total = sum(area)) %&gt;% 
+  ungroup() %&gt;% 
+  pivot_wider(values_from = area_total,
+              names_from = source) %&gt;% 
+  mutate(scaling_factor = M22 / SO4)
+
+
+tcant_budget_basin_MLR &lt;-
+  tcant_inv %&gt;%
+  mutate(method = &quot;layer&quot;,
+         data_source = &quot;obs&quot;) %&gt;% 
+  group_by(basin) %&gt;%
+  nest() %&gt;% 
+  mutate(budget = map(.x = data, ~m_dcant_budget(.x))) %&gt;% 
+  select(-data) %&gt;%
+  unnest(budget)
+
+tcant_budget_basin_MLR &lt;-
+  full_join(tcant_budget_basin_MLR,
+            area_scaling %&gt;% select(basin, scaling_factor)) %&gt;%
+  mutate(value = value * scaling_factor) %&gt;%
+  select(-scaling_factor)
+
+
+
+tcant_budget_basin_MLR &lt;-
+  left_join(tcant_budget_basin_MLR %&gt;%
+              mutate(period = &quot;1800 - 1994&quot;),
+            delta_pCO2_atm)
+
+
+tcant_budget_basin_MLR &lt;- tcant_budget_basin_MLR %&gt;% 
+  filter(estimate == &quot;dcant&quot;) %&gt;% 
+  select(-estimate) %&gt;% 
+  rename(dcant = value)
+
+tcant_budget_basin_MLR &lt;- tcant_budget_basin_MLR %&gt;% 
+  mutate(beta_1994 = dcant / delta_pCO2) %&gt;% 
+  select(basin, beta_1994)
+
+tcant_budget_basin_MLR &lt;-
+  bind_rows(tcant_budget_basin_MLR,
+            tibble(basin = &quot;Global&quot;, beta_1994 = 118 / 78.3))</code></pre>
 <div id="scatterplots" class="section level2" number="10.1">
 <h2><span class="header-section-number">10.1</span> Scatterplots</h2>
 <div id="global-2" class="section level3" number="10.1.1">
@@ -10781,6 +10907,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/dcant_budget_global_ensemble-1.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/535196ad32bf3969daa545c158687498a7e75448/docs/figure/results_publication.Rmd/dcant_budget_global_ensemble-1.png" target="_blank">535196a</a>
@@ -10900,10 +11037,11 @@ dcant_budget_global_all_ensemble %&gt;%
   filter(data_source != &quot;obs&quot;) %&gt;% 
   pivot_wider(names_from = data_source,
               values_from = dcant) %&gt;% 
-  mutate(dcant_bias_rel = 100*(mod - mod_truth)/mod_truth)
+  mutate(dcant_bias = mod - mod_truth,
+         dcant_bias_rel = 100*(mod - mod_truth)/mod_truth)
 
 dcant_budget_global_all_ensemble_bias %&gt;% 
-  ggplot(aes(period, dcant_bias_rel, col = MLR_basins)) +
+  ggplot(aes(period, dcant_bias, col = MLR_basins)) +
   geom_hline(yintercept = 0) +
   geom_jitter(width = 0.2) +
   scale_color_brewer(palette = &quot;Dark2&quot;)</code></pre>
@@ -11056,26 +11194,7 @@ jens-daniel-mueller
 </div>
 </div>
 <pre class="r"><code>dcant_budget_global_all_ensemble_bias %&gt;% 
-  group_by(period) %&gt;% 
-  summarise(dcant_bias_rel = mean(dcant_bias_rel)) %&gt;% 
-  ungroup()</code></pre>
-<pre><code># A tibble: 3 × 2
-  period      dcant_bias_rel
-  &lt;chr&gt;                &lt;dbl&gt;
-1 1994 - 2004           7.71
-2 1994 - 2014           6.58
-3 2004 - 2014           5.80</code></pre>
-<pre class="r"><code>delta_dcant_budget_global_all_ensemble_bias &lt;- 
-dcant_budget_global_all_ensemble %&gt;%
-  filter(data_source != &quot;obs&quot;,
-         period != &quot;1994 - 2014&quot;) %&gt;% 
-  select(data_source, MLR_basins, Version_ID_group, tref1, dcant) %&gt;% 
-  pivot_wider(names_from = tref1,
-              values_from = dcant) %&gt;% 
-  mutate(delta_dcant = `2004` - `1994`)
-
-delta_dcant_budget_global_all_ensemble_bias %&gt;% 
-  ggplot(aes(data_source, delta_dcant, col = MLR_basins)) +
+  ggplot(aes(period, dcant_bias_rel, col = MLR_basins)) +
   geom_hline(yintercept = 0) +
   geom_jitter(width = 0.2) +
   scale_color_brewer(palette = &quot;Dark2&quot;)</code></pre>
@@ -11216,36 +11335,27 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
-<pre class="r"><code>delta_dcant_budget_global_all_ensemble_bias %&gt;% 
-  group_by(data_source) %&gt;% 
-  summarise(delta_dcant = mean(delta_dcant)) %&gt;% 
-  ungroup()</code></pre>
-<pre><code># A tibble: 2 × 2
-  data_source delta_dcant
-  &lt;chr&gt;             &lt;dbl&gt;
-1 mod                3.24
-2 mod_truth          3.40</code></pre>
-<pre class="r"><code>delta_dcant_budget_global_all_ensemble_bias %&gt;% 
-  group_by(data_source, MLR_basins) %&gt;% 
-  summarise(delta_dcant = mean(delta_dcant)) %&gt;% 
-  ungroup()</code></pre>
-<pre><code># A tibble: 12 × 3
-   data_source MLR_basins delta_dcant
-   &lt;chr&gt;       &lt;chr&gt;            &lt;dbl&gt;
- 1 mod         1                 3.44
- 2 mod         2                 5.29
- 3 mod         5                 2.71
- 4 mod         AIP               4.47
- 5 mod         SO_5              1.58
- 6 mod         SO_AIP            1.93
- 7 mod_truth   1                 3.40
- 8 mod_truth   2                 3.40
- 9 mod_truth   5                 3.40
-10 mod_truth   AIP               3.40
-11 mod_truth   SO_5              3.40
-12 mod_truth   SO_AIP            3.40</code></pre>
 <pre class="r"><code>dcant_budget_global_all_ensemble_bias %&gt;% 
-  ggplot(aes(period, dcant_bias_rel, col = MLR_basins)) +
+  group_by(period) %&gt;% 
+  summarise(dcant_bias_rel = mean(dcant_bias_rel)) %&gt;% 
+  ungroup()</code></pre>
+<pre><code># A tibble: 3 × 2
+  period      dcant_bias_rel
+  &lt;chr&gt;                &lt;dbl&gt;
+1 1994 - 2004           7.71
+2 1994 - 2014           6.58
+3 2004 - 2014           5.80</code></pre>
+<pre class="r"><code>delta_dcant_budget_global_all_ensemble &lt;- 
+dcant_budget_global_all_ensemble %&gt;%
+  filter(data_source != &quot;obs&quot;,
+         period != &quot;1994 - 2014&quot;) %&gt;% 
+  select(data_source, MLR_basins, Version_ID_group, tref1, dcant) %&gt;% 
+  pivot_wider(names_from = tref1,
+              values_from = dcant) %&gt;% 
+  mutate(delta_dcant = `2004` - `1994`)
+
+delta_dcant_budget_global_all_ensemble %&gt;% 
+  ggplot(aes(data_source, delta_dcant, col = MLR_basins)) +
   geom_hline(yintercept = 0) +
   geom_jitter(width = 0.2) +
   scale_color_brewer(palette = &quot;Dark2&quot;)</code></pre>
@@ -11309,62 +11419,42 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
-<pre class="r"><code>dcant_budget_global_all_ensemble_bias %&gt;% 
-  group_by(period) %&gt;% 
-  summarise(dcant_bias_rel = mean(dcant_bias_rel)) %&gt;% 
+<pre class="r"><code>delta_dcant_budget_global_all_ensemble_bias &lt;- 
+delta_dcant_budget_global_all_ensemble %&gt;%
+  select(data_source, MLR_basins, Version_ID_group, delta_dcant) %&gt;% 
+  pivot_wider(names_from = data_source,
+              values_from = delta_dcant) %&gt;% 
+  mutate(delta_dcant_bias = mod - mod_truth,
+         delta_dcant_bias_rel = 100*(mod - mod_truth)/mod_truth)
+
+
+delta_dcant_budget_global_all_ensemble_bias %&gt;% 
+  summarise(delta_dcant_bias = mean(delta_dcant_bias),
+            delta_dcant_bias_rel = mean(delta_dcant_bias_rel))</code></pre>
+<pre><code># A tibble: 1 × 2
+  delta_dcant_bias delta_dcant_bias_rel
+             &lt;dbl&gt;                &lt;dbl&gt;
+1           -0.163                -4.81</code></pre>
+<pre class="r"><code>delta_dcant_budget_global_all_ensemble_bias %&gt;% 
+  group_by(MLR_basins) %&gt;% 
+  summarise(delta_dcant_bias = mean(delta_dcant_bias),
+            delta_dcant_bias_rel = mean(delta_dcant_bias_rel)) %&gt;% 
   ungroup()</code></pre>
-<pre><code># A tibble: 3 × 2
-  period      dcant_bias_rel
-  &lt;chr&gt;                &lt;dbl&gt;
-1 1994 - 2004           7.71
-2 1994 - 2014           6.58
-3 2004 - 2014           5.80</code></pre>
-<pre class="r"><code>dcant_budget_global_all_ensemble %&gt;%
-  filter(data_source == &quot;obs&quot;,
-         period != &quot;1994 - 2014&quot;,
-         !(Version_ID %in% Version_IDs)) %&gt;%
-  ggplot(aes(period, dcant)) +
-  scale_fill_manual(values = c(&quot;grey50&quot;, &quot;red&quot;, &quot;white&quot;)) +
-  geom_point(
-    data = dcant_budget_global_all_no_adj %&gt;%
-      filter(data_source == &quot;obs&quot;,
-             period != &quot;1994 - 2014&quot;),
-    aes(fill = &quot;unadjusted data&quot;),
-    alpha = .7,
-    shape = 21,
-    position = position_dodge2(width = 0.3)
-  ) +
-  geom_point(
-    aes(fill = &quot;ensemble member&quot;),
-    alpha = .5,
-    shape = 21,
-    position = position_dodge2(width = 0.3)
-  ) +
-  geom_linerange(
-    data = dcant_budget_ensemble_stat %&gt;%
-      filter(basin == &quot;global&quot;),
-    aes(
-      x = period,
-      y = std_case,
-      ymin = std_case - sd,
-      ymax = std_case + sd
-    ),
-    col = &quot;red&quot;
-  ) +
-  geom_point(
-    data = dcant_budget_ensemble_stat %&gt;%
-      filter(basin == &quot;global&quot;),
-    aes(x = period,
-        y = std_case,
-        fill = &quot;standard case&quot;),
-    size = 2,
-    shape = 21
-  ) +
-  scale_y_continuous(name = dcant_pgc_label, breaks = seq(0, 100, 2)) +
-  theme(legend.title = element_blank(),
-        axis.title.x = element_blank(),
-        legend.position = c(0.65,0.85),
-        legend.background = element_rect(colour = &quot;grey&quot;))</code></pre>
+<pre><code># A tibble: 6 × 3
+  MLR_basins delta_dcant_bias delta_dcant_bias_rel
+  &lt;chr&gt;                 &lt;dbl&gt;                &lt;dbl&gt;
+1 1                    0.0372                 1.09
+2 2                    1.89                  55.6 
+3 3                    1.07                  31.4 
+4 3+SO                -1.47                 -43.3 
+5 5                   -0.687                -20.2 
+6 5+SO                -1.82                 -53.4 </code></pre>
+<pre class="r"><code>delta_dcant_budget_global_all_ensemble_bias %&gt;% 
+  ggplot(aes(&quot;Decade difference&quot;,delta_dcant_bias, col = MLR_basins)) +
+  geom_hline(yintercept = 0) +
+  geom_jitter(width = 0.2) +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  theme(axis.title.x = element_blank())</code></pre>
 <p><img src="figure/results_publication.Rmd/dcant_budget_global_ensemble-5.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-dcant_budget_global_ensemble-5">
@@ -11388,6 +11478,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/dcant_budget_global_ensemble-5.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/535196ad32bf3969daa545c158687498a7e75448/docs/figure/results_publication.Rmd/dcant_budget_global_ensemble-5.png" target="_blank">535196a</a>
@@ -11414,49 +11515,12 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
-<pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
-       filename = &quot;Fig_dcant_budget_global_ensemble_member.png&quot;,
-       height = 4,
-       width = 3)
-
-
-
-dcant_budget_global_all_ensemble %&gt;%
-  mutate(ensemble_role = case_when(Version_ID %in% Version_IDs ~ &quot;standard case&quot;,
-                                   TRUE ~ &quot;others&quot;)) %&gt;%
-  filter(data_source == &quot;obs&quot;,
-         period != &quot;1994 - 2014&quot;) %&gt;%
-  ggplot(aes(period, dcant)) +
-  scale_fill_brewer(palette = &quot;Dark2&quot;, name = &quot;ensemble group&quot;) +
-  scale_color_manual(values = c(&quot;black&quot;, &quot;red&quot;, &quot;grey&quot;),
-                     name = &quot;ensemble member&quot;) +
-  geom_boxplot(
-    width = .1,
-    outlier.shape = NA,
-    fill = &quot;grey&quot;,
-    alpha = 0.7,
-    position = position_nudge(x = 0.3)
-  ) +
-  geom_point(
-    data = dcant_budget_global_all_no_adj %&gt;%
-      mutate(ensemble_role = &quot;unadjusted&quot;) %&gt;%
-      filter(data_source == &quot;obs&quot;,
-             period != &quot;1994 - 2014&quot;),
-    aes(col = ensemble_role),
-    size = 2,
-    alpha = .7,
-    shape = 21,
-    position = position_dodge2(width = 0.3)
-  ) +
-  geom_point(
-    aes(fill = Version_ID_group,
-        col = ensemble_role),
-    size = 2,
-    alpha = .5,
-    shape = 21,
-    position = position_dodge2(width = 0.3)
-  ) +
-  scale_y_continuous(name = dcant_pgc_label, breaks = seq(0, 100, 2))</code></pre>
+<pre class="r"><code>delta_dcant_budget_global_all_ensemble_bias %&gt;% 
+  ggplot(aes(&quot;Decade difference&quot;,delta_dcant_bias_rel, col = MLR_basins)) +
+  geom_hline(yintercept = 0) +
+  geom_jitter(width = 0.2) +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  theme(axis.title.x = element_blank())</code></pre>
 <p><img src="figure/results_publication.Rmd/dcant_budget_global_ensemble-6.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-dcant_budget_global_ensemble-6">
@@ -11480,6 +11544,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/dcant_budget_global_ensemble-6.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/535196ad32bf3969daa545c158687498a7e75448/docs/figure/results_publication.Rmd/dcant_budget_global_ensemble-6.png" target="_blank">535196a</a>
@@ -11507,15 +11582,158 @@ jens-daniel-mueller
 </div>
 </div>
 <pre class="r"><code>dcant_budget_global_all_ensemble %&gt;%
+  filter(data_source == &quot;obs&quot;,
+         period != &quot;1994 - 2014&quot;,
+         !(Version_ID %in% Version_IDs)) %&gt;%
+  ggplot(aes(period, dcant)) +
+  scale_fill_manual(values = c(&quot;grey50&quot;, &quot;red&quot;, &quot;white&quot;)) +
+  geom_point(
+    data = dcant_budget_global_all_no_adj %&gt;%
+      filter(data_source == &quot;obs&quot;,
+             period != &quot;1994 - 2014&quot;),
+    aes(fill = &quot;Unadjusted data&quot;),
+    alpha = .7,
+    shape = 21,
+    position = position_dodge2(width = 0.3)
+  ) +
+  geom_point(
+    aes(fill = &quot;Ensemble member&quot;),
+    alpha = .5,
+    shape = 21,
+    position = position_dodge2(width = 0.3)
+  ) +
+  geom_linerange(
+    data = dcant_budget_ensemble_stat %&gt;%
+      filter(basin == &quot;Global&quot;),
+    aes(
+      x = period,
+      y = std_case,
+      ymin = std_case - sd,
+      ymax = std_case + sd
+    ),
+    col = &quot;red&quot;
+  ) +
+  geom_point(
+    data = dcant_budget_ensemble_stat %&gt;%
+      filter(basin == &quot;Global&quot;),
+    aes(x = period,
+        y = std_case,
+        fill = &quot;Standard case&quot;),
+    size = 2,
+    shape = 21
+  ) +
+  scale_y_continuous(name = dcant_pgc_label, breaks = seq(0, 100, 2)) +
+  theme(legend.title = element_blank(),
+        axis.title.x = element_blank(),
+        legend.position = c(0.65,0.85),
+        legend.background = element_rect(colour = &quot;grey&quot;))</code></pre>
+<p><img src="figure/results_publication.Rmd/dcant_budget_global_ensemble-7.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-dcant_budget_global_ensemble-7">
+Past versions of dcant_budget_global_ensemble-7.png
+</button>
+</p>
+<div id="fig-dcant_budget_global_ensemble-7" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/dcant_budget_global_ensemble-7.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/535196ad32bf3969daa545c158687498a7e75448/docs/figure/results_publication.Rmd/dcant_budget_global_ensemble-7.png" target="_blank">535196a</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d20faeb3f0ae1f1f5f288c890690916d1cade193/docs/figure/results_publication.Rmd/dcant_budget_global_ensemble-7.png" target="_blank">d20faeb</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>dcant_budget_global_all_ensemble %&gt;%
+  mutate(ensemble_role = case_when(Version_ID %in% Version_IDs ~ &quot;Standard case&quot;,
+                                   TRUE ~ &quot;others&quot;)) %&gt;%
+  filter(data_source == &quot;obs&quot;,
+         period != &quot;1994 - 2014&quot;) %&gt;%
+  ggplot(aes(period, dcant)) +
+  scale_fill_brewer(palette = &quot;Dark2&quot;, name = &quot;ensemble group&quot;) +
+  scale_color_manual(values = c(&quot;black&quot;, &quot;red&quot;, &quot;grey&quot;),
+                     name = &quot;Ensemble member&quot;) +
+  geom_boxplot(
+    width = .1,
+    outlier.shape = NA,
+    fill = &quot;grey&quot;,
+    alpha = 0.7,
+    position = position_nudge(x = 0.3)
+  ) +
+  geom_point(
+    data = dcant_budget_global_all_no_adj %&gt;%
+      mutate(ensemble_role = &quot;unadjusted&quot;) %&gt;%
+      filter(data_source == &quot;obs&quot;,
+             period != &quot;1994 - 2014&quot;),
+    aes(col = ensemble_role),
+    size = 2,
+    alpha = .7,
+    shape = 21,
+    position = position_dodge2(width = 0.3)
+  ) +
+  geom_point(
+    aes(fill = Version_ID_group,
+        col = ensemble_role),
+    size = 2,
+    alpha = .5,
+    shape = 21,
+    position = position_dodge2(width = 0.3)
+  ) +
+  scale_y_continuous(name = dcant_pgc_label, breaks = seq(0, 100, 2))</code></pre>
+<p><img src="figure/results_publication.Rmd/dcant_budget_global_ensemble-8.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dcant_budget_global_all_ensemble %&gt;%
   mutate(ensemble_role = if_else(Version_ID %in% Version_IDs,
-                                 &quot;standard case&quot;,
+                                 &quot;Standard case&quot;,
                                  &quot;others&quot;)) %&gt;%
   filter(data_source == &quot;obs&quot;,
          period != &quot;1994 - 2014&quot;) %&gt;%
   ggplot(aes(period, dcant)) +
   scale_fill_brewer(palette = &quot;Dark2&quot;) +
   scale_color_manual(values = c(&quot;grey&quot;, &quot;red&quot;),
-                     name = &quot;ensemble member&quot;) +
+                     name = &quot;Ensemble member&quot;) +
   geom_boxplot(
     width = .1,
     outlier.shape = NA,
@@ -11544,55 +11762,7 @@ jens-daniel-mueller
     position = position_nudge(x = -0.3)
   ) +
   scale_y_continuous(name = dcant_pgc_label, breaks = seq(0, 100, 2))</code></pre>
-<p><img src="figure/results_publication.Rmd/dcant_budget_global_ensemble-7.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-dcant_budget_global_ensemble-7">
-Past versions of dcant_budget_global_ensemble-7.png
-</button>
-</p>
-<div id="fig-dcant_budget_global_ensemble-7" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/535196ad32bf3969daa545c158687498a7e75448/docs/figure/results_publication.Rmd/dcant_budget_global_ensemble-7.png" target="_blank">535196a</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-07-17
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d20faeb3f0ae1f1f5f288c890690916d1cade193/docs/figure/results_publication.Rmd/dcant_budget_global_ensemble-7.png" target="_blank">d20faeb</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-07-17
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/results_publication.Rmd/dcant_budget_global_ensemble-9.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>beta_budget_global_all_ensemble &lt;-
   full_join(dcant_budget_global_all_ensemble,
             delta_pCO2_atm) %&gt;%
@@ -11600,14 +11770,14 @@ jens-daniel-mueller
   
   
 beta_budget_global_all_ensemble %&gt;%   
-  mutate(ensemble_role = case_when(Version_ID %in% Version_IDs ~ &quot;standard case&quot;,
+  mutate(ensemble_role = case_when(Version_ID %in% Version_IDs ~ &quot;Standard case&quot;,
                                    TRUE ~ &quot;others&quot;)) %&gt;%
   filter(data_source == &quot;obs&quot;,
          period != &quot;1994 - 2014&quot;) %&gt;%
   ggplot(aes(period, beta)) +
   scale_fill_brewer(palette = &quot;Dark2&quot;, name = &quot;ensemble group&quot;) +
   scale_color_manual(values = c(&quot;black&quot;, &quot;red&quot;, &quot;grey&quot;),
-                     name = &quot;ensemble member&quot;) +
+                     name = &quot;Ensemble member&quot;) +
   geom_boxplot(
     width = .1,
     outlier.shape = NA,
@@ -11647,6 +11817,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/beta_budget_global-1.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/535196ad32bf3969daa545c158687498a7e75448/docs/figure/results_publication.Rmd/beta_budget_global-1.png" target="_blank">535196a</a>
@@ -11717,18 +11898,14 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
-<pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
-       filename = &quot;FigS_budget_beta_global_ensemble_member.png&quot;,
-       height = 6,
-       width = 6)</code></pre>
 </div>
 <div id="basin-hemisphere-2" class="section level3" number="10.1.2">
 <h3><span class="header-section-number">10.1.2</span> basin hemisphere</h3>
 <pre class="r"><code>dcant_budget_basin_MLR_all_ensemble %&gt;%
   ggplot(aes(period, dcant, col = Version_ID_group)) +
-  geom_jitter() +
+  geom_jitter(alpha = 0.5) +
   scale_color_brewer(palette = &quot;Dark2&quot;) +
-  facet_grid(basin ~ data_source)</code></pre>
+  facet_grid(basin ~ data_source, scales = &quot;free_y&quot;)</code></pre>
 <p><img src="figure/results_publication.Rmd/dcant_budget_basin_hemisphere_ensemble-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-dcant_budget_basin_hemisphere_ensemble-1">
@@ -11752,6 +11929,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/dcant_budget_basin_hemisphere_ensemble-1.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/535196ad32bf3969daa545c158687498a7e75448/docs/figure/results_publication.Rmd/dcant_budget_basin_hemisphere_ensemble-1.png" target="_blank">535196a</a>
@@ -11877,53 +12065,99 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
-<pre class="r"><code>dcant_budget_basin_MLR_all_ensemble %&gt;%
+<pre class="r"><code>tcant_budget_basin_MLR &lt;- expand_grid(
+  tcant_budget_basin_MLR,
+  delta_pCO2_atm %&gt;% filter(period %in% two_decades)
+)
+
+tcant_budget_basin_MLR &lt;- tcant_budget_basin_MLR %&gt;% 
+  mutate(dcant = beta_1994 * delta_pCO2)
+
+tcant_budget_basin_MLR &lt;- tcant_budget_basin_MLR %&gt;%
+  mutate(
+    basin = fct_relevel(
+      basin,
+      &quot;N. Pacific&quot;,
+      &quot;S. Pacific&quot;,
+      &quot;N. Atlantic&quot;,
+      &quot;S. Atlantic&quot;,
+      &quot;Indian&quot;,
+      &quot;Global&quot;
+    )
+  )
+
+dcant_budget_basin_MLR_all_ensemble %&gt;%
   filter(data_source == &quot;obs&quot;,
          period != &quot;1994 - 2014&quot;,
          !(Version_ID %in% Version_IDs)) %&gt;%
   ggplot(aes(period, dcant)) +
-  scale_fill_manual(values = c(&quot;grey50&quot;, &quot;red&quot;, &quot;white&quot;)) +
+  geom_errorbar(
+    data = tcant_budget_basin_MLR,
+    aes(x = period,
+        ymax = dcant, ymin = dcant,
+        col = &quot;Scaled 1994\nestimate&quot;),
+    width = 0.4
+  ) +
   geom_point(
     data = dcant_budget_basin_MLR_all_no_adj %&gt;%
       filter(data_source == &quot;obs&quot;,
              period != &quot;1994 - 2014&quot;),
-    aes(fill = &quot;unadjusted data&quot;),
+    aes(fill = &quot;Unadjusted data&quot;),
     alpha = .7,
     shape = 21,
     position = position_dodge2(width = 0.3)
   ) +
   geom_point(
-    aes(fill = &quot;ensemble member&quot;),
+    aes(fill = &quot;Ensemble member&quot;),
     alpha = .5,
     shape = 21,
-    position = position_dodge2(width = 0.3)
+    position = position_jitter(width = 0.2, height = 0)
   ) +
   geom_linerange(
-    data = dcant_budget_ensemble_stat %&gt;%
-      filter(basin != &quot;global&quot;),
+    data = dcant_budget_ensemble_stat,
+    aes(
+      x = period,
+      y = std_case,
+      ymin = std_case - 2*sd,
+      ymax = std_case + 2*sd,
+      linetype = &quot;Uncertainty&quot;
+    ),
+    col = &quot;red&quot;
+  ) +
+  geom_linerange(
+    data = dcant_budget_ensemble_stat,
     aes(
       x = period,
       y = std_case,
       ymin = std_case - sd,
-      ymax = std_case + sd
+      ymax = std_case + sd,
+      alpha = &quot;Uncertainty&quot;,
     ),
+    size = 2,
     col = &quot;red&quot;
   ) +
   geom_point(
-    data = dcant_budget_ensemble_stat %&gt;%
-      filter(basin != &quot;global&quot;),
+    data = dcant_budget_ensemble_stat,
     aes(x = period,
         y = std_case,
-        fill = &quot;standard case&quot;),
+        fill = &quot;Standard case&quot;),
     size = 2,
     shape = 21
   ) +
+  scale_fill_manual(values = c(&quot;grey50&quot;, &quot;red&quot;, &quot;white&quot;)) +
+  scale_color_manual(values = c(&quot;grey50&quot;)) +
+  scale_linetype(name = &quot;X&quot;) +
+  scale_alpha_manual(name = &quot;X&quot;, values = 0.5) +
+  scale_shape_manual(values = 95) +
   scale_y_continuous(name = dcant_pgc_label) +
+  guides(
+    fill = guide_legend(order = 1),
+    linetype = guide_legend(order = 2),
+    alpha = guide_legend(order = 2)
+  ) +
   facet_wrap(~ basin, ncol = 3, dir = &quot;v&quot;, scales = &quot;free_y&quot;) +
   theme(legend.title = element_blank(),
-        axis.title.x = element_blank(),
-        legend.position = c(0.85,0.25),
-        legend.background = element_rect(colour = &quot;grey&quot;))</code></pre>
+        axis.title.x = element_blank())</code></pre>
 <p><img src="figure/results_publication.Rmd/dcant_budget_basin_hemisphere_ensemble-2.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-dcant_budget_basin_hemisphere_ensemble-2">
@@ -11947,6 +12181,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/dcant_budget_basin_hemisphere_ensemble-2.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/535196ad32bf3969daa545c158687498a7e75448/docs/figure/results_publication.Rmd/dcant_budget_basin_hemisphere_ensemble-2.png" target="_blank">535196a</a>
@@ -12084,22 +12329,22 @@ jens-daniel-mueller
 </div>
 </div>
 <pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
-       filename = &quot;Fig_dcant_budget_regional_ensemble_member.png&quot;,
+       filename = &quot;Fig_dcant_budgets_ensemble_member.png&quot;,
        height = 4,
-       width = 7)
+       width = 8)
 
 
 
 dcant_budget_basin_MLR_all_ensemble %&gt;%
   mutate(ensemble_role = if_else(Version_ID %in% Version_IDs,
-                                 &quot;standard case&quot;,
+                                 &quot;Standard case&quot;,
                                  &quot;others&quot;)) %&gt;%
   filter(data_source == &quot;obs&quot;,
          period != &quot;1994 - 2014&quot;) %&gt;%
   ggplot(aes(period, dcant)) +
   scale_fill_brewer(palette = &quot;Dark2&quot;, name = &quot;ensemble group&quot;) +
   scale_color_manual(values = c(&quot;grey&quot;, &quot;black&quot;, &quot;red&quot;),
-                     name = &quot;ensemble member&quot;) +
+                     name = &quot;Ensemble member&quot;) +
   geom_boxplot(
     width = .1,
     outlier.shape = NA,
@@ -12127,8 +12372,8 @@ dcant_budget_basin_MLR_all_ensemble %&gt;%
     shape = 21,
     position = position_dodge2(width = 0.3)
   ) +
-  scale_y_continuous(name = dcant_pgc_label, breaks = seq(0, 100, 2)) +
-  facet_grid(basin ~ ., scales = &quot;free_y&quot;)</code></pre>
+  scale_y_continuous(name = dcant_pgc_label) +
+  facet_wrap(~ basin, ncol = 3, scales = &quot;free_y&quot;)</code></pre>
 <p><img src="figure/results_publication.Rmd/dcant_budget_basin_hemisphere_ensemble-3.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-dcant_budget_basin_hemisphere_ensemble-3">
@@ -12152,6 +12397,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/dcant_budget_basin_hemisphere_ensemble-3.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/535196ad32bf3969daa545c158687498a7e75448/docs/figure/results_publication.Rmd/dcant_budget_basin_hemisphere_ensemble-3.png" target="_blank">535196a</a>
@@ -12266,21 +12522,16 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
-<pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
-       filename = &quot;FigS_budget_dcant_basin_hemisphere_ensemble_member.png&quot;,
-       height = 6,
-       width = 6)
-
-dcant_budget_basin_MLR_all_ensemble %&gt;%
+<pre class="r"><code>dcant_budget_basin_MLR_all_ensemble %&gt;%
    mutate(ensemble_role = if_else(Version_ID %in% Version_IDs,
-                                 &quot;standard case&quot;,
+                                 &quot;Standard case&quot;,
                                  &quot;others&quot;)) %&gt;%
   filter(data_source == &quot;obs&quot;,
          period != &quot;1994 - 2014&quot;) %&gt;%
   ggplot(aes(period, dcant)) +
   scale_fill_brewer(palette = &quot;Dark2&quot;) +
   scale_color_manual(values = c(&quot;grey&quot;, &quot;red&quot;),
-                     name = &quot;ensemble member&quot;) +
+                     name = &quot;Ensemble member&quot;) +
   geom_boxplot(
     width = .1,
     outlier.shape = NA,
@@ -12307,8 +12558,8 @@ dcant_budget_basin_MLR_all_ensemble %&gt;%
     fun.args = list(mult = 1),
     position = position_nudge(x = -0.3)
   ) +
-  scale_y_continuous(name = dcant_pgc_label, breaks = seq(0, 100, 2)) +
-  facet_grid(basin ~ ., scales = &quot;free_y&quot;)</code></pre>
+  scale_y_continuous(name = dcant_pgc_label) +
+  facet_wrap(~ basin, ncol = 3, scales = &quot;free_y&quot;)</code></pre>
 <p><img src="figure/results_publication.Rmd/dcant_budget_basin_hemisphere_ensemble-4.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-dcant_budget_basin_hemisphere_ensemble-4">
@@ -12332,6 +12583,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/dcant_budget_basin_hemisphere_ensemble-4.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/535196ad32bf3969daa545c158687498a7e75448/docs/figure/results_publication.Rmd/dcant_budget_basin_hemisphere_ensemble-4.png" target="_blank">535196a</a>
@@ -12375,7 +12637,15 @@ dcant_budget_global_all_ensemble_summary &lt;-
             dcant_sd = sd(dcant)*2) %&gt;%
   ungroup() %&gt;%
   filter(data_source == &quot;obs&quot;)</code></pre>
-<pre class="r"><code>beta_budget_basin_MLR_all_ensemble &lt;-
+<pre class="r"><code>beta_budget_basin_MLR_all_no_adj &lt;-
+  full_join(dcant_budget_basin_MLR_all_no_adj,
+            delta_pCO2_atm)
+
+beta_budget_basin_MLR_all_no_adj &lt;-
+  beta_budget_basin_MLR_all_no_adj %&gt;%
+  mutate(beta = dcant / delta_pCO2)
+
+beta_budget_basin_MLR_all_ensemble &lt;-
   full_join(dcant_budget_basin_MLR_all_ensemble,
             delta_pCO2_atm)
 
@@ -12385,14 +12655,14 @@ beta_budget_basin_MLR_all_ensemble &lt;-
 
 beta_budget_basin_MLR_all_ensemble %&gt;% 
   mutate(ensemble_role = if_else(Version_ID %in% Version_IDs,
-                                 &quot;standard case&quot;,
+                                 &quot;Standard case&quot;,
                                  &quot;others&quot;)) %&gt;%
   filter(data_source == &quot;obs&quot;,
          period != &quot;1994 - 2014&quot;) %&gt;%
   ggplot(aes(period, beta)) +
   scale_fill_brewer(palette = &quot;Dark2&quot;, name = &quot;ensemble group&quot;) +
   scale_color_manual(values = c(&quot;grey&quot;, &quot;black&quot;, &quot;red&quot;),
-                     name = &quot;ensemble member&quot;) +
+                     name = &quot;Ensemble member&quot;) +
   geom_boxplot(
     width = .1,
     outlier.shape = NA,
@@ -12408,8 +12678,8 @@ beta_budget_basin_MLR_all_ensemble %&gt;%
     shape = 21,
     position = position_dodge2(width = 0.3)
   ) +
-  scale_y_continuous(name = dcant_pgc_scaled_label, breaks = seq(0,5,0.05)) +
-  facet_grid(basin ~ ., scales = &quot;free_y&quot;)</code></pre>
+  scale_y_continuous(name = dcant_pgc_scaled_label)  +
+  facet_wrap(~ basin, ncol = 3, scales = &quot;free_y&quot;)</code></pre>
 <p><img src="figure/results_publication.Rmd/beta_budget_basin_hemisphere_ensemble-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-beta_budget_basin_hemisphere_ensemble-1">
@@ -12433,6 +12703,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/beta_budget_basin_hemisphere_ensemble-1.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/535196ad32bf3969daa545c158687498a7e75448/docs/figure/results_publication.Rmd/beta_budget_basin_hemisphere_ensemble-1.png" target="_blank">535196a</a>
@@ -12503,15 +12784,8 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
-<pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
-       filename = &quot;FigS_budget_beta_basin_hemisphere_ensemble_member.png&quot;,
-       height = 6,
-       width = 6)</code></pre>
 <pre class="r"><code>beta_budget_ensemble_stat &lt;-
-  bind_rows(
-    beta_budget_basin_MLR_all_ensemble,
-    beta_budget_global_all_ensemble %&gt;% mutate(basin = &quot;global&quot;)
-  ) %&gt;%
+  beta_budget_basin_MLR_all_ensemble %&gt;% 
   filter(data_source == &quot;obs&quot;,
          period != &quot;1994 - 2014&quot;) %&gt;%
   group_by(period, basin) %&gt;%
@@ -12527,26 +12801,19 @@ jens-daniel-mueller
 beta_budget_ensemble_stat &lt;-
   full_join(
     beta_budget_ensemble_stat,
-    bind_rows(
-      beta_budget_basin_MLR_all_ensemble %&gt;%
-        filter(Version_ID %in% Version_IDs,
-               data_source == &quot;obs&quot;,
-               period != &quot;1994 - 2014&quot;) %&gt;%
-        select(period,
-               basin,
-               std_case = beta),
-      beta_budget_global_all_ensemble %&gt;%
-        filter(Version_ID %in% Version_IDs,
-               data_source == &quot;obs&quot;,
-               period != &quot;1994 - 2014&quot;) %&gt;%
-        select(period,
-               std_case = beta) %&gt;%
-        mutate(basin = &quot;global&quot;)
-    )
+    beta_budget_basin_MLR_all_ensemble %&gt;%
+      filter(
+        Version_ID %in% Version_IDs,
+        data_source == &quot;obs&quot;,
+        period != &quot;1994 - 2014&quot;
+      ) %&gt;%
+      select(period,
+             basin,
+             std_case = beta)
   )
 
 
-beta_budget_ensemble_stat &lt;- beta_budget_ensemble_stat %&gt;% 
+beta_budget_ensemble_significance &lt;- beta_budget_ensemble_stat %&gt;% 
   pivot_longer(c(mean,median,std_case),
                names_to = &quot;estimate&quot;,
                values_to = &quot;beta&quot;) %&gt;%
@@ -12566,7 +12833,7 @@ beta_budget_ensemble_stat &lt;- beta_budget_ensemble_stat %&gt;%
   ) %&gt;%
   ungroup()
   
-beta_budget_ensemble_stat %&gt;% 
+beta_budget_ensemble_significance %&gt;% 
   drop_na() %&gt;% 
   select(basin, estimate, delta_beta:ttest_p) %&gt;% 
   kable() %&gt;%
@@ -12599,79 +12866,79 @@ ttest_p
 <tbody>
 <tr>
 <td style="text-align:left;">
-global
+N. Pacific
 </td>
 <td style="text-align:left;">
 mean
 </td>
 <td style="text-align:right;">
-0.0000000
+0.0126750
 </td>
 <td style="text-align:right;">
-0.2664683
+0.0939834
 </td>
 <td style="text-align:right;">
-Inf
+7.4148544
 </td>
 <td style="text-align:right;">
-1.0000000
+0.2566866
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-global
+N. Pacific
 </td>
 <td style="text-align:left;">
 median
 </td>
 <td style="text-align:right;">
-0.0000000
+0.0189887
 </td>
 <td style="text-align:right;">
-0.2664683
+0.0939834
 </td>
 <td style="text-align:right;">
-Inf
+4.9494279
 </td>
 <td style="text-align:right;">
-1.0000000
+0.0912398
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-global
+N. Pacific
 </td>
 <td style="text-align:left;">
 std_case
 </td>
 <td style="text-align:right;">
-0.0974324
+0.0073208
 </td>
 <td style="text-align:right;">
-0.2664683
+0.0939834
 </td>
 <td style="text-align:right;">
-2.7349045
+12.8378056
 </td>
 <td style="text-align:right;">
-0.0000222
+0.5109829
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-global
+S. Pacific
 </td>
 <td style="text-align:left;">
 mean
 </td>
 <td style="text-align:right;">
--0.2355312
+-0.1232449
 </td>
 <td style="text-align:right;">
-0.2266240
+0.1157812
 </td>
 <td style="text-align:right;">
-0.9621823
+0.9394404
 </td>
 <td style="text-align:right;">
 0.0000000
@@ -12679,19 +12946,19 @@ mean
 </tr>
 <tr>
 <td style="text-align:left;">
-global
+S. Pacific
 </td>
 <td style="text-align:left;">
 median
 </td>
 <td style="text-align:right;">
--0.2354484
+-0.0980649
 </td>
 <td style="text-align:right;">
-0.2266240
+0.1157812
 </td>
 <td style="text-align:right;">
-0.9625209
+1.1806597
 </td>
 <td style="text-align:right;">
 0.0000000
@@ -12699,139 +12966,19 @@ median
 </tr>
 <tr>
 <td style="text-align:left;">
-global
+S. Pacific
 </td>
 <td style="text-align:left;">
 std_case
 </td>
 <td style="text-align:right;">
--0.3137512
+-0.0969659
 </td>
 <td style="text-align:right;">
-0.2266240
+0.1157812
 </td>
 <td style="text-align:right;">
-0.7223048
-</td>
-<td style="text-align:right;">
-0.0000000
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-global
-</td>
-<td style="text-align:left;">
-mean
-</td>
-<td style="text-align:right;">
-0.0000000
-</td>
-<td style="text-align:right;">
-0.1780772
-</td>
-<td style="text-align:right;">
-Inf
-</td>
-<td style="text-align:right;">
-1.0000000
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-global
-</td>
-<td style="text-align:left;">
-median
-</td>
-<td style="text-align:right;">
-0.0000000
-</td>
-<td style="text-align:right;">
-0.1780772
-</td>
-<td style="text-align:right;">
-Inf
-</td>
-<td style="text-align:right;">
-1.0000000
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-global
-</td>
-<td style="text-align:left;">
-std_case
-</td>
-<td style="text-align:right;">
-0.0830329
-</td>
-<td style="text-align:right;">
-0.1780772
-</td>
-<td style="text-align:right;">
-2.1446580
-</td>
-<td style="text-align:right;">
-0.0000001
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Indian
-</td>
-<td style="text-align:left;">
-mean
-</td>
-<td style="text-align:right;">
--0.0636891
-</td>
-<td style="text-align:right;">
-0.0771108
-</td>
-<td style="text-align:right;">
-1.2107377
-</td>
-<td style="text-align:right;">
-0.0000000
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Indian
-</td>
-<td style="text-align:left;">
-median
-</td>
-<td style="text-align:right;">
--0.0894102
-</td>
-<td style="text-align:right;">
-0.0771108
-</td>
-<td style="text-align:right;">
-0.8624389
-</td>
-<td style="text-align:right;">
-0.0000000
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Indian
-</td>
-<td style="text-align:left;">
-std_case
-</td>
-<td style="text-align:right;">
--0.0996412
-</td>
-<td style="text-align:right;">
-0.0771108
-</td>
-<td style="text-align:right;">
-0.7738848
+1.1940404
 </td>
 <td style="text-align:right;">
 0.0000000
@@ -12899,66 +13046,6 @@ std_case
 </tr>
 <tr>
 <td style="text-align:left;">
-N. Pacific
-</td>
-<td style="text-align:left;">
-mean
-</td>
-<td style="text-align:right;">
-0.0126750
-</td>
-<td style="text-align:right;">
-0.0939834
-</td>
-<td style="text-align:right;">
-7.4148544
-</td>
-<td style="text-align:right;">
-0.2566866
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-N. Pacific
-</td>
-<td style="text-align:left;">
-median
-</td>
-<td style="text-align:right;">
-0.0189887
-</td>
-<td style="text-align:right;">
-0.0939834
-</td>
-<td style="text-align:right;">
-4.9494279
-</td>
-<td style="text-align:right;">
-0.0912398
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-N. Pacific
-</td>
-<td style="text-align:left;">
-std_case
-</td>
-<td style="text-align:right;">
-0.0073208
-</td>
-<td style="text-align:right;">
-0.0939834
-</td>
-<td style="text-align:right;">
-12.8378056
-</td>
-<td style="text-align:right;">
-0.5109829
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
 S. Atlantic
 </td>
 <td style="text-align:left;">
@@ -13019,19 +13106,19 @@ std_case
 </tr>
 <tr>
 <td style="text-align:left;">
-S. Pacific
+Indian
 </td>
 <td style="text-align:left;">
 mean
 </td>
 <td style="text-align:right;">
--0.1232449
+-0.0636891
 </td>
 <td style="text-align:right;">
-0.1157812
+0.0771108
 </td>
 <td style="text-align:right;">
-0.9394404
+1.2107377
 </td>
 <td style="text-align:right;">
 0.0000000
@@ -13039,19 +13126,19 @@ mean
 </tr>
 <tr>
 <td style="text-align:left;">
-S. Pacific
+Indian
 </td>
 <td style="text-align:left;">
 median
 </td>
 <td style="text-align:right;">
--0.0980649
+-0.0894102
 </td>
 <td style="text-align:right;">
-0.1157812
+0.0771108
 </td>
 <td style="text-align:right;">
-1.1806597
+0.8624389
 </td>
 <td style="text-align:right;">
 0.0000000
@@ -13059,19 +13146,79 @@ median
 </tr>
 <tr>
 <td style="text-align:left;">
-S. Pacific
+Indian
 </td>
 <td style="text-align:left;">
 std_case
 </td>
 <td style="text-align:right;">
--0.0969659
+-0.0996412
 </td>
 <td style="text-align:right;">
-0.1157812
+0.0771108
 </td>
 <td style="text-align:right;">
-1.1940404
+0.7738848
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Global
+</td>
+<td style="text-align:left;">
+mean
+</td>
+<td style="text-align:right;">
+-0.2431179
+</td>
+<td style="text-align:right;">
+0.2150010
+</td>
+<td style="text-align:right;">
+0.8843487
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Global
+</td>
+<td style="text-align:left;">
+median
+</td>
+<td style="text-align:right;">
+-0.2219358
+</td>
+<td style="text-align:right;">
+0.2150010
+</td>
+<td style="text-align:right;">
+0.9687530
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Global
+</td>
+<td style="text-align:left;">
+std_case
+</td>
+<td style="text-align:right;">
+-0.2307183
+</td>
+<td style="text-align:right;">
+0.2150010
+</td>
+<td style="text-align:right;">
+0.9318768
 </td>
 <td style="text-align:right;">
 0.0000000
@@ -13080,7 +13227,7 @@ std_case
 </tbody>
 </table>
 </div>
-<pre class="r"><code>beta_budget_ensemble_stat %&gt;% 
+<pre class="r"><code>beta_budget_ensemble_significance %&gt;% 
   ggplot(aes(error_prop_ratio, ttest_p, col = basin)) +
   geom_vline(xintercept = 1) +
   geom_hline(yintercept = 0.05) +
@@ -13113,6 +13260,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/beta_budget_stats-1.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/535196ad32bf3969daa545c158687498a7e75448/docs/figure/results_publication.Rmd/beta_budget_stats-1.png" target="_blank">535196a</a>
 </td>
 <td>
@@ -13137,11 +13295,120 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
+<pre class="r"><code>budget_ensemble_significance &lt;-
+  bind_rows(
+    beta_budget_ensemble_significance %&gt;%
+      drop_na() %&gt;%
+      select(basin, estimate, delta_beta:ttest_p) %&gt;%
+      mutate(parameter = &quot;beta&quot;) %&gt;%
+      relocate(parameter) %&gt;%
+      rename(
+        offset_value = delta_beta,
+        offset_uncertainty = delta_beta_uncert,
+        uncert_value_ratio = error_prop_ratio
+      ),
+    dcant_budget_ensemble_significance %&gt;%
+      drop_na() %&gt;%
+      select(basin, estimate, delta_dcant:ttest_p) %&gt;%
+      mutate(parameter = &quot;dcant&quot;) %&gt;%
+      relocate(parameter) %&gt;%
+      rename(
+        offset_value = delta_dcant,
+        offset_uncertainty = delta_dcant_uncert,
+        uncert_value_ratio = error_prop_ratio
+      )
+  )
+
+budget_ensemble_significance %&gt;% 
+  ggplot(aes(uncert_value_ratio, ttest_p, col = basin)) +
+  geom_vline(xintercept = 1) +
+  geom_hline(yintercept = 0.05) +
+  geom_point() +
+  scale_y_log10() +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  facet_grid(parameter ~ estimate)</code></pre>
+<p><img src="figure/results_publication.Rmd/beta_budget_stats-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>budget_ensemble_significance %&gt;%
+  mutate(across(4:6, round, 2)) %&gt;%
+  mutate(across(7, signif, 2)) %&gt;%
+  write_csv(here::here(&quot;output/publication/Table_budget_signficance_stats.csv&quot;))</code></pre>
+<pre class="r"><code>beta_budget_basin_MLR_all_ensemble %&gt;%
+  filter(data_source == &quot;obs&quot;,
+         period != &quot;1994 - 2014&quot;,
+         !(Version_ID %in% Version_IDs)) %&gt;%
+  ggplot(aes(period, beta)) +
+  scale_fill_manual(values = c(&quot;grey50&quot;, &quot;red&quot;, &quot;white&quot;)) +
+  geom_point(
+    data = beta_budget_basin_MLR_all_no_adj %&gt;%
+      filter(data_source == &quot;obs&quot;,
+             period != &quot;1994 - 2014&quot;),
+    aes(fill = &quot;Unadjusted data&quot;),
+    alpha = .7,
+    shape = 21,
+    position = position_dodge2(width = 0.3)
+  ) +
+  geom_point(
+    aes(fill = &quot;Ensemble member&quot;),
+    alpha = .5,
+    shape = 21,
+    position = position_dodge2(width = 0.3)
+  ) +
+  geom_linerange(
+    data = beta_budget_ensemble_stat,
+    aes(
+      x = period,
+      y = std_case,
+      ymin = std_case - 2*sd,
+      ymax = std_case + 2*sd,
+      linetype = &quot;Uncertainty&quot;
+    ),
+    col = &quot;red&quot;
+  ) +
+  geom_linerange(
+    data = beta_budget_ensemble_stat,
+    aes(
+      x = period,
+      y = std_case,
+      ymin = std_case - sd,
+      ymax = std_case + sd,
+      alpha = &quot;Uncertainty&quot;,
+    ),
+    size = 2,
+    col = &quot;red&quot;
+  ) +
+  geom_point(
+    data = beta_budget_ensemble_stat,
+    aes(x = period,
+        y = std_case,
+        fill = &quot;Standard case&quot;),
+    size = 2,
+    shape = 21
+  ) +
+  scale_linetype(name = &quot;X&quot;) +
+  scale_alpha_manual(name = &quot;X&quot;, values = 0.5) +
+  scale_y_continuous(name = dcant_pgc_label) +
+  guides(
+    fill = guide_legend(order = 1),
+    linetype = guide_legend(order = 2),
+    alpha = guide_legend(order = 2)
+  ) +
+  facet_wrap(~ basin, ncol = 3, dir = &quot;v&quot;, scales = &quot;free_y&quot;) +
+  theme(legend.title = element_blank(),
+        axis.title.x = element_blank())</code></pre>
+<p><img src="figure/results_publication.Rmd/beta_ensemble_scatter_plot-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
+       filename = &quot;FigS_beta_budgets_ensemble_member.png&quot;,
+       height = 4,
+       width = 8)</code></pre>
 </div>
 </div>
 <div id="flow-chart" class="section level2" number="10.2">
 <h2><span class="header-section-number">10.2</span> Flow chart</h2>
-<pre class="r"><code>dcant_budget_basin_MLR_all &lt;- left_join(dcant_budget_basin_MLR_all,
+<pre class="r"><code>dcant_budget_basin_MLR_all &lt;- 
+  dcant_budget_basin_MLR_all %&gt;% 
+  filter(basin != &quot;Global&quot;)
+
+dcant_budget_basin_MLR_all &lt;- left_join(dcant_budget_basin_MLR_all,
                            co2_atm %&gt;% rename(tref1 = year,
                                               pCO21 = pCO2))
 
@@ -13153,75 +13420,7 @@ dcant_budget_basin_MLR_all &lt;- left_join(dcant_budget_basin_MLR_all,
 dcant_budget_basin_MLR_all_plot &lt;- dcant_budget_basin_MLR_all %&gt;%
   filter(period != &quot;1994 - 2014&quot;,
          data_source == &quot;obs&quot;)</code></pre>
-<pre class="r"><code>tcant_inv &lt;-
-  inner_join(tcant_inv, basinmask)
-
-dcant_inv_all &lt;-
-  inner_join(dcant_inv_all, basinmask)
-
-area_scaling &lt;- 
-bind_rows(
-  tcant_inv %&gt;% distinct(lat, lon, basin) %&gt;%
-    mutate(source = &quot;SO4&quot;),
-  dcant_inv_all %&gt;% distinct(lat, lon, basin) %&gt;%
-    mutate(source = &quot;M22&quot;)
-)
-
-
-area_scaling %&gt;%
-  ggplot(aes(lon, lat, fill = basin)) +
-  geom_tile() +
-  facet_wrap( ~ source) +
-  coord_quickmap()</code></pre>
-<p><img src="figure/results_publication.Rmd/budgets_basins_hemisphere_tcant-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-budgets_basins_hemisphere_tcant-1">
-Past versions of budgets_basins_hemisphere_tcant-1.png
-</button>
-</p>
-<div id="fig-budgets_basins_hemisphere_tcant-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a26a21d0d5b4f756ed07e3d25cd9d2ff11b41d86/docs/figure/results_publication.Rmd/budgets_basins_hemisphere_tcant-1.png" target="_blank">a26a21d</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-06-27
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre class="r"><code>area_scaling &lt;- area_scaling %&gt;% 
-  mutate(area = earth_surf(lat, lon)) %&gt;% 
-  group_by(basin, source) %&gt;% 
-  summarise(area_total = sum(area)) %&gt;% 
-  ungroup() %&gt;% 
-  pivot_wider(values_from = area_total,
-              names_from = source) %&gt;% 
-  mutate(scaling_factor = M22 / SO4)
-
-
-tcant_budget_basin_MLR &lt;-
+<pre class="r"><code>tcant_budget_basin_MLR &lt;-
   tcant_inv %&gt;%
   mutate(method = &quot;layer&quot;,
          data_source = &quot;obs&quot;) %&gt;% 
@@ -13703,6 +13902,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/budgets_basins_hemisphere_alluvial_order_basin-1.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d20faeb3f0ae1f1f5f288c890690916d1cade193/docs/figure/results_publication.Rmd/budgets_basins_hemisphere_alluvial_order_basin-1.png" target="_blank">d20faeb</a>
 </td>
 <td>
@@ -14093,6 +14303,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/budgets_basins_hemisphere_alluvial_order_basin_scaled-1.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d20faeb3f0ae1f1f5f288c890690916d1cade193/docs/figure/results_publication.Rmd/budgets_basins_hemisphere_alluvial_order_basin_scaled-1.png" target="_blank">d20faeb</a>
 </td>
 <td>
@@ -14415,6 +14636,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/budgets_basins_hemisphere_alluvial_order_basin_scaled_incl_sabine-1.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d20faeb3f0ae1f1f5f288c890690916d1cade193/docs/figure/results_publication.Rmd/budgets_basins_hemisphere_alluvial_order_basin_scaled_incl_sabine-1.png" target="_blank">d20faeb</a>
@@ -14847,6 +15079,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/budgets_basins_hemisphere_alluvial_order_basin_scaled_incl_sabine_uncertainty-1.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/535196ad32bf3969daa545c158687498a7e75448/docs/figure/results_publication.Rmd/budgets_basins_hemisphere_alluvial_order_basin_scaled_incl_sabine_uncertainty-1.png" target="_blank">535196a</a>
@@ -15291,10 +15534,10 @@ jens-daniel-mueller
 
 
 
-ggsave(path = here::here(&quot;output/publication&quot;),
-       filename = &quot;Fig_budget_beta_basin_hemisphere.png&quot;,
-       height = 6,
-       width = 8)</code></pre>
+# ggsave(path = here::here(&quot;output/publication&quot;),
+#        filename = &quot;Fig_budget_beta_basin_hemisphere.png&quot;,
+#        height = 6,
+#        width = 8)</code></pre>
 </div>
 </div>
 <div id="depth-layer" class="section level2" number="10.3">
@@ -15778,6 +16021,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/depth_layer_budget_basin_MLR_standard_case-1.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/26e9496131e65c6dfa2419b4d3d767dc15fb16d6/docs/figure/results_publication.Rmd/depth_layer_budget_basin_MLR_standard_case-1.png" target="_blank">26e9496</a>
 </td>
 <td>
@@ -15856,6 +16110,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/depth_layer_budget_basin_MLR_ensemble-1.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/535196ad32bf3969daa545c158687498a7e75448/docs/figure/results_publication.Rmd/depth_layer_budget_basin_MLR_ensemble-1.png" target="_blank">535196a</a>
@@ -16014,6 +16279,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/depth_layer_budget_basin_MLR_cumulative-1.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/26e9496131e65c6dfa2419b4d3d767dc15fb16d6/docs/figure/results_publication.Rmd/depth_layer_budget_basin_MLR_cumulative-1.png" target="_blank">26e9496</a>
@@ -16288,6 +16564,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/dcant_budget_time_series_member_connections-1.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/535196ad32bf3969daa545c158687498a7e75448/docs/figure/results_publication.Rmd/dcant_budget_time_series_member_connections-1.png" target="_blank">535196a</a>
 </td>
 <td>
@@ -16423,6 +16710,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/dcant_budget_time_series_member_connections-2.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/535196ad32bf3969daa545c158687498a7e75448/docs/figure/results_publication.Rmd/dcant_budget_time_series_member_connections-2.png" target="_blank">535196a</a>
 </td>
 <td>
@@ -16556,6 +16854,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/dcant_budget_time_series_member_connections-3.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/535196ad32bf3969daa545c158687498a7e75448/docs/figure/results_publication.Rmd/dcant_budget_time_series_member_connections-3.png" target="_blank">535196a</a>
@@ -16694,6 +17003,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/dcant_budget_time_series_member_connections-4.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/535196ad32bf3969daa545c158687498a7e75448/docs/figure/results_publication.Rmd/dcant_budget_time_series_member_connections-4.png" target="_blank">535196a</a>
@@ -16890,6 +17210,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/mean_tcant_over_time-1.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/535196ad32bf3969daa545c158687498a7e75448/docs/figure/results_publication.Rmd/mean_tcant_over_time-1.png" target="_blank">535196a</a>
@@ -17278,6 +17609,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/mean_tcant_over_time-2.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/535196ad32bf3969daa545c158687498a7e75448/docs/figure/results_publication.Rmd/mean_tcant_over_time-2.png" target="_blank">535196a</a>
 </td>
 <td>
@@ -17656,6 +17998,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2-1.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/535196ad32bf3969daa545c158687498a7e75448/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2-1.png" target="_blank">535196a</a>
@@ -18098,6 +18451,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2-2.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/535196ad32bf3969daa545c158687498a7e75448/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2-2.png" target="_blank">535196a</a>
 </td>
 <td>
@@ -18419,8 +18783,8 @@ jens-daniel-mueller
   &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
 1  1800        0       0     280     0       0   NA   
 2  1994      118      19     358.  118      19    1.51
-3  2004       29.1     9.56  377.  147.     28.6  1.56
-4  2014       27.1     9.88  397.  174.     38.4  1.33</code></pre>
+3  2004       29.1     9.88  377.  147.     28.9  1.56
+4  2014       27.1    10.2   397.  174.     39.1  1.33</code></pre>
 </div>
 <div id="incl-fluxes" class="section level2" number="11.2">
 <h2><span class="header-section-number">11.2</span> incl fluxes</h2>
@@ -18647,6 +19011,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes-1.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/535196ad32bf3969daa545c158687498a7e75448/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes-1.png" target="_blank">535196a</a>
@@ -19087,6 +19462,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2695085215416389956e9df18611f7a92e591549/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_boxplot-1.png" target="_blank">2695085</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-17
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/535196ad32bf3969daa545c158687498a7e75448/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_boxplot-1.png" target="_blank">535196a</a>
@@ -19640,7 +20026,7 @@ dcant_per_emission_sd
 29.06819
 </td>
 <td style="text-align:right;">
-9.561291
+9.879512
 </td>
 <td style="text-align:right;">
 376.95
@@ -19649,13 +20035,13 @@ dcant_per_emission_sd
 147.0682
 </td>
 <td style="text-align:right;">
-28.56129
+28.87951
 </td>
 <td style="text-align:right;">
 35.16442
 </td>
 <td style="text-align:right;">
-11.566499
+11.95146
 </td>
 </tr>
 <tr>
@@ -19669,7 +20055,7 @@ dcant_per_emission_sd
 27.12704
 </td>
 <td style="text-align:right;">
-9.878693
+10.207470
 </td>
 <td style="text-align:right;">
 397.34
@@ -19678,13 +20064,13 @@ dcant_per_emission_sd
 174.1952
 </td>
 <td style="text-align:right;">
-38.43998
+39.08698
 </td>
 <td style="text-align:right;">
 26.64373
 </td>
 <td style="text-align:right;">
-9.702687
+10.02561
 </td>
 </tr>
 </tbody>
