@@ -28,6 +28,7 @@ library(marelac)
 library(ggdist)
 library(kableExtra)
 library(BSDA)
+library(khroma)
 ```
 
 
@@ -1934,8 +1935,8 @@ p_dcant_profiles <-
   scale_y_continuous(trans = trans_reverser("sqrt"),
                      breaks = c(0, 100, 500, seq(1000, 5000, 1000))) +
   coord_cartesian(expand = 0) +
-  scale_color_manual(values = c("#d95f02", "#7570b3"), name = "Mean \u00B1 2 SD") +
-  scale_fill_manual(values = c("#d95f02", "#7570b3"), name = "Mean \u00B1 2 SD") +
+  scale_color_manual(values = c("#EE7733", "#009988"), name = "Mean \u00B1 2 SD") +
+  scale_fill_manual(values = c("#EE7733", "#009988"), name = "Mean \u00B1 2 SD") +
   labs(y = "Depth (m)",
        x = dcant_umol_label) +
   facet_wrap(~ basin, ncol = 3, dir = "v") +
@@ -2644,64 +2645,73 @@ dcant_budget_basin_MLR_all_ensemble %>%
     aes(x = period,
         ymax = dcant, ymin = dcant,
         col = "Scaled 1994\nestimate"),
-    width = 0.4
+    width = 0.5,
+    linetype = 2,
+    position = position_nudge(x = 0.1)
   ) +
-  geom_point(
+  geom_jitter(
     data = dcant_budget_basin_MLR_all_no_adj %>%
       filter(data_source == "obs",
              period != "1994 - 2014"),
-    aes(fill = "Unadjusted data"),
-    alpha = .7,
+    aes(fill = "Unadjusted data",
+        alpha = "Unadjusted data"),
     shape = 21,
-    position = position_dodge2(width = 0.3)
+    position = position_jitter(width = 0.1, height = 0)
   ) +
   geom_point(
-    aes(fill = "Ensemble member"),
-    alpha = .5,
+    aes(fill = "Ensemble member",
+        alpha = "Ensemble member"),
     shape = 21,
-    position = position_jitter(width = 0.2, height = 0)
+    position = position_jitter(width = 0.1, height = 0)
   ) +
-  geom_linerange(
+  geom_crossbar(
     data = dcant_budget_ensemble_stat,
     aes(
       x = period,
       y = std_case,
       ymin = std_case - 2*sd,
       ymax = std_case + 2*sd,
-      linetype = "Uncertainty"
+      linetype = "Ensemble SD"
     ),
-    col = "red"
+    width = 0.1,
+    fill = "#AA3377",
+    alpha = 0.2,
+    position = position_nudge(x = 0.2)
   ) +
-  geom_linerange(
+  geom_crossbar(
     data = dcant_budget_ensemble_stat,
     aes(
       x = period,
       y = std_case,
       ymin = std_case - sd,
       ymax = std_case + sd,
-      alpha = "Uncertainty",
+      alpha = "Ensemble SD",
     ),
-    size = 2,
-    col = "red"
+    width = 0.1,
+    fill = "#AA3377",
+    alpha = 0.4,
+    position = position_nudge(x = 0.2)
   ) +
   geom_point(
     data = dcant_budget_ensemble_stat,
     aes(x = period,
         y = std_case,
-        fill = "Standard case"),
+        fill = "Standard case",
+        alpha = "Standard case"),
     size = 2,
-    shape = 21
+    shape = 21,
+    position = position_nudge(x = 0.2)
   ) +
-  scale_fill_manual(values = c("grey50", "red", "white")) +
-  scale_color_manual(values = c("grey50")) +
+  scale_fill_manual(name = "group", values = c("#BB5566", "white", "#BBBBBB")) +
+  scale_color_manual(values = c("grey50"), label = expression(Scaled~C[ant]~1994)) +
   scale_linetype(name = "X") +
-  scale_alpha_manual(name = "X", values = 0.5) +
+  scale_alpha_manual(name = "group", values = c(0.5,1,0.5)) +
   scale_shape_manual(values = 95) +
   scale_y_continuous(name = dcant_pgc_label) +
   guides(
     fill = guide_legend(order = 1),
     linetype = guide_legend(order = 2),
-    alpha = guide_legend(order = 2)
+    alpha = guide_legend(order = 1)
   ) +
   facet_wrap(~ basin, ncol = 3, dir = "v", scales = "free_y") +
   theme(legend.title = element_blank(),
@@ -2710,7 +2720,7 @@ dcant_budget_basin_MLR_all_ensemble %>%
 
 ggsave(path = here::here("output/publication"),
        filename = "Fig_dcant_budgets_ensemble_member.png",
-       height = 4,
+       height = 6,
        width = 8)
 
 
@@ -2820,18 +2830,12 @@ dcant_budget_global_all_ensemble_summary <-
 
 beta_budget_basin_MLR_all_no_adj <-
   full_join(dcant_budget_basin_MLR_all_no_adj,
-            delta_pCO2_atm)
-
-beta_budget_basin_MLR_all_no_adj <-
-  beta_budget_basin_MLR_all_no_adj %>%
+            delta_pCO2_atm) %>%
   mutate(beta = dcant / delta_pCO2)
 
 beta_budget_basin_MLR_all_ensemble <-
   full_join(dcant_budget_basin_MLR_all_ensemble,
-            delta_pCO2_atm)
-
-beta_budget_basin_MLR_all_ensemble <-
-  beta_budget_basin_MLR_all_ensemble %>%
+            delta_pCO2_atm) %>%
   mutate(beta = dcant / delta_pCO2)
 
 beta_budget_basin_MLR_all_ensemble %>% 
@@ -2981,60 +2985,79 @@ beta_budget_basin_MLR_all_ensemble %>%
          period != "1994 - 2014",
          !(Version_ID %in% Version_IDs)) %>%
   ggplot(aes(period, beta)) +
-  scale_fill_manual(values = c("grey50", "red", "white")) +
-  geom_point(
+  geom_errorbar(
+    data = tcant_budget_basin_MLR %>% 
+      rename(beta = beta_1994),
+    aes(x = period,
+        ymax = beta, ymin = beta,
+        col = "Scaled 1994\nestimate"),
+    width = 0.5,
+    linetype = 2,
+    position = position_nudge(x = 0.1)
+  ) +
+  geom_jitter(
     data = beta_budget_basin_MLR_all_no_adj %>%
       filter(data_source == "obs",
              period != "1994 - 2014"),
-    aes(fill = "Unadjusted data"),
-    alpha = .7,
+    aes(fill = "Unadjusted data",
+        alpha = "Unadjusted data"),
     shape = 21,
-    position = position_dodge2(width = 0.3)
+    position = position_jitter(width = 0.1, height = 0)
   ) +
   geom_point(
-    aes(fill = "Ensemble member"),
-    alpha = .5,
+    aes(fill = "Ensemble member",
+        alpha = "Ensemble member"),
     shape = 21,
-    position = position_dodge2(width = 0.3)
+    position = position_jitter(width = 0.1, height = 0)
   ) +
-  geom_linerange(
+  geom_crossbar(
     data = beta_budget_ensemble_stat,
     aes(
       x = period,
       y = std_case,
       ymin = std_case - 2*sd,
       ymax = std_case + 2*sd,
-      linetype = "Uncertainty"
+      linetype = "Ensemble SD"
     ),
-    col = "red"
+    width = 0.1,
+    fill = "#AA3377",
+    alpha = 0.2,
+    position = position_nudge(x = 0.2)
   ) +
-  geom_linerange(
+  geom_crossbar(
     data = beta_budget_ensemble_stat,
     aes(
       x = period,
       y = std_case,
       ymin = std_case - sd,
       ymax = std_case + sd,
-      alpha = "Uncertainty",
+      alpha = "Ensemble SD",
     ),
-    size = 2,
-    col = "red"
+    width = 0.1,
+    fill = "#AA3377",
+    alpha = 0.4,
+    position = position_nudge(x = 0.2)
   ) +
   geom_point(
     data = beta_budget_ensemble_stat,
     aes(x = period,
         y = std_case,
-        fill = "Standard case"),
+        fill = "Standard case",
+        alpha = "Standard case"),
     size = 2,
-    shape = 21
+    shape = 21,
+    position = position_nudge(x = 0.2)
   ) +
+  scale_fill_manual(name = "group", values = c("#BB5566", "white", "#BBBBBB")) +
+  scale_color_manual(values = c("grey50"), label = expression(Scaled~C[ant]~1994)) +
   scale_linetype(name = "X") +
-  scale_alpha_manual(name = "X", values = 0.5) +
-  scale_y_continuous(name = dcant_pgc_label) +
+  scale_alpha_manual(name = "group", values = c(0.5,1,0.5)) +
+  scale_shape_manual(values = 95) +
+  scale_y_continuous(name = dcant_pgc_scaled_label) +
   guides(
     fill = guide_legend(order = 1),
     linetype = guide_legend(order = 2),
-    alpha = guide_legend(order = 2)
+    alpha = guide_legend(order = 1)
   ) +
   facet_wrap(~ basin, ncol = 3, dir = "v", scales = "free_y") +
   theme(legend.title = element_blank(),
@@ -3951,12 +3974,14 @@ dcant_budget_layer %>%
             size = 1) +
   coord_flip() +
   scale_x_reverse(breaks = seq(0, 3000, 500), limits = c(3000, 0)) +
-  scale_color_manual(values = c("#d95f02", "#7570b3"), name = "Mean \u00B1 2 SD") +
-  scale_fill_manual(values = c("#d95f02", "#7570b3"), name = "Mean \u00B1 2 SD") +
+  scale_color_manual(values = c("#EE7733", "#009988"), name = "Mean \u00B1 2 SD") +
+  scale_fill_manual(values = c("#EE7733", "#009988"), name = "Mean \u00B1 2 SD") +
   labs(y = dcant_layer_budget_label,
        x = "Depth (m)") +
   facet_wrap(~ basin, ncol = 3, dir = "v", scales = "free_x") +
   theme(legend.position = c(0.9, 0.1))
+
+p_dcant_budget_depth_layer
 
 p_dcant_profiles + p_dcant_budget_depth_layer +
   plot_layout(ncol = 1) +
@@ -4111,10 +4136,10 @@ dcant_budget_global_ts <- dcant_budget_global_all %>%
 
 dcant_budget_global_all_ensemble_summary <-
   dcant_budget_basin_MLR_all_ensemble %>%
-  filter(period %in% two_decades,
+  filter(period %in% c("1994 - 2004", "1994 - 2014"),
          data_source == "obs",
          basin == "Global") %>%
-  group_by(data_source, tref1, tref2, period) %>%
+  group_by(data_source, tref2, period) %>%
   summarise(#dcant_mean = mean(dcant),
             dcant_sd = sd(dcant)*2) %>%
   ungroup()
@@ -4139,49 +4164,47 @@ tcant_ts <- tcant_ts %>%
   arrange(year) %>%
   mutate(
     tcant = cumsum(dcant_mean),
-    dcant_sd_int = sqrt(dcant_sd ^ 2 + lag(dcant_sd) ^ 2),
-    tcant_sd = sqrt(dcant_sd_int ^ 2 + lag(dcant_sd_int) ^ 2)
+    tcant_sd = sqrt(dcant_sd ^ 2 + nth(dcant_sd,2) ^ 2)
   ) %>%
   mutate(
     tcant_sd = case_when(
       year == 1800 ~ 0,
       year == 1994 ~ dcant_sd,
-      year == 2004 ~ dcant_sd_int,
       TRUE ~ tcant_sd
+    ),
+    dcant_sd_int = dcant_sd,
+    dcant_sd = case_when(
+      year == 1994 ~ 0,
+      TRUE ~ dcant_sd
     )
-  ) %>%
-  mutate(dcant_sd_int = case_when(
-    year == 1800 ~ 0,
-    year == 1994 ~ 0,
-    year == 2004 ~ dcant_sd,
-    TRUE ~ dcant_sd_int
-  ))
+  )
 
 beta <- 1.57
 co2_atm_pi_value <- 283
-tCant_col <- "#56B4E9"
+atm_co2_col <- "#009988"
+tcant_col <- "#BB5566"
 
 p_tcant_year <- tcant_ts %>%
   ggplot(aes(year, tcant)) +
   geom_line(data = co2_atm_reccap2 %>% filter(year > 1790),
             aes(year, (pCO2 - co2_atm_pi_value) * beta),
-            col = tCant_col) +
+            col = atm_co2_col) +
   geom_linerange(aes(
-    ymin = tcant - dcant_sd,
-    ymax = tcant + dcant_sd,
-    col = "interval\nuncertainty"
+    ymin = tcant - dcant_sd_int,
+    ymax = tcant + dcant_sd_int,
+    col = "Estimate\n±\ninterval\nuncertainty"
   )) +
-  geom_point(fill = "white", shape = 21) +
-  geom_text(aes(label = year), nudge_x = -13, nudge_y = 6) +
+  geom_point(fill = "white", shape = 21, aes(col = "Estimate\n±\ninterval\nuncertainty")) +
+  # geom_text(aes(label = year), nudge_x = -13, nudge_y = 6) +
   scale_y_continuous(name = expression(Total ~ oceanic ~ C[ant] ~ (PgC)),
                      sec.axis = sec_axis( ~ (. / beta + co2_atm_pi_value),
                                           name = expression(Atm. ~ pCO[2] ~ (µatm)))) +
   scale_x_continuous(name = "Year", breaks = seq(1800, 2000, 50)) +
-  scale_color_manual(values = "black") +
+  scale_color_manual(values = tcant_col) +
   theme(
-    axis.title.y.right = element_text(color = tCant_col),
-    axis.text.y.right = element_text(color = tCant_col),
-    axis.ticks.y.right = element_line(color = tCant_col), 
+    axis.title.y.right = element_text(color = atm_co2_col),
+    axis.text.y.right = element_text(color = atm_co2_col),
+    axis.ticks.y.right = element_line(color = atm_co2_col), 
     legend.background = element_rect(fill = "transparent"),
     legend.position = c(0.85, 0.2),
     legend.title = element_blank()
@@ -4189,61 +4212,9 @@ p_tcant_year <- tcant_ts %>%
 
 p_tcant_year
 
-tCant_col <- "transparent"
-
-p_tcant_year_trans <- tcant_ts %>%
-  ggplot(aes(year, tcant)) +
-  geom_line(data = co2_atm_reccap2 %>% filter(year > 1790),
-            aes(year, (pCO2 - co2_atm_pi_value) * beta),
-            col = tCant_col) +
-  geom_linerange(aes(
-    ymin = tcant - dcant_sd,
-    ymax = tcant + dcant_sd,
-    col = "interval\nuncertainty"
-  )) +
-  geom_point(fill = "white", shape = 21) +
-  geom_text(aes(label = year), nudge_x = -13, nudge_y = 6) +
-  scale_y_continuous(name = expression(Total ~ oceanic ~ C[ant] ~ (PgC)),
-                     sec.axis = sec_axis( ~ (. / beta + co2_atm_pi_value),
-                                          name = expression(Atm. ~ pCO[2] ~ (µatm)))) +
-  scale_x_continuous(name = "Year", breaks = seq(1800, 2000, 50)) +
-  scale_color_manual(values = "black") +
-  theme(
-    axis.title.y.right = element_text(color = tCant_col),
-    axis.text.y.right = element_text(color = tCant_col),
-    axis.ticks.y.right = element_line(color = tCant_col),
-    legend.background = element_rect(fill = "transparent"),
-    legend.position = c(0.85, 0.2),
-    legend.title = element_blank()
-  )
-
-p_tcant_year_trans
-
 ```
 
 ```{r mean_tcant_over_atm_co2, fig.asp=1}
-
-# dcant_uncert_2004 <- tcant_ts %>%
-#   filter(year %in% c(1994, 2004)) %>% 
-#   mutate(dcant_sd = if_else(year == 1994, 0, dcant_sd),
-#          period = "1994 - 2004")
-# 
-# dcant_uncert_2014 <- tcant_ts %>%
-#   filter(year %in% c(2004, 2014)) %>% 
-#   mutate(dcant_sd = if_else(year == 2004, 0, dcant_sd),
-#          period = "2004 - 2014")
-# 
-# dcant_uncert_ind <- bind_rows(
-#   dcant_uncert_2004,
-#   dcant_uncert_2014
-# )
-# 
-# dcant_uncert_2014_combined <-
-#   tcant_ts %>%
-#   filter(year %in% c(1994, 2004, 2014)) %>% 
-#   mutate(dcant_sd = if_else(year == 1994, 0, dcant_sd),
-#          dcant_sd_combined = sqrt(dcant_sd^2 + lag(dcant_sd, default = 0)^2),
-#          period = "1994 - 2014")
 
 p_tcant_atm_co2 <- tcant_ts %>%
   ggplot(aes(pCO2, tcant)) +
@@ -4254,8 +4225,8 @@ p_tcant_atm_co2 <- tcant_ts %>%
   ),
   alpha = 0.5) +
   geom_ribbon(aes(
-    ymin = tcant - dcant_sd_int,
-    ymax = tcant + dcant_sd_int,
+    ymin = tcant - dcant_sd,
+    ymax = tcant + dcant_sd,
     fill = "1994 - 2014"
   ),
   alpha = 0.5) +
@@ -4269,7 +4240,10 @@ p_tcant_atm_co2 <- tcant_ts %>%
        y = expression(Total ~ oceanic ~ C[ant] ~ (PgC))) +
   theme(
     legend.background = element_rect(fill = "transparent"),
-    legend.position = c(0.85, 0.2)
+    legend.position = c(0.85, 0.2),
+    axis.title.x = element_text(color = atm_co2_col),
+    axis.text.x = element_text(color = atm_co2_col),
+    axis.ticks.x = element_line(color = atm_co2_col)
   )
 
 p_tcant_year / p_tcant_atm_co2
@@ -4390,26 +4364,21 @@ p_tcant_ts_zoom <-
   tcant_ts_zoom %>%
   ggplot(aes(pCO2, tcant)) +
   geom_ribbon(
-    aes(ymin = tcant - dcant_sd_int,
-        ymax = tcant + dcant_sd_int),
+    aes(ymin = tcant - dcant_sd,
+        ymax = tcant + dcant_sd),
     alpha = 0.2,
-    fill = "black"
+    fill = "#BB5566"
   ) +
   geom_ribbon(
     aes(
-      ymin = tcant - dcant_sd_int / 2,
-      ymax = tcant + dcant_sd_int / 2
+      ymin = tcant - dcant_sd / 2,
+      ymax = tcant + dcant_sd / 2
     ),
-    alpha = 0.2,
-    fill = "black"
+    alpha = 0.3,
+    fill = "#BB5566"
   ) +
   geom_line(data = Ocean_Sink_cum_1994,
             aes(pCO2, fgco2_glob_cum_total, group = product, col = type)) +
-  # geom_point(
-  #   data = co2_atm %>% filter(year >= 1994, year <= 2014),
-  #   aes(pCO2, 118),
-  #   shape = "|"
-  # ) +
   geom_point(
     data = Ocean_Sink_cum_1994,
     aes(pCO2, fgco2_glob_cum_total, group = product, col = type),
@@ -4421,22 +4390,18 @@ p_tcant_ts_zoom <-
       pCO2,
       fgco2_glob_cum_total,
       group = product,
-      col = type,
-      fill = type
+      col = type
     ),
-    shape = 21,
-    alpha = 0.5
+    fill = "white",
+    shape = 21
   ) +
   geom_line(aes(col = "eMLR(C*)")) +
-  geom_point(aes(col = "eMLR(C*)", fill = "eMLR(C*)"),
+  geom_point(aes(col = "eMLR(C*)"),
              shape = 21,
-             alpha = 0.5) +
+             fill = "white") +
   geom_text(aes(label = year), nudge_x = -3, nudge_y = 3) +
-  scale_color_manual(values = c("black", "#E69F00", "#56B4E9", "pink"),
-                     name = "Data source") +
-  scale_fill_manual(values = c("black", "#E69F00", "#56B4E9", "pink"),
-                    name = "Data source") +
-  # scale_fill_manual(values = c("grey60", "grey30"), name = "Cumulative\nuncertainty") +
+  scale_color_highcontrast(name = "Data source", reverse = TRUE) +
+  scale_fill_highcontrast(name = "Data source", reverse = TRUE) +
   scale_y_continuous(limits = c(tcant_min, tcant_max)) +
   labs(x = expression(Atmospheric ~ pCO[2] ~ (µatm)),
        y = expression(Total ~ oceanic ~ C[ant] ~ (PgC))) +
@@ -4513,7 +4478,7 @@ p_tcant_box <-
 dcant_type_box %>%
   filter(period == "1994 - 2014") %>%
   ggplot(aes(period, dcant)) +
-  geom_crossbar(
+ geom_crossbar(
     data = dcant_type_box_stat %>%
       filter(period == "1994 - 2014"),
     position = position_dodge(width = 1),
@@ -4524,7 +4489,7 @@ dcant_type_box %>%
       ymax = dcant_mean + dcant_sd,
       col = type,
       fill = type
-    ), width = 0.5, alpha = 0.2
+    ), width = 0.7, alpha = 0.4
   ) +
   geom_crossbar(
     data = dcant_type_box_stat %>%
@@ -4537,19 +4502,21 @@ dcant_type_box %>%
       ymax = dcant_mean + dcant_sd*2,
       col = type,
       fill = type
-    ), width = 0.5, alpha = 0.2
+    ), width = 0.7, alpha = 0.2
   ) +
-  geom_jitter(aes(fill = type),
-              position = position_dodge(width = 1),
+  geom_point(aes(fill = type),
+              position = position_jitterdodge(
+                dodge.width = 1,
+                jitter.width = 0.1),
               shape = 21,
               alpha = 0.5) +
-  scale_fill_manual(
-    values = c("black", "#E69F00", "#56B4E9", "pink"),
+  scale_fill_highcontrast(
+    reverse = TRUE,
     name = "Data source",
     guide = "none"
   ) +
-  scale_color_manual(
-    values = c("black", "#E69F00", "#56B4E9", "pink"),
+  scale_color_highcontrast(
+    reverse = TRUE,
     name = "Data source",
     guide = "none"
   ) +
@@ -4580,7 +4547,7 @@ dcant_type_box %>%
       ymax = dcant_mean + dcant_sd,
       col = type,
       fill = type
-    ), width = 0.5, alpha = 0.2
+    ), width = 0.7, alpha = 0.4
   ) +
   geom_crossbar(
     data = dcant_type_box_stat %>%
@@ -4593,24 +4560,26 @@ dcant_type_box %>%
       ymax = dcant_mean + dcant_sd*2,
       col = type,
       fill = type
-    ), width = 0.5, alpha = 0.2
+    ), width = 0.7, alpha = 0.2
   ) +
-  geom_jitter(aes(fill = type),
-              position = position_dodge(width = 1),
+  geom_point(aes(fill = type),
+              position = position_jitterdodge(
+                dodge.width = 1,
+                jitter.width = 0.1),
               shape = 21,
               alpha = 0.5) +
-  scale_fill_manual(
-    values = c("black", "#E69F00", "#56B4E9", "pink"),
+  scale_fill_highcontrast(
+    reverse = TRUE,
     name = "Data source",
     guide = "none"
   ) +
-  scale_color_manual(
-    values = c("black", "#E69F00", "#56B4E9", "pink"),
+  scale_color_highcontrast(
+    reverse = TRUE,
     name = "Data source",
     guide = "none"
   ) +
   scale_y_continuous(limits = c(tcant_min, tcant_max)) +
-  labs(x = "20yr period") +
+  labs(x = "10yr periods") +
   theme_classic() +
   theme(
     axis.line.y.left = element_blank(),
