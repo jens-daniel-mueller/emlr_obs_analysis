@@ -986,7 +986,7 @@ for (i_Version_IDs in Version_IDs) {
       "GLODAPv2.2020_clean_obs_grid_era.csv",
       sep = ""
     ))
-  
+
   
   GLODAP_grid_era <- GLODAP_grid_era %>%
     mutate(Version_ID = i_Version_IDs)
@@ -1000,12 +1000,51 @@ for (i_Version_IDs in Version_IDs) {
     GLODAP_grid_era_all <- GLODAP_grid_era
   }
   
+  
+  
+  GLODAP <- read_csv(paste(
+    path_version_data,
+    "GLODAPv2.2020_clean.csv",
+    sep = ""
+  ))
+  
+  GLODAP <- GLODAP %>%
+    mutate(Version_ID = i_Version_IDs)
+  
+  if (exists("GLODAP_all")) {
+    GLODAP_all <-
+      bind_rows(GLODAP_all, GLODAP)
+  }
+  
+  if (!exists("GLODAP_all")) {
+    GLODAP_all <- GLODAP
+  }
+  
 }
 
-rm(GLODAP_grid_era)
+rm(GLODAP_grid_era, GLODAP)
+
 
 GLODAP_grid_era_all <- full_join(GLODAP_grid_era_all,
                                  params_local_all)
+
+GLODAP_all <- full_join(GLODAP_all,
+                        params_local_all)
+
+
+GLODAP_expocodes <-
+  read_tsv(
+    paste(
+      "/nfs/kryo/work/updata/glodapv2_2021/",
+      "EXPOCODES.txt",
+      sep = ""
+    ),
+    col_names = c("cruise", "cruise_expocode")
+  )
+
+GLODAP_all <-
+  left_join(GLODAP_all, GLODAP_expocodes)
+
 
 ```
 
@@ -1093,14 +1132,45 @@ beta_CI_label <- expression(beta~(mol ~ m ^ {-2} ~ µatm ^ {-1}))
 
 ```{r coverage_maps}
 
+cruises_phosphate_gap_fill <-
+  c("33MW19930704",
+    "33RO20030604",
+    "33RO20050111",
+    "33RO19980123")
+
+cruises_talk_gap_fill <-
+  c("06AQ19980328")
+
+cruises_talk_calc <-
+  c("06MT19900123",
+    "316N19920502",
+    "316N19921006")
+
+GLODAP_all_coverage <- GLODAP_all %>% 
+  distinct(lat, lon, era, cruise_expocode) %>% 
+  mutate(gap_filling = case_when(
+    cruise_expocode %in% cruises_phosphate_gap_fill ~ "PO4 w CANYON-B",
+    cruise_expocode %in% cruises_talk_gap_fill ~ "TA w CANYON-B",
+    cruise_expocode %in% cruises_talk_calc ~ "TA calculated",
+    cruise_expocode %in% "31DS19940126" ~ "NO3 qc flag",
+    TRUE ~ "None"
+  )) %>% 
+  distinct(lat, lon, era, gap_filling)
+
 coverage_map <- map +
-  geom_tile(data = GLODAP_grid_era_all,
+  geom_tile(data = GLODAP_all_coverage %>% filter(gap_filling == "None"),
             aes(lon, lat),
-            fill = "#377eb8",
-            col = "#377eb8") +
+            fill = "#BBBBBB",
+            col = "#BBBBBB") +
+  geom_tile(data = GLODAP_all_coverage %>% filter(gap_filling != "None"),
+            aes(lon, lat,
+            fill = gap_filling, col = gap_filling)) +
   facet_wrap( ~ era, ncol = 2) +
+  scale_color_bright(name = "Gap-filling") +
+  scale_fill_bright(name = "Gap-filling") +
   theme(axis.text = element_blank(),
-        axis.ticks = element_blank())
+        axis.ticks = element_blank(),
+        legend.position = c(0.7,0.3))
 
 coverage_map
 
@@ -1109,6 +1179,15 @@ ggsave(plot = coverage_map,
        filename = "FigS_observations_coverage_map.png",
        height = 4,
        width = 8)
+
+rm(coverage_map, 
+   GLODAP_all, GLODAP_all_coverage, GLODAP_expocodes,
+   GLODAP_grid_era_all)
+
+
+rm(cruises_phosphate_gap_fill,
+   cruises_talk_gap_fill,
+   cruises_talk_calc)
 
 ```
 
@@ -1242,7 +1321,6 @@ p_CI_absolute <- dcant_inv_all %>%
   p_map_cant_inv(var = "dcant",
                  title_text = NULL) +
   facet_wrap(~ period, ncol = 1) +
-
   theme(axis.text.x = element_blank()) 
 
 p_CI_absolute
@@ -1313,9 +1391,35 @@ dcant_inv_all_ensemble_mean %>%
         axis.ticks = element_blank())
 
 ggsave(path = here::here("output/publication"),
-       filename = "FigS_dcant_ensemble_standard_deviation_column_inventory.png",
+       filename = "FigS_dcant_column_inventory_ensemble_standard_deviation.png",
        height = 6,
        width = 6)
+
+```
+
+### Unadjusted data
+
+```{r column_inventory_unadjusted_data}
+
+
+dcant_inv_all_unadjusted <-
+  dcant_inv_all_ensemble %>%
+  filter(period %in% two_decades,
+         data_source == "obs",
+         MLR_basins == "3",
+         Version_ID %in% Version_IDs |
+           Version_ID %in% Version_IDs_d)
+
+
+dcant_inv_all_unadjusted %>%
+  p_map_cant_inv(var = "dcant",
+                 title_text = NULL) +
+  facet_grid(Version_ID_group ~ period)
+
+ggsave(path = here::here("output/publication"),
+       filename = "FigS_dcant_column_inventory_unadjusted_data.png",
+       height = 4,
+       width = 8)
 
 ```
 
@@ -3988,7 +4092,7 @@ p_dcant_profiles + p_dcant_budget_depth_layer +
   plot_annotation(tag_levels = 'A')
 
 ggsave(path = here::here("output/publication"),
-       filename = "Fig_dcant_profiles_and_budget_depth_layer.png",
+       filename = "Fig_dcant_profiles_and_depth_layer_budget.png",
        height = 12,
        width = 8)
 
@@ -4249,7 +4353,7 @@ p_tcant_atm_co2 <- tcant_ts %>%
 p_tcant_year / p_tcant_atm_co2
 
 ggsave(path = here::here("output/publication"),
-       filename = "FigS_budget_dcant_global_vs_atm_pCO2.png",
+       filename = "FigS_dcant_budget_global_vs_atm_pCO2.png",
        height = 6,
        width = 7)
 
