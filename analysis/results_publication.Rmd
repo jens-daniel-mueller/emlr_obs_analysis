@@ -2317,7 +2317,6 @@ dcant_budget_ensemble_stat <-
          period != "1994 - 2014") %>%
   group_by(period, basin) %>%
   summarise(
-    mean = mean(dcant),
     median = median(dcant),
     sd = sd(dcant),
     n = n()
@@ -2338,7 +2337,7 @@ dcant_budget_ensemble_stat <-
   )
 
 dcant_budget_ensemble_significance <- dcant_budget_ensemble_stat %>% 
-  pivot_longer(c(mean,median,std_case),
+  pivot_longer(c(median,std_case),
                names_to = "estimate",
                values_to = "dcant") %>%
   group_by(estimate, basin) %>%
@@ -2355,11 +2354,28 @@ dcant_budget_ensemble_significance <- dcant_budget_ensemble_stat %>%
       n.y = lag(n)
     )$p.value
   ) %>%
-  ungroup()
+  ungroup() %>% 
+  drop_na()
   
-dcant_budget_ensemble_significance %>% 
-  drop_na() %>% 
-  select(basin, estimate, delta_dcant:ttest_p) %>% 
+dcant_budget_ensemble_stat_significance <-
+  full_join(
+    dcant_budget_ensemble_stat %>%
+      select(-n) %>%
+      pivot_wider(
+        names_from = period,
+        values_from = median:std_case,
+        names_sep = " "
+      ),
+    dcant_budget_ensemble_significance %>%
+      select(basin, estimate, delta_dcant, delta_dcant_uncert, ttest_p) %>%
+      pivot_wider(names_from = estimate,
+                  values_from = delta_dcant:ttest_p) %>%
+      rename(delta_dcant_uncert = delta_dcant_uncert_std_case) %>%
+      select(-delta_dcant_uncert_median)
+  )
+
+
+dcant_budget_ensemble_stat_significance %>% 
   kable() %>%
   kable_styling() %>%
   scroll_box(height = "300px")
@@ -2979,11 +2995,15 @@ beta_budget_ensemble_stat <-
   beta_budget_basin_MLR_all_ensemble %>% 
   filter(data_source == "obs",
          period != "1994 - 2014") %>%
-  group_by(period, basin) %>%
+  select(basin, period, dcant, beta) %>% 
+  pivot_longer(c(dcant, beta),
+               values_to = "value",
+               names_to = "estimate") %>% 
+  group_by(period, basin, estimate) %>%
   summarise(
-    mean = mean(beta),
-    median = median(beta),
-    sd = sd(beta),
+    # mean = mean(beta),
+    median = median(value),
+    sd = sd(value),
     n = n()
   ) %>%
   ungroup() 
@@ -3000,39 +3020,62 @@ beta_budget_ensemble_stat <-
       ) %>%
       select(period,
              basin,
-             std_case = beta)
+             dcant,
+             beta) %>% 
+        pivot_longer(c(dcant, beta),
+               values_to = "std_case",
+               names_to = "estimate")
   )
 
 
 beta_budget_ensemble_significance <- beta_budget_ensemble_stat %>% 
-  pivot_longer(c(mean,median,std_case),
-               names_to = "estimate",
-               values_to = "beta") %>%
-  group_by(estimate, basin) %>%
+  pivot_longer(c(median,std_case),
+               names_to = "case",
+               values_to = "value") %>%
+  group_by(estimate, basin, case) %>%
   mutate(
-    delta_beta = beta - lag(beta),
-    delta_beta_uncert = sqrt(2 * sd ^ 2 + lag(2 * sd ^ 2)),
-    error_prop_ratio = abs(delta_beta_uncert / delta_beta),
+    delta = value - lag(value),
+    RSS = sqrt(2 * sd ^ 2 + lag(2 * sd ^ 2)),
+    RSS_delta_ratio = abs(delta) / RSS,
     ttest_p = tsum.test(
-      mean.x = beta,
+      mean.x = value,
       s.x = sd,
       n.x = n,
-      mean.y = lag(beta),
+      mean.y = lag(value),
       s.y = lag(sd),
       n.y = lag(n)
     )$p.value
   ) %>%
-  ungroup()
+  ungroup() %>% 
+  drop_na()
   
-beta_budget_ensemble_significance %>% 
-  drop_na() %>% 
-  select(basin, estimate, delta_beta:ttest_p) %>% 
+
+beta_budget_ensemble_stat_significance <-
+  full_join(
+    beta_budget_ensemble_stat %>%
+      select(-n) %>%
+      pivot_wider(
+        names_from = period,
+        values_from = median:std_case,
+        names_sep = " "
+      ),
+    beta_budget_ensemble_significance %>%
+      select(basin, estimate, case, delta, RSS, ttest_p) %>%
+      pivot_wider(names_from = case,
+                  values_from = c(delta, ttest_p))
+  )
+
+beta_budget_ensemble_stat_significance <-
+  beta_budget_ensemble_stat_significance %>% 
+  mutate(across(where(is.numeric), signif, 2))
+
+beta_budget_ensemble_stat_significance %>% 
   kable() %>%
   kable_styling() %>%
   scroll_box(height = "300px")
 
-beta_budget_ensemble_significance %>% 
-  ggplot(aes(error_prop_ratio, ttest_p, col = basin)) +
+beta_budget_ensemble_stat_significance %>% 
+  ggplot(aes(abs(delta_std_case) / RSS, ttest_p_std_case, col = basin)) +
   geom_vline(xintercept = 1) +
   geom_hline(yintercept = 0.05) +
   geom_point() +
@@ -3040,44 +3083,17 @@ beta_budget_ensemble_significance %>%
   scale_color_brewer(palette = "Dark2") +
   facet_grid(. ~ estimate)
 
-budget_ensemble_significance <-
-  bind_rows(
-    beta_budget_ensemble_significance %>%
-      drop_na() %>%
-      select(basin, estimate, delta_beta:ttest_p) %>%
-      mutate(parameter = "beta") %>%
-      relocate(parameter) %>%
-      rename(
-        offset_value = delta_beta,
-        offset_uncertainty = delta_beta_uncert,
-        uncert_value_ratio = error_prop_ratio
-      ),
-    dcant_budget_ensemble_significance %>%
-      drop_na() %>%
-      select(basin, estimate, delta_dcant:ttest_p) %>%
-      mutate(parameter = "dcant") %>%
-      relocate(parameter) %>%
-      rename(
-        offset_value = delta_dcant,
-        offset_uncertainty = delta_dcant_uncert,
-        uncert_value_ratio = error_prop_ratio
-      )
-  )
-
-budget_ensemble_significance %>% 
-  ggplot(aes(uncert_value_ratio, ttest_p, col = basin)) +
+beta_budget_ensemble_stat_significance %>% 
+  ggplot(aes(abs(delta_median) / RSS, ttest_p_median, col = basin)) +
   geom_vline(xintercept = 1) +
   geom_hline(yintercept = 0.05) +
   geom_point() +
   scale_y_log10() +
   scale_color_brewer(palette = "Dark2") +
-  facet_grid(parameter ~ estimate)
+  facet_grid(. ~ estimate)
 
-
-budget_ensemble_significance %>%
-  mutate(across(4:6, round, 2)) %>%
-  mutate(across(7, signif, 2)) %>%
-  write_csv(here::here("output/publication/Table_budget_signficance_stats.csv"))
+beta_budget_ensemble_stat_significance %>%
+  write_csv(here::here("output/publication/Table_budget_stats.csv"))
 
 ```
 
@@ -4344,13 +4360,14 @@ p_tcant_atm_co2 <- tcant_ts %>%
        y = expression(Total ~ oceanic ~ C[ant] ~ (PgC))) +
   theme(
     legend.background = element_rect(fill = "transparent"),
-    legend.position = c(0.85, 0.2),
+    legend.position = c(0.85, 0.25),
     axis.title.x = element_text(color = atm_co2_col),
     axis.text.x = element_text(color = atm_co2_col),
     axis.ticks.x = element_line(color = atm_co2_col)
   )
 
-p_tcant_year / p_tcant_atm_co2
+p_tcant_year / p_tcant_atm_co2 + 
+  plot_annotation(tag_levels = 'A')
 
 ggsave(path = here::here("output/publication"),
        filename = "FigS_dcant_budget_global_vs_atm_pCO2.png",
@@ -4508,7 +4525,7 @@ p_tcant_ts_zoom <-
   scale_fill_highcontrast(name = "Data source", reverse = TRUE) +
   scale_y_continuous(limits = c(tcant_min, tcant_max)) +
   labs(x = expression(Atmospheric ~ pCO[2] ~ (µatm)),
-       y = expression(Total ~ oceanic ~ C[ant] ~ (PgC))) +
+       y = expression(Total ~ oceanic ~ carbon ~ accumulation ~ since ~ 1800 ~ (PgC))) +
   guides(colour = guide_legend(order = 1),
          fill = "none") +
   theme_classic() +
@@ -4695,7 +4712,8 @@ dcant_type_box %>%
   )
 
 p_tcant_ts_zoom + p_tcant_box + p_tcant_box_10 +
-  plot_layout(ncol = 3, widths = c(6,1,2))
+  plot_layout(ncol = 3, widths = c(6,1,2)) + 
+  plot_annotation(tag_levels = 'A')
 
 ggsave(path = here::here("output/publication"),
        filename = "Fig_dcant_budget_global_vs_GCB_ocean_sink.png",
