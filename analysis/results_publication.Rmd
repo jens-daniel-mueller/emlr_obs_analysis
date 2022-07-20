@@ -3095,6 +3095,7 @@ beta_budget_ensemble_stat_significance %>%
 beta_budget_ensemble_stat_significance %>%
   write_csv(here::here("output/publication/Table_budget_stats.csv"))
 
+
 ```
 
 ```{r beta_ensemble_scatter_plot}
@@ -3189,7 +3190,7 @@ beta_budget_basin_MLR_all_ensemble %>%
 
 ggsave(path = here::here("output/publication"),
        filename = "FigS_beta_budgets_ensemble_member.png",
-       height = 4,
+       height = 6,
        width = 8)
 
 ```
@@ -4305,7 +4306,7 @@ tcant_ts <- tcant_ts %>%
 beta <- 1.57
 co2_atm_pi_value <- 283
 atm_co2_col <- "#009988"
-tcant_col <- "#BB5566"
+tcant_col <- "black"
 
 p_tcant_year <- tcant_ts %>%
   ggplot(aes(year, tcant)) +
