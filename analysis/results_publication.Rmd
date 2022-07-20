@@ -3131,7 +3131,8 @@ beta_budget_basin_MLR_all_ensemble %>%
     position = position_jitter(width = 0.1, height = 0)
   ) +
   geom_crossbar(
-    data = beta_budget_ensemble_stat,
+    data = beta_budget_ensemble_stat %>% 
+      filter(estimate == "beta"),
     aes(
       x = period,
       y = std_case,
@@ -3145,7 +3146,8 @@ beta_budget_basin_MLR_all_ensemble %>%
     position = position_nudge(x = 0.2)
   ) +
   geom_crossbar(
-    data = beta_budget_ensemble_stat,
+    data = beta_budget_ensemble_stat %>% 
+      filter(estimate == "beta"),
     aes(
       x = period,
       y = std_case,
@@ -4478,7 +4480,7 @@ tcant_ts_zoom <- tcant_ts %>%
 tcant_min = tcant_ts_zoom %>% pull(tcant) %>% min()
 tcant_max =
   tcant_ts_zoom %>% pull(tcant) %>% max() +
-  tcant_ts_zoom %>% pull(dcant_sd_int) %>% max()
+  tcant_ts_zoom %>% pull(dcant_sd) %>% max()
 
 
 p_tcant_ts_zoom <-
