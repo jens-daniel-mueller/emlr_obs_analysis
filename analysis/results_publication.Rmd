@@ -3161,7 +3161,8 @@ beta_budget_basin_MLR_all_ensemble %>%
     position = position_nudge(x = 0.2)
   ) +
   geom_point(
-    data = beta_budget_ensemble_stat,
+    data = beta_budget_ensemble_stat %>% 
+      filter(estimate == "beta"),
     aes(x = period,
         y = std_case,
         fill = "Standard case",
