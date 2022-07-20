@@ -4725,6 +4725,35 @@ dcant_type_significance %>%
 
 ```
 
+# Revelle changes
+
+```{r revelle_changes}
+
+delta_revelle <- co2_atm %>%
+  mutate(revelle = seacarb::buffer(24,
+                                   pCO2,
+                                   2300 * 1e-6)$BetaD,
+         DIC = seacarb::carb(24,
+                                   pCO2,
+                                   2300 * 1e-6)$DIC,
+         delta_DIC = (1/pCO2) * DIC * (1/revelle) *1e6,
+         delta_DIC_rel = delta_DIC / mean(delta_DIC),
+         delta_DIC_rel_cum = delta_DIC_rel - first(delta_DIC_rel),
+         delta_year = year - first(year))
+  
+  
+delta_revelle %>% 
+  ggplot(aes(delta_year,delta_DIC_rel_cum)) +
+  geom_smooth(method = "lm", aes(col="lm"), se = FALSE) +
+  geom_path() +
+  geom_point()
+
+min(delta_revelle$delta_DIC_rel_cum / max(delta_revelle$delta_year))
+
+```
+
+
+
 # Emission removal
 
 ```{r removal_relative_to_emissions}
