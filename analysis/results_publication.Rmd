@@ -1598,8 +1598,16 @@ p_dcant_zonal_absolute <-
   #   label.placer = label_placer_n(n = 1)
   # ) +
   facet_grid(period ~ basin_AIP) +
-  theme(axis.text.x = element_blank(),
-        axis.title.x = element_blank())
+  theme(
+    axis.text.x = element_blank(),
+    axis.title.x = element_blank(),
+    legend.position = "top"
+  ) +
+  guides(fill = guide_colorsteps(
+    barheight = unit(0.5, "cm"),
+    barwidth = unit(7, "cm"),
+    show.limits = FALSE
+  ))
 
 p_dcant_zonal_absolute
 
@@ -1656,8 +1664,8 @@ dcant_zonal_all %>%
       facet_grid(basin_AIP ~ .)
   )
 
-p_dcant_zonal_delta <- 
-dcant_zonal_all %>%
+p_dcant_zonal_delta <-
+  dcant_zonal_all %>%
   filter(data_source %in% c("obs"),
          period != "1994 - 2014") %>%
   select(data_source, lat, depth, basin_AIP, period, gamma_mean, dcant) %>%
@@ -1677,18 +1685,27 @@ dcant_zonal_all %>%
       title_text = NULL,
       col = "bias"
     ) +
-      facet_grid(. ~ basin_AIP)
-      # theme(strip.text = element_blank(),
-      #       strip.background = element_blank())
+      facet_grid("Dec. diff." ~ basin_AIP) +
+      theme(
+        strip.text.x = element_blank(),
+        strip.background.x = element_blank(),
+        legend.position = "bottom"
+      ) +
+      guides(fill = guide_colorsteps(
+        barheight = unit(0.5, "cm"),
+        barwidth = unit(10, "cm"),
+        show.limits = FALSE
+      ))
   )
 
 p_dcant_zonal_absolute / p_dcant_zonal_delta + 
+  plot_layout(heights = c(2,1)) +
   plot_annotation(tag_levels = 'A')
 
 ggsave(path = here::here("output/publication"),
        filename = "Fig_dcant_zonal_mean_section.png",
-       height = 8,
-       width = 13)
+       height = 6,
+       width = 8)
 
 rm(p_dcant_zonal_absolute, p_dcant_zonal_delta)
 ```
@@ -2991,6 +3008,27 @@ beta_budget_basin_MLR_all_ensemble %>%
 
 ```{r beta_budget_stats}
 
+beta_budget_ensemble_stat_KS <-
+  beta_budget_basin_MLR_all_ensemble %>% 
+  filter(data_source == "obs",
+         period != "1994 - 2014") %>%
+  select(basin, period, dcant, beta, MLR_basins, Version_ID_group) %>% 
+  pivot_longer(c(dcant, beta),
+               values_to = "value",
+               names_to = "estimate") %>% 
+  pivot_wider(names_from = period,
+              values_from = value)
+
+beta_budget_ensemble_stat_KS %>%
+  group_by(basin, estimate) %>%
+  summarise(
+    ks_p = ks.test(`2004 - 2014`, `1994 - 2004`)$p.value,
+    t_p = t.test(`2004 - 2014`, `1994 - 2004`)$p.value
+  ) %>%
+  ungroup() %>% 
+  mutate(ratio_p = ks_p / t_p)
+
+
 beta_budget_ensemble_stat <-
   beta_budget_basin_MLR_all_ensemble %>% 
   filter(data_source == "obs",
@@ -3092,7 +3130,18 @@ beta_budget_ensemble_stat_significance %>%
   scale_color_brewer(palette = "Dark2") +
   facet_grid(. ~ estimate)
 
+
 beta_budget_ensemble_stat_significance %>%
+  mutate(
+    `1994 - 2004` = paste(`std_case 1994 - 2004`, `sd 1994 - 2004`, sep = " ± "),
+    `2004 - 2014` = paste(`std_case 2004 - 2014`, `sd 2004 - 2014`, sep = " ± "),
+    `Deacadal change` = paste0(delta_std_case, " ± ", RSS, " ", if_else(abs(delta_std_case) > RSS, "*", ""))
+  ) %>%
+  select(Region = basin,
+         Esimate = estimate,
+         `1994 - 2004`,
+         `2004 - 2014`,
+         `Deacadal change`) %>%
   write_csv(here::here("output/publication/Table_budget_stats.csv"))
 
 
