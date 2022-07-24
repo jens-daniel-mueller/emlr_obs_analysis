@@ -660,6 +660,17 @@ dcant_budget_lon_grid_all <- dcant_budget_lon_grid_all %>%
 
 ```
 
+```{r write_test_file_for_donghe, eval=FALSE}
+
+dcant_inv_all %>% 
+  filter(Version_ID == "v_1103",
+         data_source == "obs") %>% 
+  select(lon, lat, dcant) %>% 
+  write_csv(here::here("output/dcant_column_inventor_example.csv"))
+
+```
+
+
 
 ## Sections / profiles
 
@@ -1390,10 +1401,10 @@ dcant_inv_all_ensemble_mean %>%
   theme(axis.text = element_blank(),
         axis.ticks = element_blank())
 
-ggsave(path = here::here("output/publication"),
-       filename = "FigS_dcant_column_inventory_ensemble_standard_deviation.png",
-       height = 6,
-       width = 6)
+# ggsave(path = here::here("output/publication"),
+#        filename = "FigS_dcant_column_inventory_ensemble_standard_deviation.png",
+#        height = 6,
+#        width = 6)
 
 ```
 
@@ -4531,7 +4542,7 @@ tcant_ts_zoom <- tcant_ts %>%
 tcant_min = tcant_ts_zoom %>% pull(tcant) %>% min()
 tcant_max =
   tcant_ts_zoom %>% pull(tcant) %>% max() +
-  tcant_ts_zoom %>% pull(dcant_sd) %>% max()
+  tcant_ts_zoom %>% pull(dcant_sd) %>% max() + 1
 
 
 p_tcant_ts_zoom <-
