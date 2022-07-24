@@ -666,7 +666,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Results publication</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">22 July, 2022</h4>
+<h4 class="date">24 July, 2022</h4>
 
 </div>
 
@@ -691,7 +691,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-07-22
+<strong>Last updated:</strong> 2022-07-24
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -782,16 +782,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreea9c8af4c2b79716286356597609888540eba196etargetblanka9c8af4a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/a9c8af4c2b79716286356597609888540eba196e" target="_blank">a9c8af4</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeb2c4ff6f12f8da7dc468b1182802510d83a0f693targetblankb2c4ff6a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/b2c4ff6f12f8da7dc468b1182802510d83a0f693" target="_blank">b2c4ff6</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreea9c8af4c2b79716286356597609888540eba196etargetblanka9c8af4a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeb2c4ff6f12f8da7dc468b1182802510d83a0f693targetblankb2c4ff6a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/a9c8af4c2b79716286356597609888540eba196e" target="_blank">a9c8af4</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/b2c4ff6f12f8da7dc468b1182802510d83a0f693" target="_blank">b2c4ff6</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -849,6 +849,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/b2c4ff6f12f8da7dc468b1182802510d83a0f693/analysis/results_publication.Rmd" target="_blank">b2c4ff6</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-24
+</td>
+<td>
+revised GCB plot
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/e2adac60bb924c05a88d3a47f58b6bbc79ae3fd5/docs/results_publication.html" target="_blank">e2adac6</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-22
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -5377,6 +5411,11 @@ dcant_budget_lon_grid_all &lt;- dcant_budget_lon_grid_all %&gt;%
               values_from = value) %&gt;%
   filter(period != &quot;1994 - 2014&quot;,
          method == &quot;total&quot;)</code></pre>
+<pre class="r"><code>dcant_inv_all %&gt;% 
+  filter(Version_ID == &quot;v_1103&quot;,
+         data_source == &quot;obs&quot;) %&gt;% 
+  select(lon, lat, dcant) %&gt;% 
+  write_csv(here::here(&quot;output/dcant_column_inventor_example.csv&quot;))</code></pre>
 </div>
 <div id="sections-profiles" class="section level2" number="2.5">
 <h2><span class="header-section-number">2.5</span> Sections / profiles</h2>
@@ -6819,10 +6858,10 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
-<pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
-       filename = &quot;FigS_dcant_column_inventory_ensemble_standard_deviation.png&quot;,
-       height = 6,
-       width = 6)</code></pre>
+<pre class="r"><code># ggsave(path = here::here(&quot;output/publication&quot;),
+#        filename = &quot;FigS_dcant_column_inventory_ensemble_standard_deviation.png&quot;,
+#        height = 6,
+#        width = 6)</code></pre>
 </div>
 <div id="unadjusted-data" class="section level3" number="7.1.4">
 <h3><span class="header-section-number">7.1.4</span> Unadjusted data</h3>
@@ -7679,6 +7718,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e2adac60bb924c05a88d3a47f58b6bbc79ae3fd5/docs/figure/results_publication.Rmd/zonal_sections-1.png" target="_blank">e2adac6</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-22
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/fea41c1b8dcf55dd33f32ab73fabb10bbb5bf139/docs/figure/results_publication.Rmd/zonal_sections-1.png" target="_blank">fea41c1</a>
 </td>
 <td>
@@ -7991,6 +8041,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e2adac60bb924c05a88d3a47f58b6bbc79ae3fd5/docs/figure/results_publication.Rmd/inventory_maps_absolute_delta-1.png" target="_blank">e2adac6</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-22
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/fea41c1b8dcf55dd33f32ab73fabb10bbb5bf139/docs/figure/results_publication.Rmd/inventory_maps_absolute_delta-1.png" target="_blank">fea41c1</a>
 </td>
 <td>
@@ -8260,6 +8321,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e2adac60bb924c05a88d3a47f58b6bbc79ae3fd5/docs/figure/results_publication.Rmd/inventory_maps_absolute_delta-2.png" target="_blank">e2adac6</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-22
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/fea41c1b8dcf55dd33f32ab73fabb10bbb5bf139/docs/figure/results_publication.Rmd/inventory_maps_absolute_delta-2.png" target="_blank">fea41c1</a>
@@ -8566,6 +8638,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e2adac60bb924c05a88d3a47f58b6bbc79ae3fd5/docs/figure/results_publication.Rmd/inventory_maps_absolute_delta-3.png" target="_blank">e2adac6</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-22
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/fea41c1b8dcf55dd33f32ab73fabb10bbb5bf139/docs/figure/results_publication.Rmd/inventory_maps_absolute_delta-3.png" target="_blank">fea41c1</a>
@@ -20638,7 +20721,7 @@ Ocean_Sink_cum_2004 &lt;- Ocean_Sink_cum_2004 %&gt;%
 tcant_min = tcant_ts_zoom %&gt;% pull(tcant) %&gt;% min()
 tcant_max =
   tcant_ts_zoom %&gt;% pull(tcant) %&gt;% max() +
-  tcant_ts_zoom %&gt;% pull(dcant_sd) %&gt;% max()
+  tcant_ts_zoom %&gt;% pull(dcant_sd) %&gt;% max() + 1
 
 
 p_tcant_ts_zoom &lt;-
