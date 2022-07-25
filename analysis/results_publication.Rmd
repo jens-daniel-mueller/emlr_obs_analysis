@@ -1339,6 +1339,50 @@ p_CI_absolute
 
 ```
 
+```{r dcant_inventory_stats}
+
+dcant_inv_stat_mean <- 
+full_join(basinmask,
+          dcant_inv_all) %>% 
+  mutate(surf_area = earth_surf(lat, lon)) %>% 
+  group_by(basin, period) %>% 
+  summarise(dcant = weighted.mean(dcant, surf_area)) %>% 
+  ungroup() %>% 
+  filter(!is.na(dcant))
+  
+dcant_inv_stat_ensemble <- 
+full_join(basinmask,
+          dcant_inv_all_ensemble) %>% 
+  mutate(surf_area = earth_surf(lat, lon)) %>% 
+  group_by(basin, data_source, period, MLR_basins, Version_ID_group) %>% 
+  summarise(dcant = weighted.mean(dcant, surf_area)) %>% 
+  ungroup() %>% 
+  filter(!is.na(dcant)) %>% 
+  group_by(basin, data_source, period) %>% 
+  summarise(dcant_sd = sd(dcant)*2) %>% 
+  ungroup()
+
+dcant_inv_stat <- 
+full_join(dcant_inv_stat_mean,
+          dcant_inv_stat_ensemble)  
+
+rm(dcant_inv_stat_mean,
+          dcant_inv_stat_ensemble)  
+
+dcant_inv_stat %>%
+  filter(period %in% two_decades) %>%
+  group_by(basin) %>%
+  mutate(delta_dcant = dcant - lag(dcant),
+         RSS = sqrt(dcant_sd ^ 2 + lag(dcant_sd ^ 2))) %>%
+  ungroup() %>%
+  kable() %>%
+  kable_styling() %>%
+  scroll_box(height = "300px")
+
+
+```
+
+
 
 ### dcant - absolute delta
 
@@ -4042,28 +4086,6 @@ dcant_budget_layer %>%
 
 ```
 
-### Basin AIP
-
-```{r depth_layer_budget_basin_AIP, fig.asp=1.5}
-
-dcant_budget_basin_AIP_layer_all %>%
-  filter(estimate == "dcant",
-         period != "1994 - 2014",
-         inv_depth <= 3000,
-         data_source == "obs") %>%
-  rename(dcant = value) %>%
-  ggplot(aes(inv_depth-250, dcant, col=period)) +
-  geom_hline(yintercept = 0) +
-  geom_step(direction = "vh") +
-  coord_flip() +
-  scale_x_reverse(breaks = seq(0, 3000, 500)) +
-  scale_color_brewer(palette = "Set1", direction = -1) +
-  facet_grid(basin_AIP ~ .) +
-  labs(y = dcant_layer_budget_label,
-       x = "Depth (m)")
-
-```
-
 ### 5 basins
 
 
@@ -4177,6 +4199,57 @@ ggsave(path = here::here("output/publication"),
        width = 8)
 
 ```
+
+```{r dcant_layer_budget_stats}
+
+dcant_budget_basin_MLR_layer_all_ensemble_stat <-
+dcant_budget_basin_MLR_layer_all_ensemble %>%
+  filter(estimate == "dcant",
+         data_source == "obs",
+         inv_depth < 3000,
+         period %in% two_decades) %>% 
+  group_by(basin,
+           period,
+           inv_depth) %>%
+  summarise(dcant_sd = sd(value) * 2) %>%
+  ungroup()
+
+dcant_layer_budget_stat <-
+  full_join(
+    dcant_budget_basin_MLR_layer_all %>%
+      filter(
+        estimate == "dcant",
+        data_source == "obs",
+        inv_depth < 3000,
+        period %in% two_decades
+      ) %>% 
+      select(basin, period, inv_depth, dcant = value),
+    dcant_budget_basin_MLR_layer_all_ensemble_stat
+  )  
+
+rm(dcant_budget_basin_MLR_layer_all_ensemble_stat)  
+
+dcant_layer_budget_stat %>%
+  filter(period %in% two_decades) %>%
+  arrange(period) %>% 
+  group_by(basin, inv_depth) %>%
+  mutate(delta_dcant = dcant - lag(dcant),
+         RSS = sqrt(dcant_sd ^ 2 + lag(dcant_sd ^ 2))) %>%
+  ungroup() %>%
+  drop_na() %>% 
+  filter(abs(delta_dcant) >= RSS) %>% 
+  select(basin, inv_depth, delta_dcant, RSS) %>% 
+  kable() %>%
+  kable_styling() %>%
+  scroll_box(height = "300px")
+
+
+```
+
+
+
+
+
 
 ```{r depth_layer_budget_basin_MLR_cumulative, fig.asp=0.9}
 
