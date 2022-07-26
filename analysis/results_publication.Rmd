@@ -4530,11 +4530,10 @@ tcant_ts %>%
 
 ## incl fluxes
 
-```{r exclude_Watson_from_GCB}
+```{r exclude_Watson_from_GCB, eval=FALSE}
 
 Ocean_Sink <- Ocean_Sink %>%
   filter(product != "Watson")
-
 
 ```
 
@@ -4667,7 +4666,7 @@ tcant_ts_zoom <- tcant_ts %>%
 tcant_min = tcant_ts_zoom %>% pull(tcant) %>% min()
 tcant_max =
   tcant_ts_zoom %>% pull(tcant) %>% max() +
-  tcant_ts_zoom %>% pull(dcant_sd) %>% max() + 1
+  tcant_ts_zoom %>% pull(dcant_sd) %>% max() + 0.2
 
 
 p_tcant_ts_zoom <-
@@ -4709,7 +4708,7 @@ p_tcant_ts_zoom <-
   geom_point(aes(col = "eMLR(C*)"),
              shape = 21,
              fill = "white") +
-  geom_text(aes(label = year), nudge_x = -3, nudge_y = 3) +
+  geom_text(aes(label = year), nudge_x = -2, nudge_y = 3) +
   scale_color_highcontrast(name = "Data source", reverse = TRUE) +
   scale_fill_highcontrast(name = "Data source", reverse = TRUE) +
   scale_y_continuous(limits = c(tcant_min, tcant_max)) +
@@ -4719,8 +4718,8 @@ p_tcant_ts_zoom <-
          fill = "none") +
   theme_classic() +
   theme(
-    legend.background = element_rect(fill = "white"),
-    legend.position = c(0.2, 0.8),
+    legend.background = element_rect(fill = "transparent"),
+    legend.position = c(0.25, 0.83),
     legend.title = element_blank(),
     legend.box.just = "top",
     legend.box = "horizontal",
@@ -4729,7 +4728,7 @@ p_tcant_ts_zoom <-
                                       size = 0.1)
   )
 
-p_tcant_ts_zoom
+# p_tcant_ts_zoom
 
 
 ```
@@ -4903,7 +4902,7 @@ dcant_type_box %>%
   )
 
 p_tcant_ts_zoom + p_tcant_box + p_tcant_box_10 +
-  plot_layout(ncol = 3, widths = c(6,1,2)) + 
+  plot_layout(ncol = 3, widths = c(6,1,1.8)) + 
   plot_annotation(tag_levels = 'A')
 
 ggsave(path = here::here("output/publication"),
