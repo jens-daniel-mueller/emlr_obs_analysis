@@ -666,7 +666,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Results publication</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">25 July, 2022</h4>
+<h4 class="date">26 July, 2022</h4>
 
 </div>
 
@@ -691,7 +691,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-07-25
+<strong>Last updated:</strong> 2022-07-26
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -782,16 +782,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree1d6985de6535396453d0edf03b0efdf9aed271c5targetblank1d6985da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/1d6985de6535396453d0edf03b0efdf9aed271c5" target="_blank">1d6985d</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree8da318eeb737b251368ddcfac758f1457b950991targetblank8da318ea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/8da318eeb737b251368ddcfac758f1457b950991" target="_blank">8da318e</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree1d6985de6535396453d0edf03b0efdf9aed271c5targetblank1d6985da" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree8da318eeb737b251368ddcfac758f1457b950991targetblank8da318ea" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/1d6985de6535396453d0edf03b0efdf9aed271c5" target="_blank">1d6985d</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/8da318eeb737b251368ddcfac758f1457b950991" target="_blank">8da318e</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -849,6 +849,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/8da318eeb737b251368ddcfac758f1457b950991/analysis/results_publication.Rmd" target="_blank">8da318e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-26
+</td>
+<td>
+changed color scale
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/99a82db8e61faaee848e234892e71df26508b1d5/docs/results_publication.html" target="_blank">99a82db</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-25
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -6683,6 +6717,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/99a82db8e61faaee848e234892e71df26508b1d5/docs/figure/results_publication.Rmd/invetory_maps_absolute_delta-1.png" target="_blank">99a82db</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-25
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/fea41c1b8dcf55dd33f32ab73fabb10bbb5bf139/docs/figure/results_publication.Rmd/invetory_maps_absolute_delta-1.png" target="_blank">fea41c1</a>
@@ -20877,6 +20922,49 @@ jens-daniel-mueller
 </div>
 <div id="incl-fluxes" class="section level2" number="11.2">
 <h2><span class="header-section-number">11.2</span> incl fluxes</h2>
+<pre class="r"><code>Ocean_Sink &lt;- Ocean_Sink %&gt;%
+  filter(product != &quot;Watson&quot;)</code></pre>
+<pre class="r"><code>Ocean_Sink_cum_1994 &lt;-
+  Ocean_Sink %&gt;%
+  filter(year &gt;= 1994, year &lt;= 2007) %&gt;%
+  mutate(fgco2_glob = if_else(year == 1994, 0, GtC_yr),
+         fgco2_glob = fgco2_glob) %&gt;% 
+  arrange(year) %&gt;%
+  group_by(product, type) %&gt;%
+  mutate(fgco2_glob_cum = cumsum(fgco2_glob)) %&gt;%
+  ungroup()
+
+Ocean_Sink_cum_1994 &lt;-
+  left_join(Ocean_Sink_cum_1994,
+            co2_atm) 
+
+Ocean_Sink_cum_1994 %&gt;%
+  ggplot(aes(pCO2, fgco2_glob_cum, col = product)) +
+  geom_line() +
+  geom_point(shape = 21, fill = &quot;white&quot;) +
+  theme(legend.position = &quot;bottom&quot;) +
+  facet_grid(.~ type)</code></pre>
+<p><img src="figure/results_publication.Rmd/GCB_carbon_sink_cum_1994_2007_reference-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>Ocean_Sink_cum_1994 &lt;- Ocean_Sink_cum_1994 %&gt;% 
+  mutate(fgco2_glob_cum_total = fgco2_glob_cum + 118) %&gt;%
+  select(year, pCO2, product, fgco2_glob_cum, fgco2_glob_cum_total, type)
+
+Ocean_Sink_cum_1994 &lt;- Ocean_Sink_cum_1994 %&gt;% 
+  mutate(type = case_when(
+    type == &quot;data_products&quot; ~ &quot;Observation-based\nsurface flux\nproducts&quot;,
+    TRUE ~ &quot;Global Ocean\nBiogeochemical Models\n(GOBM)&quot;
+  ))
+
+Ocean_Sink_cum_1994 %&gt;% 
+  filter(year == 2007) %&gt;% 
+  group_by(type) %&gt;% 
+  summarise(dcant_sd = sd(fgco2_glob_cum)*2) %&gt;% 
+  ungroup()</code></pre>
+<pre><code># A tibble: 2 × 2
+  type                                          dcant_sd
+  &lt;chr&gt;                                            &lt;dbl&gt;
+1 &quot;Global Ocean\nBiogeochemical Models\n(GOBM)&quot;     6.99
+2 &quot;Observation-based\nsurface flux\nproducts&quot;       6.66</code></pre>
 <pre class="r"><code>Ocean_Sink_cum_1994 &lt;-
   Ocean_Sink %&gt;%
   filter(year &gt;= 1994, year &lt;= 2014) %&gt;%
@@ -20941,8 +21029,8 @@ jens-daniel-mueller
 
 Ocean_Sink_cum_1994 &lt;- Ocean_Sink_cum_1994 %&gt;% 
   mutate(type = case_when(
-    type == &quot;data_products&quot; ~ &quot;Observation-based\nflux products&quot;,
-    TRUE ~ &quot;Hindcast models&quot;
+    type == &quot;data_products&quot; ~ &quot;Observation-based\nsurface flux\nproducts&quot;,
+    TRUE ~ &quot;Global Ocean\nBiogeochemical Models\n(GOBM)&quot;
   ))</code></pre>
 <pre class="r"><code>tcant_2004 &lt;- tcant_ts %&gt;% 
   filter(year == 2004) %&gt;% 
@@ -21011,8 +21099,8 @@ jens-daniel-mueller
 
 Ocean_Sink_cum_2004 &lt;- Ocean_Sink_cum_2004 %&gt;% 
   mutate(type = case_when(
-    type == &quot;data_products&quot; ~ &quot;Observation-based\nflux products&quot;,
-    TRUE ~ &quot;Hindcast models&quot;
+    type == &quot;data_products&quot; ~ &quot;Observation-based\nsurface flux\nproducts&quot;,
+    TRUE ~ &quot;Global Ocean\nBiogeochemical Models\n(GOBM)&quot;
   ))</code></pre>
 <pre class="r"><code>tcant_ts_zoom &lt;- tcant_ts %&gt;%
   filter(year != 1800)
@@ -21074,8 +21162,10 @@ p_tcant_ts_zoom &lt;-
   theme(
     legend.background = element_rect(fill = &quot;white&quot;),
     legend.position = c(0.2, 0.8),
+    legend.title = element_blank(),
     legend.box.just = &quot;top&quot;,
     legend.box = &quot;horizontal&quot;,
+    legend.key.size = unit(2.5, &#39;lines&#39;),
     panel.grid.major.y = element_line(colour = &quot;black&quot;,
                                       size = 0.1)
   )
@@ -22047,13 +22137,13 @@ eMLR(C*)
 0.0000000
 </td>
 <td style="text-align:right;">
-0.0000000
+0.000000
 </td>
 <td style="text-align:right;">
 6.787499
 </td>
 <td style="text-align:right;">
-6.7874991
+6.787499
 </td>
 </tr>
 <tr>
@@ -22061,7 +22151,7 @@ eMLR(C*)
 1994 - 2004
 </td>
 <td style="text-align:left;">
-Hindcast models
+Global Ocean Biogeochemical Models (GOBM)
 </td>
 <td style="text-align:right;">
 19.52578
@@ -22073,13 +22163,13 @@ Hindcast models
 -9.1691149
 </td>
 <td style="text-align:right;">
--31.9538214
+-31.953821
 </td>
 <td style="text-align:right;">
 7.226862
 </td>
 <td style="text-align:right;">
--1.9422533
+-1.942253
 </td>
 </tr>
 <tr>
@@ -22087,25 +22177,25 @@ Hindcast models
 1994 - 2004
 </td>
 <td style="text-align:left;">
-Observation-based flux products
+Observation-based surface flux products
 </td>
 <td style="text-align:right;">
-21.71168
+21.41458
 </td>
 <td style="text-align:right;">
-5.448186
+5.597734
 </td>
 <td style="text-align:right;">
--6.9832169
+-7.2803112
 </td>
 <td style="text-align:right;">
--24.3360966
+-25.371452
 </td>
 <td style="text-align:right;">
-7.260703
+7.373581
 </td>
 <td style="text-align:right;">
-0.2774858
+0.093270
 </td>
 </tr>
 <tr>
@@ -22125,13 +22215,13 @@ eMLR(C*)
 0.0000000
 </td>
 <td style="text-align:right;">
-0.0000000
+0.000000
 </td>
 <td style="text-align:right;">
 7.032670
 </td>
 <td style="text-align:right;">
-7.0326699
+7.032670
 </td>
 </tr>
 <tr>
@@ -22139,7 +22229,7 @@ eMLR(C*)
 1994 - 2014
 </td>
 <td style="text-align:left;">
-Hindcast models
+Global Ocean Biogeochemical Models (GOBM)
 </td>
 <td style="text-align:right;">
 42.28477
@@ -22151,13 +22241,13 @@ Hindcast models
 -13.5776928
 </td>
 <td style="text-align:right;">
--24.3055745
+-24.305574
 </td>
 <td style="text-align:right;">
 12.048564
 </td>
 <td style="text-align:right;">
--1.5291284
+-1.529128
 </td>
 </tr>
 <tr>
@@ -22165,25 +22255,25 @@ Hindcast models
 1994 - 2014
 </td>
 <td style="text-align:left;">
-Observation-based flux products
+Observation-based surface flux products
 </td>
 <td style="text-align:right;">
-48.80475
+47.89526
 </td>
 <td style="text-align:right;">
-8.824335
+7.743738
 </td>
 <td style="text-align:right;">
--7.0577110
+-7.9672079
 </td>
 <td style="text-align:right;">
--12.6340847
+-14.262185
 </td>
 <td style="text-align:right;">
-10.129073
+9.202973
 </td>
 <td style="text-align:right;">
-3.0713616
+1.235765
 </td>
 </tr>
 <tr>
@@ -22203,13 +22293,13 @@ eMLR(C*)
 0.0000000
 </td>
 <td style="text-align:right;">
-0.0000000
+0.000000
 </td>
 <td style="text-align:right;">
 4.694404
 </td>
 <td style="text-align:right;">
-4.6944036
+4.694404
 </td>
 </tr>
 <tr>
@@ -22217,7 +22307,7 @@ eMLR(C*)
 2004 - 2014
 </td>
 <td style="text-align:left;">
-Hindcast models
+Global Ocean Biogeochemical Models (GOBM)
 </td>
 <td style="text-align:right;">
 22.75899
@@ -22229,13 +22319,13 @@ Hindcast models
 -4.3285854
 </td>
 <td style="text-align:right;">
--15.9799646
+-15.979965
 </td>
 <td style="text-align:right;">
 6.489305
 </td>
 <td style="text-align:right;">
-2.1607199
+2.160720
 </td>
 </tr>
 <tr>
@@ -22243,25 +22333,25 @@ Hindcast models
 2004 - 2014
 </td>
 <td style="text-align:left;">
-Observation-based flux products
+Observation-based surface flux products
 </td>
 <td style="text-align:right;">
-27.09308
+26.48067
 </td>
 <td style="text-align:right;">
-4.225215
+2.612751
 </td>
 <td style="text-align:right;">
-0.0054984
+-0.6069042
 </td>
 <td style="text-align:right;">
-0.0202985
+-2.240526
 </td>
 <td style="text-align:right;">
-5.373188
+4.224356
 </td>
 <td style="text-align:right;">
-5.3676901
+3.617452
 </td>
 </tr>
 </tbody>
