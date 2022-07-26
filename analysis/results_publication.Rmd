@@ -4530,6 +4530,58 @@ tcant_ts %>%
 
 ## incl fluxes
 
+```{r exclude_Watson_from_GCB}
+
+Ocean_Sink <- Ocean_Sink %>%
+  filter(product != "Watson")
+
+
+```
+
+
+```{r GCB_carbon_sink_cum_1994_2007_reference}
+
+Ocean_Sink_cum_1994 <-
+  Ocean_Sink %>%
+  filter(year >= 1994, year <= 2007) %>%
+  mutate(fgco2_glob = if_else(year == 1994, 0, GtC_yr),
+         fgco2_glob = fgco2_glob) %>% 
+  arrange(year) %>%
+  group_by(product, type) %>%
+  mutate(fgco2_glob_cum = cumsum(fgco2_glob)) %>%
+  ungroup()
+
+Ocean_Sink_cum_1994 <-
+  left_join(Ocean_Sink_cum_1994,
+            co2_atm) 
+
+Ocean_Sink_cum_1994 %>%
+  ggplot(aes(pCO2, fgco2_glob_cum, col = product)) +
+  geom_line() +
+  geom_point(shape = 21, fill = "white") +
+  theme(legend.position = "bottom") +
+  facet_grid(.~ type)
+
+
+Ocean_Sink_cum_1994 <- Ocean_Sink_cum_1994 %>% 
+  mutate(fgco2_glob_cum_total = fgco2_glob_cum + 118) %>%
+  select(year, pCO2, product, fgco2_glob_cum, fgco2_glob_cum_total, type)
+
+Ocean_Sink_cum_1994 <- Ocean_Sink_cum_1994 %>% 
+  mutate(type = case_when(
+    type == "data_products" ~ "Observation-based\nsurface flux\nproducts",
+    TRUE ~ "Global Ocean\nBiogeochemical Models\n(GOBM)"
+  ))
+
+Ocean_Sink_cum_1994 %>% 
+  filter(year == 2007) %>% 
+  group_by(type) %>% 
+  summarise(dcant_sd = sd(fgco2_glob_cum)*2) %>% 
+  ungroup()
+
+
+```
+
 ```{r GCB_carbon_sink_cum_1994}
 
 Ocean_Sink_cum_1994 <-
@@ -4560,8 +4612,8 @@ Ocean_Sink_cum_1994 <- Ocean_Sink_cum_1994 %>%
 
 Ocean_Sink_cum_1994 <- Ocean_Sink_cum_1994 %>% 
   mutate(type = case_when(
-    type == "data_products" ~ "Observation-based\nflux products",
-    TRUE ~ "Hindcast models"
+    type == "data_products" ~ "Observation-based\nsurface flux\nproducts",
+    TRUE ~ "Global Ocean\nBiogeochemical Models\n(GOBM)"
   ))
 
 ```
@@ -4599,8 +4651,8 @@ Ocean_Sink_cum_2004 <- Ocean_Sink_cum_2004 %>%
 
 Ocean_Sink_cum_2004 <- Ocean_Sink_cum_2004 %>% 
   mutate(type = case_when(
-    type == "data_products" ~ "Observation-based\nflux products",
-    TRUE ~ "Hindcast models"
+    type == "data_products" ~ "Observation-based\nsurface flux\nproducts",
+    TRUE ~ "Global Ocean\nBiogeochemical Models\n(GOBM)"
   ))
 
 ```
@@ -4669,8 +4721,10 @@ p_tcant_ts_zoom <-
   theme(
     legend.background = element_rect(fill = "white"),
     legend.position = c(0.2, 0.8),
+    legend.title = element_blank(),
     legend.box.just = "top",
     legend.box = "horizontal",
+    legend.key.size = unit(2.5, 'lines'),
     panel.grid.major.y = element_line(colour = "black",
                                       size = 0.1)
   )
