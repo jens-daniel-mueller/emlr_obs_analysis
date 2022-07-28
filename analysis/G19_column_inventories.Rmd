@@ -259,7 +259,7 @@ dcant_inv_join <- bind_rows(
       )
     ) %>%
     select(lon, lat, dcant = dcant_pos, MLR_basins) %>% 
-    mutate(source = "Gruber 2019"),
+    mutate(source = "Gruber et al. (2019)"),
   dcant_inv_all %>%
     filter(data_source %in% c("obs")) %>%
     select(lon, lat, dcant, MLR_basins) %>% 
@@ -280,6 +280,47 @@ dcant_inv_join %>%
   theme(axis.text = element_blank(),
         axis.ticks = element_blank())
 
+
+```
+
+```{r plot_only_2_5}
+
+dcant_inv_join <- 
+dcant_inv_join %>% 
+  filter(MLR_basins %in% c("2", "5"))
+
+
+p_CI_absolute <- dcant_inv_join %>%
+  p_map_cant_inv(var = "dcant",
+                 title_text = NULL) +
+  facet_grid(source ~ MLR_basins) +
+  theme(axis.text.x = element_blank()) 
+
+dcant_inv_join_offset <- dcant_inv_join %>% 
+  arrange(source) %>% 
+  group_by(lon, lat, MLR_basins) %>% 
+  mutate(dcant_offset = dcant - lag(dcant)) %>% 
+  ungroup()
+  
+
+
+p_CI_delta <-
+  dcant_inv_join_offset  %>%
+  p_map_cant_inv(
+    var = "dcant_offset",
+    title_text = NULL,
+    subtitle_text = NULL,
+    col = "bias"
+  ) +
+  facet_grid(. ~ MLR_basins)
+
+p_CI_absolute / p_CI_delta + 
+  plot_annotation(tag_levels = 'A')
+
+ggsave(path = here::here("output/publication"),
+       filename = "FigS_dcant_column_inventory_1994_2007_vs_Gruber_2019.png",
+       height = 7,
+       width = 8)
 
 ```
 
