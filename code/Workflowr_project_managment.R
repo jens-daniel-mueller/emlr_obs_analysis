@@ -11,6 +11,9 @@ wflow_publish(all = TRUE, message = "added basin separation analysis")
 wflow_publish(here::here(
   "analysis",
   c(
+    "surface_equi_budgets.Rmd",
+    "surface_equi_column_inventories.Rmd",
+    "surface_equi_zonal_sections.Rmd",
     "multi_model_assesment_AIP_budgets.Rmd",
     "multi_model_assesment_AIP_column_inventories.Rmd",
     "multi_model_assesment_AIP_zonal_sections.Rmd",
@@ -34,9 +37,6 @@ wflow_publish(here::here(
     "data_adjustment_bulk_budgets.Rmd",
     "data_adjustment_bulk_column_inventories.Rmd",
     "data_adjustment_bulk_zonal_sections.Rmd",
-    "data_adjustment_none_budgets.Rmd",
-    "data_adjustment_none_column_inventories.Rmd",
-    "data_adjustment_none_zonal_sections.Rmd",
     "moving_eras_budgets.Rmd",
     "moving_eras_column_inventories.Rmd",
     "moving_eras_zonal_sections.Rmd",
@@ -67,7 +67,7 @@ wflow_publish(here::here(
     "MLR_predictor_nitrate_zonal_sections.Rmd"
   )
 ),
-message = "rebuild with additional analysis",
+message = "rebuild website",
 republish = TRUE)
 
 
@@ -75,20 +75,13 @@ wflow_publish(here::here(
   "analysis",
   c(
     "index.Rmd",
-    "results_publication.Rmd",
-    "multi_model_assesment_AIP_budgets.Rmd",
-    "multi_model_assesment_AIP_column_inventories.Rmd",
-    "multi_model_assesment_AIP_zonal_sections.Rmd",
-    "multi_model_assesment_5_budgets.Rmd",
-    "multi_model_assesment_5_column_inventories.Rmd",
-    "multi_model_assesment_5_zonal_sections.Rmd"
+    "results_publication.Rmd"
   )
 ),
-message = "rebuild")
+message = "changed color scale back")
 
 
 
 # Push latest version to GitHub
 wflow_git_push()
 jens-daniel-mueller
-

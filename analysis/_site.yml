@@ -5,7 +5,7 @@ navbar:
   left:
   - text: Basics
     href: basics.html
-  - text: Results publication
+  - text: Synopsis
     href: results_publication.html
   - text: Adjustements
     menu:
@@ -35,7 +35,7 @@ navbar:
         href: data_adjustment_none_zonal_sections.html
   - text: Filtering
     menu:
-    - text: No gap-filling and filter
+    - text: No gap-filling
       menu:
       - text: Budgets
         href: gaps_filter_budgets.html
@@ -85,6 +85,14 @@ navbar:
         href: CN_target_column_inventories.html
       - text: Zonal sections
         href: CN_target_zonal_sections.html
+    - text: Surface equilibrium
+      menu:
+      - text: Budgets
+        href: surface_equi_budgets.html
+      - text: Column inventories
+        href: surface_equi_column_inventories.html
+      - text: Zonal sections
+        href: surface_equi_zonal_sections.html
     - text: MLR_target
       menu:
       - text: Budgets
