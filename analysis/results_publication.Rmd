@@ -400,12 +400,42 @@ for (i_Version_IDs in Version_IDs_ensemble) {
   if (!exists("dcant_budget_basin_MLR_all")) {
     dcant_budget_basin_MLR_all <- dcant_budget_basin_MLR
   }
+  
+  
+  dcant_budget_basin_MLR_bias_decomposition <-
+    read_csv(
+      paste(
+        path_version_data,
+        "dcant_budget_basin_MLR_bias_decomposition.csv",
+        sep = ""
+      )
+    )
+  
+  
+  dcant_budget_basin_MLR_bias_decomposition <-
+    dcant_budget_basin_MLR_bias_decomposition %>%
+    mutate(Version_ID = i_Version_IDs)
+  
+  
+  if (exists("dcant_budget_basin_MLR_bias_all_decomposition")) {
+    dcant_budget_basin_MLR_bias_all_decomposition <-
+      bind_rows(
+        dcant_budget_basin_MLR_bias_all_decomposition,
+        dcant_budget_basin_MLR_bias_decomposition
+      )
+  }
+  
+  if (!exists("dcant_budget_basin_MLR_bias_all_decomposition")) {
+    dcant_budget_basin_MLR_bias_all_decomposition <-
+      dcant_budget_basin_MLR_bias_decomposition
+  }
 
 }
 
 rm(
   dcant_budget_basin_MLR,
-  dcant_budget_basin_MLR_mod_truth
+  dcant_budget_basin_MLR_mod_truth,
+  dcant_budget_basin_MLR_bias_decomposition
 )
 
 
@@ -440,6 +470,25 @@ dcant_budget_basin_MLR_all <- dcant_budget_basin_MLR_all %>%
     )
   )
 
+dcant_budget_basin_MLR_bias_all_decomposition <-
+  full_join(dcant_budget_basin_MLR_bias_all_decomposition,
+            params_local_all_ensemble)
+
+dcant_budget_basin_MLR_bias_all_decomposition <- 
+  dcant_budget_basin_MLR_bias_all_decomposition %>%
+  mutate(
+    basin = str_replace(basin, "_", ". "),
+    # basin = str_replace(basin, "global", "Global"),
+    basin = fct_relevel(
+      basin,
+      "N. Pacific",
+      "S. Pacific",
+      "N. Atlantic",
+      "S. Atlantic",
+      "Indian"
+    )
+  )
+
 
 ```
 
@@ -465,7 +514,14 @@ dcant_budget_basin_MLR_all <- dcant_budget_basin_MLR_all %>%
   select(-c(estimate, method)) %>% 
   rename(dcant = value)
 
+dcant_budget_basin_MLR_all_1000 <- dcant_budget_basin_MLR_all %>%
+  filter(inv_depth == 1000)
+
 dcant_budget_basin_MLR_all <- dcant_budget_basin_MLR_all %>%
+  filter(inv_depth == params_global$inventory_depth_standard)
+
+dcant_budget_basin_MLR_bias_all_decomposition <- 
+  dcant_budget_basin_MLR_bias_all_decomposition %>%
   filter(inv_depth == params_global$inventory_depth_standard)
 
 ```
@@ -491,6 +547,15 @@ dcant_budget_basin_MLR_all_no_adj <- dcant_budget_basin_MLR_all %>%
   filter(Version_ID %in% Version_IDs_d)
 
 dcant_budget_basin_MLR_all <- dcant_budget_basin_MLR_all %>%
+  filter(Version_ID %in% Version_IDs)
+
+dcant_budget_basin_MLR_bias_all_decomposition_ensemble <- dcant_budget_basin_MLR_bias_all_decomposition %>% 
+  filter(!(Version_ID %in% Version_IDs_d))
+
+dcant_budget_basin_MLR_bias_all_decomposition_no_adj <- dcant_budget_basin_MLR_bias_all_decomposition %>% 
+  filter(Version_ID %in% Version_IDs_d)
+
+dcant_budget_basin_MLR_bias_all_decomposition <- dcant_budget_basin_MLR_bias_all_decomposition %>%
   filter(Version_ID %in% Version_IDs)
 
 
@@ -2805,6 +2870,18 @@ dcant_budget_basin_MLR_all_ensemble %>%
   geom_jitter(alpha = 0.5) +
   scale_color_brewer(palette = "Dark2") +
   facet_grid(basin ~ data_source, scales = "free_y")
+
+dcant_budget_basin_MLR_all_ensemble %>%
+  filter(data_source %in% c("mod", "mod_truth")) %>% 
+  pivot_wider(names_from = data_source,
+              values_from = dcant) %>% 
+  mutate(dcant_bias = mod - mod_truth,
+         dcant_bias_rel = 100 * dcant_bias / mod_truth) %>% 
+  ggplot(aes(period, dcant_bias_rel, col = Version_ID_group)) +
+  geom_hline(yintercept = 0) +
+  geom_jitter(alpha = 0.5) +
+  scale_color_brewer(palette = "Dark2") +
+  facet_grid(basin ~ MLR_basins, scales = "free_y")
 
 tcant_budget_basin_MLR <- expand_grid(
   tcant_budget_basin_MLR,
