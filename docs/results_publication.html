@@ -782,16 +782,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreed136a8666a49eb82f0fd457b2b7e87df03719ec0targetblankd136a86a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/d136a8666a49eb82f0fd457b2b7e87df03719ec0" target="_blank">d136a86</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreea9408809ee1526cc0118ed3ac7381d621a898328targetblanka940880a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/a9408809ee1526cc0118ed3ac7381d621a898328" target="_blank">a940880</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreed136a8666a49eb82f0fd457b2b7e87df03719ec0targetblankd136a86a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreea9408809ee1526cc0118ed3ac7381d621a898328targetblanka940880a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/d136a8666a49eb82f0fd457b2b7e87df03719ec0" target="_blank">d136a86</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/a9408809ee1526cc0118ed3ac7381d621a898328" target="_blank">a940880</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -844,6 +844,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a9408809ee1526cc0118ed3ac7381d621a898328/analysis/results_publication.Rmd" target="_blank">a940880</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-08-09
+</td>
+<td>
+improve delta dcant bias assesment
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/a691b295445ba548b1f3539db5329fae9f31c514/docs/results_publication.html" target="_blank">a691b29</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-08-09
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -5894,6 +5928,7 @@ Global_Carbon_Budget &lt;-
 <div id="define-labels" class="section level1" number="3">
 <h1><span class="header-section-number">3</span> Define labels</h1>
 <pre class="r"><code>dcant_pgc_label &lt;- expression(Delta * C[&quot;ant&quot;]~(PgC))
+dcant_bias_pgc_label &lt;- expression(Bias ~ Delta * C[&quot;ant&quot;]~(PgC))
 dcant_pgc_scaled_label &lt;- expression(beta~(PgC~µatm^{-1}))
 
 dcant_umol_label &lt;- expression(Delta * C[ant]~(mu * mol ~ kg ^ {-1}))
@@ -14235,6 +14270,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a691b295445ba548b1f3539db5329fae9f31c514/docs/figure/results_publication.Rmd/dcant_budget_basin_hemisphere_ensemble-2.png" target="_blank">a691b29</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-08-09
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/910f96efb71e9f87a8110f620064f77fdd872f0f/docs/figure/results_publication.Rmd/dcant_budget_basin_hemisphere_ensemble-2.png" target="_blank">910f96e</a>
 </td>
 <td>
@@ -14495,6 +14541,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a691b295445ba548b1f3539db5329fae9f31c514/docs/figure/results_publication.Rmd/dcant_budget_basin_hemisphere_ensemble-3.png" target="_blank">a691b29</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-08-09
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/910f96efb71e9f87a8110f620064f77fdd872f0f/docs/figure/results_publication.Rmd/dcant_budget_basin_hemisphere_ensemble-3.png" target="_blank">910f96e</a>
 </td>
 <td>
@@ -14712,6 +14769,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a691b295445ba548b1f3539db5329fae9f31c514/docs/figure/results_publication.Rmd/dcant_budget_basin_hemisphere_ensemble-4.png" target="_blank">a691b29</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-08-09
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/910f96efb71e9f87a8110f620064f77fdd872f0f/docs/figure/results_publication.Rmd/dcant_budget_basin_hemisphere_ensemble-4.png" target="_blank">910f96e</a>
@@ -15910,6 +15978,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a691b295445ba548b1f3539db5329fae9f31c514/docs/figure/results_publication.Rmd/beta_ensemble_scatter_plot-1.png" target="_blank">a691b29</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-08-09
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/910f96efb71e9f87a8110f620064f77fdd872f0f/docs/figure/results_publication.Rmd/beta_ensemble_scatter_plot-1.png" target="_blank">910f96e</a>
 </td>
 <td>
@@ -15993,6 +16072,9 @@ jens-daniel-mueller
        filename = &quot;FigS_beta_budgets_ensemble_member.png&quot;,
        height = 6,
        width = 8)</code></pre>
+</div>
+<div id="biases" class="section level3" number="10.1.3">
+<h3><span class="header-section-number">10.1.3</span> Biases</h3>
 <pre class="r"><code>dcant_budget_basin_MLR_all_ensemble_bias &lt;- 
 dcant_budget_basin_MLR_all_ensemble %&gt;%
   filter(data_source %in% c(&quot;mod&quot;, &quot;mod_truth&quot;)) %&gt;% 
@@ -16001,21 +16083,249 @@ dcant_budget_basin_MLR_all_ensemble %&gt;%
   mutate(dcant_bias = mod - mod_truth,
          dcant_bias_rel = 100 * dcant_bias / mod_truth)
 
-dcant_budget_basin_MLR_all_ensemble_bias %&gt;% 
-  ggplot(aes(period, dcant_bias, col = Version_ID_group)) +
+dcant_budget_basin_MLR_all_ensemble_bias &lt;- 
+dcant_budget_basin_MLR_all_ensemble_bias %&gt;%
+  mutate(ensemble_role = if_else(Version_ID %in% Version_IDs,
+                                 &quot;Standard case&quot;,
+                                 &quot;others&quot;))
+
+dcant_budget_basin_MLR_all_ensemble_bias %&gt;%
+  ggplot(aes(period, dcant_bias)) +
   geom_hline(yintercept = 0) +
-  geom_jitter(alpha = 0.5) +
-  scale_color_brewer(palette = &quot;Dark2&quot;) +
-  facet_grid(basin ~ MLR_basins)</code></pre>
+  geom_point(
+    aes(fill = Version_ID_group,
+        col = ensemble_role),
+    size = 1.3,
+    alpha = .7,
+    shape = 21,
+    position = position_dodge2(width = 0.3)
+  ) +
+  stat_summary(
+    fun.data = &quot;mean_sdl&quot;,
+    fun.args = list(mult = 2),
+    position = position_nudge(x = -0.3),
+    col = &quot;grey&quot;
+  ) +
+  stat_summary(
+    fun.data = &quot;mean_sdl&quot;,
+    fun.args = list(mult = 1),
+    position = position_nudge(x = -0.3),
+    size = 0.1
+  ) +
+  scale_fill_brewer(palette = &quot;Dark2&quot;) +
+    scale_color_manual(values = c(&quot;transparent&quot;, &quot;black&quot;),
+                     name = &quot;Ensemble member&quot;) +
+  facet_grid(basin ~ .)</code></pre>
 <p><img src="figure/results_publication.Rmd/budget_biases-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-budget_biases-1">
+Past versions of budget_biases-1.png
+</button>
+</p>
+<div id="fig-budget_biases-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a691b295445ba548b1f3539db5329fae9f31c514/docs/figure/results_publication.Rmd/budget_biases-1.png" target="_blank">a691b29</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-08-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>dcant_budget_bias_ensemble_stat &lt;-
+  dcant_budget_basin_MLR_all_ensemble_bias %&gt;%
+  filter(period != &quot;1994 - 2014&quot;) %&gt;%
+  group_by(period, basin) %&gt;%
+  summarise(
+    median = median(dcant_bias),
+    sd = sd(dcant_bias),
+    n = n()
+  ) %&gt;%
+  ungroup() 
+
+
+dcant_budget_bias_ensemble_stat &lt;-
+  full_join(
+    dcant_budget_bias_ensemble_stat,
+    dcant_budget_basin_MLR_all_ensemble_bias %&gt;%
+        filter(Version_ID %in% Version_IDs,
+               period != &quot;1994 - 2014&quot;) %&gt;%
+        select(period,
+               basin,
+               std_case = dcant_bias)
+  )
+
+
+
+
+dcant_budget_basin_MLR_all_ensemble_bias %&gt;%
+  filter(period != &quot;1994 - 2014&quot;) %&gt;%
+  ggplot(aes(period, dcant_bias)) +
+  geom_hline(yintercept = 0) +
+  geom_point(
+    aes(fill = &quot;Ensemble member&quot;,
+        alpha = &quot;Ensemble member&quot;),
+    shape = 21,
+    position = position_jitter(width = 0.1, height = 0)
+  ) +
+  geom_crossbar(
+    data = dcant_budget_bias_ensemble_stat,
+    aes(
+      x = period,
+      y = std_case,
+      ymin = std_case - 2 * sd,
+      ymax = std_case + 2 * sd,
+      linetype = &quot;Ensemble SD&quot;
+    ),
+    width = 0.1,
+    fill = &quot;#AA3377&quot;,
+    alpha = 0.2,
+    position = position_nudge(x = 0.2)
+  ) +
+  geom_crossbar(
+    data = dcant_budget_bias_ensemble_stat,
+    aes(
+      x = period,
+      y = std_case,
+      ymin = std_case - sd,
+      ymax = std_case + sd,
+      alpha = &quot;Ensemble SD&quot;,
+    ),
+    width = 0.1,
+    fill = &quot;#AA3377&quot;,
+    alpha = 0.4,
+    position = position_nudge(x = 0.2)
+  ) +
+  geom_point(
+    data = dcant_budget_bias_ensemble_stat,
+    aes(
+      x = period,
+      y = std_case,
+      fill = &quot;Standard case&quot;,
+      alpha = &quot;Standard case&quot;
+    ),
+    size = 2,
+    shape = 21,
+    position = position_nudge(x = 0.2)
+  )+
+  scale_fill_manual(name = &quot;group&quot;, values = c(&quot;#BB5566&quot;, &quot;white&quot;, &quot;#BBBBBB&quot;)) +
+  scale_linetype(name = &quot;X&quot;) +
+  scale_alpha_manual(name = &quot;group&quot;, values = c(0.5,1,0.5)) +
+  scale_shape_manual(values = 95) +
+  scale_y_continuous(name = dcant_bias_pgc_label) +
+  guides(
+    fill = guide_legend(order = 1),
+    linetype = guide_legend(order = 2),
+    alpha = guide_legend(order = 1)
+  ) +
+  facet_wrap(~ basin, ncol = 3, dir = &quot;v&quot;, scales = &quot;free_y&quot;) +
+  theme(legend.title = element_blank(),
+        axis.title.x = element_blank())</code></pre>
+<p><img src="figure/results_publication.Rmd/budget_biases-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-budget_biases-2">
+Past versions of budget_biases-2.png
+</button>
+</p>
+<div id="fig-budget_biases-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a691b295445ba548b1f3539db5329fae9f31c514/docs/figure/results_publication.Rmd/budget_biases-2.png" target="_blank">a691b29</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-08-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>dcant_budget_basin_MLR_all_ensemble_bias %&gt;% 
   ggplot(aes(period, dcant_bias_rel, col = Version_ID_group)) +
   geom_hline(yintercept = 0) +
   geom_jitter(alpha = 0.5) +
   scale_color_brewer(palette = &quot;Dark2&quot;) +
   facet_grid(basin ~ MLR_basins)</code></pre>
-<p><img src="figure/results_publication.Rmd/budget_biases-2.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>delta_dcant_budget_basin_MLR_all_ensemble_bias &lt;-
+<p><img src="figure/results_publication.Rmd/budget_biases-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-budget_biases-3">
+Past versions of budget_biases-3.png
+</button>
+</p>
+<div id="fig-budget_biases-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a691b295445ba548b1f3539db5329fae9f31c514/docs/figure/results_publication.Rmd/budget_biases-3.png" target="_blank">a691b29</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-08-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>delta_dcant_budget_basin_MLR_all_ensemble &lt;-
 dcant_budget_basin_MLR_all_ensemble_bias %&gt;%
   filter(period %in% two_decades) %&gt;%
   select(basin, period, MLR_basins, Version_ID_group, mod, mod_truth) %&gt;%
@@ -16027,26 +16337,73 @@ dcant_budget_basin_MLR_all_ensemble_bias %&gt;%
   mutate(delta_dcant = dcant - lag(dcant)) %&gt;%
   ungroup() %&gt;%
   drop_na() %&gt;%
-  select(-dcant) %&gt;%
+  select(-dcant) 
+
+delta_dcant_budget_basin_MLR_all_ensemble_bias &lt;- 
+  delta_dcant_budget_basin_MLR_all_ensemble %&gt;%
   pivot_wider(names_from = data_source,
               values_from = delta_dcant) %&gt;%
   mutate(delta_dcant_bias = mod - mod_truth,
          delta_dcant_bias_rel = 100 * delta_dcant_bias / mod_truth)
 
-delta_dcant_budget_basin_MLR_all_ensemble_bias %&gt;% 
+delta_dcant_budget_basin_MLR_all_ensemble %&gt;% 
+  ggplot(aes(data_source, delta_dcant, col = Version_ID_group)) +
+  geom_hline(yintercept = 0) +
+  geom_jitter(alpha = 0.5) +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  facet_grid(basin ~ MLR_basins)</code></pre>
+<p><img src="figure/results_publication.Rmd/budget_biases-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-budget_biases-4">
+Past versions of budget_biases-4.png
+</button>
+</p>
+<div id="fig-budget_biases-4" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a691b295445ba548b1f3539db5329fae9f31c514/docs/figure/results_publication.Rmd/budget_biases-4.png" target="_blank">a691b29</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-08-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>delta_dcant_budget_basin_MLR_all_ensemble_bias %&gt;% 
   ggplot(aes(period, delta_dcant_bias, col = Version_ID_group)) +
   geom_hline(yintercept = 0) +
   geom_jitter(alpha = 0.5) +
   scale_color_brewer(palette = &quot;Dark2&quot;) +
   facet_grid(basin ~ MLR_basins)</code></pre>
-<p><img src="figure/results_publication.Rmd/budget_biases-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/results_publication.Rmd/budget_biases-5.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>delta_dcant_budget_basin_MLR_all_ensemble_bias %&gt;% 
   ggplot(aes(period, delta_dcant_bias_rel, col = Version_ID_group)) +
   geom_hline(yintercept = 0) +
   geom_jitter(alpha = 0.5) +
   scale_color_brewer(palette = &quot;Dark2&quot;) +
   facet_grid(basin ~ MLR_basins)</code></pre>
-<p><img src="figure/results_publication.Rmd/budget_biases-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/results_publication.Rmd/budget_biases-6.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="flow-chart" class="section level2" number="10.2">
@@ -16199,6 +16556,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a691b295445ba548b1f3539db5329fae9f31c514/docs/figure/results_publication.Rmd/budgets_basins_hemisphere_alluvial_order_budget-1.png" target="_blank">a691b29</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-08-09
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/910f96efb71e9f87a8110f620064f77fdd872f0f/docs/figure/results_publication.Rmd/budgets_basins_hemisphere_alluvial_order_budget-1.png" target="_blank">910f96e</a>
@@ -16591,6 +16959,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a691b295445ba548b1f3539db5329fae9f31c514/docs/figure/results_publication.Rmd/budgets_basins_hemisphere_alluvial_order_basin-1.png" target="_blank">a691b29</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-08-09
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/910f96efb71e9f87a8110f620064f77fdd872f0f/docs/figure/results_publication.Rmd/budgets_basins_hemisphere_alluvial_order_basin-1.png" target="_blank">910f96e</a>
@@ -17038,6 +17417,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a691b295445ba548b1f3539db5329fae9f31c514/docs/figure/results_publication.Rmd/budgets_basins_hemisphere_alluvial_order_basin_scaled-1.png" target="_blank">a691b29</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-08-09
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/910f96efb71e9f87a8110f620064f77fdd872f0f/docs/figure/results_publication.Rmd/budgets_basins_hemisphere_alluvial_order_basin_scaled-1.png" target="_blank">910f96e</a>
 </td>
 <td>
@@ -17415,6 +17805,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a691b295445ba548b1f3539db5329fae9f31c514/docs/figure/results_publication.Rmd/budgets_basins_hemisphere_alluvial_order_basin_scaled_incl_sabine-1.png" target="_blank">a691b29</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-08-09
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/910f96efb71e9f87a8110f620064f77fdd872f0f/docs/figure/results_publication.Rmd/budgets_basins_hemisphere_alluvial_order_basin_scaled_incl_sabine-1.png" target="_blank">910f96e</a>
@@ -17902,6 +18303,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a691b295445ba548b1f3539db5329fae9f31c514/docs/figure/results_publication.Rmd/budgets_basins_hemisphere_alluvial_order_basin_scaled_incl_sabine_uncertainty-1.png" target="_blank">a691b29</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-08-09
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/910f96efb71e9f87a8110f620064f77fdd872f0f/docs/figure/results_publication.Rmd/budgets_basins_hemisphere_alluvial_order_basin_scaled_incl_sabine_uncertainty-1.png" target="_blank">910f96e</a>
@@ -21913,6 +22325,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/a691b295445ba548b1f3539db5329fae9f31c514/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_boxplot-1.png" target="_blank">a691b29</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-08-09
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/910f96efb71e9f87a8110f620064f77fdd872f0f/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_boxplot-1.png" target="_blank">910f96e</a>
