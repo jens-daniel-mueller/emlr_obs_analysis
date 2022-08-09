@@ -1190,6 +1190,7 @@ two_decades <- unique(params_local_all_ensemble$period)[1:2]
 ```{r define_legend_titles}
 
 dcant_pgc_label <- expression(Delta * C["ant"]~(PgC))
+dcant_bias_pgc_label <- expression(Bias ~ Delta * C["ant"]~(PgC))
 dcant_pgc_scaled_label <- expression(beta~(PgC~µatm^{-1}))
 
 dcant_umol_label <- expression(Delta * C[ant]~(mu * mol ~ kg ^ {-1}))
@@ -3365,6 +3366,8 @@ ggsave(path = here::here("output/publication"),
 
 ```
 
+### Biases
+
 
 ```{r budget_biases, fig.asp=1.2}
 
@@ -3377,12 +3380,134 @@ dcant_budget_basin_MLR_all_ensemble %>%
   mutate(dcant_bias = mod - mod_truth,
          dcant_bias_rel = 100 * dcant_bias / mod_truth)
 
-dcant_budget_basin_MLR_all_ensemble_bias %>% 
-  ggplot(aes(period, dcant_bias, col = Version_ID_group)) +
+dcant_budget_basin_MLR_all_ensemble_bias <- 
+dcant_budget_basin_MLR_all_ensemble_bias %>%
+  mutate(ensemble_role = if_else(Version_ID %in% Version_IDs,
+                                 "Standard case",
+                                 "others"))
+
+dcant_budget_basin_MLR_all_ensemble_bias %>%
+  ggplot(aes(period, dcant_bias)) +
   geom_hline(yintercept = 0) +
-  geom_jitter(alpha = 0.5) +
-  scale_color_brewer(palette = "Dark2") +
-  facet_grid(basin ~ MLR_basins)
+  geom_point(
+    aes(fill = Version_ID_group,
+        col = ensemble_role),
+    size = 1.3,
+    alpha = .7,
+    shape = 21,
+    position = position_dodge2(width = 0.3)
+  ) +
+  stat_summary(
+    fun.data = "mean_sdl",
+    fun.args = list(mult = 2),
+    position = position_nudge(x = -0.3),
+    col = "grey"
+  ) +
+  stat_summary(
+    fun.data = "mean_sdl",
+    fun.args = list(mult = 1),
+    position = position_nudge(x = -0.3),
+    size = 0.1
+  ) +
+  scale_fill_brewer(palette = "Dark2") +
+    scale_color_manual(values = c("transparent", "black"),
+                     name = "Ensemble member") +
+  facet_grid(basin ~ .)
+
+
+dcant_budget_bias_ensemble_stat <-
+  dcant_budget_basin_MLR_all_ensemble_bias %>%
+  filter(period != "1994 - 2014") %>%
+  group_by(period, basin) %>%
+  summarise(
+    median = median(dcant_bias),
+    sd = sd(dcant_bias),
+    n = n()
+  ) %>%
+  ungroup() 
+
+
+dcant_budget_bias_ensemble_stat <-
+  full_join(
+    dcant_budget_bias_ensemble_stat,
+    dcant_budget_basin_MLR_all_ensemble_bias %>%
+        filter(Version_ID %in% Version_IDs,
+               period != "1994 - 2014") %>%
+        select(period,
+               basin,
+               std_case = dcant_bias)
+  )
+
+
+
+
+dcant_budget_basin_MLR_all_ensemble_bias %>%
+  filter(period != "1994 - 2014") %>%
+  ggplot(aes(period, dcant_bias)) +
+  geom_hline(yintercept = 0) +
+  geom_point(
+    aes(fill = "Ensemble member",
+        alpha = "Ensemble member"),
+    shape = 21,
+    position = position_jitter(width = 0.1, height = 0)
+  ) +
+  geom_crossbar(
+    data = dcant_budget_bias_ensemble_stat,
+    aes(
+      x = period,
+      y = std_case,
+      ymin = std_case - 2 * sd,
+      ymax = std_case + 2 * sd,
+      linetype = "Ensemble SD"
+    ),
+    width = 0.1,
+    fill = "#AA3377",
+    alpha = 0.2,
+    position = position_nudge(x = 0.2)
+  ) +
+  geom_crossbar(
+    data = dcant_budget_bias_ensemble_stat,
+    aes(
+      x = period,
+      y = std_case,
+      ymin = std_case - sd,
+      ymax = std_case + sd,
+      alpha = "Ensemble SD",
+    ),
+    width = 0.1,
+    fill = "#AA3377",
+    alpha = 0.4,
+    position = position_nudge(x = 0.2)
+  ) +
+  geom_point(
+    data = dcant_budget_bias_ensemble_stat,
+    aes(
+      x = period,
+      y = std_case,
+      fill = "Standard case",
+      alpha = "Standard case"
+    ),
+    size = 2,
+    shape = 21,
+    position = position_nudge(x = 0.2)
+  )+
+  scale_fill_manual(name = "group", values = c("#BB5566", "white", "#BBBBBB")) +
+  scale_linetype(name = "X") +
+  scale_alpha_manual(name = "group", values = c(0.5,1,0.5)) +
+  scale_shape_manual(values = 95) +
+  scale_y_continuous(name = dcant_bias_pgc_label) +
+  guides(
+    fill = guide_legend(order = 1),
+    linetype = guide_legend(order = 2),
+    alpha = guide_legend(order = 1)
+  ) +
+  facet_wrap(~ basin, ncol = 3, dir = "v", scales = "free_y") +
+  theme(legend.title = element_blank(),
+        axis.title.x = element_blank())
+
+
+
+
 
 dcant_budget_basin_MLR_all_ensemble_bias %>% 
   ggplot(aes(period, dcant_bias_rel, col = Version_ID_group)) +
@@ -3392,7 +3517,10 @@ dcant_budget_basin_MLR_all_ensemble_bias %>%
   facet_grid(basin ~ MLR_basins)
 
 
-delta_dcant_budget_basin_MLR_all_ensemble_bias <-
+
+
+
+delta_dcant_budget_basin_MLR_all_ensemble <-
 dcant_budget_basin_MLR_all_ensemble_bias %>%
   filter(period %in% two_decades) %>%
   select(basin, period, MLR_basins, Version_ID_group, mod, mod_truth) %>%
@@ -3404,11 +3532,21 @@ dcant_budget_basin_MLR_all_ensemble_bias %>%
   mutate(delta_dcant = dcant - lag(dcant)) %>%
   ungroup() %>%
   drop_na() %>%
-  select(-dcant) %>%
+  select(-dcant) 
+
+delta_dcant_budget_basin_MLR_all_ensemble_bias <- 
+  delta_dcant_budget_basin_MLR_all_ensemble %>%
   pivot_wider(names_from = data_source,
               values_from = delta_dcant) %>%
   mutate(delta_dcant_bias = mod - mod_truth,
          delta_dcant_bias_rel = 100 * delta_dcant_bias / mod_truth)
+
+delta_dcant_budget_basin_MLR_all_ensemble %>% 
+  ggplot(aes(data_source, delta_dcant, col = Version_ID_group)) +
+  geom_hline(yintercept = 0) +
+  geom_jitter(alpha = 0.5) +
+  scale_color_brewer(palette = "Dark2") +
+  facet_grid(basin ~ MLR_basins)
 
 delta_dcant_budget_basin_MLR_all_ensemble_bias %>% 
   ggplot(aes(period, delta_dcant_bias, col = Version_ID_group)) +
