@@ -2871,17 +2871,6 @@ dcant_budget_basin_MLR_all_ensemble %>%
   scale_color_brewer(palette = "Dark2") +
   facet_grid(basin ~ data_source, scales = "free_y")
 
-dcant_budget_basin_MLR_all_ensemble %>%
-  filter(data_source %in% c("mod", "mod_truth")) %>% 
-  pivot_wider(names_from = data_source,
-              values_from = dcant) %>% 
-  mutate(dcant_bias = mod - mod_truth,
-         dcant_bias_rel = 100 * dcant_bias / mod_truth) %>% 
-  ggplot(aes(period, dcant_bias_rel, col = Version_ID_group)) +
-  geom_hline(yintercept = 0) +
-  geom_jitter(alpha = 0.5) +
-  scale_color_brewer(palette = "Dark2") +
-  facet_grid(basin ~ MLR_basins, scales = "free_y")
 
 tcant_budget_basin_MLR <- expand_grid(
   tcant_budget_basin_MLR,
@@ -3373,6 +3362,69 @@ ggsave(path = here::here("output/publication"),
        filename = "FigS_beta_budgets_ensemble_member.png",
        height = 6,
        width = 8)
+
+```
+
+
+```{r budget_biases, fig.asp=1.2}
+
+
+dcant_budget_basin_MLR_all_ensemble_bias <- 
+dcant_budget_basin_MLR_all_ensemble %>%
+  filter(data_source %in% c("mod", "mod_truth")) %>% 
+  pivot_wider(names_from = data_source,
+              values_from = dcant) %>% 
+  mutate(dcant_bias = mod - mod_truth,
+         dcant_bias_rel = 100 * dcant_bias / mod_truth)
+
+dcant_budget_basin_MLR_all_ensemble_bias %>% 
+  ggplot(aes(period, dcant_bias, col = Version_ID_group)) +
+  geom_hline(yintercept = 0) +
+  geom_jitter(alpha = 0.5) +
+  scale_color_brewer(palette = "Dark2") +
+  facet_grid(basin ~ MLR_basins)
+
+dcant_budget_basin_MLR_all_ensemble_bias %>% 
+  ggplot(aes(period, dcant_bias_rel, col = Version_ID_group)) +
+  geom_hline(yintercept = 0) +
+  geom_jitter(alpha = 0.5) +
+  scale_color_brewer(palette = "Dark2") +
+  facet_grid(basin ~ MLR_basins)
+
+
+delta_dcant_budget_basin_MLR_all_ensemble_bias <-
+dcant_budget_basin_MLR_all_ensemble_bias %>%
+  filter(period %in% two_decades) %>%
+  select(basin, period, MLR_basins, Version_ID_group, mod, mod_truth) %>%
+  pivot_longer(cols = mod:mod_truth,
+               names_to = "data_source",
+               values_to = "dcant") %>%
+  group_by(basin, MLR_basins, Version_ID_group, data_source) %>%
+  arrange(period) %>%
+  mutate(delta_dcant = dcant - lag(dcant)) %>%
+  ungroup() %>%
+  drop_na() %>%
+  select(-dcant) %>%
+  pivot_wider(names_from = data_source,
+              values_from = delta_dcant) %>%
+  mutate(delta_dcant_bias = mod - mod_truth,
+         delta_dcant_bias_rel = 100 * delta_dcant_bias / mod_truth)
+
+delta_dcant_budget_basin_MLR_all_ensemble_bias %>% 
+  ggplot(aes(period, delta_dcant_bias, col = Version_ID_group)) +
+  geom_hline(yintercept = 0) +
+  geom_jitter(alpha = 0.5) +
+  scale_color_brewer(palette = "Dark2") +
+  facet_grid(basin ~ MLR_basins)
+  
+
+delta_dcant_budget_basin_MLR_all_ensemble_bias %>% 
+  ggplot(aes(period, delta_dcant_bias_rel, col = Version_ID_group)) +
+  geom_hline(yintercept = 0) +
+  geom_jitter(alpha = 0.5) +
+  scale_color_brewer(palette = "Dark2") +
+  facet_grid(basin ~ MLR_basins)
+  
 
 ```
 
