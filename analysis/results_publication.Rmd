@@ -29,6 +29,8 @@ library(ggdist)
 library(kableExtra)
 library(BSDA)
 library(khroma)
+library(ggh4x)
+
 ```
 
 
@@ -762,7 +764,7 @@ for (i_Version_IDs in Version_IDs_ensemble) {
                    sep = ""))
   
   dcant_zonal <- bind_rows(dcant_zonal,
-                         dcant_zonal_mod_truth)
+                           dcant_zonal_mod_truth)
   
   dcant_profile <-
     read_csv(paste(path_version_data,
@@ -774,14 +776,26 @@ for (i_Version_IDs in Version_IDs_ensemble) {
                    "dcant_profile_mod_truth.csv",
                    sep = ""))
   
+  dcant_profile <- bind_rows(dcant_profile,
+                             dcant_profile_mod_truth)
+  
   
   dcant_profile_basin_MLR <-
     read_csv(paste(path_version_data,
                    "dcant_profile_basin_MLR.csv",
                    sep = ""))
   
-  dcant_profile <- bind_rows(dcant_profile,
-                             dcant_profile_mod_truth)
+  
+  # dcant_profile_basin_MLR_mod_truth <-
+  #   read_csv(paste(
+  #     path_version_data,
+  #     "dcant_profile_basin_MLR_mod_truth.csv",
+  #     sep = ""
+  #   ))
+  # 
+  # dcant_profile_basin_MLR <- bind_rows(dcant_profile_basin_MLR,
+  #                                      dcant_profile_basin_MLR_mod_truth)
+  
   
   dcant_budget_basin_AIP_layer <-
     read_csv(paste(path_version_data,
@@ -1364,14 +1378,16 @@ dcant_scaling <- 1.02*1.015*1.01*1.02
 
 ```{r calculate_scaled_inventories}
 
-dcant_inv_all <- dcant_inv_all %>%
-  filter(data_source %in% c("obs"))
+# dcant_inv_all <- dcant_inv_all %>%
+#   filter(data_source %in% c("obs"))
 
 
 dcant_inv_all <- bind_rows(
   dcant_inv_all,
-  tcant_inv %>% mutate(period = paste(tref1, tref2, sep = " - "))
+  tcant_inv %>% mutate(period = paste(tref1, tref2, sep = " - "),
+                       data_source = "obs")
 )
+
 
 dcant_inv_all <- left_join(dcant_inv_all,
                            delta_pCO2_atm)
@@ -1394,7 +1410,8 @@ dcant_inv_all <- dcant_inv_all %>%
 ```{r invetory_maps_absolute, fig.asp=1.2}
 
 p_CI_absolute <- dcant_inv_all %>%
-  filter(period %in% two_decades) %>%
+  filter(period %in% two_decades,
+         data_source %in% c("obs")) %>%
   p_map_cant_inv(var = "dcant",
                  title_text = NULL) +
   facet_wrap(~ period, ncol = 1) +
@@ -1411,7 +1428,7 @@ dcant_inv_stat_mean <-
 full_join(basinmask,
           dcant_inv_all) %>% 
   mutate(surf_area = earth_surf(lat, lon)) %>% 
-  group_by(basin, period) %>% 
+  group_by(basin, period, data_source) %>% 
   summarise(dcant = weighted.mean(dcant, surf_area)) %>% 
   ungroup() %>% 
   filter(!is.na(dcant))
@@ -1437,7 +1454,7 @@ rm(dcant_inv_stat_mean,
 
 dcant_inv_stat %>%
   filter(period %in% two_decades) %>%
-  group_by(basin) %>%
+  group_by(data_source, basin) %>%
   mutate(delta_dcant = dcant - lag(dcant),
          RSS = sqrt(dcant_sd ^ 2 + lag(dcant_sd ^ 2))) %>%
   ungroup() %>%
@@ -1488,6 +1505,61 @@ ggsave(path = here::here("output/publication"),
 rm(p_CI_absolute, p_CI_delta)
 
 ```
+
+### Bias
+
+```{r invetory_maps_absolute_mod, fig.asp=1.2}
+
+p_CI_absolute_mod <- dcant_inv_all %>%
+  filter(period %in% two_decades,
+         data_source != "obs") %>%
+  mutate(data_source = case_when(
+    data_source == "mod" ~ "Reconstruction",
+    data_source == "mod_truth" ~ "Model truth"
+  )) %>%  
+  p_map_cant_inv(var = "dcant",
+                 title_text = NULL) +
+  facet_grid(data_source ~ period) +
+  theme(axis.text.x = element_blank()) 
+
+p_CI_absolute_mod
+
+```
+
+
+```{r invetory_maps_absolute_mod_bias, fig.asp=1.3}
+
+p_CI_bias <-
+  dcant_inv_all %>%
+  filter(period %in% two_decades,
+         data_source != "obs") %>%
+  select(data_source, lon, lat, basin_AIP, period, dcant) %>%
+  pivot_wider(names_from = data_source,
+              values_from = dcant) %>%
+  mutate(dcant_offset = mod - mod_truth,
+         data_source = "Reconstruction bias") %>%
+  p_map_cant_inv(
+    var = "dcant_offset",
+    title_text = NULL,
+    subtitle_text = NULL,
+    col = "bias"
+  ) +
+  facet_grid(data_source ~ period) +
+  theme(strip.text.x = element_blank(),
+        strip.background.x = element_blank())
+
+p_CI_absolute_mod / p_CI_bias + 
+  plot_annotation(tag_levels = 'A')
+
+ggsave(path = here::here("output/publication"),
+       filename = "FigS_dcant_column_inventory_synthetic_data.png",
+       height = 10,
+       width = 11)
+
+rm(p_CI_absolute_mod, p_CI_bias)
+
+```
+
 
 ### Ensemble SD
 
@@ -1549,6 +1621,7 @@ ggsave(path = here::here("output/publication"),
 ```{r beta_CI_maps, fig.asp=1.2}
 
 dcant_inv_all %>%
+  filter(data_source %in% c("obs")) %>% 
   p_map_cant_inv(var = "beta",
                  breaks = c(-Inf, seq(0, 1, 0.1), Inf),
                  title_text = NULL) +
@@ -1570,7 +1643,7 @@ ggsave(path = here::here("output/publication"),
 dcant_inv_all <- m_grid_horizontal_coarse(dcant_inv_all)
 
 dcant_inv_all_lat_mean <- dcant_inv_all %>% 
-  group_by(basin_AIP, period, lat_grid) %>% 
+  group_by(basin_AIP, period, lat_grid, data_source) %>% 
   summarise(beta = mean(beta, na.rm = TRUE),
             dcant = mean(dcant, na.rm = TRUE)) %>% 
   ungroup()
@@ -1578,13 +1651,13 @@ dcant_inv_all_lat_mean <- dcant_inv_all %>%
 dcant_inv_all_ensemble <- m_grid_horizontal_coarse(dcant_inv_all_ensemble)
 
 dcant_inv_all_ensemble_lat_mean <- dcant_inv_all_ensemble %>% 
-  group_by(basin_AIP, period, lat_grid, Version_ID) %>% 
+  group_by(basin_AIP, period, lat_grid, Version_ID, data_source) %>% 
   summarise(beta_mean = mean(beta, na.rm = TRUE),
             dcant_mean = mean(dcant, na.rm = TRUE)) %>% 
   ungroup()
 
 dcant_inv_all_ensemble_lat_mean_average <- dcant_inv_all_ensemble_lat_mean %>% 
-  group_by(basin_AIP, period, lat_grid) %>% 
+  group_by(basin_AIP, period, lat_grid, data_source) %>% 
   summarise(beta_sd = sd(beta_mean, na.rm = TRUE),
             beta_mean = mean(beta_mean, na.rm = TRUE),
             dcant_sd = sd(dcant_mean, na.rm = TRUE),
@@ -1616,7 +1689,7 @@ dcant_inv_all_lat_mean %>%
   scale_color_brewer(palette = "Dark2", name = "Mean ± SD") +
   scale_fill_brewer(palette = "Dark2", name = "Mean ± SD") +
   coord_flip() +
-  facet_grid(. ~ basin_AIP) +
+  facet_grid(data_source ~ basin_AIP) +
   labs(x = "Latitude (°N)",
        y = dcant_CI_label) +
   scale_x_continuous(breaks = seq(-75,75, 15))
@@ -1624,21 +1697,21 @@ dcant_inv_all_lat_mean %>%
 dcant_inv_all_lat_mean %>%
   filter(period != "1800 - 1994") %>% 
   mutate(lat_grid = cut(lat_grid, c(-40,-30,-10,10,30,40))) %>% 
-  group_by(lat_grid) %>% 
+  group_by(lat_grid, data_source) %>% 
   summarise(dcant_mean = mean(dcant_mean, na_rm = TRUE)) %>% 
   ungroup()
 
 dcant_inv_all_lat_mean %>%
   filter(period != "1800 - 1994") %>% 
   mutate(lat_grid = cut(lat_grid, c(-40,-30,-10,10,30,40))) %>% 
-  group_by(lat_grid, basin_AIP) %>% 
+  group_by(lat_grid, basin_AIP, data_source) %>% 
   summarise(dcant_mean = mean(dcant_mean, na_rm = TRUE)) %>% 
   ungroup()
 
 dcant_inv_all_lat_mean %>%
   filter(period != "1800 - 1994") %>% 
   mutate(lat_grid = cut(lat_grid, c(-90,0,90))) %>% 
-  group_by(lat_grid, basin_AIP, period) %>% 
+  group_by(lat_grid, basin_AIP, period, data_source) %>% 
   summarise(dcant_mean = mean(dcant_mean, na_rm = TRUE)) %>% 
   ungroup()
 
@@ -1650,7 +1723,7 @@ dcant_inv_all_ensemble_lat_mean %>%
   scale_color_brewer(palette = "Dark2") +
   scale_fill_brewer(palette = "Dark2") +
   coord_flip() +
-  facet_grid(. ~ basin_AIP) +
+  facet_grid(data_source ~ basin_AIP) +
   labs(x = "Latitude (°N)",
        y = dcant_CI_label)
 
@@ -1672,7 +1745,7 @@ dcant_inv_all_lat_mean %>%
   scale_color_brewer(palette = "Dark2", name = "Mean ± SD") +
   scale_fill_brewer(palette = "Dark2", name = "Mean ± SD") +
   coord_flip() +
-  facet_grid(. ~ basin_AIP) +
+  facet_grid(data_source ~ basin_AIP) +
   labs(x = "Latitude (°N)",
        y = beta_CI_label) +
   scale_x_continuous(breaks = seq(-75,75, 15))
@@ -1684,7 +1757,7 @@ dcant_inv_all_ensemble_lat_mean %>%
   scale_color_brewer(palette = "Dark2") +
   scale_fill_brewer(palette = "Dark2") +
   coord_flip() +
-  facet_grid(. ~ basin_AIP) +
+  facet_grid(data_source ~ basin_AIP) +
   labs(x = "Latitude (°N)",
        y = beta_CI_label)
 ```
@@ -1831,6 +1904,95 @@ ggsave(path = here::here("output/publication"),
 rm(p_dcant_zonal_absolute, p_dcant_zonal_delta)
 ```
 
+## Bias
+
+
+```{r zonal_sections_mod}
+
+
+p_dcant_zonal_absolute_mod <-
+  dcant_zonal_all %>%
+  filter(
+    data_source != "obs",
+    period %in% two_decades,
+    depth <= params_global$inventory_depth_standard
+  ) %>%
+    mutate(data_source = case_when(
+    data_source == "mod" ~ "Reconstruction",
+    data_source == "mod_truth" ~ "Model truth"
+  )) %>%  
+  p_section_zonal_continous_depth(var = "dcant",
+                                  plot_slabs = "n",
+                                  title_text = NULL) +
+  geom_contour(aes(lat, depth, z = dcant),
+               breaks = 5,
+               col = "white") +
+  facet_nested(data_source+period ~ basin_AIP) +
+  theme(
+    axis.text.x = element_blank(),
+    axis.title.x = element_blank(),
+    legend.position = "top"
+  ) +
+  guides(fill = guide_colorsteps(
+    barheight = unit(0.5, "cm"),
+    barwidth = unit(7, "cm"),
+    show.limits = FALSE
+  ))
+
+p_dcant_zonal_absolute_mod
+
+
+```
+
+
+```{r inventory_maps_absolute_bias}
+
+p_dcant_zonal_bias <-
+  dcant_zonal_all %>%
+  filter(data_source != "obs",
+         period %in% two_decades) %>%
+  select(data_source, lat, depth, basin_AIP, period, dcant) %>%
+  pivot_wider(names_from = data_source,
+              values_from = dcant) %>%
+  mutate(delta_dcant = mod - mod_truth) %>%
+  p_section_zonal_continous_depth(
+    var = "delta_dcant",
+    plot_slabs = "n",
+    drop_slabs = 1,
+    subtitle_text = NULL,
+    title_text = NULL,
+    col = "bias"
+  ) +
+  facet_grid(period ~ basin_AIP) +
+  theme(
+    strip.text.x = element_blank(),
+    strip.background.x = element_blank(),
+    legend.position = "bottom"
+  ) +
+  guides(fill = guide_colorsteps(
+    barheight = unit(0.5, "cm"),
+    barwidth = unit(10, "cm"),
+    show.limits = FALSE
+  ))
+
+p_dcant_zonal_absolute_mod / p_dcant_zonal_bias + 
+  plot_layout(heights = c(2,1)) +
+  plot_annotation(tag_levels = 'A')
+
+
+ggsave(
+  path = here::here("output/publication"),
+  filename = "FigS_dcant_zonal_mean_section_synthetic_data.png",
+  height = 9,
+  width = 8
+)
+
+rm(p_dcant_zonal_absolute_mod, 
+   p_dcant_zonal_bias)
+
+```
+
+
 
 # Concentration profiles
 
@@ -1909,9 +2071,10 @@ full_join(dcant_profile_global_all_ensemble,
 
 ```
 
-### basin hemisphere
+### Basin hemisphere
 
 ```{r concentration_profiles_MLR_basins, fig.asp=0.9}
+
 
 dcant_profile_basin_MLR_all %>%
   arrange(depth) %>%
@@ -1937,15 +2100,23 @@ dcant_profile_basin_MLR_all %>%
       scale_y_continuous(trans = trans_reverser("sqrt"),
                          breaks = c(0, 100, 500, seq(1500, 5000, 1000))) +
       coord_cartesian(expand = 0) +
-      scale_color_brewer(palette = "Set1", name = "mean \u00B1 sd", direction = -1) +
-      scale_fill_brewer(palette = "Set1", name = "mean \u00B1 sd", direction = -1) +
+      scale_color_brewer(
+        palette = "Set1",
+        name = "mean \u00B1 sd",
+        direction = -1
+      ) +
+      scale_fill_brewer(
+        palette = "Set1",
+        name = "mean \u00B1 sd",
+        direction = -1
+      ) +
       labs(
         title = paste("data_source", unique(.x$data_source)),
         y = "Depth (m)",
         x = dcant_umol_label
       ) +
-      facet_wrap(~ basin, ncol = 3, dir = "v") +
-      theme(legend.position = c(0.8,0.2))
+      facet_wrap( ~ basin, ncol = 3, dir = "v") +
+      theme(legend.position = c(0.8, 0.2))
   )
 
 
@@ -2136,9 +2307,8 @@ full_join(dcant_profile_basin_MLR_all_ensemble,
 ```{r concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon, fig.asp=0.9}
 
 dcant_profile_basin_MLR_range <- dcant_profile_basin_MLR_all_ensemble %>%
-  filter(period != "1994 - 2014",
-         data_source == "obs") %>%
-  group_by(basin, depth, period) %>% 
+  # filter(period != "1994 - 2014") %>%
+  group_by(basin, depth, period, data_source) %>% 
   summarise(dcant_sd = sd(dcant)*2) %>%
   ungroup()
 
@@ -2227,6 +2397,53 @@ full_join(dcant_profile_basin_MLR_all_ensemble,
 
 
 ```
+
+```{r concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon_mod, fig.asp=0.9, eval=FALSE}
+
+p_dcant_profiles_mod <-
+  dcant_profile_basin_MLR_all_ensemble %>%
+  arrange(depth) %>%
+  filter(
+    period != "1994 - 2014",
+    depth <= params_global$inventory_depth_standard,
+    data_source != "obs",
+    Version_ID %in% Version_IDs
+  ) %>%
+  ggplot() +
+  geom_vline(xintercept = 0, size = 0.1) +
+  geom_hline(yintercept = 1000, size = 0.1) +
+  geom_ribbon(
+    aes(
+      xmin = dcant - dcant_sd,
+      xmax = dcant + dcant_sd,
+      y = depth,
+      fill = data_source,
+      group = Version_ID
+    ),
+    alpha = 0.5
+  ) +
+  geom_path(
+    aes(dcant,
+        depth,
+        col = data_source,
+        group = Version_ID,)
+  ) +
+  scale_y_continuous(trans = trans_reverser("sqrt"),
+                     breaks = c(0, 100, 500, seq(1000, 5000, 1000))) +
+  coord_cartesian(expand = 0) +
+  scale_color_manual(values = c("#EE7733", "#009988"), name = "Mean \u00B1 2 SD") +
+  scale_fill_manual(values = c("#EE7733", "#009988"), name = "Mean \u00B1 2 SD") +
+  labs(y = "Depth (m)",
+       x = dcant_umol_label) +
+  facet_grid(period ~ basin) +
+  theme(legend.position = c(0.9, 0.1))
+
+p_dcant_profiles_mod
+
+```
+
+
+
 
 ```{r concentration_profiles_MLR_basins_ensemble_basin_separation, fig.asp=0.9}
 
@@ -3505,7 +3722,10 @@ dcant_budget_basin_MLR_all_ensemble_bias %>%
   theme(legend.title = element_blank(),
         axis.title.x = element_blank())
 
-
+ggsave(path = here::here("output/publication"),
+       filename = "FigS_dcant_bias_budgets_ensemble_member.png",
+       height = 6,
+       width = 8)
 
 
 
