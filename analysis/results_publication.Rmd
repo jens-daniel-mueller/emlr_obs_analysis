@@ -1566,8 +1566,8 @@ p_CI_absolute_mod / p_CI_bias +
 
 ggsave(path = here::here("output/publication"),
        filename = "FigS_dcant_column_inventory_synthetic_data.png",
-       height = 10,
-       width = 11)
+       height = 7,
+       width = 8)
 
 rm(p_CI_absolute_mod, p_CI_bias)
 
