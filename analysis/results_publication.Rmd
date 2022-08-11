@@ -786,15 +786,15 @@ for (i_Version_IDs in Version_IDs_ensemble) {
                    sep = ""))
   
   
-  # dcant_profile_basin_MLR_mod_truth <-
-  #   read_csv(paste(
-  #     path_version_data,
-  #     "dcant_profile_basin_MLR_mod_truth.csv",
-  #     sep = ""
-  #   ))
-  # 
-  # dcant_profile_basin_MLR <- bind_rows(dcant_profile_basin_MLR,
-  #                                      dcant_profile_basin_MLR_mod_truth)
+  dcant_profile_basin_MLR_mod_truth <-
+    read_csv(paste(
+      path_version_data,
+      "dcant_profile_basin_MLR_mod_truth.csv",
+      sep = ""
+    ))
+
+  dcant_profile_basin_MLR <- bind_rows(dcant_profile_basin_MLR,
+                                       dcant_profile_basin_MLR_mod_truth)
   
   
   dcant_budget_basin_AIP_layer <-
@@ -805,7 +805,19 @@ for (i_Version_IDs in Version_IDs_ensemble) {
   dcant_budget_basin_MLR_layer <-
     read_csv(paste(path_version_data,
                    "dcant_budget_basin_MLR_layer.csv",
+                   
                    sep = ""))
+  
+  dcant_budget_basin_MLR_layer_mod_truth <-
+    read_csv(paste(
+      path_version_data,
+      "dcant_budget_basin_MLR_layer_mod_truth.csv",
+      sep = ""
+    ))
+  
+  dcant_budget_basin_MLR_layer <-
+    bind_rows(dcant_budget_basin_MLR_layer,
+              dcant_budget_basin_MLR_layer_mod_truth)
   
   dcant_zonal_bias <-
     read_csv(paste(path_version_data,
@@ -1205,6 +1217,7 @@ two_decades <- unique(params_local_all_ensemble$period)[1:2]
 
 dcant_pgc_label <- expression(Delta * C["ant"]~(PgC))
 dcant_bias_pgc_label <- expression(Bias ~ Delta * C["ant"]~(PgC))
+delta_dcant_bias_pgc_label <- expression(Bias ~ Delta * Delta * C["ant"]~(PgC))
 dcant_pgc_scaled_label <- expression(beta~(PgC~µatm^{-1}))
 
 dcant_umol_label <- expression(Delta * C[ant]~(mu * mol ~ kg ^ {-1}))
@@ -2398,7 +2411,7 @@ full_join(dcant_profile_basin_MLR_all_ensemble,
 
 ```
 
-```{r concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon_mod, fig.asp=0.9, eval=FALSE}
+```{r concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon_mod, fig.asp=0.9}
 
 p_dcant_profiles_mod <-
   dcant_profile_basin_MLR_all_ensemble %>%
@@ -2409,6 +2422,10 @@ p_dcant_profiles_mod <-
     data_source != "obs",
     Version_ID %in% Version_IDs
   ) %>%
+    mutate(data_source = case_when(
+    data_source == "mod" ~ "Reconstruction",
+    data_source == "mod_truth" ~ "Model truth"
+  )) %>%  
   ggplot() +
   geom_vline(xintercept = 0, size = 0.1) +
   geom_hline(yintercept = 1000, size = 0.1) +
@@ -2418,7 +2435,7 @@ p_dcant_profiles_mod <-
       xmax = dcant + dcant_sd,
       y = depth,
       fill = data_source,
-      group = Version_ID
+      group = interaction(Version_ID,data_source)
     ),
     alpha = 0.5
   ) +
@@ -2426,17 +2443,17 @@ p_dcant_profiles_mod <-
     aes(dcant,
         depth,
         col = data_source,
-        group = Version_ID,)
+        group = interaction(Version_ID,data_source))
   ) +
   scale_y_continuous(trans = trans_reverser("sqrt"),
                      breaks = c(0, 100, 500, seq(1000, 5000, 1000))) +
   coord_cartesian(expand = 0) +
-  scale_color_manual(values = c("#EE7733", "#009988"), name = "Mean \u00B1 2 SD") +
-  scale_fill_manual(values = c("#EE7733", "#009988"), name = "Mean \u00B1 2 SD") +
+  scale_color_manual(values = c("#009988", "#EE7733"), name = "Mean \u00B1 2 SD") +
+  scale_fill_manual(values = c("#009988", "#EE7733"), name = "Mean \u00B1 2 SD") +
   labs(y = "Depth (m)",
        x = dcant_umol_label) +
   facet_grid(period ~ basin) +
-  theme(legend.position = c(0.9, 0.1))
+  theme(legend.position = "top")
 
 p_dcant_profiles_mod
 
@@ -3737,13 +3754,10 @@ dcant_budget_basin_MLR_all_ensemble_bias %>%
   facet_grid(basin ~ MLR_basins)
 
 
-
-
-
 delta_dcant_budget_basin_MLR_all_ensemble <-
 dcant_budget_basin_MLR_all_ensemble_bias %>%
   filter(period %in% two_decades) %>%
-  select(basin, period, MLR_basins, Version_ID_group, mod, mod_truth) %>%
+  select(basin, period, MLR_basins, Version_ID_group, mod, mod_truth, Version_ID) %>%
   pivot_longer(cols = mod:mod_truth,
                names_to = "data_source",
                values_to = "dcant") %>%
@@ -3776,13 +3790,140 @@ delta_dcant_budget_basin_MLR_all_ensemble_bias %>%
   facet_grid(basin ~ MLR_basins)
   
 
-delta_dcant_budget_basin_MLR_all_ensemble_bias %>% 
-  ggplot(aes(period, delta_dcant_bias_rel, col = Version_ID_group)) +
-  geom_hline(yintercept = 0) +
-  geom_jitter(alpha = 0.5) +
-  scale_color_brewer(palette = "Dark2") +
-  facet_grid(basin ~ MLR_basins)
+delta_dcant_budget_bias_ensemble_stat <-
+  delta_dcant_budget_basin_MLR_all_ensemble_bias %>%
+  group_by(basin) %>%
+  summarise(
+    median = median(delta_dcant_bias),
+    sd = sd(delta_dcant_bias),
+    n = n()
+  ) %>%
+  ungroup() 
+
+
+delta_dcant_budget_bias_ensemble_stat <-
+  full_join(
+    delta_dcant_budget_bias_ensemble_stat,
+    delta_dcant_budget_basin_MLR_all_ensemble_bias %>%
+        filter(Version_ID %in% Version_IDs,
+               period != "1994 - 2014") %>%
+        select(period,
+               basin,
+               std_case = delta_dcant_bias)
+  )
+
+
+
+delta_dcant_budget_bias_ensemble_stat_RSS <-
+  dcant_budget_bias_ensemble_stat %>% 
+  arrange(period) %>% 
+  group_by(basin) %>% 
+  mutate(delta_std_case = std_case - lag(std_case),
+         RSS = sqrt(sd^2 + lag(sd)^2)) %>% 
+  ungroup() %>% 
+  drop_na()
   
+
+
+
+delta_dcant_budget_basin_MLR_all_ensemble_bias %>%
+  ggplot(aes(period, delta_dcant_bias)) +
+  geom_hline(yintercept = 0) +
+  geom_point(
+    aes(fill = "Ensemble member",
+        alpha = "Ensemble member"),
+    shape = 21,
+    position = position_jitter(width = 0.1, height = 0)
+  ) +
+  # geom_crossbar(
+  #   data = delta_dcant_budget_bias_ensemble_stat,
+  #   aes(
+  #     x = period,
+  #     y = std_case,
+  #     ymin = std_case - 2 * sd,
+  #     ymax = std_case + 2 * sd,
+  #     linetype = "Ensemble SD"
+  #   ),
+  #   width = 0.1,
+  #   fill = "#AA3377",
+  #   alpha = 0.2,
+  #   position = position_nudge(x = 0.2)
+  # ) +
+  # geom_crossbar(
+  #   data = delta_dcant_budget_bias_ensemble_stat,
+  #   aes(
+  #     x = period,
+  #     y = std_case,
+  #     ymin = std_case - sd,
+  #     ymax = std_case + sd,
+  #     alpha = "Ensemble SD",
+  #   ),
+  #   width = 0.1,
+  #   fill = "#AA3377",
+  #   alpha = 0.4,
+  #   position = position_nudge(x = 0.2)
+  # ) +
+  geom_crossbar(
+    data = delta_dcant_budget_bias_ensemble_stat_RSS,
+    aes(
+      x = period,
+      y = delta_std_case,
+      ymin = delta_std_case - 2 * RSS,
+      ymax = delta_std_case + 2 * RSS,
+      linetype = "RSS"
+    ),
+    width = 0.1,
+    fill = "#AA3377",
+    alpha = 0.2,
+    position = position_nudge(x = 0.2)
+  ) +
+  geom_crossbar(
+    data = delta_dcant_budget_bias_ensemble_stat_RSS,
+    aes(
+      x = period,
+      y = delta_std_case,
+      ymin = delta_std_case - RSS,
+      ymax = delta_std_case + RSS,
+      alpha = "RSS",
+    ),
+    width = 0.1,
+    fill = "#AA3377",
+    alpha = 0.4,
+    position = position_nudge(x = 0.2)
+  ) +
+  geom_point(
+    data = delta_dcant_budget_bias_ensemble_stat,
+    aes(
+      x = period,
+      y = std_case,
+      fill = "Standard case",
+      alpha = "Standard case"
+    ),
+    size = 2,
+    shape = 21,
+    position = position_nudge(x = 0.2)
+  )+
+  scale_fill_manual(name = "group", values = c("#BB5566", "white", "#BBBBBB")) +
+  scale_linetype(name = "X") +
+  scale_alpha_manual(name = "group", values = c(0.5,1,0.5)) +
+  scale_shape_manual(values = 95) +
+  scale_y_continuous(name = delta_dcant_bias_pgc_label) +
+  guides(
+    fill = guide_legend(order = 1),
+    linetype = guide_legend(order = 2),
+    alpha = guide_legend(order = 1)
+  ) +
+  facet_wrap(~ basin, ncol = 3, dir = "v", scales = "free_y") +
+  theme(legend.title = element_blank(),
+        axis.title.x = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(), 
+        panel.grid.major.x = element_blank())
+
+ggsave(path = here::here("output/publication"),
+       filename = "FigS_delta_dcant_bias_budgets_ensemble_member.png",
+       height = 6,
+       width = 6)
 
 ```
 
@@ -4684,6 +4825,78 @@ ggsave(path = here::here("output/publication"),
        filename = "Fig_dcant_profiles_and_depth_layer_budget.png",
        height = 12,
        width = 8)
+
+```
+
+```{r depth_layer_budget_basin_MLR_ensemble_mod, fig.asp=0.9}
+
+dcant_budget_layer <- dcant_budget_basin_MLR_layer_all %>%
+  filter(estimate == "dcant",
+         period != "1994 - 2014",
+         inv_depth <= 3400,
+         data_source != "obs") %>%
+  rename(dcant = value) %>%
+  group_by(basin, period, data_source) %>% 
+  mutate(dcant = if_else(is.na(lead(dcant)), 888, dcant),
+         dcant = na_if(dcant, 888)) %>%
+  fill(dcant) %>% 
+  ungroup()
+
+dcant_budget_range <- dcant_budget_basin_MLR_layer_all_ensemble %>%
+  filter(estimate == "dcant",
+         period != "1994 - 2014",
+         inv_depth <= 3000,
+         data_source != "obs") %>%
+  rename(dcant = value) %>%
+  select(-c(tref1, tref2, Version_ID)) %>%
+  group_by(basin, inv_depth, period, data_source) %>% 
+  summarise(dcant_sd = sd(dcant)*2) %>%
+  ungroup()
+
+dcant_budget_layer <-
+  full_join(dcant_budget_range,
+            dcant_budget_layer)
+
+p_dcant_budget_depth_layer_mod <- 
+dcant_budget_layer %>%
+      mutate(data_source = case_when(
+    data_source == "mod" ~ "Reconstruction",
+    data_source == "mod_truth" ~ "Model truth"
+  )) %>%  
+  ggplot() +
+  geom_hline(yintercept = 0, size = 0.1) +
+  geom_vline(xintercept = 1000, size = 0.1) +
+  geom_rect(
+    aes(
+      xmin = inv_depth - 250,
+      xmax = inv_depth + 250,
+      ymin = dcant - dcant_sd,
+      ymax = dcant + dcant_sd,
+      fill = data_source
+    ),
+    alpha = 0.4
+  ) +
+  geom_step(aes(inv_depth - 250, dcant, col = data_source), direction = "vh",
+            size = 1) +
+  coord_flip() +
+  scale_x_reverse(breaks = seq(0, 3000, 500), limits = c(3000, 0)) +
+  scale_color_manual(values = c("#009988", "#EE7733"), name = "Mean \u00B1 2 SD") +
+  scale_fill_manual(values = c("#009988", "#EE7733"), name = "Mean \u00B1 2 SD") +
+  labs(y = dcant_layer_budget_label,
+       x = "Depth (m)") +
+  facet_grid(period ~ basin, scales = "free_x") +
+  theme(legend.position = "none")
+
+p_dcant_budget_depth_layer_mod
+
+p_dcant_profiles_mod + p_dcant_budget_depth_layer_mod +
+  plot_layout(ncol = 1) +
+  plot_annotation(tag_levels = 'A')
+
+ggsave(path = here::here("output/publication"),
+       filename = "FigS_dcant_profiles_and_depth_layer_budget_synthetic_data.png",
+       height = 10,
+       width = 7)
 
 ```
 
