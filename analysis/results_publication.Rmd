@@ -195,7 +195,7 @@ rm(Version_IDs_x, Version_IDs_o, Version_IDs_g, Version_IDs_n, Version_IDs_c, Ve
 ```{r Version_IDs_standard_case}
 
 # subset Standard case
-Version_IDs <- Version_IDs_ensemble[str_detect(Version_IDs_ensemble, "103")]
+Version_IDs <- Version_IDs_ensemble[str_detect(Version_IDs_ensemble, "104")]
 
 ```
 
