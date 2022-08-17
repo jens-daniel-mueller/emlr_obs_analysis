@@ -1607,7 +1607,6 @@ dcant_inv_all_ensemble_mean %>%
 
 ```{r column_inventory_unadjusted_data}
 
-
 dcant_inv_all_unadjusted <-
   dcant_inv_all_ensemble %>%
   filter(period %in% two_decades,
@@ -1616,16 +1615,38 @@ dcant_inv_all_unadjusted <-
          Version_ID %in% Version_IDs |
            Version_ID %in% Version_IDs_d)
 
-
+p_CI_unadjusted <- 
 dcant_inv_all_unadjusted %>%
   p_map_cant_inv(var = "dcant",
                  title_text = NULL) +
   facet_grid(Version_ID_group ~ period)
 
+p_CI_unadjusted_bias <-
+  dcant_inv_all_unadjusted %>%
+  select(Version_ID_group, lon, lat, basin_AIP, period, dcant) %>%
+  pivot_wider(names_from = Version_ID_group,
+              values_from = dcant) %>%
+  mutate(dcant_offset = `Bulk adjustment` - `No adjustment`,
+         data_source = "Adjustment impact") %>%
+  p_map_cant_inv(
+    var = "dcant_offset",
+    title_text = NULL,
+    subtitle_text = NULL,
+    col = "bias"
+  ) +
+  facet_grid(data_source ~ period) +
+  theme(strip.text.x = element_blank(),
+        strip.background.x = element_blank())
+
+p_CI_unadjusted / p_CI_unadjusted_bias + 
+  plot_annotation(tag_levels = 'A')
+
 ggsave(path = here::here("output/publication"),
        filename = "FigS_dcant_column_inventory_unadjusted_data.png",
-       height = 4,
+       height = 7,
        width = 8)
+
+rm(p_CI_unadjusted, p_CI_unadjusted_bias)
 
 ```
 
