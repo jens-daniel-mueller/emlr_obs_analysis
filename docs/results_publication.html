@@ -666,7 +666,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Results publication</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">17 August, 2022</h4>
+<h4 class="date">26 August, 2022</h4>
 
 </div>
 
@@ -691,7 +691,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-08-17
+<strong>Last updated:</strong> 2022-08-26
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -782,16 +782,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree37ab61fed08648e21f1d213b0951e92988c08680targetblank37ab61fa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/37ab61fed08648e21f1d213b0951e92988c08680" target="_blank">37ab61f</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree88ce2d9d67647e59c4bcbd5cbbed4ace6f36c849targetblank88ce2d9a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/88ce2d9d67647e59c4bcbd5cbbed4ace6f36c849" target="_blank">88ce2d9</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree37ab61fed08648e21f1d213b0951e92988c08680targetblank37ab61fa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree88ce2d9d67647e59c4bcbd5cbbed4ace6f36c849targetblank88ce2d9a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/37ab61fed08648e21f1d213b0951e92988c08680" target="_blank">37ab61f</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/88ce2d9d67647e59c4bcbd5cbbed4ace6f36c849" target="_blank">88ce2d9</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -803,6 +803,11 @@ Ignored files:
     Ignored:    data/
     Ignored:    output/other/
     Ignored:    output/publication/
+
+Untracked files:
+    Untracked:  code/visualization_equal_earth.R
+    Untracked:  code/visualization_equal_earth_cleaned.R
+    Untracked:  code/visualization_equal_earth_cleaned_jdm.R
 
 Unstaged changes:
     Modified:   code/Workflowr_project_managment.R
@@ -844,6 +849,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/88ce2d9d67647e59c4bcbd5cbbed4ace6f36c849/analysis/results_publication.Rmd" target="_blank">88ce2d9</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-08-26
+</td>
+<td>
+added global section
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/74dca9df2c501f8b30ce99dcf93d432ea5e89561/docs/results_publication.html" target="_blank">74dca9d</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-08-17
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -5899,6 +5938,11 @@ dcant_budget_lon_grid_all &lt;- dcant_budget_lon_grid_all %&gt;%
   dcant_zonal &lt;- bind_rows(dcant_zonal,
                            dcant_zonal_mod_truth)
   
+  dcant_global_section &lt;-
+    read_csv(paste(path_version_data,
+                   &quot;dcant_global_section.csv&quot;,
+                   sep = &quot;&quot;))
+  
   dcant_profile &lt;-
     read_csv(paste(path_version_data,
                    &quot;dcant_profile.csv&quot;,
@@ -5960,6 +6004,9 @@ dcant_budget_lon_grid_all &lt;- dcant_budget_lon_grid_all %&gt;%
 
   dcant_zonal &lt;- dcant_zonal %&gt;% 
     mutate(Version_ID = i_Version_IDs)
+
+  dcant_global_section &lt;- dcant_global_section %&gt;% 
+    mutate(Version_ID = i_Version_IDs)
   
   dcant_profile &lt;- dcant_profile %&gt;% 
     mutate(Version_ID = i_Version_IDs)
@@ -5983,6 +6030,15 @@ dcant_budget_lon_grid_all &lt;- dcant_budget_lon_grid_all %&gt;%
   
   if (!exists(&quot;dcant_zonal_all&quot;)) {
     dcant_zonal_all &lt;- dcant_zonal
+  }
+
+  
+  if (exists(&quot;dcant_global_section_all&quot;)) {
+    dcant_global_section_all &lt;- bind_rows(dcant_global_section_all, dcant_global_section)
+  }
+  
+  if (!exists(&quot;dcant_global_section_all&quot;)) {
+    dcant_global_section_all &lt;- dcant_global_section
   }
 
   if (exists(&quot;dcant_profile_all&quot;)) {
@@ -6031,7 +6087,7 @@ dcant_budget_lon_grid_all &lt;- dcant_budget_lon_grid_all %&gt;%
 
 }
 
-rm(dcant_zonal, dcant_zonal_bias, dcant_zonal_mod_truth,
+rm(dcant_zonal, dcant_global_section, dcant_zonal_bias, dcant_zonal_mod_truth,
    dcant_budget_basin_AIP_layer, dcant_budget_basin_MLR_layer,
    dcant_profile, dcant_profile_basin_MLR)</code></pre>
 </div>
@@ -8451,6 +8507,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/74dca9df2c501f8b30ce99dcf93d432ea5e89561/docs/figure/results_publication.Rmd/column_inventory_unadjusted_data-1.png" target="_blank">74dca9d</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-08-17
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/78dbb278f7676a720458de4d76de560256155c9f/docs/figure/results_publication.Rmd/column_inventory_unadjusted_data-1.png" target="_blank">78dbb27</a>
 </td>
 <td>
@@ -9381,10 +9448,63 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="zonal-sections" class="section level1" number="8">
-<h1><span class="header-section-number">8</span> Zonal sections</h1>
+<div id="global-section" class="section level1" number="8">
+<h1><span class="header-section-number">8</span> Global section</h1>
 <div id="dcant---absolut" class="section level2" number="8.1">
 <h2><span class="header-section-number">8.1</span> dcant - absolut</h2>
+<pre class="r"><code>p_dcant_global_section_dec1 &lt;-
+  dcant_global_section_all %&gt;%
+  filter(
+    data_source == &quot;obs&quot;,
+    period %in% &quot;1994 - 2004&quot;
+  ) %&gt;%
+  p_section_global(var = &quot;dcant&quot;,
+                   title_text = NULL,
+                   subtitle_text = NULL)
+
+p_dcant_global_section_dec2 &lt;-
+  dcant_global_section_all %&gt;%
+  filter(
+    data_source == &quot;obs&quot;,
+    period %in% &quot;2004 - 2014&quot;
+  ) %&gt;%
+  p_section_global(var = &quot;dcant&quot;,
+                   title_text = NULL,
+                   subtitle_text = NULL)
+
+p_dcant_global_section_offset &lt;-
+  dcant_global_section_all %&gt;%
+  filter(
+    data_source == &quot;obs&quot;,
+    period %in% two_decades
+  ) %&gt;%
+  arrange(depth, dist) %&gt;% 
+  select(depth, dist, dcant, period) %&gt;% 
+  drop_na() %&gt;% 
+  pivot_wider(names_from = period,
+              values_from = dcant,
+              values_fn = mean) %&gt;% 
+  mutate(delta_dcant = `2004 - 2014` - `1994 - 2004`) %&gt;% 
+  p_section_global(var = &quot;delta_dcant&quot;,
+                   col = &quot;div&quot;,
+                   title_text = NULL,
+                   subtitle_text = NULL)
+
+wrap_plots(p_dcant_global_section_dec1,
+           p_dcant_global_section_dec2,
+           p_dcant_global_section_offset,
+           ncol = 1)</code></pre>
+<p><img src="figure/results_publication.Rmd/global_sections-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
+       filename = &quot;FigS_dcant_global_section.png&quot;,
+       height = 10,
+       width = 8)</code></pre>
+</div>
+</div>
+<div id="zonal-sections" class="section level1" number="9">
+<h1><span class="header-section-number">9</span> Zonal sections</h1>
+<div id="dcant---absolut-1" class="section level2" number="9.1">
+<h2><span class="header-section-number">9.1</span> dcant - absolut</h2>
 <pre class="r"><code>p_dcant_zonal_absolute &lt;-
   dcant_zonal_all %&gt;%
   filter(
@@ -9763,8 +9883,8 @@ jens-daniel-mueller
       facet_grid(period ~ .)
   )</code></pre>
 </div>
-<div id="dcant---absolute-delta-1" class="section level2" number="8.2">
-<h2><span class="header-section-number">8.2</span> dcant - absolute delta</h2>
+<div id="dcant---absolute-delta-1" class="section level2" number="9.2">
+<h2><span class="header-section-number">9.2</span> dcant - absolute delta</h2>
 <pre class="r"><code>dcant_zonal_all %&gt;%
   filter(data_source %in% c(&quot;mod&quot;, &quot;obs&quot;),
          period != &quot;1994 - 2014&quot;) %&gt;%
@@ -10595,8 +10715,8 @@ jens-daniel-mueller
 
 rm(p_dcant_zonal_absolute, p_dcant_zonal_delta)</code></pre>
 </div>
-<div id="bias-1" class="section level2" number="8.3">
-<h2><span class="header-section-number">8.3</span> Bias</h2>
+<div id="bias-1" class="section level2" number="9.3">
+<h2><span class="header-section-number">9.3</span> Bias</h2>
 <pre class="r"><code>p_dcant_zonal_absolute_mod &lt;-
   dcant_zonal_all %&gt;%
   filter(
@@ -10789,12 +10909,12 @@ rm(p_dcant_zonal_absolute_mod,
    p_dcant_zonal_bias)</code></pre>
 </div>
 </div>
-<div id="concentration-profiles" class="section level1" number="9">
-<h1><span class="header-section-number">9</span> Concentration profiles</h1>
-<div id="dcant-abs" class="section level2" number="9.1">
-<h2><span class="header-section-number">9.1</span> dcant, abs</h2>
-<div id="global" class="section level3" number="9.1.1">
-<h3><span class="header-section-number">9.1.1</span> Global</h3>
+<div id="concentration-profiles" class="section level1" number="10">
+<h1><span class="header-section-number">10</span> Concentration profiles</h1>
+<div id="dcant-abs" class="section level2" number="10.1">
+<h2><span class="header-section-number">10.1</span> dcant, abs</h2>
+<div id="global" class="section level3" number="10.1.1">
+<h3><span class="header-section-number">10.1.1</span> Global</h3>
 <pre class="r"><code>dcant_profile_global_all %&gt;%
   arrange(depth) %&gt;%
   filter(period != &quot;1994 - 2014&quot;,
@@ -11059,8 +11179,8 @@ full_join(dcant_profile_global_all_ensemble,
          &lt;dbl&gt;          &lt;dbl&gt;
 1         94.4           315.</code></pre>
 </div>
-<div id="basin-hemisphere" class="section level3" number="9.1.2">
-<h3><span class="header-section-number">9.1.2</span> Basin hemisphere</h3>
+<div id="basin-hemisphere" class="section level3" number="10.1.2">
+<h3><span class="header-section-number">10.1.2</span> Basin hemisphere</h3>
 <pre class="r"><code>dcant_profile_basin_MLR_all %&gt;%
   arrange(depth) %&gt;%
   filter(period != &quot;1994 - 2014&quot;,
@@ -11807,10 +11927,10 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="dcant-abs-ensemble" class="section level2" number="9.2">
-<h2><span class="header-section-number">9.2</span> dcant, abs, ensemble</h2>
-<div id="global-1" class="section level3" number="9.2.1">
-<h3><span class="header-section-number">9.2.1</span> Global</h3>
+<div id="dcant-abs-ensemble" class="section level2" number="10.2">
+<h2><span class="header-section-number">10.2</span> dcant, abs, ensemble</h2>
+<div id="global-1" class="section level3" number="10.2.1">
+<h3><span class="header-section-number">10.2.1</span> Global</h3>
 <pre class="r"><code>dcant_profile_global_all_ensemble %&gt;%
   arrange(depth) %&gt;%
   filter(
@@ -12006,8 +12126,8 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="basin-hemisphere-1" class="section level3" number="9.2.2">
-<h3><span class="header-section-number">9.2.2</span> basin hemisphere</h3>
+<div id="basin-hemisphere-1" class="section level3" number="10.2.2">
+<h3><span class="header-section-number">10.2.2</span> basin hemisphere</h3>
 <pre class="r"><code>dcant_profile_basin_MLR_all_ensemble %&gt;%
   arrange(depth) %&gt;%
   filter(
@@ -13259,8 +13379,8 @@ jens-daniel-mueller
   )</code></pre>
 </div>
 </div>
-<div id="dcant---absolute-delta-2" class="section level2" number="9.3">
-<h2><span class="header-section-number">9.3</span> dcant - absolute delta</h2>
+<div id="dcant---absolute-delta-2" class="section level2" number="10.3">
+<h2><span class="header-section-number">10.3</span> dcant - absolute delta</h2>
 <pre class="r"><code>delta &lt;- dcant_profile_basin_MLR_all %&gt;%
   arrange(depth) %&gt;%
   filter(period != &quot;1994 - 2014&quot;) %&gt;%
@@ -13929,8 +14049,8 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="budgets-1" class="section level1" number="10">
-<h1><span class="header-section-number">10</span> Budgets</h1>
+<div id="budgets-1" class="section level1" number="11">
+<h1><span class="header-section-number">11</span> Budgets</h1>
 <pre class="r"><code>dcant_budget_global_all_ensemble &lt;- dcant_budget_global_all_ensemble %&gt;% 
   mutate(dcant = dcant * dcant_scaling)
 
@@ -14537,10 +14657,10 @@ tcant_budget_basin_MLR &lt;- tcant_budget_basin_MLR %&gt;%
 tcant_budget_basin_MLR &lt;-
   bind_rows(tcant_budget_basin_MLR,
             tibble(basin = &quot;Global&quot;, beta_1994 = 118 / 78.3))</code></pre>
-<div id="scatterplots" class="section level2" number="10.1">
-<h2><span class="header-section-number">10.1</span> Scatterplots</h2>
-<div id="global-2" class="section level3" number="10.1.1">
-<h3><span class="header-section-number">10.1.1</span> Global</h3>
+<div id="scatterplots" class="section level2" number="11.1">
+<h2><span class="header-section-number">11.1</span> Scatterplots</h2>
+<div id="global-2" class="section level3" number="11.1.1">
+<h3><span class="header-section-number">11.1.1</span> Global</h3>
 <pre class="r"><code>bind_rows(dcant_budget_global_all_no_adj,
           dcant_budget_global_all_ensemble) %&gt;%
   ggplot(aes(period, dcant, col = Version_ID_group)) +
@@ -15922,8 +16042,8 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="basin-hemisphere-2" class="section level3" number="10.1.2">
-<h3><span class="header-section-number">10.1.2</span> basin hemisphere</h3>
+<div id="basin-hemisphere-2" class="section level3" number="11.1.2">
+<h3><span class="header-section-number">11.1.2</span> basin hemisphere</h3>
 <pre class="r"><code>dcant_budget_basin_MLR_all_ensemble %&gt;%
   ggplot(aes(period, dcant, col = Version_ID_group)) +
   geom_jitter(alpha = 0.5) +
@@ -18194,8 +18314,8 @@ jens-daniel-mueller
        height = 6,
        width = 8)</code></pre>
 </div>
-<div id="biases" class="section level3" number="10.1.3">
-<h3><span class="header-section-number">10.1.3</span> Biases</h3>
+<div id="biases" class="section level3" number="11.1.3">
+<h3><span class="header-section-number">11.1.3</span> Biases</h3>
 <pre class="r"><code>dcant_budget_basin_MLR_all_ensemble_bias &lt;- 
 dcant_budget_basin_MLR_all_ensemble %&gt;%
   filter(data_source %in% c(&quot;mod&quot;, &quot;mod_truth&quot;)) %&gt;% 
@@ -18900,8 +19020,8 @@ jens-daniel-mueller
        width = 6)</code></pre>
 </div>
 </div>
-<div id="flow-chart" class="section level2" number="10.2">
-<h2><span class="header-section-number">10.2</span> Flow chart</h2>
+<div id="flow-chart" class="section level2" number="11.2">
+<h2><span class="header-section-number">11.2</span> Flow chart</h2>
 <pre class="r"><code>dcant_budget_basin_MLR_all &lt;- 
   dcant_budget_basin_MLR_all %&gt;% 
   filter(basin != &quot;Global&quot;)
@@ -18957,8 +19077,8 @@ dcant_budget_basin_MLR_all_plot &lt;- bind_rows(
 dcant_budget_basin_MLR_all_plot &lt;-
   left_join(dcant_budget_basin_MLR_all_plot,
             dcant_budget_basin_MLR_all_ensemble_summary)</code></pre>
-<div id="absolute" class="section level3" number="10.2.1">
-<h3><span class="header-section-number">10.2.1</span> Absolute</h3>
+<div id="absolute" class="section level3" number="11.2.1">
+<h3><span class="header-section-number">11.2.1</span> Absolute</h3>
 <pre class="r"><code>g1 &lt;- dcant_budget_basin_MLR_all_plot %&gt;%
   filter(period != &quot;1800 - 1994&quot;) %&gt;% 
   ggplot(aes(
@@ -19876,8 +19996,8 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="scaled" class="section level3" number="10.2.2">
-<h3><span class="header-section-number">10.2.2</span> Scaled</h3>
+<div id="scaled" class="section level3" number="11.2.2">
+<h3><span class="header-section-number">11.2.2</span> Scaled</h3>
 <pre class="r"><code>dcant_budget_basin_MLR_all_plot &lt;- left_join(dcant_budget_basin_MLR_all_plot,
                            co2_atm %&gt;% rename(tref1 = year,
                                               pCO21 = pCO2))
@@ -21588,10 +21708,10 @@ jens-daniel-mueller
 #        width = 8)</code></pre>
 </div>
 </div>
-<div id="depth-layer" class="section level2" number="10.3">
-<h2><span class="header-section-number">10.3</span> Depth layer</h2>
-<div id="global-3" class="section level3" number="10.3.1">
-<h3><span class="header-section-number">10.3.1</span> Global</h3>
+<div id="depth-layer" class="section level2" number="11.3">
+<h2><span class="header-section-number">11.3</span> Depth layer</h2>
+<div id="global-3" class="section level3" number="11.3.1">
+<h3><span class="header-section-number">11.3.1</span> Global</h3>
 <pre class="r"><code>dcant_budget_change &lt;- dcant_budget_global_layer_all %&gt;%
   filter(estimate == &quot;dcant&quot;,
          period != &quot;1994 - 2014&quot;,
@@ -21849,8 +21969,8 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="basins" class="section level3" number="10.3.2">
-<h3><span class="header-section-number">10.3.2</span> 5 basins</h3>
+<div id="basins" class="section level3" number="11.3.2">
+<h3><span class="header-section-number">11.3.2</span> 5 basins</h3>
 <pre class="r"><code>dcant_budget_change &lt;- dcant_budget_basin_MLR_layer_all %&gt;%
   filter(estimate == &quot;dcant&quot;,
          period != &quot;1994 - 2014&quot;,
@@ -23037,10 +23157,10 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="time-series" class="section level1" number="11">
-<h1><span class="header-section-number">11</span> Time series</h1>
-<div id="emlr-only" class="section level2" number="11.1">
-<h2><span class="header-section-number">11.1</span> eMLR only</h2>
+<div id="time-series" class="section level1" number="12">
+<h1><span class="header-section-number">12</span> Time series</h1>
+<div id="emlr-only" class="section level2" number="12.1">
+<h2><span class="header-section-number">12.1</span> eMLR only</h2>
 <pre class="r"><code>dcant_budget_global_all_ensemble %&gt;% 
   filter(data_source == &quot;obs&quot;,
          period != &quot;1994 - 2014&quot;) %&gt;% 
@@ -24920,8 +25040,8 @@ jens-daniel-mueller
 3  2004       28.7     4.80  377.  147.     19.6         4.80  1.54
 4  2014       27.1     4.97  397.  174.     19.6         4.97  1.33</code></pre>
 </div>
-<div id="incl-fluxes" class="section level2" number="11.2">
-<h2><span class="header-section-number">11.2</span> incl fluxes</h2>
+<div id="incl-fluxes" class="section level2" number="12.2">
+<h2><span class="header-section-number">12.2</span> incl fluxes</h2>
 <pre class="r"><code>Ocean_Sink &lt;- Ocean_Sink %&gt;%
   filter(product != &quot;Watson&quot;)</code></pre>
 <pre class="r"><code>Ocean_Sink_cum_1994 &lt;-
@@ -26094,8 +26214,8 @@ Observation-based surface flux products
 </div>
 </div>
 </div>
-<div id="revelle-changes" class="section level1" number="12">
-<h1><span class="header-section-number">12</span> Revelle changes</h1>
+<div id="revelle-changes" class="section level1" number="13">
+<h1><span class="header-section-number">13</span> Revelle changes</h1>
 <pre class="r"><code>delta_revelle &lt;- co2_atm %&gt;%
   mutate(revelle = seacarb::buffer(24,
                                    pCO2,
@@ -26155,8 +26275,8 @@ jens-daniel-mueller
 <pre class="r"><code>min(delta_revelle$delta_DIC_rel_cum / max(delta_revelle$delta_year))</code></pre>
 <pre><code>[1] -0.006078176</code></pre>
 </div>
-<div id="emission-removal" class="section level1" number="13">
-<h1><span class="header-section-number">13</span> Emission removal</h1>
+<div id="emission-removal" class="section level1" number="14">
+<h1><span class="header-section-number">14</span> Emission removal</h1>
 <pre class="r"><code>GCB_Cant_emissions &lt;- Global_Carbon_Budget %&gt;%
   mutate(year = cut(year, c(1994, 2004, 2014), c(&quot;2004&quot;, &quot;2014&quot;)),
          year = as.numeric(as.character(year))) %&gt;%
@@ -26282,8 +26402,8 @@ dcant_per_emission_sd
 </tbody>
 </table>
 </div>
-<div id="map-test-color-palettes" class="section level4" number="13.0.0.1">
-<h4><span class="header-section-number">13.0.0.1</span> Map test color palettes</h4>
+<div id="map-test-color-palettes" class="section level4" number="14.0.0.1">
+<h4><span class="header-section-number">14.0.0.1</span> Map test color palettes</h4>
 <pre class="r"><code>breaks &lt;- c(-Inf, seq(0, 16, 2), Inf)
 
 legend_title &lt;- expression(atop(Delta * C[&quot;ant&quot;],
