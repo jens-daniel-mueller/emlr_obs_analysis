@@ -707,21 +707,18 @@ dcant_budget_lon_grid_all <- dcant_budget_lon_grid_all %>%
 
 dcant_inv_bias_all_ensemble <- dcant_inv_bias_all %>% 
   filter(!(Version_ID %in% Version_IDs_d))
-
 dcant_inv_bias_all <- dcant_inv_bias_all %>% 
   filter(Version_ID %in% Version_IDs)
 
 
 dcant_budget_lat_grid_all_ensemble <- dcant_budget_lat_grid_all %>% 
   filter(!(Version_ID %in% Version_IDs_d))
-
 dcant_budget_lat_grid_all <- dcant_budget_lat_grid_all %>% 
   filter(Version_ID %in% Version_IDs)
 
 
 dcant_budget_lon_grid_all_ensemble <- dcant_budget_lon_grid_all %>% 
   filter(!(Version_ID %in% Version_IDs_d))
-
 dcant_budget_lon_grid_all <- dcant_budget_lon_grid_all %>% 
   filter(Version_ID %in% Version_IDs)
 
@@ -765,6 +762,11 @@ for (i_Version_IDs in Version_IDs_ensemble) {
   
   dcant_zonal <- bind_rows(dcant_zonal,
                            dcant_zonal_mod_truth)
+  
+  dcant_global_section <-
+    read_csv(paste(path_version_data,
+                   "dcant_global_section.csv",
+                   sep = ""))
   
   dcant_profile <-
     read_csv(paste(path_version_data,
@@ -827,6 +829,9 @@ for (i_Version_IDs in Version_IDs_ensemble) {
 
   dcant_zonal <- dcant_zonal %>% 
     mutate(Version_ID = i_Version_IDs)
+
+  dcant_global_section <- dcant_global_section %>% 
+    mutate(Version_ID = i_Version_IDs)
   
   dcant_profile <- dcant_profile %>% 
     mutate(Version_ID = i_Version_IDs)
@@ -850,6 +855,15 @@ for (i_Version_IDs in Version_IDs_ensemble) {
   
   if (!exists("dcant_zonal_all")) {
     dcant_zonal_all <- dcant_zonal
+  }
+
+  
+  if (exists("dcant_global_section_all")) {
+    dcant_global_section_all <- bind_rows(dcant_global_section_all, dcant_global_section)
+  }
+  
+  if (!exists("dcant_global_section_all")) {
+    dcant_global_section_all <- dcant_global_section
   }
 
   if (exists("dcant_profile_all")) {
@@ -898,7 +912,7 @@ for (i_Version_IDs in Version_IDs_ensemble) {
 
 }
 
-rm(dcant_zonal, dcant_zonal_bias, dcant_zonal_mod_truth,
+rm(dcant_zonal, dcant_global_section, dcant_zonal_bias, dcant_zonal_mod_truth,
    dcant_budget_basin_AIP_layer, dcant_budget_basin_MLR_layer,
    dcant_profile, dcant_profile_basin_MLR)
 
@@ -907,6 +921,9 @@ rm(dcant_zonal, dcant_zonal_bias, dcant_zonal_mod_truth,
 ```{r r join_zonal_section_data_and_meta_data, include=FALSE}
 
 dcant_zonal_all <- full_join(dcant_zonal_all,
+                             params_local_all_ensemble)
+
+dcant_global_section_all <- full_join(dcant_global_section_all,
                              params_local_all_ensemble)
 
 dcant_profile_all <- full_join(dcant_profile_all,
@@ -1004,6 +1021,9 @@ dcant_zonal_bias_all <- full_join(dcant_zonal_bias_all,
 dcant_zonal_all_ensemble <- dcant_zonal_all %>% 
   filter(!(Version_ID %in% Version_IDs_d))
 dcant_zonal_all <- dcant_zonal_all %>% 
+  filter(Version_ID %in% Version_IDs)
+
+dcant_global_section_all <- dcant_global_section_all %>% 
   filter(Version_ID %in% Version_IDs)
 
 
@@ -1794,6 +1814,65 @@ dcant_inv_all_ensemble_lat_mean %>%
   facet_grid(data_source ~ basin_AIP) +
   labs(x = "Latitude (°N)",
        y = beta_CI_label)
+```
+
+
+# Global section
+
+## dcant - absolut
+
+```{r global_sections, fig.asp=1}
+
+
+p_dcant_global_section_dec1 <-
+  dcant_global_section_all %>%
+  filter(
+    data_source == "obs",
+    period %in% "1994 - 2004"
+  ) %>%
+  p_section_global(var = "dcant",
+                   title_text = NULL,
+                   subtitle_text = NULL)
+
+p_dcant_global_section_dec2 <-
+  dcant_global_section_all %>%
+  filter(
+    data_source == "obs",
+    period %in% "2004 - 2014"
+  ) %>%
+  p_section_global(var = "dcant",
+                   title_text = NULL,
+                   subtitle_text = NULL)
+
+p_dcant_global_section_offset <-
+  dcant_global_section_all %>%
+  filter(
+    data_source == "obs",
+    period %in% two_decades
+  ) %>%
+  arrange(depth, dist) %>% 
+  select(depth, dist, dcant, period) %>% 
+  drop_na() %>% 
+  pivot_wider(names_from = period,
+              values_from = dcant,
+              values_fn = mean) %>% 
+  mutate(delta_dcant = `2004 - 2014` - `1994 - 2004`) %>% 
+  p_section_global(var = "delta_dcant",
+                   col = "div",
+                   title_text = NULL,
+                   subtitle_text = NULL)
+
+wrap_plots(p_dcant_global_section_dec1,
+           p_dcant_global_section_dec2,
+           p_dcant_global_section_offset,
+           ncol = 1)
+
+
+ggsave(path = here::here("output/publication"),
+       filename = "FigS_dcant_global_section.png",
+       height = 10,
+       width = 8)
+
 ```
 
 
