@@ -1826,23 +1826,27 @@ dcant_inv_all_ensemble_lat_mean %>%
 
 p_dcant_global_section_dec1 <-
   dcant_global_section_all %>%
-  filter(
-    data_source == "obs",
-    period %in% "1994 - 2004"
-  ) %>%
+  filter(data_source == "obs",
+         period %in% "1994 - 2004") %>%
   p_section_global(var = "dcant",
-                   title_text = NULL,
-                   subtitle_text = NULL)
+                   title_text = "1994 - 2004",
+                   subtitle_text = NULL) +
+  theme(
+    axis.title.x = element_blank(),
+    axis.text.x.bottom = element_blank()
+  )
 
 p_dcant_global_section_dec2 <-
   dcant_global_section_all %>%
-  filter(
-    data_source == "obs",
-    period %in% "2004 - 2014"
-  ) %>%
+  filter(data_source == "obs",
+         period %in% "2004 - 2014") %>%
   p_section_global(var = "dcant",
                    title_text = NULL,
-                   subtitle_text = NULL)
+                   subtitle_text = NULL) &
+  theme(
+    axis.title.x = element_blank(),
+    axis.text.x = element_blank()
+  )
 
 p_dcant_global_section_offset <-
   dcant_global_section_all %>%
@@ -1854,13 +1858,17 @@ p_dcant_global_section_offset <-
   select(depth, dist, dcant, period) %>% 
   drop_na() %>% 
   pivot_wider(names_from = period,
-              values_from = dcant,
-              values_fn = mean) %>% 
+              values_from = dcant) %>% 
   mutate(delta_dcant = `2004 - 2014` - `1994 - 2004`) %>% 
   p_section_global(var = "delta_dcant",
                    col = "div",
                    title_text = NULL,
-                   subtitle_text = NULL)
+                   subtitle_text = NULL) &
+  theme(
+    axis.title.x.top = element_blank(),
+    axis.text.x.top = element_blank()
+  )
+
 
 wrap_plots(p_dcant_global_section_dec1,
            p_dcant_global_section_dec2,
