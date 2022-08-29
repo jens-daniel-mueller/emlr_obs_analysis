@@ -1823,14 +1823,14 @@ dcant_inv_all_ensemble_lat_mean %>%
 
 ```{r global_sections, fig.asp=1}
 
-
 p_dcant_global_section_dec1 <-
   dcant_global_section_all %>%
   filter(data_source == "obs",
          period %in% "1994 - 2004") %>%
   p_section_global(var = "dcant",
                    title_text = "1994 - 2004",
-                   subtitle_text = NULL) +
+                   subtitle_text = NULL,
+                   contour_level = 5) +
   theme(
     axis.title.x = element_blank(),
     axis.text.x.bottom = element_blank()
@@ -1842,7 +1842,8 @@ p_dcant_global_section_dec2 <-
          period %in% "2004 - 2014") %>%
   p_section_global(var = "dcant",
                    title_text = NULL,
-                   subtitle_text = NULL) &
+                   subtitle_text = NULL,
+                   contour_level = 5) &
   theme(
     axis.title.x = element_blank(),
     axis.text.x = element_blank()
