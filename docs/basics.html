@@ -664,7 +664,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Basics</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">29 July, 2022</h4>
+<h4 class="date">29 August, 2022</h4>
 
 </div>
 
@@ -689,7 +689,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-07-29
+<strong>Last updated:</strong> 2022-08-29
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -780,16 +780,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreef04d8ed5bf6d53481c1331fbe3e1803b25778476targetblankf04d8eda"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/f04d8ed5bf6d53481c1331fbe3e1803b25778476" target="_blank">f04d8ed</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree0c7719a9c3043335184875e69002d1ebc93ba66ctargetblank0c7719aa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/0c7719a9c3043335184875e69002d1ebc93ba66c" target="_blank">0c7719a</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreef04d8ed5bf6d53481c1331fbe3e1803b25778476targetblankf04d8eda" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree0c7719a9c3043335184875e69002d1ebc93ba66ctargetblank0c7719aa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/f04d8ed5bf6d53481c1331fbe3e1803b25778476" target="_blank">f04d8ed</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/0c7719a9c3043335184875e69002d1ebc93ba66c" target="_blank">0c7719a</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -803,11 +803,11 @@ Ignored files:
     Ignored:    output/publication/
 
 Untracked files:
-    Untracked:  figure/
+    Untracked:  code/visualization_equal_earth.R
+    Untracked:  code/visualization_equal_earth_cleaned.R
+    Untracked:  code/visualization_equal_earth_cleaned_jdm.R
 
 Unstaged changes:
-    Modified:   analysis/_site.yml
-    Modified:   analysis/child/budget_analysis_plot_data.Rmd
     Modified:   code/Workflowr_project_managment.R
 
 </code></pre>
@@ -847,6 +847,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/0c7719a9c3043335184875e69002d1ebc93ba66c/analysis/basics.Rmd" target="_blank">0c7719a</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-08-29
+</td>
+<td>
+data coverage time series updated
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/basics.html" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -2039,13 +2073,22 @@ p_time_histo_all
 p_time_histo_basin &lt;-
   time_histo %&gt;%
   ggplot() +
-  geom_col(aes(year, n, fill = basin), col = &quot;black&quot;, size = 0.3, width = 0.7) +
-  # scale_fill_brewer(palette = &quot;Paired&quot;, name = &quot;Ocean\nbasin&quot;) +
-  scale_fill_bright(name = &quot;Ocean\nbasin&quot;) +
-  scale_x_continuous(breaks = seq(1900, 2100, 5)) +
-  scale_y_continuous(limits = c(0, NA), expand = c(0,0)) +
+  annotate(&quot;rect&quot;, xmin = 1999.5, xmax=2009.5,
+                ymin = 0, ymax = Inf,
+            fill = &quot;black&quot;, alpha = 0.2, col=&quot;transparent&quot;) +
+  geom_col(
+    aes(year, n),
+    col = &quot;grey20&quot;,
+    fill = &quot;grey50&quot;,
+    size = 0.3,
+    width = 0.7
+  ) +
+  scale_x_continuous(breaks = seq(1994, 2014, 10)) +
+  scale_y_continuous(limits = c(0, NA), expand = c(0, 0)) +
   labs(y = &quot;Observations per year&quot;) +
-  theme(axis.title.x = element_blank())
+  facet_grid(basin~.)+
+  theme(axis.title.x = element_blank(),
+        panel.grid.minor = element_blank())
 
 p_time_histo_basin</code></pre>
 <p><img src="figure/basics.Rmd/time_series_per_basin-1.png" width="672" style="display: block; margin: auto;" /></p>
@@ -2133,8 +2176,8 @@ jens-daniel-mueller
 <pre class="r"><code>ggsave(plot = p_time_histo_basin,
        path = here::here(&quot;output/publication&quot;),
        filename = &quot;FigS_observations_coverage_time_series.png&quot;,
-       height = 4,
-       width = 10)
+       height = 6,
+       width = 7)
 
 rm(p_time_histo_basin)</code></pre>
 </div>
