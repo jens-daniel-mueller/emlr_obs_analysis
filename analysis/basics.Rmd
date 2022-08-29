@@ -180,13 +180,22 @@ time_histo <- GLODAP_preprocessed %>%
 p_time_histo_basin <-
   time_histo %>%
   ggplot() +
-  geom_col(aes(year, n, fill = basin), col = "black", size = 0.3, width = 0.7) +
-  # scale_fill_brewer(palette = "Paired", name = "Ocean\nbasin") +
-  scale_fill_bright(name = "Ocean\nbasin") +
-  scale_x_continuous(breaks = seq(1900, 2100, 5)) +
-  scale_y_continuous(limits = c(0, NA), expand = c(0,0)) +
+  annotate("rect", xmin = 1999.5, xmax=2009.5,
+                ymin = 0, ymax = Inf,
+            fill = "black", alpha = 0.2, col="transparent") +
+  geom_col(
+    aes(year, n),
+    col = "grey20",
+    fill = "grey50",
+    size = 0.3,
+    width = 0.7
+  ) +
+  scale_x_continuous(breaks = seq(1994, 2014, 10)) +
+  scale_y_continuous(limits = c(0, NA), expand = c(0, 0)) +
   labs(y = "Observations per year") +
-  theme(axis.title.x = element_blank())
+  facet_grid(basin~.)+
+  theme(axis.title.x = element_blank(),
+        panel.grid.minor = element_blank())
 
 p_time_histo_basin
 
@@ -194,8 +203,8 @@ p_time_histo_basin
 ggsave(plot = p_time_histo_basin,
        path = here::here("output/publication"),
        filename = "FigS_observations_coverage_time_series.png",
-       height = 4,
-       width = 10)
+       height = 6,
+       width = 7)
 
 rm(p_time_histo_basin)
 
