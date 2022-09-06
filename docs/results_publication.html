@@ -782,16 +782,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree784849d405139979b7d2bafb0a985ceff0cfa710targetblank784849da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/784849d405139979b7d2bafb0a985ceff0cfa710" target="_blank">784849d</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree4106aa48adc2ac4cb70461e9da0eb3fb560281cftargetblank4106aa4a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/4106aa48adc2ac4cb70461e9da0eb3fb560281cf" target="_blank">4106aa4</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree784849d405139979b7d2bafb0a985ceff0cfa710targetblank784849da" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree4106aa48adc2ac4cb70461e9da0eb3fb560281cftargetblank4106aa4a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/784849d405139979b7d2bafb0a985ceff0cfa710" target="_blank">784849d</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/4106aa48adc2ac4cb70461e9da0eb3fb560281cf" target="_blank">4106aa4</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -846,6 +846,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/4106aa48adc2ac4cb70461e9da0eb3fb560281cf/analysis/results_publication.Rmd" target="_blank">4106aa4</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-09-07
+</td>
+<td>
+testrun integration 10000
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/5ca8778be01305a95122c4c48f883c0a25283dba/docs/results_publication.html" target="_blank">5ca8778</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-09-07
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -5584,8 +5618,12 @@ plot hemisphere budgets and publication results
 </div>
 <div id="read-files" class="section level1" number="2">
 <h1><span class="header-section-number">2</span> Read files</h1>
-<div id="paths-and-versions" class="section level2" number="2.1">
-<h2><span class="header-section-number">2.1</span> Paths and Versions</h2>
+<div id="integration-depth" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> integration depth</h2>
+<pre class="r"><code>params_global$inventory_depth_standard &lt;- 10000</code></pre>
+</div>
+<div id="paths-and-versions" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Paths and Versions</h2>
 <pre class="r"><code>version_id_pattern &lt;- &quot;1&quot;
 
 # identify required version IDs
@@ -5700,8 +5738,8 @@ rm(Version_IDs_x, Version_IDs_o, Version_IDs_g, Version_IDs_n, Version_IDs_c, Ve
 <pre class="r"><code># subset Standard case
 Version_IDs &lt;- Version_IDs_ensemble[str_detect(Version_IDs_ensemble, &quot;103&quot;)]</code></pre>
 </div>
-<div id="parameters" class="section level2" number="2.2">
-<h2><span class="header-section-number">2.2</span> Parameters</h2>
+<div id="parameters" class="section level2" number="2.3">
+<h2><span class="header-section-number">2.3</span> Parameters</h2>
 <pre class="r"><code>for (i_Version_IDs in Version_IDs_ensemble) {
   
   path_version_data     &lt;-
@@ -5791,8 +5829,8 @@ params_local &lt;-
                  &quot;params_local.rds&quot;,
                  sep = &quot;&quot;))</code></pre>
 </div>
-<div id="budgets" class="section level2" number="2.3">
-<h2><span class="header-section-number">2.3</span> Budgets</h2>
+<div id="budgets" class="section level2" number="2.4">
+<h2><span class="header-section-number">2.4</span> Budgets</h2>
 <pre class="r"><code>for (i_Version_IDs in Version_IDs_ensemble) {
   # i_Version_IDs &lt;- Version_IDs[1]
   
@@ -5937,8 +5975,8 @@ dcant_budget_basin_MLR_bias_all_decomposition &lt;-
   dcant_budget_basin_MLR_bias_all_decomposition %&gt;%
   filter(inv_depth == params_global$inventory_depth_standard)</code></pre>
 </div>
-<div id="column-inventories" class="section level2" number="2.4">
-<h2><span class="header-section-number">2.4</span> Column inventories</h2>
+<div id="column-inventories" class="section level2" number="2.5">
+<h2><span class="header-section-number">2.5</span> Column inventories</h2>
 <pre class="r"><code>for (i_Version_IDs in Version_IDs_ensemble) {
   # i_Version_IDs &lt;- Version_IDs[1]
   
@@ -6046,8 +6084,8 @@ dcant_budget_lon_grid_all &lt;- dcant_budget_lon_grid_all %&gt;%
   select(lon, lat, dcant) %&gt;% 
   write_csv(here::here(&quot;output/dcant_column_inventor_example.csv&quot;))</code></pre>
 </div>
-<div id="sections-profiles" class="section level2" number="2.5">
-<h2><span class="header-section-number">2.5</span> Sections / profiles</h2>
+<div id="sections-profiles" class="section level2" number="2.6">
+<h2><span class="header-section-number">2.6</span> Sections / profiles</h2>
 <pre class="r"><code>for (i_Version_IDs in Version_IDs_ensemble) {
 
   path_version_data     &lt;-
@@ -6224,8 +6262,8 @@ rm(dcant_zonal, dcant_global_section, dcant_zonal_bias, dcant_zonal_mod_truth,
    dcant_budget_basin_AIP_layer, dcant_budget_basin_MLR_layer,
    dcant_profile, dcant_profile_basin_MLR)</code></pre>
 </div>
-<div id="observations-coverage" class="section level2" number="2.6">
-<h2><span class="header-section-number">2.6</span> Observations coverage</h2>
+<div id="observations-coverage" class="section level2" number="2.7">
+<h2><span class="header-section-number">2.7</span> Observations coverage</h2>
 <pre class="r"><code>for (i_Version_IDs in Version_IDs) {
   path_version_data     &lt;-
     paste(path_observations,
@@ -6300,8 +6338,8 @@ GLODAP_expocodes &lt;-
 GLODAP_all &lt;-
   left_join(GLODAP_all, GLODAP_expocodes)</code></pre>
 </div>
-<div id="atm-co2" class="section level2" number="2.7">
-<h2><span class="header-section-number">2.7</span> Atm CO2</h2>
+<div id="atm-co2" class="section level2" number="2.8">
+<h2><span class="header-section-number">2.8</span> Atm CO2</h2>
 <pre class="r"><code>co2_atm &lt;-
   read_csv(paste(path_preprocessing,
                  &quot;co2_atm.csv&quot;,
@@ -6312,8 +6350,8 @@ co2_atm_reccap2 &lt;-
                   &quot;co2_atm_reccap2.csv&quot;,
                   sep = &quot;&quot;))</code></pre>
 </div>
-<div id="sabine-total-cant" class="section level2" number="2.8">
-<h2><span class="header-section-number">2.8</span> Sabine total Cant</h2>
+<div id="sabine-total-cant" class="section level2" number="2.9">
+<h2><span class="header-section-number">2.9</span> Sabine total Cant</h2>
 <pre class="r"><code>tcant_inv &lt;-
   read_csv(paste(path_preprocessing,
                   &quot;S04_tcant_inv.csv&quot;, sep = &quot;&quot;))
@@ -6325,8 +6363,8 @@ tcant_inv &lt;- tcant_inv %&gt;%
   mutate(tref1 = 1800,
          tref2 = 1994)</code></pre>
 </div>
-<div id="gcb-carbon-sink" class="section level2" number="2.9">
-<h2><span class="header-section-number">2.9</span> GCB carbon sink</h2>
+<div id="gcb-carbon-sink" class="section level2" number="2.10">
+<h2><span class="header-section-number">2.10</span> GCB carbon sink</h2>
 <pre class="r"><code>Ocean_Sink &lt;-
   read_csv(paste(path_preprocessing,
                   &quot;Ocean_Sink.csv&quot;,
@@ -6337,8 +6375,8 @@ Global_Carbon_Budget &lt;-
                   &quot;GCB_Global_Carbon_Budget.csv&quot;,
                   sep = &quot;&quot;))</code></pre>
 </div>
-<div id="periods" class="section level2" number="2.10">
-<h2><span class="header-section-number">2.10</span> Periods</h2>
+<div id="periods" class="section level2" number="2.11">
+<h2><span class="header-section-number">2.11</span> Periods</h2>
 <pre class="r"><code>two_decades &lt;- unique(params_local_all_ensemble$period)[1:2]</code></pre>
 </div>
 </div>
@@ -7096,33 +7134,10 @@ N. Pacific
 mod
 </td>
 <td style="text-align:right;">
-3.343617
+3.450105
 </td>
 <td style="text-align:right;">
-0.5328718
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-N. Pacific
-</td>
-<td style="text-align:left;">
-1994 - 2004
-</td>
-<td style="text-align:left;">
-mod_truth
-</td>
-<td style="text-align:right;">
-2.915800
-</td>
-<td style="text-align:right;">
-0.0000000
+0.9026322
 </td>
 <td style="text-align:right;">
 NA
@@ -7139,13 +7154,36 @@ N. Pacific
 1994 - 2004
 </td>
 <td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:right;">
+2.927681
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N. Pacific
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:left;">
 obs
 </td>
 <td style="text-align:right;">
-3.004736
+3.381754
 </td>
 <td style="text-align:right;">
-2.3109782
+3.1814205
 </td>
 <td style="text-align:right;">
 NA
@@ -7165,39 +7203,16 @@ N. Pacific
 mod
 </td>
 <td style="text-align:right;">
-3.664999
+3.638612
 </td>
 <td style="text-align:right;">
-0.6769466
+0.7310042
 </td>
 <td style="text-align:right;">
-0.3213818
+0.1885068
 </td>
 <td style="text-align:right;">
-0.8615156
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-N. Pacific
-</td>
-<td style="text-align:left;">
-2004 - 2014
-</td>
-<td style="text-align:left;">
-mod_truth
-</td>
-<td style="text-align:right;">
-3.352012
-</td>
-<td style="text-align:right;">
-0.0000000
-</td>
-<td style="text-align:right;">
-0.4362120
-</td>
-<td style="text-align:right;">
-0.0000000
+1.161513
 </td>
 </tr>
 <tr>
@@ -7208,19 +7223,42 @@ N. Pacific
 2004 - 2014
 </td>
 <td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:right;">
+3.364889
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+0.4372074
+</td>
+<td style="text-align:right;">
+0.000000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N. Pacific
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:left;">
 obs
 </td>
 <td style="text-align:right;">
-3.441426
+3.283461
 </td>
 <td style="text-align:right;">
-3.2083219
+4.6826331
 </td>
 <td style="text-align:right;">
-0.4366893
+-0.0982932
 </td>
 <td style="text-align:right;">
-3.9539790
+5.661138
 </td>
 </tr>
 <tr>
@@ -7234,33 +7272,10 @@ S. Pacific
 mod
 </td>
 <td style="text-align:right;">
-4.813295
+4.747076
 </td>
 <td style="text-align:right;">
-1.3206295
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-S. Pacific
-</td>
-<td style="text-align:left;">
-1994 - 2004
-</td>
-<td style="text-align:left;">
-mod_truth
-</td>
-<td style="text-align:right;">
-4.931744
-</td>
-<td style="text-align:right;">
-0.0000000
+1.6865518
 </td>
 <td style="text-align:right;">
 NA
@@ -7277,13 +7292,36 @@ S. Pacific
 1994 - 2004
 </td>
 <td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:right;">
+5.078759
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+S. Pacific
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:left;">
 obs
 </td>
 <td style="text-align:right;">
-7.420676
+8.874657
 </td>
 <td style="text-align:right;">
-2.2631886
+3.0156891
 </td>
 <td style="text-align:right;">
 NA
@@ -7303,39 +7341,16 @@ S. Pacific
 mod
 </td>
 <td style="text-align:right;">
-6.542109
+7.167533
 </td>
 <td style="text-align:right;">
-0.9408415
+1.2374759
 </td>
 <td style="text-align:right;">
-1.7288146
+2.4204568
 </td>
 <td style="text-align:right;">
-1.6214947
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-S. Pacific
-</td>
-<td style="text-align:left;">
-2004 - 2014
-</td>
-<td style="text-align:left;">
-mod_truth
-</td>
-<td style="text-align:right;">
-6.060215
-</td>
-<td style="text-align:right;">
-0.0000000
-</td>
-<td style="text-align:right;">
-1.1284704
-</td>
-<td style="text-align:right;">
-0.0000000
+2.091842
 </td>
 </tr>
 <tr>
@@ -7346,19 +7361,42 @@ S. Pacific
 2004 - 2014
 </td>
 <td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:right;">
+6.237893
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+1.1591347
+</td>
+<td style="text-align:right;">
+0.000000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+S. Pacific
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:left;">
 obs
 </td>
 <td style="text-align:right;">
-6.389130
+6.820143
 </td>
 <td style="text-align:right;">
-1.7210649
+1.5589402
 </td>
 <td style="text-align:right;">
--1.0315458
+-2.0545143
 </td>
 <td style="text-align:right;">
-2.8432529
+3.394801
 </td>
 </tr>
 <tr>
@@ -7372,10 +7410,10 @@ N. Atlantic
 mod
 </td>
 <td style="text-align:right;">
-4.595315
+4.641546
 </td>
 <td style="text-align:right;">
-1.0037616
+0.7618290
 </td>
 <td style="text-align:right;">
 NA
@@ -7395,7 +7433,7 @@ N. Atlantic
 mod_truth
 </td>
 <td style="text-align:right;">
-4.057536
+4.050121
 </td>
 <td style="text-align:right;">
 0.0000000
@@ -7418,10 +7456,10 @@ N. Atlantic
 obs
 </td>
 <td style="text-align:right;">
-10.019815
+12.652263
 </td>
 <td style="text-align:right;">
-1.0432559
+1.9224854
 </td>
 <td style="text-align:right;">
 NA
@@ -7441,16 +7479,16 @@ N. Atlantic
 mod
 </td>
 <td style="text-align:right;">
-5.115338
+5.173306
 </td>
 <td style="text-align:right;">
-0.9804729
+1.1266978
 </td>
 <td style="text-align:right;">
-0.5200232
+0.5317610
 </td>
 <td style="text-align:right;">
-1.4031624
+1.360085
 </td>
 </tr>
 <tr>
@@ -7464,16 +7502,16 @@ N. Atlantic
 mod_truth
 </td>
 <td style="text-align:right;">
-4.878549
+4.872945
 </td>
 <td style="text-align:right;">
 0.0000000
 </td>
 <td style="text-align:right;">
-0.8210126
+0.8228246
 </td>
 <td style="text-align:right;">
-0.0000000
+0.000000
 </td>
 </tr>
 <tr>
@@ -7487,16 +7525,16 @@ N. Atlantic
 obs
 </td>
 <td style="text-align:right;">
-8.131258
+7.697768
 </td>
 <td style="text-align:right;">
-1.6768584
+2.2649837
 </td>
 <td style="text-align:right;">
--1.8885568
+-4.9544940
 </td>
 <td style="text-align:right;">
-1.9749018
+2.970876
 </td>
 </tr>
 <tr>
@@ -7510,10 +7548,10 @@ S. Atlantic
 mod
 </td>
 <td style="text-align:right;">
-5.033626
+5.200155
 </td>
 <td style="text-align:right;">
-1.2343116
+1.1060131
 </td>
 <td style="text-align:right;">
 NA
@@ -7533,7 +7571,7 @@ S. Atlantic
 mod_truth
 </td>
 <td style="text-align:right;">
-4.706655
+4.770436
 </td>
 <td style="text-align:right;">
 0.0000000
@@ -7556,10 +7594,10 @@ S. Atlantic
 obs
 </td>
 <td style="text-align:right;">
-7.216901
+8.879767
 </td>
 <td style="text-align:right;">
-2.3124413
+2.5391642
 </td>
 <td style="text-align:right;">
 NA
@@ -7579,16 +7617,16 @@ S. Atlantic
 mod
 </td>
 <td style="text-align:right;">
-6.458404
+6.406340
 </td>
 <td style="text-align:right;">
-0.9977609
+0.9611029
 </td>
 <td style="text-align:right;">
-1.4247775
+1.2061855
 </td>
 <td style="text-align:right;">
-1.5871521
+1.465259
 </td>
 </tr>
 <tr>
@@ -7602,16 +7640,16 @@ S. Atlantic
 mod_truth
 </td>
 <td style="text-align:right;">
-5.251166
+5.336793
 </td>
 <td style="text-align:right;">
 0.0000000
 </td>
 <td style="text-align:right;">
-0.5445113
+0.5663568
 </td>
 <td style="text-align:right;">
-0.0000000
+0.000000
 </td>
 </tr>
 <tr>
@@ -7625,16 +7663,16 @@ S. Atlantic
 obs
 </td>
 <td style="text-align:right;">
-9.985141
+10.075826
 </td>
 <td style="text-align:right;">
-2.1252317
+2.5619887
 </td>
 <td style="text-align:right;">
-2.7682394
+1.1960594
 </td>
 <td style="text-align:right;">
-3.1406997
+3.607096
 </td>
 </tr>
 <tr>
@@ -7648,10 +7686,10 @@ Indian
 mod
 </td>
 <td style="text-align:right;">
-5.864173
+5.726706
 </td>
 <td style="text-align:right;">
-1.9889221
+2.4229110
 </td>
 <td style="text-align:right;">
 NA
@@ -7671,7 +7709,7 @@ Indian
 mod_truth
 </td>
 <td style="text-align:right;">
-5.570926
+5.631428
 </td>
 <td style="text-align:right;">
 0.0000000
@@ -7694,10 +7732,10 @@ Indian
 obs
 </td>
 <td style="text-align:right;">
-8.100890
+8.978012
 </td>
 <td style="text-align:right;">
-4.0341866
+5.4151826
 </td>
 <td style="text-align:right;">
 NA
@@ -7717,16 +7755,16 @@ Indian
 mod
 </td>
 <td style="text-align:right;">
-7.645217
+7.820964
 </td>
 <td style="text-align:right;">
-1.2869140
+1.3581043
 </td>
 <td style="text-align:right;">
-1.7810445
+2.0942579
 </td>
 <td style="text-align:right;">
-2.3689573
+2.777579
 </td>
 </tr>
 <tr>
@@ -7740,16 +7778,16 @@ Indian
 mod_truth
 </td>
 <td style="text-align:right;">
-6.501337
+6.586953
 </td>
 <td style="text-align:right;">
 0.0000000
 </td>
 <td style="text-align:right;">
-0.9304108
+0.9555254
 </td>
 <td style="text-align:right;">
-0.0000000
+0.000000
 </td>
 </tr>
 <tr>
@@ -7763,16 +7801,16 @@ Indian
 obs
 </td>
 <td style="text-align:right;">
-6.549863
+7.018858
 </td>
 <td style="text-align:right;">
-1.7211668
+2.3039772
 </td>
 <td style="text-align:right;">
--1.5510266
+-1.9591543
 </td>
 <td style="text-align:right;">
-4.3860092
+5.884940
 </td>
 </tr>
 </tbody>
@@ -7812,6 +7850,43 @@ p_CI_bias_delta &lt;-
 p_CI_absolute_mod_delta / p_CI_bias_delta + 
   plot_annotation(tag_levels = &#39;A&#39;)</code></pre>
 <p><img src="figure/results_publication.Rmd/invetory_maps_delta_dcant_mod_bias-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-invetory_maps_delta_dcant_mod_bias-1">
+Past versions of invetory_maps_delta_dcant_mod_bias-1.png
+</button>
+</p>
+<div id="fig-invetory_maps_delta_dcant_mod_bias-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/5ca8778be01305a95122c4c48f883c0a25283dba/docs/figure/results_publication.Rmd/invetory_maps_delta_dcant_mod_bias-1.png" target="_blank">5ca8778</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-09-07
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
        filename = &quot;FigS_delta_dcant_column_inventory_synthetic_data.png&quot;,
        height = 7,
@@ -8412,6 +8487,43 @@ rm(p_CI_absolute_mod, p_CI_bias)</code></pre>
   labs(x = dcant_CI_label) +
   theme(legend.title = element_blank())</code></pre>
 <p><img src="figure/results_publication.Rmd/dcant_column_inventory_density_distribution-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-dcant_column_inventory_density_distribution-1">
+Past versions of dcant_column_inventory_density_distribution-1.png
+</button>
+</p>
+<div id="fig-dcant_column_inventory_density_distribution-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/5ca8778be01305a95122c4c48f883c0a25283dba/docs/figure/results_publication.Rmd/dcant_column_inventory_density_distribution-1.png" target="_blank">5ca8778</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-09-07
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
        filename = &quot;FigS_dcant_column_inventory_density_distribution.png&quot;,
        height = 4,
@@ -8451,6 +8563,43 @@ rm(p_CI_absolute_mod, p_CI_bias)</code></pre>
   labs(x = delta_dcant_CI_label) +
   theme(legend.title = element_blank())</code></pre>
 <p><img src="figure/results_publication.Rmd/delta_dcant_column_inventory_density_distribution-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-delta_dcant_column_inventory_density_distribution-1">
+Past versions of delta_dcant_column_inventory_density_distribution-1.png
+</button>
+</p>
+<div id="fig-delta_dcant_column_inventory_density_distribution-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/5ca8778be01305a95122c4c48f883c0a25283dba/docs/figure/results_publication.Rmd/delta_dcant_column_inventory_density_distribution-1.png" target="_blank">5ca8778</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-09-07
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>ggsave(
   path = here::here(&quot;output/publication&quot;),
   filename = &quot;FigS_delta_dcant_column_inventory_density_distribution.png&quot;,
@@ -8506,6 +8655,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/5ca8778be01305a95122c4c48f883c0a25283dba/docs/figure/results_publication.Rmd/column_inventory_standard_deviation-1.png" target="_blank">5ca8778</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-09-07
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/f68fcfa8d8b8ba949a9b55130bafe5ca1702bb88/docs/figure/results_publication.Rmd/column_inventory_standard_deviation-1.png" target="_blank">f68fcfa</a>
@@ -9182,24 +9342,24 @@ jens-daniel-mueller
 <pre><code># A tibble: 18 × 3
    lat_grid  data_source dcant_mean
    &lt;fct&gt;     &lt;chr&gt;            &lt;dbl&gt;
- 1 (-40,-30] mod              11.7 
- 2 (-40,-30] mod_truth        10.9 
- 3 (-40,-30] obs              14.4 
- 4 (-30,-10] mod               8.74
- 5 (-30,-10] mod_truth         7.73
- 6 (-30,-10] obs              11.6 
- 7 (-10,10]  mod               4.65
- 8 (-10,10]  mod_truth         4.09
- 9 (-10,10]  obs               7.45
-10 (10,30]   mod               5.40
+ 1 (-40,-30] mod              11.9 
+ 2 (-40,-30] mod_truth        11.0 
+ 3 (-40,-30] obs              16.2 
+ 4 (-30,-10] mod               8.86
+ 5 (-30,-10] mod_truth         7.75
+ 6 (-30,-10] obs              12.8 
+ 7 (-10,10]  mod               4.75
+ 8 (-10,10]  mod_truth         4.10
+ 9 (-10,10]  obs               8.24
+10 (10,30]   mod               5.48
 11 (10,30]   mod_truth         5.03
-12 (10,30]   obs               7.46
-13 (30,40]   mod               6.27
+12 (10,30]   obs               8.15
+13 (30,40]   mod               6.32
 14 (30,40]   mod_truth         6.46
-15 (30,40]   obs              11.0 
-16 &lt;NA&gt;      mod               5.62
-17 &lt;NA&gt;      mod_truth         5.59
-18 &lt;NA&gt;      obs               7.35</code></pre>
+15 (30,40]   obs              11.9 
+16 &lt;NA&gt;      mod               5.83
+17 &lt;NA&gt;      mod_truth         5.81
+18 &lt;NA&gt;      obs               8.23</code></pre>
 <pre class="r"><code>dcant_inv_all_lat_mean %&gt;%
   filter(period != &quot;1800 - 1994&quot;) %&gt;% 
   mutate(lat_grid = cut(lat_grid, c(-40,-30,-10,10,30,40))) %&gt;% 
@@ -9209,16 +9369,16 @@ jens-daniel-mueller
 <pre><code># A tibble: 51 × 4
    lat_grid  basin_AIP data_source dcant_mean
    &lt;fct&gt;     &lt;chr&gt;     &lt;chr&gt;            &lt;dbl&gt;
- 1 (-40,-30] Atlantic  mod              11.3 
- 2 (-40,-30] Atlantic  mod_truth        10.1 
- 3 (-40,-30] Atlantic  obs              15.6 
+ 1 (-40,-30] Atlantic  mod              11.5 
+ 2 (-40,-30] Atlantic  mod_truth        10.2 
+ 3 (-40,-30] Atlantic  obs              17.4 
  4 (-40,-30] Indian    mod              13.4 
  5 (-40,-30] Indian    mod_truth        12.6 
- 6 (-40,-30] Indian    obs              14.5 
- 7 (-40,-30] Pacific   mod              10.6 
- 8 (-40,-30] Pacific   mod_truth         9.97
- 9 (-40,-30] Pacific   obs              13.3 
-10 (-30,-10] Atlantic  mod               7.55
+ 6 (-40,-30] Indian    obs              16.2 
+ 7 (-40,-30] Pacific   mod              10.8 
+ 8 (-40,-30] Pacific   mod_truth        10.1 
+ 9 (-40,-30] Pacific   obs              15.1 
+10 (-30,-10] Atlantic  mod               7.71
 # … with 41 more rows</code></pre>
 <pre class="r"><code>dcant_inv_all_lat_mean %&gt;%
   filter(period != &quot;1800 - 1994&quot;) %&gt;% 
@@ -9229,16 +9389,16 @@ jens-daniel-mueller
 <pre><code># A tibble: 54 × 5
    lat_grid basin_AIP period      data_source dcant_mean
    &lt;fct&gt;    &lt;chr&gt;     &lt;chr&gt;       &lt;chr&gt;            &lt;dbl&gt;
- 1 (-90,0]  Atlantic  1994 - 2004 mod               4.29
- 2 (-90,0]  Atlantic  1994 - 2004 mod_truth         4.06
- 3 (-90,0]  Atlantic  1994 - 2004 obs               7.31
- 4 (-90,0]  Atlantic  1994 - 2014 mod               9.63
- 5 (-90,0]  Atlantic  1994 - 2014 mod_truth         8.72
- 6 (-90,0]  Atlantic  1994 - 2014 obs              15.2 
- 7 (-90,0]  Atlantic  2004 - 2014 mod               5.42
- 8 (-90,0]  Atlantic  2004 - 2014 mod_truth         4.66
- 9 (-90,0]  Atlantic  2004 - 2014 obs               7.71
-10 (-90,0]  Indian    1994 - 2004 mod               5.90
+ 1 (-90,0]  Atlantic  1994 - 2004 mod               4.39
+ 2 (-90,0]  Atlantic  1994 - 2004 mod_truth         4.12
+ 3 (-90,0]  Atlantic  1994 - 2004 obs               8.90
+ 4 (-90,0]  Atlantic  1994 - 2014 mod               9.85
+ 5 (-90,0]  Atlantic  1994 - 2014 mod_truth         8.87
+ 6 (-90,0]  Atlantic  1994 - 2014 obs              17.1 
+ 7 (-90,0]  Atlantic  2004 - 2014 mod               5.50
+ 8 (-90,0]  Atlantic  2004 - 2014 mod_truth         4.75
+ 9 (-90,0]  Atlantic  2004 - 2014 obs               8.03
+10 (-90,0]  Indian    1994 - 2004 mod               5.93
 # … with 44 more rows</code></pre>
 <pre class="r"><code>dcant_inv_all_ensemble_lat_mean %&gt;% 
   ggplot(aes(lat_grid, dcant_mean, fill=period, group=Version_ID)) +
@@ -14538,37 +14698,37 @@ ttest_p_std_case
 N. Pacific
 </td>
 <td style="text-align:right;">
-2.86900
+3.2690
 </td>
 <td style="text-align:right;">
-3.54000
+3.43400
 </td>
 <td style="text-align:right;">
-0.9932880
+1.3298285
 </td>
 <td style="text-align:right;">
-0.8096496
+1.0579622
 </td>
 <td style="text-align:right;">
-2.82800
+3.1830
 </td>
 <td style="text-align:right;">
-3.23900
+3.09100
 </td>
 <td style="text-align:right;">
-0.671000
+0.16500
 </td>
 <td style="text-align:right;">
-0.411000
+-0.092000
 </td>
 <td style="text-align:right;">
-1.812266
+2.403218
 </td>
 <td style="text-align:right;">
-0.0024972
+0.5621411
 </td>
 <td style="text-align:right;">
-0.0585411
+0.7463247
 </td>
 </tr>
 <tr>
@@ -14576,37 +14736,37 @@ N. Pacific
 S. Pacific
 </td>
 <td style="text-align:right;">
-8.80550
+10.2340
 </td>
 <td style="text-align:right;">
-7.63700
+8.53900
 </td>
 <td style="text-align:right;">
-1.2820208
+1.6855679
 </td>
 <td style="text-align:right;">
-0.9030507
+0.7229543
 </td>
 <td style="text-align:right;">
-8.56300
+10.2410
 </td>
 <td style="text-align:right;">
-7.37300
+7.87000
 </td>
 <td style="text-align:right;">
--1.168500
+-1.69500
 </td>
 <td style="text-align:right;">
--1.190000
+-2.371000
 </td>
 <td style="text-align:right;">
-2.217691
+2.593763
 </td>
 <td style="text-align:right;">
-0.0000333
+0.0000013
 </td>
 <td style="text-align:right;">
-0.0000248
+0.0000000
 </td>
 </tr>
 <tr>
@@ -14614,31 +14774,31 @@ S. Pacific
 N. Atlantic
 </td>
 <td style="text-align:right;">
-4.52250
+5.5855
 </td>
 <td style="text-align:right;">
-3.65850
+3.48350
 </td>
 <td style="text-align:right;">
-0.2466070
+0.4498871
 </td>
 <td style="text-align:right;">
-0.3747788
+0.5092609
 </td>
 <td style="text-align:right;">
-4.53700
+5.7290
 </td>
 <td style="text-align:right;">
-3.68200
+3.48500
 </td>
 <td style="text-align:right;">
--0.864000
+-2.10200
 </td>
 <td style="text-align:right;">
--0.855000
+-2.244000
 </td>
 <td style="text-align:right;">
-0.634467
+0.960984
 </td>
 <td style="text-align:right;">
 0.0000000
@@ -14652,37 +14812,37 @@ N. Atlantic
 S. Atlantic
 </td>
 <td style="text-align:right;">
-4.08700
+5.0850
 </td>
 <td style="text-align:right;">
-4.89750
+5.16650
 </td>
 <td style="text-align:right;">
-0.5931842
+0.6473654
 </td>
 <td style="text-align:right;">
-0.5702755
+0.6858797
 </td>
 <td style="text-align:right;">
-3.87600
+4.7690
 </td>
 <td style="text-align:right;">
-5.36300
+5.41100
 </td>
 <td style="text-align:right;">
-0.810500
+0.08150
 </td>
 <td style="text-align:right;">
-1.487000
+0.642000
 </td>
 <td style="text-align:right;">
-1.163685
+1.333801
 </td>
 <td style="text-align:right;">
-0.0000001
+0.6057634
 </td>
 <td style="text-align:right;">
-0.0000000
+0.0001163
 </td>
 </tr>
 <tr>
@@ -14690,31 +14850,31 @@ S. Atlantic
 Indian
 </td>
 <td style="text-align:right;">
-6.87100
+7.6745
 </td>
 <td style="text-align:right;">
-5.74200
+6.21550
 </td>
 <td style="text-align:right;">
-0.7230791
+0.7035088
 </td>
 <td style="text-align:right;">
-0.7783228
+1.0575547
 </td>
 <td style="text-align:right;">
-7.10000
+7.8690
 </td>
 <td style="text-align:right;">
-5.74000
+6.15100
 </td>
 <td style="text-align:right;">
--1.129000
+-1.45900
 </td>
 <td style="text-align:right;">
--1.360000
+-1.718000
 </td>
 <td style="text-align:right;">
-1.502418
+1.796300
 </td>
 <td style="text-align:right;">
 0.0000000
@@ -14728,37 +14888,37 @@ Indian
 Global
 </td>
 <td style="text-align:right;">
-28.95887
+33.8720
 </td>
 <td style="text-align:right;">
-27.24436
+28.60264
 </td>
 <td style="text-align:right;">
-2.3997433
+3.1357796
 </td>
 <td style="text-align:right;">
-1.6597223
+2.2416430
 </td>
 <td style="text-align:right;">
-28.69489
+33.9072
 </td>
 <td style="text-align:right;">
-27.08758
+27.74138
 </td>
 <td style="text-align:right;">
--1.714505
+-5.26937
 </td>
 <td style="text-align:right;">
--1.607315
+-6.165818
 </td>
 <td style="text-align:right;">
-4.126366
+5.451252
 </td>
 <td style="text-align:right;">
-0.0007990
+0.0000000
 </td>
 <td style="text-align:right;">
-0.0015777
+0.0000000
 </td>
 </tr>
 </tbody>
@@ -15537,9 +15697,9 @@ jens-daniel-mueller
 <pre><code># A tibble: 3 × 2
   period      dcant_bias_rel
   &lt;chr&gt;                &lt;dbl&gt;
-1 1994 - 2004           7.64
-2 1994 - 2014           6.56
-3 2004 - 2014           5.78</code></pre>
+1 1994 - 2004           8.61
+2 1994 - 2014           7.53
+3 2004 - 2014           6.81</code></pre>
 <pre class="r"><code>delta_dcant_budget_global_all_ensemble &lt;- 
 dcant_budget_global_all_ensemble %&gt;%
   filter(data_source != &quot;obs&quot;,
@@ -15651,7 +15811,7 @@ delta_dcant_budget_global_all_ensemble_bias %&gt;%
 <pre><code># A tibble: 1 × 2
   delta_dcant_bias delta_dcant_bias_rel
              &lt;dbl&gt;                &lt;dbl&gt;
-1           -0.153                -4.49</code></pre>
+1           -0.108                -3.11</code></pre>
 <pre class="r"><code>delta_dcant_budget_global_all_ensemble_bias %&gt;% 
   group_by(MLR_basins) %&gt;% 
   summarise(delta_dcant_bias = mean(delta_dcant_bias),
@@ -15660,12 +15820,12 @@ delta_dcant_budget_global_all_ensemble_bias %&gt;%
 <pre><code># A tibble: 6 × 3
   MLR_basins delta_dcant_bias delta_dcant_bias_rel
   &lt;chr&gt;                 &lt;dbl&gt;                &lt;dbl&gt;
-1 1                    0.0645                 1.90
-2 2                    1.89                  55.7 
-3 3                    1.08                  31.7 
-4 3+SO                -1.46                 -43.0 
-5 5                   -0.675                -19.9 
-6 5+SO                -1.81                 -53.4 </code></pre>
+1 1                    -1.76                -50.7 
+2 2                     2.18                 62.8 
+3 3                     1.79                 51.4 
+4 3+SO                 -1.07                -30.8 
+5 5                    -0.266                -7.65
+6 5+SO                 -1.52                -43.8 </code></pre>
 <pre class="r"><code>delta_dcant_budget_global_all_ensemble_bias %&gt;% 
   ggplot(aes(&quot;Decade difference&quot;,delta_dcant_bias, col = MLR_basins)) +
   geom_hline(yintercept = 0) +
@@ -17582,20 +17742,20 @@ beta_budget_ensemble_stat_KS %&gt;%
   ungroup() %&gt;% 
   mutate(ratio_p = ks_p / t_p)</code></pre>
 <pre><code># A tibble: 12 × 5
-   basin       estimate     ks_p      t_p ratio_p
-   &lt;fct&gt;       &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;
- 1 N. Pacific  beta     2.11e- 1 2.52e- 1 8.36e-1
- 2 N. Pacific  dcant    6.53e- 4 1.07e- 2 6.10e-2
- 3 S. Pacific  beta     7.06e-13 9.67e-13 7.30e-1
- 4 S. Pacific  dcant    5.41e-11 4.39e- 8 1.23e-3
- 5 N. Atlantic beta     4.44e-16 7.90e-26 5.62e+9
- 6 N. Atlantic dcant    5.10e-12 6.53e-18 7.81e+5
- 7 S. Atlantic beta     3.49e- 3 6.93e- 2 5.04e-2
- 8 S. Atlantic dcant    8.83e- 5 1.07e- 5 8.27e+0
- 9 Indian      beta     1.37e- 8 1.26e- 9 1.08e+1
-10 Indian      dcant    8.83e- 5 4.18e- 4 2.11e-1
-11 Global      beta     6.66e-12 1.69e-13 3.95e+1
-12 Global      dcant    1.41e- 3 5.21e- 5 2.71e+1</code></pre>
+   basin       estimate     ks_p      t_p  ratio_p
+   &lt;fct&gt;       &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+ 1 N. Pacific  beta     3.36e- 1 7.41e- 1 4.54e- 1
+ 2 N. Pacific  dcant    5.04e- 1 1.47e- 1 3.43e+ 0
+ 3 S. Pacific  beta     0        1.26e-13 0       
+ 4 S. Pacific  dcant    0        3.49e-10 0       
+ 5 N. Atlantic beta     4.44e-16 1.23e-32 3.60e+16
+ 6 N. Atlantic dcant    4.44e-16 1.26e-27 3.52e+11
+ 7 S. Atlantic beta     1.63e- 3 3.10e- 4 5.26e+ 0
+ 8 S. Atlantic dcant    2.11e- 1 3.61e- 1 5.83e- 1
+ 9 Indian      beta     6.97e-10 4.44e-12 1.57e+ 2
+10 Indian      dcant    1.40e- 8 1.58e- 6 8.87e- 3
+11 Global      beta     2.26e-14 3.24e-19 6.98e+ 4
+12 Global      dcant    2.78e-11 1.44e-12 1.93e+ 1</code></pre>
 <pre class="r"><code>beta_budget_ensemble_stat &lt;-
   beta_budget_basin_MLR_all_ensemble %&gt;% 
   filter(data_source == &quot;obs&quot;,
@@ -17732,37 +17892,37 @@ N. Pacific
 beta
 </td>
 <td style="text-align:right;">
-0.15
+0.18
 </td>
 <td style="text-align:right;">
 0.17
 </td>
 <td style="text-align:right;">
-0.053
+0.071
 </td>
 <td style="text-align:right;">
-0.040
+0.052
+</td>
+<td style="text-align:right;">
+0.17
 </td>
 <td style="text-align:right;">
 0.15
 </td>
 <td style="text-align:right;">
-0.16
+0.120
 </td>
 <td style="text-align:right;">
-0.094
+-0.0071
 </td>
 <td style="text-align:right;">
-0.020
+-0.0190
 </td>
 <td style="text-align:right;">
-0.007
+6.3e-01
 </td>
 <td style="text-align:right;">
-8.3e-02
-</td>
-<td style="text-align:right;">
-5.3e-01
+0.19000
 </td>
 </tr>
 <tr>
@@ -17773,447 +17933,447 @@ N. Pacific
 dcant
 </td>
 <td style="text-align:right;">
-2.90
+3.30
 </td>
 <td style="text-align:right;">
-3.50
-</td>
-<td style="text-align:right;">
-0.990
-</td>
-<td style="text-align:right;">
-0.810
-</td>
-<td style="text-align:right;">
-2.80
-</td>
-<td style="text-align:right;">
-3.20
-</td>
-<td style="text-align:right;">
-1.800
-</td>
-<td style="text-align:right;">
-0.670
-</td>
-<td style="text-align:right;">
-0.410
-</td>
-<td style="text-align:right;">
-2.5e-03
-</td>
-<td style="text-align:right;">
-5.9e-02
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-S. Pacific
-</td>
-<td style="text-align:left;">
-beta
-</td>
-<td style="text-align:right;">
-0.47
-</td>
-<td style="text-align:right;">
-0.37
-</td>
-<td style="text-align:right;">
-0.069
-</td>
-<td style="text-align:right;">
-0.044
-</td>
-<td style="text-align:right;">
-0.46
-</td>
-<td style="text-align:right;">
-0.36
-</td>
-<td style="text-align:right;">
-0.120
-</td>
-<td style="text-align:right;">
--0.098
-</td>
-<td style="text-align:right;">
--0.098
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-S. Pacific
-</td>
-<td style="text-align:left;">
-dcant
-</td>
-<td style="text-align:right;">
-8.80
-</td>
-<td style="text-align:right;">
-7.60
+3.40
 </td>
 <td style="text-align:right;">
 1.300
 </td>
 <td style="text-align:right;">
-0.900
+1.100
 </td>
 <td style="text-align:right;">
-8.60
+3.20
 </td>
 <td style="text-align:right;">
-7.40
-</td>
-<td style="text-align:right;">
-2.200
-</td>
-<td style="text-align:right;">
--1.200
-</td>
-<td style="text-align:right;">
--1.200
-</td>
-<td style="text-align:right;">
-3.3e-05
-</td>
-<td style="text-align:right;">
-2.5e-05
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-N. Atlantic
-</td>
-<td style="text-align:left;">
-beta
-</td>
-<td style="text-align:right;">
-0.24
-</td>
-<td style="text-align:right;">
-0.18
-</td>
-<td style="text-align:right;">
-0.013
-</td>
-<td style="text-align:right;">
-0.018
-</td>
-<td style="text-align:right;">
-0.24
-</td>
-<td style="text-align:right;">
-0.18
-</td>
-<td style="text-align:right;">
-0.032
-</td>
-<td style="text-align:right;">
--0.063
-</td>
-<td style="text-align:right;">
--0.063
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-N. Atlantic
-</td>
-<td style="text-align:left;">
-dcant
-</td>
-<td style="text-align:right;">
-4.50
-</td>
-<td style="text-align:right;">
-3.70
-</td>
-<td style="text-align:right;">
-0.250
-</td>
-<td style="text-align:right;">
-0.370
-</td>
-<td style="text-align:right;">
-4.50
-</td>
-<td style="text-align:right;">
-3.70
-</td>
-<td style="text-align:right;">
-0.630
-</td>
-<td style="text-align:right;">
--0.860
-</td>
-<td style="text-align:right;">
--0.860
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-S. Atlantic
-</td>
-<td style="text-align:left;">
-beta
-</td>
-<td style="text-align:right;">
-0.22
-</td>
-<td style="text-align:right;">
-0.24
-</td>
-<td style="text-align:right;">
-0.032
-</td>
-<td style="text-align:right;">
-0.028
-</td>
-<td style="text-align:right;">
-0.21
-</td>
-<td style="text-align:right;">
-0.26
-</td>
-<td style="text-align:right;">
-0.060
-</td>
-<td style="text-align:right;">
-0.021
-</td>
-<td style="text-align:right;">
-0.055
-</td>
-<td style="text-align:right;">
-4.6e-03
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-S. Atlantic
-</td>
-<td style="text-align:left;">
-dcant
-</td>
-<td style="text-align:right;">
-4.10
-</td>
-<td style="text-align:right;">
-4.90
-</td>
-<td style="text-align:right;">
-0.590
-</td>
-<td style="text-align:right;">
-0.570
-</td>
-<td style="text-align:right;">
-3.90
-</td>
-<td style="text-align:right;">
-5.40
-</td>
-<td style="text-align:right;">
-1.200
-</td>
-<td style="text-align:right;">
-0.810
-</td>
-<td style="text-align:right;">
-1.500
-</td>
-<td style="text-align:right;">
-1.0e-07
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Indian
-</td>
-<td style="text-align:left;">
-beta
-</td>
-<td style="text-align:right;">
-0.37
-</td>
-<td style="text-align:right;">
-0.28
-</td>
-<td style="text-align:right;">
-0.039
-</td>
-<td style="text-align:right;">
-0.038
-</td>
-<td style="text-align:right;">
-0.38
-</td>
-<td style="text-align:right;">
-0.28
-</td>
-<td style="text-align:right;">
-0.077
-</td>
-<td style="text-align:right;">
--0.087
-</td>
-<td style="text-align:right;">
--0.100
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Indian
-</td>
-<td style="text-align:left;">
-dcant
-</td>
-<td style="text-align:right;">
-6.90
-</td>
-<td style="text-align:right;">
-5.70
-</td>
-<td style="text-align:right;">
-0.720
-</td>
-<td style="text-align:right;">
-0.780
-</td>
-<td style="text-align:right;">
-7.10
-</td>
-<td style="text-align:right;">
-5.70
-</td>
-<td style="text-align:right;">
-1.500
-</td>
-<td style="text-align:right;">
--1.100
-</td>
-<td style="text-align:right;">
--1.400
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Global
-</td>
-<td style="text-align:left;">
-beta
-</td>
-<td style="text-align:right;">
-1.60
-</td>
-<td style="text-align:right;">
-1.30
-</td>
-<td style="text-align:right;">
-0.130
-</td>
-<td style="text-align:right;">
-0.081
-</td>
-<td style="text-align:right;">
-1.50
-</td>
-<td style="text-align:right;">
-1.30
-</td>
-<td style="text-align:right;">
-0.220
-</td>
-<td style="text-align:right;">
--0.220
-</td>
-<td style="text-align:right;">
--0.210
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Global
-</td>
-<td style="text-align:left;">
-dcant
-</td>
-<td style="text-align:right;">
-29.00
-</td>
-<td style="text-align:right;">
-27.00
+3.10
 </td>
 <td style="text-align:right;">
 2.400
 </td>
 <td style="text-align:right;">
+0.1700
+</td>
+<td style="text-align:right;">
+-0.0920
+</td>
+<td style="text-align:right;">
+5.6e-01
+</td>
+<td style="text-align:right;">
+0.75000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+S. Pacific
+</td>
+<td style="text-align:left;">
+beta
+</td>
+<td style="text-align:right;">
+0.55
+</td>
+<td style="text-align:right;">
+0.42
+</td>
+<td style="text-align:right;">
+0.091
+</td>
+<td style="text-align:right;">
+0.035
+</td>
+<td style="text-align:right;">
+0.55
+</td>
+<td style="text-align:right;">
+0.39
+</td>
+<td style="text-align:right;">
+0.140
+</td>
+<td style="text-align:right;">
+-0.1300
+</td>
+<td style="text-align:right;">
+-0.1600
+</td>
+<td style="text-align:right;">
+0.0e+00
+</td>
+<td style="text-align:right;">
+0.00000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+S. Pacific
+</td>
+<td style="text-align:left;">
+dcant
+</td>
+<td style="text-align:right;">
+10.00
+</td>
+<td style="text-align:right;">
+8.50
+</td>
+<td style="text-align:right;">
 1.700
+</td>
+<td style="text-align:right;">
+0.720
+</td>
+<td style="text-align:right;">
+10.00
+</td>
+<td style="text-align:right;">
+7.90
+</td>
+<td style="text-align:right;">
+2.600
+</td>
+<td style="text-align:right;">
+-1.7000
+</td>
+<td style="text-align:right;">
+-2.4000
+</td>
+<td style="text-align:right;">
+1.3e-06
+</td>
+<td style="text-align:right;">
+0.00000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N. Atlantic
+</td>
+<td style="text-align:left;">
+beta
+</td>
+<td style="text-align:right;">
+0.30
+</td>
+<td style="text-align:right;">
+0.17
+</td>
+<td style="text-align:right;">
+0.024
+</td>
+<td style="text-align:right;">
+0.025
+</td>
+<td style="text-align:right;">
+0.31
+</td>
+<td style="text-align:right;">
+0.17
+</td>
+<td style="text-align:right;">
+0.049
+</td>
+<td style="text-align:right;">
+-0.1300
+</td>
+<td style="text-align:right;">
+-0.1400
+</td>
+<td style="text-align:right;">
+0.0e+00
+</td>
+<td style="text-align:right;">
+0.00000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+N. Atlantic
+</td>
+<td style="text-align:left;">
+dcant
+</td>
+<td style="text-align:right;">
+5.60
+</td>
+<td style="text-align:right;">
+3.50
+</td>
+<td style="text-align:right;">
+0.450
+</td>
+<td style="text-align:right;">
+0.510
+</td>
+<td style="text-align:right;">
+5.70
+</td>
+<td style="text-align:right;">
+3.50
+</td>
+<td style="text-align:right;">
+0.960
+</td>
+<td style="text-align:right;">
+-2.1000
+</td>
+<td style="text-align:right;">
+-2.2000
+</td>
+<td style="text-align:right;">
+0.0e+00
+</td>
+<td style="text-align:right;">
+0.00000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+S. Atlantic
+</td>
+<td style="text-align:left;">
+beta
+</td>
+<td style="text-align:right;">
+0.27
+</td>
+<td style="text-align:right;">
+0.25
+</td>
+<td style="text-align:right;">
+0.035
+</td>
+<td style="text-align:right;">
+0.034
+</td>
+<td style="text-align:right;">
+0.26
+</td>
+<td style="text-align:right;">
+0.27
+</td>
+<td style="text-align:right;">
+0.068
+</td>
+<td style="text-align:right;">
+-0.0200
+</td>
+<td style="text-align:right;">
+0.0093
+</td>
+<td style="text-align:right;">
+1.7e-02
+</td>
+<td style="text-align:right;">
+0.26000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+S. Atlantic
+</td>
+<td style="text-align:left;">
+dcant
+</td>
+<td style="text-align:right;">
+5.10
+</td>
+<td style="text-align:right;">
+5.20
+</td>
+<td style="text-align:right;">
+0.650
+</td>
+<td style="text-align:right;">
+0.690
+</td>
+<td style="text-align:right;">
+4.80
+</td>
+<td style="text-align:right;">
+5.40
+</td>
+<td style="text-align:right;">
+1.300
+</td>
+<td style="text-align:right;">
+0.0810
+</td>
+<td style="text-align:right;">
+0.6400
+</td>
+<td style="text-align:right;">
+6.1e-01
+</td>
+<td style="text-align:right;">
+0.00012
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Indian
+</td>
+<td style="text-align:left;">
+beta
+</td>
+<td style="text-align:right;">
+0.41
+</td>
+<td style="text-align:right;">
+0.30
+</td>
+<td style="text-align:right;">
+0.038
+</td>
+<td style="text-align:right;">
+0.052
+</td>
+<td style="text-align:right;">
+0.42
+</td>
+<td style="text-align:right;">
+0.30
+</td>
+<td style="text-align:right;">
+0.091
+</td>
+<td style="text-align:right;">
+-0.1100
+</td>
+<td style="text-align:right;">
+-0.1200
+</td>
+<td style="text-align:right;">
+0.0e+00
+</td>
+<td style="text-align:right;">
+0.00000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Indian
+</td>
+<td style="text-align:left;">
+dcant
+</td>
+<td style="text-align:right;">
+7.70
+</td>
+<td style="text-align:right;">
+6.20
+</td>
+<td style="text-align:right;">
+0.700
+</td>
+<td style="text-align:right;">
+1.100
+</td>
+<td style="text-align:right;">
+7.90
+</td>
+<td style="text-align:right;">
+6.20
+</td>
+<td style="text-align:right;">
+1.800
+</td>
+<td style="text-align:right;">
+-1.5000
+</td>
+<td style="text-align:right;">
+-1.7000
+</td>
+<td style="text-align:right;">
+0.0e+00
+</td>
+<td style="text-align:right;">
+0.00000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Global
+</td>
+<td style="text-align:left;">
+beta
+</td>
+<td style="text-align:right;">
+1.80
+</td>
+<td style="text-align:right;">
+1.40
+</td>
+<td style="text-align:right;">
+0.170
+</td>
+<td style="text-align:right;">
+0.110
+</td>
+<td style="text-align:right;">
+1.80
+</td>
+<td style="text-align:right;">
+1.40
+</td>
+<td style="text-align:right;">
+0.280
+</td>
+<td style="text-align:right;">
+-0.4200
+</td>
+<td style="text-align:right;">
+-0.4600
+</td>
+<td style="text-align:right;">
+0.0e+00
+</td>
+<td style="text-align:right;">
+0.00000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Global
+</td>
+<td style="text-align:left;">
+dcant
+</td>
+<td style="text-align:right;">
+34.00
 </td>
 <td style="text-align:right;">
 29.00
 </td>
 <td style="text-align:right;">
-27.00
+3.100
 </td>
 <td style="text-align:right;">
-4.100
+2.200
 </td>
 <td style="text-align:right;">
--1.700
+34.00
 </td>
 <td style="text-align:right;">
--1.600
+28.00
 </td>
 <td style="text-align:right;">
-8.0e-04
+5.500
 </td>
 <td style="text-align:right;">
-1.6e-03
+-5.3000
+</td>
+<td style="text-align:right;">
+-6.2000
+</td>
+<td style="text-align:right;">
+0.0e+00
+</td>
+<td style="text-align:right;">
+0.00000
 </td>
 </tr>
 </tbody>
@@ -25383,8 +25543,8 @@ jens-daniel-mueller
   &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt; &lt;dbl&gt;
 1  1800        0      NA     280     0       0          NA    NA   
 2  1994      118       0     358.  118      19          19     1.51
-3  2004       28.7     4.80  377.  147.     19.6         4.80  1.54
-4  2014       27.1     4.97  397.  174.     19.6         4.97  1.33</code></pre>
+3  2004       33.9     6.27  377.  152.     20.0         6.27  1.82
+4  2014       27.7     5.70  397.  180.     19.8         5.70  1.36</code></pre>
 </div>
 <div id="incl-fluxes" class="section level2" number="12.2">
 <h2><span class="header-section-number">12.2</span> incl fluxes</h2>
@@ -26329,22 +26489,22 @@ dcant_diff_sd_comparison
 eMLR(C*)
 </td>
 <td style="text-align:right;">
-28.69489
+33.90720
 </td>
 <td style="text-align:right;">
-4.799487
-</td>
-<td style="text-align:right;">
-0.0000000
+6.271559
 </td>
 <td style="text-align:right;">
 0.0000000
 </td>
 <td style="text-align:right;">
-6.787499
+0.000000
 </td>
 <td style="text-align:right;">
-6.7874991
+8.869324
+</td>
+<td style="text-align:right;">
+8.869324
 </td>
 </tr>
 <tr>
@@ -26361,16 +26521,16 @@ Global Ocean Biogeochemical Models (GOBM)
 5.403004
 </td>
 <td style="text-align:right;">
--9.1691149
+-14.3814233
 </td>
 <td style="text-align:right;">
--31.9538214
+-42.414067
 </td>
 <td style="text-align:right;">
-7.226862
+8.277978
 </td>
 <td style="text-align:right;">
--1.9422533
+-6.103446
 </td>
 </tr>
 <tr>
@@ -26387,16 +26547,16 @@ Observation-based surface flux products
 5.448186
 </td>
 <td style="text-align:right;">
--6.9832169
+-12.1955253
 </td>
 <td style="text-align:right;">
--24.3360966
+-35.967360
 </td>
 <td style="text-align:right;">
-7.260703
+8.307538
 </td>
 <td style="text-align:right;">
-0.2774858
+-3.887987
 </td>
 </tr>
 <tr>
@@ -26407,22 +26567,22 @@ Observation-based surface flux products
 eMLR(C*)
 </td>
 <td style="text-align:right;">
-55.86246
+61.61445
 </td>
 <td style="text-align:right;">
-4.972849
-</td>
-<td style="text-align:right;">
-0.0000000
+5.698921
 </td>
 <td style="text-align:right;">
 0.0000000
 </td>
 <td style="text-align:right;">
-7.032670
+0.000000
 </td>
 <td style="text-align:right;">
-7.0326699
+8.059492
+</td>
+<td style="text-align:right;">
+8.059492
 </td>
 </tr>
 <tr>
@@ -26439,16 +26599,16 @@ Global Ocean Biogeochemical Models (GOBM)
 10.974456
 </td>
 <td style="text-align:right;">
--13.5776928
+-19.3296836
 </td>
 <td style="text-align:right;">
--24.3055745
+-31.371995
 </td>
 <td style="text-align:right;">
-12.048564
+12.365937
 </td>
 <td style="text-align:right;">
--1.5291284
+-6.963747
 </td>
 </tr>
 <tr>
@@ -26465,16 +26625,16 @@ Observation-based surface flux products
 8.824335
 </td>
 <td style="text-align:right;">
--7.0577110
+-12.8097018
 </td>
 <td style="text-align:right;">
--12.6340847
+-20.790092
 </td>
 <td style="text-align:right;">
-10.129073
+10.504599
 </td>
 <td style="text-align:right;">
-3.0713616
+-2.305103
 </td>
 </tr>
 <tr>
@@ -26485,22 +26645,22 @@ Observation-based surface flux products
 eMLR(C*)
 </td>
 <td style="text-align:right;">
-27.08758
+27.74138
 </td>
 <td style="text-align:right;">
-3.319445
-</td>
-<td style="text-align:right;">
-0.0000000
+4.483286
 </td>
 <td style="text-align:right;">
 0.0000000
 </td>
 <td style="text-align:right;">
-4.694404
+0.000000
 </td>
 <td style="text-align:right;">
-4.6944036
+6.340324
+</td>
+<td style="text-align:right;">
+6.340324
 </td>
 </tr>
 <tr>
@@ -26517,16 +26677,16 @@ Global Ocean Biogeochemical Models (GOBM)
 5.576053
 </td>
 <td style="text-align:right;">
--4.3285854
+-4.9823904
 </td>
 <td style="text-align:right;">
--15.9799646
+-17.960137
 </td>
 <td style="text-align:right;">
-6.489305
+7.154874
 </td>
 <td style="text-align:right;">
-2.1607199
+2.172484
 </td>
 </tr>
 <tr>
@@ -26543,16 +26703,16 @@ Observation-based surface flux products
 4.225215
 </td>
 <td style="text-align:right;">
-0.0054984
+-0.6483066
 </td>
 <td style="text-align:right;">
-0.0202985
+-2.336966
 </td>
 <td style="text-align:right;">
-5.373188
+6.160543
 </td>
 <td style="text-align:right;">
-5.3676901
+5.512237
 </td>
 </tr>
 </tbody>
@@ -26689,28 +26849,28 @@ dcant_per_emission_sd
 82.66365
 </td>
 <td style="text-align:right;">
-28.69489
+33.90720
 </td>
 <td style="text-align:right;">
-4.799487
+6.271559
 </td>
 <td style="text-align:right;">
 376.95
 </td>
 <td style="text-align:right;">
-146.6949
+151.9072
 </td>
 <td style="text-align:right;">
-19.59681
+20.00831
 </td>
 <td style="text-align:right;">
-4.799487
+6.271559
 </td>
 <td style="text-align:right;">
-34.71283
+41.01827
 </td>
 <td style="text-align:right;">
-5.806042
+7.586840
 </td>
 </tr>
 <tr>
@@ -26721,28 +26881,28 @@ dcant_per_emission_sd
 101.81399
 </td>
 <td style="text-align:right;">
-27.08758
+27.74138
 </td>
 <td style="text-align:right;">
-4.972849
+5.698921
 </td>
 <td style="text-align:right;">
 397.34
 </td>
 <td style="text-align:right;">
-173.7825
+179.6486
 </td>
 <td style="text-align:right;">
-19.63999
+19.83627
 </td>
 <td style="text-align:right;">
-4.972849
+5.698921
 </td>
 <td style="text-align:right;">
-26.60497
+27.24712
 </td>
 <td style="text-align:right;">
-4.884249
+5.597385
 </td>
 </tr>
 </tbody>
