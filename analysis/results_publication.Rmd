@@ -36,6 +36,15 @@ library(ggh4x)
 
 # Read files
 
+## integration depth
+
+```{r id}
+
+params_global$inventory_depth_standard <- 10000
+
+```
+
+
 ## Paths and Versions
 
 ```{r select_basin_mask, include=FALSE}
