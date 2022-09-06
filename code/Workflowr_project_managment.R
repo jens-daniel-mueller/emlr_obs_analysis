@@ -5,7 +5,7 @@
 
 
 # commit regular changes (locally) and rebuild site
-wflow_publish(all = TRUE, message = "added basin separation analysis")
+wflow_publish(all = TRUE, message = "included uncertainty assesment for column inventories")
 
 # commit changes including _site.yml (locally) and rebuild site in the specified order
 wflow_publish(here::here(
@@ -75,10 +75,10 @@ wflow_publish(here::here(
   "analysis",
   c(
     "index.Rmd",
-    "results_publication.Rmd"
+    "basics.Rmd"
   )
 ),
-message = "changed color scale back")
+message = "data coverage time series updated")
 
 
 

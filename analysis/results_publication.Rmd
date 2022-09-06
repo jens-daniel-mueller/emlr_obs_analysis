@@ -1247,6 +1247,7 @@ dcant_layer_budget_label <-
   expression(Delta ~ C[ant] ~ "budget per 500m depth layer (PgC)")
 
 dcant_CI_label <- expression(Delta * C[ant]~(mol ~ m ^ {-2}))
+delta_dcant_CI_label <- expression(Delta * Delta * C[ant]~(mol ~ m ^ {-2}))
 beta_CI_label <- expression(beta~(mol ~ m ^ {-2} ~ µatm ^ {-1}))
 
 
@@ -1499,6 +1500,51 @@ dcant_inv_stat %>%
 ```
 
 
+```{r invetory_maps_delta_dcant_mod_bias, fig.asp=1.3}
+
+p_CI_absolute_mod_delta <- dcant_inv_all %>%
+  filter(period %in% two_decades,
+         data_source != "obs") %>%
+  mutate(data_source = case_when(
+    data_source == "mod" ~ "Reconstruction",
+    data_source == "mod_truth" ~ "Model truth"
+  )) %>%  
+  p_map_cant_inv(var = "dcant",
+                 title_text = NULL) +
+  facet_grid(period ~ data_source) +
+  theme(axis.text.x = element_blank()) 
+
+p_CI_bias_delta <-
+  dcant_inv_all %>%
+  filter(period %in% two_decades,
+         data_source != "obs") %>%
+  select(data_source, lon, lat, basin_AIP, period, dcant) %>%
+  pivot_wider(names_from = period,
+              values_from = dcant) %>%
+  mutate(dcant_offset = `2004 - 2014` - `1994 - 2004`,
+         period = "Decadal offset") %>%
+  p_map_cant_inv(
+    var = "dcant_offset",
+    title_text = NULL,
+    subtitle_text = NULL,
+    col = "bias"
+  ) +
+  facet_grid(period ~ data_source) +
+  theme(strip.text.x = element_blank(),
+        strip.background.x = element_blank())
+
+p_CI_absolute_mod_delta / p_CI_bias_delta + 
+  plot_annotation(tag_levels = 'A')
+
+ggsave(path = here::here("output/publication"),
+       filename = "FigS_delta_dcant_column_inventory_synthetic_data.png",
+       height = 7,
+       width = 8)
+
+rm(p_CI_absolute_mod_delta, p_CI_bias_delta)
+
+```
+
 
 ### dcant - absolute delta
 
@@ -1593,6 +1639,92 @@ rm(p_CI_absolute_mod, p_CI_bias)
 
 ```
 
+### Density distributions
+
+```{r dcant_column_inventory_density_distribution}
+
+bind_rows(
+  dcant_inv_all %>%
+    filter(period %in% two_decades) %>%
+    mutate(
+      data_source = case_when(
+        data_source == "mod" ~ "Reconstruction",
+        data_source == "obs" ~ "Observations",
+        data_source == "mod_truth" ~ "Model truth"
+      )
+    ) %>%
+    select(data_source, dcant, period),
+  dcant_inv_bias_all %>%
+    filter(period %in% two_decades) %>%
+    mutate(data_source = "Reconstruction bias") %>%
+    select(data_source, dcant = dcant_pos_bias, period)
+) %>%
+  ggplot(aes(dcant, col = data_source)) +
+  scale_color_brewer(palette = "Dark2") +
+  scale_fill_brewer(palette = "Dark2") +
+  geom_vline(xintercept = 0) +
+  geom_density(alpha = 0.3) +
+  coord_cartesian(xlim = c(-2, 18)) +
+  facet_grid(period ~ .) +
+  labs(x = dcant_CI_label) +
+  theme(legend.title = element_blank())
+
+ggsave(path = here::here("output/publication"),
+       filename = "FigS_dcant_column_inventory_density_distribution.png",
+       height = 4,
+       width = 7)
+
+```
+
+
+
+```{r delta_dcant_column_inventory_density_distribution}
+
+bind_rows(
+  dcant_inv_all %>%
+    filter(period %in% two_decades) %>%
+    select(data_source, lon, lat, period, dcant) %>%
+    pivot_wider(names_from = period,
+                values_from = dcant) %>%
+    mutate(dcant_offset = `2004 - 2014` - `1994 - 2004`,
+           period = "(2004 - 2014) - (1994 - 2004)")  %>%
+    mutate(
+      data_source = case_when(
+        data_source == "mod" ~ "Reconstruction",
+        data_source == "obs" ~ "Observations",
+        data_source == "mod_truth" ~ "Model truth"
+      )
+    ) %>%
+    select(data_source, dcant_offset, period),
+  dcant_inv_bias_all %>%
+    filter(period %in% two_decades) %>%
+    select(lon, lat, period, dcant_bias) %>%
+    pivot_wider(names_from = period,
+                values_from = dcant_bias) %>%
+    mutate(dcant_offset = `2004 - 2014` - `1994 - 2004`,
+           period = "(2004 - 2014) - (1994 - 2004)")  %>%
+    mutate(data_source = "Reconstruction bias") %>%
+    select(data_source, dcant_offset, period)
+) %>%
+  ggplot(aes(dcant_offset, col = data_source)) +
+  scale_color_brewer(palette = "Dark2") +
+  scale_fill_brewer(palette = "Dark2") +
+  geom_vline(xintercept = 0) +
+  geom_density(alpha = 0.3) +
+  coord_cartesian(xlim = c(-10, 10)) +
+  labs(x = delta_dcant_CI_label) +
+  theme(legend.title = element_blank())
+
+ggsave(
+  path = here::here("output/publication"),
+  filename = "FigS_delta_dcant_column_inventory_density_distribution.png",
+  height = 3,
+  width = 7
+)
+
+```
+
+
 
 ### Ensemble SD
 
@@ -1601,25 +1733,32 @@ rm(p_CI_absolute_mod, p_CI_bias)
 
 dcant_inv_all_ensemble_mean <-
   dcant_inv_all_ensemble %>%
-  filter(period != "1800 - 1994",
-         data_source == "obs") %>%
+  filter(period != "1800 - 1994") %>%
   group_by(data_source, period, lon, lat) %>%
   summarise(dcant_sd = sd(dcant)*2) %>%
   ungroup()
 
 
 dcant_inv_all_ensemble_mean %>%
+  filter(data_source != "mod_truth",
+         period %in% two_decades) %>%
+  mutate(
+    data_source = case_when(
+      data_source == "mod" ~ "Synthetic data",
+      data_source == "obs" ~ "Observations"
+    )
+  ) %>%
   p_map_cant_inv(var = "dcant_sd",
                  breaks = c(seq(0, 8, 1), Inf),
                  title_text = NULL) +
-  facet_grid(period ~ .) +
+  facet_grid(period ~ data_source) +
   theme(axis.text = element_blank(),
         axis.ticks = element_blank())
 
-# ggsave(path = here::here("output/publication"),
-#        filename = "FigS_dcant_column_inventory_ensemble_standard_deviation.png",
-#        height = 6,
-#        width = 6)
+ggsave(path = here::here("output/publication"),
+       filename = "FigS_dcant_column_inventory_ensemble_standard_deviation.png",
+       height = 4,
+       width = 8)
 
 ```
 
