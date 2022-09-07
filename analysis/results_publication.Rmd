@@ -38,7 +38,7 @@ library(ggh4x)
 
 ## integration depth
 
-```{r id}
+```{r id, eval=FALSE}
 
 params_global$inventory_depth_standard <- 1000
 
