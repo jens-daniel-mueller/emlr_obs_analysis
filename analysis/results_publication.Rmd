@@ -40,7 +40,7 @@ library(ggh4x)
 
 ```{r id}
 
-params_global$inventory_depth_standard <- 10000
+params_global$inventory_depth_standard <- 1000
 
 ```
 
