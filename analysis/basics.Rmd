@@ -184,12 +184,15 @@ two_decades <- unique(params_local_all_ensemble$period)[1:2]
 
 
 for (i_Version_IDs in Version_IDs) {
+  # i_Version_IDs <- Version_IDs[1]
+  
   path_version_data     <-
     paste(path_observations,
           i_Version_IDs,
           "/data/",
           sep = "")
   
+  # read cleaned GLODAP files
   GLODAP <- read_csv(paste(
     path_version_data,
     "GLODAPv2.2020_clean.csv",
@@ -207,13 +210,88 @@ for (i_Version_IDs in Version_IDs) {
   if (!exists("GLODAP_all")) {
     GLODAP_all <- GLODAP
   }
+
   
+  # read cleaned GLODAP_flagging_stats files
+  GLODAP_flagging_stats <- read_csv(paste(
+    path_version_data,
+    "GLODAP_flagging_stats.csv",
+    sep = ""
+  ))
+  
+  GLODAP_flagging_stats <- GLODAP_flagging_stats %>%
+    mutate(Version_ID = i_Version_IDs)
+  
+  if (exists("GLODAP_flagging_stats_all")) {
+    GLODAP_flagging_stats_all <-
+      bind_rows(GLODAP_flagging_stats_all, GLODAP_flagging_stats)
+  }
+  
+  if (!exists("GLODAP_flagging_stats_all")) {
+    GLODAP_flagging_stats_all <- GLODAP_flagging_stats
+  }
+  
+  # read cleaned GLODAP_adjustment_stats files
+  GLODAP_adjustment_stats <- read_csv(paste(
+    path_version_data,
+    "GLODAP_adjustment_stats.csv",
+    sep = ""
+  ))
+  
+  GLODAP_adjustment_stats <- GLODAP_adjustment_stats %>%
+    mutate(Version_ID = i_Version_IDs)
+  
+  if (exists("GLODAP_adjustment_stats_all")) {
+    GLODAP_adjustment_stats_all <-
+      bind_rows(GLODAP_adjustment_stats_all, GLODAP_adjustment_stats)
+  }
+  
+  if (!exists("GLODAP_adjustment_stats_all")) {
+    GLODAP_adjustment_stats_all <- GLODAP_adjustment_stats
+  }
+  
+  # read cleaned GLODAP_CanyonB_filling_stats files
+  GLODAP_CanyonB_filling_stats <- read_csv(paste(
+    path_version_data,
+    "GLODAP_CanyonB_filling_stats.csv",
+    sep = ""
+  ))
+  
+  GLODAP_CanyonB_filling_stats <- GLODAP_CanyonB_filling_stats %>%
+    mutate(Version_ID = i_Version_IDs)
+  
+  if (exists("GLODAP_CanyonB_filling_stats_all")) {
+    GLODAP_CanyonB_filling_stats_all <-
+      bind_rows(GLODAP_CanyonB_filling_stats_all, GLODAP_CanyonB_filling_stats)
+  }
+  
+  if (!exists("GLODAP_CanyonB_filling_stats_all")) {
+    GLODAP_CanyonB_filling_stats_all <- GLODAP_CanyonB_filling_stats
+  }
+
 }
 
-rm(GLODAP)
+
+rm(
+  GLODAP,
+  GLODAP_adjustment_stats,
+  GLODAP_CanyonB_filling_stats,
+  GLODAP_flagging_stats
+)
 
 GLODAP_all <- full_join(GLODAP_all,
                         params_local_all)
+
+GLODAP_adjustment_stats_all <-
+  full_join(GLODAP_adjustment_stats_all,
+            params_local_all)
+
+GLODAP_CanyonB_filling_stats_all <-
+  full_join(GLODAP_CanyonB_filling_stats_all,
+            params_local_all)
+
+GLODAP_flagging_stats_all <- full_join(GLODAP_flagging_stats_all,
+                                       params_local_all)
 
 
 GLODAP_expocodes <-
@@ -237,12 +315,38 @@ GLODAP_all <- GLODAP_all %>%
 ```
 
 
-
+# Adjustment stats
 
 
 ```{r data_set_stats}
 
+GLODAP_adjustment_stats_all %>% 
+  group_by(era, period, adjustment, group) %>% 
+  summarise(n = sum(n)) %>% 
+  ungroup() %>% 
+  filter(adjustment == "yes") %>% 
+  filter(period %in% two_decades) %>%
+  filter(!(period == "1994 - 2004" &
+             era == "2000-2009")) %>% 
+  summarise(n = sum(n))
 
+GLODAP_flagging_stats_all %>% 
+  filter(group == "filled")
+
+GLODAP_CanyonB_filling_stats_all %>%
+  group_by(era, period, parameter, filling) %>%
+  summarise(n = sum(n)) %>%
+  ungroup() %>% 
+  filter(filling == "filled") %>%
+  filter(period %in% two_decades) %>%
+  filter(!(period == "1994 - 2004" &
+             era == "2000-2009")) %>% 
+  summarise(n = sum(n))
+  # ggplot(aes(parameter, n, fill = filling)) +
+  # coord_flip() +
+  # geom_col() +
+  # facet_grid(era~period) +
+  # scale_fill_brewer(palette = "Dark2")
 
 
 ```
