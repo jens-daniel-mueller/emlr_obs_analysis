@@ -39,13 +39,13 @@ library(khroma)
 ```
 
 
-```{r select_basin_mask, include=FALSE, eval=FALSE}
+```{r select_basin_mask, include=FALSE}
 
-basinmask <- basinmask %>% 
+basinmask_05 <- basinmask %>% 
   filter(MLR_basins == "5") %>% 
   select(-c(MLR_basins, basin_AIP))
 
-basinmask <- basinmask %>% 
+basinmask_05 <- basinmask_05 %>% 
   mutate(
     basin = str_replace(basin, "_", ". "),
     basin = fct_relevel(
@@ -61,6 +61,193 @@ basinmask <- basinmask %>%
 ```
 
 # Read files
+
+
+```{r define_Version_IDs_ensemble}
+
+version_id_pattern <- "103"
+
+# identify required version IDs
+
+Version_IDs_1 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_1", version_id_pattern))
+
+Version_IDs_2 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_2", version_id_pattern))
+
+Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_3", version_id_pattern))
+
+Version_IDs <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
+
+```
+
+
+```{r read_parameters_ensemble}
+
+for (i_Version_IDs in Version_IDs) {
+  
+  path_version_data     <-
+    paste(path_observations,
+          i_Version_IDs,
+          "/data/",
+          sep = "")
+  
+  params_local <-
+    read_rds(paste(path_version_data,
+                   "params_local.rds",
+                   sep = ""))
+  
+  params_local <- bind_cols(
+    Version_ID = i_Version_IDs,
+    tref1 = params_local$tref1,
+    tref2 = params_local$tref2,
+    MLR_basins = params_local$MLR_basins
+  )
+  
+  tref <- read_csv(paste(path_version_data,
+                         "tref.csv",
+                         sep = ""))
+  
+  params_local <- params_local %>%
+    mutate(
+      median_year_1 = sort(tref$median_year)[1],
+      median_year_2 = sort(tref$median_year)[2],
+      duration = median_year_2 - median_year_1,
+      period = paste(median_year_1, "-", median_year_2)
+    )
+  
+  if (exists("params_local_all_ensemble")) {
+    params_local_all_ensemble <- bind_rows(params_local_all_ensemble, params_local)
+  }
+  
+  if (!exists("params_local_all_ensemble")) {
+    params_local_all_ensemble <- params_local
+  }
+  
+  
+}
+
+rm(params_local,
+   tref)
+
+
+params_local_all_ensemble <- params_local_all_ensemble %>%
+  select(Version_ID, period, MLR_basins, tref1, tref2)
+
+params_local_all_ensemble <-
+  params_local_all_ensemble %>%
+  mutate(
+    Version_ID_group = str_sub(Version_ID, 4, 4),
+    Version_ID_group = case_when(
+      Version_ID_group == "1" ~ "Bulk adjustment",
+      Version_ID_group == "c" ~ "Cruise adjustment",
+      Version_ID_group == "d" ~ "No adjustment",
+      Version_ID_group == "g" ~ "No gap filling",
+      Version_ID_group == "o" ~ "Reoccupation filter",
+      Version_ID_group == "e" ~ "Surface eMLR(C*)",
+      Version_ID_group == "n" ~ "C*(N)",
+      TRUE ~ Version_ID_group
+    )
+  )
+
+params_local_all_ensemble <-
+  params_local_all_ensemble %>%
+  mutate(
+    MLR_basins = case_when(
+      MLR_basins == "AIP" ~ "3",
+      MLR_basins == "SO_AIP" ~ "3+SO",
+      MLR_basins == "SO_5" ~ "5+SO",
+      TRUE ~ MLR_basins
+    )
+  )
+
+
+params_local_all <- params_local_all_ensemble %>% 
+  filter(Version_ID %in% Version_IDs)
+
+```
+
+## Periods
+
+```{r define_period_groups}
+
+two_decades <- unique(params_local_all_ensemble$period)[1:2]
+
+```
+
+
+
+## Observations coverage
+
+```{r read_coverage_grid_files}
+
+
+for (i_Version_IDs in Version_IDs) {
+  path_version_data     <-
+    paste(path_observations,
+          i_Version_IDs,
+          "/data/",
+          sep = "")
+  
+  GLODAP <- read_csv(paste(
+    path_version_data,
+    "GLODAPv2.2020_clean.csv",
+    sep = ""
+  ))
+  
+  GLODAP <- GLODAP %>%
+    mutate(Version_ID = i_Version_IDs)
+  
+  if (exists("GLODAP_all")) {
+    GLODAP_all <-
+      bind_rows(GLODAP_all, GLODAP)
+  }
+  
+  if (!exists("GLODAP_all")) {
+    GLODAP_all <- GLODAP
+  }
+  
+}
+
+rm(GLODAP)
+
+GLODAP_all <- full_join(GLODAP_all,
+                        params_local_all)
+
+
+GLODAP_expocodes <-
+  read_tsv(
+    paste(
+      "/nfs/kryo/work/updata/glodapv2_2021/",
+      "EXPOCODES.txt",
+      sep = ""
+    ),
+    col_names = c("cruise", "cruise_expocode")
+  )
+
+GLODAP_all <-
+  left_join(GLODAP_all, GLODAP_expocodes)
+
+GLODAP_all <- GLODAP_all %>%
+  filter(period %in% two_decades) %>%
+  filter(!(period == "1994 - 2004" &
+             era == "2000-2009"))
+
+```
+
+
+
+
+
+```{r data_set_stats}
+
+
+
+
+```
+
+
 
 ```{r read_files_global}
 
@@ -88,7 +275,7 @@ landseamask <-
 
 # Time series histogram
 
-```{r time_series_post_Gruber_2019, fig.asp=0.4}
+```{r time_series_post_Gruber_2019, fig.asp=0.4, eval=FALSE}
 
 time_histo <- GLODAP_preprocessed %>% 
   drop_na() %>% 
@@ -164,9 +351,12 @@ p_time_histo_all
 
 ```{r time_series_per_basin, fig.asp=0.4}
 
-time_histo <- GLODAP_preprocessed %>%
-  filter(year >= 1989,
-         year <= 2020) %>%
+GLODAP_all <-
+  inner_join(GLODAP_all %>% select(-basin),
+             basinmask_05)
+
+
+time_histo <- GLODAP_all %>%
   count(year, basin) %>%
   mutate(basin = fct_relevel(
     basin,
@@ -184,29 +374,33 @@ p_time_histo_basin <-
                 ymin = 0, ymax = Inf,
             fill = "black", alpha = 0.2, col="transparent") +
   geom_col(
-    aes(year, n),
+    aes(year, n, fill = basin),
     col = "grey20",
-    fill = "grey50",
+    # fill = "grey50",
     size = 0.3,
     width = 0.7
   ) +
+  scale_fill_brewer(palette = "Paired") +
   scale_x_continuous(breaks = seq(1994, 2014, 10)) +
   scale_y_continuous(limits = c(0, NA), expand = c(0, 0)) +
   labs(y = "Observations per year") +
-  facet_grid(basin~.)+
+  # facet_grid(basin~.)+
   theme(axis.title.x = element_blank(),
-        panel.grid.minor = element_blank())
+        panel.grid.minor = element_blank(),
+        legend.title = element_blank(),
+        legend.position = c(0.08,0.67),
+        legend.background = element_rect(fill = "transparent"))
 
 p_time_histo_basin
 
 
-ggsave(plot = p_time_histo_basin,
-       path = here::here("output/publication"),
-       filename = "FigS_observations_coverage_time_series.png",
-       height = 6,
-       width = 7)
+# ggsave(plot = p_time_histo_basin,
+#        path = here::here("output/publication"),
+#        filename = "FigS_observations_coverage_time_series.png",
+#        height = 6,
+#        width = 7)
 
-rm(p_time_histo_basin)
+# rm(p_time_histo_basin)
 
 ```
 
@@ -214,6 +408,76 @@ rm(p_time_histo_basin)
 
 time_histo %>% 
   summarise(n = sum(n))
+
+GLODAP_all %>% 
+  count(era)
+
+```
+
+# Coverage maps
+
+```{r coverage_maps}
+
+cruises_phosphate_gap_fill <-
+  c("33MW19930704",
+    "33RO20030604",
+    "33RO20050111",
+    "33RO19980123")
+
+cruises_talk_gap_fill <-
+  c("06AQ19980328")
+
+cruises_talk_calc <-
+  c("06MT19900123",
+    "316N19920502",
+    "316N19921006")
+
+GLODAP_all_coverage <- GLODAP_all %>% 
+  distinct(lat, lon, era, cruise_expocode) %>% 
+  mutate(gap_filling = case_when(
+    cruise_expocode %in% cruises_phosphate_gap_fill ~ "PO4 w CANYON-B",
+    cruise_expocode %in% cruises_talk_gap_fill ~ "TA w CANYON-B",
+    cruise_expocode %in% cruises_talk_calc ~ "TA calculated",
+    cruise_expocode %in% "31DS19940126" ~ "NO3 qc flag",
+    TRUE ~ "None"
+  )) %>% 
+  distinct(lat, lon, era, gap_filling)
+
+coverage_map <- map +
+  geom_tile(data = GLODAP_all_coverage %>% filter(gap_filling == "None"),
+            aes(lon, lat),
+            fill = "#BBBBBB",
+            col = "#BBBBBB") +
+  geom_tile(data = GLODAP_all_coverage %>% filter(gap_filling != "None"),
+            aes(lon, lat,
+            fill = gap_filling, col = gap_filling)) +
+  facet_wrap( ~ era, ncol = 2) +
+  scale_color_bright(name = "Gap-filling") +
+  scale_fill_bright(name = "Gap-filling") +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        legend.position = c(0.62,0.3))
+
+wrap_plots(p_time_histo_basin,
+           coverage_map, ncol = 1) +
+  plot_layout(heights = c(1, 2))  +
+  plot_annotation(tag_levels = 'A')
+
+ggsave(
+  path = here::here("output/publication"),
+  filename = "Fig_observations_coverage.png",
+  height = 7,
+  width = 9
+)
+
+rm(coverage_map, 
+   GLODAP_all_coverage, GLODAP_expocodes,
+   GLODAP_grid_era_all)
+
+
+rm(cruises_phosphate_gap_fill,
+   cruises_talk_gap_fill,
+   cruises_talk_calc)
 
 ```
 
@@ -357,13 +621,9 @@ mapped_ocean_mask %>%
 
 # coverage maps all
 
-```{r coverage_maps}
+```{r coverage_maps_simple}
 
-GLODAP_era_grid <- GLODAP_preprocessed %>% 
-  mutate(era = cut(year,
-                   c(1989, 2000, 2010, 2021),
-                   labels = c("1989 - 1999", "2000 - 2009", "2010 - 2020"),
-                   right = FALSE)) %>% 
+GLODAP_era_grid <- GLODAP_all %>% 
   group_by(lon, lat, era) %>% 
   summarise(year_max = max(year),
             year_min = min(year)) %>% 
@@ -382,9 +642,6 @@ coverage_map <-
         panel.grid = element_blank())
 
 coverage_map
-
-
-
 
 
 ```
