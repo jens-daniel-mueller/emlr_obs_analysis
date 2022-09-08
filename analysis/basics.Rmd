@@ -210,6 +210,12 @@ rm(p_time_histo_basin)
 
 ```
 
+```{r number_observations}
+
+time_histo %>% 
+  summarise(n = sum(n))
+
+```
 
 
 # Basin maps
