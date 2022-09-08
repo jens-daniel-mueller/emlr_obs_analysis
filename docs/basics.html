@@ -780,16 +780,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree4e4b934366e2312a4ebe1ad764a8bccfb93c9b1ftargetblank4e4b934a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/4e4b934366e2312a4ebe1ad764a8bccfb93c9b1f" target="_blank">4e4b934</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreebd6c492d96c866a6d2ac580225cf43f2ea8b9473targetblankbd6c492a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/bd6c492d96c866a6d2ac580225cf43f2ea8b9473" target="_blank">bd6c492</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree4e4b934366e2312a4ebe1ad764a8bccfb93c9b1ftargetblank4e4b934a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreebd6c492d96c866a6d2ac580225cf43f2ea8b9473targetblankbd6c492a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/4e4b934366e2312a4ebe1ad764a8bccfb93c9b1f" target="_blank">4e4b934</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/bd6c492d96c866a6d2ac580225cf43f2ea8b9473" target="_blank">bd6c492</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -806,6 +806,9 @@ Untracked files:
     Untracked:  code/visualization_equal_earth.R
     Untracked:  code/visualization_equal_earth_cleaned.R
     Untracked:  code/visualization_equal_earth_cleaned_jdm.R
+
+Unstaged changes:
+    Modified:   code/Workflowr_project_managment.R
 
 </code></pre>
 <p>
@@ -844,6 +847,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/bd6c492d96c866a6d2ac580225cf43f2ea8b9473/analysis/basics.Rmd" target="_blank">bd6c492</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-09-09
+</td>
+<td>
+adjustment counts
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/7184b6b10c6e068eaffc3566e825e468dbfe8311/docs/basics.html" target="_blank">7184b6b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-09-09
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1974,12 +2011,15 @@ params_local_all &lt;- params_local_all_ensemble %&gt;%
 <div id="observations-coverage" class="section level2" number="1.2">
 <h2><span class="header-section-number">1.2</span> Observations coverage</h2>
 <pre class="r"><code>for (i_Version_IDs in Version_IDs) {
+  # i_Version_IDs &lt;- Version_IDs[1]
+  
   path_version_data     &lt;-
     paste(path_observations,
           i_Version_IDs,
           &quot;/data/&quot;,
           sep = &quot;&quot;)
   
+  # read cleaned GLODAP files
   GLODAP &lt;- read_csv(paste(
     path_version_data,
     &quot;GLODAPv2.2020_clean.csv&quot;,
@@ -1997,13 +2037,88 @@ params_local_all &lt;- params_local_all_ensemble %&gt;%
   if (!exists(&quot;GLODAP_all&quot;)) {
     GLODAP_all &lt;- GLODAP
   }
+
   
+  # read cleaned GLODAP_flagging_stats files
+  GLODAP_flagging_stats &lt;- read_csv(paste(
+    path_version_data,
+    &quot;GLODAP_flagging_stats.csv&quot;,
+    sep = &quot;&quot;
+  ))
+  
+  GLODAP_flagging_stats &lt;- GLODAP_flagging_stats %&gt;%
+    mutate(Version_ID = i_Version_IDs)
+  
+  if (exists(&quot;GLODAP_flagging_stats_all&quot;)) {
+    GLODAP_flagging_stats_all &lt;-
+      bind_rows(GLODAP_flagging_stats_all, GLODAP_flagging_stats)
+  }
+  
+  if (!exists(&quot;GLODAP_flagging_stats_all&quot;)) {
+    GLODAP_flagging_stats_all &lt;- GLODAP_flagging_stats
+  }
+  
+  # read cleaned GLODAP_adjustment_stats files
+  GLODAP_adjustment_stats &lt;- read_csv(paste(
+    path_version_data,
+    &quot;GLODAP_adjustment_stats.csv&quot;,
+    sep = &quot;&quot;
+  ))
+  
+  GLODAP_adjustment_stats &lt;- GLODAP_adjustment_stats %&gt;%
+    mutate(Version_ID = i_Version_IDs)
+  
+  if (exists(&quot;GLODAP_adjustment_stats_all&quot;)) {
+    GLODAP_adjustment_stats_all &lt;-
+      bind_rows(GLODAP_adjustment_stats_all, GLODAP_adjustment_stats)
+  }
+  
+  if (!exists(&quot;GLODAP_adjustment_stats_all&quot;)) {
+    GLODAP_adjustment_stats_all &lt;- GLODAP_adjustment_stats
+  }
+  
+  # read cleaned GLODAP_CanyonB_filling_stats files
+  GLODAP_CanyonB_filling_stats &lt;- read_csv(paste(
+    path_version_data,
+    &quot;GLODAP_CanyonB_filling_stats.csv&quot;,
+    sep = &quot;&quot;
+  ))
+  
+  GLODAP_CanyonB_filling_stats &lt;- GLODAP_CanyonB_filling_stats %&gt;%
+    mutate(Version_ID = i_Version_IDs)
+  
+  if (exists(&quot;GLODAP_CanyonB_filling_stats_all&quot;)) {
+    GLODAP_CanyonB_filling_stats_all &lt;-
+      bind_rows(GLODAP_CanyonB_filling_stats_all, GLODAP_CanyonB_filling_stats)
+  }
+  
+  if (!exists(&quot;GLODAP_CanyonB_filling_stats_all&quot;)) {
+    GLODAP_CanyonB_filling_stats_all &lt;- GLODAP_CanyonB_filling_stats
+  }
+
 }
 
-rm(GLODAP)
+
+rm(
+  GLODAP,
+  GLODAP_adjustment_stats,
+  GLODAP_CanyonB_filling_stats,
+  GLODAP_flagging_stats
+)
 
 GLODAP_all &lt;- full_join(GLODAP_all,
                         params_local_all)
+
+GLODAP_adjustment_stats_all &lt;-
+  full_join(GLODAP_adjustment_stats_all,
+            params_local_all)
+
+GLODAP_CanyonB_filling_stats_all &lt;-
+  full_join(GLODAP_CanyonB_filling_stats_all,
+            params_local_all)
+
+GLODAP_flagging_stats_all &lt;- full_join(GLODAP_flagging_stats_all,
+                                       params_local_all)
 
 
 GLODAP_expocodes &lt;-
@@ -2023,6 +2138,51 @@ GLODAP_all &lt;- GLODAP_all %&gt;%
   filter(period %in% two_decades) %&gt;%
   filter(!(period == &quot;1994 - 2004&quot; &amp;
              era == &quot;2000-2009&quot;))</code></pre>
+</div>
+</div>
+<div id="adjustment-stats" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Adjustment stats</h1>
+<pre class="r"><code>GLODAP_adjustment_stats_all %&gt;% 
+  group_by(era, period, adjustment, group) %&gt;% 
+  summarise(n = sum(n)) %&gt;% 
+  ungroup() %&gt;% 
+  filter(adjustment == &quot;yes&quot;) %&gt;% 
+  filter(period %in% two_decades) %&gt;%
+  filter(!(period == &quot;1994 - 2004&quot; &amp;
+             era == &quot;2000-2009&quot;)) %&gt;% 
+  summarise(n = sum(n))</code></pre>
+<pre><code># A tibble: 1 × 1
+      n
+  &lt;dbl&gt;
+1 50482</code></pre>
+<pre class="r"><code>GLODAP_flagging_stats_all %&gt;% 
+  filter(group == &quot;filled&quot;)</code></pre>
+<pre><code># A tibble: 4 × 10
+  group  era           n criterion Version_ID period      MLR_basins tref1 tref2
+  &lt;chr&gt;  &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;
+1 filled 1989-1999  2244 f_flag    v_2103     1994 - 2004 3           1994  2004
+2 filled 1989-1999  5365 qc_flag   v_2103     1994 - 2004 3           1994  2004
+3 filled 1989-1999  2244 f_flag    v_3103     1994 - 2014 3           1994  2014
+4 filled 1989-1999  5365 qc_flag   v_3103     1994 - 2014 3           1994  2014
+# … with 1 more variable: Version_ID_group &lt;chr&gt;</code></pre>
+<pre class="r"><code>GLODAP_CanyonB_filling_stats_all %&gt;%
+  group_by(era, period, parameter, filling) %&gt;%
+  summarise(n = sum(n)) %&gt;%
+  ungroup() %&gt;% 
+  filter(filling == &quot;filled&quot;) %&gt;%
+  filter(period %in% two_decades) %&gt;%
+  filter(!(period == &quot;1994 - 2004&quot; &amp;
+             era == &quot;2000-2009&quot;)) %&gt;% 
+  summarise(n = sum(n))</code></pre>
+<pre><code># A tibble: 1 × 1
+      n
+  &lt;dbl&gt;
+1  7305</code></pre>
+<pre class="r"><code>  # ggplot(aes(parameter, n, fill = filling)) +
+  # coord_flip() +
+  # geom_col() +
+  # facet_grid(era~period) +
+  # scale_fill_brewer(palette = &quot;Dark2&quot;)</code></pre>
 <pre class="r"><code>GLODAP_preprocessed &lt;-
   read_csv(
     paste(
@@ -2037,9 +2197,8 @@ landseamask &lt;-
                   &quot;land_sea_mask_WOA18.csv&quot;,
                   sep = &quot;&quot;))</code></pre>
 </div>
-</div>
-<div id="time-series-histogram" class="section level1" number="2">
-<h1><span class="header-section-number">2</span> Time series histogram</h1>
+<div id="time-series-histogram" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Time series histogram</h1>
 <pre class="r"><code>time_histo &lt;- GLODAP_preprocessed %&gt;% 
   drop_na() %&gt;% 
   mutate(version = if_else(cruise &lt;1000, &quot;Gruber et al. (2019)&quot;, 
@@ -2173,6 +2332,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/7184b6b10c6e068eaffc3566e825e468dbfe8311/docs/figure/basics.Rmd/time_series_per_basin-1.png" target="_blank">7184b6b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-09-09
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/4786cae4958e99343f4625af7852a371f1af4764/docs/figure/basics.Rmd/time_series_per_basin-1.png" target="_blank">4786cae</a>
 </td>
 <td>
@@ -2263,8 +2433,8 @@ jens-daniel-mueller
 2 2000-2009 71398
 3 2010-2020 85102</code></pre>
 </div>
-<div id="coverage-maps" class="section level1" number="3">
-<h1><span class="header-section-number">3</span> Coverage maps</h1>
+<div id="coverage-maps" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Coverage maps</h1>
 <pre class="r"><code>cruises_phosphate_gap_fill &lt;-
   c(&quot;33MW19930704&quot;,
     &quot;33RO20030604&quot;,
@@ -2332,6 +2502,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/7184b6b10c6e068eaffc3566e825e468dbfe8311/docs/figure/basics.Rmd/coverage_maps-1.png" target="_blank">7184b6b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-09-09
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/acad2e2d0e0eddef9ef8ba3931ab5958ea2914e4/docs/figure/basics.Rmd/coverage_maps-1.png" target="_blank">acad2e2</a>
@@ -2407,10 +2588,10 @@ rm(cruises_phosphate_gap_fill,
    cruises_talk_gap_fill,
    cruises_talk_calc)</code></pre>
 </div>
-<div id="basin-maps" class="section level1" number="4">
-<h1><span class="header-section-number">4</span> Basin maps</h1>
-<div id="mlr-basins" class="section level2" number="4.1">
-<h2><span class="header-section-number">4.1</span> MLR basins</h2>
+<div id="basin-maps" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Basin maps</h1>
+<div id="mlr-basins" class="section level2" number="5.1">
+<h2><span class="header-section-number">5.1</span> MLR basins</h2>
 <pre class="r"><code>basinmask &lt;- basinmask %&gt;% 
   mutate(
     MLR_basins = case_when(
@@ -2542,8 +2723,8 @@ jens-daniel-mueller
        height = 4,
        width = 10)</code></pre>
 </div>
-<div id="basins" class="section level2" number="4.2">
-<h2><span class="header-section-number">4.2</span> 5 basins</h2>
+<div id="basins" class="section level2" number="5.2">
+<h2><span class="header-section-number">5.2</span> 5 basins</h2>
 <pre class="r"><code>MLR_basins_in &lt;- c(&quot;5&quot;)
 
 basinmask &lt;- basinmask %&gt;%
@@ -2664,8 +2845,8 @@ jens-daniel-mueller
 #        height = 5,
 #        width = 10)</code></pre>
 </div>
-<div id="area-scaling" class="section level2" number="4.3">
-<h2><span class="header-section-number">4.3</span> Area scaling</h2>
+<div id="area-scaling" class="section level2" number="5.3">
+<h2><span class="header-section-number">5.3</span> Area scaling</h2>
 <pre class="r"><code>mapped_ocean_mask &lt;- full_join(
   landseamask %&gt;% 
     filter(region == &quot;ocean&quot;) %&gt;% 
@@ -2758,8 +2939,8 @@ jens-daniel-mueller
 2 1                 3.33e14            NA     </code></pre>
 </div>
 </div>
-<div id="coverage-maps-all" class="section level1" number="5">
-<h1><span class="header-section-number">5</span> coverage maps all</h1>
+<div id="coverage-maps-all" class="section level1" number="6">
+<h1><span class="header-section-number">6</span> coverage maps all</h1>
 <pre class="r"><code>GLODAP_era_grid &lt;- GLODAP_all %&gt;% 
   group_by(lon, lat, era) %&gt;% 
   summarise(year_max = max(year),
@@ -2780,6 +2961,43 @@ coverage_map &lt;-
 
 coverage_map</code></pre>
 <p><img src="figure/basics.Rmd/coverage_maps_simple-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-coverage_maps_simple-1">
+Past versions of coverage_maps_simple-1.png
+</button>
+</p>
+<div id="fig-coverage_maps_simple-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/7184b6b10c6e068eaffc3566e825e468dbfe8311/docs/figure/basics.Rmd/coverage_maps_simple-1.png" target="_blank">7184b6b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-09-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
