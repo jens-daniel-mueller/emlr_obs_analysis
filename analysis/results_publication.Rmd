@@ -1032,6 +1032,8 @@ dcant_zonal_all_ensemble <- dcant_zonal_all %>%
 dcant_zonal_all <- dcant_zonal_all %>% 
   filter(Version_ID %in% Version_IDs)
 
+dcant_global_section_all_ensemble <- dcant_global_section_all %>% 
+  filter(!(Version_ID %in% Version_IDs_d))
 dcant_global_section_all <- dcant_global_section_all %>% 
   filter(Version_ID %in% Version_IDs)
 
@@ -1398,7 +1400,7 @@ rm(co2_atm_roll)
 
 # Globale scaling
 
-- Accumulation beneath 3000m: +2%
+- storage beneath 3000m: +2%
 - unmapped regions south of 65N: +1.5%
 - Nordic Seas: +1%
 - Arctic Ocean: +2%
@@ -1417,10 +1419,6 @@ dcant_scaling <- 1.02*1.015*1.01*1.02
 
 
 ```{r calculate_scaled_inventories}
-
-# dcant_inv_all <- dcant_inv_all %>%
-#   filter(data_source %in% c("obs"))
-
 
 dcant_inv_all <- bind_rows(
   dcant_inv_all,
@@ -1447,15 +1445,11 @@ dcant_inv_all <- dcant_inv_all %>%
 ```
 
 
-
-
 ## Absoulte values
-
 
 ### Ensemble SD
 
 ```{r column_inventory_standard_deviation}
-
 
 dcant_inv_all_ensemble_sd <-
   dcant_inv_all_ensemble %>%
@@ -1558,7 +1552,7 @@ p_CI_absolute
 
 ```
 
-```{r dcant_inventory_stats}
+```{r dcant_inventory_stats_basin}
 
 dcant_inv_stat_mean <- 
 full_join(basinmask,
@@ -1591,6 +1585,56 @@ rm(dcant_inv_stat_mean,
 dcant_inv_stat %>%
   filter(period %in% two_decades) %>%
   group_by(data_source, basin) %>%
+  mutate(delta_dcant = dcant - lag(dcant),
+         RSS = sqrt(dcant_sd ^ 2 + lag(dcant_sd ^ 2))) %>%
+  ungroup() %>%
+  kable() %>%
+  kable_styling() %>%
+  scroll_box(height = "300px")
+
+
+```
+
+
+```{r dcant_inventory_stats_gyres}
+
+dcant_inv_stat_mean <-
+  full_join(basinmask,
+            dcant_inv_all) %>%
+  mutate(surf_area = earth_surf(lat, lon),
+         lat_grid = cut(lat, c(-50, -20, 20, 50))) %>%
+  group_by(basin, period, data_source, lat_grid) %>%
+  summarise(dcant = weighted.mean(dcant, surf_area)) %>%
+  ungroup() %>%
+  filter(!is.na(dcant),
+         !is.na(lat_grid),
+         lat_grid != "(-20,20]")
+  
+dcant_inv_stat_ensemble <-
+  full_join(basinmask,
+            dcant_inv_all_ensemble) %>%
+  mutate(surf_area = earth_surf(lat, lon),
+         lat_grid = cut(lat, c(-50, -20, 20, 50))) %>%
+  group_by(basin, data_source, period, MLR_basins, Version_ID_group, lat_grid) %>%
+  summarise(dcant = weighted.mean(dcant, surf_area)) %>%
+  ungroup() %>%
+  filter(!is.na(dcant),
+         !is.na(lat_grid),
+         lat_grid != "(-20,20]") %>%
+  group_by(basin, data_source, period, lat_grid) %>%
+  summarise(dcant_sd = sd(dcant) * 2) %>%
+  ungroup()
+
+dcant_inv_stat <-
+  full_join(dcant_inv_stat_mean,
+            dcant_inv_stat_ensemble)
+
+rm(dcant_inv_stat_mean,
+          dcant_inv_stat_ensemble)  
+
+dcant_inv_stat %>%
+  filter(period %in% two_decades) %>%
+  group_by(data_source, basin, lat_grid) %>%
   mutate(delta_dcant = dcant - lag(dcant),
          RSS = sqrt(dcant_sd ^ 2 + lag(dcant_sd ^ 2))) %>%
   ungroup() %>%
@@ -2050,6 +2094,15 @@ dcant_inv_all_lat_mean %>%
   summarise(dcant_mean = mean(dcant_mean, na_rm = TRUE)) %>% 
   ungroup()
 
+dcant_inv_all_lat_mean %>%
+  filter(period != "1800 - 1994") %>% 
+  mutate(lat_grid = cut(lat_grid, c(-50,-20,20,50))) %>% 
+  group_by(lat_grid, basin_AIP, period, data_source) %>% 
+  summarise(dcant_mean = mean(dcant_mean, na_rm = TRUE)) %>% 
+  ungroup() %>% 
+  filter(data_source == "obs") %>% 
+  arrange(basin_AIP)
+
 
 dcant_inv_all_ensemble_lat_mean %>% 
   ggplot(aes(lat_grid, dcant_mean, fill=period, group=Version_ID)) +
@@ -2102,6 +2155,127 @@ dcant_inv_all_ensemble_lat_mean %>%
 
 ## dcant - absolut
 
+```{r global_section_absolute_delta_RSS}
+
+delta_dcant_global_section_all <-
+  dcant_global_section_all %>%
+  filter(data_source %in% c("obs", "mod"),
+         period %in% two_decades) %>%
+  select(data_source, dist, depth, period, dcant) %>%
+  drop_na() %>% 
+  pivot_wider(names_from = period,
+              values_from = dcant) %>%
+  mutate(dcant_offset = `2004 - 2014` - `1994 - 2004`,
+         period = "(2004 - 2014) - (1994 - 2004)")
+
+dcant_global_section_all_ensemble_sd <-
+  dcant_global_section_all_ensemble %>%
+  filter(period %in% two_decades,
+         data_source != "mod_truth") %>%
+  group_by(data_source, period, dist, depth) %>%
+  summarise(dcant_sd = sd(dcant)) %>%
+  ungroup()
+
+
+delta_dcant_global_section_all_ensemble_RSS <-
+  dcant_global_section_all_ensemble_sd %>%
+  arrange(period) %>%
+  group_by(data_source, dist, depth) %>%
+  mutate(RSS = sqrt(dcant_sd ^ 2 + lag(dcant_sd ^ 2))) %>%
+  ungroup() %>%
+  drop_na()
+
+
+
+delta_dcant_global_section_all_uncertainty <-
+  left_join(
+    delta_dcant_global_section_all %>% select(data_source, dist, depth, dcant_offset),
+    delta_dcant_global_section_all_ensemble_RSS %>% select(data_source, dist, depth, RSS)
+  )
+
+
+delta_dcant_global_section_all_uncertainty <-
+  delta_dcant_global_section_all_uncertainty %>%
+  mutate(dist_grid = as.numeric(as.character(cut(
+    dist, seq(0, 50, 2), seq(1, 49, 2)
+  ))),
+  depth_grid = as.numeric(as.character(cut(
+    depth,
+    c(seq(0, 500, 100), seq(1000, 10000, 500)),
+    c(seq(50, 450, 100), seq(750, 10000, 500)),
+    right = FALSE
+  ))))
+
+delta_dcant_global_section_all_uncertainty <-
+  delta_dcant_global_section_all_uncertainty %>%
+  group_by(dist_grid, depth_grid, data_source) %>% 
+  summarise(dcant_offset = mean(dcant_offset),
+            RSS = mean(RSS),
+            n = n()) %>% 
+  ungroup() %>% 
+  # filter(n == 25) %>% 
+  rename(dist = dist_grid,
+         depth = depth_grid) %>%
+  mutate(dcant_offset_sign = abs(dcant_offset) - RSS,
+         band = "dummy")
+
+
+delta_dcant_global_section_all_uncertainty  %>% 
+  mutate(dcant_offset = dcant_offset) %>% 
+  filter(data_source == "obs") %>% 
+  rename(delta_dcant = dcant_offset) %>% 
+  p_section_global(
+    var = "delta_dcant",
+    plot_slabs = "n",
+    title_text = NULL,
+    subtitle_text = NULL,
+    col = "div"
+  )
+
+delta_dcant_global_section_all_uncertainty  %>% 
+  filter(data_source == "obs") %>% 
+  rename(delta_dcant = RSS) %>% 
+  p_section_global(
+    var = "delta_dcant",
+    plot_slabs = "n",
+    title_text = NULL,
+    subtitle_text = NULL,
+    col = "div"
+  )
+
+delta_dcant_global_section_all_uncertainty  %>%
+  filter(data_source == "obs") %>%
+  rename(delta_dcant = dcant_offset_sign) %>%
+  p_section_global(
+    var = "delta_dcant",
+    plot_slabs = "n",
+    title_text = NULL,
+    subtitle_text = NULL,
+    col = "div"
+  )
+
+
+
+ggplot() +
+  geom_point(
+    data = delta_dcant_global_section_all_uncertainty %>%
+      filter(dcant_offset_sign < 0,
+             data_source == "obs"),
+    aes(dist, depth),
+    shape = 4
+  ) +
+  scale_y_reverse()
+
+delta_dcant_global_section_all_uncertainty <-
+  delta_dcant_global_section_all_uncertainty %>%
+  filter(dcant_offset_sign < 0,
+         data_source == "obs")
+
+```
+
+
+
+
 ```{r global_sections, fig.asp=1}
 
 p_dcant_global_section_dec1 <-
@@ -2111,6 +2285,7 @@ p_dcant_global_section_dec1 <-
   p_section_global(var = "dcant",
                    title_text = "1994 - 2004",
                    subtitle_text = NULL,
+                   plot_slabs = "n",
                    contour_level = 5) +
   theme(
     axis.title.x = element_blank(),
@@ -2124,10 +2299,12 @@ p_dcant_global_section_dec2 <-
   p_section_global(var = "dcant",
                    title_text = NULL,
                    subtitle_text = NULL,
+                   plot_slabs = "n",
                    contour_level = 5) &
   theme(
     axis.title.x = element_blank(),
-    axis.text.x = element_blank()
+    axis.text.x = element_blank(),
+    legend.position="none"
   )
 
 p_dcant_global_section_offset <-
@@ -2137,12 +2314,13 @@ p_dcant_global_section_offset <-
     period %in% two_decades
   ) %>%
   arrange(depth, dist) %>% 
-  select(depth, dist, dcant, period) %>% 
+  select(depth, dist, dcant, period, gamma_mean) %>% 
   drop_na() %>% 
   pivot_wider(names_from = period,
               values_from = dcant) %>% 
   mutate(delta_dcant = `2004 - 2014` - `1994 - 2004`) %>% 
   p_section_global(var = "delta_dcant",
+                   df_uncertainty = delta_dcant_global_section_all_uncertainty,
                    col = "div",
                    title_text = NULL,
                    subtitle_text = NULL) &
@@ -2159,9 +2337,11 @@ wrap_plots(p_dcant_global_section_dec1,
 
 
 ggsave(path = here::here("output/publication"),
-       filename = "FigS_dcant_global_section.png",
+       filename = "Fig_dcant_global_section.png",
        height = 10,
        width = 8)
+
+rm(delta_dcant_global_section_all_uncertainty)
 
 ```
 
@@ -2300,7 +2480,7 @@ p_dcant_zonal_absolute / p_dcant_zonal_delta +
   plot_annotation(tag_levels = 'A')
 
 ggsave(path = here::here("output/publication"),
-       filename = "Fig_dcant_zonal_mean_section.png",
+       filename = "FigS_dcant_zonal_mean_section.png",
        height = 6,
        width = 8)
 
@@ -5803,7 +5983,7 @@ p_tcant_ts_zoom <-
   scale_fill_highcontrast(name = "Data source", reverse = TRUE) +
   scale_y_continuous(limits = c(tcant_min, tcant_max)) +
   labs(x = expression(Atmospheric ~ pCO[2] ~ (µatm)),
-       y = expression(Total ~ oceanic ~ carbon ~ accumulation ~ since ~ 1800 ~ (PgC))) +
+       y = expression(Total ~ oceanic ~ carbon ~ storage ~ since ~ 1800 ~ (PgC))) +
   guides(colour = guide_legend(order = 1),
          fill = "none") +
   theme_classic() +
