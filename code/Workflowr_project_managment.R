@@ -5,7 +5,7 @@
 
 
 # commit regular changes (locally) and rebuild site
-wflow_publish(all = TRUE, message = "added uncertainty to global section")
+wflow_publish(all = TRUE, message = "added global section location to maps")
 
 # commit changes including _site.yml (locally) and rebuild site in the specified order
 wflow_publish(here::here(
@@ -78,7 +78,7 @@ wflow_publish(here::here(
     "basics.Rmd"
   )
 ),
-message = "data coverage time series updated")
+message = "adjustment counts")
 
 
 

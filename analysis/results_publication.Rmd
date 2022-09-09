@@ -1544,8 +1544,10 @@ p_CI_absolute <- dcant_inv_all %>%
          data_source %in% c("obs")) %>%
   p_map_cant_inv(var = "dcant",
                  title_text = NULL) +
-  facet_wrap(~ period, ncol = 1) +
-  theme(axis.text.x = element_blank()) 
+  facet_wrap( ~ period, ncol = 1) +
+  theme(axis.text.x = element_blank()) +
+  geom_tile(data = section_global_coordinates,
+            aes(lon, lat), fill = "white")
 
 p_CI_absolute
 
