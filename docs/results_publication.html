@@ -666,7 +666,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Results publication</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">09 September, 2022</h4>
+<h4 class="date">23 September, 2022</h4>
 
 </div>
 
@@ -691,7 +691,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-09-09
+<strong>Last updated:</strong> 2022-09-23
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -782,16 +782,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree25bff3dfb96bf37fa9f24b4c7b86702b0335e85ftargetblank25bff3da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/25bff3dfb96bf37fa9f24b4c7b86702b0335e85f" target="_blank">25bff3d</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreef01db23dac6976bd2cfea619e71c641c6991fe1atargetblankf01db23a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/f01db23dac6976bd2cfea619e71c641c6991fe1a" target="_blank">f01db23</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree25bff3dfb96bf37fa9f24b4c7b86702b0335e85ftargetblank25bff3da" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreef01db23dac6976bd2cfea619e71c641c6991fe1atargetblankf01db23a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/25bff3dfb96bf37fa9f24b4c7b86702b0335e85f" target="_blank">25bff3d</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/f01db23dac6976bd2cfea619e71c641c6991fe1a" target="_blank">f01db23</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -808,6 +808,9 @@ Untracked files:
     Untracked:  code/visualization_equal_earth.R
     Untracked:  code/visualization_equal_earth_cleaned.R
     Untracked:  code/visualization_equal_earth_cleaned_jdm.R
+
+Unstaged changes:
+    Modified:   code/Workflowr_project_managment.R
 
 </code></pre>
 <p>
@@ -846,6 +849,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/f01db23dac6976bd2cfea619e71c641c6991fe1a/analysis/results_publication.Rmd" target="_blank">f01db23</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-09-23
+</td>
+<td>
+added uncertainty to dcant maps and section
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/8dc5a3b60cc1bf72c54b06751f7a30c3209b4a42/docs/results_publication.html" target="_blank">8dc5a3b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-09-09
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -7283,15 +7320,102 @@ jens-daniel-mueller
 </div>
 <div id="dcant---absolute" class="section level3" number="7.1.2">
 <h3><span class="header-section-number">7.1.2</span> dcant - absolute</h3>
+<pre class="r"><code># 
+# delta_dcant_inv_all &lt;-
+#   dcant_inv_all %&gt;%
+#   filter(data_source %in% c(&quot;obs&quot;, &quot;mod&quot;),
+#          period %in% two_decades) %&gt;%
+#   select(data_source, lon, lat, basin_AIP, period, dcant) %&gt;%
+#   pivot_wider(names_from = period,
+#               values_from = dcant) %&gt;%
+#   mutate(dcant_offset = `2004 - 2014` - `1994 - 2004`,
+#          period = &quot;(2004 - 2014) - (1994 - 2004)&quot;)
+
+
+dcant_inv_all_uncertainty &lt;-
+  full_join(
+    dcant_inv_all %&gt;%
+      select(data_source, lon, lat, period, dcant),
+    dcant_inv_all_ensemble_sd %&gt;% select(data_source, lon, lat, period, dcant_sd)
+  )
+
+dcant_inv_all_uncertainty &lt;-dcant_inv_all_uncertainty %&gt;% 
+  filter(period %in%two_decades,
+         data_source %in% c(&quot;mod&quot;, &quot;obs&quot;))
+
+dcant_inv_all_uncertainty &lt;-
+  m_grid_horizontal_coarse(dcant_inv_all_uncertainty)
+
+dcant_inv_all_uncertainty &lt;-
+  dcant_inv_all_uncertainty %&gt;%
+  group_by(lat_grid, lon_grid, data_source, period) %&gt;% 
+  summarise(dcant = mean(dcant),
+            dcant_sd = mean(dcant_sd),
+            n = n()) %&gt;% 
+  ungroup() %&gt;% 
+  filter(n == 25) %&gt;% 
+  rename(lon = lon_grid,
+         lat = lat_grid) %&gt;% 
+  mutate(dcant_sign = abs(dcant) - dcant_sd)
+
+
+
+dcant_inv_all_uncertainty %&gt;% 
+  mutate(dcant = abs(dcant)) %&gt;% 
+  p_map_cant_inv(
+    var = &quot;dcant&quot;,
+    title_text = NULL,
+    subtitle_text = NULL,
+    col = &quot;bias&quot;
+  ) +
+  facet_grid(data_source~period)</code></pre>
+<p><img src="figure/results_publication.Rmd/inventory_maps_absolute_SD-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dcant_inv_all_uncertainty %&gt;% 
+  p_map_cant_inv(
+    var = &quot;dcant_sd&quot;,
+    title_text = NULL,
+    subtitle_text = NULL,
+    col = &quot;bias&quot;
+  ) +
+  facet_grid(data_source~period)</code></pre>
+<p><img src="figure/results_publication.Rmd/inventory_maps_absolute_SD-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dcant_inv_all_uncertainty %&gt;% 
+  # filter(dcant_offset_sign &lt; -2) %&gt;% 
+  p_map_cant_inv(
+    var = &quot;dcant_sign&quot;,
+    title_text = NULL,
+    subtitle_text = NULL,
+    col = &quot;bias&quot;
+  ) +
+  facet_grid(data_source~period)</code></pre>
+<p><img src="figure/results_publication.Rmd/inventory_maps_absolute_SD-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggplot() +
+  geom_point(data = dcant_inv_all_uncertainty %&gt;%
+                filter(dcant_sign &lt; 0,
+                       data_source == &quot;obs&quot;),
+              aes(lon, lat),
+             shape = 4) +
+  facet_grid(data_source~period) +
+  coord_quickmap()</code></pre>
+<p><img src="figure/results_publication.Rmd/inventory_maps_absolute_SD-4.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>p_CI_absolute &lt;- dcant_inv_all %&gt;%
   filter(period %in% two_decades,
          data_source %in% c(&quot;obs&quot;)) %&gt;%
   p_map_cant_inv(var = &quot;dcant&quot;,
                  title_text = NULL) +
-  facet_wrap( ~ period, ncol = 1) +
+  facet_wrap(~ period, ncol = 1) +
   theme(axis.text.x = element_blank()) +
-  geom_tile(data = section_global_coordinates,
-            aes(lon, lat), fill = &quot;white&quot;)
+  geom_point(
+    data = dcant_inv_all_uncertainty %&gt;%
+      filter(dcant_sign &lt; 0,
+             data_source == &quot;obs&quot;),
+    aes(lon, lat),
+    shape = 20,
+    size = 0.1,
+    col = &quot;grey&quot;
+  )
+  # geom_tile(data = section_global_coordinates,
+  #           aes(lon, lat), fill = &quot;white&quot;)
 
 p_CI_absolute</code></pre>
 <p><img src="figure/results_publication.Rmd/invetory_maps_absolute-1.png" width="672" style="display: block; margin: auto;" /></p>
@@ -7317,6 +7441,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/8dc5a3b60cc1bf72c54b06751f7a30c3209b4a42/docs/figure/results_publication.Rmd/invetory_maps_absolute-1.png" target="_blank">8dc5a3b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-09-09
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/051b911ce2c0d5e0ff965644eb7e5085e631c928/docs/figure/results_publication.Rmd/invetory_maps_absolute-1.png" target="_blank">051b911</a>
@@ -9611,44 +9746,7 @@ delta_dcant_inv_all_uncertainty %&gt;%
     col = &quot;bias&quot;
   ) +
   facet_grid(data_source~.)</code></pre>
-<p><img src="figure/results_publication.Rmd/invetory_maps_absolute_delta_RSS-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-invetory_maps_absolute_delta_RSS-1">
-Past versions of invetory_maps_absolute_delta_RSS-1.png
-</button>
-</p>
-<div id="fig-invetory_maps_absolute_delta_RSS-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/7cf954e4d21a4b11af73f327ed1d20d6c96f83d1/docs/figure/results_publication.Rmd/invetory_maps_absolute_delta_RSS-1.png" target="_blank">7cf954e</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-09-08
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/results_publication.Rmd/inventory_maps_absolute_delta_RSS-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>delta_dcant_inv_all_uncertainty %&gt;% 
   p_map_cant_inv(
     var = &quot;RSS&quot;,
@@ -9657,44 +9755,7 @@ jens-daniel-mueller
     col = &quot;bias&quot;
   ) +
   facet_grid(data_source~.)</code></pre>
-<p><img src="figure/results_publication.Rmd/invetory_maps_absolute_delta_RSS-2.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-invetory_maps_absolute_delta_RSS-2">
-Past versions of invetory_maps_absolute_delta_RSS-2.png
-</button>
-</p>
-<div id="fig-invetory_maps_absolute_delta_RSS-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/7cf954e4d21a4b11af73f327ed1d20d6c96f83d1/docs/figure/results_publication.Rmd/invetory_maps_absolute_delta_RSS-2.png" target="_blank">7cf954e</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-09-08
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/results_publication.Rmd/inventory_maps_absolute_delta_RSS-2.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>delta_dcant_inv_all_uncertainty %&gt;% 
   # filter(dcant_offset_sign &lt; -2) %&gt;% 
   p_map_cant_inv(
@@ -9704,44 +9765,7 @@ jens-daniel-mueller
     col = &quot;bias&quot;
   ) +
   facet_grid(data_source~.)</code></pre>
-<p><img src="figure/results_publication.Rmd/invetory_maps_absolute_delta_RSS-3.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-invetory_maps_absolute_delta_RSS-3">
-Past versions of invetory_maps_absolute_delta_RSS-3.png
-</button>
-</p>
-<div id="fig-invetory_maps_absolute_delta_RSS-3" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/7cf954e4d21a4b11af73f327ed1d20d6c96f83d1/docs/figure/results_publication.Rmd/invetory_maps_absolute_delta_RSS-3.png" target="_blank">7cf954e</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-09-08
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/results_publication.Rmd/inventory_maps_absolute_delta_RSS-3.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>ggplot() +
   geom_point(data = delta_dcant_inv_all_uncertainty %&gt;%
                 filter(dcant_offset_sign &lt; 0,
@@ -9749,44 +9773,7 @@ jens-daniel-mueller
               aes(lon, lat),
              shape = 4) +
   coord_quickmap()</code></pre>
-<p><img src="figure/results_publication.Rmd/invetory_maps_absolute_delta_RSS-4.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-invetory_maps_absolute_delta_RSS-4">
-Past versions of invetory_maps_absolute_delta_RSS-4.png
-</button>
-</p>
-<div id="fig-invetory_maps_absolute_delta_RSS-4" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/7cf954e4d21a4b11af73f327ed1d20d6c96f83d1/docs/figure/results_publication.Rmd/invetory_maps_absolute_delta_RSS-4.png" target="_blank">7cf954e</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-09-08
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/results_publication.Rmd/inventory_maps_absolute_delta_RSS-4.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>p_CI_delta &lt;-
   delta_dcant_inv_all %&gt;%
   filter(data_source == &quot;obs&quot;) %&gt;%
@@ -9801,9 +9788,9 @@ jens-daniel-mueller
       filter(dcant_offset_sign &lt; 0,
              data_source == &quot;obs&quot;),
     aes(lon, lat),
-    shape = 4,
-    size = 2.3,
-    col = &quot;grey&quot;
+    shape = 20,
+    size = 0.1,
+    col = &quot;black&quot;
   ) +
   facet_wrap(~ period)
 
@@ -9832,6 +9819,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/8dc5a3b60cc1bf72c54b06751f7a30c3209b4a42/docs/figure/results_publication.Rmd/invetory_maps_absolute_delta-1.png" target="_blank">8dc5a3b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-09-09
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/7cf954e4d21a4b11af73f327ed1d20d6c96f83d1/docs/figure/results_publication.Rmd/invetory_maps_absolute_delta-1.png" target="_blank">7cf954e</a>
@@ -11916,6 +11914,238 @@ dcant_global_section_all_ensemble_sd &lt;-
   ungroup()
 
 
+
+dcant_global_section_all_uncertainty &lt;-
+  left_join(
+    dcant_global_section_all %&gt;% select(data_source, period, dist, depth, dcant),
+    dcant_global_section_all_ensemble_sd %&gt;% select(data_source, period, dist, depth, dcant_sd)
+  )
+
+dcant_global_section_all_uncertainty &lt;-
+  dcant_global_section_all_uncertainty %&gt;%
+  mutate(dist_grid = as.numeric(as.character(cut(
+    dist, seq(0, 50, 2), seq(1, 49, 2)
+  ))),
+  depth_grid = as.numeric(as.character(cut(
+    depth,
+    c(seq(0, 500, 100), seq(1000, 10000, 500)),
+    c(seq(50, 450, 100), seq(750, 10000, 500)),
+    right = FALSE
+  ))))
+
+
+dcant_global_section_all_uncertainty &lt;-
+  dcant_global_section_all_uncertainty %&gt;%
+  group_by(dist_grid, period, depth_grid, data_source) %&gt;% 
+  summarise(dcant = mean(dcant),
+            dcant_sd = mean(dcant_sd),
+            n = n()) %&gt;% 
+  ungroup() %&gt;% 
+  rename(dist = dist_grid,
+         depth = depth_grid) %&gt;%
+  mutate(dcant_sign = abs(dcant) - dcant_sd,
+         band = &quot;dummy&quot;)
+
+
+dcant_global_section_all_uncertainty  %&gt;% 
+  filter(data_source == &quot;obs&quot;,
+         period == &quot;1994 - 2004&quot;) %&gt;% 
+  p_section_global(
+    var = &quot;dcant&quot;,
+    plot_slabs = &quot;n&quot;,
+    title_text = NULL,
+    subtitle_text = NULL,
+    col = &quot;div&quot;
+  )</code></pre>
+<p><img src="figure/results_publication.Rmd/global_section_absolute_delta_RSS-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-global_section_absolute_delta_RSS-1">
+Past versions of global_section_absolute_delta_RSS-1.png
+</button>
+</p>
+<div id="fig-global_section_absolute_delta_RSS-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/77e6a800b0d86f45cc05e161f3a2ecc083659c25/docs/figure/results_publication.Rmd/global_section_absolute_delta_RSS-1.png" target="_blank">77e6a80</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-09-08
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>dcant_global_section_all_uncertainty  %&gt;% 
+  filter(data_source == &quot;obs&quot;,
+         period == &quot;1994 - 2004&quot;) %&gt;% 
+  p_section_global(
+    var = &quot;dcant_sd&quot;,
+    plot_slabs = &quot;n&quot;,
+    title_text = NULL,
+    subtitle_text = NULL,
+    col = &quot;div&quot;
+  )</code></pre>
+<p><img src="figure/results_publication.Rmd/global_section_absolute_delta_RSS-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-global_section_absolute_delta_RSS-2">
+Past versions of global_section_absolute_delta_RSS-2.png
+</button>
+</p>
+<div id="fig-global_section_absolute_delta_RSS-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/77e6a800b0d86f45cc05e161f3a2ecc083659c25/docs/figure/results_publication.Rmd/global_section_absolute_delta_RSS-2.png" target="_blank">77e6a80</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-09-08
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>dcant_global_section_all_uncertainty  %&gt;%
+  filter(data_source == &quot;obs&quot;,
+         period == &quot;1994 - 2004&quot;) %&gt;%
+  rename(delta_dcant = dcant_sign) %&gt;%
+  p_section_global(
+    var = &quot;delta_dcant&quot;,
+    plot_slabs = &quot;n&quot;,
+    title_text = NULL,
+    subtitle_text = NULL,
+    col = &quot;div&quot;
+  )</code></pre>
+<p><img src="figure/results_publication.Rmd/global_section_absolute_delta_RSS-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-global_section_absolute_delta_RSS-3">
+Past versions of global_section_absolute_delta_RSS-3.png
+</button>
+</p>
+<div id="fig-global_section_absolute_delta_RSS-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/77e6a800b0d86f45cc05e161f3a2ecc083659c25/docs/figure/results_publication.Rmd/global_section_absolute_delta_RSS-3.png" target="_blank">77e6a80</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-09-08
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>ggplot() +
+  geom_point(
+    data = dcant_global_section_all_uncertainty %&gt;%
+      filter(dcant_sign &lt; 0,
+             data_source == &quot;obs&quot;),
+    aes(dist, depth),
+    shape = 4
+  ) +
+  facet_grid(.~period) +
+  scale_y_reverse()</code></pre>
+<p><img src="figure/results_publication.Rmd/global_section_absolute_delta_RSS-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-global_section_absolute_delta_RSS-4">
+Past versions of global_section_absolute_delta_RSS-4.png
+</button>
+</p>
+<div id="fig-global_section_absolute_delta_RSS-4" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/77e6a800b0d86f45cc05e161f3a2ecc083659c25/docs/figure/results_publication.Rmd/global_section_absolute_delta_RSS-4.png" target="_blank">77e6a80</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-09-08
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>dcant_global_section_all_uncertainty &lt;-
+  dcant_global_section_all_uncertainty %&gt;%
+  filter(dcant_sign &lt; 0,
+         data_source == &quot;obs&quot;)
+
+
 delta_dcant_global_section_all_ensemble_RSS &lt;-
   dcant_global_section_all_ensemble_sd %&gt;%
   arrange(period) %&gt;%
@@ -11970,44 +12200,7 @@ delta_dcant_global_section_all_uncertainty  %&gt;%
     subtitle_text = NULL,
     col = &quot;div&quot;
   )</code></pre>
-<p><img src="figure/results_publication.Rmd/global_section_absolute_delta_RSS-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-global_section_absolute_delta_RSS-1">
-Past versions of global_section_absolute_delta_RSS-1.png
-</button>
-</p>
-<div id="fig-global_section_absolute_delta_RSS-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/77e6a800b0d86f45cc05e161f3a2ecc083659c25/docs/figure/results_publication.Rmd/global_section_absolute_delta_RSS-1.png" target="_blank">77e6a80</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-09-08
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/results_publication.Rmd/global_section_absolute_delta_RSS-5.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>delta_dcant_global_section_all_uncertainty  %&gt;% 
   filter(data_source == &quot;obs&quot;) %&gt;% 
   rename(delta_dcant = RSS) %&gt;% 
@@ -12018,44 +12211,7 @@ jens-daniel-mueller
     subtitle_text = NULL,
     col = &quot;div&quot;
   )</code></pre>
-<p><img src="figure/results_publication.Rmd/global_section_absolute_delta_RSS-2.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-global_section_absolute_delta_RSS-2">
-Past versions of global_section_absolute_delta_RSS-2.png
-</button>
-</p>
-<div id="fig-global_section_absolute_delta_RSS-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/77e6a800b0d86f45cc05e161f3a2ecc083659c25/docs/figure/results_publication.Rmd/global_section_absolute_delta_RSS-2.png" target="_blank">77e6a80</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-09-08
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/results_publication.Rmd/global_section_absolute_delta_RSS-6.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>delta_dcant_global_section_all_uncertainty  %&gt;%
   filter(data_source == &quot;obs&quot;) %&gt;%
   rename(delta_dcant = dcant_offset_sign) %&gt;%
@@ -12066,44 +12222,7 @@ jens-daniel-mueller
     subtitle_text = NULL,
     col = &quot;div&quot;
   )</code></pre>
-<p><img src="figure/results_publication.Rmd/global_section_absolute_delta_RSS-3.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-global_section_absolute_delta_RSS-3">
-Past versions of global_section_absolute_delta_RSS-3.png
-</button>
-</p>
-<div id="fig-global_section_absolute_delta_RSS-3" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/77e6a800b0d86f45cc05e161f3a2ecc083659c25/docs/figure/results_publication.Rmd/global_section_absolute_delta_RSS-3.png" target="_blank">77e6a80</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-09-08
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/results_publication.Rmd/global_section_absolute_delta_RSS-7.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>ggplot() +
   geom_point(
     data = delta_dcant_global_section_all_uncertainty %&gt;%
@@ -12113,44 +12232,7 @@ jens-daniel-mueller
     shape = 4
   ) +
   scale_y_reverse()</code></pre>
-<p><img src="figure/results_publication.Rmd/global_section_absolute_delta_RSS-4.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-global_section_absolute_delta_RSS-4">
-Past versions of global_section_absolute_delta_RSS-4.png
-</button>
-</p>
-<div id="fig-global_section_absolute_delta_RSS-4" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/77e6a800b0d86f45cc05e161f3a2ecc083659c25/docs/figure/results_publication.Rmd/global_section_absolute_delta_RSS-4.png" target="_blank">77e6a80</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-09-08
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/results_publication.Rmd/global_section_absolute_delta_RSS-8.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>delta_dcant_global_section_all_uncertainty &lt;-
   delta_dcant_global_section_all_uncertainty %&gt;%
   filter(dcant_offset_sign &lt; 0,
@@ -12161,6 +12243,9 @@ jens-daniel-mueller
          period %in% &quot;1994 - 2004&quot;) %&gt;%
   p_section_global(var = &quot;dcant&quot;,
                    title_text = &quot;1994 - 2004&quot;,
+                   df_uncertainty = dcant_global_section_all_uncertainty %&gt;% 
+                     filter(period %in% &quot;1994 - 2004&quot;),
+                   col_uncertainty = &quot;grey&quot;,
                    subtitle_text = NULL,
                    plot_slabs = &quot;n&quot;,
                    contour_level = 5) +
@@ -12169,42 +12254,46 @@ jens-daniel-mueller
     axis.text.x.bottom = element_blank()
   )
 
+
 p_dcant_global_section_dec2 &lt;-
   dcant_global_section_all %&gt;%
   filter(data_source == &quot;obs&quot;,
          period %in% &quot;2004 - 2014&quot;) %&gt;%
-  p_section_global(var = &quot;dcant&quot;,
-                   title_text = NULL,
-                   subtitle_text = NULL,
-                   plot_slabs = &quot;n&quot;,
-                   contour_level = 5) &amp;
+  p_section_global(
+    var = &quot;dcant&quot;,
+    title_text = NULL,
+    subtitle_text = NULL,
+    plot_slabs = &quot;n&quot;,
+    contour_level = 5,
+    df_uncertainty = dcant_global_section_all_uncertainty %&gt;%
+      filter(period %in% &quot;2004 - 2014&quot;),
+    col_uncertainty = &quot;grey&quot;
+  ) &amp;
   theme(
     axis.title.x = element_blank(),
     axis.text.x = element_blank(),
-    legend.position=&quot;none&quot;
+    legend.position = &quot;none&quot;
   )
 
 p_dcant_global_section_offset &lt;-
   dcant_global_section_all %&gt;%
-  filter(
-    data_source == &quot;obs&quot;,
-    period %in% two_decades
-  ) %&gt;%
-  arrange(depth, dist) %&gt;% 
-  select(depth, dist, dcant, period, gamma_mean) %&gt;% 
-  drop_na() %&gt;% 
+  filter(data_source == &quot;obs&quot;,
+         period %in% two_decades) %&gt;%
+  arrange(depth, dist) %&gt;%
+  select(depth, dist, dcant, period, gamma_mean) %&gt;%
+  drop_na() %&gt;%
   pivot_wider(names_from = period,
-              values_from = dcant) %&gt;% 
-  mutate(delta_dcant = `2004 - 2014` - `1994 - 2004`) %&gt;% 
-  p_section_global(var = &quot;delta_dcant&quot;,
-                   df_uncertainty = delta_dcant_global_section_all_uncertainty,
-                   col = &quot;div&quot;,
-                   title_text = NULL,
-                   subtitle_text = NULL) &amp;
-  theme(
-    axis.title.x.top = element_blank(),
-    axis.text.x.top = element_blank()
-  )
+              values_from = dcant) %&gt;%
+  mutate(delta_dcant = `2004 - 2014` - `1994 - 2004`) %&gt;%
+  p_section_global(
+    var = &quot;delta_dcant&quot;,
+    df_uncertainty = delta_dcant_global_section_all_uncertainty,
+    col = &quot;div&quot;,
+    title_text = NULL,
+    subtitle_text = NULL
+  ) &amp;
+  theme(axis.title.x.top = element_blank(),
+        axis.text.x.top = element_blank())
 
 
 wrap_plots(p_dcant_global_section_dec1,
