@@ -1537,17 +1537,113 @@ delta_dcant_inv_all_ensemble_sd %>%
 
 ### dcant - absolute
 
+
+```{r inventory_maps_absolute_SD}
+# 
+# delta_dcant_inv_all <-
+#   dcant_inv_all %>%
+#   filter(data_source %in% c("obs", "mod"),
+#          period %in% two_decades) %>%
+#   select(data_source, lon, lat, basin_AIP, period, dcant) %>%
+#   pivot_wider(names_from = period,
+#               values_from = dcant) %>%
+#   mutate(dcant_offset = `2004 - 2014` - `1994 - 2004`,
+#          period = "(2004 - 2014) - (1994 - 2004)")
+
+
+dcant_inv_all_uncertainty <-
+  full_join(
+    dcant_inv_all %>%
+      select(data_source, lon, lat, period, dcant),
+    dcant_inv_all_ensemble_sd %>% select(data_source, lon, lat, period, dcant_sd)
+  )
+
+dcant_inv_all_uncertainty <-dcant_inv_all_uncertainty %>% 
+  filter(period %in%two_decades,
+         data_source %in% c("mod", "obs"))
+
+dcant_inv_all_uncertainty <-
+  m_grid_horizontal_coarse(dcant_inv_all_uncertainty)
+
+dcant_inv_all_uncertainty <-
+  dcant_inv_all_uncertainty %>%
+  group_by(lat_grid, lon_grid, data_source, period) %>% 
+  summarise(dcant = mean(dcant),
+            dcant_sd = mean(dcant_sd),
+            n = n()) %>% 
+  ungroup() %>% 
+  filter(n == 25) %>% 
+  rename(lon = lon_grid,
+         lat = lat_grid) %>% 
+  mutate(dcant_sign = abs(dcant) - dcant_sd)
+
+
+
+dcant_inv_all_uncertainty %>% 
+  mutate(dcant = abs(dcant)) %>% 
+  p_map_cant_inv(
+    var = "dcant",
+    title_text = NULL,
+    subtitle_text = NULL,
+    col = "bias"
+  ) +
+  facet_grid(data_source~period)
+
+dcant_inv_all_uncertainty %>% 
+  p_map_cant_inv(
+    var = "dcant_sd",
+    title_text = NULL,
+    subtitle_text = NULL,
+    col = "bias"
+  ) +
+  facet_grid(data_source~period)
+
+dcant_inv_all_uncertainty %>% 
+  # filter(dcant_offset_sign < -2) %>% 
+  p_map_cant_inv(
+    var = "dcant_sign",
+    title_text = NULL,
+    subtitle_text = NULL,
+    col = "bias"
+  ) +
+  facet_grid(data_source~period)
+
+
+ggplot() +
+  geom_point(data = dcant_inv_all_uncertainty %>%
+                filter(dcant_sign < 0,
+                       data_source == "obs"),
+              aes(lon, lat),
+             shape = 4) +
+  facet_grid(data_source~period) +
+  coord_quickmap()
+
+
+
+```
+
+
 ```{r invetory_maps_absolute, fig.asp=1.2}
+
 
 p_CI_absolute <- dcant_inv_all %>%
   filter(period %in% two_decades,
          data_source %in% c("obs")) %>%
   p_map_cant_inv(var = "dcant",
                  title_text = NULL) +
-  facet_wrap( ~ period, ncol = 1) +
+  facet_wrap(~ period, ncol = 1) +
   theme(axis.text.x = element_blank()) +
-  geom_tile(data = section_global_coordinates,
-            aes(lon, lat), fill = "white")
+  geom_point(
+    data = dcant_inv_all_uncertainty %>%
+      filter(dcant_sign < 0,
+             data_source == "obs"),
+    aes(lon, lat),
+    shape = 20,
+    size = 0.1,
+    col = "grey"
+  )
+  # geom_tile(data = section_global_coordinates,
+  #           aes(lon, lat), fill = "white")
 
 p_CI_absolute
 
@@ -1696,7 +1792,7 @@ rm(p_CI_absolute_mod_delta, p_CI_bias_delta)
 
 ### dcant - absolute delta
 
-```{r invetory_maps_absolute_delta_RSS}
+```{r inventory_maps_absolute_delta_RSS}
 
 delta_dcant_inv_all <-
   dcant_inv_all %>%
@@ -1791,9 +1887,9 @@ p_CI_delta <-
       filter(dcant_offset_sign < 0,
              data_source == "obs"),
     aes(lon, lat),
-    shape = 4,
-    size = 2.3,
-    col = "grey"
+    shape = 20,
+    size = 0.1,
+    col = "black"
   ) +
   facet_wrap(~ period)
 
@@ -2179,6 +2275,92 @@ dcant_global_section_all_ensemble_sd <-
   ungroup()
 
 
+
+dcant_global_section_all_uncertainty <-
+  left_join(
+    dcant_global_section_all %>% select(data_source, period, dist, depth, dcant),
+    dcant_global_section_all_ensemble_sd %>% select(data_source, period, dist, depth, dcant_sd)
+  )
+
+dcant_global_section_all_uncertainty <-
+  dcant_global_section_all_uncertainty %>%
+  mutate(dist_grid = as.numeric(as.character(cut(
+    dist, seq(0, 50, 2), seq(1, 49, 2)
+  ))),
+  depth_grid = as.numeric(as.character(cut(
+    depth,
+    c(seq(0, 500, 100), seq(1000, 10000, 500)),
+    c(seq(50, 450, 100), seq(750, 10000, 500)),
+    right = FALSE
+  ))))
+
+
+dcant_global_section_all_uncertainty <-
+  dcant_global_section_all_uncertainty %>%
+  group_by(dist_grid, period, depth_grid, data_source) %>% 
+  summarise(dcant = mean(dcant),
+            dcant_sd = mean(dcant_sd),
+            n = n()) %>% 
+  ungroup() %>% 
+  rename(dist = dist_grid,
+         depth = depth_grid) %>%
+  mutate(dcant_sign = abs(dcant) - dcant_sd,
+         band = "dummy")
+
+
+dcant_global_section_all_uncertainty  %>% 
+  filter(data_source == "obs",
+         period == "1994 - 2004") %>% 
+  p_section_global(
+    var = "dcant",
+    plot_slabs = "n",
+    title_text = NULL,
+    subtitle_text = NULL,
+    col = "div"
+  )
+
+dcant_global_section_all_uncertainty  %>% 
+  filter(data_source == "obs",
+         period == "1994 - 2004") %>% 
+  p_section_global(
+    var = "dcant_sd",
+    plot_slabs = "n",
+    title_text = NULL,
+    subtitle_text = NULL,
+    col = "div"
+  )
+
+dcant_global_section_all_uncertainty  %>%
+  filter(data_source == "obs",
+         period == "1994 - 2004") %>%
+  rename(delta_dcant = dcant_sign) %>%
+  p_section_global(
+    var = "delta_dcant",
+    plot_slabs = "n",
+    title_text = NULL,
+    subtitle_text = NULL,
+    col = "div"
+  )
+
+
+
+ggplot() +
+  geom_point(
+    data = dcant_global_section_all_uncertainty %>%
+      filter(dcant_sign < 0,
+             data_source == "obs"),
+    aes(dist, depth),
+    shape = 4
+  ) +
+  facet_grid(.~period) +
+  scale_y_reverse()
+
+dcant_global_section_all_uncertainty <-
+  dcant_global_section_all_uncertainty %>%
+  filter(dcant_sign < 0,
+         data_source == "obs")
+
+
 delta_dcant_global_section_all_ensemble_RSS <-
   dcant_global_section_all_ensemble_sd %>%
   arrange(period) %>%
@@ -2286,6 +2468,9 @@ p_dcant_global_section_dec1 <-
          period %in% "1994 - 2004") %>%
   p_section_global(var = "dcant",
                    title_text = "1994 - 2004",
+                   df_uncertainty = dcant_global_section_all_uncertainty %>% 
+                     filter(period %in% "1994 - 2004"),
+                   col_uncertainty = "grey",
                    subtitle_text = NULL,
                    plot_slabs = "n",
                    contour_level = 5) +
@@ -2294,42 +2479,46 @@ p_dcant_global_section_dec1 <-
     axis.text.x.bottom = element_blank()
   )
 
+
 p_dcant_global_section_dec2 <-
   dcant_global_section_all %>%
   filter(data_source == "obs",
          period %in% "2004 - 2014") %>%
-  p_section_global(var = "dcant",
-                   title_text = NULL,
-                   subtitle_text = NULL,
-                   plot_slabs = "n",
-                   contour_level = 5) &
+  p_section_global(
+    var = "dcant",
+    title_text = NULL,
+    subtitle_text = NULL,
+    plot_slabs = "n",
+    contour_level = 5,
+    df_uncertainty = dcant_global_section_all_uncertainty %>%
+      filter(period %in% "2004 - 2014"),
+    col_uncertainty = "grey"
+  ) &
   theme(
     axis.title.x = element_blank(),
     axis.text.x = element_blank(),
-    legend.position="none"
+    legend.position = "none"
   )
 
 p_dcant_global_section_offset <-
   dcant_global_section_all %>%
-  filter(
-    data_source == "obs",
-    period %in% two_decades
-  ) %>%
-  arrange(depth, dist) %>% 
-  select(depth, dist, dcant, period, gamma_mean) %>% 
-  drop_na() %>% 
+  filter(data_source == "obs",
+         period %in% two_decades) %>%
+  arrange(depth, dist) %>%
+  select(depth, dist, dcant, period, gamma_mean) %>%
+  drop_na() %>%
   pivot_wider(names_from = period,
-              values_from = dcant) %>% 
-  mutate(delta_dcant = `2004 - 2014` - `1994 - 2004`) %>% 
-  p_section_global(var = "delta_dcant",
-                   df_uncertainty = delta_dcant_global_section_all_uncertainty,
-                   col = "div",
-                   title_text = NULL,
-                   subtitle_text = NULL) &
-  theme(
-    axis.title.x.top = element_blank(),
-    axis.text.x.top = element_blank()
-  )
+              values_from = dcant) %>%
+  mutate(delta_dcant = `2004 - 2014` - `1994 - 2004`) %>%
+  p_section_global(
+    var = "delta_dcant",
+    df_uncertainty = delta_dcant_global_section_all_uncertainty,
+    col = "div",
+    title_text = NULL,
+    subtitle_text = NULL
+  ) &
+  theme(axis.title.x.top = element_blank(),
+        axis.text.x.top = element_blank())
 
 
 wrap_plots(p_dcant_global_section_dec1,
