@@ -835,6 +835,10 @@ for (i_Version_IDs in Version_IDs_ensemble) {
                    "dcant_zonal_bias.csv",
                    sep = ""))
   
+  dcant_penetration_depth_all_lat_mean <-
+    read_csv(paste0(path_version_data,
+                   "dcant_penetration_depth_all_lat_mean.csv"))
+  
 
   dcant_zonal <- dcant_zonal %>% 
     mutate(Version_ID = i_Version_IDs)
@@ -856,7 +860,11 @@ for (i_Version_IDs in Version_IDs_ensemble) {
   
   dcant_zonal_bias <- dcant_zonal_bias %>% 
     mutate(Version_ID = i_Version_IDs)
-
+  
+  dcant_penetration_depth_all_lat_mean <-
+    dcant_penetration_depth_all_lat_mean %>%
+    mutate(Version_ID = i_Version_IDs)
+  
   
   if (exists("dcant_zonal_all")) {
     dcant_zonal_all <- bind_rows(dcant_zonal_all, dcant_zonal)
@@ -919,11 +927,24 @@ for (i_Version_IDs in Version_IDs_ensemble) {
     dcant_zonal_bias_all <- dcant_zonal_bias
   }
 
+  if (exists("dcant_penetration_depth_all_lat_mean_all")) {
+    dcant_penetration_depth_all_lat_mean_all <-
+      bind_rows(
+        dcant_penetration_depth_all_lat_mean_all,
+        dcant_penetration_depth_all_lat_mean
+      )
+  }
+  
+  if (!exists("dcant_penetration_depth_all_lat_mean_all")) {
+    dcant_penetration_depth_all_lat_mean_all <-
+      dcant_penetration_depth_all_lat_mean
+  }
+
 }
 
 rm(dcant_zonal, dcant_global_section, dcant_zonal_bias, dcant_zonal_mod_truth,
    dcant_budget_basin_AIP_layer, dcant_budget_basin_MLR_layer,
-   dcant_profile, dcant_profile_basin_MLR)
+   dcant_profile, dcant_profile_basin_MLR, dcant_penetration_depth_all_lat_mean)
 
 ```
 
@@ -956,6 +977,10 @@ dcant_profile_basin_MLR_all <-
 
 dcant_profile_basin_MLR_all <-
   full_join(dcant_profile_basin_MLR_all,
+            params_local_all_ensemble)
+
+dcant_penetration_depth_all_lat_mean_all <-
+  full_join(dcant_penetration_depth_all_lat_mean_all,
             params_local_all_ensemble)
 
 
@@ -1093,6 +1118,13 @@ dcant_budget_basin_MLR_layer_all <-
 dcant_zonal_bias_all_ensemble <- dcant_zonal_bias_all %>% 
   filter(!(Version_ID %in% Version_IDs_d))
 dcant_zonal_bias_all <- dcant_zonal_bias_all %>% 
+  filter(Version_ID %in% Version_IDs)
+
+dcant_penetration_depth_all_lat_mean_all_ensemble <-
+  dcant_penetration_depth_all_lat_mean_all %>%
+  filter(!(Version_ID %in% Version_IDs_d))
+dcant_penetration_depth_all_lat_mean_all <-
+  dcant_penetration_depth_all_lat_mean_all %>%
   filter(Version_ID %in% Version_IDs)
 
 ```
@@ -2766,6 +2798,38 @@ rm(p_dcant_zonal_absolute_mod,
 
 ```
 
+
+# Penetration depth
+
+```{r penetration_depth, fig.asp=1}
+
+dcant_penetration_depth_all_lat_mean_all_ensemble %>%
+  filter(dcant_lim == 5,
+         period %in% two_decades,
+         data_source != "obs") %>%
+  ggplot(aes(lat, depth_mean,
+             group = interaction(MLR_basins, Version_ID_group, data_source))) +
+  # geom_ribbon(aes(xmax = depth_mean + depth_sd, xmin = depth_mean - depth_sd,
+  #                 fill = data_source), alpha = 0.3) +
+  geom_path(aes(col = data_source)) +
+  scale_colour_muted() +
+  scale_y_reverse() +
+  facet_grid(basin_AIP ~ period, scales = "free_x")
+
+dcant_penetration_depth_all_lat_mean_all_ensemble %>%
+  filter(dcant_lim == 5,
+         period %in% two_decades,
+         data_source != "mod") %>%
+  ggplot(aes(lat, depth_mean,
+             group = interaction(MLR_basins, Version_ID_group, data_source))) +
+  # geom_ribbon(aes(xmax = depth_mean + depth_sd, xmin = depth_mean - depth_sd,
+  #                 fill = data_source), alpha = 0.3) +
+  geom_path(aes(col = data_source)) +
+  scale_colour_muted() +
+  scale_y_reverse() +
+  facet_grid(basin_AIP ~ period, scales = "free_x")
+
+```
 
 
 # Concentration profiles
@@ -6015,13 +6079,16 @@ Ocean_Sink_cum_1994 <-
   left_join(Ocean_Sink_cum_1994,
             co2_atm) 
 
-Ocean_Sink_cum_1994 %>%
-  ggplot(aes(pCO2, fgco2_glob_cum, col = product)) +
-  geom_line() +
-  geom_point(shape = 21, fill = "white") +
-  theme(legend.position = "bottom") +
-  facet_grid(.~ type)
 
+Ocean_Sink_cum_1994 %>%
+  group_split(type) %>%
+  map(
+    ~ ggplot(data = .x, aes(pCO2, fgco2_glob_cum, col = product)) +
+      geom_line() +
+      geom_point(shape = 21, fill = "white") +
+      theme(legend.position = "bottom") +
+      facet_grid(. ~ type)
+  )
 
 Ocean_Sink_cum_1994 <- Ocean_Sink_cum_1994 %>% 
   mutate(fgco2_glob_cum_total = fgco2_glob_cum + 118) %>%
@@ -6059,11 +6126,14 @@ Ocean_Sink_cum_1994 <-
             co2_atm) 
 
 Ocean_Sink_cum_1994 %>%
-  ggplot(aes(pCO2, fgco2_glob_cum, col = product)) +
-  geom_line() +
-  geom_point(shape = 21, fill = "white") +
-  theme(legend.position = "bottom") +
-  facet_grid(.~ type)
+  group_split(type) %>%
+  map(
+    ~ ggplot(data = .x, aes(pCO2, fgco2_glob_cum, col = product)) +
+      geom_line() +
+      geom_point(shape = 21, fill = "white") +
+      theme(legend.position = "bottom") +
+      facet_grid(. ~ type)
+  )
 
 
 Ocean_Sink_cum_1994 <- Ocean_Sink_cum_1994 %>% 
@@ -6098,11 +6168,14 @@ Ocean_Sink_cum_2004 <-
             co2_atm) 
 
 Ocean_Sink_cum_2004 %>%
-  ggplot(aes(pCO2, fgco2_glob_cum, col = product)) +
-  geom_line() +
-  geom_point(shape = 21, fill = "white") +
-  theme(legend.position = "bottom") +
-  facet_grid(.~ type)
+  group_split(type) %>%
+  map(
+    ~ ggplot(data = .x, aes(pCO2, fgco2_glob_cum, col = product)) +
+      geom_line() +
+      geom_point(shape = 21, fill = "white") +
+      theme(legend.position = "bottom") +
+      facet_grid(. ~ type)
+  )
 
 
 Ocean_Sink_cum_2004 <- Ocean_Sink_cum_2004 %>% 
@@ -6129,6 +6202,11 @@ tcant_max =
   tcant_ts_zoom %>% pull(tcant) %>% max() +
   tcant_ts_zoom %>% pull(dcant_sd) %>% max() + 0.2
 
+Ocean_Sink_cum_1994_ensemble_mean <- Ocean_Sink_cum_1994 %>% 
+  group_by(year, pCO2, type) %>% 
+  summarise(fgco2_glob_cum_total_mean = mean(fgco2_glob_cum_total),
+            fgco2_glob_cum_total_sd = sd(fgco2_glob_cum_total)) %>% 
+  ungroup()
 
 p_tcant_ts_zoom <-
   tcant_ts_zoom %>%
@@ -6149,17 +6227,26 @@ p_tcant_ts_zoom <-
   ) +
   geom_line(data = Ocean_Sink_cum_1994,
             aes(pCO2, fgco2_glob_cum_total, group = product, col = type)) +
+  # geom_line(data = Ocean_Sink_cum_1994_ensemble_mean,
+  #           aes(pCO2, fgco2_glob_cum_total_mean, col = type),
+  #           size = 1.5) +
   geom_point(
     data = Ocean_Sink_cum_1994,
     aes(pCO2, fgco2_glob_cum_total, group = product, col = type),
     size = 0.3
   ) +
+  # geom_point(
+  #   data = Ocean_Sink_cum_1994_ensemble_mean,
+  #   aes(pCO2, fgco2_glob_cum_total_mean, col = type),
+  #   size = 0.5,
+  #   fill = "white",
+  #   shape = 21
+  # ) +
   geom_point(
     data = Ocean_Sink_cum_1994 %>% filter(year %in% c(2004, 2014)),
     aes(
       pCO2,
       fgco2_glob_cum_total,
-      group = product,
       col = type
     ),
     fill = "white",
@@ -6189,7 +6276,7 @@ p_tcant_ts_zoom <-
                                       size = 0.1)
   )
 
-# p_tcant_ts_zoom
+p_tcant_ts_zoom
 
 
 ```
