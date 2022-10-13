@@ -6670,6 +6670,16 @@ dcant_type_significance %>%
   kable_styling() %>%
   scroll_box(height = "300px")
 
+# Ocean_Sink %>% 
+#   filter(between(year, 1994, 2007)) %>% 
+#   arrange(year) %>% 
+#   group_by(product) %>% 
+#   mutate(GtC = cumsum(GtC_yr)) %>% 
+#   ungroup() %>% 
+#   # ggplot(aes(year, GtC, col=product)) +
+#   # geom_line() %>% 
+#   filter(year == 2007) %>% 
+#   summarise(sd(GtC)*2)
 
 ```
 
@@ -6691,6 +6701,23 @@ delta_revelle <- co2_atm %>%
   
   
 delta_revelle %>% 
+  ggplot(aes(delta_year, pCO2)) +
+  geom_path() +
+  geom_point()
+  
+delta_revelle %>% 
+  ggplot(aes(delta_year,1/revelle)) +
+  geom_smooth(method = "lm", aes(col="lm"), se = FALSE) +
+  geom_path() +
+  geom_point()
+  
+delta_revelle %>% 
+  ggplot(aes(delta_year,delta_DIC_rel)) +
+  geom_smooth(method = "lm", aes(col="lm"), se = FALSE) +
+  geom_path() +
+  geom_point()
+  
+delta_revelle %>% 
   ggplot(aes(delta_year,delta_DIC_rel_cum)) +
   geom_smooth(method = "lm", aes(col="lm"), se = FALSE) +
   geom_path() +
@@ -6700,6 +6727,200 @@ min(delta_revelle$delta_DIC_rel_cum / max(delta_revelle$delta_year))
 
 ```
 
+# GCB implications
+
+```{r GCB}
+
+Global_Carbon_Budget %>% 
+  ggplot(aes(year, GtC_yr, col = estimate)) +
+  geom_path() +
+  geom_point()
+
+Global_Carbon_Budget %>% 
+  ggplot(aes(year, GtC, col = estimate)) +
+  geom_path() +
+  geom_point()
+
+flux_components <- Global_Carbon_Budget %>% 
+  distinct(estimate) %>% 
+  pull()
+
+emission_components <- flux_components[c(1,2)]
+sink_components <- flux_components[3:5]
+
+estimates <- Global_Carbon_Budget %>%
+  filter(!(estimate %in% c("budget imbalance",
+                           "cement carbonation sink"))) %>%
+  mutate(
+    sign = if_else(estimate %in% sink_components,
+                   "sinks",
+                   "emissions"),
+    GtC_yr = if_else(sign == "sinks",
+                     -GtC_yr,
+                     GtC_yr)
+  )
+
+emissions_sinks <- estimates %>% 
+  group_by(year, sign) %>% 
+  summarise(GtC_yr = sum(GtC_yr)) %>% 
+  ungroup()
+
+estimates %>%
+  ggplot(aes(year, GtC_yr, col = estimate)) +
+  geom_path() +
+  geom_point() +
+  scale_color_bright()
+
+estimates %>%
+  ggplot() +
+  geom_area(aes(year, GtC_yr, fill = estimate),
+            col = "white",
+            alpha = 0.7) +
+  geom_line(data = emissions_sinks %>%   mutate(GtC_yr = if_else(sign == "emissions",
+                                                                 -GtC_yr,
+                                                                 GtC_yr)),
+            aes(year, GtC_yr, linetype = sign)) +
+  scale_fill_bright() +
+  geom_hline(yintercept = 0) +
+  coord_cartesian(expand = 0)
+
+BIM <- emissions_sinks %>% 
+  pivot_wider(names_from = sign,
+              values_from = GtC_yr) %>% 
+  mutate(BIM = emissions + sinks)
+
+ggplot() +
+  geom_line(data = Global_Carbon_Budget %>% 
+              filter(estimate == "budget imbalance"),
+            aes(year, GtC_yr, col = "GCB")) +
+  geom_line(data = BIM, aes(year, BIM, col = "recalculated")) +
+  geom_hline(yintercept = 0) +
+  coord_cartesian(expand = 0)
+
+
+# land_sink <-
+estimates %>%
+  select(year, estimate, GtC_yr) %>%
+  pivot_wider(names_from = estimate,
+              values_from = GtC_yr) %>%
+  mutate(`land sink residual` = `fossil emissions excluding carbonation` + `land-use change emissions` + `atmospheric growth` + `ocean sink`) %>%
+  ggplot() +
+  geom_line(aes(year, -`land sink residual`, col = "residual")) +
+  geom_line(aes(year, `land sink`, col = "direct"))
+
+Ocean_Sink_annual_mean <- Ocean_Sink %>% 
+  group_by(year, type) %>% 
+  summarise(GtC_yr = -mean(GtC_yr)) %>% 
+  ungroup()
+
+Ocean_Sink_annual_mean %>% 
+  ggplot(aes(year, GtC_yr, col = type)) +
+  geom_path()
+
+Ocean_Sink_annual_mean <- Ocean_Sink_annual_mean %>% 
+  pivot_wider(names_from = type,
+              values_from = GtC_yr,
+              names_prefix = "ocean_sink_")
+
+estimates <- estimates %>%
+  select(year, estimate, GtC_yr) %>%
+  pivot_wider(names_from = estimate,
+              values_from = GtC_yr)
+
+estimates <-
+  full_join(estimates, Ocean_Sink_annual_mean)
+
+dcant_interior <- tcant_ts_zoom %>% 
+  filter(year > 2000) %>%
+  mutate(dcant_mean = dcant_mean/10) %>% 
+  pull(dcant_mean)
+
+cnat <-
+  dcant_type_significance %>%
+  filter(type == "Observation-based\nsurface flux\nproducts" ,
+         period %in% two_decades) %>%
+  mutate(dcant_diff = dcant_diff/10) %>% 
+  pull(dcant_diff)
+
+estimates <- estimates %>% 
+  mutate(ocean_sink_interior_Cant = case_when(
+    between(year, 1994, 2003) ~ -dcant_interior[1],
+    between(year, 2004, 2013) ~ -dcant_interior[2],
+    TRUE ~ NaN
+  )) %>% 
+  mutate(ocean_sink_interior_net = case_when(
+    between(year, 1994, 2003) ~ -dcant_interior[1]-cnat[1],
+    between(year, 2004, 2013) ~ -dcant_interior[1]-cnat[2],
+    TRUE ~ NaN
+  ))
+
+land_sink <-
+estimates %>%
+  mutate(emissions_atmosphere = `fossil emissions excluding carbonation` +
+           `land-use change emissions` +
+           `atmospheric growth`) %>%
+  rename(ocean_sink_gcb_mean = `ocean sink`) %>%
+  select(year, emissions_atmosphere, starts_with("ocean")) %>%
+  pivot_longer(starts_with("ocean_sink"),
+               names_to = "ocean_sink_estimate",
+               values_to = "ocean_sink",
+               names_prefix = "ocean_sink_") %>% 
+  mutate(land_sink = -emissions_atmosphere - ocean_sink)
+
+# land_sink <-
+#   bind_rows(
+#     land_sink,
+#     estimates %>%
+#       select(year, land_sink = `land sink`) %>%
+#       mutate(estimate = "direct")
+#   )
+
+land_sink %>%
+  filter(year >= 1990) %>%
+  ggplot() +
+  geom_line(aes(year, land_sink, col = ocean_sink_estimate, linetype = "residual")) +
+  geom_line(data = estimates %>%
+              filter(year >= 1990),
+                     aes(year, `land sink`, linetype = "reported")) +
+              scale_linetype_manual(values = c(2, 1))
+
+
+land_sink <-
+  full_join(
+    land_sink,
+    estimates %>%
+      select(year, land_sink_reported = `land sink`)
+  )
+
+
+land_sink %>%
+  filter(year >= 1990) %>%
+  ggplot() +
+  geom_hline(yintercept = 0) +
+  geom_line(aes(year, land_sink - land_sink_reported, col = ocean_sink_estimate))
+
+
+land_sink %>%
+  mutate(period = cut(year, c(1993, 2003, 2013),
+                      c("1994 - 2004", "2004 - 2014"))) %>%
+  filter(!is.na(period)) %>%
+  group_by(ocean_sink_estimate, period) %>%
+  summarise(across(starts_with("land_sink"), list(mean = mean, sd = sd))) %>%
+  ungroup() %>%
+  ggplot() +
+  geom_pointrange(aes(period, land_sink_reported_mean, 
+                      ymin = land_sink_reported_mean - land_sink_reported_sd,
+                      ymax = land_sink_reported_mean + land_sink_reported_sd,
+                      shape = "reported"),
+                    position = position_dodge2(width = 0.6)) +
+  geom_pointrange(aes(period, land_sink_mean, 
+                      ymin = land_sink_mean - land_sink_sd,
+                      ymax = land_sink_mean + land_sink_sd,
+                      col = ocean_sink_estimate, shape = "residual"),
+                    position = position_dodge2(width = 0.5))
+
+
+```
 
 
 # Emission removal
