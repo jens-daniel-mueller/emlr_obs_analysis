@@ -472,12 +472,12 @@ dcant_budget_basin_MLR_all <- dcant_budget_basin_MLR_all %>%
     basin = str_replace(basin, "global", "Global"),
     basin = fct_relevel(
       basin,
+      "Global",
+      "Indian",
       "N. Pacific",
       "S. Pacific",
       "N. Atlantic",
-      "S. Atlantic",
-      "Indian",
-      "Global"
+      "S. Atlantic"
     )
   )
 
@@ -991,12 +991,12 @@ dcant_profile_basin_MLR_all <-
     basin = str_replace(basin, "global", "Global"),
     basin = fct_relevel(
       basin,
+      "Global",
+      "Indian",
       "N. Pacific",
       "S. Pacific",
       "N. Atlantic",
-      "S. Atlantic",
-      "Indian",
-      "Global"
+      "S. Atlantic"
     )
   )
 
@@ -1032,12 +1032,12 @@ dcant_budget_basin_MLR_layer_all <-
     basin = str_replace(basin, "global", "Global"),
     basin = fct_relevel(
       basin,
+      "Global",
+      "Indian",
       "N. Pacific",
       "S. Pacific",
       "N. Atlantic",
-      "S. Atlantic",
-      "Indian",
-      "Global"
+      "S. Atlantic"
     )
   )
 
@@ -1318,41 +1318,67 @@ cruises_talk_calc <-
 GLODAP_all_coverage <- GLODAP_all %>% 
   distinct(lat, lon, era, cruise_expocode) %>% 
   mutate(gap_filling = case_when(
-    cruise_expocode %in% cruises_phosphate_gap_fill ~ "PO4 w CANYON-B",
-    cruise_expocode %in% cruises_talk_gap_fill ~ "TA w CANYON-B",
-    cruise_expocode %in% cruises_talk_calc ~ "TA calculated",
-    cruise_expocode %in% "31DS19940126" ~ "NO3 qc flag",
-    TRUE ~ "None"
+    cruise_expocode %in% cruises_phosphate_gap_fill ~ "Phosphate from CANYON-B",
+    cruise_expocode %in% cruises_talk_gap_fill ~ "TA from CANYON-B",
+    cruise_expocode %in% cruises_talk_calc ~ "TA calculated from other variables",
+    cruise_expocode %in% "31DS19940126" ~ "Nitrate qc-flag not met",
+    TRUE ~ "All quality criteria fulfilled"
   )) %>% 
   distinct(lat, lon, era, gap_filling)
 
+colour("bright")(7)
+
 coverage_map <- map +
-  geom_tile(data = GLODAP_all_coverage %>% filter(gap_filling == "None"),
-            aes(lon, lat),
-            fill = "#BBBBBB",
-            col = "#BBBBBB") +
-  geom_tile(data = GLODAP_all_coverage %>% filter(gap_filling != "None"),
-            aes(lon, lat,
-            fill = gap_filling, col = gap_filling)) +
-  facet_wrap( ~ era, ncol = 2) +
-  scale_color_bright(name = "Gap-filling") +
-  scale_fill_bright(name = "Gap-filling") +
+  geom_tile(data = GLODAP_all_coverage,
+            aes(lon, lat)) +
+  facet_wrap( ~ era, ncol = 1) +
+  scale_color_okabeito() +
+  scale_fill_okabeito() +
   theme(axis.text = element_blank(),
         axis.ticks = element_blank(),
-        legend.position = c(0.7,0.3))
+        legend.position = c(0.7,0.3),
+        legend.title = element_blank())
 
 coverage_map
 
 ggsave(plot = coverage_map,
-       path = here::here("output/publication"),
-       filename = "FigS_observations_coverage_map.png",
-       height = 4,
-       width = 8)
+       path = here::here("output/presentation"),
+       filename = "Fig_observations_coverage_map.png",
+       height = 6,
+       width = 4)
+
+
+GLODAP_all_coverage <- GLODAP_all %>% 
+  filter(between(depth, 250, 750)) %>% 
+  group_by(lat, lon, era) %>%
+  summarise(tco2 = mean(tco2, na.rm = TRUE)) %>% 
+  ungroup()
+
+library(colorspace)
+
+
+coverage_map <- map +
+  geom_tile(data = GLODAP_all_coverage,
+            aes(lon, lat, fill = tco2, col = tco2,
+                height = 2, width = 2)) +
+  facet_wrap( ~ era, ncol = 1) +
+  scale_fill_viridis_c(name = expression(DIC~(µmol~kg^{-1}))) +
+  scale_color_viridis_c(guide = "none") +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        legend.position = "bottom")
+
+coverage_map
+
+ggsave(plot = coverage_map,
+       path = here::here("output/presentation"),
+       filename = "Fig_observations_coverage_map_dic.png",
+       height = 6,
+       width = 4)
 
 rm(coverage_map, 
    GLODAP_all, GLODAP_all_coverage, GLODAP_expocodes,
    GLODAP_grid_era_all)
-
 
 rm(cruises_phosphate_gap_fill,
    cruises_talk_gap_fill,
@@ -1484,12 +1510,14 @@ dcant_inv_all <- dcant_inv_all %>%
 
 ```{r column_inventory_standard_deviation}
 
+sd_factor <- 1
+
 dcant_inv_all_ensemble_sd <-
   dcant_inv_all_ensemble %>%
   filter(period %in% two_decades,
          data_source != "mod_truth") %>%
   group_by(data_source, period, lon, lat) %>%
-  summarise(dcant_sd = sd(dcant)) %>%
+  summarise(dcant_sd = sd(dcant) * sd_factor) %>%
   ungroup()
 
 
@@ -1547,7 +1575,7 @@ delta_dcant_inv_all_ensemble_sd <-
   delta_dcant_inv_all_ensemble_sd %>%
   filter(!is.na(delta_dcant)) %>%
   group_by(data_source, lon, lat) %>%
-  summarise(delta_dcant_sd = sd(delta_dcant) * 2,
+  summarise(delta_dcant_sd = sd(delta_dcant) * sd_factor,
             delta_dcant = mean(delta_dcant)) %>%
   ungroup()
 
@@ -1678,8 +1706,15 @@ p_CI_absolute <- dcant_inv_all %>%
   # geom_tile(data = section_global_coordinates,
   #           aes(lon, lat), fill = "white")
 
-p_CI_absolute
+p_CI_absolute +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())
 
+
+ggsave(path = here::here("output/presentation"),
+       filename = "Fig_dcant_column_inventory.png",
+       height = 5,
+       width = 6)
 
 ```
 
@@ -1940,6 +1975,15 @@ ggsave(path = here::here("output/publication"),
        height = 10,
        width = 8)
 
+p_CI_delta +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())
+
+ggsave(path = here::here("output/presentation"),
+       filename = "Fig_dcant_column_inventory_delta.png",
+       height = 3.2,
+       width = 6)
+
 rm(p_CI_absolute, p_CI_delta)
 
 ```
@@ -1995,6 +2039,42 @@ ggsave(path = here::here("output/publication"),
        width = 8)
 
 rm(p_CI_absolute_mod, p_CI_bias)
+
+```
+
+```{r inventory_maps_absolute_mod_bias_decade, fig.asp=1.3}
+
+p_CI_bias_decade <-
+  dcant_inv_all %>%
+  filter(period %in% two_decades,
+         data_source != "obs") %>%
+  select(data_source, lon, lat, basin_AIP, period, dcant) %>%
+  pivot_wider(names_from = data_source,
+              values_from = dcant) %>%
+  mutate(dcant_bias = mod - mod_truth,
+         data_source = "Reconstruction bias") %>%
+  arrange(period) %>% 
+  group_by(lon, lat) %>% 
+  summarise(delta_dcant_bias = dcant_bias - lag(dcant_bias)) %>% 
+  ungroup() %>% 
+  drop_na() %>% 
+  p_map_cant_inv(
+    var = "delta_dcant_bias",
+    title_text = NULL,
+    subtitle_text = NULL,
+    col = "bias"
+  ) +
+  theme(strip.text.x = element_blank(),
+        strip.background.x = element_blank())
+
+p_CI_bias_decade
+
+ggsave(path = here::here("output/publication"),
+       filename = "FigS_delta_dcant_column_inventory_synthetic_data_bias.png",
+       height = 3.5,
+       width = 5)
+
+rm(p_CI_bias_decade)
 
 ```
 
@@ -2312,7 +2392,7 @@ dcant_global_section_all_ensemble_sd <-
   filter(period %in% two_decades,
          data_source != "mod_truth") %>%
   group_by(data_source, period, dist, depth) %>%
-  summarise(dcant_sd = sd(dcant)) %>%
+  summarise(dcant_sd = sd(dcant) * sd_factor) %>%
   ungroup()
 
 
@@ -2536,8 +2616,6 @@ p_dcant_global_section_dec2 <-
     col_uncertainty = "grey"
   ) &
   theme(
-    axis.title.x = element_blank(),
-    axis.text.x = element_blank(),
     legend.position = "none"
   )
 
@@ -2557,21 +2635,31 @@ p_dcant_global_section_offset <-
     col = "div",
     title_text = NULL,
     subtitle_text = NULL
-  ) &
-  theme(axis.title.x.top = element_blank(),
-        axis.text.x.top = element_blank())
+  )
 
 
-wrap_plots(p_dcant_global_section_dec1,
-           p_dcant_global_section_dec2,
-           p_dcant_global_section_offset,
-           ncol = 1)
+
+wrap_plots(
+  p_dcant_global_section_dec1,
+  p_dcant_global_section_dec2 &
+    theme(axis.title.x = element_blank(),
+          axis.text.x = element_blank()),
+  p_dcant_global_section_offset &
+    theme(axis.title.x.top = element_blank(),
+          axis.text.x.top = element_blank()),
+  ncol = 1
+)
 
 
 ggsave(path = here::here("output/publication"),
        filename = "Fig_dcant_global_section.png",
        height = 10,
        width = 8)
+
+ggsave(path = here::here("output/presentation"),
+       filename = "Fig_dcant_global_section.png",
+       height = 9,
+       width = 10)
 
 rm(delta_dcant_global_section_all_uncertainty)
 
@@ -3318,8 +3406,8 @@ p_dcant_profiles <-
   scale_y_continuous(trans = trans_reverser("sqrt"),
                      breaks = c(0, 100, 500, seq(1000, 5000, 1000))) +
   coord_cartesian(expand = 0) +
-  scale_color_manual(values = c("#EE7733", "#009988"), name = "Mean \u00B1 2 SD") +
-  scale_fill_manual(values = c("#EE7733", "#009988"), name = "Mean \u00B1 2 SD") +
+  scale_color_manual(values = c("#EE7733", "#009988"), name = "Mean \u00B1 2σ") +
+  scale_fill_manual(values = c("#EE7733", "#009988"), name = "Mean \u00B1 2σ") +
   labs(y = "Depth (m)",
        x = dcant_umol_label) +
   facet_wrap(~ basin, ncol = 3, dir = "v") +
@@ -3406,8 +3494,8 @@ p_dcant_profiles_mod <-
   scale_y_continuous(trans = trans_reverser("sqrt"),
                      breaks = c(0, 100, 500, seq(1000, 5000, 1000))) +
   coord_cartesian(expand = 0) +
-  scale_color_manual(values = c("#009988", "#EE7733"), name = "Mean \u00B1 2 SD") +
-  scale_fill_manual(values = c("#009988", "#EE7733"), name = "Mean \u00B1 2 SD") +
+  scale_color_manual(values = c("#009988", "#EE7733"), name = "Mean \u00B1 2σ") +
+  scale_fill_manual(values = c("#009988", "#EE7733"), name = "Mean \u00B1 2σ") +
   labs(y = "Depth (m)",
        x = dcant_umol_label) +
   facet_grid(period ~ basin) +
@@ -3546,13 +3634,14 @@ bind_rows(
   scale_y_continuous(trans = trans_reverser("sqrt"),
                      breaks = c(0, 100, 500, seq(1500, 5000, 1000))) +
   coord_cartesian(expand = 0) +
-  scale_color_manual(values = colour("high contrast", names = "FALSE")(3)[c(1,3)]) +
-  scale_fill_manual(values = colour("high contrast", names = "FALSE")(3)[c(1,3)]) +
+  scale_color_manual(values = colour("high contrast", names = FALSE)(3)[c(1,3)],
+                     name = "Mean \u00B1 1σ") +
+  scale_fill_manual(values = colour("high contrast", names = FALSE)(3)[c(1,3)],
+                    name = "Mean \u00B1 1σ") +
   labs(y = "Depth (m)",
        x = dcant_umol_label) +
   facet_grid(basin ~ period) +
-  theme(legend.title = element_blank(),
-        legend.position = c(0.85,0.15))
+  theme(legend.position = c(0.85,0.15))
 
 
 ggsave(path = here::here("output/publication"),
@@ -3791,13 +3880,13 @@ tcant_inv <-
 dcant_inv_all <-
   inner_join(dcant_inv_all, basinmask)
 
-area_scaling <- 
-bind_rows(
-  tcant_inv %>% distinct(lat, lon, basin) %>%
-    mutate(source = "SO4"),
-  dcant_inv_all %>% distinct(lat, lon, basin) %>%
-    mutate(source = "M22")
-)
+area_scaling <-
+  bind_rows(
+    tcant_inv %>% distinct(lat, lon, basin) %>%
+      mutate(source = "SO4"),
+    dcant_inv_all %>% distinct(lat, lon, basin) %>%
+      mutate(source = "M22")
+  )
 
 
 map +
@@ -4136,12 +4225,12 @@ tcant_budget_basin_MLR <- tcant_budget_basin_MLR %>%
   mutate(
     basin = fct_relevel(
       basin,
+      "Global",
+      "Indian",
       "N. Pacific",
       "S. Pacific",
       "N. Atlantic",
-      "S. Atlantic",
-      "Indian",
-      "Global"
+      "S. Atlantic"
     )
   )
 
@@ -4155,9 +4244,10 @@ dcant_budget_basin_MLR_all_ensemble %>%
     aes(x = period,
         ymax = dcant, ymin = dcant,
         col = "Scaled 1994\nestimate"),
-    width = 0.5,
-    linetype = 2,
-    position = position_nudge(x = 0.1)
+    width = 0.8,
+    size = 1,
+    linetype = 1,
+    position = position_nudge(x = 0.05)
   ) +
   geom_jitter(
     data = dcant_budget_basin_MLR_all_no_adj %>%
@@ -4212,10 +4302,10 @@ dcant_budget_basin_MLR_all_ensemble %>%
     shape = 21,
     position = position_nudge(x = 0.2)
   ) +
-  scale_fill_manual(name = "group", values = c("#BB5566", "white", "#BBBBBB")) +
+  scale_fill_manual(name = "group", values = c("#BB5566", "white", "#DDAA33")) +
   scale_color_manual(values = c("grey50"), label = expression(Scaled~C[ant]~1994)) +
   scale_linetype(name = "X") +
-  scale_alpha_manual(name = "group", values = c(0.5,1,0.5)) +
+  scale_alpha_manual(name = "group", values = c(0.7,1,0.7)) +
   scale_shape_manual(values = 95) +
   scale_y_continuous(name = dcant_pgc_label) +
   guides(
@@ -6155,8 +6245,8 @@ tcant_ts <- tcant_ts %>%
 
 beta <- 1.57
 co2_atm_pi_value <- 283
-atm_co2_col <- "#009988"
-tcant_col <- "black"
+atm_co2_col <- "#CC3311"
+tcant_col <- "#004488"
 
 p_tcant_year <- tcant_ts %>%
   ggplot(aes(year, tcant)) +
@@ -6167,9 +6257,9 @@ p_tcant_year <- tcant_ts %>%
     ymin = tcant - dcant_sd_int,
     ymax = tcant + dcant_sd_int,
     col = "Estimate\n±\ninterval\nuncertainty"
-  )) +
-  geom_point(fill = "white", shape = 21, aes(col = "Estimate\n±\ninterval\nuncertainty")) +
-  # geom_text(aes(label = year), nudge_x = -13, nudge_y = 6) +
+  ), size = 1) +
+  geom_point(fill = "white", shape = 21,
+             aes(col = "Estimate\n±\ninterval\nuncertainty")) +
   scale_y_continuous(name = expression(Total ~ oceanic ~ C[ant] ~ (PgC)),
                      sec.axis = sec_axis( ~ (. / beta + co2_atm_pi_value),
                                           name = expression(Atm. ~ pCO[2] ~ (µatm)))) +
@@ -6179,6 +6269,9 @@ p_tcant_year <- tcant_ts %>%
     axis.title.y.right = element_text(color = atm_co2_col),
     axis.text.y.right = element_text(color = atm_co2_col),
     axis.ticks.y.right = element_line(color = atm_co2_col), 
+    axis.title.y.left = element_text(color = tcant_col),
+    axis.text.y.left = element_text(color = tcant_col),
+    axis.ticks.y.left = element_line(color = tcant_col), 
     legend.background = element_rect(fill = "transparent"),
     legend.position = c(0.85, 0.2),
     legend.title = element_blank()
@@ -6186,33 +6279,73 @@ p_tcant_year <- tcant_ts %>%
 
 p_tcant_year
 
+
+atm_co2_col <- "transparent"
+
+p_tcant_year_trans <- tcant_ts %>%
+  ggplot(aes(year, tcant)) +
+  geom_line(data = co2_atm_reccap2 %>% filter(year > 1790),
+            aes(year, (pCO2 - co2_atm_pi_value) * beta),
+            col = atm_co2_col) +
+  geom_linerange(aes(
+    ymin = tcant - dcant_sd_int,
+    ymax = tcant + dcant_sd_int,
+    col = "Estimate\n±\ninterval\nuncertainty"
+  ), size = 1) +
+  geom_point(fill = "white", shape = 21,
+             aes(col = "Estimate\n±\ninterval\nuncertainty")) +
+  scale_y_continuous(name = expression(Total ~ oceanic ~ C[ant] ~ (PgC)),
+                     sec.axis = sec_axis( ~ (. / beta + co2_atm_pi_value),
+                                          name = expression(Atm. ~ pCO[2] ~ (µatm)))) +
+  scale_x_continuous(name = "Year", breaks = seq(1800, 2000, 50)) +
+  scale_color_manual(values = tcant_col) +
+  theme(
+    axis.title.y.right = element_text(color = atm_co2_col),
+    axis.text.y.right = element_text(color = atm_co2_col),
+    axis.ticks.y.right = element_line(color = atm_co2_col),
+    axis.title.y.left = element_text(color = tcant_col),
+    axis.text.y.left = element_text(color = tcant_col),
+    axis.ticks.y.left = element_line(color = tcant_col),
+    legend.background = element_rect(fill = "transparent"),
+    legend.position = c(0.85, 0.2),
+    legend.title = element_blank()
+  )
+
+p_tcant_year_trans
+
 ```
 
 ```{r mean_tcant_over_atm_co2, fig.asp=1}
+
+atm_co2_col <- "#CC3311"
 
 p_tcant_atm_co2 <- tcant_ts %>%
   ggplot(aes(pCO2, tcant)) +
   geom_ribbon(aes(
     ymin = tcant - tcant_sd,
     ymax = tcant + tcant_sd,
-    fill = "1800 - 2014"
-  ),
-  alpha = 0.5) +
+    fill = "1800 - 2014",
+    alpha = "1800 - 2014"
+  )) +
   geom_ribbon(aes(
     ymin = tcant - dcant_sd,
     ymax = tcant + dcant_sd,
-    fill = "1994 - 2014"
-  ),
-  alpha = 0.5) +
-  geom_line() +
-  geom_point(shape = 21, fill = "white") +
+    fill = "1994 - 2014",
+    alpha = "1994 - 2014"
+  )) +
+  geom_line(color = tcant_col) +
+  geom_point(shape = 21, fill = "white", color = tcant_col) +
   scale_x_continuous(breaks = seq(280, 400, 30)) +
-  scale_fill_manual(values = c("grey60", "grey30"), name = "Cumulative\nuncertainty") +
+  scale_fill_manual(values = c(tcant_col, tcant_col), name = "Cumulative\nuncertainty") +
+  scale_alpha_manual(values = c(0.2, 0.6), name = "Cumulative\nuncertainty") +
   scale_color_manual(values = "black", name = "") +
   geom_text(aes(label = year), nudge_x = -6, nudge_y = 6) +
   labs(x = expression(Atmospheric ~ pCO[2] ~ (µatm)),
        y = expression(Total ~ oceanic ~ C[ant] ~ (PgC))) +
   theme(
+    axis.title.y.left = element_text(color = tcant_col),
+    axis.text.y.left = element_text(color = tcant_col),
+    axis.ticks.y.left = element_line(color = tcant_col),
     legend.background = element_rect(fill = "transparent"),
     legend.position = c(0.85, 0.25),
     axis.title.x = element_text(color = atm_co2_col),
@@ -6224,15 +6357,24 @@ p_tcant_year / p_tcant_atm_co2 +
   plot_annotation(tag_levels = 'A')
 
 ggsave(path = here::here("output/publication"),
-       filename = "FigS_dcant_budget_global_vs_atm_pCO2.png",
+       filename = "Fig_dcant_budget_global_vs_atm_pCO2.png",
        height = 6,
        width = 7)
 
-# p_tcant_year_trans / p_tcant_atm_co2
-# ggsave(path = here::here("output/publication"),
-#        filename = "Fig_global_dcant_budget_vs_atm_pCO2_trans.png",
-#        height = 6,
-#        width = 7)
+
+p_tcant_year / p_tcant_atm_co2
+
+ggsave(path = here::here("output/presentation"),
+       filename = "Fig_dcant_budget_global_vs_atm_pCO2.png",
+       height = 6,
+       width = 7)
+
+p_tcant_year_trans / p_tcant_atm_co2
+
+ggsave(path = here::here("output/presentation"),
+       filename = "Fig_dcant_budget_global_vs_atm_pCO2_trans.png",
+       height = 6,
+       width = 7)
 
 ```
 
@@ -6247,7 +6389,7 @@ tcant_ts %>%
 
 ## incl fluxes
 
-```{r exclude_Watson_from_GCB, eval=FALSE}
+```{r exclude_Watson_from_GCB}
 
 Ocean_Sink <- Ocean_Sink %>%
   filter(product != "Watson")
@@ -6394,12 +6536,6 @@ tcant_max =
   tcant_ts_zoom %>% pull(tcant) %>% max() +
   tcant_ts_zoom %>% pull(dcant_sd) %>% max() + 0.2
 
-Ocean_Sink_cum_1994_ensemble_mean <- Ocean_Sink_cum_1994 %>% 
-  group_by(year, pCO2, type) %>% 
-  summarise(fgco2_glob_cum_total_mean = mean(fgco2_glob_cum_total),
-            fgco2_glob_cum_total_sd = sd(fgco2_glob_cum_total)) %>% 
-  ungroup()
-
 p_tcant_ts_zoom <-
   tcant_ts_zoom %>%
   ggplot(aes(pCO2, tcant)) +
@@ -6407,7 +6543,7 @@ p_tcant_ts_zoom <-
     aes(ymin = tcant - dcant_sd,
         ymax = tcant + dcant_sd),
     alpha = 0.2,
-    fill = "#BB5566"
+    fill = tcant_col
   ) +
   geom_ribbon(
     aes(
@@ -6415,25 +6551,15 @@ p_tcant_ts_zoom <-
       ymax = tcant + dcant_sd / 2
     ),
     alpha = 0.3,
-    fill = "#BB5566"
+    fill = tcant_col
   ) +
   geom_line(data = Ocean_Sink_cum_1994,
             aes(pCO2, fgco2_glob_cum_total, group = product, col = type)) +
-  # geom_line(data = Ocean_Sink_cum_1994_ensemble_mean,
-  #           aes(pCO2, fgco2_glob_cum_total_mean, col = type),
-  #           size = 1.5) +
   geom_point(
     data = Ocean_Sink_cum_1994,
     aes(pCO2, fgco2_glob_cum_total, group = product, col = type),
     size = 0.3
   ) +
-  # geom_point(
-  #   data = Ocean_Sink_cum_1994_ensemble_mean,
-  #   aes(pCO2, fgco2_glob_cum_total_mean, col = type),
-  #   size = 0.5,
-  #   fill = "white",
-  #   shape = 21
-  # ) +
   geom_point(
     data = Ocean_Sink_cum_1994 %>% filter(year %in% c(2004, 2014)),
     aes(
@@ -6449,8 +6575,8 @@ p_tcant_ts_zoom <-
              shape = 21,
              fill = "white") +
   geom_text(aes(label = year), nudge_x = -2, nudge_y = 3) +
-  scale_color_highcontrast(name = "Data source", reverse = TRUE) +
-  scale_fill_highcontrast(name = "Data source", reverse = TRUE) +
+  scale_color_highcontrast(name = "Data source") +
+  scale_fill_highcontrast(name = "Data source") +
   scale_y_continuous(limits = c(tcant_min, tcant_max)) +
   labs(x = expression(Atmospheric ~ pCO[2] ~ (µatm)),
        y = expression(Total ~ oceanic ~ carbon ~ storage ~ since ~ 1800 ~ (PgC))) +
@@ -6562,12 +6688,10 @@ dcant_type_box %>%
               shape = 21,
               alpha = 0.5) +
   scale_fill_highcontrast(
-    reverse = TRUE,
     name = "Data source",
     guide = "none"
   ) +
   scale_color_highcontrast(
-    reverse = TRUE,
     name = "Data source",
     guide = "none"
   ) +
@@ -6584,7 +6708,7 @@ dcant_type_box %>%
   )
 
 p_tcant_box_10 <-
-dcant_type_box %>%
+  dcant_type_box %>%
   filter(period != "1994 - 2014") %>%
   ggplot(aes(period, dcant)) +
   geom_crossbar(
@@ -6598,7 +6722,9 @@ dcant_type_box %>%
       ymax = dcant_mean + dcant_sd,
       col = type,
       fill = type
-    ), width = 0.7, alpha = 0.4
+    ),
+    width = 0.7,
+    alpha = 0.4
   ) +
   geom_crossbar(
     data = dcant_type_box_stat %>%
@@ -6607,28 +6733,36 @@ dcant_type_box %>%
     aes(
       x = period,
       y = dcant_mean,
-      ymin = dcant_mean - dcant_sd*2,
-      ymax = dcant_mean + dcant_sd*2,
+      ymin = dcant_mean - dcant_sd * 2,
+      ymax = dcant_mean + dcant_sd * 2,
       col = type,
       fill = type
-    ), width = 0.7, alpha = 0.2
+    ),
+    width = 0.7,
+    alpha = 0.2
   ) +
-  geom_point(aes(fill = type),
-              position = position_jitterdodge(
-                dodge.width = 1,
-                jitter.width = 0.1),
-              shape = 21,
-              alpha = 0.5) +
-  scale_fill_highcontrast(
-    reverse = TRUE,
-    name = "Data source",
-    guide = "none"
+  geom_point(
+    aes(fill = type),
+    position = position_jitterdodge(dodge.width = 1,
+                                    jitter.width = 0.1),
+    shape = 21,
+    alpha = 0.5
   ) +
-  scale_color_highcontrast(
-    reverse = TRUE,
-    name = "Data source",
-    guide = "none"
+  geom_point(
+    data = dcant_type_box_stat %>%
+      filter(period != "1994 - 2014"),
+    position = position_dodge(width = 1),
+    aes(x = period,
+        y = dcant_mean,
+        col = type),
+    fill = "white",
+    shape = 21,
+    size = 2
   ) +
+  scale_fill_highcontrast(name = "Data source",
+                          guide = "none") +
+  scale_color_highcontrast(name = "Data source",
+                           guide = "none") +
   scale_y_continuous(limits = c(tcant_min, tcant_max)) +
   labs(x = "10yr periods") +
   theme_classic() +
@@ -6646,6 +6780,14 @@ p_tcant_ts_zoom + p_tcant_box + p_tcant_box_10 +
   plot_annotation(tag_levels = 'A')
 
 ggsave(path = here::here("output/publication"),
+       filename = "Fig_dcant_budget_global_vs_GCB_ocean_sink.png",
+       height = 6,
+       width = 9)
+
+p_tcant_ts_zoom + p_tcant_box + p_tcant_box_10 +
+  plot_layout(ncol = 2, widths = c(6,1.8))
+
+ggsave(path = here::here("output/presentation"),
        filename = "Fig_dcant_budget_global_vs_GCB_ocean_sink.png",
        height = 6,
        width = 9)
@@ -6680,6 +6822,110 @@ dcant_type_significance %>%
 #   # geom_line() %>% 
 #   filter(year == 2007) %>% 
 #   summarise(sd(GtC)*2)
+
+```
+
+
+```{r mean_tcant_over_atm_co2_incl_fluxes_mean, fig.asp=0.6}
+
+Ocean_Sink_cum_1994_ensemble_mean <- Ocean_Sink_cum_1994 %>% 
+  group_by(year, pCO2, type) %>% 
+  summarise(fgco2_glob_cum_total_mean = mean(fgco2_glob_cum_total),
+            fgco2_glob_cum_total_sd = sd(fgco2_glob_cum_total)) %>% 
+  ungroup()
+
+p_tcant_ts_zoom <-
+tcant_ts_zoom %>%
+  ggplot() +
+  geom_ribbon(aes(pCO2, tcant,
+                  ymin = tcant - dcant_sd,
+                  ymax = tcant + dcant_sd,
+              fill = "eMLR(C*)"),
+              alpha = 0.2) +
+  geom_ribbon(
+    aes(pCO2, tcant,
+        ymin = tcant - dcant_sd / 2,
+        ymax = tcant + dcant_sd / 2,
+              fill = "eMLR(C*)"),
+    alpha = 0.3
+  ) +
+  # geom_ribbon(
+  #   data = Ocean_Sink_cum_1994_ensemble_mean,
+  #   aes(
+  #     pCO2,
+  #     ymin = fgco2_glob_cum_total_mean - fgco2_glob_cum_total_sd,
+  #     ymax = fgco2_glob_cum_total_mean + fgco2_glob_cum_total_sd,
+  #     fill = type
+  #   ),
+  #   alpha = 0.3
+  # ) +
+    geom_line(data = Ocean_Sink_cum_1994,
+            aes(pCO2, fgco2_glob_cum_total, group = product, col = type), size = 0.3) +
+  geom_line(data = Ocean_Sink_cum_1994_ensemble_mean,
+            aes(pCO2, fgco2_glob_cum_total_mean, col = type), size = 2) +
+  geom_point(
+    data = Ocean_Sink_cum_1994_ensemble_mean,
+    aes(pCO2, fgco2_glob_cum_total_mean, col = type), size = 1,
+    shape = 21,
+    fill = "white"
+  ) +
+  geom_point(
+    data = Ocean_Sink_cum_1994_ensemble_mean %>% filter(year %in% c(2004, 2014)),
+    aes(pCO2, fgco2_glob_cum_total_mean, col = type), size = 2,
+    shape = 21,
+    fill = "white"
+  ) +
+  # geom_point(
+  #   data = Ocean_Sink_cum_1994 %>% filter(year %in% c(2004, 2014)),
+  #   aes(
+  #     pCO2,
+  #     fgco2_glob_cum_total,
+  #     col = type
+  #   ),
+  #   fill = "white",
+  #   shape = 21
+  # ) +
+  geom_line(aes(pCO2, tcant, col = "eMLR(C*)"), size = 2) +
+  geom_point(aes(pCO2, tcant, col = "eMLR(C*)"), size = 2,
+             shape = 21,
+             fill = "white") +
+  geom_text(aes(pCO2, tcant, label = year), nudge_x = -2, nudge_y = 3) +
+  scale_color_highcontrast(name = "Data source") +
+  scale_fill_highcontrast(name = "Data source") +
+  scale_y_continuous(limits = c(tcant_min, tcant_max)) +
+  labs(
+    x = expression(Atmospheric ~ pCO[2] ~ (µatm)),
+    y = expression(Total ~ oceanic ~ carbon ~ storage ~ since ~ 1800 ~ (PgC))
+  ) +
+  guides(colour = guide_legend(order = 1),
+         fill = "none") +
+  theme_classic() +
+  theme(
+    legend.background = element_rect(fill = "transparent"),
+    legend.position = c(0.25, 0.83),
+    legend.title = element_blank(),
+    legend.box.just = "top",
+    legend.box = "horizontal",
+    legend.key.size = unit(2.5, 'lines'),
+    panel.grid.major.y = element_line(colour = "black",
+                                      size = 0.1)
+  )
+
+p_tcant_ts_zoom
+
+
+```
+
+```{r mean_tcant_over_atm_co2_incl_fluxes_boxplot_ensemble, fig.asp=0.6}
+
+p_tcant_ts_zoom + p_tcant_box_10 +
+  plot_layout(ncol = 2, widths = c(6,1.8))
+
+ggsave(path = here::here("output/presentation"),
+       filename = "Fig_dcant_budget_global_vs_GCB_ocean_sink_ensemble.png",
+       height = 6,
+       width = 9)
+
 
 ```
 
@@ -6729,28 +6975,33 @@ min(delta_revelle$delta_DIC_rel_cum / max(delta_revelle$delta_year))
 
 # GCB implications
 
-```{r GCB}
+## Land sink
 
-Global_Carbon_Budget %>% 
-  ggplot(aes(year, GtC_yr, col = estimate)) +
-  geom_path() +
-  geom_point()
+```{r GCB_land_sink_assesment}
 
-Global_Carbon_Budget %>% 
-  ggplot(aes(year, GtC, col = estimate)) +
-  geom_path() +
-  geom_point()
+flux_label <- expression(CO[2]~flux~(PgC~yr^{-1}))
 
 flux_components <- Global_Carbon_Budget %>% 
   distinct(estimate) %>% 
   pull()
 
-emission_components <- flux_components[c(1,2)]
+emission_components <- flux_components[c(1,2,6)]
 sink_components <- flux_components[3:5]
 
 estimates <- Global_Carbon_Budget %>%
-  filter(!(estimate %in% c("budget imbalance",
-                           "cement carbonation sink"))) %>%
+  select(-GtC) %>%
+  pivot_wider(names_from = estimate,
+              values_from = GtC_yr) %>%
+  mutate(`fossil emissions` = 
+           `fossil emissions excluding carbonation` - `cement carbonation sink`) %>%
+  select(-c(`fossil emissions excluding carbonation`, `cement carbonation sink`)) %>% 
+  pivot_longer(-year,
+               names_to = "estimate",
+               values_to = "GtC_yr")
+
+estimates <- estimates %>%
+  filter(!(estimate %in% c("budget imbalance")),
+         year >= 1960) %>%
   mutate(
     sign = if_else(estimate %in% sink_components,
                    "sinks",
@@ -6758,6 +7009,9 @@ estimates <- Global_Carbon_Budget %>%
     GtC_yr = if_else(sign == "sinks",
                      -GtC_yr,
                      GtC_yr)
+    # GtC_yr = if_else(estimate == "cement carbonation sink",
+    #                  -GtC_yr,
+    #                  GtC_yr)
   )
 
 emissions_sinks <- estimates %>% 
@@ -6765,70 +7019,119 @@ emissions_sinks <- estimates %>%
   summarise(GtC_yr = sum(GtC_yr)) %>% 
   ungroup()
 
-estimates %>%
-  ggplot(aes(year, GtC_yr, col = estimate)) +
-  geom_path() +
-  geom_point() +
-  scale_color_bright()
+estimates %>% distinct(estimate) %>% pull()
 
-estimates %>%
+p_stacked_fluxes <- estimates %>%
+  mutate(
+    estimate = fct_relevel(
+      estimate,
+      "fossil emissions",
+      "land-use change emissions",
+      "atmospheric growth",
+      "land sink",
+      "ocean sink"
+    )
+  ) %>%
   ggplot() +
   geom_area(aes(year, GtC_yr, fill = estimate),
-            col = "white",
-            alpha = 0.7) +
-  geom_line(data = emissions_sinks %>%   mutate(GtC_yr = if_else(sign == "emissions",
-                                                                 -GtC_yr,
-                                                                 GtC_yr)),
-            aes(year, GtC_yr, linetype = sign)) +
-  scale_fill_bright() +
+            col = "black",
+            alpha = 0.7,
+            size = 0.5) +
+  # geom_line(data = emissions_sinks %>%   mutate(GtC_yr = if_else(sign == "emissions",
+  #                                                                -GtC_yr,
+  #                                                                GtC_yr)),
+  #           aes(year, GtC_yr, linetype = sign)) +
+  scale_fill_manual(values = c("#BBBBBB", "#CCBB44", "#66CCEE", "#228833", "#4477AA"),
+                    name = "flux component") +
   geom_hline(yintercept = 0) +
-  coord_cartesian(expand = 0)
+  scale_x_continuous(expand = c(0,0)) +
+  labs(y = flux_label,
+       title = "Carbon emissions and sinks",
+       subtitle = "Global Carbon Budget | Friedlingstein et al. (2021)") +
+  theme(axis.title.x = element_blank())
+
+p_stacked_fluxes
+
+ggsave(path = here::here("output/presentation"),
+       filename = "Fig_GCB_emissions_sinks.png",
+       height = 4,
+       width = 7)
+
+p_individual_fluxes <- estimates %>%
+  ggplot(aes(year, GtC_yr, col = estimate)) +
+  geom_hline(yintercept = 0) +
+  geom_path() +
+  geom_point(size = 0.5) +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_color_bright(name = "flux component") +
+  labs(y = flux_label,
+       title = "Individual flux components from GCB") +
+  theme(axis.title.x = element_blank())
+
+p_individual_fluxes
+
 
 BIM <- emissions_sinks %>% 
   pivot_wider(names_from = sign,
               values_from = GtC_yr) %>% 
   mutate(BIM = emissions + sinks)
 
-ggplot() +
-  geom_line(data = Global_Carbon_Budget %>% 
-              filter(estimate == "budget imbalance"),
-            aes(year, GtC_yr, col = "GCB")) +
+p_BIM <- ggplot() +
+  geom_line(data = Global_Carbon_Budget %>%
+              filter(estimate == "budget imbalance",
+                     year >= 1990),
+            aes(year, GtC_yr, col = "reported")) +
   geom_line(data = BIM, aes(year, BIM, col = "recalculated")) +
   geom_hline(yintercept = 0) +
-  coord_cartesian(expand = 0)
+  scale_color_brewer(palette = "Set1") +
+  scale_x_continuous(expand = c(0, 0)) +
+  labs(y = flux_label,
+       title = "BIM from GCB") +
+  theme(axis.title.x = element_blank(),
+        legend.title = element_blank())
 
+p_BIM
 
-# land_sink <-
-estimates %>%
+p_land_sink_gcb <- estimates %>%
   select(year, estimate, GtC_yr) %>%
   pivot_wider(names_from = estimate,
               values_from = GtC_yr) %>%
-  mutate(`land sink residual` = `fossil emissions excluding carbonation` + `land-use change emissions` + `atmospheric growth` + `ocean sink`) %>%
+  mutate(`land sink residual` = 
+           `fossil emissions` + 
+           `land-use change emissions` + 
+           `atmospheric growth` + 
+           `ocean sink`) %>%
   ggplot() +
   geom_line(aes(year, -`land sink residual`, col = "residual")) +
-  geom_line(aes(year, `land sink`, col = "direct"))
+  geom_line(aes(year, `land sink`, col = "reported")) +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_color_brewer(palette = "Set1", name = "land sink\nestimate") +
+  labs(y = flux_label,
+       title = "Land sink estimates from GCB",
+       subtitle = "Note: The offset between reported and residual estimate equals BIM") +
+  theme(axis.title.x = element_blank(),
+        legend.title = element_blank())
 
-Ocean_Sink_annual_mean <- Ocean_Sink %>% 
-  group_by(year, type) %>% 
-  summarise(GtC_yr = -mean(GtC_yr)) %>% 
+p_land_sink_gcb
+
+Ocean_Sink_annual_mean <- Ocean_Sink %>%
+  filter(year >= 1990) %>%
+  group_by(year, type) %>%
+  summarise(GtC_yr = -mean(GtC_yr)) %>%
   ungroup()
-
-Ocean_Sink_annual_mean %>% 
-  ggplot(aes(year, GtC_yr, col = type)) +
-  geom_path()
 
 Ocean_Sink_annual_mean <- Ocean_Sink_annual_mean %>% 
   pivot_wider(names_from = type,
               values_from = GtC_yr,
               names_prefix = "ocean_sink_")
 
-estimates <- estimates %>%
+estimates_wide <- estimates %>%
   select(year, estimate, GtC_yr) %>%
   pivot_wider(names_from = estimate,
               values_from = GtC_yr)
 
-estimates <-
-  full_join(estimates, Ocean_Sink_annual_mean)
+estimates_wide <-
+  full_join(estimates_wide, Ocean_Sink_annual_mean)
 
 dcant_interior <- tcant_ts_zoom %>% 
   filter(year > 2000) %>%
@@ -6842,7 +7145,7 @@ cnat <-
   mutate(dcant_diff = dcant_diff/10) %>% 
   pull(dcant_diff)
 
-estimates <- estimates %>% 
+estimates_wide <- estimates_wide %>% 
   mutate(ocean_sink_interior_Cant = case_when(
     between(year, 1994, 2003) ~ -dcant_interior[1],
     between(year, 2004, 2013) ~ -dcant_interior[2],
@@ -6850,75 +7153,586 @@ estimates <- estimates %>%
   )) %>% 
   mutate(ocean_sink_interior_net = case_when(
     between(year, 1994, 2003) ~ -dcant_interior[1]-cnat[1],
-    between(year, 2004, 2013) ~ -dcant_interior[1]-cnat[2],
+    between(year, 2004, 2013) ~ -dcant_interior[2]-cnat[2],
     TRUE ~ NaN
   ))
 
+
+p_ocean_sinks <- estimates_wide %>%
+  select(year, starts_with("ocean")) %>% 
+  rename(GCB_mean = `ocean sink`) %>% 
+  pivot_longer(-year,
+               names_to = "estimate",
+               names_prefix = "ocean_sink_",
+               values_to = "GtC_yr") %>% 
+  mutate(estimate = str_replace(estimate, "_", " ")) %>% 
+  ggplot(aes(year, GtC_yr, col = estimate)) +
+  geom_path() +
+  geom_point(size = 0.5) +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_color_brewer(palette = "Set1", name = "ocean sink\nestimate") +
+  labs(y = flux_label,
+       title = "Ocean sink estimates",
+       subtitle = "Note: Watson et al. (2020) is included in data products and GCB mean") +
+  theme(axis.title.x = element_blank(),
+        legend.title = element_blank())
+
+p_ocean_sinks
+
+estimates_long <- estimates_wide %>%
+  select(year, starts_with("ocean")) %>% 
+  rename(GCB_mean = `ocean sink`) %>% 
+  pivot_longer(-year,
+               names_to = "estimate",
+               names_prefix = "ocean_sink_",
+               values_to = "GtC_yr") %>% 
+  filter(estimate %in% c("data_products", "models"),
+         year >= 1990)
+
+p_ocean_sinks_presentation <- estimates_long %>%
+  # mutate(estimate = str_replace(estimate, "_", " ")) %>% 
+  ggplot() +
+  geom_path(data = Ocean_Sink %>% filter(year >= 1990),
+            aes(year, GtC_yr, group = product, col = type), size = 0.3) +
+  geom_path(aes(year, -GtC_yr, col = estimate), size = 2) +
+  geom_point(aes(year, -GtC_yr, col = estimate), size = 2, fill = "white", shape = 21) +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_color_manual(values = c("#BB5566", "#DDAA33"),
+                     name = "ocean sink\nestimate") +
+  labs(y = flux_label,
+       title = "Ocean Carbon sink",
+       subtitle = "Global Carbon Budget | Friedlingstein et al. (2021)") +
+  theme(axis.title.x = element_blank(),
+        legend.title = element_blank())
+
+p_ocean_sinks_presentation
+
+ggsave(path = here::here("output/presentation"),
+       filename = "Fig_GCB_ocean_sinks.png",
+       height = 4,
+       width = 6)
+
+p_ocean_sinks_presentation <-
+  estimates_long %>%
+  # mutate(estimate = str_replace(estimate, "_", " ")) %>%
+  ggplot() +
+  geom_path(
+    data = Ocean_Sink %>% filter(year >= 1990),
+    aes(year, GtC_yr, group = product, col = type),
+    size = 0.3
+  ) +
+  geom_path(aes(year, -GtC_yr, col = estimate), size = 2) +
+  geom_point(
+    aes(year, -GtC_yr, col = estimate),
+    size = 2,
+    fill = "white",
+    shape = 21
+  ) +
+  geom_path(
+    data =             tibble(
+      year = c(1994, 2007),
+      estimate = "ocean_interior",
+      GtC_yr = -2.6
+    ),
+    aes(year, -GtC_yr, col = estimate),
+    size = 2
+  )+
+  geom_rect(
+    data =             tibble(
+      year_min = 1994,
+      year_max = 2007,
+      estimate = "ocean_interior",
+      GtC_yr_min = -2.6 - 0.3,
+      GtC_yr_max = -2.6 + 0.3,
+    ),
+    aes(xmax = year_max, xmin = year_min, ymin = -GtC_yr_min, ymax = -GtC_yr_max, col = estimate),
+    fill = "transparent"
+  )+
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_color_manual(values = c("#BB5566", "#DDAA33","#004488"),
+                     name = "ocean sink\nestimate") +
+  labs(y = flux_label,
+       title = "Ocean Carbon sink",
+       subtitle = "Global Carbon Budget | Friedlingstein et al. (2021)") +
+  theme(axis.title.x = element_blank(),
+        legend.title = element_blank())
+
+p_ocean_sinks_presentation
+
+ggsave(path = here::here("output/presentation"),
+       filename = "Fig_GCB_ocean_sinks_eMLR.png",
+       height = 4,
+       width = 6)
+
 land_sink <-
-estimates %>%
-  mutate(emissions_atmosphere = `fossil emissions excluding carbonation` +
+  estimates_wide %>%
+  mutate(emissions_atmosphere = `fossil emissions` +
            `land-use change emissions` +
            `atmospheric growth`) %>%
   rename(ocean_sink_gcb_mean = `ocean sink`) %>%
   select(year, emissions_atmosphere, starts_with("ocean")) %>%
-  pivot_longer(starts_with("ocean_sink"),
-               names_to = "ocean_sink_estimate",
-               values_to = "ocean_sink",
-               names_prefix = "ocean_sink_") %>% 
+  pivot_longer(
+    starts_with("ocean_sink"),
+    names_to = "ocean_sink_estimate",
+    values_to = "ocean_sink",
+    names_prefix = "ocean_sink_"
+  ) %>%
   mutate(land_sink = -emissions_atmosphere - ocean_sink)
 
-# land_sink <-
-#   bind_rows(
-#     land_sink,
-#     estimates %>%
-#       select(year, land_sink = `land sink`) %>%
-#       mutate(estimate = "direct")
-#   )
 
-land_sink %>%
-  filter(year >= 1990) %>%
+p_land_sink_residual <- land_sink %>%
+  mutate(ocean_sink_estimate = 
+           str_replace(ocean_sink_estimate, "_", " ")) %>% 
   ggplot() +
   geom_line(aes(year, land_sink, col = ocean_sink_estimate, linetype = "residual")) +
-  geom_line(data = estimates %>%
+  geom_line(data = estimates_wide %>%
               filter(year >= 1990),
-                     aes(year, `land sink`, linetype = "reported")) +
-              scale_linetype_manual(values = c(2, 1))
+            aes(year, `land sink`, linetype = "reported")) +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_linetype_manual(values = c(2, 1), name = "land sink\nestimate") +
+  scale_color_brewer(palette = "Set1",
+                     name = "ocean sink\nestimate\nunderlying\nresidual") +
+  guides(linetype = guide_legend(order = 1),
+         color = guide_legend(order = 2)) +
+  labs(y = flux_label,
+       title = "Land sink estimates",
+       subtitle = "Note: Residuals are determined for a range of ocean sink estimates") +
+  theme(axis.title.x = element_blank())
 
+p_land_sink_residual
 
 land_sink <-
   full_join(
     land_sink,
-    estimates %>%
+    estimates_wide %>%
       select(year, land_sink_reported = `land sink`)
   )
 
 
-land_sink %>%
-  filter(year >= 1990) %>%
+p_land_sink_residual_delta <- land_sink %>%
+  mutate(ocean_sink_estimate =
+           str_replace(ocean_sink_estimate, "_", " ")) %>%
   ggplot() +
   geom_hline(yintercept = 0) +
-  geom_line(aes(year, land_sink - land_sink_reported, col = ocean_sink_estimate))
+  geom_line(aes(year, land_sink - land_sink_reported, col = ocean_sink_estimate)) +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_color_brewer(palette = "Set1",
+                     name = "ocean sink\nestimate\nunderlying\nresidual") +
+  labs(y = flux_label,
+       title = "Land sink estimates (reported - residual)",
+       subtitle = "Note: Residuals are determined for a range of ocean sink estimates") +
+  theme(axis.title.x = element_blank())
 
+p_land_sink_residual_delta
 
-land_sink %>%
+p_land_sink_residual_decade <- land_sink %>%
   mutate(period = cut(year, c(1993, 2003, 2013),
                       c("1994 - 2004", "2004 - 2014"))) %>%
   filter(!is.na(period)) %>%
   group_by(ocean_sink_estimate, period) %>%
   summarise(across(starts_with("land_sink"), list(mean = mean, sd = sd))) %>%
   ungroup() %>%
+  mutate(ocean_sink_estimate =
+           str_replace(ocean_sink_estimate, "_", " ")) %>%
   ggplot() +
-  geom_pointrange(aes(period, land_sink_reported_mean, 
-                      ymin = land_sink_reported_mean - land_sink_reported_sd,
-                      ymax = land_sink_reported_mean + land_sink_reported_sd,
-                      shape = "reported"),
-                    position = position_dodge2(width = 0.6)) +
-  geom_pointrange(aes(period, land_sink_mean, 
-                      ymin = land_sink_mean - land_sink_sd,
-                      ymax = land_sink_mean + land_sink_sd,
-                      col = ocean_sink_estimate, shape = "residual"),
-                    position = position_dodge2(width = 0.5))
+  geom_pointrange(
+    aes(
+      period,
+      land_sink_reported_mean,
+      ymin = land_sink_reported_mean - land_sink_reported_sd,
+      ymax = land_sink_reported_mean + land_sink_reported_sd,
+      shape = "reported"
+    ),
+    position = position_dodge2(width = 0.6)
+  ) +
+  geom_pointrange(
+    aes(
+      period,
+      land_sink_mean,
+      ymin = land_sink_mean - land_sink_sd,
+      ymax = land_sink_mean + land_sink_sd,
+      col = ocean_sink_estimate,
+      shape = "residual"
+    ),
+    position = position_dodge2(width = 0.5)
+  ) +
+  scale_color_brewer(palette = "Set1",
+                     name = "ocean sink\nestimate\nunderlying\nresidual") +
+  scale_shape_manual(values = c(17, 16), name = "land sink\nestimate") +
+  guides(shape = guide_legend(order = 1),
+         color = guide_legend(order = 2)) +
+  theme(axis.title.x = element_blank()) +
+  labs(y = flux_label,
+       title = "Decadal mean land sink estimates",
+       subtitle = "Note: Errorbars indicate the StDev of the IAV") +
+  theme(axis.title.x = element_blank())
 
+p_land_sink_residual_decade
+
+pdf(
+  file = here::here("output/publication/GCB_land_sink_residual.pdf"),
+  height = 6,
+  width = 9
+)
+
+p_stacked_fluxes
+p_individual_fluxes
+p_BIM
+p_land_sink_gcb
+p_ocean_sinks
+p_land_sink_residual
+p_land_sink_residual_delta
+p_land_sink_residual_decade
+
+dev.off()
+
+rm(
+  p_stacked_fluxes,
+  p_individual_fluxes,
+  p_BIM,
+  p_land_sink_gcb,
+  p_ocean_sinks,
+  p_land_sink_residual,
+  p_land_sink_residual_delta,
+  p_land_sink_residual_decade,
+  estimates,
+  estimates_wide,
+  land_sink,
+  Ocean_Sink_annual_mean,
+  flux_components,
+  flux_label,
+  emission_components,
+  sink_components
+)
+
+```
+
+## Net land sink
+
+
+```{r GCB_net_land_sink_assesment}
+
+flux_label <- expression(flux~(PgC~yr^{-1}))
+
+Global_Carbon_Budget_net_land_sink <- Global_Carbon_Budget %>%
+  select(year, estimate, GtC_yr) %>%
+  pivot_wider(names_from = estimate,
+              values_from = GtC_yr) %>%
+  mutate(`net land sink` = `land sink` - `land-use change emissions`) %>%
+  select(-c(`land sink`, `land-use change emissions`)) %>%
+  pivot_longer(-year,
+               names_to = "estimate",
+               values_to = "GtC_yr")
+
+flux_components <- Global_Carbon_Budget_net_land_sink %>% 
+  distinct(estimate) %>% 
+  pull()
+
+emission_components <- flux_components[c(1,4)]
+sink_components <- flux_components[c(2,3,6)]
+
+estimates <- Global_Carbon_Budget_net_land_sink %>%
+  filter(!(estimate %in% c("budget imbalance")),
+         year >= 1990) %>%
+  mutate(
+    sign = if_else(estimate %in% sink_components,
+                   "sinks",
+                   "emissions"),
+    GtC_yr = if_else(sign == "sinks",
+                     -GtC_yr,
+                     GtC_yr),
+    GtC_yr = if_else(estimate == "cement carbonation sink",
+                     -GtC_yr,
+                     GtC_yr)
+  )
+
+emissions_sinks <- estimates %>% 
+  group_by(year, sign) %>% 
+  summarise(GtC_yr = sum(GtC_yr)) %>% 
+  ungroup()
+
+
+p_stacked_fluxes <- estimates %>%
+  ggplot() +
+  geom_area(aes(year, GtC_yr, fill = estimate),
+            col = "white",
+            alpha = 0.7,
+            size = 0.5) +
+  geom_line(data = emissions_sinks %>%   mutate(GtC_yr = if_else(sign == "emissions",
+                                                                 -GtC_yr,
+                                                                 GtC_yr)),
+            aes(year, GtC_yr, linetype = sign)) +
+  scale_fill_bright(name = "flux component") +
+  geom_hline(yintercept = 0) +
+  scale_x_continuous(expand = c(0,0)) +
+  labs(y = flux_label,
+       title = "Stacked emission and sink components from GCB",
+       subtitle = "Note: The cement carbonation sink is accounted for in emissions") +
+  theme(axis.title.x = element_blank())
+
+p_stacked_fluxes
+
+p_individual_fluxes <- estimates %>%
+  ggplot(aes(year, GtC_yr, col = estimate)) +
+  geom_hline(yintercept = 0) +
+  geom_path() +
+  geom_point(size = 0.5) +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_color_bright(name = "flux component") +
+  labs(y = flux_label,
+       title = "Individual flux components from GCB") +
+  theme(axis.title.x = element_blank())
+
+p_individual_fluxes
+
+
+BIM <- emissions_sinks %>% 
+  pivot_wider(names_from = sign,
+              values_from = GtC_yr) %>% 
+  mutate(BIM = emissions + sinks)
+
+p_BIM <- ggplot() +
+  geom_line(data = Global_Carbon_Budget %>%
+              filter(estimate == "budget imbalance",
+                     year >= 1990),
+            aes(year, GtC_yr, col = "reported")) +
+  geom_line(data = BIM, aes(year, BIM, col = "recalculated")) +
+  geom_hline(yintercept = 0) +
+  scale_color_brewer(palette = "Set1") +
+  scale_x_continuous(expand = c(0, 0)) +
+  labs(y = flux_label,
+       title = "BIM from GCB") +
+  theme(axis.title.x = element_blank(),
+        legend.title = element_blank())
+
+p_BIM
+
+p_land_sink_gcb <- estimates %>%
+  select(year, estimate, GtC_yr) %>%
+  pivot_wider(names_from = estimate,
+              values_from = GtC_yr) %>%
+  mutate(`net land sink residual` = 
+           `fossil emissions excluding carbonation` + 
+           `cement carbonation sink` + 
+           `atmospheric growth` + 
+           `ocean sink`) %>%
+  ggplot() +
+  geom_line(aes(year, -`net land sink residual`, col = "residual")) +
+  geom_line(aes(year, `net land sink`, col = "reported")) +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_color_brewer(palette = "Set1", name = "land sink\nestimate") +
+  labs(y = flux_label,
+       title = "Land sink estimates from GCB",
+       subtitle = "Note: The offset between reported and residual estimate equals BIM") +
+  theme(axis.title.x = element_blank(),
+        legend.title = element_blank())
+
+p_land_sink_gcb
+
+Ocean_Sink_annual_mean <- Ocean_Sink %>%
+  filter(year >= 1990) %>%
+  group_by(year, type) %>%
+  summarise(GtC_yr = -mean(GtC_yr)) %>%
+  ungroup()
+
+Ocean_Sink_annual_mean <- Ocean_Sink_annual_mean %>% 
+  pivot_wider(names_from = type,
+              values_from = GtC_yr,
+              names_prefix = "ocean_sink_")
+
+estimates_wide <- estimates %>%
+  select(year, estimate, GtC_yr) %>%
+  pivot_wider(names_from = estimate,
+              values_from = GtC_yr)
+
+estimates_wide <-
+  full_join(estimates_wide, Ocean_Sink_annual_mean)
+
+dcant_interior <- tcant_ts_zoom %>% 
+  filter(year > 2000) %>%
+  mutate(dcant_mean = dcant_mean/10) %>% 
+  pull(dcant_mean)
+
+cnat <-
+  dcant_type_significance %>%
+  filter(type == "Observation-based\nsurface flux\nproducts" ,
+         period %in% two_decades) %>%
+  mutate(dcant_diff = dcant_diff/10) %>% 
+  pull(dcant_diff)
+
+estimates_wide <- estimates_wide %>% 
+  mutate(ocean_sink_interior_Cant = case_when(
+    between(year, 1994, 2003) ~ -dcant_interior[1],
+    between(year, 2004, 2013) ~ -dcant_interior[2],
+    TRUE ~ NaN
+  )) %>% 
+  mutate(ocean_sink_interior_net = case_when(
+    between(year, 1994, 2003) ~ -dcant_interior[1]-cnat[1],
+    between(year, 2004, 2013) ~ -dcant_interior[2]-cnat[2],
+    TRUE ~ NaN
+  ))
+
+
+p_ocean_sinks <- estimates_wide %>%
+  select(year, starts_with("ocean")) %>% 
+  rename(GCB_mean = `ocean sink`) %>% 
+  pivot_longer(-year,
+               names_to = "estimate",
+               names_prefix = "ocean_sink_",
+               values_to = "GtC_yr") %>% 
+  mutate(estimate = str_replace(estimate, "_", " ")) %>% 
+  ggplot(aes(year, GtC_yr, col = estimate)) +
+  geom_path() +
+  geom_point(size = 0.5) +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_color_brewer(palette = "Set1", name = "ocean sink\nestimate") +
+  labs(y = flux_label,
+       title = "Ocean sink estimates",
+       subtitle = "Note: Watson et al. (2020) is included in data products and GCB mean") +
+  theme(axis.title.x = element_blank(),
+        legend.title = element_blank())
+
+p_ocean_sinks
+
+land_sink <-
+  estimates_wide %>%
+  mutate(emissions_atmosphere = `fossil emissions excluding carbonation` +
+           `atmospheric growth`) %>%
+  rename(ocean_sink_gcb_mean = `ocean sink`) %>%
+  select(year, emissions_atmosphere, starts_with("ocean")) %>%
+  pivot_longer(
+    starts_with("ocean_sink"),
+    names_to = "ocean_sink_estimate",
+    values_to = "ocean_sink",
+    names_prefix = "ocean_sink_"
+  ) %>%
+  mutate(net_land_sink = -emissions_atmosphere - ocean_sink)
+
+
+p_land_sink_residual <- land_sink %>%
+  mutate(ocean_sink_estimate = 
+           str_replace(ocean_sink_estimate, "_", " ")) %>% 
+  ggplot() +
+  geom_line(aes(year, net_land_sink, col = ocean_sink_estimate, linetype = "residual")) +
+  geom_line(data = estimates_wide %>%
+              filter(year >= 1990),
+            aes(year, `net land sink`, linetype = "reported")) +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_linetype_manual(values = c(2, 1), name = "net land sink\nestimate") +
+  scale_color_brewer(palette = "Set1",
+                     name = "ocean sink\nestimate\nunderlying\nresidual") +
+  guides(linetype = guide_legend(order = 1),
+         color = guide_legend(order = 2)) +
+  labs(y = flux_label,
+       title = "Net land sink estimates",
+       subtitle = "Note: Residuals are determined for a range of ocean sink estimates") +
+  theme(axis.title.x = element_blank())
+
+p_land_sink_residual
+
+land_sink <-
+  full_join(
+    land_sink,
+    estimates_wide %>%
+      select(year, net_land_sink_reported = `net land sink`)
+  )
+
+
+p_land_sink_residual_delta <- land_sink %>%
+  mutate(ocean_sink_estimate =
+           str_replace(ocean_sink_estimate, "_", " ")) %>%
+  ggplot() +
+  geom_hline(yintercept = 0) +
+  geom_line(aes(year, net_land_sink - net_land_sink_reported, col = ocean_sink_estimate)) +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_color_brewer(palette = "Set1",
+                     name = "ocean sink\nestimate\nunderlying\nresidual") +
+  labs(y = flux_label,
+       title = "Let land sink estimates (reported - residual)",
+       subtitle = "Note: Residuals are determined for a range of ocean sink estimates") +
+  theme(axis.title.x = element_blank())
+
+p_land_sink_residual_delta
+
+p_land_sink_residual_decade <- land_sink %>%
+  mutate(period = cut(year, c(1993, 2003, 2013),
+                      c("1994 - 2004", "2004 - 2014"))) %>%
+  filter(!is.na(period)) %>%
+  group_by(ocean_sink_estimate, period) %>%
+  summarise(across(starts_with("net_land_sink"), list(mean = mean, sd = sd))) %>%
+  ungroup() %>%
+  mutate(ocean_sink_estimate =
+           str_replace(ocean_sink_estimate, "_", " ")) %>%
+  ggplot() +
+  geom_pointrange(
+    aes(
+      period,
+      net_land_sink_reported_mean,
+      ymin = net_land_sink_reported_mean - net_land_sink_reported_sd,
+      ymax = net_land_sink_reported_mean + net_land_sink_reported_sd,
+      shape = "reported"
+    ),
+    position = position_dodge2(width = 0.6)
+  ) +
+  geom_pointrange(
+    aes(
+      period,
+      net_land_sink_mean,
+      ymin = net_land_sink_mean - net_land_sink_sd,
+      ymax = net_land_sink_mean + net_land_sink_sd,
+      col = ocean_sink_estimate,
+      shape = "residual"
+    ),
+    position = position_dodge2(width = 0.5)
+  ) +
+  scale_color_brewer(palette = "Set1",
+                     name = "ocean sink\nestimate\nunderlying\nresidual") +
+  scale_shape_manual(values = c(17, 16), name = "land sink\nestimate") +
+  guides(shape = guide_legend(order = 1),
+         color = guide_legend(order = 2)) +
+  theme(axis.title.x = element_blank()) +
+  labs(y = flux_label,
+       title = "Decadal mean land sink estimates",
+       subtitle = "Note: Errorbars indicate the StDev of the IAV") +
+  theme(axis.title.x = element_blank())
+
+p_land_sink_residual_decade
+
+pdf(
+  file = here::here("output/publication/GCB_net_land_sink_residual.pdf"),
+  height = 6,
+  width = 9
+)
+
+p_stacked_fluxes
+p_individual_fluxes
+p_BIM
+p_land_sink_gcb
+p_ocean_sinks
+p_land_sink_residual
+p_land_sink_residual_delta
+p_land_sink_residual_decade
+
+dev.off()
+
+rm(
+  p_stacked_fluxes,
+  p_individual_fluxes,
+  p_BIM,
+  p_land_sink_gcb,
+  p_ocean_sinks,
+  p_land_sink_residual,
+  p_land_sink_residual_delta,
+  p_land_sink_residual_decade,
+  estimates,
+  estimates_wide,
+  land_sink,
+  Ocean_Sink_annual_mean,
+  flux_components,
+  flux_label,
+  emission_components,
+  sink_components
+)
 
 ```
 
