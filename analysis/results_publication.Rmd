@@ -578,7 +578,7 @@ dcant_budget_basin_MLR_bias_all_decomposition <- dcant_budget_basin_MLR_bias_all
 ```{r read_inventory_files_ensemble}
 
 for (i_Version_IDs in Version_IDs_ensemble) {
-  # i_Version_IDs <- Version_IDs[1]
+  # i_Version_IDs <- Version_IDs_ensemble[19]
   
   path_version_data     <-
     paste(path_observations,
@@ -592,6 +592,9 @@ for (i_Version_IDs in Version_IDs_ensemble) {
     read_csv(paste(path_version_data,
                    "dcant_inv.csv",
                    sep = ""))
+  
+  p_map_cant_inv(dcant_inv %>% filter(data_source == "obs"))
+  
   
   dcant_inv_mod_truth <-
     read_csv(paste(path_version_data,
@@ -1362,8 +1365,11 @@ coverage_map <- map +
             aes(lon, lat, fill = tco2, col = tco2,
                 height = 2, width = 2)) +
   facet_wrap( ~ era, ncol = 1) +
-  scale_fill_viridis_c(name = expression(DIC~(µmol~kg^{-1}))) +
+  scale_fill_viridis_c(name = expression(
+    atop(DIC~at~"500m",(µmol~kg^{-1})))) +
   scale_color_viridis_c(guide = "none") +
+  labs(title = "Observations",
+       subtitle = "Decadal coverage") +
   theme(axis.text = element_blank(),
         axis.ticks = element_blank(),
         legend.position = "bottom")
@@ -1373,7 +1379,7 @@ coverage_map
 ggsave(plot = coverage_map,
        path = here::here("output/presentation"),
        filename = "Fig_observations_coverage_map_dic.png",
-       height = 6,
+       height = 7,
        width = 4)
 
 rm(coverage_map, 
@@ -3784,7 +3790,7 @@ dcant_budget_basin_MLR_all_no_adj <- dcant_budget_basin_MLR_all_no_adj %>%
 ```
 
 
-```{r dcant_budget_stats}
+```{r dcant_budget_stats_ensemble_SD}
 
 
 dcant_budget_ensemble_stat <-
@@ -3866,6 +3872,145 @@ dcant_budget_ensemble_significance %>%
   scale_y_log10() +
   scale_color_brewer(palette = "Dark2") +
   facet_grid(. ~ estimate)
+
+```
+
+```{r dcant_budget_stats_basin_SD_plus_sensitivity_cases}
+
+
+dcant_budget_ensemble_stat_basin_SD <-
+  dcant_budget_basin_MLR_all_ensemble %>%
+  filter(data_source == "obs",
+         period != "1994 - 2014") %>%
+  group_by(period, basin, Version_ID_group) %>%
+  summarise(median = median(dcant),
+            sd = sd(dcant),
+            n = n()) %>%
+  ungroup() 
+
+dcant_budget_ensemble_stat_basin_SD %>% 
+  ggplot(aes(period, sd, fill = Version_ID_group)) +
+  geom_col(position = "dodge", col = "black") +
+  scale_fill_bright(name = "Configuration") +
+  labs(y = "SD (PgC)",
+       title = "Standard deviation across regional clusterings schemes",
+       subtitle = "Note: Only the SD of bulk adjustment cases will be used, but all configurations are shown") +
+  theme(axis.title.x = element_blank()) +
+  scale_y_continuous(expand = c(0,0)) +
+  facet_wrap(~basin)
+
+ggsave(path = here::here("output/publication"),
+       filename = "FigS_dcant_inventory_additive_uncertainty_regional_clustering_contributions.png",
+       height = 6,
+       width = 8)
+
+dcant_budget_ensemble_stat_basin_SD <-
+  dcant_budget_ensemble_stat_basin_SD %>%
+  filter(Version_ID_group == "Bulk adjustment") %>%
+  select(-Version_ID_group)
+
+dcant_budget_ensemble_stat_sensitvity_cases <-
+  dcant_budget_basin_MLR_all_ensemble %>%
+  filter(data_source == "obs",
+         period != "1994 - 2014") %>%
+  select(basin, dcant, period, MLR_basins, Version_ID_group) %>%
+  pivot_wider(names_from = Version_ID_group,
+              values_from = dcant) %>%
+  pivot_longer(
+    `Reoccupation filter`:`Surface eMLR(C*)`,
+    names_to = "Version_ID_group",
+    values_to = "dcant"
+  ) %>% 
+  mutate(delta_dcant = `Bulk adjustment` - dcant)
+
+dcant_budget_ensemble_stat_sensitvity_cases %>% 
+  ggplot(aes(period, delta_dcant, fill = MLR_basins)) +
+  geom_hline(yintercept = 0) +
+  geom_col(position = "dodge", col = "black") +
+  scale_fill_bright(name = "Regional clustering") +
+  labs(y = "Offset (PgC)",
+       title = "Inventory offset compared to standard configuration",
+       subtitle = "Note: Only regional clustering scheme 3 will be used, but all options are shown") +
+  theme(axis.title.x = element_blank()) +
+  scale_y_continuous(expand = c(0,0)) +
+  facet_grid(Version_ID_group~basin)
+
+
+ggsave(path = here::here("output/publication"),
+       filename = "FigS_dcant_inventory_additive_uncertainty_configuration_contributions.png",
+       height = 9,
+       width = 12)
+
+
+dcant_budget_ensemble_stat_sensitvity_cases <-
+  dcant_budget_ensemble_stat_sensitvity_cases %>%
+  filter(MLR_basins == "3") %>%
+  select(period, basin, Version_ID_group, sd = delta_dcant)
+
+dcant_budget_ensemble_stat_factorial <-
+  bind_rows(
+    dcant_budget_ensemble_stat_basin_SD %>% mutate(type = "regional clustering",
+                                                   Version_ID_group = "Bulk adjustment"),
+    dcant_budget_ensemble_stat_sensitvity_cases  %>% mutate(type = "configuration")
+  )
+
+library(ggpattern)
+
+dcant_budget_ensemble_stat_factorial %>%
+  ggplot(aes(period, sd ^ 2, pattern = type, fill = Version_ID_group)) +
+  geom_col_pattern(
+    position = position_dodge(preserve = "single"),
+    color = "black",
+    pattern_fill = "black",
+    pattern_angle = 45,
+    pattern_density = 0.1,
+    pattern_spacing = 0.025,
+    pattern_key_scale_factor = 0.6
+  ) +
+  scale_fill_bright(name = "Configuration") +
+  scale_pattern_manual(
+    values = c(`regional clustering` = "stripe", configuration = "none"),
+    name = "Uncertainty\ncontribution"
+  ) +
+  labs(
+    y = expression("Squared uncertainty contribution (PgC" ^ 2 * ")"),
+    title = "Uncertainty contributions from configuration and regional clustering",
+    subtitle = "Note: Regional clustering contribution is based on bulk adjustment cases\nconfiguration changes are evaluated for the regional clustering scheme 3"
+  ) +
+  theme(axis.title.x = element_blank()) +
+  guides(pattern = guide_legend(override.aes = list(fill = "white")),
+         fill = guide_legend(override.aes = list(pattern = "none"))) +
+  scale_y_continuous(
+    expand = c(0, 0),
+    trans = "sqrt",
+    breaks = c(0, 1, 5, 10, 20)
+  ) +
+  facet_wrap(~ basin)
+  
+
+
+ggsave(path = here::here("output/publication"),
+       filename = "FigS_dcant_inventory_additive_uncertainty_combined_contributions.png",
+       height = 6,
+       width = 9) 
+  
+dcant_budget_ensemble_stat_factorial <-
+  dcant_budget_ensemble_stat_factorial %>% 
+  group_by(basin, period) %>% 
+  summarise(sd = sqrt(sum(sd^2))) %>% 
+  ungroup()
+
+dcant_budget_ensemble_stat_factorial <-
+  full_join(
+    dcant_budget_ensemble_stat_factorial,
+    dcant_budget_basin_MLR_all_ensemble %>%
+        filter(Version_ID %in% Version_IDs,
+               data_source == "obs",
+               period != "1994 - 2014") %>%
+        select(period,
+               basin,
+               std_case = dcant)
+  )
 
 ```
 
@@ -4319,10 +4464,100 @@ dcant_budget_basin_MLR_all_ensemble %>%
 
 
 ggsave(path = here::here("output/publication"),
-       filename = "Fig_dcant_budgets_ensemble_member.png",
+       filename = "Fig_dcant_inventory_ensemble_uncertainty.png",
        height = 6,
        width = 8)
 
+dcant_budget_basin_MLR_all_ensemble %>%
+  filter(data_source == "obs",
+         period != "1994 - 2014",
+         !(Version_ID %in% Version_IDs),
+         MLR_basins == "3") %>%
+  ggplot(aes(period, dcant)) +
+  geom_errorbar(
+    data = tcant_budget_basin_MLR,
+    aes(x = period,
+        ymax = dcant, ymin = dcant,
+        col = "Scaled 1994\nestimate"),
+    width = 0.8,
+    size = 1,
+    linetype = 1,
+    position = position_nudge(x = 0.05)
+  ) +
+  geom_jitter(
+    data = dcant_budget_basin_MLR_all_ensemble %>%
+      filter(data_source == "obs",
+             period != "1994 - 2014",
+             Version_ID_group == "Bulk adjustment"),
+    aes(fill = "Regional clustering",
+        alpha = "Regional clustering"),
+    shape = 21,
+    position = position_jitter(width = 0.1, height = 0)
+  ) +
+  geom_point(
+    aes(fill = "Configuration changes",
+        alpha = "Configuration changes"),
+    shape = 21,
+    position = position_jitter(width = 0.1, height = 0)
+  ) +
+  geom_crossbar(
+    data = dcant_budget_ensemble_stat_factorial,
+    aes(
+      x = period,
+      y = std_case,
+      ymin = std_case - 2*sd,
+      ymax = std_case + 2*sd,
+      linetype = "Combined uncertainty"
+    ),
+    width = 0.1,
+    fill = "#BBBBBB",
+    alpha = 0.2,
+    position = position_nudge(x = 0.2)
+  ) +
+  geom_crossbar(
+    data = dcant_budget_ensemble_stat_factorial,
+    aes(
+      x = period,
+      y = std_case,
+      ymin = std_case - sd,
+      ymax = std_case + sd,
+      alpha = "Combined uncertainty",
+    ),
+    width = 0.1,
+    fill = "#BBBBBB",
+    alpha = 0.4,
+    position = position_nudge(x = 0.2)
+  ) +
+  geom_point(
+    data = dcant_budget_ensemble_stat,
+    aes(x = period,
+        y = std_case,
+        fill = "Standard case",
+        alpha = "Standard case"),
+    size = 2,
+    shape = 21,
+    position = position_nudge(x = 0.2)
+  ) +
+  scale_fill_manual(name = "group", values = c("#BB5566", "#004488", "white")) +
+  scale_color_manual(values = c("grey50"), label = expression(Scaled~C[ant]~1994)) +
+  scale_linetype(name = "X") +
+  scale_alpha_manual(name = "group", values = c(0.7,0.7,1)) +
+  scale_shape_manual(values = 95) +
+  scale_y_continuous(name = dcant_pgc_label) +
+  guides(
+    fill = guide_legend(order = 1),
+    linetype = guide_legend(order = 2),
+    alpha = guide_legend(order = 1)
+  ) +
+  facet_wrap(~ basin, ncol = 3, dir = "v", scales = "free_y") +
+  theme(legend.title = element_blank(),
+        axis.title.x = element_blank())
+
+
+ggsave(path = here::here("output/publication"),
+       filename = "Fig_dcant_inventory_additive_uncertainty.png",
+       height = 6,
+       width = 8)
 
 
 dcant_budget_basin_MLR_all_ensemble %>%
