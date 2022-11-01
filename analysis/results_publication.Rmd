@@ -318,6 +318,187 @@ params_local <-
 ```
 
 
+## eMLR stats
+
+```{r read_eMLR_stats}
+
+for (i_Version_IDs in Version_IDs_ensemble) {
+  # i_Version_IDs <- Version_IDs[1]
+  
+  path_version_data     <-
+    paste(path_observations,
+          i_Version_IDs,
+          "/data/",
+          sep = "")
+  
+  # load and join data files
+  
+  # Model performance: RMSE, n_predictors, VIF
+  GLODAP_glanced <-
+    read_csv(paste(path_version_data,
+                   "lm_model_metrics.csv",
+                   sep = ""))
+  
+  GLODAP_glanced <- GLODAP_glanced %>%
+    mutate(Version_ID = i_Version_IDs)
+  
+  if (exists("GLODAP_glanced_all")) {
+    GLODAP_glanced_all <-
+      bind_rows(GLODAP_glanced_all, GLODAP_glanced)
+  }
+  
+  if (!exists("GLODAP_glanced_all")) {
+    GLODAP_glanced_all <- GLODAP_glanced
+  }
+  
+  # The chosen models
+  lm_best_target <-
+    read_csv(paste(path_version_data,
+                   "lm_best_target.csv",
+                   sep = ""))
+  
+  lm_best_target <- lm_best_target %>%
+    mutate(Version_ID = i_Version_IDs)
+  
+  if (exists("lm_best_target_all")) {
+    lm_best_target_all <-
+      bind_rows(lm_best_target_all, lm_best_target)
+  }
+  
+  if (!exists("lm_best_target_all")) {
+    lm_best_target_all <- lm_best_target
+  }
+  
+  lm_best_predictor_counts <-
+    read_csv(paste(path_version_data,
+                   "lm_best_predictor_counts.csv",
+                   sep = ""))
+  
+  lm_best_predictor_counts <- lm_best_predictor_counts %>%
+    mutate(Version_ID = i_Version_IDs)
+  
+  if (exists("lm_best_predictor_counts_all")) {
+    lm_best_predictor_counts_all <-
+      bind_rows(lm_best_predictor_counts_all, lm_best_predictor_counts)
+  }
+  
+  if (!exists("lm_best_predictor_counts_all")) {
+    lm_best_predictor_counts_all <- lm_best_predictor_counts
+  }
+  
+  lat_residual <-
+    read_csv(paste(path_version_data,
+                   "lm_lat_residual.csv",
+                   sep = ""))
+  
+  lat_residual <- lat_residual %>%
+    mutate(Version_ID = i_Version_IDs)
+  
+  if (exists("lat_residual_all")) {
+    lat_residual_all <-
+      bind_rows(lat_residual_all, lat_residual)
+  }
+  
+  if (!exists("lat_residual_all")) {
+    lat_residual_all <- lat_residual
+  }
+  
+  lat_residual_offset <-
+    read_csv(paste(path_version_data,
+                   "lm_lat_residual_offset.csv",
+                   sep = ""))
+  
+  lat_residual_offset <- lat_residual_offset %>%
+    mutate(Version_ID = i_Version_IDs)
+  
+  if (exists("lat_residual_offset_all")) {
+    lat_residual_offset_all <-
+      bind_rows(lat_residual_offset_all, lat_residual_offset)
+  }
+  
+  if (!exists("lat_residual_offset_all")) {
+    lat_residual_offset_all <- lat_residual_offset
+  }
+  
+  
+
+  
+}
+
+rm(GLODAP_glanced,
+   lat_residual,
+   lat_residual_offset,
+   lm_best_predictor_counts,
+   lm_best_target)
+   
+```
+
+
+```{r join_MLR_stats_and_meta_data, include=FALSE}
+
+
+GLODAP_glanced_all <- full_join(GLODAP_glanced_all,
+                                params_local_all_ensemble)
+
+# GLODAP_glanced_all %>% distinct(basin)
+
+lm_best_predictor_counts_all <-
+  full_join(lm_best_predictor_counts_all,
+            params_local_all_ensemble)
+
+lm_best_target_all <- full_join(lm_best_target_all,
+                                params_local_all_ensemble)
+
+lat_residual_all <- full_join(lat_residual_all,
+                              params_local_all_ensemble)
+
+lat_residual_offset_all <- full_join(lat_residual_offset_all,
+                                     params_local_all_ensemble)
+
+```
+
+
+```{r r distuinguish_standard_case_and_ensemble_MLR_stats, include=FALSE}
+
+
+GLODAP_glanced_all_ensemble <- GLODAP_glanced_all %>% 
+  filter(!(Version_ID %in% Version_IDs_d))
+
+GLODAP_glanced_all <- GLODAP_glanced_all %>%
+  filter(Version_ID %in% Version_IDs)
+
+
+lm_best_predictor_counts_all_ensemble <- lm_best_predictor_counts_all %>% 
+  filter(!(Version_ID %in% Version_IDs_d))
+
+lm_best_predictor_counts_all <- lm_best_predictor_counts_all %>%
+  filter(Version_ID %in% Version_IDs)
+
+
+lm_best_target_all_ensemble <- lm_best_target_all %>% 
+  filter(!(Version_ID %in% Version_IDs_d))
+
+lm_best_target_all <- lm_best_target_all %>%
+  filter(Version_ID %in% Version_IDs)
+
+
+lat_residual_all_ensemble <- lat_residual_all %>% 
+  filter(!(Version_ID %in% Version_IDs_d))
+
+lat_residual_all <- lat_residual_all %>%
+  filter(Version_ID %in% Version_IDs)
+
+
+lat_residual_offset_all_ensemble <- lat_residual_offset_all %>% 
+  filter(!(Version_ID %in% Version_IDs_d))
+
+lat_residual_offset_all <- lat_residual_offset_all %>%
+  filter(Version_ID %in% Version_IDs)
+
+```
+
+
+
 ## Budgets
 
 ```{r read_budget_files_global_ensemble}
@@ -1477,6 +1658,201 @@ dcant_scaling <- 1.02*1.015*1.01*1.02
 
 ```
 
+# eMLR stats
+
+## Predictor selection
+
+```{r predictors}
+
+lm_best_predictor_counts_all_ensemble %>% 
+  filter(period %in% two_decades,
+         data_source == "obs") %>% 
+  pivot_longer(aou:temp,
+               names_to = "predictor",
+               values_to = "count") %>% 
+  # mutate(count = as.factor(count)) %>% 
+  group_by(predictor, count, period, Version_ID_group) %>% 
+  summarise(n = n()) %>% 
+  ungroup() %>% 
+  ggplot(aes(x = count, y = n)) +
+  scale_color_manual(values = c("#EE7733", "#009988"), name = "Decade") +
+  scale_fill_manual(values = c("#EE7733", "#009988"), name = "Decade") +
+  geom_path(aes(col = period)) +
+    geom_point(aes(fill = period), shape = 21) +
+  coord_flip() +
+  scale_x_continuous(breaks = seq(0,10,2),
+                     limits = c(0,10),
+                     name = "Presence among 10 best models") +
+  labs(y = "Counts across density slabs, regional clusters and basins") +
+  facet_grid(Version_ID_group~predictor)
+
+```
+
+## Residual distribution
+
+```{r residual_latitude}
+
+lat_residual_all_ensemble %>%
+  filter(data_source == "obs",
+         period %in% two_decades) %>%
+  ggplot(aes(
+    .resid_mean,
+    lat_grid,
+    col = era,
+    group = interaction(basin, era, gamma_slab, Version_ID)
+  )) +
+  geom_vline(xintercept = 0) +
+  # geom_point() +
+  geom_path(alpha = 0.1) +
+  facet_grid(. ~ period)
+
+lat_residual_all_ensemble %>%
+  filter(data_source == "obs",
+         period %in% two_decades) %>%
+  select(-c(Version_ID, tref1, tref2)) %>% 
+  mutate(sampling_period = if_else(period == "2004 - 2014" & 
+                                     era == "2000-2009",
+                                   "first",
+                                   "second"),
+         sampling_period = if_else(period == "1994 - 2004" & 
+                                     era == "1989-1999",
+                                   "first",
+                                   sampling_period)) %>% 
+  select(-era) %>% 
+  pivot_wider(names_from = sampling_period,
+              values_from = .resid_mean) %>% 
+  ggplot(aes(first, second)) +
+  geom_vline(xintercept = 0) +
+  geom_hline(yintercept = 0) +
+  geom_bin2d(binwidth = 1) +
+  geom_abline(slope = 1, col = "red") +
+  scale_fill_viridis_c(trans = "log10") +
+  coord_fixed(ylim = c(-15, 15),
+              xlim = c(-15, 15)) +
+  labs(
+    y = "First sampling period\nmean MLR residual in 5° latitude bin (µmol/kg)",
+    x = "Second sampling period\nmean MLR residual in 5° latitude bin (µmol/kg)"
+    ) +
+  facet_wrap(~period)
+
+lat_residual_all_ensemble_mean <- lat_residual_all_ensemble %>%
+  filter(data_source == "obs",
+         period %in% two_decades) %>% 
+  group_by(period, era, lat_grid) %>% 
+  summarise(residual_mean = mean(abs(.resid_mean)),
+            residual_sd = sd(.resid_mean),
+            residual_iqr = IQR(.resid_mean)) %>% 
+  ungroup()
+
+lat_residual_offset_all_ensemble_mean <- lat_residual_offset_all_ensemble %>%
+  filter(data_source == "obs",
+         period %in% two_decades) %>% 
+  group_by(period, lat_grid) %>% 
+  summarise(residual_mean = mean(abs(.resid_mean_offset)),
+            residual_sd = sd(.resid_mean_offset),
+            residual_iqr = IQR(.resid_mean)) %>% 
+  ungroup()
+
+p_residual_lat <- 
+ggplot() +
+  geom_vline(xintercept = 0) +
+  geom_ribbon(
+    data = lat_residual_all_ensemble_mean,
+    aes(
+      xmin = residual_mean - residual_iqr,
+      xmax = residual_mean + residual_iqr,
+      y = lat_grid,
+      fill = era
+    ),
+    alpha = 0.3
+  ) +
+  geom_path(data = lat_residual_all_ensemble_mean,
+            aes(residual_mean,
+                lat_grid,
+                col = era)) +
+  scale_fill_highcontrast() +
+  scale_color_highcontrast() +
+  coord_cartesian(xlim = c(-3,7)) +
+  facet_grid(. ~ period)
+
+
+p_residual_lat_offset <- 
+ggplot() +
+  geom_vline(xintercept = 0) +
+  geom_ribbon(
+    data = lat_residual_offset_all_ensemble_mean,
+    aes(
+      xmin = residual_mean - residual_iqr,
+      xmax = residual_mean + residual_iqr,
+      y = lat_grid
+    ),
+    alpha = 0.3
+  ) +
+  geom_path(data = lat_residual_offset_all_ensemble_mean,
+            aes(residual_mean,
+                lat_grid)) +
+  coord_cartesian(xlim = c(-3,7)) +
+  facet_grid(. ~ period)
+
+p_residual_lat / p_residual_lat_offset
+rm(p_residual_lat, p_residual_lat_offset)
+
+
+p_residual_lat <-
+ggplot() +
+  geom_vline(xintercept = 0) +
+  geom_path(data = lat_residual_all %>% 
+              filter(data_source == "obs",
+                     period %in% two_decades,
+                     gamma_slab %in% params_local$plot_slabs[2]),
+            aes(.resid_mean,
+                lat_grid,
+                col = era)) +
+  scale_fill_highcontrast() +
+  scale_color_highcontrast() +
+  coord_cartesian(xlim = c(-3,7)) +
+  facet_grid(basin ~ period)
+
+p_residual_lat_offset <-
+ggplot() +
+  geom_vline(xintercept = 0) +
+  geom_path(data = lat_residual_offset_all %>% 
+              filter(data_source == "obs",
+                     period %in% two_decades,
+                     gamma_slab %in% params_local$plot_slabs[2]),
+            aes(.resid_mean_offset,
+                lat_grid)) +
+  scale_fill_highcontrast() +
+  scale_color_highcontrast() +
+  coord_cartesian(xlim = c(-3,7)) +
+  facet_grid(basin ~ period)
+
+
+p_residual_lat / p_residual_lat_offset
+rm(p_residual_lat, p_residual_lat_offset)
+
+lat_residual_offset_all_ensemble %>% 
+  ggplot(aes(.resid_mean, .resid_mean_offset)) +
+  geom_bin_2d() +
+  scale_fill_viridis_c(trans = "log10")
+
+lat_residual_offset_all_ensemble %>%
+  pivot_longer(starts_with(".resid"),
+               names_to = "type",
+               values_to = "residual") %>%
+  ggplot(aes(residual, fill = type, col = type)) +
+  coord_cartesian(xlim = c(-5,5)) +
+  geom_density(alpha = 0.5)
+
+
+left_join(lm_best_target_all,
+          GLODAP_glanced_all) %>% 
+  summarise(mean_rmse = mean(rmse),
+            sd_rmse = sd(rmse))
+
+
+```
+
 
 
 
@@ -1866,6 +2242,32 @@ ggsave(path = here::here("output/publication"),
        width = 8)
 
 rm(p_CI_absolute_mod_delta, p_CI_bias_delta)
+
+p_CI_bias_delta_delta <-
+  dcant_inv_all %>%
+  filter(period %in% two_decades,
+         data_source != "obs") %>%
+  select(data_source, lon, lat, basin_AIP, period, dcant) %>%
+  pivot_wider(names_from = period,
+              values_from = dcant) %>%
+  mutate(dcant_offset = `2004 - 2014` - `1994 - 2004`,
+         period = "Decadal offset") %>%
+  select(lon, lat, data_source, dcant_offset) %>% 
+  pivot_wider(names_from = data_source,
+              values_from = dcant_offset) %>% 
+  mutate(delta_dcant_bias = mod - mod_truth) %>% 
+  p_map_cant_inv(
+    var = "delta_dcant_bias",
+    title_text = NULL,
+    subtitle_text = NULL,
+    col = "bias"
+  )
+# theme(strip.text.x = element_blank(),
+#       strip.background.x = element_blank())
+
+p_CI_bias_delta_delta
+
+rm(p_CI_bias_delta_delta)
 
 ```
 
