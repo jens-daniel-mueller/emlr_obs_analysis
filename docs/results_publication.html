@@ -666,7 +666,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Results publication</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">31 October, 2022</h4>
+<h4 class="date">01 November, 2022</h4>
 
 </div>
 
@@ -695,7 +695,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-10-31
+<strong>Last updated:</strong> 2022-11-01
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -827,15 +827,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeecb84c18783853e7c1354692e93d28d5875f2423targetblankecb84c1a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreec972beb23de505a3a403e2ac2b10becc64adae90targetblankc972beba">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/ecb84c18783853e7c1354692e93d28d5875f2423" target="_blank">ecb84c1</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/c972beb23de505a3a403e2ac2b10becc64adae90" target="_blank">c972beb</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeecb84c18783853e7c1354692e93d28d5875f2423targetblankecb84c1a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreec972beb23de505a3a403e2ac2b10becc64adae90targetblankc972beba"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -845,7 +845,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/ecb84c18783853e7c1354692e93d28d5875f2423" target="_blank">ecb84c1</a>.
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/c972beb23de505a3a403e2ac2b10becc64adae90" target="_blank">c972beb</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -920,6 +920,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/c972beb23de505a3a403e2ac2b10becc64adae90/analysis/results_publication.Rmd" target="_blank">c972beb</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-01
+</td>
+<td>
+updated reoccupation run
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/results_publication.html" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -6330,8 +6364,119 @@ params_local &lt;-
                  &quot;params_local.rds&quot;,
                  sep = &quot;&quot;))</code></pre>
 </div>
-<div id="budgets" class="section level2" number="2.4">
-<h2><span class="header-section-number">2.4</span> Budgets</h2>
+<div id="emlr-stats" class="section level2" number="2.4">
+<h2><span class="header-section-number">2.4</span> eMLR stats</h2>
+<pre class="r"><code>for (i_Version_IDs in Version_IDs_ensemble) {
+  # i_Version_IDs &lt;- Version_IDs[1]
+  
+  path_version_data     &lt;-
+    paste(path_observations,
+          i_Version_IDs,
+          &quot;/data/&quot;,
+          sep = &quot;&quot;)
+  
+  # load and join data files
+  
+  # Model performance: RMSE, n_predictors, VIF
+  GLODAP_glanced &lt;-
+    read_csv(paste(path_version_data,
+                   &quot;lm_model_metrics.csv&quot;,
+                   sep = &quot;&quot;))
+  
+  GLODAP_glanced &lt;- GLODAP_glanced %&gt;%
+    mutate(Version_ID = i_Version_IDs)
+  
+  if (exists(&quot;GLODAP_glanced_all&quot;)) {
+    GLODAP_glanced_all &lt;-
+      bind_rows(GLODAP_glanced_all, GLODAP_glanced)
+  }
+  
+  if (!exists(&quot;GLODAP_glanced_all&quot;)) {
+    GLODAP_glanced_all &lt;- GLODAP_glanced
+  }
+  
+  # The chosen models
+  lm_best_target &lt;-
+    read_csv(paste(path_version_data,
+                   &quot;lm_best_target.csv&quot;,
+                   sep = &quot;&quot;))
+  
+  lm_best_target &lt;- lm_best_target %&gt;%
+    mutate(Version_ID = i_Version_IDs)
+  
+  if (exists(&quot;lm_best_target_all&quot;)) {
+    lm_best_target_all &lt;-
+      bind_rows(lm_best_target_all, lm_best_target)
+  }
+  
+  if (!exists(&quot;lm_best_target_all&quot;)) {
+    lm_best_target_all &lt;- lm_best_target
+  }
+  
+  lm_best_predictor_counts &lt;-
+    read_csv(paste(path_version_data,
+                   &quot;lm_best_predictor_counts.csv&quot;,
+                   sep = &quot;&quot;))
+  
+  lm_best_predictor_counts &lt;- lm_best_predictor_counts %&gt;%
+    mutate(Version_ID = i_Version_IDs)
+  
+  if (exists(&quot;lm_best_predictor_counts_all&quot;)) {
+    lm_best_predictor_counts_all &lt;-
+      bind_rows(lm_best_predictor_counts_all, lm_best_predictor_counts)
+  }
+  
+  if (!exists(&quot;lm_best_predictor_counts_all&quot;)) {
+    lm_best_predictor_counts_all &lt;- lm_best_predictor_counts
+  }
+  
+  lat_residual &lt;-
+    read_csv(paste(path_version_data,
+                   &quot;lm_lat_residual.csv&quot;,
+                   sep = &quot;&quot;))
+  
+  lat_residual &lt;- lat_residual %&gt;%
+    mutate(Version_ID = i_Version_IDs)
+  
+  if (exists(&quot;lat_residual_all&quot;)) {
+    lat_residual_all &lt;-
+      bind_rows(lat_residual_all, lat_residual)
+  }
+  
+  if (!exists(&quot;lat_residual_all&quot;)) {
+    lat_residual_all &lt;- lat_residual
+  }
+  
+  lat_residual_offset &lt;-
+    read_csv(paste(path_version_data,
+                   &quot;lm_lat_residual_offset.csv&quot;,
+                   sep = &quot;&quot;))
+  
+  lat_residual_offset &lt;- lat_residual_offset %&gt;%
+    mutate(Version_ID = i_Version_IDs)
+  
+  if (exists(&quot;lat_residual_offset_all&quot;)) {
+    lat_residual_offset_all &lt;-
+      bind_rows(lat_residual_offset_all, lat_residual_offset)
+  }
+  
+  if (!exists(&quot;lat_residual_offset_all&quot;)) {
+    lat_residual_offset_all &lt;- lat_residual_offset
+  }
+  
+  
+
+  
+}
+
+rm(GLODAP_glanced,
+   lat_residual,
+   lat_residual_offset,
+   lm_best_predictor_counts,
+   lm_best_target)</code></pre>
+</div>
+<div id="budgets" class="section level2" number="2.5">
+<h2><span class="header-section-number">2.5</span> Budgets</h2>
 <pre class="r"><code>for (i_Version_IDs in Version_IDs_ensemble) {
   # i_Version_IDs &lt;- Version_IDs[1]
   
@@ -6476,8 +6621,8 @@ dcant_budget_basin_MLR_bias_all_decomposition &lt;-
   dcant_budget_basin_MLR_bias_all_decomposition %&gt;%
   filter(inv_depth == params_global$inventory_depth_standard)</code></pre>
 </div>
-<div id="column-inventories" class="section level2" number="2.5">
-<h2><span class="header-section-number">2.5</span> Column
+<div id="column-inventories" class="section level2" number="2.6">
+<h2><span class="header-section-number">2.6</span> Column
 inventories</h2>
 <pre class="r"><code>for (i_Version_IDs in Version_IDs_ensemble) {
   # i_Version_IDs &lt;- Version_IDs_ensemble[19]
@@ -6589,8 +6734,8 @@ dcant_budget_lon_grid_all &lt;- dcant_budget_lon_grid_all %&gt;%
   select(lon, lat, dcant) %&gt;% 
   write_csv(here::here(&quot;output/dcant_column_inventor_example.csv&quot;))</code></pre>
 </div>
-<div id="sections-profiles" class="section level2" number="2.6">
-<h2><span class="header-section-number">2.6</span> Sections /
+<div id="sections-profiles" class="section level2" number="2.7">
+<h2><span class="header-section-number">2.7</span> Sections /
 profiles</h2>
 <pre class="r"><code>for (i_Version_IDs in Version_IDs_ensemble) {
 
@@ -6789,8 +6934,8 @@ rm(dcant_zonal, dcant_global_section, dcant_zonal_bias, dcant_zonal_mod_truth,
    dcant_budget_basin_AIP_layer, dcant_budget_basin_MLR_layer,
    dcant_profile, dcant_profile_basin_MLR, dcant_penetration_depth_all_lat_mean)</code></pre>
 </div>
-<div id="observations-coverage" class="section level2" number="2.7">
-<h2><span class="header-section-number">2.7</span> Observations
+<div id="observations-coverage" class="section level2" number="2.8">
+<h2><span class="header-section-number">2.8</span> Observations
 coverage</h2>
 <pre class="r"><code>for (i_Version_IDs in Version_IDs) {
   path_version_data     &lt;-
@@ -6866,8 +7011,8 @@ GLODAP_expocodes &lt;-
 GLODAP_all &lt;-
   left_join(GLODAP_all, GLODAP_expocodes)</code></pre>
 </div>
-<div id="atm-co2" class="section level2" number="2.8">
-<h2><span class="header-section-number">2.8</span> Atm CO2</h2>
+<div id="atm-co2" class="section level2" number="2.9">
+<h2><span class="header-section-number">2.9</span> Atm CO2</h2>
 <pre class="r"><code>co2_atm &lt;-
   read_csv(paste(path_preprocessing,
                  &quot;co2_atm.csv&quot;,
@@ -6878,8 +7023,8 @@ co2_atm_reccap2 &lt;-
                   &quot;co2_atm_reccap2.csv&quot;,
                   sep = &quot;&quot;))</code></pre>
 </div>
-<div id="sabine-total-cant" class="section level2" number="2.9">
-<h2><span class="header-section-number">2.9</span> Sabine total
+<div id="sabine-total-cant" class="section level2" number="2.10">
+<h2><span class="header-section-number">2.10</span> Sabine total
 Cant</h2>
 <pre class="r"><code>tcant_inv &lt;-
   read_csv(paste(path_preprocessing,
@@ -6892,8 +7037,8 @@ tcant_inv &lt;- tcant_inv %&gt;%
   mutate(tref1 = 1800,
          tref2 = 1994)</code></pre>
 </div>
-<div id="gcb-carbon-sink" class="section level2" number="2.10">
-<h2><span class="header-section-number">2.10</span> GCB carbon sink</h2>
+<div id="gcb-carbon-sink" class="section level2" number="2.11">
+<h2><span class="header-section-number">2.11</span> GCB carbon sink</h2>
 <pre class="r"><code>Ocean_Sink &lt;-
   read_csv(paste(path_preprocessing,
                   &quot;Ocean_Sink.csv&quot;,
@@ -6904,8 +7049,8 @@ Global_Carbon_Budget &lt;-
                   &quot;GCB_Global_Carbon_Budget.csv&quot;,
                   sep = &quot;&quot;))</code></pre>
 </div>
-<div id="periods" class="section level2" number="2.11">
-<h2><span class="header-section-number">2.11</span> Periods</h2>
+<div id="periods" class="section level2" number="2.12">
+<h2><span class="header-section-number">2.12</span> Periods</h2>
 <pre class="r"><code>two_decades &lt;- unique(params_local_all_ensemble$period)[1:2]</code></pre>
 </div>
 </div>
@@ -7283,8 +7428,203 @@ rm(co2_atm_roll)</code></pre>
 </ul>
 <pre class="r"><code>dcant_scaling &lt;- 1.02*1.015*1.01*1.02</code></pre>
 </div>
-<div id="inventory-maps" class="section level1" number="7">
-<h1><span class="header-section-number">7</span> Inventory maps</h1>
+<div id="emlr-stats-1" class="section level1" number="7">
+<h1><span class="header-section-number">7</span> eMLR stats</h1>
+<div id="predictor-selection" class="section level2" number="7.1">
+<h2><span class="header-section-number">7.1</span> Predictor
+selection</h2>
+<pre class="r"><code>lm_best_predictor_counts_all_ensemble %&gt;% 
+  filter(period %in% two_decades,
+         data_source == &quot;obs&quot;) %&gt;% 
+  pivot_longer(aou:temp,
+               names_to = &quot;predictor&quot;,
+               values_to = &quot;count&quot;) %&gt;% 
+  # mutate(count = as.factor(count)) %&gt;% 
+  group_by(predictor, count, period, Version_ID_group) %&gt;% 
+  summarise(n = n()) %&gt;% 
+  ungroup() %&gt;% 
+  ggplot(aes(x = count, y = n)) +
+  scale_color_manual(values = c(&quot;#EE7733&quot;, &quot;#009988&quot;), name = &quot;Decade&quot;) +
+  scale_fill_manual(values = c(&quot;#EE7733&quot;, &quot;#009988&quot;), name = &quot;Decade&quot;) +
+  geom_path(aes(col = period)) +
+    geom_point(aes(fill = period), shape = 21) +
+  coord_flip() +
+  scale_x_continuous(breaks = seq(0,10,2),
+                     limits = c(0,10),
+                     name = &quot;Presence among 10 best models&quot;) +
+  labs(y = &quot;Counts across density slabs, regional clusters and basins&quot;) +
+  facet_grid(Version_ID_group~predictor)</code></pre>
+<p><img src="figure/results_publication.Rmd/predictors-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="residual-distribution" class="section level2" number="7.2">
+<h2><span class="header-section-number">7.2</span> Residual
+distribution</h2>
+<pre class="r"><code>lat_residual_all_ensemble %&gt;%
+  filter(data_source == &quot;obs&quot;,
+         period %in% two_decades) %&gt;%
+  ggplot(aes(
+    .resid_mean,
+    lat_grid,
+    col = era,
+    group = interaction(basin, era, gamma_slab, Version_ID)
+  )) +
+  geom_vline(xintercept = 0) +
+  # geom_point() +
+  geom_path(alpha = 0.1) +
+  facet_grid(. ~ period)</code></pre>
+<p><img src="figure/results_publication.Rmd/residual_latitude-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>lat_residual_all_ensemble %&gt;%
+  filter(data_source == &quot;obs&quot;,
+         period %in% two_decades) %&gt;%
+  select(-c(Version_ID, tref1, tref2)) %&gt;% 
+  mutate(sampling_period = if_else(period == &quot;2004 - 2014&quot; &amp; 
+                                     era == &quot;2000-2009&quot;,
+                                   &quot;first&quot;,
+                                   &quot;second&quot;),
+         sampling_period = if_else(period == &quot;1994 - 2004&quot; &amp; 
+                                     era == &quot;1989-1999&quot;,
+                                   &quot;first&quot;,
+                                   sampling_period)) %&gt;% 
+  select(-era) %&gt;% 
+  pivot_wider(names_from = sampling_period,
+              values_from = .resid_mean) %&gt;% 
+  ggplot(aes(first, second)) +
+  geom_vline(xintercept = 0) +
+  geom_hline(yintercept = 0) +
+  geom_bin2d(binwidth = 1) +
+  geom_abline(slope = 1, col = &quot;red&quot;) +
+  scale_fill_viridis_c(trans = &quot;log10&quot;) +
+  coord_fixed(ylim = c(-15, 15),
+              xlim = c(-15, 15)) +
+  labs(
+    y = &quot;First sampling period\nmean MLR residual in 5° latitude bin (µmol/kg)&quot;,
+    x = &quot;Second sampling period\nmean MLR residual in 5° latitude bin (µmol/kg)&quot;
+    ) +
+  facet_wrap(~period)</code></pre>
+<p><img src="figure/results_publication.Rmd/residual_latitude-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>lat_residual_all_ensemble_mean &lt;- lat_residual_all_ensemble %&gt;%
+  filter(data_source == &quot;obs&quot;,
+         period %in% two_decades) %&gt;% 
+  group_by(period, era, lat_grid) %&gt;% 
+  summarise(residual_mean = mean(abs(.resid_mean)),
+            residual_sd = sd(.resid_mean),
+            residual_iqr = IQR(.resid_mean)) %&gt;% 
+  ungroup()
+
+lat_residual_offset_all_ensemble_mean &lt;- lat_residual_offset_all_ensemble %&gt;%
+  filter(data_source == &quot;obs&quot;,
+         period %in% two_decades) %&gt;% 
+  group_by(period, lat_grid) %&gt;% 
+  summarise(residual_mean = mean(abs(.resid_mean_offset)),
+            residual_sd = sd(.resid_mean_offset),
+            residual_iqr = IQR(.resid_mean)) %&gt;% 
+  ungroup()
+
+p_residual_lat &lt;- 
+ggplot() +
+  geom_vline(xintercept = 0) +
+  geom_ribbon(
+    data = lat_residual_all_ensemble_mean,
+    aes(
+      xmin = residual_mean - residual_iqr,
+      xmax = residual_mean + residual_iqr,
+      y = lat_grid,
+      fill = era
+    ),
+    alpha = 0.3
+  ) +
+  geom_path(data = lat_residual_all_ensemble_mean,
+            aes(residual_mean,
+                lat_grid,
+                col = era)) +
+  scale_fill_highcontrast() +
+  scale_color_highcontrast() +
+  coord_cartesian(xlim = c(-3,7)) +
+  facet_grid(. ~ period)
+
+
+p_residual_lat_offset &lt;- 
+ggplot() +
+  geom_vline(xintercept = 0) +
+  geom_ribbon(
+    data = lat_residual_offset_all_ensemble_mean,
+    aes(
+      xmin = residual_mean - residual_iqr,
+      xmax = residual_mean + residual_iqr,
+      y = lat_grid
+    ),
+    alpha = 0.3
+  ) +
+  geom_path(data = lat_residual_offset_all_ensemble_mean,
+            aes(residual_mean,
+                lat_grid)) +
+  coord_cartesian(xlim = c(-3,7)) +
+  facet_grid(. ~ period)
+
+p_residual_lat / p_residual_lat_offset</code></pre>
+<p><img src="figure/results_publication.Rmd/residual_latitude-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>rm(p_residual_lat, p_residual_lat_offset)
+
+
+p_residual_lat &lt;-
+ggplot() +
+  geom_vline(xintercept = 0) +
+  geom_path(data = lat_residual_all %&gt;% 
+              filter(data_source == &quot;obs&quot;,
+                     period %in% two_decades,
+                     gamma_slab %in% params_local$plot_slabs[2]),
+            aes(.resid_mean,
+                lat_grid,
+                col = era)) +
+  scale_fill_highcontrast() +
+  scale_color_highcontrast() +
+  coord_cartesian(xlim = c(-3,7)) +
+  facet_grid(basin ~ period)
+
+p_residual_lat_offset &lt;-
+ggplot() +
+  geom_vline(xintercept = 0) +
+  geom_path(data = lat_residual_offset_all %&gt;% 
+              filter(data_source == &quot;obs&quot;,
+                     period %in% two_decades,
+                     gamma_slab %in% params_local$plot_slabs[2]),
+            aes(.resid_mean_offset,
+                lat_grid)) +
+  scale_fill_highcontrast() +
+  scale_color_highcontrast() +
+  coord_cartesian(xlim = c(-3,7)) +
+  facet_grid(basin ~ period)
+
+
+p_residual_lat / p_residual_lat_offset</code></pre>
+<p><img src="figure/results_publication.Rmd/residual_latitude-4.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>rm(p_residual_lat, p_residual_lat_offset)
+
+lat_residual_offset_all_ensemble %&gt;% 
+  ggplot(aes(.resid_mean, .resid_mean_offset)) +
+  geom_bin_2d() +
+  scale_fill_viridis_c(trans = &quot;log10&quot;)</code></pre>
+<p><img src="figure/results_publication.Rmd/residual_latitude-5.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>lat_residual_offset_all_ensemble %&gt;%
+  pivot_longer(starts_with(&quot;.resid&quot;),
+               names_to = &quot;type&quot;,
+               values_to = &quot;residual&quot;) %&gt;%
+  ggplot(aes(residual, fill = type, col = type)) +
+  coord_cartesian(xlim = c(-5,5)) +
+  geom_density(alpha = 0.5)</code></pre>
+<p><img src="figure/results_publication.Rmd/residual_latitude-6.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>left_join(lm_best_target_all,
+          GLODAP_glanced_all) %&gt;% 
+  summarise(mean_rmse = mean(rmse),
+            sd_rmse = sd(rmse))</code></pre>
+<pre><code># A tibble: 1 × 2
+  mean_rmse sd_rmse
+      &lt;dbl&gt;   &lt;dbl&gt;
+1      3.10    1.63</code></pre>
+</div>
+</div>
+<div id="inventory-maps" class="section level1" number="8">
+<h1><span class="header-section-number">8</span> Inventory maps</h1>
 <pre class="r"><code>dcant_inv_all &lt;- bind_rows(
   dcant_inv_all,
   tcant_inv %&gt;% mutate(period = paste(tref1, tref2, sep = &quot; - &quot;),
@@ -7305,10 +7645,10 @@ dcant_inv_all_ensemble &lt;- dcant_inv_all
 
 dcant_inv_all &lt;- dcant_inv_all %&gt;% 
   filter(Version_ID %in% Version_IDs | is.na(Version_ID))</code></pre>
-<div id="absoulte-values" class="section level2" number="7.1">
-<h2><span class="header-section-number">7.1</span> Absoulte values</h2>
-<div id="ensemble-sd" class="section level3" number="7.1.1">
-<h3><span class="header-section-number">7.1.1</span> Ensemble SD</h3>
+<div id="absoulte-values" class="section level2" number="8.1">
+<h2><span class="header-section-number">8.1</span> Absoulte values</h2>
+<div id="ensemble-sd" class="section level3" number="8.1.1">
+<h3><span class="header-section-number">8.1.1</span> Ensemble SD</h3>
 <pre class="r"><code>sd_factor &lt;- 1
 
 dcant_inv_all_ensemble_sd &lt;-
@@ -7356,6 +7696,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/column_inventory_standard_deviation-1.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/column_inventory_standard_deviation-1.png" target="_blank">ecb84c1</a>
@@ -7670,6 +8021,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/column_inventory_standard_deviation-2.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/column_inventory_standard_deviation-2.png" target="_blank">ecb84c1</a>
 </td>
 <td>
@@ -7760,6 +8122,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/column_inventory_standard_deviation-3.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/column_inventory_standard_deviation-3.png" target="_blank">ecb84c1</a>
 </td>
 <td>
@@ -7811,8 +8184,8 @@ jens-daniel-mueller
 #        height = 3,
 #        width = 5)</code></pre>
 </div>
-<div id="dcant---absolute" class="section level3" number="7.1.2">
-<h3><span class="header-section-number">7.1.2</span> dcant -
+<div id="dcant---absolute" class="section level3" number="8.1.2">
+<h3><span class="header-section-number">8.1.2</span> dcant -
 absolute</h3>
 <pre class="r"><code># 
 # delta_dcant_inv_all &lt;-
@@ -7945,6 +8318,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/inventory_maps_absolute_SD-2.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/inventory_maps_absolute_SD-2.png" target="_blank">ecb84c1</a>
 </td>
 <td>
@@ -8014,6 +8398,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/inventory_maps_absolute_SD-3.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/inventory_maps_absolute_SD-3.png" target="_blank">ecb84c1</a>
 </td>
 <td>
@@ -8080,6 +8475,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/inventory_maps_absolute_SD-4.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/inventory_maps_absolute_SD-4.png" target="_blank">ecb84c1</a>
@@ -8162,6 +8568,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/invetory_maps_absolute-1.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/invetory_maps_absolute-1.png" target="_blank">ecb84c1</a>
@@ -8668,7 +9085,7 @@ mod
 3.363703
 </td>
 <td style="text-align:right;">
-0.5400548
+0.5341273
 </td>
 <td style="text-align:right;">
 NA
@@ -8714,7 +9131,7 @@ obs
 3.076873
 </td>
 <td style="text-align:right;">
-2.3396477
+2.3430793
 </td>
 <td style="text-align:right;">
 NA
@@ -8737,13 +9154,13 @@ mod
 3.614817
 </td>
 <td style="text-align:right;">
-0.6768647
+0.6672581
 </td>
 <td style="text-align:right;">
 0.2511143
 </td>
 <td style="text-align:right;">
-0.8659128
+0.8547078
 </td>
 </tr>
 <tr>
@@ -8783,13 +9200,13 @@ obs
 3.415398
 </td>
 <td style="text-align:right;">
-3.1882142
+3.1902727
 </td>
 <td style="text-align:right;">
 0.3385254
 </td>
 <td style="text-align:right;">
-3.9545747
+3.9582648
 </td>
 </tr>
 <tr>
@@ -8806,7 +9223,7 @@ mod
 4.826130
 </td>
 <td style="text-align:right;">
-1.2714564
+1.2727578
 </td>
 <td style="text-align:right;">
 NA
@@ -8852,7 +9269,7 @@ obs
 7.482479
 </td>
 <td style="text-align:right;">
-2.2262524
+2.2205988
 </td>
 <td style="text-align:right;">
 NA
@@ -8875,13 +9292,13 @@ mod
 6.476528
 </td>
 <td style="text-align:right;">
-0.9619169
+0.9775239
 </td>
 <td style="text-align:right;">
 1.6503976
 </td>
 <td style="text-align:right;">
-1.5943292
+1.6048256
 </td>
 </tr>
 <tr>
@@ -8921,13 +9338,13 @@ obs
 6.402648
 </td>
 <td style="text-align:right;">
-1.7499835
+1.7450687
 </td>
 <td style="text-align:right;">
 -1.0798310
 </td>
 <td style="text-align:right;">
-2.8317207
+2.8242387
 </td>
 </tr>
 <tr>
@@ -8944,7 +9361,7 @@ mod
 4.616514
 </td>
 <td style="text-align:right;">
-1.0028502
+1.0035651
 </td>
 <td style="text-align:right;">
 NA
@@ -8990,7 +9407,7 @@ obs
 9.867769
 </td>
 <td style="text-align:right;">
-1.0383716
+1.0427334
 </td>
 <td style="text-align:right;">
 NA
@@ -9013,13 +9430,13 @@ mod
 5.075378
 </td>
 <td style="text-align:right;">
-0.9914668
+0.9920546
 </td>
 <td style="text-align:right;">
 0.4588643
 </td>
 <td style="text-align:right;">
-1.4102181
+1.4111397
 </td>
 </tr>
 <tr>
@@ -9059,13 +9476,13 @@ obs
 8.025765
 </td>
 <td style="text-align:right;">
-1.6393996
+1.6273926
 </td>
 <td style="text-align:right;">
 -1.8420048
 </td>
 <td style="text-align:right;">
-1.9405789
+1.9327958
 </td>
 </tr>
 <tr>
@@ -9082,7 +9499,7 @@ mod
 5.064488
 </td>
 <td style="text-align:right;">
-1.2437538
+1.2603991
 </td>
 <td style="text-align:right;">
 NA
@@ -9128,7 +9545,7 @@ obs
 7.252470
 </td>
 <td style="text-align:right;">
-2.3320521
+2.3340619
 </td>
 <td style="text-align:right;">
 NA
@@ -9151,13 +9568,13 @@ mod
 6.393315
 </td>
 <td style="text-align:right;">
-1.0016228
+1.0203411
 </td>
 <td style="text-align:right;">
 1.3288264
 </td>
 <td style="text-align:right;">
-1.5969258
+1.6216355
 </td>
 </tr>
 <tr>
@@ -9197,13 +9614,13 @@ obs
 9.960798
 </td>
 <td style="text-align:right;">
-2.1140610
+2.1179347
 </td>
 <td style="text-align:right;">
 2.7083280
 </td>
 <td style="text-align:right;">
-3.1476532
+3.1517443
 </td>
 </tr>
 <tr>
@@ -9220,7 +9637,7 @@ mod
 5.899824
 </td>
 <td style="text-align:right;">
-2.0213783
+2.0217570
 </td>
 <td style="text-align:right;">
 NA
@@ -9266,7 +9683,7 @@ obs
 8.154922
 </td>
 <td style="text-align:right;">
-4.0344187
+4.0278665
 </td>
 <td style="text-align:right;">
 NA
@@ -9289,13 +9706,13 @@ mod
 7.583920
 </td>
 <td style="text-align:right;">
-1.3236737
+1.3388175
 </td>
 <td style="text-align:right;">
 1.6840960
 </td>
 <td style="text-align:right;">
-2.4162124
+2.4248574
 </td>
 </tr>
 <tr>
@@ -9335,13 +9752,13 @@ obs
 6.519972
 </td>
 <td style="text-align:right;">
-1.7171917
+1.7625363
 </td>
 <td style="text-align:right;">
 -1.6349503
 </td>
 <td style="text-align:right;">
-4.3846643
+4.3966172
 </td>
 </tr>
 </tbody>
@@ -9439,7 +9856,7 @@ mod
 3.9084642
 </td>
 <td style="text-align:right;">
-0.493022
+0.4814725
 </td>
 <td style="text-align:right;">
 NA
@@ -9465,7 +9882,7 @@ mod_truth
 3.4984361
 </td>
 <td style="text-align:right;">
-0.000000
+0.0000000
 </td>
 <td style="text-align:right;">
 NA
@@ -9491,7 +9908,7 @@ obs
 3.9829040
 </td>
 <td style="text-align:right;">
-2.075017
+2.0752156
 </td>
 <td style="text-align:right;">
 NA
@@ -9517,13 +9934,13 @@ mod
 3.9223699
 </td>
 <td style="text-align:right;">
-1.033948
+1.0239238
 </td>
 <td style="text-align:right;">
 0.0139057
 </td>
 <td style="text-align:right;">
-1.145477
+1.131475
 </td>
 </tr>
 <tr>
@@ -9543,7 +9960,7 @@ mod_truth
 3.9043518
 </td>
 <td style="text-align:right;">
-0.000000
+0.0000000
 </td>
 <td style="text-align:right;">
 0.4059158
@@ -9569,13 +9986,13 @@ obs
 3.3833004
 </td>
 <td style="text-align:right;">
-3.802533
+3.8021958
 </td>
 <td style="text-align:right;">
 -0.5996036
 </td>
 <td style="text-align:right;">
-4.331853
+4.331652
 </td>
 </tr>
 <tr>
@@ -9595,7 +10012,7 @@ mod
 6.5209038
 </td>
 <td style="text-align:right;">
-1.486560
+1.4885215
 </td>
 <td style="text-align:right;">
 NA
@@ -9621,7 +10038,7 @@ mod_truth
 6.4761945
 </td>
 <td style="text-align:right;">
-0.000000
+0.0000000
 </td>
 <td style="text-align:right;">
 NA
@@ -9647,7 +10064,7 @@ obs
 9.8048932
 </td>
 <td style="text-align:right;">
-3.007744
+3.0038920
 </td>
 <td style="text-align:right;">
 NA
@@ -9673,13 +10090,13 @@ mod
 8.3203549
 </td>
 <td style="text-align:right;">
-1.020552
+1.0369267
 </td>
 <td style="text-align:right;">
 1.7994510
 </td>
 <td style="text-align:right;">
-1.803161
+1.814088
 </td>
 </tr>
 <tr>
@@ -9699,7 +10116,7 @@ mod_truth
 7.9621161
 </td>
 <td style="text-align:right;">
-0.000000
+0.0000000
 </td>
 <td style="text-align:right;">
 1.4859216
@@ -9725,13 +10142,13 @@ obs
 8.5667582
 </td>
 <td style="text-align:right;">
-2.420006
+2.4195042
 </td>
 <td style="text-align:right;">
 -1.2381350
 </td>
 <td style="text-align:right;">
-3.860435
+3.857119
 </td>
 </tr>
 <tr>
@@ -9751,7 +10168,7 @@ mod
 5.6510208
 </td>
 <td style="text-align:right;">
-1.004661
+1.0069041
 </td>
 <td style="text-align:right;">
 NA
@@ -9777,7 +10194,7 @@ mod_truth
 4.6144491
 </td>
 <td style="text-align:right;">
-0.000000
+0.0000000
 </td>
 <td style="text-align:right;">
 NA
@@ -9803,7 +10220,7 @@ obs
 12.1361324
 </td>
 <td style="text-align:right;">
-1.493182
+1.4927025
 </td>
 <td style="text-align:right;">
 NA
@@ -9829,13 +10246,13 @@ mod
 5.6292473
 </td>
 <td style="text-align:right;">
-1.007300
+0.9965999
 </td>
 <td style="text-align:right;">
 -0.0217735
 </td>
 <td style="text-align:right;">
-1.422672
+1.416710
 </td>
 </tr>
 <tr>
@@ -9855,7 +10272,7 @@ mod_truth
 6.1398829
 </td>
 <td style="text-align:right;">
-0.000000
+0.0000000
 </td>
 <td style="text-align:right;">
 1.5254338
@@ -9881,13 +10298,13 @@ obs
 8.4461849
 </td>
 <td style="text-align:right;">
-1.851903
+1.7817657
 </td>
 <td style="text-align:right;">
 -3.6899474
 </td>
 <td style="text-align:right;">
-2.378894
+2.324403
 </td>
 </tr>
 <tr>
@@ -9907,7 +10324,7 @@ mod
 7.7366367
 </td>
 <td style="text-align:right;">
-1.381144
+1.4558416
 </td>
 <td style="text-align:right;">
 NA
@@ -9933,7 +10350,7 @@ mod_truth
 6.3774635
 </td>
 <td style="text-align:right;">
-0.000000
+0.0000000
 </td>
 <td style="text-align:right;">
 NA
@@ -9959,7 +10376,7 @@ obs
 8.4912458
 </td>
 <td style="text-align:right;">
-2.411380
+2.2463612
 </td>
 <td style="text-align:right;">
 NA
@@ -9985,13 +10402,13 @@ mod
 8.3424057
 </td>
 <td style="text-align:right;">
-1.328866
+1.3404868
 </td>
 <td style="text-align:right;">
 0.6057690
 </td>
 <td style="text-align:right;">
-1.916624
+1.978984
 </td>
 </tr>
 <tr>
@@ -10011,7 +10428,7 @@ mod_truth
 7.2252841
 </td>
 <td style="text-align:right;">
-0.000000
+0.0000000
 </td>
 <td style="text-align:right;">
 0.8478205
@@ -10037,13 +10454,13 @@ obs
 13.1557314
 </td>
 <td style="text-align:right;">
-3.205966
+3.2057706
 </td>
 <td style="text-align:right;">
 4.6644856
 </td>
 <td style="text-align:right;">
-4.011604
+3.914474
 </td>
 </tr>
 <tr>
@@ -10063,7 +10480,7 @@ mod
 8.8067366
 </td>
 <td style="text-align:right;">
-1.947603
+1.9492180
 </td>
 <td style="text-align:right;">
 NA
@@ -10089,7 +10506,7 @@ mod
 6.3172021
 </td>
 <td style="text-align:right;">
-5.554883
+5.5533046
 </td>
 <td style="text-align:right;">
 NA
@@ -10115,7 +10532,7 @@ mod_truth
 8.1443384
 </td>
 <td style="text-align:right;">
-0.000000
+0.0000000
 </td>
 <td style="text-align:right;">
 NA
@@ -10141,7 +10558,7 @@ mod_truth
 2.6253949
 </td>
 <td style="text-align:right;">
-0.000000
+0.0000000
 </td>
 <td style="text-align:right;">
 NA
@@ -10167,7 +10584,7 @@ obs
 10.7970711
 </td>
 <td style="text-align:right;">
-3.612606
+3.5783179
 </td>
 <td style="text-align:right;">
 NA
@@ -10193,7 +10610,7 @@ obs
 -0.3174586
 </td>
 <td style="text-align:right;">
-9.209136
+9.1818652
 </td>
 <td style="text-align:right;">
 NA
@@ -10219,13 +10636,13 @@ mod
 10.2876458
 </td>
 <td style="text-align:right;">
-1.800936
+1.8094356
 </td>
 <td style="text-align:right;">
 1.4809092
 </td>
 <td style="text-align:right;">
-2.652645
+2.659607
 </td>
 </tr>
 <tr>
@@ -10245,13 +10662,13 @@ mod
 1.3781176
 </td>
 <td style="text-align:right;">
-2.582959
+2.5683286
 </td>
 <td style="text-align:right;">
 -4.9390844
 </td>
 <td style="text-align:right;">
-6.126043
+6.118456
 </td>
 </tr>
 <tr>
@@ -10271,7 +10688,7 @@ mod_truth
 9.4334367
 </td>
 <td style="text-align:right;">
-0.000000
+0.0000000
 </td>
 <td style="text-align:right;">
 1.2890983
@@ -10297,7 +10714,7 @@ mod_truth
 3.5697855
 </td>
 <td style="text-align:right;">
-0.000000
+0.0000000
 </td>
 <td style="text-align:right;">
 0.9443906
@@ -10323,13 +10740,13 @@ obs
 8.2468486
 </td>
 <td style="text-align:right;">
-2.659278
+2.7796835
 </td>
 <td style="text-align:right;">
 -2.5502226
 </td>
 <td style="text-align:right;">
-4.485831
+4.531115
 </td>
 </tr>
 <tr>
@@ -10349,13 +10766,13 @@ obs
 7.0876343
 </td>
 <td style="text-align:right;">
-3.793506
+3.6659243
 </td>
 <td style="text-align:right;">
 7.4050929
 </td>
 <td style="text-align:right;">
-9.959863
+9.886640
 </td>
 </tr>
 </tbody>
@@ -10498,10 +10915,36 @@ jens-daniel-mueller
        height = 7,
        width = 8)
 
-rm(p_CI_absolute_mod_delta, p_CI_bias_delta)</code></pre>
+rm(p_CI_absolute_mod_delta, p_CI_bias_delta)
+
+p_CI_bias_delta_delta &lt;-
+  dcant_inv_all %&gt;%
+  filter(period %in% two_decades,
+         data_source != &quot;obs&quot;) %&gt;%
+  select(data_source, lon, lat, basin_AIP, period, dcant) %&gt;%
+  pivot_wider(names_from = period,
+              values_from = dcant) %&gt;%
+  mutate(dcant_offset = `2004 - 2014` - `1994 - 2004`,
+         period = &quot;Decadal offset&quot;) %&gt;%
+  select(lon, lat, data_source, dcant_offset) %&gt;% 
+  pivot_wider(names_from = data_source,
+              values_from = dcant_offset) %&gt;% 
+  mutate(delta_dcant_bias = mod - mod_truth) %&gt;% 
+  p_map_cant_inv(
+    var = &quot;delta_dcant_bias&quot;,
+    title_text = NULL,
+    subtitle_text = NULL,
+    col = &quot;bias&quot;
+  )
+# theme(strip.text.x = element_blank(),
+#       strip.background.x = element_blank())
+
+p_CI_bias_delta_delta</code></pre>
+<p><img src="figure/results_publication.Rmd/invetory_maps_delta_dcant_mod_bias-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>rm(p_CI_bias_delta_delta)</code></pre>
 </div>
-<div id="dcant---absolute-delta" class="section level3" number="7.1.3">
-<h3><span class="header-section-number">7.1.3</span> dcant - absolute
+<div id="dcant---absolute-delta" class="section level3" number="8.1.3">
+<h3><span class="header-section-number">8.1.3</span> dcant - absolute
 delta</h3>
 <pre class="r"><code>delta_dcant_inv_all &lt;-
   dcant_inv_all %&gt;%
@@ -10628,6 +11071,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/inventory_maps_absolute_delta_RSS-2.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/inventory_maps_absolute_delta_RSS-2.png" target="_blank">ecb84c1</a>
 </td>
 <td>
@@ -10697,6 +11151,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/inventory_maps_absolute_delta_RSS-3.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/inventory_maps_absolute_delta_RSS-3.png" target="_blank">ecb84c1</a>
 </td>
 <td>
@@ -10762,6 +11227,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/inventory_maps_absolute_delta_RSS-4.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/inventory_maps_absolute_delta_RSS-4.png" target="_blank">ecb84c1</a>
@@ -10844,6 +11320,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/invetory_maps_absolute_delta-1.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/invetory_maps_absolute_delta-1.png" target="_blank">ecb84c1</a>
@@ -11310,6 +11797,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/invetory_maps_absolute_delta-2.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/invetory_maps_absolute_delta-2.png" target="_blank">ecb84c1</a>
 </td>
 <td>
@@ -11407,8 +11905,8 @@ jens-daniel-mueller
 
 rm(p_CI_absolute, p_CI_delta)</code></pre>
 </div>
-<div id="bias" class="section level3" number="7.1.4">
-<h3><span class="header-section-number">7.1.4</span> Bias</h3>
+<div id="bias" class="section level3" number="8.1.4">
+<h3><span class="header-section-number">8.1.4</span> Bias</h3>
 <pre class="r"><code>p_CI_absolute_mod &lt;- dcant_inv_all %&gt;%
   filter(period %in% two_decades,
          data_source != &quot;obs&quot;) %&gt;%
@@ -11749,8 +12247,8 @@ jens-daniel-mueller
 
 rm(p_CI_bias_decade)</code></pre>
 </div>
-<div id="density-distributions" class="section level3" number="7.1.5">
-<h3><span class="header-section-number">7.1.5</span> Density
+<div id="density-distributions" class="section level3" number="8.1.5">
+<h3><span class="header-section-number">8.1.5</span> Density
 distributions</h3>
 <pre class="r"><code>bind_rows(
   dcant_inv_all %&gt;%
@@ -11988,8 +12486,8 @@ jens-daniel-mueller
 #   width = 7
 # )</code></pre>
 </div>
-<div id="unadjusted-data" class="section level3" number="7.1.6">
-<h3><span class="header-section-number">7.1.6</span> Unadjusted
+<div id="unadjusted-data" class="section level3" number="8.1.6">
+<h3><span class="header-section-number">8.1.6</span> Unadjusted
 data</h3>
 <pre class="r"><code>dcant_inv_all_unadjusted &lt;-
   dcant_inv_all_ensemble %&gt;%
@@ -12180,8 +12678,8 @@ jens-daniel-mueller
 
 rm(p_CI_unadjusted, p_CI_unadjusted_bias)</code></pre>
 </div>
-<div id="beta" class="section level3" number="7.1.7">
-<h3><span class="header-section-number">7.1.7</span> beta</h3>
+<div id="beta" class="section level3" number="8.1.7">
+<h3><span class="header-section-number">8.1.7</span> beta</h3>
 <pre class="r"><code>dcant_inv_all %&gt;%
   filter(data_source %in% c(&quot;obs&quot;)) %&gt;% 
   p_map_cant_inv(var = &quot;beta&quot;,
@@ -12365,8 +12863,8 @@ jens-daniel-mueller
        width = 6)</code></pre>
 </div>
 </div>
-<div id="zonal-means" class="section level2" number="7.2">
-<h2><span class="header-section-number">7.2</span> Zonal means</h2>
+<div id="zonal-means" class="section level2" number="8.2">
+<h2><span class="header-section-number">8.2</span> Zonal means</h2>
 <pre class="r"><code>dcant_inv_all &lt;- m_grid_horizontal_coarse(dcant_inv_all)
 
 dcant_inv_all_lat_mean &lt;- dcant_inv_all %&gt;% 
@@ -12393,8 +12891,8 @@ dcant_inv_all_ensemble_lat_mean_average &lt;- dcant_inv_all_ensemble_lat_mean %&
 
 dcant_inv_all_lat_mean &lt;- full_join(dcant_inv_all_lat_mean,
                                     dcant_inv_all_ensemble_lat_mean_average)</code></pre>
-<div id="dcant" class="section level3" number="7.2.1">
-<h3><span class="header-section-number">7.2.1</span> dcant</h3>
+<div id="dcant" class="section level3" number="8.2.1">
+<h3><span class="header-section-number">8.2.1</span> dcant</h3>
 <pre class="r"><code>dcant_inv_all_lat_mean %&gt;%
   filter(period != &quot;1800 - 1994&quot;) %&gt;% 
   ggplot(aes(lat_grid, dcant, fill = period)) +
@@ -12436,6 +12934,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/zonal_mean_storage_dcant-1.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/zonal_mean_storage_dcant-1.png" target="_blank">ecb84c1</a>
@@ -12631,18 +13140,18 @@ jens-daniel-mueller
  4 (-30,-10] mod               8.73
  5 (-30,-10] mod_truth         7.73
  6 (-30,-10] obs              11.6 
- 7 (-10,10]  mod               4.64
+ 7 (-10,10]  mod               4.63
  8 (-10,10]  mod_truth         4.09
- 9 (-10,10]  obs               7.47
+ 9 (-10,10]  obs               7.48
 10 (10,30]   mod               5.37
 11 (10,30]   mod_truth         5.03
-12 (10,30]   obs               7.36
-13 (30,40]   mod               6.25
+12 (10,30]   obs               7.32
+13 (30,40]   mod               6.24
 14 (30,40]   mod_truth         6.46
 15 (30,40]   obs              11.0 
-16 &lt;NA&gt;      mod               5.57
+16 &lt;NA&gt;      mod               5.56
 17 &lt;NA&gt;      mod_truth         5.59
-18 &lt;NA&gt;      obs               7.34</code></pre>
+18 &lt;NA&gt;      obs               7.35</code></pre>
 <pre class="r"><code>dcant_inv_all_lat_mean %&gt;%
   filter(period != &quot;1800 - 1994&quot;) %&gt;% 
   mutate(lat_grid = cut(lat_grid, c(-40,-30,-10,10,30,40))) %&gt;% 
@@ -12672,15 +13181,15 @@ jens-daniel-mueller
 <pre><code># A tibble: 54 × 5
    lat_grid basin_AIP period      data_source dcant_mean
    &lt;fct&gt;    &lt;chr&gt;     &lt;chr&gt;       &lt;chr&gt;            &lt;dbl&gt;
- 1 (-90,0]  Atlantic  1994 - 2004 mod               4.23
+ 1 (-90,0]  Atlantic  1994 - 2004 mod               4.22
  2 (-90,0]  Atlantic  1994 - 2004 mod_truth         4.06
- 3 (-90,0]  Atlantic  1994 - 2004 obs               7.21
- 4 (-90,0]  Atlantic  1994 - 2014 mod               9.55
+ 3 (-90,0]  Atlantic  1994 - 2004 obs               7.27
+ 4 (-90,0]  Atlantic  1994 - 2014 mod               9.52
  5 (-90,0]  Atlantic  1994 - 2014 mod_truth         8.72
- 6 (-90,0]  Atlantic  1994 - 2014 obs              15.0 
- 7 (-90,0]  Atlantic  2004 - 2014 mod               5.38
+ 6 (-90,0]  Atlantic  1994 - 2014 obs              14.9 
+ 7 (-90,0]  Atlantic  2004 - 2014 mod               5.37
  8 (-90,0]  Atlantic  2004 - 2014 mod_truth         4.66
- 9 (-90,0]  Atlantic  2004 - 2014 obs               7.67
+ 9 (-90,0]  Atlantic  2004 - 2014 obs               7.65
 10 (-90,0]  Indian    1994 - 2004 mod               5.85
 # … with 44 more rows</code></pre>
 <pre class="r"><code>dcant_inv_all_lat_mean %&gt;%
@@ -12694,16 +13203,16 @@ jens-daniel-mueller
 <pre><code># A tibble: 36 × 5
    lat_grid  basin_AIP period      data_source dcant_mean
    &lt;fct&gt;     &lt;chr&gt;     &lt;chr&gt;       &lt;chr&gt;            &lt;dbl&gt;
- 1 (-50,-20] Atlantic  1994 - 2004 obs               9.26
- 2 (-50,-20] Atlantic  1994 - 2014 obs              20.6 
+ 1 (-50,-20] Atlantic  1994 - 2004 obs               9.20
+ 2 (-50,-20] Atlantic  1994 - 2014 obs              20.5 
  3 (-50,-20] Atlantic  2004 - 2014 obs              11.2 
- 4 (-20,20]  Atlantic  1994 - 2004 obs               5.77
+ 4 (-20,20]  Atlantic  1994 - 2004 obs               5.75
  5 (-20,20]  Atlantic  1994 - 2014 obs              14.4 
- 6 (-20,20]  Atlantic  2004 - 2014 obs               8.39
+ 6 (-20,20]  Atlantic  2004 - 2014 obs               8.38
  7 (20,50]   Atlantic  1994 - 2004 obs              12.2 
  8 (20,50]   Atlantic  1994 - 2014 obs              20.7 
- 9 (20,50]   Atlantic  2004 - 2014 obs               8.30
-10 &lt;NA&gt;      Atlantic  1994 - 2004 obs               7.47
+ 9 (20,50]   Atlantic  2004 - 2014 obs               8.26
+10 &lt;NA&gt;      Atlantic  1994 - 2004 obs               7.68
 # … with 26 more rows</code></pre>
 <pre class="r"><code>dcant_inv_all_ensemble_lat_mean %&gt;% 
   ggplot(aes(lat_grid, dcant_mean, fill=period, group=Version_ID)) +
@@ -12738,6 +13247,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/zonal_mean_storage_dcant-2.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/zonal_mean_storage_dcant-2.png" target="_blank">ecb84c1</a>
@@ -12908,8 +13428,8 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="beta-1" class="section level3" number="7.2.2">
-<h3><span class="header-section-number">7.2.2</span> beta</h3>
+<div id="beta-1" class="section level3" number="8.2.2">
+<h3><span class="header-section-number">8.2.2</span> beta</h3>
 <pre class="r"><code>dcant_inv_all_lat_mean %&gt;%
   ggplot(aes(lat_grid, beta, fill = period)) +
   geom_hline(yintercept = 0) +
@@ -12948,6 +13468,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/zonal_mean_storage_beta-1.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/zonal_mean_storage_beta-1.png" target="_blank">ecb84c1</a>
@@ -13174,6 +13705,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/zonal_mean_storage_beta-2.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/zonal_mean_storage_beta-2.png" target="_blank">ecb84c1</a>
 </td>
 <td>
@@ -13355,10 +13897,10 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="global-section" class="section level1" number="8">
-<h1><span class="header-section-number">8</span> Global section</h1>
-<div id="dcant---absolut" class="section level2" number="8.1">
-<h2><span class="header-section-number">8.1</span> dcant - absolut</h2>
+<div id="global-section" class="section level1" number="9">
+<h1><span class="header-section-number">9</span> Global section</h1>
+<div id="dcant---absolut" class="section level2" number="9.1">
+<h2><span class="header-section-number">9.1</span> dcant - absolut</h2>
 <pre class="r"><code>delta_dcant_global_section_all &lt;-
   dcant_global_section_all %&gt;%
   filter(data_source %in% c(&quot;obs&quot;, &quot;mod&quot;),
@@ -13517,6 +14059,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/global_section_absolute_delta_RSS-2.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/global_section_absolute_delta_RSS-2.png" target="_blank">ecb84c1</a>
 </td>
 <td>
@@ -13599,6 +14152,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/global_section_absolute_delta_RSS-3.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/global_section_absolute_delta_RSS-3.png" target="_blank">ecb84c1</a>
 </td>
 <td>
@@ -13678,6 +14242,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/global_section_absolute_delta_RSS-4.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/global_section_absolute_delta_RSS-4.png" target="_blank">ecb84c1</a>
@@ -13870,6 +14445,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/global_section_absolute_delta_RSS-6.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/global_section_absolute_delta_RSS-6.png" target="_blank">ecb84c1</a>
 </td>
 <td>
@@ -13940,6 +14526,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/global_section_absolute_delta_RSS-7.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/global_section_absolute_delta_RSS-7.png" target="_blank">ecb84c1</a>
 </td>
 <td>
@@ -14007,6 +14604,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/global_section_absolute_delta_RSS-8.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/global_section_absolute_delta_RSS-8.png" target="_blank">ecb84c1</a>
@@ -14137,6 +14745,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/global_sections-1.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/global_sections-1.png" target="_blank">ecb84c1</a>
@@ -14297,10 +14916,10 @@ ggsave(path = here::here(&quot;output/presentation&quot;),
 rm(delta_dcant_global_section_all_uncertainty)</code></pre>
 </div>
 </div>
-<div id="zonal-sections" class="section level1" number="9">
-<h1><span class="header-section-number">9</span> Zonal sections</h1>
-<div id="dcant---absolut-1" class="section level2" number="9.1">
-<h2><span class="header-section-number">9.1</span> dcant - absolut</h2>
+<div id="zonal-sections" class="section level1" number="10">
+<h1><span class="header-section-number">10</span> Zonal sections</h1>
+<div id="dcant---absolut-1" class="section level2" number="10.1">
+<h2><span class="header-section-number">10.1</span> dcant - absolut</h2>
 <pre class="r"><code>p_dcant_zonal_absolute &lt;-
   dcant_zonal_all %&gt;%
   filter(
@@ -14723,8 +15342,8 @@ jens-daniel-mueller
       facet_grid(period ~ .)
   )</code></pre>
 </div>
-<div id="dcant---absolute-delta-1" class="section level2" number="9.2">
-<h2><span class="header-section-number">9.2</span> dcant - absolute
+<div id="dcant---absolute-delta-1" class="section level2" number="10.2">
+<h2><span class="header-section-number">10.2</span> dcant - absolute
 delta</h2>
 <pre class="r"><code>dcant_zonal_all %&gt;%
   filter(data_source %in% c(&quot;mod&quot;, &quot;obs&quot;),
@@ -15688,8 +16307,8 @@ jens-daniel-mueller
 
 rm(p_dcant_zonal_absolute, p_dcant_zonal_delta)</code></pre>
 </div>
-<div id="bias-1" class="section level2" number="9.3">
-<h2><span class="header-section-number">9.3</span> Bias</h2>
+<div id="bias-1" class="section level2" number="10.3">
+<h2><span class="header-section-number">10.3</span> Bias</h2>
 <pre class="r"><code>p_dcant_zonal_absolute_mod &lt;-
   dcant_zonal_all %&gt;%
   filter(
@@ -15981,8 +16600,8 @@ rm(p_dcant_zonal_absolute_mod,
    p_dcant_zonal_bias)</code></pre>
 </div>
 </div>
-<div id="penetration-depth" class="section level1" number="10">
-<h1><span class="header-section-number">10</span> Penetration depth</h1>
+<div id="penetration-depth" class="section level1" number="11">
+<h1><span class="header-section-number">11</span> Penetration depth</h1>
 <pre class="r"><code>dcant_penetration_depth_all_lat_mean_all_ensemble %&gt;%
   filter(dcant_lim == 5,
          period %in% two_decades,
@@ -16043,6 +16662,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/penetration_depth-1.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/penetration_depth-1.png" target="_blank">ecb84c1</a>
@@ -16162,6 +16792,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/penetration_depth-2.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/penetration_depth-2.png" target="_blank">ecb84c1</a>
 </td>
 <td>
@@ -16265,6 +16906,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/penetration_depth-3.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/penetration_depth-3.png" target="_blank">ecb84c1</a>
 </td>
 <td>
@@ -16355,6 +17007,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/penetration_depth-4.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/penetration_depth-4.png" target="_blank">ecb84c1</a>
 </td>
 <td>
@@ -16391,13 +17054,13 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="concentration-profiles" class="section level1" number="11">
-<h1><span class="header-section-number">11</span> Concentration
+<div id="concentration-profiles" class="section level1" number="12">
+<h1><span class="header-section-number">12</span> Concentration
 profiles</h1>
-<div id="dcant-abs" class="section level2" number="11.1">
-<h2><span class="header-section-number">11.1</span> dcant, abs</h2>
-<div id="global" class="section level3" number="11.1.1">
-<h3><span class="header-section-number">11.1.1</span> Global</h3>
+<div id="dcant-abs" class="section level2" number="12.1">
+<h2><span class="header-section-number">12.1</span> dcant, abs</h2>
+<div id="global" class="section level3" number="12.1.1">
+<h3><span class="header-section-number">12.1.1</span> Global</h3>
 <pre class="r"><code>dcant_profile_global_all %&gt;%
   arrange(depth) %&gt;%
   filter(period != &quot;1994 - 2014&quot;,
@@ -16781,10 +17444,10 @@ full_join(dcant_profile_global_all_ensemble,
 <pre><code># A tibble: 1 × 2
   sd_max_depth mean_max_depth
          &lt;dbl&gt;          &lt;dbl&gt;
-1         66.4           308.</code></pre>
+1         62.7           306.</code></pre>
 </div>
-<div id="basin-hemisphere" class="section level3" number="11.1.2">
-<h3><span class="header-section-number">11.1.2</span> Basin
+<div id="basin-hemisphere" class="section level3" number="12.1.2">
+<h3><span class="header-section-number">12.1.2</span> Basin
 hemisphere</h3>
 <pre class="r"><code>dcant_profile_basin_MLR_all %&gt;%
   arrange(depth) %&gt;%
@@ -17686,11 +18349,11 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="dcant-abs-ensemble" class="section level2" number="11.2">
-<h2><span class="header-section-number">11.2</span> dcant, abs,
+<div id="dcant-abs-ensemble" class="section level2" number="12.2">
+<h2><span class="header-section-number">12.2</span> dcant, abs,
 ensemble</h2>
-<div id="global-1" class="section level3" number="11.2.1">
-<h3><span class="header-section-number">11.2.1</span> Global</h3>
+<div id="global-1" class="section level3" number="12.2.1">
+<h3><span class="header-section-number">12.2.1</span> Global</h3>
 <pre class="r"><code>dcant_profile_global_all_ensemble %&gt;%
   arrange(depth) %&gt;%
   filter(
@@ -17771,6 +18434,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/concentration_profiles_global_ensemble-1.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/concentration_profiles_global_ensemble-1.png" target="_blank">ecb84c1</a>
@@ -17941,8 +18615,8 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="basin-hemisphere-1" class="section level3" number="11.2.2">
-<h3><span class="header-section-number">11.2.2</span> basin
+<div id="basin-hemisphere-1" class="section level3" number="12.2.2">
+<h3><span class="header-section-number">12.2.2</span> basin
 hemisphere</h3>
 <pre class="r"><code>dcant_profile_basin_MLR_all_ensemble %&gt;%
   arrange(depth) %&gt;%
@@ -18036,6 +18710,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_individual-1.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_individual-1.png" target="_blank">ecb84c1</a>
@@ -18270,16 +18955,16 @@ full_join(dcant_profile_basin_MLR_all,
    basin       period      sd_max_depth mean_max_depth
    &lt;fct&gt;       &lt;chr&gt;              &lt;dbl&gt;          &lt;dbl&gt;
  1 Global      1994 - 2004         84.9           314.
- 2 Global      2004 - 2014         37.7           301.
+ 2 Global      2004 - 2014         16.7           299.
  3 Indian      1994 - 2004        125.            469.
  4 Indian      2004 - 2014        111.            296.
- 5 N. Pacific  1994 - 2004         78.5           244.
+ 5 N. Pacific  1994 - 2004         81.1           242.
  6 N. Pacific  2004 - 2014         70.8           206.
- 7 S. Pacific  1994 - 2004        182.            397.
+ 7 S. Pacific  1994 - 2004        179.            394.
  8 S. Pacific  2004 - 2014        139.            356.
- 9 N. Atlantic 1994 - 2004         89.3           397.
-10 N. Atlantic 2004 - 2014        121.            492.
-11 S. Atlantic 1994 - 2004         66.7           294.
+ 9 N. Atlantic 1994 - 2004         82.0           394.
+10 N. Atlantic 2004 - 2014        124.            489.
+11 S. Atlantic 1994 - 2004         42.2           289.
 12 S. Atlantic 2004 - 2014        204.            461.</code></pre>
 <pre class="r"><code>dcant_profile_basin_MLR_range &lt;- dcant_profile_basin_MLR_all_ensemble %&gt;%
   # filter(period != &quot;1994 - 2014&quot;) %&gt;%
@@ -18356,6 +19041,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon-1.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon-1.png" target="_blank">ecb84c1</a>
@@ -18612,16 +19308,16 @@ full_join(dcant_profile_basin_MLR_all,
    basin       period      sd_max_depth mean_max_depth
    &lt;fct&gt;       &lt;chr&gt;              &lt;dbl&gt;          &lt;dbl&gt;
  1 Global      1994 - 2004         84.9           314.
- 2 Global      2004 - 2014         37.7           301.
+ 2 Global      2004 - 2014         16.7           299.
  3 Indian      1994 - 2004        125.            469.
  4 Indian      2004 - 2014        111.            296.
- 5 N. Pacific  1994 - 2004         78.5           244.
+ 5 N. Pacific  1994 - 2004         81.1           242.
  6 N. Pacific  2004 - 2014         70.8           206.
- 7 S. Pacific  1994 - 2004        182.            397.
+ 7 S. Pacific  1994 - 2004        179.            394.
  8 S. Pacific  2004 - 2014        139.            356.
- 9 N. Atlantic 1994 - 2004         89.3           397.
-10 N. Atlantic 2004 - 2014        121.            492.
-11 S. Atlantic 1994 - 2004         66.7           294.
+ 9 N. Atlantic 1994 - 2004         82.0           394.
+10 N. Atlantic 2004 - 2014        124.            489.
+11 S. Atlantic 1994 - 2004         42.2           289.
 12 S. Atlantic 2004 - 2014        204.            461.</code></pre>
 <pre class="r"><code>p_dcant_profiles_mod &lt;-
   dcant_profile_basin_MLR_all_ensemble %&gt;%
@@ -18692,6 +19388,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon_mod-1.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon_mod-1.png" target="_blank">ecb84c1</a>
@@ -18852,6 +19559,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_basin_separation-1.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_basin_separation-1.png" target="_blank">ecb84c1</a>
@@ -19108,6 +19826,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_member-1.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_member-1.png" target="_blank">ecb84c1</a>
@@ -19533,6 +20262,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_member-3.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_member-3.png" target="_blank">ecb84c1</a>
 </td>
 <td>
@@ -19764,8 +20504,8 @@ jens-daniel-mueller
   )</code></pre>
 </div>
 </div>
-<div id="dcant---absolute-delta-2" class="section level2" number="11.3">
-<h2><span class="header-section-number">11.3</span> dcant - absolute
+<div id="dcant---absolute-delta-2" class="section level2" number="12.3">
+<h2><span class="header-section-number">12.3</span> dcant - absolute
 delta</h2>
 <pre class="r"><code>delta &lt;- dcant_profile_basin_MLR_all %&gt;%
   arrange(depth) %&gt;%
@@ -20592,8 +21332,8 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="budgets-1" class="section level1" number="12">
-<h1><span class="header-section-number">12</span> Budgets</h1>
+<div id="budgets-1" class="section level1" number="13">
+<h1><span class="header-section-number">13</span> Budgets</h1>
 <pre class="r"><code>dcant_budget_global_all_ensemble &lt;- dcant_budget_global_all_ensemble %&gt;% 
   mutate(dcant = dcant * dcant_scaling)
 
@@ -20742,10 +21482,10 @@ Global
 27.14891
 </td>
 <td style="text-align:right;">
-2.3978206
+2.3656686
 </td>
 <td style="text-align:right;">
-1.6000753
+1.6773966
 </td>
 <td style="text-align:right;">
 29.21111
@@ -20760,13 +21500,13 @@ Global
 -1.925152
 </td>
 <td style="text-align:right;">
-4.0767106
+4.1012308
 </td>
 <td style="text-align:right;">
-0.0000571
+0.0000602
 </td>
 <td style="text-align:right;">
-0.0001697
+0.0001787
 </td>
 </tr>
 <tr>
@@ -20780,10 +21520,10 @@ Indian
 5.72850
 </td>
 <td style="text-align:right;">
-0.7357347
+0.7523166
 </td>
 <td style="text-align:right;">
-0.7744633
+0.8000518
 </td>
 <td style="text-align:right;">
 7.15600
@@ -20798,7 +21538,7 @@ Indian
 -1.434000
 </td>
 <td style="text-align:right;">
-1.5106946
+1.5531022
 </td>
 <td style="text-align:right;">
 0.0000000
@@ -20818,10 +21558,10 @@ N. Pacific
 3.55200
 </td>
 <td style="text-align:right;">
-1.0120569
+1.0142601
 </td>
 <td style="text-align:right;">
-0.8007033
+0.8043179
 </td>
 <td style="text-align:right;">
 2.89700
@@ -20836,13 +21576,13 @@ N. Pacific
 0.319000
 </td>
 <td style="text-align:right;">
-1.8250397
+1.8306562
 </td>
 <td style="text-align:right;">
-0.0047148
+0.0048351
 </td>
 <td style="text-align:right;">
-0.1427604
+0.1439659
 </td>
 </tr>
 <tr>
@@ -20850,16 +21590,16 @@ N. Pacific
 S. Pacific
 </td>
 <td style="text-align:right;">
-8.92550
+8.94600
 </td>
 <td style="text-align:right;">
 7.60600
 </td>
 <td style="text-align:right;">
-1.2559074
+1.2517658
 </td>
 <td style="text-align:right;">
-0.9194941
+0.9169441
 </td>
 <td style="text-align:right;">
 8.63500
@@ -20868,19 +21608,19 @@ S. Pacific
 7.38900
 </td>
 <td style="text-align:right;">
--1.319500
+-1.340000
 </td>
 <td style="text-align:right;">
 -1.246000
 </td>
 <td style="text-align:right;">
-2.2012601
+2.1944039
 </td>
 <td style="text-align:right;">
-0.0000034
+0.0000024
 </td>
 <td style="text-align:right;">
-0.0000098
+0.0000092
 </td>
 </tr>
 <tr>
@@ -20888,16 +21628,16 @@ S. Pacific
 N. Atlantic
 </td>
 <td style="text-align:right;">
-4.65400
+4.77800
 </td>
 <td style="text-align:right;">
-3.74350
+3.89150
 </td>
 <td style="text-align:right;">
-0.1796715
+0.1989026
 </td>
 <td style="text-align:right;">
-0.3891593
+0.3947861
 </td>
 <td style="text-align:right;">
 4.80500
@@ -20906,13 +21646,13 @@ N. Atlantic
 3.90800
 </td>
 <td style="text-align:right;">
--0.910500
+-0.886500
 </td>
 <td style="text-align:right;">
 -0.897000
 </td>
 <td style="text-align:right;">
-0.6061795
+0.6251693
 </td>
 <td style="text-align:right;">
 0.0000000
@@ -20929,13 +21669,13 @@ S. Atlantic
 3.97450
 </td>
 <td style="text-align:right;">
-4.90200
+4.88250
 </td>
 <td style="text-align:right;">
-0.6044443
+0.6020050
 </td>
 <td style="text-align:right;">
-0.5664769
+0.5675936
 </td>
 <td style="text-align:right;">
 3.89500
@@ -20944,13 +21684,13 @@ S. Atlantic
 5.35000
 </td>
 <td style="text-align:right;">
-0.927500
+0.908000
 </td>
 <td style="text-align:right;">
 1.455000
 </td>
 <td style="text-align:right;">
-1.1715366
+1.1701047
 </td>
 <td style="text-align:right;">
 0.0000000
@@ -20993,6 +21733,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/dcant_budget_stats_ensemble_SD-1.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/dcant_budget_stats_ensemble_SD-1.png" target="_blank">ecb84c1</a>
@@ -21075,6 +21826,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/dcant_budget_stats_basin_SD_plus_sensitivity_cases-1.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/dcant_budget_stats_basin_SD_plus_sensitivity_cases-1.png" target="_blank">ecb84c1</a>
@@ -21172,6 +21934,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/dcant_budget_stats_basin_SD_plus_sensitivity_cases-2.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/dcant_budget_stats_basin_SD_plus_sensitivity_cases-2.png" target="_blank">ecb84c1</a>
@@ -21284,6 +22057,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/dcant_budget_stats_basin_SD_plus_sensitivity_cases-3.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/dcant_budget_stats_basin_SD_plus_sensitivity_cases-3.png" target="_blank">ecb84c1</a>
@@ -21471,10 +22255,10 @@ tcant_budget_basin_MLR &lt;- tcant_budget_basin_MLR %&gt;%
 tcant_budget_basin_MLR &lt;-
   bind_rows(tcant_budget_basin_MLR,
             tibble(basin = &quot;Global&quot;, beta_1994 = 118 / 78.3))</code></pre>
-<div id="scatterplots" class="section level2" number="12.1">
-<h2><span class="header-section-number">12.1</span> Scatterplots</h2>
-<div id="global-2" class="section level3" number="12.1.1">
-<h3><span class="header-section-number">12.1.1</span> Global</h3>
+<div id="scatterplots" class="section level2" number="13.1">
+<h2><span class="header-section-number">13.1</span> Scatterplots</h2>
+<div id="global-2" class="section level3" number="13.1.1">
+<h3><span class="header-section-number">13.1.1</span> Global</h3>
 <pre class="r"><code>bind_rows(dcant_budget_global_all_no_adj,
           dcant_budget_global_all_ensemble) %&gt;%
   ggplot(aes(period, dcant, col = Version_ID_group)) +
@@ -21504,6 +22288,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/dcant_budget_global_ensemble-1.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/dcant_budget_global_ensemble-1.png" target="_blank">ecb84c1</a>
@@ -21744,6 +22539,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/dcant_budget_global_ensemble-2.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/dcant_budget_global_ensemble-2.png" target="_blank">ecb84c1</a>
 </td>
 <td>
@@ -21974,6 +22780,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/dcant_budget_global_ensemble-3.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/dcant_budget_global_ensemble-3.png" target="_blank">ecb84c1</a>
 </td>
 <td>
@@ -22170,9 +22987,9 @@ jens-daniel-mueller
 <pre><code># A tibble: 3 × 2
   period      dcant_bias_rel
   &lt;chr&gt;                &lt;dbl&gt;
-1 1994 - 2004           7.03
-2 1994 - 2014           6.14
-3 2004 - 2014           5.36</code></pre>
+1 1994 - 2004           7.05
+2 1994 - 2014           6.06
+3 2004 - 2014           5.18</code></pre>
 <pre class="r"><code>delta_dcant_budget_global_all_ensemble &lt;- 
 dcant_budget_global_all_ensemble %&gt;%
   filter(data_source != &quot;obs&quot;,
@@ -22210,6 +23027,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/dcant_budget_global_ensemble-4.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/dcant_budget_global_ensemble-4.png" target="_blank">ecb84c1</a>
@@ -22339,7 +23167,7 @@ delta_dcant_budget_global_all_ensemble_bias %&gt;%
 <pre><code># A tibble: 1 × 2
   delta_dcant_bias delta_dcant_bias_rel
              &lt;dbl&gt;                &lt;dbl&gt;
-1           -0.133                -3.90</code></pre>
+1           -0.177                -5.20</code></pre>
 <pre class="r"><code>delta_dcant_budget_global_all_ensemble_bias %&gt;% 
   group_by(MLR_basins) %&gt;% 
   summarise(delta_dcant_bias = mean(delta_dcant_bias),
@@ -22348,12 +23176,12 @@ delta_dcant_budget_global_all_ensemble_bias %&gt;%
 <pre><code># A tibble: 6 × 3
   MLR_basins delta_dcant_bias delta_dcant_bias_rel
   &lt;chr&gt;                 &lt;dbl&gt;                &lt;dbl&gt;
-1 1                     0.164                 4.84
-2 2                     1.95                 57.4 
-3 3                     1.03                 30.4 
-4 3+SO                 -1.44                -42.2 
-5 5                    -0.735               -21.6 
-6 5+SO                 -1.77                -52.2 </code></pre>
+1 1                     0.131                 3.86
+2 2                     1.89                 55.7 
+3 3                     0.978                28.7 
+4 3+SO                 -1.47                -43.2 
+5 5                    -0.796               -23.4 
+6 5+SO                 -1.80                -52.9 </code></pre>
 <pre class="r"><code>delta_dcant_budget_global_all_ensemble_bias %&gt;% 
   ggplot(aes(&quot;Decade difference&quot;,delta_dcant_bias, col = MLR_basins)) +
   geom_hline(yintercept = 0) +
@@ -22383,6 +23211,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/dcant_budget_global_ensemble-5.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/dcant_budget_global_ensemble-5.png" target="_blank">ecb84c1</a>
@@ -22526,6 +23365,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/dcant_budget_global_ensemble-6.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/dcant_budget_global_ensemble-6.png" target="_blank">ecb84c1</a>
@@ -22709,6 +23559,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/dcant_budget_global_ensemble-7.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/dcant_budget_global_ensemble-7.png" target="_blank">ecb84c1</a>
@@ -22906,6 +23767,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/dcant_budget_global_ensemble-8.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/dcant_budget_global_ensemble-8.png" target="_blank">ecb84c1</a>
 </td>
 <td>
@@ -23070,6 +23942,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/dcant_budget_global_ensemble-9.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/dcant_budget_global_ensemble-9.png" target="_blank">ecb84c1</a>
 </td>
 <td>
@@ -23225,6 +24108,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/beta_budget_global-1.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/beta_budget_global-1.png" target="_blank">ecb84c1</a>
@@ -23406,8 +24300,8 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="basin-hemisphere-2" class="section level3" number="12.1.2">
-<h3><span class="header-section-number">12.1.2</span> basin
+<div id="basin-hemisphere-2" class="section level3" number="13.1.2">
+<h3><span class="header-section-number">13.1.2</span> basin
 hemisphere</h3>
 <pre class="r"><code>dcant_budget_basin_MLR_all_ensemble %&gt;%
   ggplot(aes(period, dcant, col = Version_ID_group)) +
@@ -23437,6 +24331,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/dcant_budget_basin_hemisphere_ensemble-1.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/dcant_budget_basin_hemisphere_ensemble-1.png" target="_blank">ecb84c1</a>
@@ -23787,6 +24692,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/dcant_budget_basin_hemisphere_ensemble-2.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/dcant_budget_basin_hemisphere_ensemble-2.png" target="_blank">ecb84c1</a>
@@ -24202,6 +25118,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/dcant_budget_basin_hemisphere_ensemble-3.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/dcant_budget_basin_hemisphere_ensemble-3.png" target="_blank">ecb84c1</a>
 </td>
 <td>
@@ -24538,6 +25465,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/dcant_budget_basin_hemisphere_ensemble-4.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/dcant_budget_basin_hemisphere_ensemble-4.png" target="_blank">ecb84c1</a>
 </td>
 <td>
@@ -24779,6 +25717,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/dcant_budget_basin_hemisphere_ensemble-5.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/dcant_budget_basin_hemisphere_ensemble-5.png" target="_blank">ecb84c1</a>
 </td>
 <td>
@@ -24913,6 +25862,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/beta_budget_basin_hemisphere_ensemble-1.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/beta_budget_basin_hemisphere_ensemble-1.png" target="_blank">ecb84c1</a>
@@ -25126,18 +26086,18 @@ beta_budget_ensemble_stat_KS %&gt;%
 <pre><code># A tibble: 12 × 5
    basin       estimate     ks_p      t_p     ratio_p
    &lt;fct&gt;       &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt;       &lt;dbl&gt;
- 1 Global      beta     1.43e-10 5.76e-14 2484.      
- 2 Global      dcant    1.63e- 3 2.09e- 5   78.0     
- 3 Indian      beta     1.37e- 8 6.14e-10   22.2     
- 4 Indian      dcant    1.86e- 5 2.16e- 4    0.0862  
- 5 N. Pacific  beta     3.40e- 1 2.65e- 1    1.29    
- 6 N. Pacific  dcant    5.32e- 4 1.17e- 2    0.0457  
- 7 S. Pacific  beta     6.29e-14 1.61e-13    0.391   
- 8 S. Pacific  dcant    6.66e-12 9.17e- 9    0.000726
- 9 N. Atlantic beta     0        5.90e-25    0       
-10 N. Atlantic dcant    0        1.21e-17    0       
-11 S. Atlantic beta     3.86e- 3 2.76e- 2    0.140   
-12 S. Atlantic dcant    8.83e- 5 2.63e- 6   33.6     </code></pre>
+ 1 Global      beta     6.97e-10 2.18e-14 31894.     
+ 2 Global      dcant    8.83e- 5 1.16e- 5     7.59   
+ 3 Indian      beta     1.37e- 8 7.59e-10    18.0    
+ 4 Indian      dcant    1.86e- 5 1.98e- 4     0.0941 
+ 5 N. Pacific  beta     3.40e- 1 2.69e- 1     1.27   
+ 6 N. Pacific  dcant    5.32e- 4 1.21e- 2     0.0441 
+ 7 S. Pacific  beta     6.29e-14 1.26e-13     0.500  
+ 8 S. Pacific  dcant    5.41e-11 7.47e- 9     0.00724
+ 9 N. Atlantic beta     0        2.45e-25     0      
+10 N. Atlantic dcant    0        7.48e-18     0      
+11 S. Atlantic beta     3.66e- 2 4.41e- 2     0.830  
+12 S. Atlantic dcant    6.53e- 4 5.47e- 6   119.     </code></pre>
 <pre class="r"><code>beta_budget_ensemble_stat &lt;-
   beta_budget_basin_MLR_all_ensemble %&gt;% 
   filter(data_source == &quot;obs&quot;,
@@ -25281,10 +26241,10 @@ beta
 1.30
 </td>
 <td style="text-align:right;">
-0.1300
+0.130
 </td>
 <td style="text-align:right;">
-0.078
+0.082
 </td>
 <td style="text-align:right;">
 1.60
@@ -25322,10 +26282,10 @@ dcant
 27.00
 </td>
 <td style="text-align:right;">
-2.4000
+2.400
 </td>
 <td style="text-align:right;">
-1.600
+1.700
 </td>
 <td style="text-align:right;">
 29.00
@@ -25343,10 +26303,10 @@ dcant
 -1.9000
 </td>
 <td style="text-align:right;">
-5.7e-05
+6.0e-05
 </td>
 <td style="text-align:right;">
-1.7e-04
+1.8e-04
 </td>
 </tr>
 <tr>
@@ -25363,10 +26323,10 @@ beta
 0.28
 </td>
 <td style="text-align:right;">
-0.0400
+0.040
 </td>
 <td style="text-align:right;">
-0.038
+0.039
 </td>
 <td style="text-align:right;">
 0.38
@@ -25375,7 +26335,7 @@ beta
 0.28
 </td>
 <td style="text-align:right;">
-0.078
+0.080
 </td>
 <td style="text-align:right;">
 -0.091
@@ -25404,10 +26364,10 @@ dcant
 5.70
 </td>
 <td style="text-align:right;">
-0.7400
+0.750
 </td>
 <td style="text-align:right;">
-0.770
+0.800
 </td>
 <td style="text-align:right;">
 7.20
@@ -25416,7 +26376,7 @@ dcant
 5.70
 </td>
 <td style="text-align:right;">
-1.500
+1.600
 </td>
 <td style="text-align:right;">
 -1.200
@@ -25445,7 +26405,7 @@ beta
 0.17
 </td>
 <td style="text-align:right;">
-0.0540
+0.054
 </td>
 <td style="text-align:right;">
 0.039
@@ -25486,7 +26446,7 @@ dcant
 3.60
 </td>
 <td style="text-align:right;">
-1.0000
+1.000
 </td>
 <td style="text-align:right;">
 0.800
@@ -25507,7 +26467,7 @@ dcant
 0.3200
 </td>
 <td style="text-align:right;">
-4.7e-03
+4.8e-03
 </td>
 <td style="text-align:right;">
 1.4e-01
@@ -25527,7 +26487,7 @@ beta
 0.37
 </td>
 <td style="text-align:right;">
-0.0670
+0.067
 </td>
 <td style="text-align:right;">
 0.045
@@ -25568,7 +26528,7 @@ dcant
 7.60
 </td>
 <td style="text-align:right;">
-1.3000
+1.300
 </td>
 <td style="text-align:right;">
 0.920
@@ -25589,10 +26549,10 @@ dcant
 -1.2000
 </td>
 <td style="text-align:right;">
-3.4e-06
+2.4e-06
 </td>
 <td style="text-align:right;">
-9.8e-06
+9.2e-06
 </td>
 </tr>
 <tr>
@@ -25603,13 +26563,13 @@ N. Atlantic
 beta
 </td>
 <td style="text-align:right;">
-0.25
+0.26
 </td>
 <td style="text-align:right;">
-0.18
+0.19
 </td>
 <td style="text-align:right;">
-0.0096
+0.011
 </td>
 <td style="text-align:right;">
 0.019
@@ -25621,7 +26581,7 @@ beta
 0.19
 </td>
 <td style="text-align:right;">
-0.030
+0.031
 </td>
 <td style="text-align:right;">
 -0.066
@@ -25644,13 +26604,13 @@ N. Atlantic
 dcant
 </td>
 <td style="text-align:right;">
-4.70
+4.80
 </td>
 <td style="text-align:right;">
-3.70
+3.90
 </td>
 <td style="text-align:right;">
-0.1800
+0.200
 </td>
 <td style="text-align:right;">
 0.390
@@ -25662,10 +26622,10 @@ dcant
 3.90
 </td>
 <td style="text-align:right;">
-0.610
+0.630
 </td>
 <td style="text-align:right;">
--0.910
+-0.890
 </td>
 <td style="text-align:right;">
 -0.9000
@@ -25691,7 +26651,7 @@ beta
 0.24
 </td>
 <td style="text-align:right;">
-0.0320
+0.032
 </td>
 <td style="text-align:right;">
 0.028
@@ -25706,13 +26666,13 @@ beta
 0.060
 </td>
 <td style="text-align:right;">
-0.027
+0.026
 </td>
 <td style="text-align:right;">
 0.0530
 </td>
 <td style="text-align:right;">
-3.3e-04
+5.0e-04
 </td>
 <td style="text-align:right;">
 0.0e+00
@@ -25732,7 +26692,7 @@ dcant
 4.90
 </td>
 <td style="text-align:right;">
-0.6000
+0.600
 </td>
 <td style="text-align:right;">
 0.570
@@ -25747,7 +26707,7 @@ dcant
 1.200
 </td>
 <td style="text-align:right;">
-0.930
+0.910
 </td>
 <td style="text-align:right;">
 1.5000
@@ -25793,6 +26753,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/beta_budget_stats-1.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/beta_budget_stats-1.png" target="_blank">ecb84c1</a>
@@ -25982,6 +26953,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/beta_budget_stats-2.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/beta_budget_stats-2.png" target="_blank">ecb84c1</a>
@@ -26207,6 +27189,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/beta_ensemble_scatter_plot-1.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/beta_ensemble_scatter_plot-1.png" target="_blank">ecb84c1</a>
 </td>
 <td>
@@ -26412,8 +27405,8 @@ jens-daniel-mueller
        height = 6,
        width = 8)</code></pre>
 </div>
-<div id="biases" class="section level3" number="12.1.3">
-<h3><span class="header-section-number">12.1.3</span> Biases</h3>
+<div id="biases" class="section level3" number="13.1.3">
+<h3><span class="header-section-number">13.1.3</span> Biases</h3>
 <pre class="r"><code>dcant_budget_basin_MLR_all_ensemble_bias &lt;- 
 dcant_budget_basin_MLR_all_ensemble %&gt;%
   filter(data_source %in% c(&quot;mod&quot;, &quot;mod_truth&quot;)) %&gt;% 
@@ -26478,6 +27471,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/budget_biases-1.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/budget_biases-1.png" target="_blank">ecb84c1</a>
@@ -26706,6 +27710,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/budget_biases-2.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/budget_biases-2.png" target="_blank">ecb84c1</a>
 </td>
 <td>
@@ -26878,6 +27893,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/budget_biases-3.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/budget_biases-3.png" target="_blank">ecb84c1</a>
 </td>
 <td>
@@ -27042,6 +28068,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/budget_biases-4.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/budget_biases-4.png" target="_blank">ecb84c1</a>
 </td>
 <td>
@@ -27183,6 +28220,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/budget_biases-5.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/budget_biases-5.png" target="_blank">ecb84c1</a>
@@ -27440,6 +28488,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/budget_biases-6.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/budget_biases-6.png" target="_blank">ecb84c1</a>
 </td>
 <td>
@@ -27591,8 +28650,8 @@ jens-daniel-mueller
        width = 6)</code></pre>
 </div>
 </div>
-<div id="flow-chart" class="section level2" number="12.2">
-<h2><span class="header-section-number">12.2</span> Flow chart</h2>
+<div id="flow-chart" class="section level2" number="13.2">
+<h2><span class="header-section-number">13.2</span> Flow chart</h2>
 <pre class="r"><code>dcant_budget_basin_MLR_all &lt;- 
   dcant_budget_basin_MLR_all %&gt;% 
   filter(basin != &quot;Global&quot;)
@@ -27648,8 +28707,8 @@ dcant_budget_basin_MLR_all_plot &lt;- bind_rows(
 dcant_budget_basin_MLR_all_plot &lt;-
   left_join(dcant_budget_basin_MLR_all_plot,
             dcant_budget_basin_MLR_all_ensemble_summary)</code></pre>
-<div id="absolute" class="section level3" number="12.2.1">
-<h3><span class="header-section-number">12.2.1</span> Absolute</h3>
+<div id="absolute" class="section level3" number="13.2.1">
+<h3><span class="header-section-number">13.2.1</span> Absolute</h3>
 <pre class="r"><code>g1 &lt;- dcant_budget_basin_MLR_all_plot %&gt;%
   filter(period != &quot;1800 - 1994&quot;) %&gt;% 
   ggplot(aes(
@@ -28701,8 +29760,8 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="scaled" class="section level3" number="12.2.2">
-<h3><span class="header-section-number">12.2.2</span> Scaled</h3>
+<div id="scaled" class="section level3" number="13.2.2">
+<h3><span class="header-section-number">13.2.2</span> Scaled</h3>
 <pre class="r"><code>dcant_budget_basin_MLR_all_plot &lt;- left_join(dcant_budget_basin_MLR_all_plot,
                            co2_atm %&gt;% rename(tref1 = year,
                                               pCO21 = pCO2))
@@ -29984,6 +31043,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/budgets_basins_hemisphere_alluvial_order_basin_scaled_incl_sabine_uncertainty-1.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/budgets_basins_hemisphere_alluvial_order_basin_scaled_incl_sabine_uncertainty-1.png" target="_blank">ecb84c1</a>
 </td>
 <td>
@@ -30630,10 +31700,10 @@ jens-daniel-mueller
 #        width = 8)</code></pre>
 </div>
 </div>
-<div id="depth-layer" class="section level2" number="12.3">
-<h2><span class="header-section-number">12.3</span> Depth layer</h2>
-<div id="global-3" class="section level3" number="12.3.1">
-<h3><span class="header-section-number">12.3.1</span> Global</h3>
+<div id="depth-layer" class="section level2" number="13.3">
+<h2><span class="header-section-number">13.3</span> Depth layer</h2>
+<div id="global-3" class="section level3" number="13.3.1">
+<h3><span class="header-section-number">13.3.1</span> Global</h3>
 <pre class="r"><code>dcant_budget_change &lt;- dcant_budget_global_layer_all %&gt;%
   filter(estimate == &quot;dcant&quot;,
          period != &quot;1994 - 2014&quot;,
@@ -30914,8 +31984,8 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="basins" class="section level3" number="12.3.2">
-<h3><span class="header-section-number">12.3.2</span> 5 basins</h3>
+<div id="basins" class="section level3" number="13.3.2">
+<h3><span class="header-section-number">13.3.2</span> 5 basins</h3>
 <pre class="r"><code>dcant_budget_change &lt;- dcant_budget_basin_MLR_layer_all %&gt;%
   filter(estimate == &quot;dcant&quot;,
          period != &quot;1994 - 2014&quot;,
@@ -31148,6 +32218,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/depth_layer_budget_basin_MLR_ensemble-1.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/depth_layer_budget_basin_MLR_ensemble-1.png" target="_blank">ecb84c1</a>
 </td>
 <td>
@@ -31354,6 +32435,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/depth_layer_budget_basin_MLR_ensemble-2.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/depth_layer_budget_basin_MLR_ensemble-2.png" target="_blank">ecb84c1</a>
 </td>
 <td>
@@ -31554,6 +32646,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/depth_layer_budget_basin_MLR_ensemble_mod-1.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/depth_layer_budget_basin_MLR_ensemble_mod-1.png" target="_blank">ecb84c1</a>
 </td>
 <td>
@@ -31649,6 +32752,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/depth_layer_budget_basin_MLR_ensemble_mod-2.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/depth_layer_budget_basin_MLR_ensemble_mod-2.png" target="_blank">ecb84c1</a>
@@ -31827,7 +32941,7 @@ Global
 -1.095
 </td>
 <td style="text-align:right;">
-0.8335430
+0.8375149
 </td>
 </tr>
 <tr>
@@ -31841,7 +32955,7 @@ Indian
 -0.396
 </td>
 <td style="text-align:right;">
-0.3501782
+0.3532956
 </td>
 </tr>
 <tr>
@@ -31855,7 +32969,7 @@ S. Pacific
 -0.417
 </td>
 <td style="text-align:right;">
-0.3860808
+0.3846888
 </td>
 </tr>
 <tr>
@@ -31869,7 +32983,7 @@ N. Atlantic
 0.336
 </td>
 <td style="text-align:right;">
-0.3135567
+0.3086527
 </td>
 </tr>
 <tr>
@@ -31883,7 +32997,7 @@ N. Atlantic
 -0.469
 </td>
 <td style="text-align:right;">
-0.2416452
+0.2358154
 </td>
 </tr>
 <tr>
@@ -31897,7 +33011,7 @@ N. Atlantic
 -0.245
 </td>
 <td style="text-align:right;">
-0.1891653
+0.1856404
 </td>
 </tr>
 <tr>
@@ -31911,7 +33025,7 @@ N. Atlantic
 -0.346
 </td>
 <td style="text-align:right;">
-0.2267975
+0.2239023
 </td>
 </tr>
 <tr>
@@ -31925,7 +33039,7 @@ S. Atlantic
 0.912
 </td>
 <td style="text-align:right;">
-0.4549039
+0.4448981
 </td>
 </tr>
 <tr>
@@ -31939,7 +33053,7 @@ S. Atlantic
 0.495
 </td>
 <td style="text-align:right;">
-0.3319875
+0.3282032
 </td>
 </tr>
 </tbody>
@@ -32349,10 +33463,10 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="time-series" class="section level1" number="13">
-<h1><span class="header-section-number">13</span> Time series</h1>
-<div id="emlr-only" class="section level2" number="13.1">
-<h2><span class="header-section-number">13.1</span> eMLR only</h2>
+<div id="time-series" class="section level1" number="14">
+<h1><span class="header-section-number">14</span> Time series</h1>
+<div id="emlr-only" class="section level2" number="14.1">
+<h2><span class="header-section-number">14.1</span> eMLR only</h2>
 <pre class="r"><code>dcant_budget_global_all_ensemble %&gt;% 
   filter(data_source == &quot;obs&quot;,
          period != &quot;1994 - 2014&quot;) %&gt;% 
@@ -32384,6 +33498,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/dcant_budget_time_series_member_connections-1.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/dcant_budget_time_series_member_connections-1.png" target="_blank">ecb84c1</a>
@@ -32609,6 +33734,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/dcant_budget_time_series_member_connections-2.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/dcant_budget_time_series_member_connections-2.png" target="_blank">ecb84c1</a>
@@ -32847,6 +33983,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/dcant_budget_time_series_member_connections-3.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/dcant_budget_time_series_member_connections-3.png" target="_blank">ecb84c1</a>
 </td>
 <td>
@@ -33080,6 +34227,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/dcant_budget_time_series_member_connections-4.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/dcant_budget_time_series_member_connections-4.png" target="_blank">ecb84c1</a>
@@ -33320,6 +34478,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/dcant_budget_time_series_member_connections-5.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/dcant_budget_time_series_member_connections-5.png" target="_blank">ecb84c1</a>
 </td>
 <td>
@@ -33508,6 +34677,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/mean_tcant_over_time-1.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/mean_tcant_over_time-1.png" target="_blank">ecb84c1</a>
@@ -34053,6 +35233,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/mean_tcant_over_time-2.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/mean_tcant_over_time-2.png" target="_blank">ecb84c1</a>
 </td>
 <td>
@@ -34501,6 +35692,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2-1.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2-1.png" target="_blank">ecb84c1</a>
@@ -35109,6 +36311,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2-2.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2-2.png" target="_blank">ecb84c1</a>
 </td>
 <td>
@@ -35516,6 +36729,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2-3.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2-3.png" target="_blank">ecb84c1</a>
 </td>
 <td>
@@ -35562,11 +36786,11 @@ jens-daniel-mueller
   &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt; &lt;dbl&gt;
 1  1800        0      NA     280     0       0          NA    NA   
 2  1994      118       0     358.  118      19          19     1.51
-3  2004       29.2     4.80  377.  147.     19.6         4.80  1.57
-4  2014       27.3     4.61  397.  174.     19.6         4.61  1.34</code></pre>
+3  2004       29.2     4.73  377.  147.     19.6         4.73  1.57
+4  2014       27.3     4.73  397.  174.     19.6         4.73  1.34</code></pre>
 </div>
-<div id="incl-fluxes" class="section level2" number="13.2">
-<h2><span class="header-section-number">13.2</span> incl fluxes</h2>
+<div id="incl-fluxes" class="section level2" number="14.2">
+<h2><span class="header-section-number">14.2</span> incl fluxes</h2>
 <pre class="r"><code>Ocean_Sink &lt;- Ocean_Sink %&gt;%
   filter(product != &quot;Watson&quot;)</code></pre>
 <pre class="r"><code>Ocean_Sink_cum_1994 &lt;-
@@ -36130,6 +37354,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes-1.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes-1.png" target="_blank">ecb84c1</a>
@@ -36832,6 +38067,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_boxplot-1.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_boxplot-1.png" target="_blank">ecb84c1</a>
 </td>
 <td>
@@ -37296,6 +38542,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_boxplot-2.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_boxplot-2.png" target="_blank">ecb84c1</a>
 </td>
 <td>
@@ -37409,7 +38666,7 @@ eMLR(C*)
 29.21111
 </td>
 <td style="text-align:right;">
-4.795641
+4.731337
 </td>
 <td style="text-align:right;">
 0.0000000
@@ -37418,10 +38675,10 @@ eMLR(C*)
 0.000000
 </td>
 <td style="text-align:right;">
-6.782061
+6.691121
 </td>
 <td style="text-align:right;">
-6.7820609
+6.6911212
 </td>
 </tr>
 <tr>
@@ -37444,10 +38701,10 @@ Global Ocean Biogeochemical Models (GOBM)
 -33.156332
 </td>
 <td style="text-align:right;">
-7.224308
+7.181783
 </td>
 <td style="text-align:right;">
--2.4610245
+-2.5035498
 </td>
 </tr>
 <tr>
@@ -37470,10 +38727,10 @@ Observation-based surface flux products
 -26.690286
 </td>
 <td style="text-align:right;">
-7.371079
+7.329405
 </td>
 <td style="text-align:right;">
--0.4254504
+-0.4671241
 </td>
 </tr>
 <tr>
@@ -37487,7 +38744,7 @@ eMLR(C*)
 56.66132
 </td>
 <td style="text-align:right;">
-4.606987
+4.732160
 </td>
 <td style="text-align:right;">
 0.0000000
@@ -37496,10 +38753,10 @@ eMLR(C*)
 0.000000
 </td>
 <td style="text-align:right;">
-6.515264
+6.692284
 </td>
 <td style="text-align:right;">
-6.5152640
+6.6922844
 </td>
 </tr>
 <tr>
@@ -37522,10 +38779,10 @@ Global Ocean Biogeochemical Models (GOBM)
 -25.372777
 </td>
 <td style="text-align:right;">
-11.902227
+11.951235
 </td>
 <td style="text-align:right;">
--2.4743235
+-2.4253158
 </td>
 </tr>
 <tr>
@@ -37548,10 +38805,10 @@ Observation-based surface flux products
 -15.470987
 </td>
 <td style="text-align:right;">
-9.010539
+9.075176
 </td>
 <td style="text-align:right;">
-0.2444732
+0.3091101
 </td>
 </tr>
 <tr>
@@ -37565,7 +38822,7 @@ eMLR(C*)
 27.28596
 </td>
 <td style="text-align:right;">
-3.200151
+3.354793
 </td>
 <td style="text-align:right;">
 0.0000000
@@ -37574,10 +38831,10 @@ eMLR(C*)
 0.000000
 </td>
 <td style="text-align:right;">
-4.525696
+4.744394
 </td>
 <td style="text-align:right;">
-4.5256964
+4.7443941
 </td>
 </tr>
 <tr>
@@ -37600,10 +38857,10 @@ Global Ocean Biogeochemical Models (GOBM)
 -16.590828
 </td>
 <td style="text-align:right;">
-6.429101
+6.507458
 </td>
 <td style="text-align:right;">
-1.9021339
+1.9804912
 </td>
 </tr>
 <tr>
@@ -37626,10 +38883,10 @@ Observation-based surface flux products
 -2.951282
 </td>
 <td style="text-align:right;">
-4.131275
+4.252189
 </td>
 <td style="text-align:right;">
-3.3259896
+3.4469031
 </td>
 </tr>
 </tbody>
@@ -37755,6 +39012,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_mean-1.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_mean-1.png" target="_blank">ecb84c1</a>
 </td>
 <td>
@@ -37819,6 +39087,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_boxplot_ensemble-1.png" target="_blank">7060801</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_boxplot_ensemble-1.png" target="_blank">ecb84c1</a>
 </td>
 <td>
@@ -37871,8 +39150,8 @@ jens-daniel-mueller
        width = 9)</code></pre>
 </div>
 </div>
-<div id="revelle-changes" class="section level1" number="14">
-<h1><span class="header-section-number">14</span> Revelle changes</h1>
+<div id="revelle-changes" class="section level1" number="15">
+<h1><span class="header-section-number">15</span> Revelle changes</h1>
 <pre class="r"><code>delta_revelle &lt;- co2_atm %&gt;%
   mutate(revelle = seacarb::buffer(24,
                                    pCO2,
@@ -38071,10 +39350,10 @@ jens-daniel-mueller
 <pre class="r"><code>min(delta_revelle$delta_DIC_rel_cum / max(delta_revelle$delta_year))</code></pre>
 <pre><code>[1] -0.006078176</code></pre>
 </div>
-<div id="gcb-implications" class="section level1" number="15">
-<h1><span class="header-section-number">15</span> GCB implications</h1>
-<div id="land-sink" class="section level2" number="15.1">
-<h2><span class="header-section-number">15.1</span> Land sink</h2>
+<div id="gcb-implications" class="section level1" number="16">
+<h1><span class="header-section-number">16</span> GCB implications</h1>
+<div id="land-sink" class="section level2" number="16.1">
+<h2><span class="header-section-number">16.1</span> Land sink</h2>
 <pre class="r"><code>flux_label &lt;- expression(CO[2]~flux~(PgC~yr^{-1}))
 
 flux_components &lt;- Global_Carbon_Budget %&gt;% 
@@ -38917,8 +40196,8 @@ dev.off()</code></pre>
   sink_components
 )</code></pre>
 </div>
-<div id="net-land-sink" class="section level2" number="15.2">
-<h2><span class="header-section-number">15.2</span> Net land sink</h2>
+<div id="net-land-sink" class="section level2" number="16.2">
+<h2><span class="header-section-number">16.2</span> Net land sink</h2>
 <pre class="r"><code>flux_label &lt;- expression(flux~(PgC~yr^{-1}))
 
 Global_Carbon_Budget_net_land_sink &lt;- Global_Carbon_Budget %&gt;%
@@ -39582,8 +40861,8 @@ dev.off()</code></pre>
 )</code></pre>
 </div>
 </div>
-<div id="emission-removal" class="section level1" number="16">
-<h1><span class="header-section-number">16</span> Emission removal</h1>
+<div id="emission-removal" class="section level1" number="17">
+<h1><span class="header-section-number">17</span> Emission removal</h1>
 <pre class="r"><code>GCB_Cant_emissions &lt;- Global_Carbon_Budget %&gt;%
   mutate(year = cut(year, c(1994, 2004, 2014), c(&quot;2004&quot;, &quot;2014&quot;)),
          year = as.numeric(as.character(year))) %&gt;%
@@ -39654,7 +40933,7 @@ dcant_per_emission_sd
 29.21111
 </td>
 <td style="text-align:right;">
-4.795641
+4.731337
 </td>
 <td style="text-align:right;">
 376.95
@@ -39663,16 +40942,16 @@ dcant_per_emission_sd
 147.2111
 </td>
 <td style="text-align:right;">
-19.59587
+19.58023
 </td>
 <td style="text-align:right;">
-4.795641
+4.731337
 </td>
 <td style="text-align:right;">
 35.33731
 </td>
 <td style="text-align:right;">
-5.801390
+5.723600
 </td>
 </tr>
 <tr>
@@ -39686,7 +40965,7 @@ dcant_per_emission_sd
 27.28596
 </td>
 <td style="text-align:right;">
-4.606987
+4.732160
 </td>
 <td style="text-align:right;">
 397.34
@@ -39695,24 +40974,24 @@ dcant_per_emission_sd
 174.4971
 </td>
 <td style="text-align:right;">
-19.55056
+19.58043
 </td>
 <td style="text-align:right;">
-4.606987
+4.732160
 </td>
 <td style="text-align:right;">
 26.79981
 </td>
 <td style="text-align:right;">
-4.524906
+4.647848
 </td>
 </tr>
 </tbody>
 </table>
 </div>
 <div id="map-test-color-palettes" class="section level4"
-number="16.0.0.1">
-<h4><span class="header-section-number">16.0.0.1</span> Map test color
+number="17.0.0.1">
+<h4><span class="header-section-number">17.0.0.1</span> Map test color
 palettes</h4>
 <pre class="r"><code>breaks &lt;- c(-Inf, seq(0, 16, 2), Inf)
 
