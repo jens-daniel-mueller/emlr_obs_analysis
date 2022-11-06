@@ -541,7 +541,7 @@ GLODAP_all_coverage <- GLODAP_all %>%
   mutate(gap_filling = case_when(
     cruise_expocode %in% cruises_phosphate_gap_fill ~ "Phosphate from CANYON-B",
     cruise_expocode %in% cruises_talk_gap_fill ~ "TA from CANYON-B",
-    cruise_expocode %in% cruises_talk_calc ~ "TA calculated from other parameters",
+    cruise_expocode %in% cruises_talk_calc ~ "TA calculated from other variables",
     cruise_expocode %in% "31DS19940126" ~ "Nitrate qc-flag not met",
     TRUE ~ "All quality criteria fulfilled"
   )) %>% 
