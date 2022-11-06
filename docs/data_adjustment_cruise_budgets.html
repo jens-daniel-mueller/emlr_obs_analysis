@@ -500,6 +500,20 @@ div.tocify {
       </ul>
     </li>
     <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">C(AT) target</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="CAT_target_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="CAT_target_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="CAT_target_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Surface equilibrium</a>
       <ul class="dropdown-menu" role="menu">
         <li>
@@ -666,14 +680,16 @@ div.tocify {
 
 <h1 class="title toc-ignore">Budgets</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">29 July, 2022</h4>
+<h4 class="date">06 November, 2022</h4>
 
 </div>
 
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -682,7 +698,9 @@ div.tocify {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -691,17 +709,28 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-07-29
+<strong>Last updated:</strong> 2022-11-06
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 0
 </p>
 <p>
-<strong>Knit directory:</strong> <code>emlr_obs_analysis/analysis/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+<strong>Knit directory:</strong>
+<code>emlr_obs_analysis/analysis/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
 </p>
 <p>
-This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
-  href="https://github.com/workflowr/workflowr">workflowr</a> (version 1.7.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.0). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
 </p>
 <hr>
 </div>
@@ -710,91 +739,138 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguptodate"
+class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
 </p>
 </div>
 <div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20210412code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20210412)</code> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20210412code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20210412)</code> </a>
 </p>
 </div>
-<div id="strongSeedstrongcodesetseed20210412code" class="panel-collapse collapse">
+<div id="strongSeedstrongcodesetseed20210412code"
+class="panel-collapse collapse">
 <div class="panel-body">
-<p>The command <code>set.seed(20210412)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+<p>The command <code>set.seed(20210412)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
 </p>
 </div>
-<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
 </p>
 </div>
 <div id="strongCachestrongnone" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
 </p>
 </div>
 <div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreef04d8ed5bf6d53481c1331fbe3e1803b25778476targetblankf04d8eda"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/f04d8ed5bf6d53481c1331fbe3e1803b25778476" target="_blank">f04d8ed</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree820fff84b67213920947fe3d206764620f9fefe5targetblank820fff8a">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/820fff84b67213920947fe3d206764620f9fefe5" target="_blank">820fff8</a>
+</a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreef04d8ed5bf6d53481c1331fbe3e1803b25778476targetblankf04d8eda" class="panel-collapse collapse">
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree820fff84b67213920947fe3d206764620f9fefe5targetblank820fff8a"
+class="panel-collapse collapse">
 <div class="panel-body">
 <p>
-Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/f04d8ed5bf6d53481c1331fbe3e1803b25778476" target="_blank">f04d8ed</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/820fff84b67213920947fe3d206764620f9fefe5" target="_blank">820fff8</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
 </p>
 <p>
-Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
 </p>
 <pre><code>
 Ignored files:
@@ -802,19 +878,23 @@ Ignored files:
     Ignored:    .Rproj.user/
     Ignored:    data/
     Ignored:    output/other/
+    Ignored:    output/presentation/
     Ignored:    output/publication/
 
 Untracked files:
-    Untracked:  figure/
+    Untracked:  code/visualization_equal_earth.R
+    Untracked:  code/visualization_equal_earth_cleaned.R
+    Untracked:  code/visualization_equal_earth_cleaned_jdm.R
 
 Unstaged changes:
     Modified:   analysis/_site.yml
-    Modified:   analysis/child/budget_analysis_plot_data.Rmd
     Modified:   code/Workflowr_project_managment.R
 
 </code></pre>
 <p>
-Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
 </p>
 </div>
 </div>
@@ -825,7 +905,13 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <div id="versions" class="tab-pane fade">
 
 <p>
-These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/data_adjustment_cruise_budgets.Rmd</code>) and HTML (<code>docs/data_adjustment_cruise_budgets.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+These are the previous versions of the repository in which changes were
+made to the R Markdown
+(<code>analysis/data_adjustment_cruise_budgets.Rmd</code>) and HTML
+(<code>docs/data_adjustment_cruise_budgets.html</code>) files. If you’ve
+configured a remote Git repository (see <code>?wflow_git_remote</code>),
+click on the hyperlinks in the table below to view the files as they
+were in that past version.
 </p>
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
@@ -849,6 +935,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/data_adjustment_cruise_budgets.html" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -1377,7 +1480,8 @@ rm(
 )</code></pre>
 </div>
 <div id="basins-hemisphere" class="section level2" number="1.3">
-<h2><span class="header-section-number">1.3</span> Basins hemisphere</h2>
+<h2><span class="header-section-number">1.3</span> Basins
+hemisphere</h2>
 <pre class="r"><code># Version_IDs &lt;- Version_IDs[1:length(Version_IDs)-1]
 
 for (i_Version_IDs in Version_IDs) {
@@ -1550,7 +1654,8 @@ regional_bias_rel_max</code></pre>
 <div id="global-1" class="section level2" number="3.1">
 <h2><span class="header-section-number">3.1</span> Global</h2>
 <div id="absoulte-values" class="section level3" number="3.1.1">
-<h3><span class="header-section-number">3.1.1</span> Absoulte values</h3>
+<h3><span class="header-section-number">3.1.1</span> Absoulte
+values</h3>
 <pre class="r"><code>legend_title = expression(atop(Delta * C[ant],
                                (mu * mol ~ kg ^ {
                                  -1
@@ -1795,7 +1900,8 @@ jens-daniel-mueller
   kable() %&gt;%
   kable_styling() %&gt;%
   scroll_box(height = &quot;300px&quot;)</code></pre>
-<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; ">
+<div
+style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; ">
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -1822,13 +1928,13 @@ dcant_bias_rel
 1994 - 2004
 </td>
 <td style="text-align:right;">
-1.489714
+1.4799236
 </td>
 <td style="text-align:right;">
 1.390667
 </td>
 <td style="text-align:right;">
-8.445091
+8.389590
 </td>
 <td style="text-align:right;">
 7.883598
@@ -1839,16 +1945,16 @@ dcant_bias_rel
 1994 - 2014
 </td>
 <td style="text-align:right;">
-1.705241
+1.6943235
 </td>
 <td style="text-align:right;">
-2.768667
+2.569333
 </td>
 <td style="text-align:right;">
-4.432883
+4.404501
 </td>
 <td style="text-align:right;">
-7.197324
+6.679145
 </td>
 </tr>
 <tr>
@@ -1856,16 +1962,16 @@ dcant_bias_rel
 2004 - 2014
 </td>
 <td style="text-align:right;">
-0.874078
+0.8601962
 </td>
 <td style="text-align:right;">
-1.511333
+1.279500
 </td>
 <td style="text-align:right;">
-4.196649
+4.129999
 </td>
 <td style="text-align:right;">
-7.256258
+6.143173
 </td>
 </tr>
 </tbody>
@@ -1876,7 +1982,8 @@ dcant_bias_rel
 <div id="basins-1" class="section level2" number="3.2">
 <h2><span class="header-section-number">3.2</span> Basins</h2>
 <div id="absoulte-values-1" class="section level3" number="3.2.1">
-<h3><span class="header-section-number">3.2.1</span> Absoulte values</h3>
+<h3><span class="header-section-number">3.2.1</span> Absoulte
+values</h3>
 <pre class="r"><code>dcant_budget_basin_AIP_all %&gt;%
   ggplot(aes(period, dcant, col = MLR_basins)) +
   geom_jitter(width = 0.05, height = 0) +
@@ -2172,7 +2279,8 @@ jens-daniel-mueller
 <div id="slab-budgets" class="section level2" number="3.3">
 <h2><span class="header-section-number">3.3</span> Slab budgets</h2>
 <div id="absolute-values" class="section level3" number="3.3.1">
-<h3><span class="header-section-number">3.3.1</span> Absolute values</h3>
+<h3><span class="header-section-number">3.3.1</span> Absolute
+values</h3>
 <pre class="r"><code>dcant_slab_budget_all %&gt;%
   filter(data_source == &quot;obs&quot;,
          period != &quot;1994 - 2014&quot;) %&gt;% 
@@ -2415,7 +2523,7 @@ jens-daniel-mueller
       labs(title = paste(&quot;data_source:&quot;, unique(.x$basin_AIP)))
     )</code></pre>
 <pre><code>[[1]]</code></pre>
-<pre><code>Warning: Removed 48 rows containing missing values (position_stack).</code></pre>
+<pre><code>Warning: Removed 40 rows containing missing values (position_stack).</code></pre>
 <p><img src="figure/data_adjustment_cruise_budgets.Rmd/slab_budgets_bias-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-slab_budgets_bias-1">
@@ -2747,9 +2855,11 @@ jens-daniel-mueller
 </div>
 </div>
 <div id="basins-hemisphere-1" class="section level2" number="3.4">
-<h2><span class="header-section-number">3.4</span> Basins hemisphere</h2>
+<h2><span class="header-section-number">3.4</span> Basins
+hemisphere</h2>
 <div id="absoulte-values-2" class="section level3" number="3.4.1">
-<h3><span class="header-section-number">3.4.1</span> Absoulte values</h3>
+<h3><span class="header-section-number">3.4.1</span> Absoulte
+values</h3>
 <pre class="r"><code>dcant_budget_basin_MLR_all %&gt;%
   ggplot(aes(period, dcant, col = MLR_basins)) +
   geom_jitter(width = 0.05, height = 0) +
@@ -3018,7 +3128,8 @@ jens-daniel-mueller
   scroll_box(height = &quot;300px&quot;)</code></pre>
 <pre><code>`summarise()` has grouped output by &#39;period&#39;. You can override using the
 `.groups` argument.</code></pre>
-<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; ">
+<div
+style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; ">
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -3051,16 +3162,16 @@ dcant_bias_rel
 Indian
 </td>
 <td style="text-align:right;">
-1.0186801
+1.0001941
 </td>
 <td style="text-align:right;">
-0.2145000
+0.2205000
 </td>
 <td style="text-align:right;">
-21.130058
+20.746611
 </td>
 <td style="text-align:right;">
-4.4492844
+4.573740
 </td>
 </tr>
 <tr>
@@ -3071,16 +3182,16 @@ Indian
 N_Atlantic
 </td>
 <td style="text-align:right;">
-0.2364308
+0.2338584
 </td>
 <td style="text-align:right;">
-0.1945000
+0.1958333
 </td>
 <td style="text-align:right;">
-12.118439
+11.986593
 </td>
 <td style="text-align:right;">
-9.9692465
+10.037588
 </td>
 </tr>
 <tr>
@@ -3091,16 +3202,16 @@ N_Atlantic
 N_Pacific
 </td>
 <td style="text-align:right;">
-0.1760318
+0.1802414
 </td>
 <td style="text-align:right;">
-0.4370000
+0.4681667
 </td>
 <td style="text-align:right;">
-6.481289
+6.636282
 </td>
 <td style="text-align:right;">
-16.0898380
+17.237359
 </td>
 </tr>
 <tr>
@@ -3111,16 +3222,16 @@ N_Pacific
 S_Atlantic
 </td>
 <td style="text-align:right;">
-0.2876655
+0.2843756
 </td>
 <td style="text-align:right;">
-0.1426667
+0.0945000
 </td>
 <td style="text-align:right;">
-11.506622
+11.375025
 </td>
 <td style="text-align:right;">
-5.7066667
+3.780000
 </td>
 </tr>
 <tr>
@@ -3131,16 +3242,16 @@ S_Atlantic
 S_Pacific
 </td>
 <td style="text-align:right;">
-0.8232710
+0.8079710
 </td>
 <td style="text-align:right;">
-0.4020000
+0.4120000
 </td>
 <td style="text-align:right;">
-14.566013
+14.295312
 </td>
 <td style="text-align:right;">
-7.1125265
+7.289455
 </td>
 </tr>
 <tr>
@@ -3151,16 +3262,16 @@ S_Pacific
 Indian
 </td>
 <td style="text-align:right;">
-1.3020733
+1.2863102
 </td>
 <td style="text-align:right;">
-0.7758333
+0.7363333
 </td>
 <td style="text-align:right;">
-12.462417
+12.311545
 </td>
 <td style="text-align:right;">
-7.4256636
+7.047601
 </td>
 </tr>
 <tr>
@@ -3171,16 +3282,16 @@ Indian
 N_Atlantic
 </td>
 <td style="text-align:right;">
-0.3464364
+0.3466887
 </td>
 <td style="text-align:right;">
--0.0208333
+-0.0436667
 </td>
 <td style="text-align:right;">
-8.064162
+8.070035
 </td>
 <td style="text-align:right;">
--0.4849472
+-1.016449
 </td>
 </tr>
 <tr>
@@ -3191,16 +3302,16 @@ N_Atlantic
 N_Pacific
 </td>
 <td style="text-align:right;">
-0.2720608
+0.2595725
 </td>
 <td style="text-align:right;">
-0.5993333
+0.5746667
 </td>
 <td style="text-align:right;">
-4.660171
+4.446257
 </td>
 <td style="text-align:right;">
-10.2660729
+9.843554
 </td>
 </tr>
 <tr>
@@ -3211,16 +3322,16 @@ N_Pacific
 S_Atlantic
 </td>
 <td style="text-align:right;">
-0.3545439
+0.3464309
 </td>
 <td style="text-align:right;">
-0.5118333
+0.4520000
 </td>
 <td style="text-align:right;">
-6.703420
+6.550027
 </td>
 <td style="text-align:right;">
-9.6773177
+8.546039
 </td>
 </tr>
 <tr>
@@ -3231,16 +3342,16 @@ S_Atlantic
 S_Pacific
 </td>
 <td style="text-align:right;">
-1.3013835
+1.2876691
 </td>
 <td style="text-align:right;">
-0.9026667
+0.8500000
 </td>
 <td style="text-align:right;">
-10.330900
+10.222029
 </td>
 <td style="text-align:right;">
-7.1657273
+6.747638
 </td>
 </tr>
 <tr>
@@ -3251,16 +3362,16 @@ S_Pacific
 Indian
 </td>
 <td style="text-align:right;">
-0.5357314
+0.5351501
 </td>
 <td style="text-align:right;">
-0.5161667
+0.4660000
 </td>
 <td style="text-align:right;">
-9.522422
+9.512088
 </td>
 <td style="text-align:right;">
-9.1746652
+8.282972
 </td>
 </tr>
 <tr>
@@ -3271,16 +3382,16 @@ Indian
 N_Atlantic
 </td>
 <td style="text-align:right;">
-0.1791741
+0.1794310
 </td>
 <td style="text-align:right;">
--0.1021667
+-0.1273333
 </td>
 <td style="text-align:right;">
-7.640688
+7.651640
 </td>
 <td style="text-align:right;">
--4.3567875
+-5.429993
 </td>
 </tr>
 <tr>
@@ -3291,16 +3402,16 @@ N_Atlantic
 N_Pacific
 </td>
 <td style="text-align:right;">
-0.2125320
+0.2125387
 </td>
 <td style="text-align:right;">
-0.1956667
+0.1375000
 </td>
 <td style="text-align:right;">
-6.807560
+6.807774
 </td>
 <td style="text-align:right;">
-6.2673500
+4.404228
 </td>
 </tr>
 <tr>
@@ -3311,16 +3422,16 @@ N_Pacific
 S_Atlantic
 </td>
 <td style="text-align:right;">
-0.2108257
+0.2096175
 </td>
 <td style="text-align:right;">
-0.4413333
+0.4125000
 </td>
 <td style="text-align:right;">
-7.559185
+7.515866
 </td>
 <td style="text-align:right;">
-15.8240708
+14.790247
 </td>
 </tr>
 <tr>
@@ -3331,16 +3442,16 @@ S_Atlantic
 S_Pacific
 </td>
 <td style="text-align:right;">
-0.5045666
+0.5030311
 </td>
 <td style="text-align:right;">
-0.4613333
+0.3913333
 </td>
 <td style="text-align:right;">
-7.265178
+7.243068
 </td>
 <td style="text-align:right;">
-6.6426686
+5.634749
 </td>
 </tr>
 </tbody>
@@ -3561,7 +3672,8 @@ jens-daniel-mueller
 rm(p_global_bias, p_global_dcant, p_global_dcant_bias)</code></pre>
 </div>
 <div id="mean-vs-atm-co2" class="section level3" number="4.1.2">
-<h3><span class="header-section-number">4.1.2</span> Mean vs atm CO2</h3>
+<h3><span class="header-section-number">4.1.2</span> Mean vs atm
+CO2</h3>
 <pre class="r"><code>dcant_ensemble &lt;- dcant_budget_global_ensemble %&gt;% 
   filter(data_source == &quot;obs&quot;,
          period != &quot;1994 - 2014&quot;) %&gt;% 
@@ -3853,9 +3965,11 @@ jens-daniel-mueller
 </div>
 </div>
 <div id="vertical-patterns" class="section level3" number="4.1.5">
-<h3><span class="header-section-number">4.1.5</span> Vertical patterns</h3>
+<h3><span class="header-section-number">4.1.5</span> Vertical
+patterns</h3>
 <div id="absoulte-values-3" class="section level4" number="4.1.5.1">
-<h4><span class="header-section-number">4.1.5.1</span> Absoulte values</h4>
+<h4><span class="header-section-number">4.1.5.1</span> Absoulte
+values</h4>
 <pre class="r"><code>dcant_budget_global_all_depth %&gt;%
   filter(data_source != &quot;mod_truth&quot;) %&gt;% 
   group_by(data_source) %&gt;%
@@ -4405,9 +4519,11 @@ jens-daniel-mueller
 </div>
 </div>
 <div id="vertical-patterns-1" class="section level3" number="4.2.3">
-<h3><span class="header-section-number">4.2.3</span> Vertical patterns</h3>
+<h3><span class="header-section-number">4.2.3</span> Vertical
+patterns</h3>
 <div id="absoulte-values-4" class="section level4" number="4.2.3.1">
-<h4><span class="header-section-number">4.2.3.1</span> Absoulte values</h4>
+<h4><span class="header-section-number">4.2.3.1</span> Absoulte
+values</h4>
 <pre class="r"><code>dcant_budget_basin_AIP_all_depth %&gt;%
   filter(data_source != &quot;mod_truth&quot;) %&gt;%
   group_by(data_source) %&gt;%
@@ -5076,7 +5192,7 @@ jens-daniel-mueller
 </div>
 <pre><code>
 [[2]]</code></pre>
-<pre><code>Warning: Removed 39 rows containing missing values (geom_point).</code></pre>
+<pre><code>Warning: Removed 44 rows containing missing values (geom_point).</code></pre>
 <p><img src="figure/data_adjustment_cruise_budgets.Rmd/predictor_analysis-3.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-predictor_analysis-3">
@@ -5139,7 +5255,7 @@ jens-daniel-mueller
 </div>
 <pre><code>
 [[3]]</code></pre>
-<pre><code>Warning: Removed 2 rows containing missing values (geom_point).</code></pre>
+<pre><code>Warning: Removed 1 rows containing missing values (geom_point).</code></pre>
 <p><img src="figure/data_adjustment_cruise_budgets.Rmd/predictor_analysis-4.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-predictor_analysis-4">
@@ -5202,7 +5318,7 @@ jens-daniel-mueller
 </div>
 <pre><code>
 [[4]]</code></pre>
-<pre><code>Warning: Removed 6 rows containing missing values (geom_point).</code></pre>
+<pre><code>Warning: Removed 9 rows containing missing values (geom_point).</code></pre>
 <p><img src="figure/data_adjustment_cruise_budgets.Rmd/predictor_analysis-5.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-predictor_analysis-5">
@@ -5959,7 +6075,8 @@ dcant_budget_global_bias_all_decomposition %&gt;%
   scroll_box(height = &quot;300px&quot;)</code></pre>
 <pre><code>`summarise()` has grouped output by &#39;inv_depth&#39;. You can override using the
 `.groups` argument.</code></pre>
-<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; ">
+<div
+style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; ">
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -6000,10 +6117,10 @@ C* drift
 C* prediction error
 </td>
 <td style="text-align:right;">
--0.2386667
+-0.2352222
 </td>
 <td style="text-align:right;">
-0.3367011
+0.3484668
 </td>
 </tr>
 <tr>
@@ -6014,10 +6131,10 @@ C* prediction error
 C* prediction error rel
 </td>
 <td style="text-align:right;">
--4.4306567
+-4.3721283
 </td>
 <td style="text-align:right;">
-8.0490626
+8.3314455
 </td>
 </tr>
 <tr>
@@ -6028,10 +6145,10 @@ C* prediction error rel
 dcant offset
 </td>
 <td style="text-align:right;">
-0.3193333
+0.2476667
 </td>
 <td style="text-align:right;">
-0.1239108
+0.1617624
 </td>
 </tr>
 <tr>
@@ -6042,10 +6159,10 @@ dcant offset
 dcant offset rel
 </td>
 <td style="text-align:right;">
-6.9090394
+5.5453674
 </td>
 <td style="text-align:right;">
-2.2036801
+4.3154809
 </td>
 </tr>
 <tr>
@@ -6056,10 +6173,10 @@ dcant offset rel
 dcant offset rel corr
 </td>
 <td style="text-align:right;">
-2.6169726
+1.2533006
 </td>
 <td style="text-align:right;">
-1.9954782
+4.0292410
 </td>
 </tr>
 <tr>
@@ -6112,10 +6229,10 @@ C* drift
 C* prediction error
 </td>
 <td style="text-align:right;">
--1.2830556
+-1.2904444
 </td>
 <td style="text-align:right;">
-0.9531252
+0.9639755
 </td>
 </tr>
 <tr>
@@ -6126,10 +6243,10 @@ C* prediction error
 C* prediction error rel
 </td>
 <td style="text-align:right;">
--7.3224757
+-7.3740811
 </td>
 <td style="text-align:right;">
-4.9467546
+5.0061910
 </td>
 </tr>
 <tr>
@@ -6140,10 +6257,10 @@ C* prediction error rel
 dcant offset
 </td>
 <td style="text-align:right;">
-0.4978333
+0.3868333
 </td>
 <td style="text-align:right;">
-0.6718685
+0.7351422
 </td>
 </tr>
 <tr>
@@ -6154,10 +6271,10 @@ dcant offset
 dcant offset rel
 </td>
 <td style="text-align:right;">
-3.1645946
+2.5676265
 </td>
 <td style="text-align:right;">
-4.4421200
+5.0877492
 </td>
 </tr>
 <tr>
@@ -6168,10 +6285,10 @@ dcant offset rel
 dcant offset rel corr
 </td>
 <td style="text-align:right;">
--4.8017709
+-5.3987391
 </td>
 <td style="text-align:right;">
-4.0584159
+4.6378088
 </td>
 </tr>
 <tr>
@@ -6224,10 +6341,10 @@ C* drift
 C* prediction error
 </td>
 <td style="text-align:right;">
--2.9342222
+-2.9601667
 </td>
 <td style="text-align:right;">
-1.5983966
+1.6056927
 </td>
 </tr>
 <tr>
@@ -6238,10 +6355,10 @@ C* prediction error
 C* prediction error rel
 </td>
 <td style="text-align:right;">
--12.7848634
+-12.9150391
 </td>
 <td style="text-align:right;">
-5.1807393
+5.2125368
 </td>
 </tr>
 <tr>
@@ -6252,10 +6369,10 @@ C* prediction error rel
 dcant offset
 </td>
 <td style="text-align:right;">
-0.5561667
+0.4265556
 </td>
 <td style="text-align:right;">
-1.0484518
+1.0771682
 </td>
 </tr>
 <tr>
@@ -6266,10 +6383,10 @@ dcant offset
 dcant offset rel
 </td>
 <td style="text-align:right;">
-2.5749712
+2.0396603
 </td>
 <td style="text-align:right;">
-4.9508717
+5.2035749
 </td>
 </tr>
 <tr>
@@ -6280,10 +6397,10 @@ dcant offset rel
 dcant offset rel corr
 </td>
 <td style="text-align:right;">
--11.3340984
+-11.8694094
 </td>
 <td style="text-align:right;">
-4.6835677
+4.8162617
 </td>
 </tr>
 <tr>
@@ -6336,10 +6453,10 @@ C* drift
 C* prediction error
 </td>
 <td style="text-align:right;">
--2.1316667
+-2.1717778
 </td>
 <td style="text-align:right;">
-1.4880349
+1.4739848
 </td>
 </tr>
 <tr>
@@ -6350,10 +6467,10 @@ C* prediction error
 C* prediction error rel
 </td>
 <td style="text-align:right;">
--8.2916021
+-8.4771507
 </td>
 <td style="text-align:right;">
-5.2678933
+5.2282204
 </td>
 </tr>
 <tr>
@@ -6364,10 +6481,10 @@ C* prediction error rel
 dcant offset
 </td>
 <td style="text-align:right;">
-1.8902222
+1.7465000
 </td>
 <td style="text-align:right;">
-1.4641641
+1.4376203
 </td>
 </tr>
 <tr>
@@ -6378,10 +6495,10 @@ dcant offset
 dcant offset rel
 </td>
 <td style="text-align:right;">
-7.4457266
+6.9019717
 </td>
 <td style="text-align:right;">
-5.6602085
+5.6555168
 </td>
 </tr>
 <tr>
@@ -6392,10 +6509,10 @@ dcant offset rel
 dcant offset rel corr
 </td>
 <td style="text-align:right;">
--8.1984180
+-8.7421729
 </td>
 <td style="text-align:right;">
-5.7474037
+5.6358054
 </td>
 </tr>
 <tr>
@@ -6448,10 +6565,10 @@ C* drift
 C* prediction error
 </td>
 <td style="text-align:right;">
--1.0018889
+-1.0266667
 </td>
 <td style="text-align:right;">
-1.8245170
+1.8113310
 </td>
 </tr>
 <tr>
@@ -6462,10 +6579,10 @@ C* prediction error
 C* prediction error rel
 </td>
 <td style="text-align:right;">
--3.8001059
+-3.9208671
 </td>
 <td style="text-align:right;">
-7.3833018
+7.2879706
 </td>
 </tr>
 <tr>
@@ -6476,10 +6593,10 @@ C* prediction error rel
 dcant offset
 </td>
 <td style="text-align:right;">
-2.1717222
+2.0433333
 </td>
 <td style="text-align:right;">
-2.0342962
+2.0152288
 </td>
 </tr>
 <tr>
@@ -6490,10 +6607,10 @@ dcant offset
 dcant offset rel
 </td>
 <td style="text-align:right;">
-8.4275356
+7.9545824
 </td>
 <td style="text-align:right;">
-7.9610560
+7.9019170
 </td>
 </tr>
 <tr>
@@ -6504,10 +6621,10 @@ dcant offset rel
 dcant offset rel corr
 </td>
 <td style="text-align:right;">
--4.6113405
+-5.0842936
 </td>
 <td style="text-align:right;">
-7.9948323
+7.8709932
 </td>
 </tr>
 <tr>
@@ -6551,7 +6668,8 @@ mod_truth
   scroll_box(height = &quot;300px&quot;)</code></pre>
 <pre><code>`summarise()` has grouped output by &#39;inv_depth&#39;, &#39;estimate&#39;. You can override
 using the `.groups` argument.</code></pre>
-<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; ">
+<div
+style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; ">
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -6635,10 +6753,10 @@ C* prediction error
 1994 - 2004
 </td>
 <td style="text-align:right;">
-0.1218333
+0.1296667
 </td>
 <td style="text-align:right;">
-0.1914549
+0.1905263
 </td>
 </tr>
 <tr>
@@ -6652,10 +6770,10 @@ C* prediction error
 1994 - 2014
 </td>
 <td style="text-align:right;">
--0.4096667
+-0.3993333
 </td>
 <td style="text-align:right;">
-0.2384866
+0.2639694
 </td>
 </tr>
 <tr>
@@ -6669,10 +6787,10 @@ C* prediction error
 2004 - 2014
 </td>
 <td style="text-align:right;">
--0.4281667
+-0.4360000
 </td>
 <td style="text-align:right;">
-0.2403859
+0.2577076
 </td>
 </tr>
 <tr>
@@ -6686,10 +6804,10 @@ C* prediction error rel
 1994 - 2004
 </td>
 <td style="text-align:right;">
-3.6707844
+3.9067992
 </td>
 <td style="text-align:right;">
-5.7684504
+5.7404727
 </td>
 </tr>
 <tr>
@@ -6703,10 +6821,10 @@ C* prediction error rel
 1994 - 2014
 </td>
 <td style="text-align:right;">
--5.7424540
+-5.5976077
 </td>
 <td style="text-align:right;">
-3.3429579
+3.7001604
 </td>
 </tr>
 <tr>
@@ -6720,10 +6838,10 @@ C* prediction error rel
 2004 - 2014
 </td>
 <td style="text-align:right;">
--11.2203005
+-11.4255765
 </td>
 <td style="text-align:right;">
-6.2994201
+6.7533435
 </td>
 </tr>
 <tr>
@@ -6737,10 +6855,10 @@ dcant offset
 1994 - 2004
 </td>
 <td style="text-align:right;">
-0.2991667
+0.3528333
 </td>
 <td style="text-align:right;">
-0.0565629
+0.0582354
 </td>
 </tr>
 <tr>
@@ -6754,10 +6872,10 @@ dcant offset
 1994 - 2014
 </td>
 <td style="text-align:right;">
-0.4555000
+0.3461667
 </td>
 <td style="text-align:right;">
-0.0636420
+0.0637916
 </td>
 </tr>
 <tr>
@@ -6771,10 +6889,10 @@ dcant offset
 2004 - 2014
 </td>
 <td style="text-align:right;">
-0.2033333
+0.0440000
 </td>
 <td style="text-align:right;">
-0.0779016
+0.0825615
 </td>
 </tr>
 <tr>
@@ -6788,10 +6906,10 @@ dcant offset rel
 1994 - 2004
 </td>
 <td style="text-align:right;">
-9.0137592
+10.6307121
 </td>
 <td style="text-align:right;">
-1.7042165
+1.7546081
 </td>
 </tr>
 <tr>
@@ -6805,10 +6923,10 @@ dcant offset rel
 1994 - 2014
 </td>
 <td style="text-align:right;">
-6.3849173
+4.8523502
 </td>
 <td style="text-align:right;">
-0.8920937
+0.8941910
 </td>
 </tr>
 <tr>
@@ -6822,10 +6940,10 @@ dcant offset rel
 2004 - 2014
 </td>
 <td style="text-align:right;">
-5.3284416
+1.1530398
 </td>
 <td style="text-align:right;">
-2.0414478
+2.1635611
 </td>
 </tr>
 <tr>
@@ -6839,10 +6957,10 @@ dcant offset rel corr
 1994 - 2004
 </td>
 <td style="text-align:right;">
-4.3436778
+5.9606307
 </td>
 <td style="text-align:right;">
-1.7042165
+1.7546081
 </td>
 </tr>
 <tr>
@@ -6856,10 +6974,10 @@ dcant offset rel corr
 1994 - 2014
 </td>
 <td style="text-align:right;">
-2.1096159
+0.5770489
 </td>
 <td style="text-align:right;">
-0.8920937
+0.8941910
 </td>
 </tr>
 <tr>
@@ -6873,10 +6991,10 @@ dcant offset rel corr
 2004 - 2014
 </td>
 <td style="text-align:right;">
-1.3976240
+-2.7777778
 </td>
 <td style="text-align:right;">
-2.0414478
+2.1635611
 </td>
 </tr>
 <tr>
@@ -7043,10 +7161,10 @@ C* prediction error
 1994 - 2004
 </td>
 <td style="text-align:right;">
--0.4740000
+-0.4811667
 </td>
 <td style="text-align:right;">
-0.6189698
+0.6162696
 </td>
 </tr>
 <tr>
@@ -7060,10 +7178,10 @@ C* prediction error
 1994 - 2014
 </td>
 <td style="text-align:right;">
--1.9915000
+-1.9961667
 </td>
 <td style="text-align:right;">
-0.9850362
+1.0105382
 </td>
 </tr>
 <tr>
@@ -7077,10 +7195,10 @@ C* prediction error
 2004 - 2014
 </td>
 <td style="text-align:right;">
--1.3836667
+-1.3940000
 </td>
 <td style="text-align:right;">
-0.5791351
+0.6016913
 </td>
 </tr>
 <tr>
@@ -7094,10 +7212,10 @@ C* prediction error rel
 1994 - 2004
 </td>
 <td style="text-align:right;">
--4.0357599
+-4.0967788
 </td>
 <td style="text-align:right;">
-5.2700706
+5.2470801
 </td>
 </tr>
 <tr>
@@ -7111,10 +7229,10 @@ C* prediction error rel
 1994 - 2014
 </td>
 <td style="text-align:right;">
--7.8282233
+-7.8465671
 </td>
 <td style="text-align:right;">
-3.8719976
+3.9722412
 </td>
 </tr>
 <tr>
@@ -7128,10 +7246,10 @@ C* prediction error rel
 2004 - 2014
 </td>
 <td style="text-align:right;">
--10.1034441
+-10.1788974
 </td>
 <td style="text-align:right;">
-4.2288069
+4.3935106
 </td>
 </tr>
 <tr>
@@ -7145,10 +7263,10 @@ dcant offset
 1994 - 2004
 </td>
 <td style="text-align:right;">
-0.8020000
+0.8605000
 </td>
 <td style="text-align:right;">
-0.4992927
+0.4978131
 </td>
 </tr>
 <tr>
@@ -7162,10 +7280,10 @@ dcant offset
 1994 - 2014
 </td>
 <td style="text-align:right;">
-0.7071667
+0.5381667
 </td>
 <td style="text-align:right;">
-0.7813180
+0.7891011
 </td>
 </tr>
 <tr>
@@ -7179,10 +7297,10 @@ dcant offset
 2004 - 2014
 </td>
 <td style="text-align:right;">
--0.0156667
+-0.2381667
 </td>
 <td style="text-align:right;">
-0.4415992
+0.4489020
 </td>
 </tr>
 <tr>
@@ -7196,10 +7314,10 @@ dcant offset rel
 1994 - 2004
 </td>
 <td style="text-align:right;">
-6.8284376
+7.3265219
 </td>
 <td style="text-align:right;">
-4.2511086
+4.2385110
 </td>
 </tr>
 <tr>
@@ -7213,10 +7331,10 @@ dcant offset rel
 1994 - 2014
 </td>
 <td style="text-align:right;">
-2.7797432
+2.1154350
 </td>
 <td style="text-align:right;">
-3.0712184
+3.1018126
 </td>
 </tr>
 <tr>
@@ -7230,10 +7348,10 @@ dcant offset rel
 2004 - 2014
 </td>
 <td style="text-align:right;">
--0.1143970
+-1.7390775
 </td>
 <td style="text-align:right;">
-3.2245288
+3.2778529
 </td>
 </tr>
 <tr>
@@ -7247,10 +7365,10 @@ dcant offset rel corr
 1994 - 2004
 </td>
 <td style="text-align:right;">
--1.8986803
+-1.4005960
 </td>
 <td style="text-align:right;">
-4.2511086
+4.2385110
 </td>
 </tr>
 <tr>
@@ -7264,10 +7382,10 @@ dcant offset rel corr
 1994 - 2014
 </td>
 <td style="text-align:right;">
--5.1487159
+-5.8130241
 </td>
 <td style="text-align:right;">
-3.0712184
+3.1018126
 </td>
 </tr>
 <tr>
@@ -7281,10 +7399,10 @@ dcant offset rel corr
 2004 - 2014
 </td>
 <td style="text-align:right;">
--7.3579165
+-8.9825971
 </td>
 <td style="text-align:right;">
-3.2245288
+3.2778529
 </td>
 </tr>
 <tr>
@@ -7451,10 +7569,10 @@ C* prediction error
 1994 - 2004
 </td>
 <td style="text-align:right;">
--1.8018333
+-1.8386667
 </td>
 <td style="text-align:right;">
-1.1990123
+1.2016245
 </td>
 </tr>
 <tr>
@@ -7468,10 +7586,10 @@ C* prediction error
 1994 - 2014
 </td>
 <td style="text-align:right;">
--4.4515000
+-4.4781667
 </td>
 <td style="text-align:right;">
-1.5801492
+1.5994966
 </td>
 </tr>
 <tr>
@@ -7485,10 +7603,10 @@ C* prediction error
 2004 - 2014
 </td>
 <td style="text-align:right;">
--2.5493333
+-2.5636667
 </td>
 <td style="text-align:right;">
-0.5224656
+0.5482681
 </td>
 </tr>
 <tr>
@@ -7502,10 +7620,10 @@ C* prediction error rel
 1994 - 2004
 </td>
 <td style="text-align:right;">
--11.4766454
+-11.7112527
 </td>
 <td style="text-align:right;">
-7.6370212
+7.6536593
 </td>
 </tr>
 <tr>
@@ -7519,10 +7637,10 @@ C* prediction error rel
 1994 - 2014
 </td>
 <td style="text-align:right;">
--13.0439242
+-13.1220637
 </td>
 <td style="text-align:right;">
-4.6302025
+4.6868948
 </td>
 </tr>
 <tr>
@@ -7536,10 +7654,10 @@ C* prediction error rel
 2004 - 2014
 </td>
 <td style="text-align:right;">
--13.8340207
+-13.9118009
 </td>
 <td style="text-align:right;">
-2.8351724
+2.9751903
 </td>
 </tr>
 <tr>
@@ -7553,10 +7671,10 @@ dcant offset
 1994 - 2004
 </td>
 <td style="text-align:right;">
-0.7400000
+0.7685000
 </td>
 <td style="text-align:right;">
-1.1360123
+1.1389526
 </td>
 </tr>
 <tr>
@@ -7570,10 +7688,10 @@ dcant offset
 1994 - 2014
 </td>
 <td style="text-align:right;">
-0.8120000
+0.6208333
 </td>
 <td style="text-align:right;">
-1.3984703
+1.4032966
 </td>
 </tr>
 <tr>
@@ -7587,10 +7705,10 @@ dcant offset
 2004 - 2014
 </td>
 <td style="text-align:right;">
-0.1165000
+-0.1096667
 </td>
 <td style="text-align:right;">
-0.3743639
+0.3845666
 </td>
 </tr>
 <tr>
@@ -7604,10 +7722,10 @@ dcant offset rel
 1994 - 2004
 </td>
 <td style="text-align:right;">
-4.7133758
+4.8949045
 </td>
 <td style="text-align:right;">
-7.2357473
+7.2544754
 </td>
 </tr>
 <tr>
@@ -7621,10 +7739,10 @@ dcant offset rel
 1994 - 2014
 </td>
 <td style="text-align:right;">
-2.3793477
+1.8191852
 </td>
 <td style="text-align:right;">
-4.0978413
+4.1119835
 </td>
 </tr>
 <tr>
@@ -7638,10 +7756,10 @@ dcant offset rel
 2004 - 2014
 </td>
 <td style="text-align:right;">
-0.6321901
+-0.5951089
 </td>
 <td style="text-align:right;">
-2.0314948
+2.0868602
 </td>
 </tr>
 <tr>
@@ -7655,10 +7773,10 @@ dcant offset rel corr
 1994 - 2004
 </td>
 <td style="text-align:right;">
--10.5414013
+-10.3598726
 </td>
 <td style="text-align:right;">
-7.2357473
+7.2544754
 </td>
 </tr>
 <tr>
@@ -7672,10 +7790,10 @@ dcant offset rel corr
 1994 - 2014
 </td>
 <td style="text-align:right;">
--11.4601342
+-12.0202967
 </td>
 <td style="text-align:right;">
-4.0978413
+4.1119835
 </td>
 </tr>
 <tr>
@@ -7689,10 +7807,10 @@ dcant offset rel corr
 2004 - 2014
 </td>
 <td style="text-align:right;">
--12.0007597
+-13.2280588
 </td>
 <td style="text-align:right;">
-2.0314948
+2.0868602
 </td>
 </tr>
 <tr>
@@ -7859,10 +7977,10 @@ C* prediction error
 1994 - 2004
 </td>
 <td style="text-align:right;">
--1.5738333
+-1.6391667
 </td>
 <td style="text-align:right;">
-1.3532050
+1.3440809
 </td>
 </tr>
 <tr>
@@ -7876,10 +7994,10 @@ C* prediction error
 1994 - 2014
 </td>
 <td style="text-align:right;">
--3.2678333
+-3.3031667
 </td>
 <td style="text-align:right;">
-1.6361689
+1.6135626
 </td>
 </tr>
 <tr>
@@ -7893,10 +8011,10 @@ C* prediction error
 2004 - 2014
 </td>
 <td style="text-align:right;">
--1.5533333
+-1.5730000
 </td>
 <td style="text-align:right;">
-0.8345079
+0.8186015
 </td>
 </tr>
 <tr>
@@ -7910,10 +8028,10 @@ C* prediction error rel
 1994 - 2004
 </td>
 <td style="text-align:right;">
--8.9219577
+-9.2923280
 </td>
 <td style="text-align:right;">
-7.6712301
+7.6195060
 </td>
 </tr>
 <tr>
@@ -7927,10 +8045,10 @@ C* prediction error rel
 1994 - 2014
 </td>
 <td style="text-align:right;">
--8.4949395
+-8.5867908
 </td>
 <td style="text-align:right;">
-4.2533245
+4.1945580
 </td>
 </tr>
 <tr>
@@ -7944,10 +8062,10 @@ C* prediction error rel
 2004 - 2014
 </td>
 <td style="text-align:right;">
--7.4579092
+-7.5523334
 </td>
 <td style="text-align:right;">
-4.0066637
+3.9302933
 </td>
 </tr>
 <tr>
@@ -7964,7 +8082,7 @@ dcant offset
 1.3906667
 </td>
 <td style="text-align:right;">
-1.4897140
+1.4799236
 </td>
 </tr>
 <tr>
@@ -7978,10 +8096,10 @@ dcant offset
 1994 - 2014
 </td>
 <td style="text-align:right;">
-2.7686667
+2.5693333
 </td>
 <td style="text-align:right;">
-1.7052413
+1.6943235
 </td>
 </tr>
 <tr>
@@ -7995,10 +8113,10 @@ dcant offset
 2004 - 2014
 </td>
 <td style="text-align:right;">
-1.5113333
+1.2795000
 </td>
 <td style="text-align:right;">
-0.8740780
+0.8601962
 </td>
 </tr>
 <tr>
@@ -8015,7 +8133,7 @@ dcant offset rel
 7.8835979
 </td>
 <td style="text-align:right;">
-8.4450908
+8.3895896
 </td>
 </tr>
 <tr>
@@ -8029,10 +8147,10 @@ dcant offset rel
 1994 - 2014
 </td>
 <td style="text-align:right;">
-7.1973242
+6.6791446
 </td>
 <td style="text-align:right;">
-4.4328826
+4.4045013
 </td>
 </tr>
 <tr>
@@ -8046,10 +8164,10 @@ dcant offset rel
 2004 - 2014
 </td>
 <td style="text-align:right;">
-7.2562576
+6.1431727
 </td>
 <td style="text-align:right;">
-4.1966485
+4.1299990
 </td>
 </tr>
 <tr>
@@ -8066,7 +8184,7 @@ dcant offset rel corr
 -9.3556311
 </td>
 <td style="text-align:right;">
-8.4450908
+8.3895896
 </td>
 </tr>
 <tr>
@@ -8080,10 +8198,10 @@ dcant offset rel corr
 1994 - 2014
 </td>
 <td style="text-align:right;">
--8.3610620
+-8.8792416
 </td>
 <td style="text-align:right;">
-4.4328826
+4.4045013
 </td>
 </tr>
 <tr>
@@ -8097,10 +8215,10 @@ dcant offset rel corr
 2004 - 2014
 </td>
 <td style="text-align:right;">
--6.8785609
+-7.9916459
 </td>
 <td style="text-align:right;">
-4.1966485
+4.1299990
 </td>
 </tr>
 <tr>
@@ -8267,10 +8385,10 @@ C* prediction error
 1994 - 2004
 </td>
 <td style="text-align:right;">
--0.7313333
+-0.7856667
 </td>
 <td style="text-align:right;">
-1.9941008
+1.9608413
 </td>
 </tr>
 <tr>
@@ -8284,10 +8402,10 @@ C* prediction error
 1994 - 2014
 </td>
 <td style="text-align:right;">
--1.5850000
+-1.6015000
 </td>
 <td style="text-align:right;">
-2.3819906
+2.3888246
 </td>
 </tr>
 <tr>
@@ -8301,10 +8419,10 @@ C* prediction error
 2004 - 2014
 </td>
 <td style="text-align:right;">
--0.6893333
+-0.6928333
 </td>
 <td style="text-align:right;">
-1.0269971
+1.0018957
 </td>
 </tr>
 <tr>
@@ -8318,10 +8436,10 @@ C* prediction error rel
 1994 - 2004
 </td>
 <td style="text-align:right;">
--4.0852046
+-4.3887089
 </td>
 <td style="text-align:right;">
-11.1389832
+10.9531969
 </td>
 </tr>
 <tr>
@@ -8335,10 +8453,10 @@ C* prediction error rel
 1994 - 2014
 </td>
 <td style="text-align:right;">
--4.0575481
+-4.0997875
 </td>
 <td style="text-align:right;">
-6.0978179
+6.1153128
 </td>
 </tr>
 <tr>
@@ -8352,10 +8470,10 @@ C* prediction error rel
 2004 - 2014
 </td>
 <td style="text-align:right;">
--3.2575650
+-3.2741049
 </td>
 <td style="text-align:right;">
-4.8532542
+4.7346330
 </td>
 </tr>
 <tr>
@@ -8369,10 +8487,10 @@ dcant offset
 1994 - 2004
 </td>
 <td style="text-align:right;">
-1.6031667
+1.6140000
 </td>
 <td style="text-align:right;">
-2.1714955
+2.1364089
 </td>
 </tr>
 <tr>
@@ -8386,10 +8504,10 @@ dcant offset
 1994 - 2014
 </td>
 <td style="text-align:right;">
-3.1791667
+2.9981667
 </td>
 <td style="text-align:right;">
-2.5180319
+2.5419911
 </td>
 </tr>
 <tr>
@@ -8403,10 +8521,10 @@ dcant offset
 2004 - 2014
 </td>
 <td style="text-align:right;">
-1.7328333
+1.5178333
 </td>
 <td style="text-align:right;">
-1.0851555
+1.0655127
 </td>
 </tr>
 <tr>
@@ -8420,10 +8538,10 @@ dcant offset rel
 1994 - 2004
 </td>
 <td style="text-align:right;">
-8.9552378
+9.0157524
 </td>
 <td style="text-align:right;">
-12.1299043
+11.9339116
 </td>
 </tr>
 <tr>
@@ -8437,10 +8555,10 @@ dcant offset rel
 1994 - 2014
 </td>
 <td style="text-align:right;">
-8.1385625
+7.6752084
 </td>
 <td style="text-align:right;">
-6.4460791
+6.5074140
 </td>
 </tr>
 <tr>
@@ -8454,10 +8572,10 @@ dcant offset rel
 2004 - 2014
 </td>
 <td style="text-align:right;">
-8.1888065
+7.1727864
 </td>
 <td style="text-align:right;">
-5.1280920
+5.0352664
 </td>
 </tr>
 <tr>
@@ -8471,10 +8589,10 @@ dcant offset rel corr
 1994 - 2004
 </td>
 <td style="text-align:right;">
--5.4733177
+-5.4128030
 </td>
 <td style="text-align:right;">
-12.1299043
+11.9339116
 </td>
 </tr>
 <tr>
@@ -8488,10 +8606,10 @@ dcant offset rel corr
 1994 - 2014
 </td>
 <td style="text-align:right;">
--4.8251116
+-5.2884656
 </td>
 <td style="text-align:right;">
-6.4460791
+6.5074140
 </td>
 </tr>
 <tr>
@@ -8505,10 +8623,10 @@ dcant offset rel corr
 2004 - 2014
 </td>
 <td style="text-align:right;">
--3.5355922
+-4.5516122
 </td>
 <td style="text-align:right;">
-5.1280920
+5.0352664
 </td>
 </tr>
 <tr>
@@ -8619,7 +8737,8 @@ mod_truth
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
-<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
 </button>
 </p>
 <div id="workflowr-sessioninfo" class="collapse">

@@ -500,6 +500,20 @@ div.tocify {
       </ul>
     </li>
     <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">C(AT) target</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="CAT_target_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="CAT_target_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="CAT_target_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Surface equilibrium</a>
       <ul class="dropdown-menu" role="menu">
         <li>
@@ -666,14 +680,16 @@ div.tocify {
 
 <h1 class="title toc-ignore">Budgets</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">29 July, 2022</h4>
+<h4 class="date">06 November, 2022</h4>
 
 </div>
 
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -682,7 +698,9 @@ div.tocify {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -691,17 +709,28 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-07-29
+<strong>Last updated:</strong> 2022-11-06
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 0
 </p>
 <p>
-<strong>Knit directory:</strong> <code>emlr_obs_analysis/analysis/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+<strong>Knit directory:</strong>
+<code>emlr_obs_analysis/analysis/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
 </p>
 <p>
-This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
-  href="https://github.com/workflowr/workflowr">workflowr</a> (version 1.7.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.0). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
 </p>
 <hr>
 </div>
@@ -710,91 +739,138 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguptodate"
+class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
 </p>
 </div>
 <div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20210412code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20210412)</code> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20210412code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20210412)</code> </a>
 </p>
 </div>
-<div id="strongSeedstrongcodesetseed20210412code" class="panel-collapse collapse">
+<div id="strongSeedstrongcodesetseed20210412code"
+class="panel-collapse collapse">
 <div class="panel-body">
-<p>The command <code>set.seed(20210412)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+<p>The command <code>set.seed(20210412)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
 </p>
 </div>
-<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
 </p>
 </div>
 <div id="strongCachestrongnone" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
 </p>
 </div>
 <div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreef04d8ed5bf6d53481c1331fbe3e1803b25778476targetblankf04d8eda"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/f04d8ed5bf6d53481c1331fbe3e1803b25778476" target="_blank">f04d8ed</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree820fff84b67213920947fe3d206764620f9fefe5targetblank820fff8a">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/820fff84b67213920947fe3d206764620f9fefe5" target="_blank">820fff8</a>
+</a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreef04d8ed5bf6d53481c1331fbe3e1803b25778476targetblankf04d8eda" class="panel-collapse collapse">
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree820fff84b67213920947fe3d206764620f9fefe5targetblank820fff8a"
+class="panel-collapse collapse">
 <div class="panel-body">
 <p>
-Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/f04d8ed5bf6d53481c1331fbe3e1803b25778476" target="_blank">f04d8ed</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/820fff84b67213920947fe3d206764620f9fefe5" target="_blank">820fff8</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
 </p>
 <p>
-Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
 </p>
 <pre><code>
 Ignored files:
@@ -802,19 +878,23 @@ Ignored files:
     Ignored:    .Rproj.user/
     Ignored:    data/
     Ignored:    output/other/
+    Ignored:    output/presentation/
     Ignored:    output/publication/
 
 Untracked files:
-    Untracked:  figure/
+    Untracked:  code/visualization_equal_earth.R
+    Untracked:  code/visualization_equal_earth_cleaned.R
+    Untracked:  code/visualization_equal_earth_cleaned_jdm.R
 
 Unstaged changes:
     Modified:   analysis/_site.yml
-    Modified:   analysis/child/budget_analysis_plot_data.Rmd
     Modified:   code/Workflowr_project_managment.R
 
 </code></pre>
 <p>
-Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
 </p>
 </div>
 </div>
@@ -825,7 +905,13 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <div id="versions" class="tab-pane fade">
 
 <p>
-These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/data_adjustment_bulk_budgets.Rmd</code>) and HTML (<code>docs/data_adjustment_bulk_budgets.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+These are the previous versions of the repository in which changes were
+made to the R Markdown
+(<code>analysis/data_adjustment_bulk_budgets.Rmd</code>) and HTML
+(<code>docs/data_adjustment_bulk_budgets.html</code>) files. If you’ve
+configured a remote Git repository (see <code>?wflow_git_remote</code>),
+click on the hyperlinks in the table below to view the files as they
+were in that past version.
 </p>
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
@@ -849,6 +935,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/data_adjustment_bulk_budgets.html" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -1445,7 +1548,8 @@ rm(
 )</code></pre>
 </div>
 <div id="basins-hemisphere" class="section level2" number="1.3">
-<h2><span class="header-section-number">1.3</span> Basins hemisphere</h2>
+<h2><span class="header-section-number">1.3</span> Basins
+hemisphere</h2>
 <pre class="r"><code># Version_IDs &lt;- Version_IDs[1:length(Version_IDs)-1]
 
 for (i_Version_IDs in Version_IDs) {
@@ -1618,7 +1722,8 @@ regional_bias_rel_max</code></pre>
 <div id="global-1" class="section level2" number="3.1">
 <h2><span class="header-section-number">3.1</span> Global</h2>
 <div id="absoulte-values" class="section level3" number="3.1.1">
-<h3><span class="header-section-number">3.1.1</span> Absoulte values</h3>
+<h3><span class="header-section-number">3.1.1</span> Absoulte
+values</h3>
 <pre class="r"><code>legend_title = expression(atop(Delta * C[ant],
                                (mu * mol ~ kg ^ {
                                  -1
@@ -1655,6 +1760,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/cases_absolute_global-1.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1da59de2ec78f3ca4e5521aee75e40fd6fe8599d/docs/figure/data_adjustment_bulk_budgets.Rmd/cases_absolute_global-1.png" target="_blank">1da59de</a>
@@ -1727,6 +1843,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/cases_bias_global-1.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d2b50ebdf888ac91b5c0b86ad93755cc06fb78d6/docs/figure/data_adjustment_bulk_budgets.Rmd/cases_bias_global-1.png" target="_blank">d2b50eb</a>
@@ -1838,6 +1965,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/cases_bias_global-2.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/157af41d74539e8753442471c164f9357ca4f2cc/docs/figure/data_adjustment_bulk_budgets.Rmd/cases_bias_global-2.png" target="_blank">157af41</a>
 </td>
 <td>
@@ -1896,7 +2034,8 @@ jens-daniel-mueller
   kable() %&gt;%
   kable_styling() %&gt;%
   scroll_box(height = &quot;300px&quot;)</code></pre>
-<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; ">
+<div
+style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; ">
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -1923,16 +2062,16 @@ dcant_bias_rel
 1994 - 2004
 </td>
 <td style="text-align:right;">
-1.4553836
+1.4833967
 </td>
 <td style="text-align:right;">
-1.313667
+1.380833
 </td>
 <td style="text-align:right;">
-8.250474
+8.409278
 </td>
 <td style="text-align:right;">
-7.447090
+7.827853
 </td>
 </tr>
 <tr>
@@ -1940,16 +2079,16 @@ dcant_bias_rel
 1994 - 2014
 </td>
 <td style="text-align:right;">
-1.7007077
+1.7027847
 </td>
 <td style="text-align:right;">
-2.724167
+2.560333
 </td>
 <td style="text-align:right;">
-4.421097
+4.426497
 </td>
 <td style="text-align:right;">
-7.081644
+6.655748
 </td>
 </tr>
 <tr>
@@ -1957,16 +2096,16 @@ dcant_bias_rel
 2004 - 2014
 </td>
 <td style="text-align:right;">
-0.8704288
+0.8750252
 </td>
 <td style="text-align:right;">
-1.500667
+1.282333
 </td>
 <td style="text-align:right;">
-4.179128
+4.201196
 </td>
 <td style="text-align:right;">
-7.205044
+6.156776
 </td>
 </tr>
 </tbody>
@@ -1977,7 +2116,8 @@ dcant_bias_rel
 <div id="basins-1" class="section level2" number="3.2">
 <h2><span class="header-section-number">3.2</span> Basins</h2>
 <div id="absoulte-values-1" class="section level3" number="3.2.1">
-<h3><span class="header-section-number">3.2.1</span> Absoulte values</h3>
+<h3><span class="header-section-number">3.2.1</span> Absoulte
+values</h3>
 <pre class="r"><code>dcant_budget_basin_AIP_all %&gt;%
   ggplot(aes(period, dcant, col = MLR_basins)) +
   geom_jitter(width = 0.05, height = 0) +
@@ -2009,6 +2149,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/cases_absolute-1.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1da59de2ec78f3ca4e5521aee75e40fd6fe8599d/docs/figure/data_adjustment_bulk_budgets.Rmd/cases_absolute-1.png" target="_blank">1da59de</a>
@@ -2077,6 +2228,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/cases_bias-1.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d2b50ebdf888ac91b5c0b86ad93755cc06fb78d6/docs/figure/data_adjustment_bulk_budgets.Rmd/cases_bias-1.png" target="_blank">d2b50eb</a>
@@ -2161,6 +2323,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/cases_bias-2.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d2b50ebdf888ac91b5c0b86ad93755cc06fb78d6/docs/figure/data_adjustment_bulk_budgets.Rmd/cases_bias-2.png" target="_blank">d2b50eb</a>
@@ -2266,6 +2439,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/cases_bias-3.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/157af41d74539e8753442471c164f9357ca4f2cc/docs/figure/data_adjustment_bulk_budgets.Rmd/cases_bias-3.png" target="_blank">157af41</a>
 </td>
 <td>
@@ -2317,7 +2501,8 @@ jens-daniel-mueller
 <div id="slab-budgets" class="section level2" number="3.3">
 <h2><span class="header-section-number">3.3</span> Slab budgets</h2>
 <div id="absolute-values" class="section level3" number="3.3.1">
-<h3><span class="header-section-number">3.3.1</span> Absolute values</h3>
+<h3><span class="header-section-number">3.3.1</span> Absolute
+values</h3>
 <pre class="r"><code>dcant_slab_budget_all %&gt;%
   filter(data_source == &quot;obs&quot;,
          period != &quot;1994 - 2014&quot;) %&gt;% 
@@ -2349,6 +2534,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/slab_budgets-1.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1da59de2ec78f3ca4e5521aee75e40fd6fe8599d/docs/figure/data_adjustment_bulk_budgets.Rmd/slab_budgets-1.png" target="_blank">1da59de</a>
@@ -2426,6 +2622,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/slab_budgets_individual-1.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1da59de2ec78f3ca4e5521aee75e40fd6fe8599d/docs/figure/data_adjustment_bulk_budgets.Rmd/slab_budgets_individual-1.png" target="_blank">1da59de</a>
 </td>
 <td>
@@ -2488,6 +2695,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/slab_budgets_individual-2.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1da59de2ec78f3ca4e5521aee75e40fd6fe8599d/docs/figure/data_adjustment_bulk_budgets.Rmd/slab_budgets_individual-2.png" target="_blank">1da59de</a>
 </td>
 <td>
@@ -2548,6 +2766,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/slab_budgets_individual-3.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1da59de2ec78f3ca4e5521aee75e40fd6fe8599d/docs/figure/data_adjustment_bulk_budgets.Rmd/slab_budgets_individual-3.png" target="_blank">1da59de</a>
@@ -2630,6 +2859,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/slab_budgets_bias-1.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1da59de2ec78f3ca4e5521aee75e40fd6fe8599d/docs/figure/data_adjustment_bulk_budgets.Rmd/slab_budgets_bias-1.png" target="_blank">1da59de</a>
 </td>
 <td>
@@ -2693,6 +2933,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/slab_budgets_bias-2.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1da59de2ec78f3ca4e5521aee75e40fd6fe8599d/docs/figure/data_adjustment_bulk_budgets.Rmd/slab_budgets_bias-2.png" target="_blank">1da59de</a>
 </td>
 <td>
@@ -2754,6 +3005,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/slab_budgets_bias-3.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1da59de2ec78f3ca4e5521aee75e40fd6fe8599d/docs/figure/data_adjustment_bulk_budgets.Rmd/slab_budgets_bias-3.png" target="_blank">1da59de</a>
@@ -2840,6 +3102,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/slab_budgets_spread-1.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1da59de2ec78f3ca4e5521aee75e40fd6fe8599d/docs/figure/data_adjustment_bulk_budgets.Rmd/slab_budgets_spread-1.png" target="_blank">1da59de</a>
 </td>
 <td>
@@ -2900,6 +3173,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/slab_budgets_spread-2.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1da59de2ec78f3ca4e5521aee75e40fd6fe8599d/docs/figure/data_adjustment_bulk_budgets.Rmd/slab_budgets_spread-2.png" target="_blank">1da59de</a>
@@ -2964,6 +3248,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/slab_budgets_spread-3.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1da59de2ec78f3ca4e5521aee75e40fd6fe8599d/docs/figure/data_adjustment_bulk_budgets.Rmd/slab_budgets_spread-3.png" target="_blank">1da59de</a>
 </td>
 <td>
@@ -3002,9 +3297,11 @@ jens-daniel-mueller
 </div>
 </div>
 <div id="basins-hemisphere-1" class="section level2" number="3.4">
-<h2><span class="header-section-number">3.4</span> Basins hemisphere</h2>
+<h2><span class="header-section-number">3.4</span> Basins
+hemisphere</h2>
 <div id="absoulte-values-2" class="section level3" number="3.4.1">
-<h3><span class="header-section-number">3.4.1</span> Absoulte values</h3>
+<h3><span class="header-section-number">3.4.1</span> Absoulte
+values</h3>
 <pre class="r"><code>dcant_budget_basin_MLR_all %&gt;%
   ggplot(aes(period, dcant, col = MLR_basins)) +
   geom_jitter(width = 0.05, height = 0) +
@@ -3036,6 +3333,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/cases_absolute_basins_hemisphere-1.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1da59de2ec78f3ca4e5521aee75e40fd6fe8599d/docs/figure/data_adjustment_bulk_budgets.Rmd/cases_absolute_basins_hemisphere-1.png" target="_blank">1da59de</a>
@@ -3114,6 +3422,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/cases_bias_basins_hemisphere-1.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/157af41d74539e8753442471c164f9357ca4f2cc/docs/figure/data_adjustment_bulk_budgets.Rmd/cases_bias_basins_hemisphere-1.png" target="_blank">157af41</a>
 </td>
 <td>
@@ -3163,6 +3482,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/cases_bias_basins_hemisphere-2.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/157af41d74539e8753442471c164f9357ca4f2cc/docs/figure/data_adjustment_bulk_budgets.Rmd/cases_bias_basins_hemisphere-2.png" target="_blank">157af41</a>
@@ -3224,6 +3554,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/cases_bias_basins_hemisphere-3.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/157af41d74539e8753442471c164f9357ca4f2cc/docs/figure/data_adjustment_bulk_budgets.Rmd/cases_bias_basins_hemisphere-3.png" target="_blank">157af41</a>
 </td>
 <td>
@@ -3251,7 +3592,8 @@ jens-daniel-mueller
   scroll_box(height = &quot;300px&quot;)</code></pre>
 <pre><code>`summarise()` has grouped output by &#39;period&#39;. You can override using the
 `.groups` argument.</code></pre>
-<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; ">
+<div
+style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; ">
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -3284,16 +3626,16 @@ dcant_bias_rel
 Indian
 </td>
 <td style="text-align:right;">
-0.9899218
+1.0007868
 </td>
 <td style="text-align:right;">
-0.2035000
+0.2176667
 </td>
 <td style="text-align:right;">
-20.533536
+20.758905
 </td>
 <td style="text-align:right;">
-4.2211160
+4.514969
 </td>
 </tr>
 <tr>
@@ -3304,16 +3646,16 @@ Indian
 N_Atlantic
 </td>
 <td style="text-align:right;">
-0.2350280
+0.2362022
 </td>
 <td style="text-align:right;">
-0.1871667
+0.1993333
 </td>
 <td style="text-align:right;">
-12.046541
+12.106723
 </td>
 <td style="text-align:right;">
-9.5933709
+10.216983
 </td>
 </tr>
 <tr>
@@ -3324,16 +3666,16 @@ N_Atlantic
 N_Pacific
 </td>
 <td style="text-align:right;">
-0.1796446
+0.1824507
 </td>
 <td style="text-align:right;">
-0.4528333
+0.4686667
 </td>
 <td style="text-align:right;">
-6.614306
+6.717626
 </td>
 <td style="text-align:right;">
-16.6728031
+17.255768
 </td>
 </tr>
 <tr>
@@ -3344,16 +3686,16 @@ N_Pacific
 S_Atlantic
 </td>
 <td style="text-align:right;">
-0.2890401
+0.2887396
 </td>
 <td style="text-align:right;">
-0.0811667
+0.0931667
 </td>
 <td style="text-align:right;">
-11.561603
+11.549585
 </td>
 <td style="text-align:right;">
-3.2466667
+3.726667
 </td>
 </tr>
 <tr>
@@ -3364,16 +3706,16 @@ S_Atlantic
 S_Pacific
 </td>
 <td style="text-align:right;">
-0.7957880
+0.8045703
 </td>
 <td style="text-align:right;">
-0.3888333
+0.4018333
 </td>
 <td style="text-align:right;">
-14.079760
+14.235143
 </td>
 <td style="text-align:right;">
-6.8795707
+7.109578
 </td>
 </tr>
 <tr>
@@ -3384,16 +3726,16 @@ S_Pacific
 Indian
 </td>
 <td style="text-align:right;">
-1.2917064
+1.2942746
 </td>
 <td style="text-align:right;">
-0.7668333
+0.7320000
 </td>
 <td style="text-align:right;">
-12.363193
+12.387774
 </td>
 <td style="text-align:right;">
-7.3395227
+7.006126
 </td>
 </tr>
 <tr>
@@ -3404,16 +3746,16 @@ Indian
 N_Atlantic
 </td>
 <td style="text-align:right;">
-0.3486700
+0.3476788
 </td>
 <td style="text-align:right;">
--0.0270000
+-0.0441667
 </td>
 <td style="text-align:right;">
-8.116156
+8.093083
 </td>
 <td style="text-align:right;">
--0.6284916
+-1.028088
 </td>
 </tr>
 <tr>
@@ -3424,16 +3766,16 @@ N_Atlantic
 N_Pacific
 </td>
 <td style="text-align:right;">
-0.2483106
+0.2580019
 </td>
 <td style="text-align:right;">
-0.6121667
+0.5698333
 </td>
 <td style="text-align:right;">
-4.253351
+4.419354
 </td>
 <td style="text-align:right;">
-10.4858970
+9.760763
 </td>
 </tr>
 <tr>
@@ -3444,16 +3786,16 @@ N_Pacific
 S_Atlantic
 </td>
 <td style="text-align:right;">
-0.3482876
+0.3458229
 </td>
 <td style="text-align:right;">
-0.4736667
+0.4513333
 </td>
 <td style="text-align:right;">
-6.585132
+6.538531
 </td>
 <td style="text-align:right;">
-8.9556942
+8.533434
 </td>
 </tr>
 <tr>
@@ -3464,16 +3806,16 @@ S_Atlantic
 S_Pacific
 </td>
 <td style="text-align:right;">
-1.2834369
+1.2838389
 </td>
 <td style="text-align:right;">
-0.8988333
+0.8515000
 </td>
 <td style="text-align:right;">
-10.188433
+10.191624
 </td>
 <td style="text-align:right;">
-7.1352968
+6.759546
 </td>
 </tr>
 <tr>
@@ -3484,16 +3826,16 @@ S_Pacific
 Indian
 </td>
 <td style="text-align:right;">
-0.5363243
+0.5371781
 </td>
 <td style="text-align:right;">
-0.5108333
+0.4613333
 </td>
 <td style="text-align:right;">
-9.532960
+9.548135
 </td>
 <td style="text-align:right;">
-9.0798673
+8.200024
 </td>
 </tr>
 <tr>
@@ -3504,16 +3846,16 @@ Indian
 N_Atlantic
 </td>
 <td style="text-align:right;">
-0.1782074
+0.1774111
 </td>
 <td style="text-align:right;">
--0.1016667
+-0.1245000
 </td>
 <td style="text-align:right;">
-7.599461
+7.565506
 </td>
 <td style="text-align:right;">
--4.3354655
+-5.309168
 </td>
 </tr>
 <tr>
@@ -3524,16 +3866,16 @@ N_Atlantic
 N_Pacific
 </td>
 <td style="text-align:right;">
-0.2114710
+0.2131529
 </td>
 <td style="text-align:right;">
-0.1910000
+0.1391667
 </td>
 <td style="text-align:right;">
-6.773576
+6.827448
 </td>
 <td style="text-align:right;">
-6.1178732
+4.457613
 </td>
 </tr>
 <tr>
@@ -3544,16 +3886,16 @@ N_Pacific
 S_Atlantic
 </td>
 <td style="text-align:right;">
-0.2098051
+0.2114705
 </td>
 <td style="text-align:right;">
-0.4408333
+0.4118333
 </td>
 <td style="text-align:right;">
-7.522591
+7.582305
 </td>
 <td style="text-align:right;">
-15.8061432
+14.766344
 </td>
 </tr>
 <tr>
@@ -3564,16 +3906,16 @@ S_Atlantic
 S_Pacific
 </td>
 <td style="text-align:right;">
-0.5003441
+0.5022452
 </td>
 <td style="text-align:right;">
-0.4606667
+0.3953333
 </td>
 <td style="text-align:right;">
-7.204379
+7.231753
 </td>
 <td style="text-align:right;">
-6.6330694
+5.692345
 </td>
 </tr>
 </tbody>
@@ -3651,6 +3993,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/ensemble_mean_global-1.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/157af41d74539e8753442471c164f9357ca4f2cc/docs/figure/data_adjustment_bulk_budgets.Rmd/ensemble_mean_global-1.png" target="_blank">157af41</a>
@@ -3761,6 +4114,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/ensemble_mean_global-2.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/157af41d74539e8753442471c164f9357ca4f2cc/docs/figure/data_adjustment_bulk_budgets.Rmd/ensemble_mean_global-2.png" target="_blank">157af41</a>
 </td>
 <td>
@@ -3816,7 +4180,8 @@ jens-daniel-mueller
 rm(p_global_bias, p_global_dcant, p_global_dcant_bias)</code></pre>
 </div>
 <div id="mean-vs-atm-co2" class="section level3" number="4.1.2">
-<h3><span class="header-section-number">4.1.2</span> Mean vs atm CO2</h3>
+<h3><span class="header-section-number">4.1.2</span> Mean vs atm
+CO2</h3>
 <pre class="r"><code>dcant_ensemble &lt;- dcant_budget_global_ensemble %&gt;% 
   filter(data_source == &quot;obs&quot;,
          period != &quot;1994 - 2014&quot;) %&gt;% 
@@ -3871,6 +4236,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/mean_tcant_over_atm_co2-1.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1da59de2ec78f3ca4e5521aee75e40fd6fe8599d/docs/figure/data_adjustment_bulk_budgets.Rmd/mean_tcant_over_atm_co2-1.png" target="_blank">1da59de</a>
@@ -3970,6 +4346,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/summed_decades-1.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1da59de2ec78f3ca4e5521aee75e40fd6fe8599d/docs/figure/data_adjustment_bulk_budgets.Rmd/summed_decades-1.png" target="_blank">1da59de</a>
 </td>
 <td>
@@ -4051,6 +4438,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/ensemble_mean_bias_global-1.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1da59de2ec78f3ca4e5521aee75e40fd6fe8599d/docs/figure/data_adjustment_bulk_budgets.Rmd/ensemble_mean_bias_global-1.png" target="_blank">1da59de</a>
 </td>
 <td>
@@ -4115,6 +4513,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/ensemble_mean_bias_global-2.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1da59de2ec78f3ca4e5521aee75e40fd6fe8599d/docs/figure/data_adjustment_bulk_budgets.Rmd/ensemble_mean_bias_global-2.png" target="_blank">1da59de</a>
 </td>
 <td>
@@ -4152,9 +4561,11 @@ jens-daniel-mueller
 </div>
 </div>
 <div id="vertical-patterns" class="section level3" number="4.1.5">
-<h3><span class="header-section-number">4.1.5</span> Vertical patterns</h3>
+<h3><span class="header-section-number">4.1.5</span> Vertical
+patterns</h3>
 <div id="absoulte-values-3" class="section level4" number="4.1.5.1">
-<h4><span class="header-section-number">4.1.5.1</span> Absoulte values</h4>
+<h4><span class="header-section-number">4.1.5.1</span> Absoulte
+values</h4>
 <pre class="r"><code>dcant_budget_global_all_depth %&gt;%
   filter(data_source != &quot;mod_truth&quot;) %&gt;% 
   group_by(data_source) %&gt;%
@@ -4193,6 +4604,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/cases_absolute_depth_global-1.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1da59de2ec78f3ca4e5521aee75e40fd6fe8599d/docs/figure/data_adjustment_bulk_budgets.Rmd/cases_absolute_depth_global-1.png" target="_blank">1da59de</a>
@@ -4255,6 +4677,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/cases_absolute_depth_global-2.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1da59de2ec78f3ca4e5521aee75e40fd6fe8599d/docs/figure/data_adjustment_bulk_budgets.Rmd/cases_absolute_depth_global-2.png" target="_blank">1da59de</a>
@@ -4324,6 +4757,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/cases_bias_depth_global-1.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d2b50ebdf888ac91b5c0b86ad93755cc06fb78d6/docs/figure/data_adjustment_bulk_budgets.Rmd/cases_bias_depth_global-1.png" target="_blank">d2b50eb</a>
@@ -4401,6 +4845,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/cases_bias_rel_depth_global-1.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1da59de2ec78f3ca4e5521aee75e40fd6fe8599d/docs/figure/data_adjustment_bulk_budgets.Rmd/cases_bias_rel_depth_global-1.png" target="_blank">1da59de</a>
@@ -4489,6 +4944,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/ensemble_mean-1.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1da59de2ec78f3ca4e5521aee75e40fd6fe8599d/docs/figure/data_adjustment_bulk_budgets.Rmd/ensemble_mean-1.png" target="_blank">1da59de</a>
@@ -4591,6 +5057,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/ensemble_mean-2.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/157af41d74539e8753442471c164f9357ca4f2cc/docs/figure/data_adjustment_bulk_budgets.Rmd/ensemble_mean-2.png" target="_blank">157af41</a>
 </td>
 <td>
@@ -4691,6 +5168,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/ensemble_mean_bias-1.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1da59de2ec78f3ca4e5521aee75e40fd6fe8599d/docs/figure/data_adjustment_bulk_budgets.Rmd/ensemble_mean_bias-1.png" target="_blank">1da59de</a>
 </td>
 <td>
@@ -4755,6 +5243,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/ensemble_mean_bias-2.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1da59de2ec78f3ca4e5521aee75e40fd6fe8599d/docs/figure/data_adjustment_bulk_budgets.Rmd/ensemble_mean_bias-2.png" target="_blank">1da59de</a>
 </td>
 <td>
@@ -4792,9 +5291,11 @@ jens-daniel-mueller
 </div>
 </div>
 <div id="vertical-patterns-1" class="section level3" number="4.2.3">
-<h3><span class="header-section-number">4.2.3</span> Vertical patterns</h3>
+<h3><span class="header-section-number">4.2.3</span> Vertical
+patterns</h3>
 <div id="absoulte-values-4" class="section level4" number="4.2.3.1">
-<h4><span class="header-section-number">4.2.3.1</span> Absoulte values</h4>
+<h4><span class="header-section-number">4.2.3.1</span> Absoulte
+values</h4>
 <pre class="r"><code>dcant_budget_basin_AIP_all_depth %&gt;%
   filter(data_source != &quot;mod_truth&quot;) %&gt;%
   group_by(data_source) %&gt;%
@@ -4833,6 +5334,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/cases_absolute_depth-1.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1da59de2ec78f3ca4e5521aee75e40fd6fe8599d/docs/figure/data_adjustment_bulk_budgets.Rmd/cases_absolute_depth-1.png" target="_blank">1da59de</a>
@@ -4895,6 +5407,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/cases_absolute_depth-2.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1da59de2ec78f3ca4e5521aee75e40fd6fe8599d/docs/figure/data_adjustment_bulk_budgets.Rmd/cases_absolute_depth-2.png" target="_blank">1da59de</a>
@@ -4964,6 +5487,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/cases_bias_depth-1.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/d2b50ebdf888ac91b5c0b86ad93755cc06fb78d6/docs/figure/data_adjustment_bulk_budgets.Rmd/cases_bias_depth-1.png" target="_blank">d2b50eb</a>
@@ -5041,6 +5575,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/cases_bias_rel_depth-1.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1da59de2ec78f3ca4e5521aee75e40fd6fe8599d/docs/figure/data_adjustment_bulk_budgets.Rmd/cases_bias_rel_depth-1.png" target="_blank">1da59de</a>
@@ -5122,6 +5667,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/steady_state_comparison-1.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1da59de2ec78f3ca4e5521aee75e40fd6fe8599d/docs/figure/data_adjustment_bulk_budgets.Rmd/steady_state_comparison-1.png" target="_blank">1da59de</a>
 </td>
 <td>
@@ -5182,6 +5738,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/steady_state_comparison-2.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1da59de2ec78f3ca4e5521aee75e40fd6fe8599d/docs/figure/data_adjustment_bulk_budgets.Rmd/steady_state_comparison-2.png" target="_blank">1da59de</a>
@@ -5246,6 +5813,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/steady_state_comparison-3.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1da59de2ec78f3ca4e5521aee75e40fd6fe8599d/docs/figure/data_adjustment_bulk_budgets.Rmd/steady_state_comparison-3.png" target="_blank">1da59de</a>
 </td>
 <td>
@@ -5308,6 +5886,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/steady_state_comparison-4.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1da59de2ec78f3ca4e5521aee75e40fd6fe8599d/docs/figure/data_adjustment_bulk_budgets.Rmd/steady_state_comparison-4.png" target="_blank">1da59de</a>
 </td>
 <td>
@@ -5368,6 +5957,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/steady_state_comparison-5.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1da59de2ec78f3ca4e5521aee75e40fd6fe8599d/docs/figure/data_adjustment_bulk_budgets.Rmd/steady_state_comparison-5.png" target="_blank">1da59de</a>
@@ -5459,6 +6059,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/predictor_analysis-1.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/157af41d74539e8753442471c164f9357ca4f2cc/docs/figure/data_adjustment_bulk_budgets.Rmd/predictor_analysis-1.png" target="_blank">157af41</a>
 </td>
 <td>
@@ -5547,6 +6158,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/predictor_analysis-2.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/157af41d74539e8753442471c164f9357ca4f2cc/docs/figure/data_adjustment_bulk_budgets.Rmd/predictor_analysis-2.png" target="_blank">157af41</a>
 </td>
 <td>
@@ -5621,6 +6243,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/predictor_analysis-3.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/157af41d74539e8753442471c164f9357ca4f2cc/docs/figure/data_adjustment_bulk_budgets.Rmd/predictor_analysis-3.png" target="_blank">157af41</a>
 </td>
 <td>
@@ -5669,7 +6302,7 @@ jens-daniel-mueller
 </div>
 <pre><code>
 [[3]]</code></pre>
-<pre><code>Warning: Removed 2 rows containing missing values (geom_point).</code></pre>
+<pre><code>Warning: Removed 1 rows containing missing values (geom_point).</code></pre>
 <p><img src="figure/data_adjustment_bulk_budgets.Rmd/predictor_analysis-4.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-predictor_analysis-4">
@@ -5693,6 +6326,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/predictor_analysis-4.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/157af41d74539e8753442471c164f9357ca4f2cc/docs/figure/data_adjustment_bulk_budgets.Rmd/predictor_analysis-4.png" target="_blank">157af41</a>
@@ -5769,6 +6413,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/predictor_analysis-5.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/157af41d74539e8753442471c164f9357ca4f2cc/docs/figure/data_adjustment_bulk_budgets.Rmd/predictor_analysis-5.png" target="_blank">157af41</a>
 </td>
 <td>
@@ -5840,6 +6495,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/predictor_analysis-6.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/157af41d74539e8753442471c164f9357ca4f2cc/docs/figure/data_adjustment_bulk_budgets.Rmd/predictor_analysis-6.png" target="_blank">157af41</a>
@@ -5916,6 +6582,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/predictor_analysis-7.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/157af41d74539e8753442471c164f9357ca4f2cc/docs/figure/data_adjustment_bulk_budgets.Rmd/predictor_analysis-7.png" target="_blank">157af41</a>
 </td>
 <td>
@@ -5964,7 +6641,7 @@ jens-daniel-mueller
 </div>
 <pre><code>
 [[7]]</code></pre>
-<pre><code>Warning: Removed 3 rows containing missing values (geom_point).</code></pre>
+<pre><code>Warning: Removed 2 rows containing missing values (geom_point).</code></pre>
 <p><img src="figure/data_adjustment_bulk_budgets.Rmd/predictor_analysis-8.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-predictor_analysis-8">
@@ -5988,6 +6665,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/predictor_analysis-8.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/157af41d74539e8753442471c164f9357ca4f2cc/docs/figure/data_adjustment_bulk_budgets.Rmd/predictor_analysis-8.png" target="_blank">157af41</a>
@@ -6192,6 +6880,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/drift_bias_plots-2.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/36462a6d811286e6e2c5d913a85aa31a4d84c0c1/docs/figure/data_adjustment_bulk_budgets.Rmd/drift_bias_plots-2.png" target="_blank">36462a6</a>
 </td>
 <td>
@@ -6248,6 +6947,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/drift_bias_plots-3.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/36462a6d811286e6e2c5d913a85aa31a4d84c0c1/docs/figure/data_adjustment_bulk_budgets.Rmd/drift_bias_plots-3.png" target="_blank">36462a6</a>
@@ -6312,6 +7022,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/drift_bias_plots-4.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/36462a6d811286e6e2c5d913a85aa31a4d84c0c1/docs/figure/data_adjustment_bulk_budgets.Rmd/drift_bias_plots-4.png" target="_blank">36462a6</a>
 </td>
 <td>
@@ -6368,6 +7089,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/drift_bias_plots-5.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/36462a6d811286e6e2c5d913a85aa31a4d84c0c1/docs/figure/data_adjustment_bulk_budgets.Rmd/drift_bias_plots-5.png" target="_blank">36462a6</a>
@@ -6430,6 +7162,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/drift_bias_plots-6.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/36462a6d811286e6e2c5d913a85aa31a4d84c0c1/docs/figure/data_adjustment_bulk_budgets.Rmd/drift_bias_plots-6.png" target="_blank">36462a6</a>
@@ -6500,6 +7243,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/drift_bias_plots-7.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/36462a6d811286e6e2c5d913a85aa31a4d84c0c1/docs/figure/data_adjustment_bulk_budgets.Rmd/drift_bias_plots-7.png" target="_blank">36462a6</a>
@@ -6580,6 +7334,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/data_adjustment_bulk_budgets.Rmd/drift_bias_plots-8.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/36462a6d811286e6e2c5d913a85aa31a4d84c0c1/docs/figure/data_adjustment_bulk_budgets.Rmd/drift_bias_plots-8.png" target="_blank">36462a6</a>
 </td>
 <td>
@@ -6610,7 +7375,8 @@ dcant_budget_global_bias_all_decomposition %&gt;%
   scroll_box(height = &quot;300px&quot;)</code></pre>
 <pre><code>`summarise()` has grouped output by &#39;inv_depth&#39;. You can override using the
 `.groups` argument.</code></pre>
-<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; ">
+<div
+style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; ">
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -6651,10 +7417,10 @@ C* drift
 C* prediction error
 </td>
 <td style="text-align:right;">
--0.2300000
+-0.2391111
 </td>
 <td style="text-align:right;">
-0.3363849
+0.3443555
 </td>
 </tr>
 <tr>
@@ -6665,10 +7431,10 @@ C* prediction error
 C* prediction error rel
 </td>
 <td style="text-align:right;">
--4.2737707
+-4.4515883
 </td>
 <td style="text-align:right;">
-8.2280632
+8.1934879
 </td>
 </tr>
 <tr>
@@ -6679,10 +7445,10 @@ C* prediction error rel
 dcant offset
 </td>
 <td style="text-align:right;">
-0.3212222
+0.2471111
 </td>
 <td style="text-align:right;">
-0.1255054
+0.1599599
 </td>
 </tr>
 <tr>
@@ -6693,10 +7459,10 @@ dcant offset
 dcant offset rel
 </td>
 <td style="text-align:right;">
-6.9442037
+5.5353768
 </td>
 <td style="text-align:right;">
-2.2298199
+4.2718119
 </td>
 </tr>
 <tr>
@@ -6707,10 +7473,10 @@ dcant offset rel
 dcant offset rel corr
 </td>
 <td style="text-align:right;">
-2.6521369
+1.2433100
 </td>
 <td style="text-align:right;">
-2.0175847
+3.9844194
 </td>
 </tr>
 <tr>
@@ -6763,10 +7529,10 @@ C* drift
 C* prediction error
 </td>
 <td style="text-align:right;">
--1.2855556
+-1.2963889
 </td>
 <td style="text-align:right;">
-0.9459816
+0.9653540
 </td>
 </tr>
 <tr>
@@ -6777,10 +7543,10 @@ C* prediction error
 C* prediction error rel
 </td>
 <td style="text-align:right;">
--7.3522861
+-7.4109646
 </td>
 <td style="text-align:right;">
-4.9299652
+5.0169723
 </td>
 </tr>
 <tr>
@@ -6791,10 +7557,10 @@ C* prediction error rel
 dcant offset
 </td>
 <td style="text-align:right;">
-0.4878333
+0.3843333
 </td>
 <td style="text-align:right;">
-0.6694865
+0.7342137
 </td>
 </tr>
 <tr>
@@ -6805,10 +7571,10 @@ dcant offset
 dcant offset rel
 </td>
 <td style="text-align:right;">
-3.0966768
+2.5502655
 </td>
 <td style="text-align:right;">
-4.4057615
+5.0799307
 </td>
 </tr>
 <tr>
@@ -6819,10 +7585,10 @@ dcant offset rel
 dcant offset rel corr
 </td>
 <td style="text-align:right;">
--4.8696887
+-5.4161000
 </td>
 <td style="text-align:right;">
-4.0276182
+4.6323980
 </td>
 </tr>
 <tr>
@@ -6875,10 +7641,10 @@ C* drift
 C* prediction error
 </td>
 <td style="text-align:right;">
--2.9558333
+-2.9645000
 </td>
 <td style="text-align:right;">
-1.5916053
+1.6109195
 </td>
 </tr>
 <tr>
@@ -6889,10 +7655,10 @@ C* prediction error
 C* prediction error rel
 </td>
 <td style="text-align:right;">
--12.9011178
+-12.9337088
 </td>
 <td style="text-align:right;">
-5.1547888
+5.2504381
 </td>
 </tr>
 <tr>
@@ -6903,10 +7669,10 @@ C* prediction error rel
 dcant offset
 </td>
 <td style="text-align:right;">
-0.5272778
+0.4256667
 </td>
 <td style="text-align:right;">
-1.0447148
+1.0760204
 </td>
 </tr>
 <tr>
@@ -6917,10 +7683,10 @@ dcant offset
 dcant offset rel
 </td>
 <td style="text-align:right;">
-2.4313390
+2.0355519
 </td>
 <td style="text-align:right;">
-4.9103820
+5.1985013
 </td>
 </tr>
 <tr>
@@ -6931,10 +7697,10 @@ dcant offset rel
 dcant offset rel corr
 </td>
 <td style="text-align:right;">
--11.4777306
+-11.8735177
 </td>
 <td style="text-align:right;">
-4.6698313
+4.8173420
 </td>
 </tr>
 <tr>
@@ -6987,10 +7753,10 @@ C* drift
 C* prediction error
 </td>
 <td style="text-align:right;">
--2.1685000
+-2.1806111
 </td>
 <td style="text-align:right;">
-1.4773328
+1.4910324
 </td>
 </tr>
 <tr>
@@ -7001,10 +7767,10 @@ C* prediction error
 C* prediction error rel
 </td>
 <td style="text-align:right;">
--8.4686896
+-8.5124471
 </td>
 <td style="text-align:right;">
-5.1995633
+5.3029087
 </td>
 </tr>
 <tr>
@@ -7015,10 +7781,10 @@ C* prediction error rel
 dcant offset
 </td>
 <td style="text-align:right;">
-1.8461667
+1.7411667
 </td>
 <td style="text-align:right;">
-1.4528640
+1.4429640
 </td>
 </tr>
 <tr>
@@ -7029,10 +7795,10 @@ dcant offset
 dcant offset rel
 </td>
 <td style="text-align:right;">
-7.2445927
+6.8801260
 </td>
 <td style="text-align:right;">
-5.5615402
+5.6808762
 </td>
 </tr>
 <tr>
@@ -7043,10 +7809,10 @@ dcant offset rel
 dcant offset rel corr
 </td>
 <td style="text-align:right;">
--8.3995519
+-8.7640186
 </td>
 <td style="text-align:right;">
-5.6881750
+5.6679475
 </td>
 </tr>
 <tr>
@@ -7099,10 +7865,10 @@ C* drift
 C* prediction error
 </td>
 <td style="text-align:right;">
--1.0246667
+-1.0419444
 </td>
 <td style="text-align:right;">
-1.8136274
+1.8280571
 </td>
 </tr>
 <tr>
@@ -7113,10 +7879,10 @@ C* prediction error
 C* prediction error rel
 </td>
 <td style="text-align:right;">
--3.9159433
+-3.9717258
 </td>
 <td style="text-align:right;">
-7.2255701
+7.3229476
 </td>
 </tr>
 <tr>
@@ -7127,10 +7893,10 @@ C* prediction error rel
 dcant offset
 </td>
 <td style="text-align:right;">
-2.1417778
+2.0316667
 </td>
 <td style="text-align:right;">
-2.0201160
+2.0175664
 </td>
 </tr>
 <tr>
@@ -7141,10 +7907,10 @@ dcant offset
 dcant offset rel
 </td>
 <td style="text-align:right;">
-8.2878354
+7.9171906
 </td>
 <td style="text-align:right;">
-7.7836248
+7.9181615
 </td>
 </tr>
 <tr>
@@ -7155,10 +7921,10 @@ dcant offset rel
 dcant offset rel corr
 </td>
 <td style="text-align:right;">
--4.7510406
+-5.1216855
 </td>
 <td style="text-align:right;">
-7.8391879
+7.8865110
 </td>
 </tr>
 <tr>
@@ -7202,7 +7968,8 @@ mod_truth
   scroll_box(height = &quot;300px&quot;)</code></pre>
 <pre><code>`summarise()` has grouped output by &#39;inv_depth&#39;, &#39;estimate&#39;. You can override
 using the `.groups` argument.</code></pre>
-<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; ">
+<div
+style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; ">
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -7286,10 +8053,10 @@ C* prediction error
 1994 - 2004
 </td>
 <td style="text-align:right;">
-0.1323333
+0.1225000
 </td>
 <td style="text-align:right;">
-0.1946296
+0.1901902
 </td>
 </tr>
 <tr>
@@ -7303,10 +8070,10 @@ C* prediction error
 1994 - 2014
 </td>
 <td style="text-align:right;">
--0.3890000
+-0.4071667
 </td>
 <td style="text-align:right;">
-0.2168041
+0.2597333
 </td>
 </tr>
 <tr>
@@ -7320,10 +8087,10 @@ C* prediction error
 2004 - 2014
 </td>
 <td style="text-align:right;">
--0.4333333
+-0.4326667
 </td>
 <td style="text-align:right;">
-0.2496971
+0.2525428
 </td>
 </tr>
 <tr>
@@ -7337,10 +8104,10 @@ C* prediction error rel
 1994 - 2004
 </td>
 <td style="text-align:right;">
-3.9871447
+3.6908707
 </td>
 <td style="text-align:right;">
-5.8641025
+5.7303455
 </td>
 </tr>
 <tr>
@@ -7354,10 +8121,10 @@ C* prediction error rel
 1994 - 2014
 </td>
 <td style="text-align:right;">
--5.4527614
+-5.7074105
 </td>
 <td style="text-align:right;">
-3.0390252
+3.6407802
 </td>
 </tr>
 <tr>
@@ -7371,10 +8138,10 @@ C* prediction error rel
 2004 - 2014
 </td>
 <td style="text-align:right;">
--11.3556953
+-11.3382250
 </td>
 <td style="text-align:right;">
-6.5434264
+6.6179979
 </td>
 </tr>
 <tr>
@@ -7388,10 +8155,10 @@ dcant offset
 1994 - 2004
 </td>
 <td style="text-align:right;">
-0.3016667
+0.3516667
 </td>
 <td style="text-align:right;">
-0.0558056
+0.0549861
 </td>
 </tr>
 <tr>
@@ -7405,10 +8172,10 @@ dcant offset
 1994 - 2014
 </td>
 <td style="text-align:right;">
-0.4598333
+0.3446667
 </td>
 <td style="text-align:right;">
-0.0606611
+0.0629910
 </td>
 </tr>
 <tr>
@@ -7422,10 +8189,10 @@ dcant offset
 2004 - 2014
 </td>
 <td style="text-align:right;">
-0.2021667
+0.0450000
 </td>
 <td style="text-align:right;">
-0.0789795
+0.0802969
 </td>
 </tr>
 <tr>
@@ -7439,10 +8206,10 @@ dcant offset rel
 1994 - 2004
 </td>
 <td style="text-align:right;">
-9.0890831
+10.5955609
 </td>
 <td style="text-align:right;">
-1.6813985
+1.6567056
 </td>
 </tr>
 <tr>
@@ -7456,10 +8223,10 @@ dcant offset rel
 1994 - 2014
 </td>
 <td style="text-align:right;">
-6.4456593
+4.8313242
 </td>
 <td style="text-align:right;">
-0.8503095
+0.8829689
 </td>
 </tr>
 <tr>
@@ -7473,10 +8240,10 @@ dcant offset rel
 2004 - 2014
 </td>
 <td style="text-align:right;">
-5.2978686
+1.1792453
 </td>
 <td style="text-align:right;">
-2.0696943
+2.1042177
 </td>
 </tr>
 <tr>
@@ -7490,10 +8257,10 @@ dcant offset rel corr
 1994 - 2004
 </td>
 <td style="text-align:right;">
-4.4190017
+5.9254796
 </td>
 <td style="text-align:right;">
-1.6813985
+1.6567056
 </td>
 </tr>
 <tr>
@@ -7507,10 +8274,10 @@ dcant offset rel corr
 1994 - 2014
 </td>
 <td style="text-align:right;">
-2.1703579
+0.5560228
 </td>
 <td style="text-align:right;">
-0.8503095
+0.8829689
 </td>
 </tr>
 <tr>
@@ -7524,10 +8291,10 @@ dcant offset rel corr
 2004 - 2014
 </td>
 <td style="text-align:right;">
-1.3670510
+-2.7515723
 </td>
 <td style="text-align:right;">
-2.0696943
+2.1042177
 </td>
 </tr>
 <tr>
@@ -7694,10 +8461,10 @@ C* prediction error
 1994 - 2004
 </td>
 <td style="text-align:right;">
--0.4826667
+-0.4928333
 </td>
 <td style="text-align:right;">
-0.6174313
+0.6312988
 </td>
 </tr>
 <tr>
@@ -7711,10 +8478,10 @@ C* prediction error
 1994 - 2014
 </td>
 <td style="text-align:right;">
--1.9843333
+-2.0061667
 </td>
 <td style="text-align:right;">
-0.9744058
+1.0093020
 </td>
 </tr>
 <tr>
@@ -7728,10 +8495,10 @@ C* prediction error
 2004 - 2014
 </td>
 <td style="text-align:right;">
--1.3896667
+-1.3901667
 </td>
 <td style="text-align:right;">
-0.5825769
+0.6011015
 </td>
 </tr>
 <tr>
@@ -7745,10 +8512,10 @@ C* prediction error rel
 1994 - 2004
 </td>
 <td style="text-align:right;">
--4.1095502
+-4.1961118
 </td>
 <td style="text-align:right;">
-5.2569719
+5.3750429
 </td>
 </tr>
 <tr>
@@ -7762,10 +8529,10 @@ C* prediction error rel
 1994 - 2014
 </td>
 <td style="text-align:right;">
--7.8000524
+-7.8858753
 </td>
 <td style="text-align:right;">
-3.8302115
+3.9673822
 </td>
 </tr>
 <tr>
@@ -7779,10 +8546,10 @@ C* prediction error rel
 2004 - 2014
 </td>
 <td style="text-align:right;">
--10.1472557
+-10.1509067
 </td>
 <td style="text-align:right;">
-4.2539388
+4.3892038
 </td>
 </tr>
 <tr>
@@ -7796,10 +8563,10 @@ dcant offset
 1994 - 2004
 </td>
 <td style="text-align:right;">
-0.7845000
+0.8548333
 </td>
 <td style="text-align:right;">
-0.4981999
+0.5030433
 </td>
 </tr>
 <tr>
@@ -7813,10 +8580,10 @@ dcant offset
 1994 - 2014
 </td>
 <td style="text-align:right;">
-0.6963333
+0.5353333
 </td>
 <td style="text-align:right;">
-0.7844327
+0.7888953
 </td>
 </tr>
 <tr>
@@ -7830,10 +8597,10 @@ dcant offset
 2004 - 2014
 </td>
 <td style="text-align:right;">
--0.0173333
+-0.2371667
 </td>
 <td style="text-align:right;">
-0.4431382
+0.4482283
 </td>
 </tr>
 <tr>
@@ -7847,10 +8614,10 @@ dcant offset rel
 1994 - 2004
 </td>
 <td style="text-align:right;">
-6.6794381
+7.2782744
 </td>
 <td style="text-align:right;">
-4.2418038
+4.2830422
 </td>
 </tr>
 <tr>
@@ -7864,10 +8631,10 @@ dcant offset rel
 1994 - 2014
 </td>
 <td style="text-align:right;">
-2.7371593
+2.1042977
 </td>
 <td style="text-align:right;">
-3.0834619
+3.1010037
 </td>
 </tr>
 <tr>
@@ -7881,10 +8648,10 @@ dcant offset rel
 2004 - 2014
 </td>
 <td style="text-align:right;">
--0.1265669
+-1.7317756
 </td>
 <td style="text-align:right;">
-3.2357664
+3.2729336
 </td>
 </tr>
 <tr>
@@ -7898,10 +8665,10 @@ dcant offset rel corr
 1994 - 2004
 </td>
 <td style="text-align:right;">
--2.0476799
+-1.4488435
 </td>
 <td style="text-align:right;">
-4.2418038
+4.2830422
 </td>
 </tr>
 <tr>
@@ -7915,10 +8682,10 @@ dcant offset rel corr
 1994 - 2014
 </td>
 <td style="text-align:right;">
--5.1912998
+-5.8241614
 </td>
 <td style="text-align:right;">
-3.0834619
+3.1010037
 </td>
 </tr>
 <tr>
@@ -7932,10 +8699,10 @@ dcant offset rel corr
 2004 - 2014
 </td>
 <td style="text-align:right;">
--7.3700864
+-8.9752951
 </td>
 <td style="text-align:right;">
-3.2357664
+3.2729336
 </td>
 </tr>
 <tr>
@@ -8102,10 +8869,10 @@ C* prediction error
 1994 - 2004
 </td>
 <td style="text-align:right;">
--1.8418333
+-1.8501667
 </td>
 <td style="text-align:right;">
-1.1946326
+1.2180584
 </td>
 </tr>
 <tr>
@@ -8119,10 +8886,10 @@ C* prediction error
 1994 - 2014
 </td>
 <td style="text-align:right;">
--4.4678333
+-4.4883333
 </td>
 <td style="text-align:right;">
-1.5751166
+1.6001824
 </td>
 </tr>
 <tr>
@@ -8136,10 +8903,10 @@ C* prediction error
 2004 - 2014
 </td>
 <td style="text-align:right;">
--2.5578333
+-2.5550000
 </td>
 <td style="text-align:right;">
-0.5311431
+0.5487834
 </td>
 </tr>
 <tr>
@@ -8153,10 +8920,10 @@ C* prediction error rel
 1994 - 2004
 </td>
 <td style="text-align:right;">
--11.7314225
+-11.7845011
 </td>
 <td style="text-align:right;">
-7.6091246
+7.7583335
 </td>
 </tr>
 <tr>
@@ -8170,10 +8937,10 @@ C* prediction error rel
 1994 - 2014
 </td>
 <td style="text-align:right;">
--13.0917846
+-13.1518543
 </td>
 <td style="text-align:right;">
-4.6154557
+4.6889045
 </td>
 </tr>
 <tr>
@@ -8187,10 +8954,10 @@ C* prediction error rel
 2004 - 2014
 </td>
 <td style="text-align:right;">
--13.8801462
+-13.8647710
 </td>
 <td style="text-align:right;">
-2.8822611
+2.9779867
 </td>
 </tr>
 <tr>
@@ -8204,10 +8971,10 @@ dcant offset
 1994 - 2004
 </td>
 <td style="text-align:right;">
-0.6913333
+0.7628333
 </td>
 <td style="text-align:right;">
-1.1341520
+1.1425910
 </td>
 </tr>
 <tr>
@@ -8221,10 +8988,10 @@ dcant offset
 1994 - 2014
 </td>
 <td style="text-align:right;">
-0.7778333
+0.6178333
 </td>
 <td style="text-align:right;">
-1.4023736
+1.4029803
 </td>
 </tr>
 <tr>
@@ -8238,10 +9005,10 @@ dcant offset
 2004 - 2014
 </td>
 <td style="text-align:right;">
-0.1126667
+-0.1036667
 </td>
 <td style="text-align:right;">
-0.3794637
+0.3817799
 </td>
 </tr>
 <tr>
@@ -8255,10 +9022,10 @@ dcant offset rel
 1994 - 2004
 </td>
 <td style="text-align:right;">
-4.4033970
+4.8588110
 </td>
 <td style="text-align:right;">
-7.2238978
+7.2776496
 </td>
 </tr>
 <tr>
@@ -8272,10 +9039,10 @@ dcant offset rel
 1994 - 2014
 </td>
 <td style="text-align:right;">
-2.2792315
+1.8103945
 </td>
 <td style="text-align:right;">
-4.1092789
+4.1110567
 </td>
 </tr>
 <tr>
@@ -8289,10 +9056,10 @@ dcant offset rel
 2004 - 2014
 </td>
 <td style="text-align:right;">
-0.6113885
+-0.5625497
 </td>
 <td style="text-align:right;">
-2.0591690
+2.0717379
 </td>
 </tr>
 <tr>
@@ -8306,10 +9073,10 @@ dcant offset rel corr
 1994 - 2004
 </td>
 <td style="text-align:right;">
--10.8513800
+-10.3959660
 </td>
 <td style="text-align:right;">
-7.2238978
+7.2776496
 </td>
 </tr>
 <tr>
@@ -8323,10 +9090,10 @@ dcant offset rel corr
 1994 - 2014
 </td>
 <td style="text-align:right;">
--11.5602504
+-12.0290874
 </td>
 <td style="text-align:right;">
-4.1092789
+4.1110567
 </td>
 </tr>
 <tr>
@@ -8340,10 +9107,10 @@ dcant offset rel corr
 2004 - 2014
 </td>
 <td style="text-align:right;">
--12.0215614
+-13.1954996
 </td>
 <td style="text-align:right;">
-2.0591690
+2.0717379
 </td>
 </tr>
 <tr>
@@ -8510,10 +9277,10 @@ C* prediction error
 1994 - 2004
 </td>
 <td style="text-align:right;">
--1.6423333
+-1.6551667
 </td>
 <td style="text-align:right;">
-1.3107675
+1.3563294
 </td>
 </tr>
 <tr>
@@ -8527,10 +9294,10 @@ C* prediction error
 1994 - 2014
 </td>
 <td style="text-align:right;">
--3.2945000
+-3.3191667
 </td>
 <td style="text-align:right;">
-1.6428471
+1.6347687
 </td>
 </tr>
 <tr>
@@ -8544,10 +9311,10 @@ C* prediction error
 2004 - 2014
 </td>
 <td style="text-align:right;">
--1.5686667
+-1.5675000
 </td>
 <td style="text-align:right;">
-0.8473787
+0.8418664
 </td>
 </tr>
 <tr>
@@ -8561,10 +9328,10 @@ C* prediction error rel
 1994 - 2004
 </td>
 <td style="text-align:right;">
--9.3102797
+-9.3830310
 </td>
 <td style="text-align:right;">
-7.4306548
+7.6889420
 </td>
 </tr>
 <tr>
@@ -8578,10 +9345,10 @@ C* prediction error rel
 1994 - 2014
 </td>
 <td style="text-align:right;">
--8.5642612
+-8.6283838
 </td>
 <td style="text-align:right;">
-4.2706851
+4.2496846
 </td>
 </tr>
 <tr>
@@ -8595,10 +9362,10 @@ C* prediction error rel
 2004 - 2014
 </td>
 <td style="text-align:right;">
--7.5315281
+-7.5259266
 </td>
 <td style="text-align:right;">
-4.0684593
+4.0419937
 </td>
 </tr>
 <tr>
@@ -8612,10 +9379,10 @@ dcant offset
 1994 - 2004
 </td>
 <td style="text-align:right;">
-1.3136667
+1.3808333
 </td>
 <td style="text-align:right;">
-1.4553836
+1.4833967
 </td>
 </tr>
 <tr>
@@ -8629,10 +9396,10 @@ dcant offset
 1994 - 2014
 </td>
 <td style="text-align:right;">
-2.7241667
+2.5603333
 </td>
 <td style="text-align:right;">
-1.7007077
+1.7027847
 </td>
 </tr>
 <tr>
@@ -8646,10 +9413,10 @@ dcant offset
 2004 - 2014
 </td>
 <td style="text-align:right;">
-1.5006667
+1.2823333
 </td>
 <td style="text-align:right;">
-0.8704288
+0.8750252
 </td>
 </tr>
 <tr>
@@ -8663,10 +9430,10 @@ dcant offset rel
 1994 - 2004
 </td>
 <td style="text-align:right;">
-7.4470899
+7.8278534
 </td>
 <td style="text-align:right;">
-8.2504740
+8.4092783
 </td>
 </tr>
 <tr>
@@ -8680,10 +9447,10 @@ dcant offset rel
 1994 - 2014
 </td>
 <td style="text-align:right;">
-7.0816436
+6.6557485
 </td>
 <td style="text-align:right;">
-4.4210972
+4.4264967
 </td>
 </tr>
 <tr>
@@ -8697,10 +9464,10 @@ dcant offset rel
 2004 - 2014
 </td>
 <td style="text-align:right;">
-7.2050445
+6.1567761
 </td>
 <td style="text-align:right;">
-4.1791280
+4.2011964
 </td>
 </tr>
 <tr>
@@ -8714,10 +9481,10 @@ dcant offset rel corr
 1994 - 2004
 </td>
 <td style="text-align:right;">
--9.7921391
+-9.4113757
 </td>
 <td style="text-align:right;">
-8.2504740
+8.4092783
 </td>
 </tr>
 <tr>
@@ -8731,10 +9498,10 @@ dcant offset rel corr
 1994 - 2014
 </td>
 <td style="text-align:right;">
--8.4767426
+-8.9026377
 </td>
 <td style="text-align:right;">
-4.4210972
+4.4264967
 </td>
 </tr>
 <tr>
@@ -8748,10 +9515,10 @@ dcant offset rel corr
 2004 - 2014
 </td>
 <td style="text-align:right;">
--6.9297740
+-7.9780424
 </td>
 <td style="text-align:right;">
-4.1791280
+4.2011964
 </td>
 </tr>
 <tr>
@@ -8918,10 +9685,10 @@ C* prediction error
 1994 - 2004
 </td>
 <td style="text-align:right;">
--0.7838333
+-0.7951667
 </td>
 <td style="text-align:right;">
-1.9104399
+1.9603254
 </td>
 </tr>
 <tr>
@@ -8935,10 +9702,10 @@ C* prediction error
 1994 - 2014
 </td>
 <td style="text-align:right;">
--1.5945000
+-1.6348333
 </td>
 <td style="text-align:right;">
-2.4176019
+2.4162526
 </td>
 </tr>
 <tr>
@@ -8952,10 +9719,10 @@ C* prediction error
 2004 - 2014
 </td>
 <td style="text-align:right;">
--0.6956667
+-0.6958333
 </td>
 <td style="text-align:right;">
-1.0486701
+1.0209269
 </td>
 </tr>
 <tr>
@@ -8969,10 +9736,10 @@ C* prediction error rel
 1994 - 2004
 </td>
 <td style="text-align:right;">
--4.3784680
+-4.4417756
 </td>
 <td style="text-align:right;">
-10.6716562
+10.9503152
 </td>
 </tr>
 <tr>
@@ -8986,10 +9753,10 @@ C* prediction error rel
 1994 - 2014
 </td>
 <td style="text-align:right;">
--4.0818678
+-4.1851198
 </td>
 <td style="text-align:right;">
-6.1889817
+6.1855274
 </td>
 </tr>
 <tr>
@@ -9003,10 +9770,10 @@ C* prediction error rel
 2004 - 2014
 </td>
 <td style="text-align:right;">
--3.2874943
+-3.2882819
 </td>
 <td style="text-align:right;">
-4.9556738
+4.8245684
 </td>
 </tr>
 <tr>
@@ -9020,10 +9787,10 @@ dcant offset
 1994 - 2004
 </td>
 <td style="text-align:right;">
-1.5415000
+1.6108333
 </td>
 <td style="text-align:right;">
-2.0958221
+2.1354795
 </td>
 </tr>
 <tr>
@@ -9037,10 +9804,10 @@ dcant offset
 1994 - 2014
 </td>
 <td style="text-align:right;">
-3.1521667
+2.9723333
 </td>
 <td style="text-align:right;">
-2.5363748
+2.5535937
 </td>
 </tr>
 <tr>
@@ -9054,10 +9821,10 @@ dcant offset
 2004 - 2014
 </td>
 <td style="text-align:right;">
-1.7316667
+1.5118333
 </td>
 <td style="text-align:right;">
-1.0908682
+1.0771355
 </td>
 </tr>
 <tr>
@@ -9071,10 +9838,10 @@ dcant offset rel
 1994 - 2004
 </td>
 <td style="text-align:right;">
-8.6107697
+8.9980635
 </td>
 <td style="text-align:right;">
-11.7071953
+11.9287201
 </td>
 </tr>
 <tr>
@@ -9088,10 +9855,10 @@ dcant offset rel
 1994 - 2014
 </td>
 <td style="text-align:right;">
-8.0694434
+7.6090759
 </td>
 <td style="text-align:right;">
-6.4930365
+6.5371161
 </td>
 </tr>
 <tr>
@@ -9105,10 +9872,10 @@ dcant offset rel
 2004 - 2014
 </td>
 <td style="text-align:right;">
-8.1832932
+7.1444324
 </td>
 <td style="text-align:right;">
-5.1550882
+5.0901920
 </td>
 </tr>
 <tr>
@@ -9122,10 +9889,10 @@ dcant offset rel corr
 1994 - 2004
 </td>
 <td style="text-align:right;">
--5.8177857
+-5.4304919
 </td>
 <td style="text-align:right;">
-11.7071953
+11.9287201
 </td>
 </tr>
 <tr>
@@ -9139,10 +9906,10 @@ dcant offset rel corr
 1994 - 2014
 </td>
 <td style="text-align:right;">
--4.8942307
+-5.3545981
 </td>
 <td style="text-align:right;">
-6.4930365
+6.5371161
 </td>
 </tr>
 <tr>
@@ -9156,10 +9923,10 @@ dcant offset rel corr
 2004 - 2014
 </td>
 <td style="text-align:right;">
--3.5411055
+-4.5799663
 </td>
 <td style="text-align:right;">
-5.1550882
+5.0901920
 </td>
 </tr>
 <tr>
@@ -9270,7 +10037,8 @@ mod_truth
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
-<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
 </button>
 </p>
 <div id="workflowr-sessioninfo" class="collapse">

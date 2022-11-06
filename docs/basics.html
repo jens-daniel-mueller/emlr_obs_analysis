@@ -498,6 +498,20 @@ div.tocify {
       </ul>
     </li>
     <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">C(AT) target</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="CAT_target_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="CAT_target_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="CAT_target_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Surface equilibrium</a>
       <ul class="dropdown-menu" role="menu">
         <li>
@@ -664,7 +678,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Basics</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">07 October, 2022</h4>
+<h4 class="date">06 November, 2022</h4>
 
 </div>
 
@@ -693,7 +707,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-10-07
+<strong>Last updated:</strong> 2022-11-06
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -825,15 +839,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreea79155d4ce20d16a42030f664e740bb709ebcdf9targetblanka79155da">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree820fff84b67213920947fe3d206764620f9fefe5targetblank820fff8a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/a79155d4ce20d16a42030f664e740bb709ebcdf9" target="_blank">a79155d</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/820fff84b67213920947fe3d206764620f9fefe5" target="_blank">820fff8</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreea79155d4ce20d16a42030f664e740bb709ebcdf9targetblanka79155da"
+id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree820fff84b67213920947fe3d206764620f9fefe5targetblank820fff8a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -843,7 +857,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/a79155d4ce20d16a42030f664e740bb709ebcdf9" target="_blank">a79155d</a>.
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/820fff84b67213920947fe3d206764620f9fefe5" target="_blank">820fff8</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -862,6 +876,7 @@ Ignored files:
     Ignored:    .Rproj.user/
     Ignored:    data/
     Ignored:    output/other/
+    Ignored:    output/presentation/
     Ignored:    output/publication/
 
 Untracked files:
@@ -870,6 +885,7 @@ Untracked files:
     Untracked:  code/visualization_equal_earth_cleaned_jdm.R
 
 Unstaged changes:
+    Modified:   analysis/_site.yml
     Modified:   code/Workflowr_project_managment.R
 
 </code></pre>
@@ -915,6 +931,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/820fff84b67213920947fe3d206764620f9fefe5/analysis/basics.Rmd" target="_blank">820fff8</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-06
+</td>
+<td>
+rebuild website after internal implementing review round 1
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/5d06b07c1984f7b9c29403d5de5e4f87dfcb2d5b/docs/basics.html" target="_blank">5d06b07</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-07
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -2558,7 +2608,7 @@ GLODAP_all_coverage &lt;- GLODAP_all %&gt;%
   mutate(gap_filling = case_when(
     cruise_expocode %in% cruises_phosphate_gap_fill ~ &quot;Phosphate from CANYON-B&quot;,
     cruise_expocode %in% cruises_talk_gap_fill ~ &quot;TA from CANYON-B&quot;,
-    cruise_expocode %in% cruises_talk_calc ~ &quot;TA calculated from other parameters&quot;,
+    cruise_expocode %in% cruises_talk_calc ~ &quot;TA calculated from other variables&quot;,
     cruise_expocode %in% &quot;31DS19940126&quot; ~ &quot;Nitrate qc-flag not met&quot;,
     TRUE ~ &quot;All quality criteria fulfilled&quot;
   )) %&gt;% 
@@ -2608,6 +2658,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/5d06b07c1984f7b9c29403d5de5e4f87dfcb2d5b/docs/figure/basics.Rmd/coverage_maps-1.png" target="_blank">5d06b07</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-10-07
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/7184b6b10c6e068eaffc3566e825e468dbfe8311/docs/figure/basics.Rmd/coverage_maps-1.png" target="_blank">7184b6b</a>
@@ -3041,8 +3102,8 @@ jens-daniel-mueller
 <pre><code># A tibble: 2 × 3
   mapped_ocean surface_area surface_area_ratio
   &lt;chr&gt;               &lt;dbl&gt;              &lt;dbl&gt;
-1 0                 4.97e12             0.0149
-2 1                 3.33e14            NA     </code></pre>
+1 0                 4.17e12             0.0125
+2 1                 3.34e14            NA     </code></pre>
 </div>
 </div>
 <div id="coverage-maps-all" class="section level1" number="6">

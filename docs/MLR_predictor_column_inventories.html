@@ -498,6 +498,20 @@ div.tocify {
       </ul>
     </li>
     <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">C(AT) target</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="CAT_target_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="CAT_target_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="CAT_target_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Surface equilibrium</a>
       <ul class="dropdown-menu" role="menu">
         <li>
@@ -664,14 +678,16 @@ div.tocify {
 
 <h1 class="title toc-ignore">Column inventories</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">29 July, 2022</h4>
+<h4 class="date">06 November, 2022</h4>
 
 </div>
 
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -680,7 +696,9 @@ div.tocify {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -689,17 +707,28 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-07-29
+<strong>Last updated:</strong> 2022-11-06
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 0
 </p>
 <p>
-<strong>Knit directory:</strong> <code>emlr_obs_analysis/analysis/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+<strong>Knit directory:</strong>
+<code>emlr_obs_analysis/analysis/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
 </p>
 <p>
-This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
-  href="https://github.com/workflowr/workflowr">workflowr</a> (version 1.7.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.0). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
 </p>
 <hr>
 </div>
@@ -708,91 +737,138 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguptodate"
+class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
 </p>
 </div>
 <div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20210412code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20210412)</code> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20210412code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20210412)</code> </a>
 </p>
 </div>
-<div id="strongSeedstrongcodesetseed20210412code" class="panel-collapse collapse">
+<div id="strongSeedstrongcodesetseed20210412code"
+class="panel-collapse collapse">
 <div class="panel-body">
-<p>The command <code>set.seed(20210412)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+<p>The command <code>set.seed(20210412)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
 </p>
 </div>
-<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
 </p>
 </div>
 <div id="strongCachestrongnone" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
 </p>
 </div>
 <div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreef04d8ed5bf6d53481c1331fbe3e1803b25778476targetblankf04d8eda"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/f04d8ed5bf6d53481c1331fbe3e1803b25778476" target="_blank">f04d8ed</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree820fff84b67213920947fe3d206764620f9fefe5targetblank820fff8a">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/820fff84b67213920947fe3d206764620f9fefe5" target="_blank">820fff8</a>
+</a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreef04d8ed5bf6d53481c1331fbe3e1803b25778476targetblankf04d8eda" class="panel-collapse collapse">
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree820fff84b67213920947fe3d206764620f9fefe5targetblank820fff8a"
+class="panel-collapse collapse">
 <div class="panel-body">
 <p>
-Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/f04d8ed5bf6d53481c1331fbe3e1803b25778476" target="_blank">f04d8ed</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/820fff84b67213920947fe3d206764620f9fefe5" target="_blank">820fff8</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
 </p>
 <p>
-Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
 </p>
 <pre><code>
 Ignored files:
@@ -800,19 +876,23 @@ Ignored files:
     Ignored:    .Rproj.user/
     Ignored:    data/
     Ignored:    output/other/
+    Ignored:    output/presentation/
     Ignored:    output/publication/
 
 Untracked files:
-    Untracked:  figure/
+    Untracked:  code/visualization_equal_earth.R
+    Untracked:  code/visualization_equal_earth_cleaned.R
+    Untracked:  code/visualization_equal_earth_cleaned_jdm.R
 
 Unstaged changes:
     Modified:   analysis/_site.yml
-    Modified:   analysis/child/budget_analysis_plot_data.Rmd
     Modified:   code/Workflowr_project_managment.R
 
 </code></pre>
 <p>
-Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
 </p>
 </div>
 </div>
@@ -823,7 +903,13 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <div id="versions" class="tab-pane fade">
 
 <p>
-These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/MLR_predictor_column_inventories.Rmd</code>) and HTML (<code>docs/MLR_predictor_column_inventories.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+These are the previous versions of the repository in which changes were
+made to the R Markdown
+(<code>analysis/MLR_predictor_column_inventories.Rmd</code>) and HTML
+(<code>docs/MLR_predictor_column_inventories.html</code>) files. If
+you’ve configured a remote Git repository (see
+<code>?wflow_git_remote</code>), click on the hyperlinks in the table
+below to view the files as they were in that past version.
 </p>
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
@@ -847,6 +933,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/MLR_predictor_column_inventories.html" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -1674,6 +1777,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/MLR_predictor_column_inventories.Rmd/cases_bias-1.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/09b0780dbaaaefed666bcfc8060d3cf38421e3ff/docs/figure/MLR_predictor_column_inventories.Rmd/cases_bias-1.png" target="_blank">09b0780</a>
 </td>
 <td>
@@ -1749,6 +1863,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/MLR_predictor_column_inventories.Rmd/cases_bias-2.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/09b0780dbaaaefed666bcfc8060d3cf38421e3ff/docs/figure/MLR_predictor_column_inventories.Rmd/cases_bias-2.png" target="_blank">09b0780</a>
@@ -1841,6 +1966,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/MLR_predictor_column_inventories.Rmd/composed_absolute_and_bias_figure-1.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/09b0780dbaaaefed666bcfc8060d3cf38421e3ff/docs/figure/MLR_predictor_column_inventories.Rmd/composed_absolute_and_bias_figure-1.png" target="_blank">09b0780</a>
 </td>
 <td>
@@ -1921,7 +2057,8 @@ jens-daniel-mueller
 Past versions of decadal_dcant_offset_column_inventory_map-1.png
 </button>
 </p>
-<div id="fig-decadal_dcant_offset_column_inventory_map-1" class="collapse">
+<div id="fig-decadal_dcant_offset_column_inventory_map-1"
+class="collapse">
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
 <thead>
@@ -1938,6 +2075,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/MLR_predictor_column_inventories.Rmd/decadal_dcant_offset_column_inventory_map-1.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/09b0780dbaaaefed666bcfc8060d3cf38421e3ff/docs/figure/MLR_predictor_column_inventories.Rmd/decadal_dcant_offset_column_inventory_map-1.png" target="_blank">09b0780</a>
@@ -1961,7 +2109,8 @@ jens-daniel-mueller
 Past versions of decadal_dcant_offset_column_inventory_map-2.png
 </button>
 </p>
-<div id="fig-decadal_dcant_offset_column_inventory_map-2" class="collapse">
+<div id="fig-decadal_dcant_offset_column_inventory_map-2"
+class="collapse">
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
 <thead>
@@ -1978,6 +2127,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/MLR_predictor_column_inventories.Rmd/decadal_dcant_offset_column_inventory_map-2.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/09b0780dbaaaefed666bcfc8060d3cf38421e3ff/docs/figure/MLR_predictor_column_inventories.Rmd/decadal_dcant_offset_column_inventory_map-2.png" target="_blank">09b0780</a>
@@ -2001,7 +2161,8 @@ jens-daniel-mueller
 Past versions of decadal_dcant_offset_column_inventory_map-3.png
 </button>
 </p>
-<div id="fig-decadal_dcant_offset_column_inventory_map-3" class="collapse">
+<div id="fig-decadal_dcant_offset_column_inventory_map-3"
+class="collapse">
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
 <thead>
@@ -2018,6 +2179,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/MLR_predictor_column_inventories.Rmd/decadal_dcant_offset_column_inventory_map-3.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/09b0780dbaaaefed666bcfc8060d3cf38421e3ff/docs/figure/MLR_predictor_column_inventories.Rmd/decadal_dcant_offset_column_inventory_map-3.png" target="_blank">09b0780</a>
@@ -2050,7 +2222,8 @@ jens-daniel-mueller
 Past versions of decadal_bias_offset_column_inventory_map-1.png
 </button>
 </p>
-<div id="fig-decadal_bias_offset_column_inventory_map-1" class="collapse">
+<div id="fig-decadal_bias_offset_column_inventory_map-1"
+class="collapse">
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
 <thead>
@@ -2069,6 +2242,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/MLR_predictor_column_inventories.Rmd/decadal_bias_offset_column_inventory_map-1.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/09b0780dbaaaefed666bcfc8060d3cf38421e3ff/docs/figure/MLR_predictor_column_inventories.Rmd/decadal_bias_offset_column_inventory_map-1.png" target="_blank">09b0780</a>
 </td>
 <td>
@@ -2083,7 +2267,8 @@ jens-daniel-mueller
 </div>
 </div>
 <div id="density-distribution" class="section level3" number="3.3.1">
-<h3><span class="header-section-number">3.3.1</span> Density distribution</h3>
+<h3><span class="header-section-number">3.3.1</span> Density
+distribution</h3>
 <pre class="r"><code>dcant_inv_bias_all %&gt;%
   filter(abs(dcant_bias) &lt; 10) %&gt;% 
   ggplot(aes(dcant_bias, col = MLR_predictors)) +
@@ -2679,6 +2864,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/MLR_predictor_column_inventories.Rmd/ensemble_mean_bias-1.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/09b0780dbaaaefed666bcfc8060d3cf38421e3ff/docs/figure/MLR_predictor_column_inventories.Rmd/ensemble_mean_bias-1.png" target="_blank">09b0780</a>
 </td>
 <td>
@@ -2726,7 +2922,8 @@ jens-daniel-mueller
 </div>
 </div>
 <div id="density-distribution-1" class="section level3" number="4.2.1">
-<h3><span class="header-section-number">4.2.1</span> Density distribution</h3>
+<h3><span class="header-section-number">4.2.1</span> Density
+distribution</h3>
 <pre class="r"><code>dcant_inv_bias_all %&gt;%
   ggplot() +
   scale_color_manual(values = c(&quot;red&quot;, &quot;grey&quot;)) +
@@ -2788,7 +2985,8 @@ jens-daniel-mueller
 </div>
 </div>
 <div id="mean-lat-grid-budgets" class="section level2" number="4.3">
-<h2><span class="header-section-number">4.3</span> Mean lat grid budgets</h2>
+<h2><span class="header-section-number">4.3</span> Mean lat grid
+budgets</h2>
 <pre class="r"><code>dcant_lat_grid_ensemble %&gt;%
   ggplot(aes(lat_grid, dcant_mean)) +
   geom_hline(yintercept = 0) +
@@ -2856,7 +3054,8 @@ jens-daniel-mueller
 </div>
 </div>
 <div id="mean-lon-grid-budgets" class="section level2" number="4.4">
-<h2><span class="header-section-number">4.4</span> Mean lon grid budgets</h2>
+<h2><span class="header-section-number">4.4</span> Mean lon grid
+budgets</h2>
 <pre class="r"><code>dcant_lon_grid_ensemble %&gt;%
   ggplot(aes(lon_grid, dcant_mean)) +
   geom_col(position = &quot;dodge&quot;,
@@ -2920,7 +3119,8 @@ jens-daniel-mueller
 </div>
 </div>
 <div id="standard-deviation" class="section level2" number="4.5">
-<h2><span class="header-section-number">4.5</span> Standard deviation</h2>
+<h2><span class="header-section-number">4.5</span> Standard
+deviation</h2>
 <pre class="r"><code>p_map_cant_inv(
   df = dcant_inv_ensemble,
   var = &quot;dcant_sd&quot;,
@@ -3012,7 +3212,8 @@ jens-daniel-mueller
 </div>
 </div>
 <div id="sd-as-uncertainty" class="section level2" number="4.6">
-<h2><span class="header-section-number">4.6</span> SD as uncertainty</h2>
+<h2><span class="header-section-number">4.6</span> SD as
+uncertainty</h2>
 <pre class="r"><code>uncertainty_grid &lt;- dcant_inv_ensemble %&gt;%
   filter(dcant_sd &gt; sd_uncertainty_limit) %&gt;%
   distinct(lon, lat, data_source, period)
@@ -3136,7 +3337,8 @@ jens-daniel-mueller
 </div>
 </div>
 <div id="density-distributions" class="section level3" number="4.7.2">
-<h3><span class="header-section-number">4.7.2</span> Density distributions</h3>
+<h3><span class="header-section-number">4.7.2</span> Density
+distributions</h3>
 <pre class="r"><code>legend_title = expression(Delta * C[ant]~(mol~m^2))
 
 dcant_density_distribution_bias &lt;- dcant_inv_ensemble_bias %&gt;% 
@@ -3658,6 +3860,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/MLR_predictor_column_inventories.Rmd/ensemble_deviation_from_mean-1.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/b44c72a564119fbdbada217cd4afffabdf41884a/docs/figure/MLR_predictor_column_inventories.Rmd/ensemble_deviation_from_mean-1.png" target="_blank">b44c72a</a>
 </td>
 <td>
@@ -3740,6 +3953,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/MLR_predictor_column_inventories.Rmd/ensemble_deviation_from_mean-2.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/b44c72a564119fbdbada217cd4afffabdf41884a/docs/figure/MLR_predictor_column_inventories.Rmd/ensemble_deviation_from_mean-2.png" target="_blank">b44c72a</a>
@@ -3826,6 +4050,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/e99640ead91db2eb6dfbf57cfde7fb6248ffc4ca/docs/figure/MLR_predictor_column_inventories.Rmd/ensemble_deviation_from_mean-3.png" target="_blank">e99640e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-07-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/b44c72a564119fbdbada217cd4afffabdf41884a/docs/figure/MLR_predictor_column_inventories.Rmd/ensemble_deviation_from_mean-3.png" target="_blank">b44c72a</a>
 </td>
 <td>
@@ -3886,7 +4121,8 @@ jens-daniel-mueller
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
-<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
 </button>
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
