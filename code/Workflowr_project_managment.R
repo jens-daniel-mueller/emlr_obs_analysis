@@ -11,6 +11,9 @@ wflow_publish(all = TRUE, message = "added global section location to maps")
 wflow_publish(here::here(
   "analysis",
   c(
+    "CAT_target_budgets.Rmd",
+    "CAT_target_column_inventories.Rmd",
+    "CAT_target_zonal_sections.Rmd",
     "surface_equi_budgets.Rmd",
     "surface_equi_column_inventories.Rmd",
     "surface_equi_zonal_sections.Rmd",
@@ -67,7 +70,7 @@ wflow_publish(here::here(
     "MLR_predictor_nitrate_zonal_sections.Rmd"
   )
 ),
-message = "rebuild website",
+message = "rebuild website after internal implementing review round 1",
 republish = TRUE)
 
 
@@ -75,10 +78,10 @@ wflow_publish(here::here(
   "analysis",
   c(
     "index.Rmd",
-    "basics.Rmd"
+    "results_publication.Rmd"
   )
 ),
-message = "adjustment counts")
+message = "include run with C*(P only)")
 
 
 

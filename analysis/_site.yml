@@ -85,6 +85,14 @@ navbar:
         href: CN_target_column_inventories.html
       - text: Zonal sections
         href: CN_target_zonal_sections.html
+    - text: C(AT) target
+      menu:
+      - text: Budgets
+        href: CAT_target_budgets.html
+      - text: Column inventories
+        href: CAT_target_column_inventories.html
+      - text: Zonal sections
+        href: CAT_target_zonal_sections.html
     - text: Surface equilibrium
       menu:
       - text: Budgets
