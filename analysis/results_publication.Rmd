@@ -210,7 +210,7 @@ Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observat
 Version_IDs_a <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 rm(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 
-Version_IDs_ensemble <- c(Version_IDs_x, Version_IDs_o, Version_IDs_d, Version_IDs_g, Version_IDs_n, Version_IDs_c, Version_IDs_e)
+Version_IDs_ensemble <- c(Version_IDs_x, Version_IDs_o, Version_IDs_d, Version_IDs_g, Version_IDs_n, Version_IDs_c, Version_IDs_e, Version_IDs_a)
 
 rm(Version_IDs_x, Version_IDs_o, Version_IDs_g, Version_IDs_n, Version_IDs_c, Version_IDs_e)
 
@@ -4340,27 +4340,6 @@ dcant_budget_ensemble_stat_basin_SD %>%
 
 rm(MLR_basins_reference, MLR_basins_sensitivity)
 
-# dcant_budget_ensemble_stat_basin_SD <-
-#   dcant_budget_basin_MLR_all_ensemble %>%
-#   filter(data_source != "mod_truth",
-#          period != "1994 - 2014") %>%
-#   group_by(period, basin, Version_ID_group, data_source) %>%
-#   summarise(median = median(dcant),
-#             sd = sd(dcant),
-#             n = n()) %>%
-#   ungroup() 
-# 
-# dcant_budget_ensemble_stat_basin_SD %>%
-#   ggplot(aes(period, sd, fill = Version_ID_group)) +
-#   geom_col(position = "dodge", col = "black") +
-#   scale_fill_bright(name = "Configuration") +
-#   labs(y = "SD (PgC)",
-#        title = "Standard deviation across regional clusterings schemes",
-#        subtitle = "Note: Only the SD of bulk adjustment cases will be used, but all configurations are shown") +
-#   theme(axis.title.x = element_blank()) +
-#   scale_y_continuous(expand = c(0, 0)) +
-#   facet_grid(data_source ~ basin)
-# 
 ggsave(
   path = here::here("output/publication"),
   filename = "FigS_dcant_inventory_additive_uncertainty_regional_clustering_contributions.png",
@@ -4478,7 +4457,19 @@ ggsave(path = here::here("output/publication"),
        filename = "FigS_dcant_inventory_additive_uncertainty_combined_contributions.png",
        height = 6,
        width = 9) 
-  
+
+
+dcant_budget_ensemble_stat_factorial %>% 
+  distinct(Version_ID_group)
+
+dcant_budget_ensemble_stat_factorial <-
+  dcant_budget_ensemble_stat_factorial %>%
+  filter(Version_ID_group %in% unique(params_local_all_ensemble$Version_ID_group)[c(1, 3:7)])
+
+dcant_budget_ensemble_stat_factorial %>% 
+  distinct(Version_ID_group)
+
+
 dcant_budget_ensemble_stat_factorial <-
   dcant_budget_ensemble_stat_factorial %>% 
   group_by(basin, period, data_source) %>% 
@@ -5095,6 +5086,8 @@ dcant_beta_budget_ensemble_stat_significance %>%
   arrange(Region, desc(Estimate), Uncertainty) 
 
 dcant_beta_budget_ensemble_stat_significance_table %>% 
+  filter(Uncertainty == "additive") %>% 
+  select(-Uncertainty) %>% 
   write_csv(here::here("output/publication/Table_budget_stats.csv"))
 
 
