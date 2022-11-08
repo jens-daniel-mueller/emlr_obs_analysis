@@ -559,7 +559,7 @@ lat_residual_offset_all <- lat_residual_offset_all %>%
 
 
 
-## Budgets
+## Inventories
 
 ```{r read_budget_files_global_ensemble}
 
@@ -4199,6 +4199,7 @@ dcant_profile_basin_MLR_all_delta %>%
 
 ```{r dcant_budget_stats_ensemble_SD}
 
+# dcant_budget_basin_MLR_all_ensemble %>% distinct(Version_ID_group)
 
 dcant_budget_ensemble_stat <-
   dcant_budget_basin_MLR_all_ensemble %>% 
@@ -4380,11 +4381,11 @@ dcant_budget_ensemble_stat_sensitvity_cases <-
   pivot_wider(names_from = Version_ID_group,
               values_from = dcant) %>%
   pivot_longer(
-    `Reoccupation filter`:`Surface eMLR(C*)`,
+    -c(basin:data_source, unique(params_local_all$Version_ID_group)),
     names_to = "Version_ID_group",
     values_to = "dcant"
   ) %>% 
-  mutate(delta_dcant = `Bulk adjustment` - dcant)
+  mutate(delta_dcant = !!sym(unique(params_local_all$Version_ID_group)) - dcant)
 
 dcant_budget_ensemble_stat_sensitvity_cases %>%
   filter(data_source == "mod") %>% 
