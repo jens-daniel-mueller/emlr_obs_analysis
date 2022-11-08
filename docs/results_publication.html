@@ -680,7 +680,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Results publication</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">06 November, 2022</h4>
+<h4 class="date">08 November, 2022</h4>
 
 </div>
 
@@ -709,7 +709,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-11-06
+<strong>Last updated:</strong> 2022-11-08
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -841,15 +841,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree820fff84b67213920947fe3d206764620f9fefe5targetblank820fff8a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree5c705d78274ff1732e4db84b0e2c1fcb5d406ae7targetblank5c705d7a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/820fff84b67213920947fe3d206764620f9fefe5" target="_blank">820fff8</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/5c705d78274ff1732e4db84b0e2c1fcb5d406ae7" target="_blank">5c705d7</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree820fff84b67213920947fe3d206764620f9fefe5targetblank820fff8a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree5c705d78274ff1732e4db84b0e2c1fcb5d406ae7targetblank5c705d7a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -859,7 +859,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/820fff84b67213920947fe3d206764620f9fefe5" target="_blank">820fff8</a>.
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/5c705d78274ff1732e4db84b0e2c1fcb5d406ae7" target="_blank">5c705d7</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -881,13 +881,7 @@ Ignored files:
     Ignored:    output/presentation/
     Ignored:    output/publication/
 
-Untracked files:
-    Untracked:  code/visualization_equal_earth.R
-    Untracked:  code/visualization_equal_earth_cleaned.R
-    Untracked:  code/visualization_equal_earth_cleaned_jdm.R
-
 Unstaged changes:
-    Modified:   analysis/_site.yml
     Modified:   code/Workflowr_project_managment.R
 
 </code></pre>
@@ -934,6 +928,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/5c705d78274ff1732e4db84b0e2c1fcb5d406ae7/analysis/results_publication.Rmd" target="_blank">5c705d7</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-08
+</td>
+<td>
+run with C*(P only)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/ec60f6886e7b2eebc6173dafcc51c5902b4862a0/docs/results_publication.html" target="_blank">ec60f68</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-07
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -6594,8 +6622,8 @@ rm(GLODAP_glanced,
    lm_best_predictor_counts,
    lm_best_target)</code></pre>
 </div>
-<div id="budgets" class="section level2" number="2.5">
-<h2><span class="header-section-number">2.5</span> Budgets</h2>
+<div id="inventories" class="section level2" number="2.5">
+<h2><span class="header-section-number">2.5</span> Inventories</h2>
 <pre class="r"><code>for (i_Version_IDs in Version_IDs_ensemble) {
   # i_Version_IDs &lt;- Version_IDs[1]
   
@@ -22418,9 +22446,11 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="inventories" class="section level1" number="14">
+<div id="inventories-1" class="section level1" number="14">
 <h1><span class="header-section-number">14</span> Inventories</h1>
-<pre class="r"><code>dcant_budget_ensemble_stat &lt;-
+<pre class="r"><code># dcant_budget_basin_MLR_all_ensemble %&gt;% distinct(Version_ID_group)
+
+dcant_budget_ensemble_stat &lt;-
   dcant_budget_basin_MLR_all_ensemble %&gt;% 
   filter(period != &quot;1994 - 2014&quot;,
          data_source != &quot;mod_truth&quot;) %&gt;%
@@ -23419,11 +23449,11 @@ dcant_budget_ensemble_stat_sensitvity_cases &lt;-
   pivot_wider(names_from = Version_ID_group,
               values_from = dcant) %&gt;%
   pivot_longer(
-    `Reoccupation filter`:`Surface eMLR(C*)`,
+    -c(basin:data_source, unique(params_local_all$Version_ID_group)),
     names_to = &quot;Version_ID_group&quot;,
     values_to = &quot;dcant&quot;
   ) %&gt;% 
-  mutate(delta_dcant = `Bulk adjustment` - dcant)
+  mutate(delta_dcant = !!sym(unique(params_local_all$Version_ID_group)) - dcant)
 
 dcant_budget_ensemble_stat_sensitvity_cases %&gt;%
   filter(data_source == &quot;mod&quot;) %&gt;% 
@@ -25576,10 +25606,10 @@ additive
 NA
 </td>
 <td style="text-align:right;">
-2.300
+2.600
 </td>
 <td style="text-align:right;">
-2.800
+3.200
 </td>
 <td style="text-align:right;">
 20.00
@@ -25594,10 +25624,10 @@ NA
 4.8000
 </td>
 <td style="text-align:right;">
-5.100
+5.900
 </td>
 <td style="text-align:right;">
-0.940
+0.810
 </td>
 <td style="text-align:right;">
 NA
@@ -25620,10 +25650,10 @@ additive
 NA
 </td>
 <td style="text-align:right;">
-2.300
+2.900
 </td>
 <td style="text-align:right;">
-3.200
+3.400
 </td>
 <td style="text-align:right;">
 29.00
@@ -25638,10 +25668,10 @@ NA
 -1.9000
 </td>
 <td style="text-align:right;">
-5.500
+6.300
 </td>
 <td style="text-align:right;">
-0.350
+0.310
 </td>
 <td style="text-align:right;">
 NA
@@ -25664,10 +25694,10 @@ additive
 NA
 </td>
 <td style="text-align:right;">
-0.830
+0.990
 </td>
 <td style="text-align:right;">
-1.100
+1.400
 </td>
 <td style="text-align:right;">
 5.10
@@ -25682,10 +25712,10 @@ NA
 1.5000
 </td>
 <td style="text-align:right;">
-2.000
+2.400
 </td>
 <td style="text-align:right;">
-0.750
+0.610
 </td>
 <td style="text-align:right;">
 NA
@@ -25708,10 +25738,10 @@ additive
 NA
 </td>
 <td style="text-align:right;">
-0.980
+1.800
 </td>
 <td style="text-align:right;">
-1.500
+1.600
 </td>
 <td style="text-align:right;">
 7.20
@@ -25726,10 +25756,10 @@ NA
 -1.4000
 </td>
 <td style="text-align:right;">
-2.600
+3.300
 </td>
 <td style="text-align:right;">
-0.550
+0.430
 </td>
 <td style="text-align:right;">
 NA
@@ -25752,10 +25782,10 @@ additive
 NA
 </td>
 <td style="text-align:right;">
-0.330
+0.720
 </td>
 <td style="text-align:right;">
-0.850
+0.940
 </td>
 <td style="text-align:right;">
 3.10
@@ -25770,10 +25800,10 @@ NA
 0.2300
 </td>
 <td style="text-align:right;">
-1.300
+1.700
 </td>
 <td style="text-align:right;">
-0.180
+0.140
 </td>
 <td style="text-align:right;">
 NA
@@ -25796,10 +25826,10 @@ additive
 NA
 </td>
 <td style="text-align:right;">
-1.100
+1.400
 </td>
 <td style="text-align:right;">
-2.100
+2.300
 </td>
 <td style="text-align:right;">
 2.90
@@ -25814,10 +25844,10 @@ NA
 0.3200
 </td>
 <td style="text-align:right;">
-3.300
+3.800
 </td>
 <td style="text-align:right;">
-0.097
+0.084
 </td>
 <td style="text-align:right;">
 NA
@@ -25840,10 +25870,10 @@ additive
 NA
 </td>
 <td style="text-align:right;">
-1.300
+1.600
 </td>
 <td style="text-align:right;">
-0.930
+0.940
 </td>
 <td style="text-align:right;">
 5.50
@@ -25858,10 +25888,10 @@ NA
 1.9000
 </td>
 <td style="text-align:right;">
-2.300
+2.600
 </td>
 <td style="text-align:right;">
-0.820
+0.720
 </td>
 <td style="text-align:right;">
 NA
@@ -25884,10 +25914,10 @@ additive
 NA
 </td>
 <td style="text-align:right;">
-1.300
+3.600
 </td>
 <td style="text-align:right;">
-0.960
+1.400
 </td>
 <td style="text-align:right;">
 8.60
@@ -25902,10 +25932,10 @@ NA
 -1.2000
 </td>
 <td style="text-align:right;">
-2.300
+5.400
 </td>
 <td style="text-align:right;">
-0.540
+0.230
 </td>
 <td style="text-align:right;">
 NA
@@ -25928,10 +25958,10 @@ additive
 NA
 </td>
 <td style="text-align:right;">
-0.180
+0.250
 </td>
 <td style="text-align:right;">
-0.380
+0.440
 </td>
 <td style="text-align:right;">
 2.20
@@ -25946,10 +25976,10 @@ NA
 0.2200
 </td>
 <td style="text-align:right;">
-0.600
+0.720
 </td>
 <td style="text-align:right;">
-0.370
+0.310
 </td>
 <td style="text-align:right;">
 NA
@@ -25972,10 +26002,10 @@ additive
 NA
 </td>
 <td style="text-align:right;">
-0.170
+0.180
 </td>
 <td style="text-align:right;">
-0.330
+0.350
 </td>
 <td style="text-align:right;">
 4.80
@@ -25990,10 +26020,10 @@ NA
 -0.9000
 </td>
 <td style="text-align:right;">
-0.530
+0.550
 </td>
 <td style="text-align:right;">
-1.700
+1.600
 </td>
 <td style="text-align:right;">
 NA
@@ -26016,10 +26046,10 @@ additive
 NA
 </td>
 <td style="text-align:right;">
-0.620
+0.630
 </td>
 <td style="text-align:right;">
-0.490
+0.500
 </td>
 <td style="text-align:right;">
 2.70
@@ -26037,7 +26067,7 @@ NA
 1.100
 </td>
 <td style="text-align:right;">
-0.630
+0.620
 </td>
 <td style="text-align:right;">
 NA
@@ -26060,10 +26090,10 @@ additive
 NA
 </td>
 <td style="text-align:right;">
-0.770
+1.300
 </td>
 <td style="text-align:right;">
-0.790
+1.200
 </td>
 <td style="text-align:right;">
 3.90
@@ -26078,10 +26108,10 @@ NA
 1.5000
 </td>
 <td style="text-align:right;">
-1.600
+2.500
 </td>
 <td style="text-align:right;">
-0.930
+0.580
 </td>
 <td style="text-align:right;">
 NA
@@ -26104,10 +26134,10 @@ additive
 3.6e+14
 </td>
 <td style="text-align:right;">
-0.029
+0.033
 </td>
 <td style="text-align:right;">
-0.032
+0.037
 </td>
 <td style="text-align:right;">
 0.25
@@ -26122,10 +26152,10 @@ additive
 0.0340
 </td>
 <td style="text-align:right;">
-0.061
+0.071
 </td>
 <td style="text-align:right;">
-0.550
+0.480
 </td>
 <td style="text-align:right;">
 NA
@@ -26148,10 +26178,10 @@ additive
 3.6e+14
 </td>
 <td style="text-align:right;">
-0.029
+0.037
 </td>
 <td style="text-align:right;">
-0.036
+0.039
 </td>
 <td style="text-align:right;">
 0.37
@@ -26166,10 +26196,10 @@ additive
 -0.0540
 </td>
 <td style="text-align:right;">
-0.066
+0.075
 </td>
 <td style="text-align:right;">
-0.830
+0.720
 </td>
 <td style="text-align:right;">
 NA
@@ -26192,10 +26222,10 @@ additive
 7.3e+13
 </td>
 <td style="text-align:right;">
-0.051
+0.061
 </td>
 <td style="text-align:right;">
-0.062
+0.077
 </td>
 <td style="text-align:right;">
 0.31
@@ -26210,10 +26240,10 @@ additive
 0.0540
 </td>
 <td style="text-align:right;">
-0.110
+0.140
 </td>
 <td style="text-align:right;">
-0.480
+0.390
 </td>
 <td style="text-align:right;">
 NA
@@ -26236,10 +26266,10 @@ additive
 7.3e+13
 </td>
 <td style="text-align:right;">
-0.060
+0.110
 </td>
 <td style="text-align:right;">
-0.086
+0.088
 </td>
 <td style="text-align:right;">
 0.44
@@ -26254,10 +26284,10 @@ additive
 -0.1200
 </td>
 <td style="text-align:right;">
-0.150
+0.200
 </td>
 <td style="text-align:right;">
-0.800
+0.600
 </td>
 <td style="text-align:right;">
 NA
@@ -26280,10 +26310,10 @@ additive
 7.8e+13
 </td>
 <td style="text-align:right;">
-0.019
+0.041
 </td>
 <td style="text-align:right;">
-0.044
+0.049
 </td>
 <td style="text-align:right;">
 0.18
@@ -26298,10 +26328,10 @@ additive
 -0.0033
 </td>
 <td style="text-align:right;">
-0.068
+0.090
 </td>
 <td style="text-align:right;">
-0.049
+0.037
 </td>
 <td style="text-align:right;">
 NA
@@ -26324,10 +26354,10 @@ additive
 7.8e+13
 </td>
 <td style="text-align:right;">
-0.062
+0.082
 </td>
 <td style="text-align:right;">
-0.110
+0.120
 </td>
 <td style="text-align:right;">
 0.17
@@ -26342,10 +26372,10 @@ additive
 0.0023
 </td>
 <td style="text-align:right;">
-0.180
+0.200
 </td>
 <td style="text-align:right;">
-0.013
+0.011
 </td>
 <td style="text-align:right;">
 NA
@@ -26368,7 +26398,7 @@ additive
 9.6e+13
 </td>
 <td style="text-align:right;">
-0.063
+0.075
 </td>
 <td style="text-align:right;">
 0.040
@@ -26386,10 +26416,10 @@ additive
 0.0580
 </td>
 <td style="text-align:right;">
-0.100
+0.120
 </td>
 <td style="text-align:right;">
-0.550
+0.480
 </td>
 <td style="text-align:right;">
 NA
@@ -26412,10 +26442,10 @@ additive
 9.6e+13
 </td>
 <td style="text-align:right;">
-0.061
+0.170
 </td>
 <td style="text-align:right;">
-0.041
+0.059
 </td>
 <td style="text-align:right;">
 0.40
@@ -26430,10 +26460,10 @@ additive
 -0.0880
 </td>
 <td style="text-align:right;">
-0.100
+0.250
 </td>
 <td style="text-align:right;">
-0.850
+0.350
 </td>
 <td style="text-align:right;">
 NA
@@ -26456,10 +26486,10 @@ additive
 4.1e+13
 </td>
 <td style="text-align:right;">
-0.020
+0.028
 </td>
 <td style="text-align:right;">
-0.039
+0.044
 </td>
 <td style="text-align:right;">
 0.24
@@ -26474,10 +26504,10 @@ additive
 0.0010
 </td>
 <td style="text-align:right;">
-0.061
+0.074
 </td>
 <td style="text-align:right;">
-0.017
+0.014
 </td>
 <td style="text-align:right;">
 NA
@@ -26500,10 +26530,10 @@ additive
 4.1e+13
 </td>
 <td style="text-align:right;">
-0.018
+0.020
 </td>
 <td style="text-align:right;">
-0.033
+0.035
 </td>
 <td style="text-align:right;">
 0.53
@@ -26518,10 +26548,10 @@ additive
 -0.1400
 </td>
 <td style="text-align:right;">
-0.054
+0.057
 </td>
 <td style="text-align:right;">
-2.500
+2.400
 </td>
 <td style="text-align:right;">
 NA
@@ -26544,10 +26574,10 @@ additive
 4.5e+13
 </td>
 <td style="text-align:right;">
-0.062
+0.063
 </td>
 <td style="text-align:right;">
-0.045
+0.046
 </td>
 <td style="text-align:right;">
 0.27
@@ -26565,7 +26595,7 @@ additive
 0.110
 </td>
 <td style="text-align:right;">
-0.380
+0.370
 </td>
 <td style="text-align:right;">
 NA
@@ -26588,10 +26618,10 @@ additive
 4.5e+13
 </td>
 <td style="text-align:right;">
-0.077
+0.130
 </td>
 <td style="text-align:right;">
-0.072
+0.110
 </td>
 <td style="text-align:right;">
 0.39
@@ -26606,10 +26636,10 @@ additive
 0.0990
 </td>
 <td style="text-align:right;">
-0.150
+0.240
 </td>
 <td style="text-align:right;">
-0.660
+0.410
 </td>
 <td style="text-align:right;">
 NA
