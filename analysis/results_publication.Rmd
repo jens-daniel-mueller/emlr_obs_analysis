@@ -31,12 +31,13 @@ library(BSDA)
 library(khroma)
 library(ggh4x)
 library(ggpattern)
+library(colorspace)
 ```
 
 
 # Read files
 
-## integration depth
+## Integration depth
 
 ```{r id, eval=FALSE}
 
@@ -1608,7 +1609,7 @@ df_regional <-
                names_to = "MLR_basins",
                values_to = "dcant") %>% 
   mutate(delta_dcant = dcant - !!sym(MLR_basins_reference)) %>% 
-  select(-c(MLR_basins_reference, MLR_basins, dcant))
+  select(-c(all_of(MLR_basins_reference), MLR_basins, dcant))
 
 
 df_regional_stat <-
@@ -1629,7 +1630,7 @@ df_configuration <-
   pivot_wider(names_from = Version_ID_group,
               values_from = dcant) %>%
   pivot_longer(
-    Version_ID_group_uncertainty,
+    all_of(Version_ID_group_uncertainty),
     names_to = "Version_ID_group",
     values_to = "dcant"
   ) %>% 
@@ -1754,9 +1755,6 @@ GLODAP_all_coverage <- GLODAP_all %>%
   group_by(lat, lon, era) %>%
   summarise(tco2 = mean(tco2, na.rm = TRUE)) %>% 
   ungroup()
-
-library(colorspace)
-
 
 coverage_map <- map +
   geom_tile(data = GLODAP_all_coverage,
@@ -2183,7 +2181,7 @@ dcant_inv_all <- dcant_inv_all %>%
 
 ## Sensitivity cases
 
-```{r column_inventory_additive_uncertainty_x}
+```{r column_inventory_additive_uncertainty_sensitivity_cases}
 
 
 dcant_inv_all_ensemble_sensitivity <-
@@ -2192,18 +2190,18 @@ dcant_inv_all_ensemble_sensitivity <-
          data_source != "mod_truth") %>%
   select(lon, lat, period, data_source, MLR_basins, Version_ID_group, dcant)
 
-dcant_inv_all_ensemble_sensitivity <- 
-  m_grid_horizontal_coarse(dcant_inv_all_ensemble_sensitivity)
-
-dcant_inv_all_ensemble_sensitivity <-
-  dcant_inv_all_ensemble_sensitivity %>% 
-  group_by(lat_grid, lon_grid, data_source, period, MLR_basins, Version_ID_group) %>% 
-  summarise(dcant = mean(dcant),
-            n = n()) %>% 
-  ungroup() %>% 
-  filter(n == 25) %>% 
-  rename(lon = lon_grid,
-         lat = lat_grid)
+# dcant_inv_all_ensemble_sensitivity <- 
+#   m_grid_horizontal_coarse(dcant_inv_all_ensemble_sensitivity)
+# 
+# dcant_inv_all_ensemble_sensitivity <-
+#   dcant_inv_all_ensemble_sensitivity %>% 
+#   group_by(lat, lon, data_source, period, MLR_basins, Version_ID_group) %>% 
+#   summarise(dcant = mean(dcant),
+#             n = n()) %>% 
+#   ungroup() %>% 
+#   filter(n == 25) %>%
+#   rename(lon = lon_grid,
+#          lat = lat_grid)
 
 dcant_inv_sensitivity <- additive_uncertainty(dcant_inv_all_ensemble_sensitivity)
 
@@ -2220,7 +2218,7 @@ dcant_inv_sensitivity %>%
     )
   ) %>%
   p_map_cant_inv(var = "sd",
-                 breaks = c(seq(0, 8, 1), Inf),
+                 breaks = c(seq(0, 16, 2), Inf),
                  title_text = NULL) +
   facet_grid(period ~ data_source) +
   theme(axis.text = element_blank(),
@@ -2228,27 +2226,109 @@ dcant_inv_sensitivity %>%
 
 
 dcant_inv_sensitivity_contributions %>%
+  filter(data_source == "obs",
+         Version_ID_group != "Regional clustering") %>% 
   mutate(
     data_source = case_when(
       data_source == "mod" ~ "Synthetic data",
       data_source == "obs" ~ "Observations"
     )
   ) %>%
-  p_map_cant_inv(var = "sd",
+  rename(dcant_diff = sd) %>% 
+  p_map_cant_inv(var = "dcant_diff",
                  col = "bias",
                  breaks = c(-Inf, seq(-2,2,1), Inf),
                  title_text = NULL) +
-  facet_nested(Version_ID_group ~ data_source + period) +
+  facet_grid(Version_ID_group ~ period) +
   theme(axis.text = element_blank(),
         axis.ticks = element_blank())
 
 
+ggsave(path = here::here("output/publication"),
+       filename = "FigS_dcant_column_inventory_uncertainty_sensitivity_cases.png",
+       height = 5,
+       width = 8)
+
 ```
 
 
-## Ensemble uncertainty
+## Uncertainty cases
 
-```{r column_inventory_additive_uncertainty}
+```{r column_inventory_additive_uncertainty_fine_grid}
+
+
+dcant_inv_all_ensemble_uncertainty <-
+  dcant_inv_all_ensemble %>%
+  filter(period %in% two_decades,
+         data_source != "mod_truth") %>%
+  select(lon, lat, period, data_source, MLR_basins, Version_ID_group, dcant)
+
+# dcant_inv_all_ensemble_uncertainty <- 
+#   m_grid_horizontal_coarse(dcant_inv_all_ensemble_uncertainty)
+# 
+# dcant_inv_all_ensemble_uncertainty <-
+#   dcant_inv_all_ensemble_uncertainty %>% 
+#   group_by(lat_grid, lon_grid, data_source, period, MLR_basins, Version_ID_group) %>% 
+#   summarise(dcant = mean(dcant),
+#             n = n()) %>% 
+#   ungroup() %>% 
+#   filter(n == 25) %>% 
+#   rename(lon = lon_grid,
+#          lat = lat_grid)
+
+dcant_inv_uncertainty <- additive_uncertainty(dcant_inv_all_ensemble_uncertainty)
+
+delta_dcant_inv_uncertainty <- dcant_inv_uncertainty[[3]]
+dcant_inv_uncertainty_contributions <- dcant_inv_uncertainty[[2]]
+dcant_inv_uncertainty <- dcant_inv_uncertainty[[1]]
+
+
+dcant_inv_uncertainty %>%
+  mutate(
+    data_source = case_when(
+      data_source == "mod" ~ "Synthetic data",
+      data_source == "obs" ~ "Observations"
+    ),
+    sd = sd*sd_factor
+  ) %>%
+  p_map_cant_inv(var = "sd",
+                 breaks = c(seq(0, 16, 2), Inf),
+                 title_text = NULL) +
+  facet_grid(period ~ data_source) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())
+
+ggsave(path = here::here("output/publication"),
+       filename = "FigS_dcant_column_inventory_uncertainty.png",
+       height = 4,
+       width = 7)
+
+dcant_inv_uncertainty_contributions %>%
+  filter(data_source == "obs") %>% 
+  mutate(
+    data_source = case_when(
+      data_source == "mod" ~ "Synthetic data",
+      data_source == "obs" ~ "Observations"
+    )
+  ) %>%
+  rename(dcant_diff_uncertainty = sd) %>% 
+  p_map_cant_inv(var = "dcant_diff_uncertainty",
+                 col = "bias",
+                 breaks = c(-Inf, seq(-2,2,1), Inf),
+                 title_text = NULL) +
+  facet_grid(Version_ID_group ~ period) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())
+
+ggsave(path = here::here("output/publication"),
+       filename = "FigS_dcant_column_inventory_uncertainty_contributions.png",
+       height = 8,
+       width = 8)
+
+
+```
+
+```{r column_inventory_additive_uncertainty_coarse_grid}
 
 
 dcant_inv_all_ensemble_uncertainty <-
@@ -2291,21 +2371,6 @@ dcant_inv_uncertainty %>%
   theme(axis.text = element_blank(),
         axis.ticks = element_blank())
 
-
-dcant_inv_uncertainty_contributions %>%
-  mutate(
-    data_source = case_when(
-      data_source == "mod" ~ "Synthetic data",
-      data_source == "obs" ~ "Observations"
-    )
-  ) %>%
-  p_map_cant_inv(var = "sd",
-                 col = "bias",
-                 breaks = c(-Inf, seq(-2,2,1), Inf),
-                 title_text = NULL) +
-  facet_nested(Version_ID_group ~ data_source + period) +
-  theme(axis.text = element_blank(),
-        axis.ticks = element_blank())
 
 delta_dcant_inv_uncertainty %>% 
   p_map_cant_inv(var = "delta_dcant",
@@ -2512,7 +2577,7 @@ ggsave(path = here::here("output/presentation"),
 
 ```
 
-```{r inventory_maps_absolute_mod_x, fig.asp=1.2}
+```{r inventory_maps_absolute_mod_x, fig.asp=1.2, eval=FALSE}
 
 
 p_CI_absolute_mod <- dcant_inv_all %>%
