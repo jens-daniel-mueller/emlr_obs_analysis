@@ -86,10 +86,12 @@ path_preprocessing_model    <-
 
 ```{r define_Version_IDs_ensemble}
 
+### cases included in uncertainty budget
+
+# standard case
+
 version_id_pattern <- "1"
 
-# identify required version IDs
-
 Version_IDs_1 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
                             pattern = paste0("v_1", version_id_pattern))
 
@@ -99,72 +101,12 @@ Version_IDs_2 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observat
 Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
                             pattern = paste0("v_3", version_id_pattern))
 
-Version_IDs_x <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
-
-version_id_pattern <- "o"
-
-# identify required version IDs
-
-Version_IDs_1 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-                            pattern = paste0("v_1", version_id_pattern))
-
-Version_IDs_2 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-                            pattern = paste0("v_2", version_id_pattern))
-
-Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-                            pattern = paste0("v_3", version_id_pattern))
-
-Version_IDs_o <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
-
-version_id_pattern <- "d"
-
-# identify required version IDs
-
-Version_IDs_1 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-                            pattern = paste0("v_1", version_id_pattern))
-
-Version_IDs_2 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-                            pattern = paste0("v_2", version_id_pattern))
-
-Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-                            pattern = paste0("v_3", version_id_pattern))
-
-Version_IDs_d <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
-
-version_id_pattern <- "g"
-
-# identify required version IDs
-
-Version_IDs_1 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-                            pattern = paste0("v_1", version_id_pattern))
-
-Version_IDs_2 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-                            pattern = paste0("v_2", version_id_pattern))
-
-Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-                            pattern = paste0("v_3", version_id_pattern))
-
-Version_IDs_g <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
-
-version_id_pattern <- "n"
-
-# identify required version IDs
-
-Version_IDs_1 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-                            pattern = paste0("v_1", version_id_pattern))
-
-Version_IDs_2 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-                            pattern = paste0("v_2", version_id_pattern))
-
-Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
-                            pattern = paste0("v_3", version_id_pattern))
-
-Version_IDs_n <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
+Version_IDs_s <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 rm(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 
-version_id_pattern <- "c"
+# cruise-by-cruise adjustments
 
-# identify required version IDs
+version_id_pattern <- "c"
 
 Version_IDs_1 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
                             pattern = paste0("v_1", version_id_pattern))
@@ -178,9 +120,41 @@ Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observat
 Version_IDs_c <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 rm(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 
-version_id_pattern <- "e"
+# gap-filling uncertainty
 
-# identify required version IDs
+version_id_pattern <- "g"
+
+Version_IDs_1 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_1", version_id_pattern))
+
+Version_IDs_2 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_2", version_id_pattern))
+
+Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_3", version_id_pattern))
+
+Version_IDs_g <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
+rm(Version_IDs_1, Version_IDs_2, Version_IDs_3)
+
+# C* from N and TA
+
+version_id_pattern <- "n"
+
+Version_IDs_1 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_1", version_id_pattern))
+
+Version_IDs_2 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_2", version_id_pattern))
+
+Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_3", version_id_pattern))
+
+Version_IDs_n <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
+rm(Version_IDs_1, Version_IDs_2, Version_IDs_3)
+
+# Surface with eMLR(C*)
+
+version_id_pattern <- "e"
 
 Version_IDs_1 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
                             pattern = paste0("v_1", version_id_pattern))
@@ -194,9 +168,60 @@ Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observat
 Version_IDs_e <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 rm(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 
-version_id_pattern <- "a"
+# Surface with eMLR(C*)
 
-# identify required version IDs
+version_id_pattern <- "w"
+
+Version_IDs_1 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_1", version_id_pattern))
+
+Version_IDs_2 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_2", version_id_pattern))
+
+Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_3", version_id_pattern))
+
+Version_IDs_w <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
+rm(Version_IDs_1, Version_IDs_2, Version_IDs_3)
+
+# BGC predictor choice
+
+
+### cases considered as sensitivity tests but not in uncertainty budget
+
+# no data adjustments
+
+version_id_pattern <- "d"
+
+Version_IDs_1 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_1", version_id_pattern))
+
+Version_IDs_2 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_2", version_id_pattern))
+
+Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_3", version_id_pattern))
+
+Version_IDs_d <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
+
+# reoccupation filter
+
+version_id_pattern <- "o"
+
+Version_IDs_1 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_1", version_id_pattern))
+
+Version_IDs_2 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_2", version_id_pattern))
+
+Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
+                            pattern = paste0("v_3", version_id_pattern))
+
+Version_IDs_o <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
+
+# C* from TA
+
+version_id_pattern <- "a"
 
 Version_IDs_1 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
                             pattern = paste0("v_1", version_id_pattern))
@@ -210,10 +235,34 @@ Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observat
 Version_IDs_a <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 rm(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 
-Version_IDs_ensemble <- c(Version_IDs_x, Version_IDs_o, Version_IDs_d, Version_IDs_g, Version_IDs_n, Version_IDs_c, Version_IDs_e, Version_IDs_a)
+# MLR target
 
-rm(Version_IDs_x, Version_IDs_o, Version_IDs_g, Version_IDs_n, Version_IDs_c, Version_IDs_e)
 
+Version_IDs_ensemble <- c(
+  Version_IDs_s, Version_IDs_c, Version_IDs_g, Version_IDs_n, Version_IDs_e, Version_IDs_w,
+  Version_IDs_d, Version_IDs_o, Version_IDs_a
+  )
+
+Version_IDs_ensemble_uncertainty <- c(
+  Version_IDs_s, Version_IDs_c, Version_IDs_g, Version_IDs_n, Version_IDs_e, Version_IDs_w
+  )
+
+Version_IDs_ensemble_sensitivity <- c(
+  Version_IDs_s, Version_IDs_d, Version_IDs_o, Version_IDs_a
+  )
+
+
+rm(
+  Version_IDs_s,
+  Version_IDs_c,
+  Version_IDs_g,
+  Version_IDs_n,
+  Version_IDs_e,
+  Version_IDs_w,
+  Version_IDs_d,
+  Version_IDs_o,
+  Version_IDs_a
+)
 
 ```
 
@@ -285,14 +334,15 @@ params_local_all_ensemble <-
   mutate(
     Version_ID_group = str_sub(Version_ID, 4, 4),
     Version_ID_group = case_when(
-      Version_ID_group == "1" ~ "Bulk adjustment",
+      Version_ID_group == "1" ~ "Standard case",
       Version_ID_group == "c" ~ "Cruise adjustment",
-      Version_ID_group == "d" ~ "No adjustment",
-      Version_ID_group == "g" ~ "No gap filling",
-      Version_ID_group == "o" ~ "Reoccupation filter",
+      Version_ID_group == "g" ~ "Gap filling",
+      Version_ID_group == "n" ~ "C* with NO3,TA",
       Version_ID_group == "e" ~ "Surface eMLR(C*)",
-      Version_ID_group == "n" ~ "C*(N,AT)",
-      Version_ID_group == "a" ~ "C*(P)",
+      Version_ID_group == "w" ~ "WOA18 predictors",
+      Version_ID_group == "d" ~ "No data adjustments",
+      Version_ID_group == "o" ~ "Reoccupation filter",
+      Version_ID_group == "a" ~ "C* with PO4 only",
       TRUE ~ Version_ID_group
     )
   )
@@ -522,35 +572,35 @@ spatial_residual_offset_all <- full_join(spatial_residual_offset_all,
 
 
 GLODAP_glanced_all_ensemble <- GLODAP_glanced_all %>% 
-  filter(!(Version_ID %in% Version_IDs_d))
+  filter(Version_ID %in% Version_IDs_ensemble_uncertainty)
 
 GLODAP_glanced_all <- GLODAP_glanced_all %>%
   filter(Version_ID %in% Version_IDs)
 
 
 lm_best_predictor_counts_all_ensemble <- lm_best_predictor_counts_all %>% 
-  filter(!(Version_ID %in% Version_IDs_d))
+  filter(Version_ID %in% Version_IDs_ensemble_uncertainty)
 
 lm_best_predictor_counts_all <- lm_best_predictor_counts_all %>%
   filter(Version_ID %in% Version_IDs)
 
 
 lm_best_target_all_ensemble <- lm_best_target_all %>% 
-  filter(!(Version_ID %in% Version_IDs_d))
+  filter(Version_ID %in% Version_IDs_ensemble_uncertainty)
 
 lm_best_target_all <- lm_best_target_all %>%
   filter(Version_ID %in% Version_IDs)
 
 
 lat_residual_all_ensemble <- lat_residual_all %>% 
-  filter(!(Version_ID %in% Version_IDs_d))
+  filter(Version_ID %in% Version_IDs_ensemble_uncertainty)
 
 lat_residual_all <- lat_residual_all %>%
   filter(Version_ID %in% Version_IDs)
 
 
 lat_residual_offset_all_ensemble <- lat_residual_offset_all %>% 
-  filter(!(Version_ID %in% Version_IDs_d))
+  filter(Version_ID %in% Version_IDs_ensemble_uncertainty)
 
 lat_residual_offset_all <- lat_residual_offset_all %>%
   filter(Version_ID %in% Version_IDs)
@@ -561,7 +611,7 @@ lat_residual_offset_all <- lat_residual_offset_all %>%
 
 ## Inventories
 
-```{r read_budget_files_global_ensemble}
+```{r read_budget_files_global_ensemble, eval=FALSE}
 
 for (i_Version_IDs in Version_IDs_ensemble) {
   # i_Version_IDs <- Version_IDs[1]
@@ -613,9 +663,7 @@ rm(dcant_budget_global,
 
 for (i_Version_IDs in Version_IDs_ensemble) {
   # i_Version_IDs <- Version_IDs[1]
-  
-  # print(i_Version_IDs)
-  
+
   path_version_data     <-
     paste(path_observations,
           i_Version_IDs,
@@ -696,8 +744,8 @@ rm(
 ```{r join_budget_data_and_meta_data, include=FALSE}
 
 
-dcant_budget_global_all <- full_join(dcant_budget_global_all,
-                                     params_local_all_ensemble)
+# dcant_budget_global_all <- full_join(dcant_budget_global_all,
+#                                      params_local_all_ensemble)
 
 
 dcant_budget_basin_MLR_all <- dcant_budget_basin_MLR_all %>%
@@ -745,7 +793,7 @@ dcant_budget_basin_MLR_bias_all_decomposition <-
 ```
 
 
-```{r filter_standard_inventory_depth_global}
+```{r filter_standard_inventory_depth_global, eval=FALSE}
 
 dcant_budget_global_all <- dcant_budget_global_all %>%
   filter(estimate == "dcant", 
@@ -781,32 +829,27 @@ dcant_budget_basin_MLR_bias_all_decomposition <-
 
 ```{r r distuinguish_standard_case_and_ensemble_budget, include=FALSE}
 
-
-dcant_budget_global_all_ensemble <- dcant_budget_global_all %>% 
-  filter(!(Version_ID %in% Version_IDs_d))
-
-dcant_budget_global_all_no_adj <- dcant_budget_global_all %>% 
-  filter(Version_ID %in% Version_IDs_d)
-  
-dcant_budget_global_all <- dcant_budget_global_all %>%
-  filter(Version_ID %in% Version_IDs)
+# dcant_budget_global_all_ensemble <- dcant_budget_global_all %>% 
+#   filter(Version_ID %in% Version_IDs_ensemble_uncertainty)
+# 
+# dcant_budget_global_all_sensitivity <- dcant_budget_global_all %>% 
+#   filter(Version_ID %in% Version_IDs_ensemble_sensitivity)
+#   
+# dcant_budget_global_all <- dcant_budget_global_all %>%
+#   filter(Version_ID %in% Version_IDs)
 
 
 dcant_budget_basin_MLR_all_ensemble <- dcant_budget_basin_MLR_all %>% 
-  filter(!(Version_ID %in% Version_IDs_d))
-
-dcant_budget_basin_MLR_all_no_adj <- dcant_budget_basin_MLR_all %>% 
-  filter(Version_ID %in% Version_IDs_d)
-
+  filter(Version_ID %in% Version_IDs_ensemble_uncertainty)
+dcant_budget_basin_MLR_all_sensitivity <- dcant_budget_basin_MLR_all %>% 
+  filter(Version_ID %in% Version_IDs_ensemble_sensitivity)
 dcant_budget_basin_MLR_all <- dcant_budget_basin_MLR_all %>%
   filter(Version_ID %in% Version_IDs)
 
 dcant_budget_basin_MLR_bias_all_decomposition_ensemble <- dcant_budget_basin_MLR_bias_all_decomposition %>% 
-  filter(!(Version_ID %in% Version_IDs_d))
-
-dcant_budget_basin_MLR_bias_all_decomposition_no_adj <- dcant_budget_basin_MLR_bias_all_decomposition %>% 
-  filter(Version_ID %in% Version_IDs_d)
-
+  filter(Version_ID %in% Version_IDs_ensemble_uncertainty)
+dcant_budget_basin_MLR_bias_all_decomposition_sensitivity <- dcant_budget_basin_MLR_bias_all_decomposition %>% 
+  filter(Version_ID %in% Version_IDs_ensemble_sensitivity)
 dcant_budget_basin_MLR_bias_all_decomposition <- dcant_budget_basin_MLR_bias_all_decomposition %>%
   filter(Version_ID %in% Version_IDs)
 
@@ -958,20 +1001,27 @@ dcant_budget_lon_grid_all <- dcant_budget_lon_grid_all %>%
 ```{r r distuinguish_standard_case_and_ensemble_inventories, include=FALSE}
 
 
+# dcant_inv_all_sensitivity <- dcant_inv_all %>% 
+#   filter(Version_ID %in% Version_IDs_ensemble_sensitivity)
+# dcant_inv_all_ensemble <- dcant_inv_all %>% 
+#   filter(Version_ID %in% Version_IDs_ensemble_uncertainty)
+# dcant_inv_all <- dcant_inv_all %>% 
+#   filter(Version_ID %in% Version_IDs)
+
 dcant_inv_bias_all_ensemble <- dcant_inv_bias_all %>% 
-  filter(!(Version_ID %in% Version_IDs_d))
+  filter(Version_ID %in% Version_IDs_ensemble_uncertainty)
 dcant_inv_bias_all <- dcant_inv_bias_all %>% 
   filter(Version_ID %in% Version_IDs)
 
 
 dcant_budget_lat_grid_all_ensemble <- dcant_budget_lat_grid_all %>% 
-  filter(!(Version_ID %in% Version_IDs_d))
+  filter(Version_ID %in% Version_IDs_ensemble_uncertainty)
 dcant_budget_lat_grid_all <- dcant_budget_lat_grid_all %>% 
   filter(Version_ID %in% Version_IDs)
 
 
 dcant_budget_lon_grid_all_ensemble <- dcant_budget_lon_grid_all %>% 
-  filter(!(Version_ID %in% Version_IDs_d))
+  filter(Version_ID %in% Version_IDs_ensemble_uncertainty)
 dcant_budget_lon_grid_all <- dcant_budget_lon_grid_all %>% 
   filter(Version_ID %in% Version_IDs)
 
@@ -1021,18 +1071,18 @@ for (i_Version_IDs in Version_IDs_ensemble) {
                    "dcant_global_section.csv",
                    sep = ""))
   
-  dcant_profile <-
-    read_csv(paste(path_version_data,
-                   "dcant_profile.csv",
-                   sep = ""))
-  
-  dcant_profile_mod_truth <-
-    read_csv(paste(path_version_data,
-                   "dcant_profile_mod_truth.csv",
-                   sep = ""))
-  
-  dcant_profile <- bind_rows(dcant_profile,
-                             dcant_profile_mod_truth)
+  # dcant_profile <-
+  #   read_csv(paste(path_version_data,
+  #                  "dcant_profile.csv",
+  #                  sep = ""))
+  # 
+  # dcant_profile_mod_truth <-
+  #   read_csv(paste(path_version_data,
+  #                  "dcant_profile_mod_truth.csv",
+  #                  sep = ""))
+  # 
+  # dcant_profile <- bind_rows(dcant_profile,
+  #                            dcant_profile_mod_truth)
   
   
   dcant_profile_basin_MLR <-
@@ -1052,10 +1102,10 @@ for (i_Version_IDs in Version_IDs_ensemble) {
                                        dcant_profile_basin_MLR_mod_truth)
   
   
-  dcant_budget_basin_AIP_layer <-
-    read_csv(paste(path_version_data,
-                   "dcant_budget_basin_AIP_layer.csv",
-                   sep = ""))
+  # dcant_budget_basin_AIP_layer <-
+  #   read_csv(paste(path_version_data,
+  #                  "dcant_budget_basin_AIP_layer.csv",
+  #                  sep = ""))
 
   dcant_budget_basin_MLR_layer <-
     read_csv(paste(path_version_data,
@@ -1090,14 +1140,14 @@ for (i_Version_IDs in Version_IDs_ensemble) {
   dcant_global_section <- dcant_global_section %>% 
     mutate(Version_ID = i_Version_IDs)
   
-  dcant_profile <- dcant_profile %>% 
-    mutate(Version_ID = i_Version_IDs)
+  # dcant_profile <- dcant_profile %>% 
+  #   mutate(Version_ID = i_Version_IDs)
 
   dcant_profile_basin_MLR <- dcant_profile_basin_MLR %>% 
     mutate(Version_ID = i_Version_IDs)
   
-  dcant_budget_basin_AIP_layer <- dcant_budget_basin_AIP_layer %>% 
-    mutate(Version_ID = i_Version_IDs)
+  # dcant_budget_basin_AIP_layer <- dcant_budget_basin_AIP_layer %>% 
+  #   mutate(Version_ID = i_Version_IDs)
   
   dcant_budget_basin_MLR_layer <- dcant_budget_basin_MLR_layer %>% 
     mutate(Version_ID = i_Version_IDs)
@@ -1127,13 +1177,13 @@ for (i_Version_IDs in Version_IDs_ensemble) {
     dcant_global_section_all <- dcant_global_section
   }
 
-  if (exists("dcant_profile_all")) {
-    dcant_profile_all <- bind_rows(dcant_profile_all, dcant_profile)
-  }
-  
-  if (!exists("dcant_profile_all")) {
-    dcant_profile_all <- dcant_profile
-  }
+  # if (exists("dcant_profile_all")) {
+  #   dcant_profile_all <- bind_rows(dcant_profile_all, dcant_profile)
+  # }
+  # 
+  # if (!exists("dcant_profile_all")) {
+  #   dcant_profile_all <- dcant_profile
+  # }
 
   if (exists("dcant_profile_basin_MLR_all")) {
     dcant_profile_basin_MLR_all <- bind_rows(dcant_profile_basin_MLR_all, dcant_profile_basin_MLR)
@@ -1143,15 +1193,15 @@ for (i_Version_IDs in Version_IDs_ensemble) {
     dcant_profile_basin_MLR_all <- dcant_profile_basin_MLR
   }
 
-  if (exists("dcant_budget_basin_AIP_layer_all")) {
-    dcant_budget_basin_AIP_layer_all <-
-      bind_rows(dcant_budget_basin_AIP_layer_all,
-                dcant_budget_basin_AIP_layer)
-  }
-  
-  if (!exists("dcant_budget_basin_AIP_layer_all")) {
-    dcant_budget_basin_AIP_layer_all <- dcant_budget_basin_AIP_layer
-  }
+  # if (exists("dcant_budget_basin_AIP_layer_all")) {
+  #   dcant_budget_basin_AIP_layer_all <-
+  #     bind_rows(dcant_budget_basin_AIP_layer_all,
+  #               dcant_budget_basin_AIP_layer)
+  # }
+  # 
+  # if (!exists("dcant_budget_basin_AIP_layer_all")) {
+  #   dcant_budget_basin_AIP_layer_all <- dcant_budget_basin_AIP_layer
+  # }
 
   if (exists("dcant_budget_basin_MLR_layer_all")) {
     dcant_budget_basin_MLR_layer_all <-
@@ -1187,8 +1237,8 @@ for (i_Version_IDs in Version_IDs_ensemble) {
 }
 
 rm(dcant_zonal, dcant_global_section, dcant_zonal_bias, dcant_zonal_mod_truth,
-   dcant_budget_basin_AIP_layer, dcant_budget_basin_MLR_layer,
-   dcant_profile, dcant_profile_basin_MLR, dcant_penetration_depth_all_lat_mean)
+   dcant_budget_basin_MLR_layer,
+   dcant_profile_basin_MLR, dcant_penetration_depth_all_lat_mean)
 
 ```
 
@@ -1200,19 +1250,17 @@ dcant_zonal_all <- full_join(dcant_zonal_all,
 dcant_global_section_all <- full_join(dcant_global_section_all,
                              params_local_all_ensemble)
 
-dcant_profile_all <- full_join(dcant_profile_all,
-                               params_local_all_ensemble)
-
-
-
-dcant_profile_global_all <-
-  dcant_profile_basin_MLR_all %>%
-  filter(MLR_basins == "1") %>%
-  select(-MLR_basins)
-
-dcant_profile_global_all <-
-  full_join(dcant_profile_global_all,
-            params_local_all_ensemble)
+# dcant_profile_all <- full_join(dcant_profile_all,
+#                                params_local_all_ensemble)
+# 
+# dcant_profile_global_all <-
+#   dcant_profile_basin_MLR_all %>%
+#   filter(MLR_basins == "1") %>%
+#   select(-MLR_basins)
+# 
+# dcant_profile_global_all <-
+#   full_join(dcant_profile_global_all,
+#             params_local_all_ensemble)
 
 dcant_profile_basin_MLR_all <-
   dcant_profile_basin_MLR_all %>%
@@ -1245,18 +1293,18 @@ dcant_profile_basin_MLR_all <-
   )
 
 
-dcant_budget_basin_AIP_layer_all <-
-  full_join(dcant_budget_basin_AIP_layer_all,
-            params_local_all_ensemble)
+# dcant_budget_basin_AIP_layer_all <-
+#   full_join(dcant_budget_basin_AIP_layer_all,
+#             params_local_all_ensemble)
 
-dcant_budget_global_layer_all <-
-  dcant_budget_basin_MLR_layer_all %>%
-  filter(MLR_basins == "1") %>%
-  select(-MLR_basins)
-
-dcant_budget_global_layer_all <-
-  full_join(dcant_budget_global_layer_all,
-            params_local_all_ensemble)
+# dcant_budget_global_layer_all <-
+#   dcant_budget_basin_MLR_layer_all %>%
+#   filter(MLR_basins == "1") %>%
+#   select(-MLR_basins)
+# 
+# dcant_budget_global_layer_all <-
+#   full_join(dcant_budget_global_layer_all,
+#             params_local_all_ensemble)
 
 dcant_budget_basin_MLR_layer_all <-
   dcant_budget_basin_MLR_layer_all %>%
@@ -1297,76 +1345,76 @@ dcant_zonal_bias_all <- full_join(dcant_zonal_bias_all,
 
 
 dcant_zonal_all_ensemble <- dcant_zonal_all %>% 
-  filter(!(Version_ID %in% Version_IDs_d))
+  filter(Version_ID %in% Version_IDs_ensemble_uncertainty)
 dcant_zonal_all <- dcant_zonal_all %>% 
   filter(Version_ID %in% Version_IDs)
 
 dcant_global_section_all_ensemble <- dcant_global_section_all %>% 
-  filter(!(Version_ID %in% Version_IDs_d))
+  filter(Version_ID %in% Version_IDs_ensemble_uncertainty)
 dcant_global_section_all <- dcant_global_section_all %>% 
   filter(Version_ID %in% Version_IDs)
 
 
-dcant_profile_all_ensemble <- dcant_profile_all %>% 
-  filter(!(Version_ID %in% Version_IDs_d))
-dcant_profile_all_no_adj <- dcant_profile_all %>% 
-  filter(Version_ID %in% Version_IDs_d)
-dcant_profile_all <- dcant_profile_all %>% 
-  filter(Version_ID %in% Version_IDs)
+# dcant_profile_all_ensemble <- dcant_profile_all %>% 
+#   filter(Version_ID %in% Version_IDs_ensemble_uncertainty)
+# dcant_profile_all_sensitivity <- dcant_profile_all %>% 
+#   filter(Version_ID %in% Version_IDs_ensemble_sensitivity)
+# dcant_profile_all <- dcant_profile_all %>% 
+#   filter(Version_ID %in% Version_IDs)
 
-dcant_profile_global_all_ensemble <- dcant_profile_global_all %>% 
-  filter(!(Version_ID %in% Version_IDs_d))
-dcant_profile_global_all_no_adj <- dcant_profile_global_all %>% 
-  filter(Version_ID %in% Version_IDs_d)
-dcant_profile_global_all <- dcant_profile_global_all %>% 
-  filter(Version_ID %in% Version_IDs)
+# dcant_profile_global_all_ensemble <- dcant_profile_global_all %>% 
+#   filter(Version_ID %in% Version_IDs_ensemble_uncertainty)
+# dcant_profile_global_all_sensitivity <- dcant_profile_global_all %>% 
+#   filter(Version_ID %in% Version_IDs_ensemble_sensitivity)
+# dcant_profile_global_all <- dcant_profile_global_all %>% 
+#   filter(Version_ID %in% Version_IDs)
 
 dcant_profile_basin_MLR_all_ensemble <- dcant_profile_basin_MLR_all %>% 
-  filter(!(Version_ID %in% Version_IDs_d))
-dcant_profile_basin_MLR_all_no_adj <- dcant_profile_basin_MLR_all %>% 
-  filter(Version_ID %in% Version_IDs_d)
+  filter(Version_ID %in% Version_IDs_ensemble_uncertainty)
+dcant_profile_basin_MLR_all_sensitivity <- dcant_profile_basin_MLR_all %>% 
+  filter(Version_ID %in% Version_IDs_ensemble_sensitivity)
 dcant_profile_basin_MLR_all <- dcant_profile_basin_MLR_all %>% 
   filter(Version_ID %in% Version_IDs)
 
 
 
-dcant_budget_global_layer_all_ensemble <-
-  dcant_budget_global_layer_all %>%
-  filter(!(Version_ID %in% Version_IDs_d))
-dcant_budget_global_layer_all_no_adj <-
-  dcant_budget_global_layer_all %>%
-  filter(Version_ID %in% Version_IDs_d)
-dcant_budget_global_layer_all <-
-  dcant_budget_global_layer_all %>%
-  filter(Version_ID %in% Version_IDs)
+# dcant_budget_global_layer_all_ensemble <-
+#   dcant_budget_global_layer_all %>%
+#   filter(Version_ID %in% Version_IDs_ensemble_uncertainty)
+# dcant_budget_global_layer_all_sensitivity <-
+#   dcant_budget_global_layer_all %>%
+#   filter(Version_ID %in% Version_IDs_ensemble_sensitivity)
+# dcant_budget_global_layer_all <-
+#   dcant_budget_global_layer_all %>%
+#   filter(Version_ID %in% Version_IDs)
 
 
-dcant_budget_basin_AIP_layer_all_ensemble <-
-  dcant_budget_basin_AIP_layer_all %>%
-  filter(!(Version_ID %in% Version_IDs_d))
-dcant_budget_basin_AIP_layer_all <-
-  dcant_budget_basin_AIP_layer_all %>%
-  filter(Version_ID %in% Version_IDs)
+# dcant_budget_basin_AIP_layer_all_ensemble <-
+#   dcant_budget_basin_AIP_layer_all %>%
+#   filter(Version_ID %in% Version_IDs_ensemble_uncertainty)
+# dcant_budget_basin_AIP_layer_all <-
+#   dcant_budget_basin_AIP_layer_all %>%
+#   filter(Version_ID %in% Version_IDs)
 
 dcant_budget_basin_MLR_layer_all_ensemble <-
   dcant_budget_basin_MLR_layer_all %>%
-  filter(!(Version_ID %in% Version_IDs_d))
-dcant_budget_basin_MLR_layer_all_no_adj <-
+  filter(Version_ID %in% Version_IDs_ensemble_uncertainty)
+dcant_budget_basin_MLR_layer_all_sensitivity <-
   dcant_budget_basin_MLR_layer_all %>%
-  filter(Version_ID %in% Version_IDs_d)
+  filter(Version_ID %in% Version_IDs_ensemble_sensitivity)
 dcant_budget_basin_MLR_layer_all <-
   dcant_budget_basin_MLR_layer_all %>%
   filter(Version_ID %in% Version_IDs)
 
 
 dcant_zonal_bias_all_ensemble <- dcant_zonal_bias_all %>% 
-  filter(!(Version_ID %in% Version_IDs_d))
+  filter(Version_ID %in% Version_IDs_ensemble_uncertainty)
 dcant_zonal_bias_all <- dcant_zonal_bias_all %>% 
   filter(Version_ID %in% Version_IDs)
 
 dcant_penetration_depth_all_lat_mean_all_ensemble <-
   dcant_penetration_depth_all_lat_mean_all %>%
-  filter(!(Version_ID %in% Version_IDs_d))
+  filter(Version_ID %in% Version_IDs_ensemble_uncertainty)
 dcant_penetration_depth_all_lat_mean_all <-
   dcant_penetration_depth_all_lat_mean_all %>%
   filter(Version_ID %in% Version_IDs)
@@ -1540,6 +1588,115 @@ beta_CI_label <- expression(atop(beta,
 
 
 ```
+
+# Additive uncertainty
+
+```{r additive_uncertainty_calculation_function}
+
+MLR_basins_reference <- unique(params_local_all$MLR_basins)
+
+MLR_basins_sensitivity <- unique(params_local_all_ensemble$MLR_basins)
+MLR_basins_sensitivity <- MLR_basins_sensitivity[!MLR_basins_sensitivity %in% MLR_basins_reference]
+
+additive_uncertainty <- function(df){
+
+df_regional <-
+  df %>% 
+  pivot_wider(names_from = MLR_basins,
+              values_from = dcant) %>% 
+  pivot_longer(all_of(MLR_basins_sensitivity),
+               names_to = "MLR_basins",
+               values_to = "dcant") %>% 
+  mutate(delta_dcant = dcant - !!sym(MLR_basins_reference)) %>% 
+  select(-c(MLR_basins_reference, MLR_basins, dcant))
+
+
+df_regional_stat <-
+  df_regional %>% 
+  group_by(across(-delta_dcant)) %>%
+  summarise(sd = mean(abs(delta_dcant))) %>%
+  ungroup() %>%
+  filter(Version_ID_group == unique(params_local_all$Version_ID_group)) %>%
+  select(-Version_ID_group)
+
+Version_ID_group_uncertainty <-
+  df %>% distinct(Version_ID_group) %>% pull
+Version_ID_group_uncertainty <-
+  Version_ID_group_uncertainty[Version_ID_group_uncertainty != unique(params_local_all$Version_ID_group)]
+
+df_configuration <-
+  df %>% 
+  pivot_wider(names_from = Version_ID_group,
+              values_from = dcant) %>%
+  pivot_longer(
+    Version_ID_group_uncertainty,
+    names_to = "Version_ID_group",
+    values_to = "dcant"
+  ) %>% 
+  mutate(delta_dcant = !!sym(unique(params_local_all$Version_ID_group)) - dcant)
+
+
+df_configuration <-
+  df_configuration %>%
+  filter(MLR_basins == unique(params_local_all$MLR_basins)) %>%
+  rename(sd = delta_dcant) %>% 
+  select(-c(MLR_basins, dcant, unique(params_local_all$Version_ID_group)))
+
+df_factorial <-
+  bind_rows(
+    df_regional_stat %>%
+      mutate(Version_ID_group = "Regional clustering"),
+    df_configuration
+  )
+
+df_factorial_stat <-
+  df_factorial %>% 
+  select(-Version_ID_group) %>% 
+  group_by(across(-sd)) %>% 
+  summarise(sd = sqrt(sum(sd^2))) %>% 
+  ungroup()
+
+df_stat <-
+  full_join(
+    df_factorial_stat,
+    df %>%
+      filter(
+        Version_ID_group %in% unique(params_local_all$Version_ID_group),
+        MLR_basins == MLR_basins_reference
+      ) %>%
+      rename(std_case = dcant) %>%
+      select(-c(MLR_basins, Version_ID_group))
+  )
+
+df_stat <- df_stat %>%
+  mutate(signif = if_else(abs(std_case) >= sd * sd_factor,
+                          1,
+                          0))
+
+df_stat_delta <-
+  df_stat %>%
+  select(-signif) %>% 
+  arrange(period) %>%
+  group_by(across(-c(period, sd, std_case))) %>%
+  mutate(delta_dcant = std_case - lag(std_case),
+         sd = sd_factor * sd,
+         RSS = sqrt(sd^ 2 + lag(sd ^ 2)),
+         signif = if_else(abs(delta_dcant) >= RSS,
+                          1,
+                          0)) %>%
+  ungroup() %>%
+  drop_na()
+
+
+df_out <- list(df_stat, df_factorial, df_stat_delta)
+
+return(df_out)
+
+}
+
+
+```
+
 
 # Coverage maps
 
@@ -1991,7 +2148,7 @@ left_join(lm_best_target_all,
 
 
 
-# Inventory maps
+# Column inventories
 
 
 ```{r calculate_beta_inventories}
@@ -2012,10 +2169,78 @@ dcant_inv_all <- dcant_inv_all %>%
          beta_pos = dcant_pos / delta_pCO2) %>% 
   select(-starts_with("pCO2"))
 
-dcant_inv_all_ensemble <- dcant_inv_all
+dcant_inv_all_ensemble <- dcant_inv_all %>% 
+  filter(Version_ID %in% Version_IDs_ensemble_uncertainty)
+
+dcant_inv_all_sensitivity <- dcant_inv_all %>% 
+  filter(Version_ID %in% Version_IDs_ensemble_sensitivity)
 
 dcant_inv_all <- dcant_inv_all %>% 
   filter(Version_ID %in% Version_IDs | is.na(Version_ID))
+
+```
+
+
+## Sensitivity cases
+
+```{r column_inventory_additive_uncertainty_x}
+
+
+dcant_inv_all_ensemble_sensitivity <-
+  dcant_inv_all_sensitivity %>%
+  filter(period %in% two_decades,
+         data_source != "mod_truth") %>%
+  select(lon, lat, period, data_source, MLR_basins, Version_ID_group, dcant)
+
+dcant_inv_all_ensemble_sensitivity <- 
+  m_grid_horizontal_coarse(dcant_inv_all_ensemble_sensitivity)
+
+dcant_inv_all_ensemble_sensitivity <-
+  dcant_inv_all_ensemble_sensitivity %>% 
+  group_by(lat_grid, lon_grid, data_source, period, MLR_basins, Version_ID_group) %>% 
+  summarise(dcant = mean(dcant),
+            n = n()) %>% 
+  ungroup() %>% 
+  filter(n == 25) %>% 
+  rename(lon = lon_grid,
+         lat = lat_grid)
+
+dcant_inv_sensitivity <- additive_uncertainty(dcant_inv_all_ensemble_sensitivity)
+
+delta_dcant_inv_sensitivity <- dcant_inv_sensitivity[[3]]
+dcant_inv_sensitivity_contributions <- dcant_inv_sensitivity[[2]]
+dcant_inv_sensitivity <- dcant_inv_sensitivity[[1]]
+
+
+dcant_inv_sensitivity %>%
+  mutate(
+    data_source = case_when(
+      data_source == "mod" ~ "Synthetic data",
+      data_source == "obs" ~ "Observations"
+    )
+  ) %>%
+  p_map_cant_inv(var = "sd",
+                 breaks = c(seq(0, 8, 1), Inf),
+                 title_text = NULL) +
+  facet_grid(period ~ data_source) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())
+
+
+dcant_inv_sensitivity_contributions %>%
+  mutate(
+    data_source = case_when(
+      data_source == "mod" ~ "Synthetic data",
+      data_source == "obs" ~ "Observations"
+    )
+  ) %>%
+  p_map_cant_inv(var = "sd",
+                 col = "bias",
+                 breaks = c(-Inf, seq(-2,2,1), Inf),
+                 title_text = NULL) +
+  facet_nested(Version_ID_group ~ data_source + period) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())
 
 
 ```
@@ -2023,7 +2248,94 @@ dcant_inv_all <- dcant_inv_all %>%
 
 ## Ensemble uncertainty
 
-```{r column_inventory_standard_deviation}
+```{r column_inventory_additive_uncertainty}
+
+
+dcant_inv_all_ensemble_uncertainty <-
+  dcant_inv_all_ensemble %>%
+  filter(period %in% two_decades,
+         data_source != "mod_truth") %>%
+  select(lon, lat, period, data_source, MLR_basins, Version_ID_group, dcant)
+
+dcant_inv_all_ensemble_uncertainty <- 
+  m_grid_horizontal_coarse(dcant_inv_all_ensemble_uncertainty)
+
+dcant_inv_all_ensemble_uncertainty <-
+  dcant_inv_all_ensemble_uncertainty %>% 
+  group_by(lat_grid, lon_grid, data_source, period, MLR_basins, Version_ID_group) %>% 
+  summarise(dcant = mean(dcant),
+            n = n()) %>% 
+  ungroup() %>% 
+  filter(n == 25) %>% 
+  rename(lon = lon_grid,
+         lat = lat_grid)
+
+dcant_inv_uncertainty <- additive_uncertainty(dcant_inv_all_ensemble_uncertainty)
+
+delta_dcant_inv_uncertainty <- dcant_inv_uncertainty[[3]]
+dcant_inv_uncertainty_contributions <- dcant_inv_uncertainty[[2]]
+dcant_inv_uncertainty <- dcant_inv_uncertainty[[1]]
+
+
+dcant_inv_uncertainty %>%
+  mutate(
+    data_source = case_when(
+      data_source == "mod" ~ "Synthetic data",
+      data_source == "obs" ~ "Observations"
+    )
+  ) %>%
+  p_map_cant_inv(var = "sd",
+                 breaks = c(seq(0, 8, 1), Inf),
+                 title_text = NULL) +
+  facet_grid(period ~ data_source) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())
+
+
+dcant_inv_uncertainty_contributions %>%
+  mutate(
+    data_source = case_when(
+      data_source == "mod" ~ "Synthetic data",
+      data_source == "obs" ~ "Observations"
+    )
+  ) %>%
+  p_map_cant_inv(var = "sd",
+                 col = "bias",
+                 breaks = c(-Inf, seq(-2,2,1), Inf),
+                 title_text = NULL) +
+  facet_nested(Version_ID_group ~ data_source + period) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())
+
+delta_dcant_inv_uncertainty %>% 
+  p_map_cant_inv(var = "delta_dcant",
+                 col = "bias",
+                 title_text = NULL) +
+  facet_grid(data_source ~ .) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())
+
+delta_dcant_inv_uncertainty %>% 
+  p_map_cant_inv(var = "RSS",
+                 breaks = c(seq(0, 8, 1), Inf),
+                 title_text = NULL) +
+  facet_grid(data_source ~ .) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())
+
+delta_dcant_inv_uncertainty %>% 
+  filter(signif == 1) %>% 
+  p_map_cant_inv(var = "delta_dcant",
+                 col = "bias",
+                 title_text = NULL) +
+  facet_grid(data_source ~ .) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())
+
+```
+
+
+```{r column_inventory_standard_deviation, eval=FALSE}
 
 
 dcant_inv_all_ensemble_sd <-
@@ -2095,7 +2407,7 @@ delta_dcant_inv_all_ensemble_sd %>%
 
 
 
-```{r inventory_maps_absolute_dcant_vs_SD}
+```{r inventory_maps_absolute_dcant_vs_SD, eval=FALSE}
 
 dcant_inv_all_uncertainty <-
   full_join(
@@ -2155,7 +2467,7 @@ dcant_inv_all_uncertainty %>%
 map +
   geom_point(
     data = dcant_inv_all_uncertainty %>%
-      filter(dcant_sign < 0),
+      filter(signif == 0),
     aes(lon, lat),
     shape = 20,
     size = 0.1
@@ -2179,8 +2491,8 @@ p_CI_absolute <- dcant_inv_all %>%
   facet_wrap(~ period, ncol = 1) +
   theme(axis.text.x = element_blank()) +
   geom_point(
-    data = dcant_inv_all_uncertainty %>%
-      filter(dcant_sign < 0,
+    data = dcant_inv_uncertainty %>%
+      filter(signif == 0,
              data_source == "obs"),
     aes(lon, lat),
     shape = 20,
@@ -2200,7 +2512,7 @@ ggsave(path = here::here("output/presentation"),
 
 ```
 
-```{r inventory_maps_absolute_mod, fig.asp=1.2}
+```{r inventory_maps_absolute_mod_x, fig.asp=1.2}
 
 
 p_CI_absolute_mod <- dcant_inv_all %>%
@@ -2211,8 +2523,8 @@ p_CI_absolute_mod <- dcant_inv_all %>%
   facet_wrap(~ period, ncol = 1) +
   theme(axis.text.x = element_blank()) +
   geom_point(
-    data = dcant_inv_all_uncertainty %>%
-      filter(dcant_sign < 0,
+    data = dcant_inv_uncertainty %>%
+      filter(signif == 0,
              data_source == "mod"),
     aes(lon, lat),
     shape = 20,
@@ -2328,7 +2640,7 @@ rm(dcant_inv_stat, dcant_inv_stat_mean, dcant_inv_stat_ensemble)
 ```
 
 
-```{r inventory_maps_absolute_delta_RSS}
+```{r inventory_maps_absolute_delta_RSS, eval=FALSE}
 
 delta_dcant_inv_all <-
   dcant_inv_all %>%
@@ -2394,7 +2706,7 @@ delta_dcant_inv_all_uncertainty %>%
 map +
   geom_point(
     data = delta_dcant_inv_all_uncertainty %>%
-      filter(dcant_offset_sign < 0),
+      filter(signif == 0),
     aes(lon, lat),
     shape = 20,
     size = 0.1,
@@ -2422,8 +2734,8 @@ p_CI_absolute_mod_delta <- dcant_inv_all %>%
   facet_grid(period ~ data_source) +
   theme(axis.text.x = element_blank()) +
   geom_point(
-    data = dcant_inv_all_uncertainty %>%
-      filter(dcant_sign < 0,
+    data = dcant_inv_uncertainty %>%
+      filter(signif == 0,
              data_source == "mod") %>%
       mutate(data_source = case_when(data_source == "mod" ~ "Reconstruction")),
     aes(lon, lat),
@@ -2431,6 +2743,8 @@ p_CI_absolute_mod_delta <- dcant_inv_all %>%
     size = 0.1,
     col = "grey"
   )
+
+
 
 p_CI_bias_delta <-
   dcant_inv_all %>%
@@ -2455,10 +2769,14 @@ p_CI_bias_delta <-
   ) +
   facet_grid(period ~ data_source) +
   geom_point(
-    data = delta_dcant_inv_all_uncertainty %>%
-      filter(dcant_offset_sign < 0,
+    data = delta_dcant_inv_uncertainty %>%
+      filter(signif == 0,
              data_source == "mod") %>%
-      mutate(data_source = case_when(data_source == "mod" ~ "Reconstruction")),
+      mutate(
+        data_source = case_when(data_source == "mod" ~ "Reconstruction"),
+        period = "Decadal offset"
+      ),
+    
     aes(lon, lat),
     shape = 20,
     size = 0.1,
@@ -2509,6 +2827,16 @@ rm(p_CI_bias_delta_delta)
 
 ```{r inventory_maps_absolute_delta, fig.asp=1.3}
 
+delta_dcant_inv_all <-
+  dcant_inv_all %>%
+  filter(data_source %in% c("obs", "mod"),
+         period %in% two_decades) %>%
+  select(data_source, lon, lat, basin_AIP, period, dcant) %>%
+  pivot_wider(names_from = period,
+              values_from = dcant) %>%
+  mutate(dcant_offset = `2004 - 2014` - `1994 - 2004`,
+         period = "(2004 - 2014) - (1994 - 2004)")
+
 p_CI_delta <-
   delta_dcant_inv_all %>%
   filter(data_source == "obs") %>%
@@ -2519,9 +2847,10 @@ p_CI_delta <-
     col = "bias"
   ) +
   geom_point(
-    data = delta_dcant_inv_all_uncertainty %>%
-      filter(dcant_offset_sign < 0,
-             data_source == "obs"),
+    data = delta_dcant_inv_uncertainty %>%
+      filter(signif == 0,
+             data_source == "obs") %>% 
+      mutate(period = "(2004 - 2014) - (1994 - 2004)"),
     aes(lon, lat),
     shape = 20,
     size = 0.1,
@@ -2552,7 +2881,7 @@ rm(p_CI_absolute, p_CI_delta)
 
 ## Bias
 
-```{r invetory_maps_absolute_mod, fig.asp=1.2}
+```{r inventory_maps_absolute_mod, fig.asp=1.2}
 
 p_CI_absolute_mod <- dcant_inv_all %>%
   filter(period %in% two_decades,
@@ -2568,8 +2897,8 @@ p_CI_absolute_mod <- dcant_inv_all %>%
   facet_grid(data_source ~ period) +
   theme(axis.text.x = element_blank()) +
   geom_point(
-    data = dcant_inv_all_uncertainty %>%
-      filter(dcant_sign < 0,
+    data = dcant_inv_uncertainty %>%
+      filter(signif == 0,
              data_source == "mod") %>%
       mutate(
         data_source = case_when(
@@ -2745,7 +3074,7 @@ bind_rows(
 
 ## Unadjusted data
 
-```{r column_inventory_unadjusted_data}
+```{r column_inventory_unadjusted_data, eval=FALSE}
 
 dcant_inv_all_unadjusted <-
   dcant_inv_all_ensemble %>%
@@ -2952,7 +3281,147 @@ dcant_inv_all_ensemble_lat_mean %>%
 
 ## Ensemble uncertainty
 
-```{r global_section_absolute_delta_RSS}
+```{r global_section_absolute_delta_RSS_additive_uncertainty}
+
+delta_dcant_global_section_all <-
+  dcant_global_section_all %>%
+  filter(data_source %in% c("obs", "mod"),
+         period %in% two_decades) %>%
+  select(data_source, dist, depth, period, dcant) %>%
+  drop_na() %>% 
+  pivot_wider(names_from = period,
+              values_from = dcant) %>%
+  mutate(dcant_offset = `2004 - 2014` - `1994 - 2004`,
+         period = "(2004 - 2014) - (1994 - 2004)")
+
+dcant_global_section_all_uncertainty <-
+  dcant_global_section_all_ensemble %>%
+  filter(data_source %in% c("obs", "mod"),
+         period %in% two_decades) %>%
+  select(dist,
+         depth,
+         period,
+         data_source,
+         MLR_basins,
+         Version_ID_group,
+         dcant) %>%
+  mutate(dist_grid = as.numeric(as.character(cut(
+    dist, seq(0, 50, 2), seq(1, 49, 2)
+  ))),
+  depth_grid = as.numeric(as.character(cut(
+    depth,
+    c(seq(0, 500, 100), seq(1000, 10000, 500)),
+    c(seq(50, 450, 100), seq(750, 10000, 500)),
+    right = FALSE
+  )))) %>%
+    group_by(dist_grid, depth_grid, data_source, period, MLR_basins, Version_ID_group) %>% 
+  summarise(dcant = mean(dcant),
+            n = n()) %>% 
+  ungroup() %>% 
+  rename(dist = dist_grid,
+         depth = depth_grid)
+
+# df <- dcant_global_section_all_uncertainty
+
+dcant_global_section_all_uncertainty <-
+  additive_uncertainty(dcant_global_section_all_uncertainty)
+
+delta_dcant_global_section_all_uncertainty <- dcant_global_section_all_uncertainty[[3]]
+dcant_global_section_all_uncertainty_contributions <- dcant_global_section_all_uncertainty[[2]]
+dcant_global_section_all_uncertainty <- dcant_global_section_all_uncertainty[[1]]
+
+dcant_global_section_all_uncertainty <-
+  dcant_global_section_all_uncertainty %>%
+  mutate(band = "dummy")
+
+
+dcant_global_section_all_uncertainty  %>% 
+  filter(data_source == "obs",
+         period == "1994 - 2004") %>% 
+  p_section_global(
+    var = "std_case",
+    plot_slabs = "n",
+    title_text = NULL,
+    subtitle_text = NULL,
+    col = "div"
+  )
+
+dcant_global_section_all_uncertainty  %>% 
+  filter(data_source == "obs",
+         period == "1994 - 2004") %>% 
+  p_section_global(
+    var = "sd",
+    plot_slabs = "n",
+    title_text = NULL,
+    subtitle_text = NULL,
+    col = "div"
+  )
+
+# dcant_global_section_all_uncertainty  %>%
+#   filter(data_source == "obs",
+#          period == "1994 - 2004") %>%
+#   rename(delta_dcant = dcant_sign) %>%
+#   p_section_global(
+#     var = "delta_dcant",
+#     plot_slabs = "n",
+#     title_text = NULL,
+#     subtitle_text = NULL,
+#     col = "div"
+#   )
+
+ggplot() +
+  geom_point(
+    data = dcant_global_section_all_uncertainty %>%
+      filter(signif == 0),
+    aes(dist, depth),
+    shape = 4
+  ) +
+  facet_grid(data_source~period) +
+  scale_y_reverse()
+
+delta_dcant_global_section_all_uncertainty <-
+  delta_dcant_global_section_all_uncertainty %>%
+  mutate(band = "dummy")
+
+delta_dcant_global_section_all_uncertainty  %>% 
+  filter(data_source == "obs") %>% 
+  p_section_global(
+    var = "delta_dcant",
+    plot_slabs = "n",
+    title_text = NULL,
+    subtitle_text = NULL,
+    col = "div"
+  )
+
+delta_dcant_global_section_all_uncertainty  %>% 
+  filter(data_source == "obs") %>% 
+  select(-delta_dcant) %>% 
+  rename(delta_dcant = RSS) %>% 
+  p_section_global(
+    var = "delta_dcant",
+    plot_slabs = "n",
+    title_text = NULL,
+    subtitle_text = NULL,
+    col = "div"
+  )
+
+ggplot() +
+  geom_point(
+    data = delta_dcant_global_section_all_uncertainty %>%
+      filter(signif == 0),
+    aes(dist, depth),
+    shape = 4
+  ) +
+  scale_y_reverse() +
+  facet_grid(data_source~.)
+
+# delta_dcant_global_section_all_uncertainty <-
+#   delta_dcant_global_section_all_uncertainty %>%
+#   filter(signif == 0)
+
+```
+
+```{r global_section_absolute_delta_RSS, eval=FALSE}
 
 delta_dcant_global_section_all <-
   dcant_global_section_all %>%
@@ -3043,7 +3512,7 @@ dcant_global_section_all_uncertainty  %>%
 ggplot() +
   geom_point(
     data = dcant_global_section_all_uncertainty %>%
-      filter(dcant_sign < 0),
+      filter(signif == 0),
     aes(dist, depth),
     shape = 4
   ) +
@@ -3052,7 +3521,7 @@ ggplot() +
 
 dcant_global_section_all_uncertainty <-
   dcant_global_section_all_uncertainty %>%
-  filter(dcant_sign < 0)
+  filter(signif == 0)
 
 
 delta_dcant_global_section_all_ensemble_RSS <-
@@ -3131,7 +3600,7 @@ delta_dcant_global_section_all_uncertainty  %>%
 ggplot() +
   geom_point(
     data = delta_dcant_global_section_all_uncertainty %>%
-      filter(dcant_offset_sign < 0),
+      filter(signif == 0),
     aes(dist, depth),
     shape = 4
   ) +
@@ -3140,7 +3609,7 @@ ggplot() +
 
 delta_dcant_global_section_all_uncertainty <-
   delta_dcant_global_section_all_uncertainty %>%
-  filter(dcant_offset_sign < 0)
+  filter(signif == 0)
 
 ```
 
@@ -3157,7 +3626,8 @@ p_dcant_global_section_dec1 <-
                    title_text = "1994 - 2004",
                    df_uncertainty = dcant_global_section_all_uncertainty %>% 
                      filter(period %in% "1994 - 2004",
-                            data_source == "obs"),
+                            data_source == "obs",
+                            signif == 0),
                    col_uncertainty = "grey",
                    subtitle_text = NULL,
                    plot_slabs = "n",
@@ -3180,12 +3650,11 @@ p_dcant_global_section_dec2 <-
     contour_level = 5,
     df_uncertainty = dcant_global_section_all_uncertainty %>%
       filter(period %in% "2004 - 2014",
-                            data_source == "obs"),
+             data_source == "obs",
+             signif == 0),
     col_uncertainty = "grey"
   ) &
-  theme(
-    legend.position = "none"
-  )
+  theme(legend.position = "none")
 
 p_dcant_global_section_offset <-
   dcant_global_section_all %>%
@@ -3199,8 +3668,9 @@ p_dcant_global_section_offset <-
   mutate(delta_dcant = `2004 - 2014` - `1994 - 2004`) %>%
   p_section_global(
     var = "delta_dcant",
-    df_uncertainty = delta_dcant_global_section_all_uncertainty %>% 
-      filter(data_source == "obs"),
+    df_uncertainty = delta_dcant_global_section_all_uncertainty %>%
+      filter(data_source == "obs",
+             signif == 0),
     plot_slabs = "y",
     col = "div",
     title_text = NULL,
@@ -3248,7 +3718,8 @@ p_dcant_global_section_dec1 <-
                    title_text = "1994 - 2004",
                    df_uncertainty = dcant_global_section_all_uncertainty %>% 
                      filter(period %in% "1994 - 2004",
-                            data_source == "mod"),
+                            data_source == "mod",
+                            signif == 0),
                    col_uncertainty = "grey",
                    subtitle_text = NULL,
                    plot_slabs = "n",
@@ -3271,7 +3742,8 @@ p_dcant_global_section_dec2 <-
     contour_level = 5,
     df_uncertainty = dcant_global_section_all_uncertainty %>%
       filter(period %in% "2004 - 2014",
-                            data_source == "mod"),
+                            data_source == "mod",
+                            signif == 0),
     col_uncertainty = "grey"
   ) &
   theme(
@@ -3294,7 +3766,8 @@ p_dcant_global_section_offset <-
   p_section_global(
     var = "delta_dcant",
     df_uncertainty = delta_dcant_global_section_all_uncertainty %>%
-      filter(data_source == "mod"),
+      filter(data_source == "mod",
+                            signif == 0),
     col = "div",
     plot_slabs = "y",
     title_text = NULL,
@@ -3891,7 +4364,61 @@ rm(mean_surface_dcant)
 
 ### Uncertainty range
 
-```{r concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon, fig.asp=0.9}
+```{r concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon_additive, fig.asp=0.9}
+
+# dcant_profile_basin_MLR_all_ensemble %>% distinct(data_source)
+
+dcant_profile_basin_MLR_all_uncertainty <- dcant_profile_basin_MLR_all_ensemble %>%
+  select(-c(dcant_sd, Version_ID, tref1, tref2)) %>% 
+  filter(period %in% two_decades)
+
+dcant_profile_basin_MLR_all_uncertainty <- additive_uncertainty(dcant_profile_basin_MLR_all_uncertainty)
+
+delta_dcant_profile_basin_MLR_all_uncertainty <- dcant_profile_basin_MLR_all_uncertainty[[3]]
+dcant_profile_basin_MLR_all_uncertainty_contributions <- dcant_profile_basin_MLR_all_uncertainty[[2]]
+dcant_profile_basin_MLR_all_uncertainty <- dcant_profile_basin_MLR_all_uncertainty[[1]]
+
+
+p_dcant_profiles <-
+  dcant_profile_basin_MLR_all_uncertainty %>%
+  arrange(depth) %>%
+  filter(
+    depth <= params_global$inventory_depth_standard,
+    data_source == "obs"
+  ) %>%
+  ggplot() +
+  geom_vline(xintercept = 0, size = 0.1) +
+  geom_ribbon(
+    aes(
+      xmin = std_case - sd*sd_factor,
+      xmax = std_case + sd*sd_factor,
+      y = depth,
+      fill = period
+    ),
+    alpha = 0.5
+  ) +
+  geom_path(
+    aes(std_case,
+        depth,
+        col = period)
+  ) +
+  scale_y_reverse(breaks = seq(0,3000,500))+
+  # scale_y_continuous(
+  #   trans = trans_reverser("sqrt"),
+  #   breaks = c(0, 100, 500, seq(1000, 5000, 1000)))+
+  coord_cartesian(expand = 0, xlim = c(-2,14)) +
+  scale_color_manual(values = c("#EE7733", "#009988"), name = "Mean \u00B1 2σ") +
+  scale_fill_manual(values = c("#EE7733", "#009988"), name = "Mean \u00B1 2σ") +
+  labs(y = "Depth (m)",
+       x = dcant_umol_label) +
+  facet_wrap(~ basin, ncol = 3, dir = "v") +
+  theme(legend.position = c(0.9, 0.1))
+
+p_dcant_profiles
+
+```
+
+```{r concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon, fig.asp=0.9, eval=FALSE}
 
 dcant_profile_basin_MLR_range <- dcant_profile_basin_MLR_all_ensemble %>%
   group_by(basin, depth, period, data_source) %>% 
@@ -3947,13 +4474,11 @@ p_dcant_profiles
 ```{r concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon_mod, fig.asp=0.9}
 
 p_dcant_profiles_mod <-
-  dcant_profile_basin_MLR_all_ensemble %>%
+  dcant_profile_basin_MLR_all_uncertainty %>%
   arrange(depth) %>%
   filter(
-    period != "1994 - 2014",
     depth <= params_global$inventory_depth_standard,
-    data_source != "obs",
-    Version_ID %in% Version_IDs
+    data_source != "obs"
   ) %>%
     mutate(data_source = case_when(
     data_source == "mod" ~ "Reconstruction",
@@ -3961,26 +4486,25 @@ p_dcant_profiles_mod <-
   )) %>%  
   ggplot() +
   geom_vline(xintercept = 0, size = 0.1) +
-  geom_hline(yintercept = 1000, size = 0.1) +
+  # geom_hline(yintercept = 1000, size = 0.1) +
   geom_ribbon(
     aes(
-      xmin = dcant - dcant_sd,
-      xmax = dcant + dcant_sd,
+      xmin = std_case - sd*sd_factor,
+      xmax = std_case + sd*sd_factor,
       y = depth,
-      fill = data_source,
-      group = interaction(Version_ID,data_source)
+      fill = data_source
     ),
     alpha = 0.5
   ) +
   geom_path(
-    aes(dcant,
+    aes(std_case,
         depth,
-        col = data_source,
-        group = interaction(Version_ID,data_source))
+        col = data_source)
   ) +
-  scale_y_continuous(trans = trans_reverser("sqrt"),
-                     breaks = c(0, 100, 500, seq(1000, 5000, 1000))) +
-  coord_cartesian(expand = 0) +
+  scale_y_reverse(breaks = seq(0,3000,500)) +
+  # scale_y_continuous(trans = trans_reverser("sqrt"),
+  #                    breaks = c(0, 100, 500, seq(1000, 5000, 1000))) +
+  coord_cartesian(expand = 0, xlim = c(-2,14)) +
   scale_color_manual(values = c("#009988", "#EE7733"), name = "Mean \u00B1 2σ") +
   scale_fill_manual(values = c("#009988", "#EE7733"), name = "Mean \u00B1 2σ") +
   labs(y = "Depth (m)",
@@ -4079,13 +4603,14 @@ bind_rows(
       period %in% two_decades,
       depth <= params_global$inventory_depth_standard,
       data_source == "obs",
-      Version_ID_group == "Bulk adjustment"
+      Version_ID_group == "Standard case"
     ),
-  dcant_profile_basin_MLR_all_no_adj %>%
+  dcant_profile_basin_MLR_all_sensitivity %>%
     filter(
       period %in% two_decades,
       depth <= params_global$inventory_depth_standard,
-      data_source == "obs"
+      data_source == "obs",
+      Version_ID_group == "No data adjustments"
     )
 ) %>%
   group_by(depth,
@@ -4095,7 +4620,8 @@ bind_rows(
   summarise(dcant_sd = sd(dcant),
             dcant = mean(dcant)) %>% 
   ungroup() %>% 
-  filter(basin %in% c("N. Pacific", "Indian")) %>%
+  filter(basin == "N. Pacific" & period == "2004 - 2014" |
+         basin == "Indian" & period == "1994 - 2004") %>%
   ggplot() +
   geom_hline(yintercept = params_global$inventory_depth_standard) +
   geom_vline(xintercept = 0) +
@@ -4114,14 +4640,14 @@ bind_rows(
                 group = Version_ID_group)) +
   scale_y_continuous(trans = trans_reverser("sqrt"),
                      breaks = c(0, 100, 500, seq(1500, 5000, 1000))) +
-  coord_cartesian(expand = 0) +
+  coord_cartesian(expand = FALSE, xlim = c(-1,13)) +
   scale_color_manual(values = colour("high contrast", names = FALSE)(3)[c(1,3)],
                      name = "Mean \u00B1 1σ") +
   scale_fill_manual(values = colour("high contrast", names = FALSE)(3)[c(1,3)],
                     name = "Mean \u00B1 1σ") +
   labs(y = "Depth (m)",
        x = dcant_umol_label) +
-  facet_grid(basin ~ period) +
+  facet_nested_wrap(~ basin + period) +
   theme(legend.position = c(0.85,0.15))
 
 
@@ -4136,32 +4662,7 @@ ggsave(path = here::here("output/publication"),
 
 ```{r concentration_profiles_MLR_basins_offset}
 
-delta <- dcant_profile_basin_MLR_all_ensemble %>%
-  arrange(depth) %>%
-  filter(period != "1994 - 2014",
-         Version_ID %in% Version_IDs) %>%
-  select(data_source, depth, basin, period, dcant) %>%
-  pivot_wider(names_from = period,
-              values_from = dcant) %>%
-  mutate(delta_dcant = `2004 - 2014` - `1994 - 2004`) %>%
-  select(-c(`2004 - 2014`, `1994 - 2004`))
-
-delta_sd <- dcant_profile_basin_MLR_all_ensemble %>%
-  arrange(depth) %>%
-  filter(period != "1994 - 2014",
-         Version_ID %in% Version_IDs) %>%
-  select(data_source, depth, basin, period, dcant_sd) %>% 
-  pivot_wider(names_from = period,
-              values_from = dcant_sd) %>%
-  mutate(delta_dcant_sd = sqrt(`2004 - 2014`^2 + `1994 - 2004`^2)) %>% 
-  select(-c(`2004 - 2014`, `1994 - 2004`))
-
-dcant_profile_basin_MLR_all_delta <- full_join(delta, delta_sd)
-rm(delta, delta_sd)
-
-
-
-dcant_profile_basin_MLR_all_delta %>%
+delta_dcant_profile_basin_MLR_all_uncertainty %>%
   group_split(data_source) %>%
   # head(3) %>%
   map(
@@ -4172,8 +4673,8 @@ dcant_profile_basin_MLR_all_delta %>%
       geom_vline(xintercept = 0) +
       geom_ribbon(
         aes(
-          xmin = delta_dcant - delta_dcant_sd,
-          xmax = delta_dcant + delta_dcant_sd
+          xmin = delta_dcant - RSS,
+          xmax = delta_dcant + RSS
         ),
         alpha = 0.3
       ) +
@@ -4197,7 +4698,7 @@ dcant_profile_basin_MLR_all_delta %>%
 # Inventories
 
 
-```{r dcant_budget_stats_ensemble_SD}
+```{r dcant_budget_stats_ensemble_SD, eval=FALSE}
 
 # dcant_budget_basin_MLR_all_ensemble %>% distinct(Version_ID_group)
 
@@ -4286,257 +4787,135 @@ dcant_budget_ensemble_significance %>%
 
 ```{r dcant_budget_stats_basin_SD_plus_sensitivity_cases}
 
-MLR_basins_reference <- unique(params_local_all$MLR_basins)
-
-MLR_basins_sensitivity <- unique(params_local_all_ensemble$MLR_basins)
-MLR_basins_sensitivity <- MLR_basins_sensitivity[!MLR_basins_sensitivity %in% MLR_basins_reference]
-
-unique(params_local_all_ensemble$Version_ID_group)
-
-dcant_budget_ensemble_stat_basin <-
+dcant_budget_basin_MLR_all_uncertainty <-
   dcant_budget_basin_MLR_all_ensemble %>%
   filter(data_source != "mod_truth",
          period != "1994 - 2014") %>%
-  select(-c(inv_depth, Version_ID, tref1, tref2)) %>% 
-  pivot_wider(names_from = MLR_basins,
-              values_from = dcant) %>% 
-  pivot_longer(all_of(MLR_basins_sensitivity),
-               names_to = "MLR_basins",
-               values_to = "dcant") %>% 
-  mutate(delta_dcant = dcant - !!sym(MLR_basins_reference))
+  select(-c(inv_depth, Version_ID, tref1, tref2))
 
-dcant_budget_ensemble_stat_basin %>%
-  filter(data_source == "obs",
-         Version_ID_group == unique(params_local_all$Version_ID_group)) %>% 
-  ggplot(aes(period, delta_dcant, fill = MLR_basins)) +
-  geom_point(shape = 21, size = 2, alpha = 0.7) +
-  scale_fill_muted(name = "Regional clustering") +
-  labs(y = "Offset (PgC)",
-       title = "Offset for regional clusterings schemes",
-       subtitle = "Note: Only the bulk adjustment cases are shown") +
-  theme(axis.title.x = element_blank()) +
-  facet_wrap(. ~ basin)
+dcant_budget_basin_MLR_all_uncertainty <- additive_uncertainty(dcant_budget_basin_MLR_all_uncertainty)
 
-dcant_budget_ensemble_stat_basin_SD <-
-  dcant_budget_ensemble_stat_basin %>% 
-  group_by(period, basin, Version_ID_group, data_source) %>%
-  summarise(MAO = mean(abs(delta_dcant)),
-            SD_AO = sd(abs(delta_dcant))) %>%
-  ungroup()
-
-dcant_budget_ensemble_stat_basin_SD %>%
-  filter(data_source == "obs") %>% 
-  ggplot(aes(x = period, y = MAO, fill = Version_ID_group)) +
-  geom_col(position = "dodge", col = "black") +
-  geom_errorbar(aes(ymin = MAO, ymax = MAO + SD_AO),
-                position = "dodge") +
-  scale_fill_bright(name = "Configuration") +
-  labs(y = "Mean + SD of absolute offset (PgC)",
-       title = "Absolute offsets for regional clusterings schemes",
-       subtitle = "Note: Only offsets for the bulk adjustment cases will be used, but all configurations are shown") +
-  theme(axis.title.x = element_blank()) +
-  scale_y_continuous(expand = c(0, 0.1)) +
-  facet_wrap(. ~ basin)
-
-rm(MLR_basins_reference, MLR_basins_sensitivity)
-
-ggsave(
-  path = here::here("output/publication"),
-  filename = "FigS_dcant_inventory_additive_uncertainty_regional_clustering_contributions.png",
-  height = 6,
-  width = 8
-)
-
-dcant_budget_ensemble_stat_basin_SD <-
-  dcant_budget_ensemble_stat_basin_SD %>%
-  filter(Version_ID_group == unique(params_local_all$Version_ID_group)) %>%
-  select(-Version_ID_group)
-
-dcant_budget_ensemble_stat_sensitvity_cases <-
-  dcant_budget_basin_MLR_all_ensemble %>%
-  filter(data_source != "mod_truth",
-         period != "1994 - 2014") %>%
-  select(basin, dcant, period, MLR_basins, Version_ID_group, data_source) %>%
-  pivot_wider(names_from = Version_ID_group,
-              values_from = dcant) %>%
-  pivot_longer(
-    -c(basin:data_source, unique(params_local_all$Version_ID_group)),
-    names_to = "Version_ID_group",
-    values_to = "dcant"
-  ) %>% 
-  mutate(delta_dcant = !!sym(unique(params_local_all$Version_ID_group)) - dcant)
-
-dcant_budget_ensemble_stat_sensitvity_cases %>%
-  filter(data_source == "mod") %>% 
-  ggplot(aes(period, delta_dcant, fill = MLR_basins)) +
-  geom_hline(yintercept = 0) +
-  geom_col(position = "dodge", col = "black") +
-  scale_fill_bright(name = "Regional clustering") +
-  labs(y = "Offset (PgC)",
-       title = "Inventory offset compared to standard configuration | mod",
-       subtitle = "Note: Only regional clustering scheme 3 will be used, but all options are shown") +
-  theme(axis.title.x = element_blank()) +
-  scale_y_continuous(expand = c(0, 0)) +
-  facet_grid(Version_ID_group ~ basin)
-
-dcant_budget_ensemble_stat_sensitvity_cases %>%
-  filter(data_source == "obs") %>% 
-  ggplot(aes(period, delta_dcant, fill = MLR_basins)) +
-  geom_hline(yintercept = 0) +
-  geom_col(position = "dodge", col = "black") +
-  scale_fill_bright(name = "Regional clustering") +
-  labs(y = "Offset (PgC)",
-       title = "Inventory offset compared to standard configuration | obs",
-       subtitle = "Note: Only regional clustering scheme 3 will be used, but all options are shown") +
-  theme(axis.title.x = element_blank()) +
-  scale_y_continuous(expand = c(0, 0)) +
-  facet_grid(Version_ID_group ~ basin)
+delta_dcant_budget_basin_MLR_all_uncertainty <- dcant_budget_basin_MLR_all_uncertainty[[3]]
+dcant_budget_basin_MLR_all_uncertainty_contributions <- dcant_budget_basin_MLR_all_uncertainty[[2]]
+dcant_budget_basin_MLR_all_uncertainty <- dcant_budget_basin_MLR_all_uncertainty[[1]]
 
 
-ggsave(path = here::here("output/publication"),
-       filename = "FigS_dcant_inventory_additive_uncertainty_configuration_contributions.png",
-       height = 9,
-       width = 12)
-
-
-dcant_budget_ensemble_stat_sensitvity_cases <-
-  dcant_budget_ensemble_stat_sensitvity_cases %>%
-  filter(MLR_basins == unique(params_local_all$MLR_basins)) %>%
-  select(period, basin, Version_ID_group, sd = delta_dcant, data_source)
-
-dcant_budget_ensemble_stat_factorial <-
-  bind_rows(
-    dcant_budget_ensemble_stat_basin_SD %>%
-      mutate(type = "regional clustering",
-             Version_ID_group = "Bulk adjustment") %>%
-      rename(sd = MAO) %>% 
-      select(-SD_AO),
-    dcant_budget_ensemble_stat_sensitvity_cases  %>% mutate(type = "configuration")
-  )
-
-dcant_budget_ensemble_stat_factorial %>%
-  filter(data_source == "obs") %>%
-  ggplot(aes(period, abs(sd), pattern = type, fill = Version_ID_group)) +
-  # geom_col(
-  #   position = position_dodge(preserve = "single")
-  # ) +
-  geom_col_pattern(
-    position = position_dodge(preserve = "single"),
-    color = "black",
-    pattern_fill = "black",
-    pattern_angle = 45,
-    pattern_density = 0.1,
-    pattern_spacing = 0.025,
-    pattern_key_scale_factor = 0.6
-  ) +
-  scale_fill_bright(name = "Configuration") +
-  scale_pattern_manual(
-    values = c(`regional clustering` = "stripe", configuration = "none"),
-    name = "Uncertainty\ncontribution"
-  ) +
-  scale_color_manual(
-    values = c("white", "black"),
-    name = "Uncertainty\ncontribution"
-  ) +
-  labs(
-    y = expression("Absolute uncertainty contribution (PgC)"),
-    title = "Uncertainty contributions from configuration and regional clustering",
-    subtitle = "Note: The regional clustering contribution is based on bulk adjustment cases,\nand configuration changes are evaluated for the regional clustering scheme 3"
-  ) +
-  theme(axis.title.x = element_blank()) +
-  guides(pattern = guide_legend(override.aes = list(fill = "white")),
-         fill = guide_legend(override.aes = list(pattern = "none"))) +
-  scale_y_continuous(
-    expand = c(0, 0)
-  ) +
-  facet_wrap(. ~ basin)
-
-
-
-ggsave(path = here::here("output/publication"),
-       filename = "FigS_dcant_inventory_additive_uncertainty_combined_contributions.png",
-       height = 6,
-       width = 9) 
-
-
-dcant_budget_ensemble_stat_factorial %>% 
-  distinct(Version_ID_group)
-
-dcant_budget_ensemble_stat_factorial <-
-  dcant_budget_ensemble_stat_factorial %>%
-  filter(Version_ID_group %in% unique(params_local_all_ensemble$Version_ID_group)[c(1, 3:7)])
-
-dcant_budget_ensemble_stat_factorial %>% 
-  distinct(Version_ID_group)
-
-
-dcant_budget_ensemble_stat_factorial <-
-  dcant_budget_ensemble_stat_factorial %>% 
-  group_by(basin, period, data_source) %>% 
-  summarise(sd = sqrt(sum(sd^2))) %>% 
-  ungroup()
-
-dcant_budget_ensemble_stat_factorial <-
-  full_join(
-    dcant_budget_ensemble_stat_factorial,
-    dcant_budget_basin_MLR_all_ensemble %>%
-        filter(Version_ID %in% Version_IDs,
-               period != "1994 - 2014") %>%
-        select(period,
-               basin,
-               data_source,
-               std_case = dcant)
-  )
 
 ```
+
 
 
 ```{r scale_dcant_inventories_and_uncertainties_to_global_coverage}
 
 # inventory scaling
 
-dcant_budget_basin_MLR_all_ensemble <- dcant_budget_basin_MLR_all_ensemble %>% 
+dcant_budget_basin_MLR_all_ensemble <-
+  dcant_budget_basin_MLR_all_ensemble %>%
   mutate(dcant = if_else(basin == "Global",
                          dcant * dcant_scaling,
                          dcant))
 
-dcant_budget_basin_MLR_all <- dcant_budget_basin_MLR_all %>% 
+dcant_budget_basin_MLR_all <- dcant_budget_basin_MLR_all %>%
   mutate(dcant = if_else(basin == "Global",
                          dcant * dcant_scaling,
                          dcant))
 
-dcant_budget_basin_MLR_all_no_adj <- dcant_budget_basin_MLR_all_no_adj %>% 
+dcant_budget_basin_MLR_all_sensitivity <-
+  dcant_budget_basin_MLR_all_sensitivity %>%
   mutate(dcant = if_else(basin == "Global",
                          dcant * dcant_scaling,
                          dcant))
+
 # uncertainty scaling
 
-dcant_budget_ensemble_stat_factorial <-
-dcant_budget_ensemble_stat_factorial %>%
+scaling_uncertainty <-
+  dcant_budget_basin_MLR_all_uncertainty %>%
+  select(-c(sd, signif)) %>%
+  filter(basin == "Global") %>%
+  mutate(
+    sd = std_case * (dcant_scaling - 1) * dcant_scaling_uncertainty,
+    Version_ID_group = "scaling uncertainty"
+  ) %>%
+  select(-std_case)
+
+
+dcant_budget_basin_MLR_all_uncertainty <-
+  dcant_budget_basin_MLR_all_uncertainty %>%
   mutate(
     sd = if_else(basin == "Global",
-      sqrt(sd ^ 2 + 
-          (std_case * (dcant_scaling - 1) * dcant_scaling_uncertainty)^2),
-          sd),
+                 sqrt(
+                   sd ^ 2 +
+                     (std_case * (dcant_scaling - 1) * dcant_scaling_uncertainty) ^
+                     2
+                 ),
+                 sd),
     std_case = if_else(basin == "Global",
                        std_case * dcant_scaling,
                        std_case)
   )
 
-dcant_budget_ensemble_stat <-
-dcant_budget_ensemble_stat %>%
+
+dcant_budget_basin_MLR_all_uncertainty_contributions <-
+  bind_rows(dcant_budget_basin_MLR_all_uncertainty_contributions,
+            scaling_uncertainty)
+
+
+delta_dcant_budget_basin_MLR_all_uncertainty <-
+  delta_dcant_budget_basin_MLR_all_uncertainty %>%
   mutate(
-    sd = if_else(basin == "Global",
-      sqrt(sd ^ 2 + 
-          (std_case * (dcant_scaling - 1) * dcant_scaling_uncertainty)^2),
-          sd),
-    std_case = if_else(basin == "Global",
-                       std_case * dcant_scaling,
-                       std_case)
+    RSS = if_else(basin == "Global",
+                  RSS * dcant_scaling,
+                  RSS),
+    delta_dcant = if_else(basin == "Global",
+                          delta_dcant * dcant_scaling,
+                          delta_dcant),
   )
 
 
 ```
+
+```{r dcant_inventory_uncertainty_components}
+
+
+dcant_budget_basin_MLR_all_uncertainty_contributions %>%
+  filter(data_source == "obs") %>%
+  mutate(
+    basin = fct_relevel(
+      basin,
+      "Global",
+      "N. Pacific",
+      "N. Atlantic",
+      "Indian",
+      "S. Pacific",
+      "S. Atlantic"
+    )
+  ) %>%
+  ggplot(aes("x", abs(sd), fill = Version_ID_group)) +
+  geom_hline(yintercept = 0, col = "grey10") +
+  geom_col(position = position_dodge(preserve = "single"),
+           col = "grey10") +
+  scale_fill_bright(name = "eMLR(C*)\nconfiguration\ncomponent") +
+  labs(y = expression(Delta*Cant~inventory~offset~from~standard~case~(PgC))) +
+  theme(
+    axis.title.x = element_blank(),
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank()
+  ) +
+  guides(pattern = guide_legend(override.aes = list(fill = "white")),
+         fill = guide_legend(override.aes = list(pattern = "none"))) +
+  # expand_limits(y = c(0,2.2)) +
+  # scale_y_continuous(expand = c(0,0)) +
+  facet_nested_wrap( ~ basin + period, ncol = 6)
+
+
+
+ggsave(path = here::here("output/publication"),
+       filename = "FigS_dcant_inventory_additive_uncertainty_combined_contributions.png",
+       height = 6,
+       width = 8) 
+
+```
+
 
 
 ```{r budgets_basins_hemisphere_tcant_for_scatterplot}
@@ -4649,104 +5028,102 @@ tcant_budget_basin_MLR <- tcant_budget_basin_MLR %>%
       "S. Atlantic"
     )
   )
+# 
+# dcant_budget_basin_MLR_all_ensemble %>%
+#   filter(data_source == "obs",
+#          period != "1994 - 2014",
+#          !(Version_ID %in% Version_IDs)) %>%
+#   ggplot(aes(period, dcant)) +
+#   geom_errorbar(
+#     data = tcant_budget_basin_MLR,
+#     aes(x = period,
+#         ymax = dcant, ymin = dcant,
+#         col = "Scaled 1994\nestimate"),
+#     width = 0.8,
+#     size = 1,
+#     linetype = 1,
+#     position = position_nudge(x = 0.05)
+#   ) +
+#   geom_jitter(
+#     data = dcant_budget_basin_MLR_all_sensitivity %>%
+#       filter(data_source == "obs",
+#              period != "1994 - 2014"),
+#     aes(fill = "Unadjusted data",
+#         alpha = "Unadjusted data"),
+#     shape = 21,
+#     position = position_jitter(width = 0.1, height = 0)
+#   ) +
+#   geom_point(
+#     aes(fill = "Ensemble member",
+#         alpha = "Ensemble member"),
+#     shape = 21,
+#     position = position_jitter(width = 0.1, height = 0)
+#   ) +
+#   geom_crossbar(
+#     data = dcant_budget_ensemble_stat %>% filter(data_source == "obs"),
+#     aes(
+#       x = period,
+#       y = std_case,
+#       ymin = std_case - 2*sd,
+#       ymax = std_case + 2*sd,
+#       linetype = "Ensemble SD"
+#     ),
+#     width = 0.1,
+#     fill = "#AA3377",
+#     alpha = 0.2,
+#     position = position_nudge(x = 0.2)
+#   ) +
+#   geom_crossbar(
+#     data = dcant_budget_ensemble_stat %>% filter(data_source == "obs"),
+#     aes(
+#       x = period,
+#       y = std_case,
+#       ymin = std_case - sd,
+#       ymax = std_case + sd,
+#       alpha = "Ensemble SD",
+#     ),
+#     width = 0.1,
+#     fill = "#AA3377",
+#     alpha = 0.4,
+#     position = position_nudge(x = 0.2)
+#   ) +
+#   geom_point(
+#     data = dcant_budget_ensemble_stat %>% filter(data_source == "obs"),
+#     aes(x = period,
+#         y = std_case,
+#         fill = "Standard case",
+#         alpha = "Standard case"),
+#     size = 2,
+#     shape = 21,
+#     position = position_nudge(x = 0.2)
+#   ) +
+#   scale_fill_manual(name = "group", values = c("#BB5566", "white", "#DDAA33")) +
+#   scale_color_manual(values = c("grey50"), label = expression(Scaled~C[ant]~1994)) +
+#   scale_linetype(name = "X") +
+#   scale_alpha_manual(name = "group", values = c(0.7,1,0.7)) +
+#   scale_shape_manual(values = 95) +
+#   scale_y_continuous(name = dcant_pgc_label) +
+#   guides(
+#     fill = guide_legend(order = 1),
+#     linetype = guide_legend(order = 2),
+#     alpha = guide_legend(order = 1)
+#   ) +
+#   facet_wrap(~ basin, ncol = 3, dir = "v", scales = "free_y") +
+#   theme(legend.title = element_blank(),
+#         axis.title.x = element_blank())
+# 
+# 
+# ggsave(path = here::here("output/publication"),
+#        filename = "Fig_dcant_inventory_ensemble_uncertainty.png",
+#        height = 6,
+#        width = 8)
 
 dcant_budget_basin_MLR_all_ensemble %>%
-  filter(data_source == "obs",
-         period != "1994 - 2014",
-         !(Version_ID %in% Version_IDs)) %>%
-  ggplot(aes(period, dcant)) +
-  geom_errorbar(
-    data = tcant_budget_basin_MLR,
-    aes(x = period,
-        ymax = dcant, ymin = dcant,
-        col = "Scaled 1994\nestimate"),
-    width = 0.8,
-    size = 1,
-    linetype = 1,
-    position = position_nudge(x = 0.05)
-  ) +
-  geom_jitter(
-    data = dcant_budget_basin_MLR_all_no_adj %>%
-      filter(data_source == "obs",
-             period != "1994 - 2014"),
-    aes(fill = "Unadjusted data",
-        alpha = "Unadjusted data"),
-    shape = 21,
-    position = position_jitter(width = 0.1, height = 0)
-  ) +
-  geom_point(
-    aes(fill = "Ensemble member",
-        alpha = "Ensemble member"),
-    shape = 21,
-    position = position_jitter(width = 0.1, height = 0)
-  ) +
-  geom_crossbar(
-    data = dcant_budget_ensemble_stat %>% filter(data_source == "obs"),
-    aes(
-      x = period,
-      y = std_case,
-      ymin = std_case - 2*sd,
-      ymax = std_case + 2*sd,
-      linetype = "Ensemble SD"
-    ),
-    width = 0.1,
-    fill = "#AA3377",
-    alpha = 0.2,
-    position = position_nudge(x = 0.2)
-  ) +
-  geom_crossbar(
-    data = dcant_budget_ensemble_stat %>% filter(data_source == "obs"),
-    aes(
-      x = period,
-      y = std_case,
-      ymin = std_case - sd,
-      ymax = std_case + sd,
-      alpha = "Ensemble SD",
-    ),
-    width = 0.1,
-    fill = "#AA3377",
-    alpha = 0.4,
-    position = position_nudge(x = 0.2)
-  ) +
-  geom_point(
-    data = dcant_budget_ensemble_stat %>% filter(data_source == "obs"),
-    aes(x = period,
-        y = std_case,
-        fill = "Standard case",
-        alpha = "Standard case"),
-    size = 2,
-    shape = 21,
-    position = position_nudge(x = 0.2)
-  ) +
-  scale_fill_manual(name = "group", values = c("#BB5566", "white", "#DDAA33")) +
-  scale_color_manual(values = c("grey50"), label = expression(Scaled~C[ant]~1994)) +
-  scale_linetype(name = "X") +
-  scale_alpha_manual(name = "group", values = c(0.7,1,0.7)) +
-  scale_shape_manual(values = 95) +
-  scale_y_continuous(name = dcant_pgc_label) +
-  guides(
-    fill = guide_legend(order = 1),
-    linetype = guide_legend(order = 2),
-    alpha = guide_legend(order = 1)
-  ) +
-  facet_wrap(~ basin, ncol = 3, dir = "v", scales = "free_y") +
-  theme(legend.title = element_blank(),
-        axis.title.x = element_blank())
-
-
-ggsave(path = here::here("output/publication"),
-       filename = "Fig_dcant_inventory_ensemble_uncertainty.png",
-       height = 6,
-       width = 8)
-
-dcant_budget_basin_MLR_all_ensemble %>%
-  mutate(ensemble_role = if_else(Version_ID %in% Version_IDs,
-                                 "Standard case",
-                                 "others")) %>%
   filter(data_source == "obs",
          period != "1994 - 2014") %>%
+  mutate(ensemble_role = "Uncertainty cases") %>% 
   ggplot(aes(period, dcant)) +
-  scale_fill_brewer(palette = "Dark2", name = "ensemble group") +
+  scale_fill_muted(name = "ensemble group") +
   scale_color_manual(values = c("grey", "black", "red"),
                      name = "Ensemble member") +
   geom_boxplot(
@@ -4757,8 +5134,8 @@ dcant_budget_basin_MLR_all_ensemble %>%
     position = position_nudge(x = 0.3)
   ) +
   geom_point(
-    data = dcant_budget_basin_MLR_all_no_adj %>%
-      mutate(ensemble_role = "no adjustment") %>%
+    data = dcant_budget_basin_MLR_all_sensitivity %>%
+      mutate(ensemble_role = "Sensitivity cases") %>%
       filter(data_source == "obs",
          period != "1994 - 2014"),
     aes(fill = Version_ID_group,
@@ -4802,6 +5179,7 @@ dcant_budget_basin_MLR_all_ensemble %>%
 ### Additive uncertainty
 
 ```{r dcant_budget_basin_hemisphere_additive_uncertainty, fig.asp=1}
+
 dcant_budget_basin_MLR_all_ensemble %>%
   filter(data_source == "obs",
          period != "1994 - 2014",
@@ -4822,7 +5200,7 @@ dcant_budget_basin_MLR_all_ensemble %>%
     data = dcant_budget_basin_MLR_all_ensemble %>%
       filter(data_source == "obs",
              period != "1994 - 2014",
-             Version_ID_group == "Bulk adjustment"),
+             Version_ID_group == unique(params_local_all$Version_ID_group)),
     aes(fill = "Regional clustering",
         alpha = "Regional clustering"),
     shape = 21,
@@ -4835,7 +5213,7 @@ dcant_budget_basin_MLR_all_ensemble %>%
     position = position_jitter(width = 0.1, height = 0)
   ) +
   geom_crossbar(
-    data = dcant_budget_ensemble_stat_factorial %>% filter(data_source == "obs"),
+    data = dcant_budget_basin_MLR_all_uncertainty %>% filter(data_source == "obs"),
     aes(
       x = period,
       y = std_case,
@@ -4849,7 +5227,7 @@ dcant_budget_basin_MLR_all_ensemble %>%
     position = position_nudge(x = 0.2)
   ) +
   geom_crossbar(
-    data = dcant_budget_ensemble_stat_factorial %>% filter(data_source == "obs"),
+    data = dcant_budget_basin_MLR_all_uncertainty %>% filter(data_source == "obs"),
     aes(
       x = period,
       y = std_case,
@@ -4863,7 +5241,7 @@ dcant_budget_basin_MLR_all_ensemble %>%
     position = position_nudge(x = 0.2)
   ) +
   geom_point(
-    data = dcant_budget_ensemble_stat %>% filter(data_source == "obs"),
+    data = dcant_budget_basin_MLR_all_uncertainty %>% filter(data_source == "obs"),
     aes(x = period,
         y = std_case,
         fill = "Standard case",
@@ -4921,8 +5299,21 @@ beta_scaling <- beta_scaling %>%
   mutate(scaling_factor = 1e15 / 12 / delta_pCO2 / area) %>% 
   select(period, basin, scaling_factor, area)
 
-beta_budget_basin_MLR_all_no_adj <-
-  left_join(dcant_budget_basin_MLR_all_no_adj,
+beta_scaling <- beta_scaling %>%
+  mutate(
+    basin = fct_relevel(
+      basin,
+      "Global",
+      "Indian",
+      "N. Pacific",
+      "S. Pacific",
+      "N. Atlantic",
+      "S. Atlantic"
+    )
+  )
+
+beta_budget_basin_MLR_all_sensitivity <-
+  left_join(dcant_budget_basin_MLR_all_sensitivity,
             beta_scaling) %>%
   mutate(beta = dcant * scaling_factor) %>% 
   select(-scaling_factor)
@@ -4940,22 +5331,20 @@ tcant_budget_basin_MLR <-
   mutate(beta_1994 = beta_1994 * 1e15 / 12 / area) %>% 
   select(-c(area,scaling_factor))
 
-beta_budget_ensemble_stat <- 
-  left_join(dcant_budget_ensemble_stat,
+beta_budget_basin_MLR_all_uncertainty <- 
+  left_join(dcant_budget_basin_MLR_all_uncertainty,
             beta_scaling) %>% 
   mutate(
-    median = median * scaling_factor,
     sd = sd * scaling_factor,
     std_case = std_case * scaling_factor
     ) %>% 
   select(-scaling_factor)
 
-beta_budget_ensemble_stat_factorial <- 
-  left_join(dcant_budget_ensemble_stat_factorial,
+beta_budget_basin_MLR_all_uncertainty_contributions <- 
+  left_join(dcant_budget_basin_MLR_all_uncertainty_contributions,
             beta_scaling) %>% 
   mutate(
-    sd = sd * scaling_factor,
-    std_case = std_case * scaling_factor
+    sd = sd * scaling_factor
     ) %>% 
   select(-scaling_factor)
 
@@ -5000,76 +5389,68 @@ beta_budget_ensemble_stat_factorial <-
 #   )
 
 
-dcant_beta_budget_ensemble_stat <-
+dcant_beta_basin_MLR_all_uncertainty <-
   bind_rows(
-    dcant_budget_ensemble_stat %>% mutate(estimate = "dcant",
-                                          uncertainty = "ensemble"),
-    beta_budget_ensemble_stat %>% mutate(estimate = "beta",
-                                         uncertainty = "ensemble"),
-    dcant_budget_ensemble_stat_factorial %>% mutate(estimate = "dcant",
-                                                    uncertainty = "additive"),
-    beta_budget_ensemble_stat_factorial %>% mutate(estimate = "beta",
-                                                   uncertainty = "additive")
+    dcant_budget_basin_MLR_all_uncertainty %>% mutate(estimate = "dcant"),
+    beta_budget_basin_MLR_all_uncertainty %>% mutate(estimate = "beta")
   ) %>%
-  filter(data_source != "mod_truth") %>%
-  select(-c(median))
+  select(-c(area, signif))
   
 
-dcant_beta_budget_ensemble_significance <- 
-  dcant_beta_budget_ensemble_stat %>% 
+dcant_beta_basin_MLR_all_uncertainty_significance <- 
+  dcant_beta_basin_MLR_all_uncertainty %>% 
   arrange(period) %>% 
-  group_by(estimate, uncertainty, basin, data_source) %>%
+  group_by(estimate, basin, data_source) %>%
   mutate(
     delta = std_case - lag(std_case),
     RSS = sqrt(sd_factor * sd ^ 2 + lag(sd_factor * sd ^ 2)),
-    RSS_delta_ratio = abs(delta) / RSS,
-    ttest_p = tsum.test(
-      mean.x = std_case,
-      s.x = sd,
-      n.x = n,
-      mean.y = lag(std_case),
-      s.y = lag(sd),
-      n.y = lag(n)
-    )$p.value
+    RSS_delta_ratio = abs(delta) / RSS
+    # ttest_p = tsum.test(
+    #   mean.x = std_case,
+    #   s.x = sd,
+    #   n.x = n,
+    #   mean.y = lag(std_case),
+    #   s.y = lag(sd),
+    #   n.y = lag(n)
+    # )$p.value
   ) %>%
   ungroup() %>% 
   filter(!is.na(delta))
   
 
-dcant_beta_budget_ensemble_stat_significance <-
+dcant_beta_basin_MLR_all_uncertainty_significance <-
   full_join(
-    dcant_beta_budget_ensemble_stat %>%
-      select(-c(n)) %>%
+    dcant_beta_basin_MLR_all_uncertainty %>%
       pivot_wider(
         names_from = period,
         values_from = c(sd, std_case),
         names_sep = " "
       ),
-    dcant_beta_budget_ensemble_significance %>% 
-      select(-c(sd, n, std_case))
+    dcant_beta_basin_MLR_all_uncertainty_significance %>% 
+      select(-c(sd, std_case))
   )
 
-dcant_beta_budget_ensemble_stat_significance <-
-  dcant_beta_budget_ensemble_stat_significance %>% 
+dcant_beta_basin_MLR_all_uncertainty_significance <-
+  dcant_beta_basin_MLR_all_uncertainty_significance %>% 
   mutate(across(where(is.numeric), signif, 2))
 
-dcant_beta_budget_ensemble_stat_significance %>% 
+dcant_beta_basin_MLR_all_uncertainty_significance %>% 
   kable() %>%
   kable_styling() %>%
   scroll_box(height = "300px")
 
-dcant_beta_budget_ensemble_stat_significance %>% 
-  ggplot(aes(abs(delta) / RSS, ttest_p, 
-             col = basin, shape = uncertainty)) +
-  geom_vline(xintercept = 1) +
-  geom_hline(yintercept = 0.05) +
-  geom_point() +
-  scale_y_log10() +
-  scale_color_brewer(palette = "Dark2") +
-  facet_grid(data_source ~ estimate)
+# dcant_beta_budget_ensemble_stat_significance %>% 
+#   ggplot(aes(abs(delta) / RSS, ttest_p, 
+#              col = basin, shape = uncertainty)) +
+#   geom_vline(xintercept = 1) +
+#   geom_hline(yintercept = 0.05) +
+#   geom_point() +
+#   scale_y_log10() +
+#   scale_color_brewer(palette = "Dark2") +
+#   facet_grid(data_source ~ estimate)
 
-dcant_beta_budget_ensemble_stat_significance_table <-
-dcant_beta_budget_ensemble_stat_significance %>%
+dcant_beta_basin_MLR_all_uncertainty_significance_table <-
+dcant_beta_basin_MLR_all_uncertainty_significance %>%
   filter(data_source == "obs") %>% 
   select(-data_source) %>% 
   mutate(
@@ -5079,27 +5460,38 @@ dcant_beta_budget_ensemble_stat_significance %>%
   ) %>%
   select(Region = basin,
          Estimate = estimate,
-         Uncertainty = uncertainty,
+         # Uncertainty = uncertainty,
          `1994 - 2004`,
          `2004 - 2014`,
          `Deacadal change`) %>%
-  arrange(Region, desc(Estimate), Uncertainty) 
+  arrange(Region) 
 
-dcant_beta_budget_ensemble_stat_significance_table %>% 
-  filter(Uncertainty == "additive") %>% 
-  select(-Uncertainty) %>% 
+dcant_beta_basin_MLR_all_uncertainty_significance_table %>% 
+  # filter(Uncertainty == "additive") %>% 
+  # select(-Uncertainty) %>% 
   write_csv(here::here("output/publication/Table_budget_stats.csv"))
 
 
 ```
 
-```{r beta_budget_basin_hemisphere_beta_uncertainty}
+```{r beta_budget_basin_hemisphere_beta_uncertainty, eval=FALSE}
 
 
 beta_budget_basin_MLR_all_ensemble %>%
   filter(data_source == "obs",
          period != "1994 - 2014",
          !(Version_ID %in% Version_IDs)) %>%
+    mutate(
+    basin = fct_relevel(
+      basin,
+      "Global",
+      "Indian",
+      "S. Pacific",
+      "S. Atlantic",
+      "N. Pacific",
+      "N. Atlantic"
+    )
+  ) %>%
   ggplot(aes(period, beta)) +
   geom_errorbar(
     data = tcant_budget_basin_MLR %>% 
@@ -5113,11 +5505,11 @@ beta_budget_basin_MLR_all_ensemble %>%
     position = position_nudge(x = 0.05)
   ) +
   geom_jitter(
-    data = beta_budget_basin_MLR_all_no_adj %>%
+    data = beta_budget_basin_MLR_all_sensitivity %>%
       filter(data_source == "obs",
              period != "1994 - 2014"),
-    aes(fill = "Unadjusted data",
-        alpha = "Unadjusted data"),
+    aes(fill = "Sensitivity cases",
+        alpha = "Sensitivity cases"),
     shape = 21,
     position = position_jitter(width = 0.1, height = 0)
   ) +
@@ -5128,7 +5520,7 @@ beta_budget_basin_MLR_all_ensemble %>%
     position = position_jitter(width = 0.1, height = 0)
   ) +
   geom_crossbar(
-    data = beta_budget_ensemble_stat %>% 
+    data = beta_budget_basin_MLR_all_uncertainty %>%
       filter(data_source == "obs"),
     aes(
       x = period,
@@ -5143,7 +5535,7 @@ beta_budget_basin_MLR_all_ensemble %>%
     position = position_nudge(x = 0.2)
   ) +
   geom_crossbar(
-    data = beta_budget_ensemble_stat %>% 
+    data = beta_budget_basin_MLR_all_uncertainty %>%
       filter(data_source == "obs"),
     aes(
       x = period,
@@ -5158,7 +5550,7 @@ beta_budget_basin_MLR_all_ensemble %>%
     position = position_nudge(x = 0.2)
   ) +
   geom_point(
-    data = beta_budget_ensemble_stat %>% 
+    data = beta_budget_basin_MLR_all_uncertainty %>%
       filter(data_source == "obs"),
     aes(x = period,
         y = std_case,
@@ -5179,7 +5571,7 @@ beta_budget_basin_MLR_all_ensemble %>%
     linetype = guide_legend(order = 2),
     alpha = guide_legend(order = 1)
   ) +
-  facet_wrap(~ basin, ncol = 3, dir = "v") +
+  facet_wrap(~ basin, dir = "v", ncol = 3) +
   theme(legend.title = element_blank(),
         axis.title.x = element_blank())
 
@@ -5192,15 +5584,45 @@ ggsave(path = here::here("output/publication"),
 ```
 
 ```{r beta_dcant_budget_basin_hemisphere_additive_uncertainty, fig.asp=1}
+# 
+# beta_budget_basin_MLR_all_uncertainty <- 
+#   beta_budget_basin_MLR_all_uncertainty %>% 
+#     mutate(
+#     basin = fct_relevel(
+#       basin,
+#       "Global",
+#       "Indian",
+#       "N. Pacific",
+#       "S. Pacific",
+#       "N. Atlantic",
+#       "S. Atlantic"
+#     )
+#   )
+# 
+# beta_budget_basin_MLR_all_ensemble <- 
+#   beta_budget_basin_MLR_all_ensemble %>% 
+#     mutate(
+#     basin = fct_relevel(
+#       basin,
+#       "Global",
+#       "Indian",
+#       "N. Pacific",
+#       "S. Pacific",
+#       "N. Atlantic",
+#       "S. Atlantic"
+#     )
+#   )
 
 beta_budget_basin_MLR_all_ensemble %>%
-  filter(data_source == "obs",
-         period != "1994 - 2014",
-         !(Version_ID %in% Version_IDs),
-         MLR_basins == unique(params_local_all$MLR_basins)) %>%
+  filter(
+    data_source == "obs",
+    period != "1994 - 2014",
+    !(Version_ID %in% Version_IDs),
+    MLR_basins == unique(params_local_all$MLR_basins)
+  ) %>%
   ggplot(aes(period, beta)) +
   geom_errorbar(
-    data = tcant_budget_basin_MLR %>% 
+    data = tcant_budget_basin_MLR %>%
       rename(beta = beta_1994),
     aes(x = period,
         ymax = beta, ymin = beta,
@@ -5214,7 +5636,7 @@ beta_budget_basin_MLR_all_ensemble %>%
     data = beta_budget_basin_MLR_all_ensemble %>%
       filter(data_source == "obs",
              period != "1994 - 2014",
-             Version_ID_group == "Bulk adjustment"),
+             Version_ID_group == unique(params_local_all$Version_ID_group)),
     aes(fill = "Regional clustering",
         alpha = "Regional clustering"),
     shape = 21,
@@ -5227,7 +5649,7 @@ beta_budget_basin_MLR_all_ensemble %>%
     position = position_jitter(width = 0.1, height = 0)
   ) +
   geom_crossbar(
-    data = beta_budget_ensemble_stat_factorial %>% filter(data_source == "obs"),
+    data = beta_budget_basin_MLR_all_uncertainty %>% filter(data_source == "obs"),
     aes(
       x = period,
       y = std_case,
@@ -5241,7 +5663,7 @@ beta_budget_basin_MLR_all_ensemble %>%
     position = position_nudge(x = 0.2)
   ) +
   geom_crossbar(
-    data = beta_budget_ensemble_stat_factorial %>% filter(data_source == "obs"),
+    data = beta_budget_basin_MLR_all_uncertainty %>% filter(data_source == "obs"),
     aes(
       x = period,
       y = std_case,
@@ -5255,7 +5677,7 @@ beta_budget_basin_MLR_all_ensemble %>%
     position = position_nudge(x = 0.2)
   ) +
   geom_point(
-    data = beta_budget_ensemble_stat %>% filter(data_source == "obs"),
+    data = beta_budget_basin_MLR_all_uncertainty %>% filter(data_source == "obs"),
     aes(x = period,
         y = std_case,
         fill = "Standard case",
@@ -5275,7 +5697,7 @@ beta_budget_basin_MLR_all_ensemble %>%
     linetype = guide_legend(order = 2),
     alpha = guide_legend(order = 1)
   ) +
-  facet_wrap(~ basin, ncol = 3, dir = "v", scales = "free_y") +
+  facet_wrap(~ basin, ncol = 3, dir = "v") +
   theme(legend.title = element_blank(),
         axis.title.x = element_blank())
 
@@ -5289,7 +5711,96 @@ ggsave(path = here::here("output/publication"),
 
 ### Biases
 
-```{r budget_biases, fig.asp=1.2}
+```{r budget_biases_additive, fig.asp=1.2}
+
+
+dcant_budget_basin_MLR_all_bias <-
+  dcant_budget_basin_MLR_all_ensemble %>%
+  filter(data_source %in% c("mod", "mod_truth")) %>%
+  pivot_wider(names_from = data_source,
+              values_from = dcant) %>%
+  mutate(dcant_bias = mod - mod_truth,
+         dcant_bias_rel = 100 * dcant_bias / mod_truth) %>%
+  filter(period %in% two_decades)
+
+
+dcant_budget_basin_MLR_all_bias <-
+  dcant_budget_basin_MLR_all_bias %>%
+  select(basin, period, MLR_basins, Version_ID_group, dcant = dcant_bias)
+
+dcant_budget_basin_MLR_all_bias_uncertainty <-
+  additive_uncertainty(dcant_budget_basin_MLR_all_bias)
+
+delta_dcant_budget_basin_MLR_all_bias_uncertainty <-
+  dcant_budget_basin_MLR_all_bias_uncertainty[[3]]
+dcant_budget_basin_MLR_all_bias_uncertainty_contributions <-
+  dcant_budget_basin_MLR_all_bias_uncertainty[[2]]
+dcant_budget_basin_MLR_all_bias_uncertainty <-
+  dcant_budget_basin_MLR_all_bias_uncertainty[[1]]
+
+ggplot() +
+  geom_hline(yintercept = 0) +
+  geom_crossbar(
+    data = delta_dcant_budget_basin_MLR_all_bias_uncertainty,
+    aes(
+      x = period,
+      y = std_case,
+      ymin = std_case - RSS,
+      ymax = std_case + RSS,
+      linetype = "Combined uncertainty"
+    ),
+    width = 0.1,
+    fill = "#BBBBBB",
+    alpha = 0.2
+  ) +
+  geom_crossbar(
+    data = delta_dcant_budget_basin_MLR_all_bias_uncertainty,
+    aes(
+      x = period,
+      y = std_case,
+      ymin = std_case - 0.5*RSS,
+      ymax = std_case + 0.5*RSS,
+      alpha = "Combined uncertainty",
+    ),
+    width = 0.1,
+    fill = "#BBBBBB",
+    alpha = 0.4
+  ) +
+  geom_point(
+    data = delta_dcant_budget_basin_MLR_all_bias_uncertainty,
+    aes(x = period,
+        y = std_case,
+        fill = "Standard case",
+        alpha = "Standard case"),
+    size = 2,
+    shape = 21
+  ) +
+  scale_fill_manual(name = "group", values = c("white")) +
+  scale_linetype(name = "X") +
+  scale_alpha_manual(name = "group", values = c(0.7,0.7,1)) +
+  scale_shape_manual(values = 95) +
+  scale_y_continuous(name = dcant_bias_pgc_label) +
+  guides(
+    fill = guide_legend(order = 1),
+    linetype = guide_legend(order = 2),
+    alpha = guide_legend(order = 1)
+  ) +
+  facet_wrap(~ basin, ncol = 3, dir = "v", scales = "free_y") +
+  theme(legend.title = element_blank(),
+        axis.title.x = element_blank())
+
+
+ggsave(path = here::here("output/publication"),
+       filename = "FigS_delta_dcant_bias_inventories.png",
+       height = 6,
+       width = 8)
+
+
+
+
+```
+
+```{r budget_biases, fig.asp=1.2, eval=FALSE}
 
 
 dcant_budget_basin_MLR_all_ensemble_bias <- 
@@ -6328,42 +6839,48 @@ dcant_budget_layer %>%
 
 ```{r depth_layer_budget_basin_MLR_ensemble, fig.asp=0.9}
 
-dcant_budget_range <- dcant_budget_basin_MLR_layer_all_ensemble %>%
+
+
+dcant_budget_basin_MLR_layer_all_uncertainty <-
+  dcant_budget_basin_MLR_layer_all_ensemble %>%
   filter(estimate == "dcant",
          period != "1994 - 2014",
-         inv_depth <= 3000,
-         data_source == "obs") %>%
+         inv_depth <= 3400) %>%
   rename(dcant = value) %>%
-  select(-c(tref1, tref2, Version_ID)) %>%
-  group_by(basin, inv_depth, period) %>% 
-  summarise(dcant_sd = sd(dcant)*2) %>%
+  select(-c(method, estimate, Version_ID, tref1, tref2)) %>%
+  group_by(basin, period, data_source, MLR_basins, Version_ID_group) %>%
+  mutate(dcant = if_else(is.na(lead(dcant)), 888, dcant),
+         dcant = na_if(dcant, 888)) %>%
+  fill(dcant) %>%
   ungroup()
 
-dcant_budget_layer <-
-  full_join(dcant_budget_range,
-            dcant_budget_layer)
+dcant_budget_basin_MLR_layer_all_uncertainty <- additive_uncertainty(dcant_budget_basin_MLR_layer_all_uncertainty)
+
+delta_dcant_budget_basin_MLR_layer_all_uncertainty <- dcant_budget_basin_MLR_layer_all_uncertainty[[3]]
+dcant_budget_basin_MLR_layer_all_uncertainty_contributions <- dcant_budget_basin_MLR_layer_all_uncertainty[[2]]
+dcant_budget_basin_MLR_layer_all_uncertainty <- dcant_budget_basin_MLR_layer_all_uncertainty[[1]]
 
 p_dcant_budget_depth_layer <- 
-dcant_budget_layer %>%
+dcant_budget_basin_MLR_layer_all_uncertainty %>%
+  filter(data_source == "obs") %>% 
   ggplot() +
   geom_hline(yintercept = 0, size = 0.1) +
-  geom_vline(xintercept = 1000, size = 0.1) +
   geom_rect(
     aes(
       xmin = inv_depth - 250,
       xmax = inv_depth + 250,
-      ymin = dcant - dcant_sd,
-      ymax = dcant + dcant_sd,
+      ymin = std_case - sd*sd_factor,
+      ymax = std_case + sd*sd_factor,
       fill = period
     ),
-    alpha = 0.4
+    alpha = 0.5
   ) +
-  geom_step(aes(inv_depth - 250, dcant, col = period), direction = "vh",
+  geom_step(aes(inv_depth - 250, std_case, col = period), direction = "vh",
             size = 1) +
   coord_flip() +
-  scale_x_reverse(breaks = seq(0, 3000, 500), limits = c(3000, 0)) +
-  scale_color_manual(values = c("#EE7733", "#009988"), name = "Mean \u00B1 2 SD") +
-  scale_fill_manual(values = c("#EE7733", "#009988"), name = "Mean \u00B1 2 SD") +
+  scale_x_reverse(breaks = seq(0, 3000, 500), limits = c(3000, 0), expand = c(0,0)) +
+  scale_color_manual(values = c("#EE7733", "#009988"), name = "Mean \u00B1 2σ") +
+  scale_fill_manual(values = c("#EE7733", "#009988"), name = "Mean \u00B1 2σ") +
   labs(y = dcant_layer_budget_label,
        x = "Depth (m)") +
   facet_wrap(~ basin, ncol = 3, dir = "v", scales = "free_x") +
@@ -6384,62 +6901,38 @@ ggsave(path = here::here("output/publication"),
 
 ```{r depth_layer_budget_basin_MLR_ensemble_mod, fig.asp=0.9}
 
-dcant_budget_layer <- dcant_budget_basin_MLR_layer_all %>%
-  filter(estimate == "dcant",
-         period != "1994 - 2014",
-         inv_depth <= 3400,
-         data_source != "obs") %>%
-  rename(dcant = value) %>%
-  group_by(basin, period, data_source) %>% 
-  mutate(dcant = if_else(is.na(lead(dcant)), 888, dcant),
-         dcant = na_if(dcant, 888)) %>%
-  fill(dcant) %>% 
-  ungroup()
-
-dcant_budget_range <- dcant_budget_basin_MLR_layer_all_ensemble %>%
-  filter(estimate == "dcant",
-         period != "1994 - 2014",
-         inv_depth <= 3000,
-         data_source != "obs") %>%
-  rename(dcant = value) %>%
-  select(-c(tref1, tref2, Version_ID)) %>%
-  group_by(basin, inv_depth, period, data_source) %>% 
-  summarise(dcant_sd = sd(dcant)*2) %>%
-  ungroup()
-
-dcant_budget_layer <-
-  full_join(dcant_budget_range,
-            dcant_budget_layer)
 
 p_dcant_budget_depth_layer_mod <- 
-dcant_budget_layer %>%
-      mutate(data_source = case_when(
+dcant_budget_basin_MLR_layer_all_uncertainty %>%
+  filter(data_source != "obs") %>% 
+  mutate(data_source = case_when(
     data_source == "mod" ~ "Reconstruction",
     data_source == "mod_truth" ~ "Model truth"
   )) %>%  
   ggplot() +
   geom_hline(yintercept = 0, size = 0.1) +
-  geom_vline(xintercept = 1000, size = 0.1) +
   geom_rect(
     aes(
       xmin = inv_depth - 250,
       xmax = inv_depth + 250,
-      ymin = dcant - dcant_sd,
-      ymax = dcant + dcant_sd,
+      ymin = std_case - sd*sd_factor,
+      ymax = std_case + sd*sd_factor,
       fill = data_source
     ),
-    alpha = 0.4
+    alpha = 0.5
   ) +
-  geom_step(aes(inv_depth - 250, dcant, col = data_source), direction = "vh",
+  geom_step(aes(inv_depth - 250, std_case, col = data_source), direction = "vh",
             size = 1) +
   coord_flip() +
-  scale_x_reverse(breaks = seq(0, 3000, 500), limits = c(3000, 0)) +
-  scale_color_manual(values = c("#009988", "#EE7733"), name = "Mean \u00B1 2 SD") +
-  scale_fill_manual(values = c("#009988", "#EE7733"), name = "Mean \u00B1 2 SD") +
+  scale_x_reverse(breaks = seq(0, 3000, 500), limits = c(3000, 0), expand = c(0,0)) +
+  scale_color_manual(values = c("#009988", "#EE7733"), name = "Mean \u00B1 2σ") +
+  scale_fill_manual(values = c("#009988", "#EE7733"), name = "Mean \u00B1 2σ") +
   labs(y = dcant_layer_budget_label,
        x = "Depth (m)") +
   facet_grid(period ~ basin, scales = "free_x") +
   theme(legend.position = "none")
+
+
 
 p_dcant_budget_depth_layer_mod
 
@@ -6454,7 +6947,7 @@ ggsave(path = here::here("output/publication"),
 
 ```
 
-```{r dcant_layer_budget_stats}
+```{r dcant_layer_budget_stats, eval=FALSE}
 
 dcant_budget_basin_MLR_layer_all_ensemble_stat <-
 dcant_budget_basin_MLR_layer_all_ensemble %>%
@@ -6581,6 +7074,12 @@ dcant_budget_layer %>%
 
 ```{r dcant_budget_time_series_member_connections}
 
+
+
+dcant_budget_global_all_ensemble <-
+  dcant_budget_basin_MLR_all_ensemble %>% 
+  filter(basin == "Global")
+
 dcant_budget_global_all_ensemble %>% 
   filter(data_source == "obs",
          period != "1994 - 2014") %>% 
@@ -6639,8 +7138,9 @@ dcant_budget_global_all_ensemble %>%
 
 ```{r mean_tcant_over_time, fig.asp=0.6}
 
-dcant_budget_global_ts <- dcant_budget_global_all %>% 
-  filter(data_source == "obs",
+dcant_budget_global_ts <- dcant_budget_basin_MLR_all %>%
+  filter(basin == "Global",
+         data_source == "obs",
          period  %in% two_decades) %>% 
   select(year = tref2, dcant_mean = dcant)
 
@@ -7050,8 +7550,9 @@ p_tcant_ts_zoom
 
 dcant_type_box <-
   bind_rows(
-    dcant_budget_global_all_ensemble %>%
-      filter(data_source == "obs") %>%
+    dcant_budget_basin_MLR_all_ensemble %>%
+      filter(basin == "Global",
+             data_source == "obs") %>%
       select(period, dcant) %>%
       mutate(type = "eMLR(C*)",
              dcant = dcant + 118,
@@ -7081,8 +7582,9 @@ dcant_type_box_stat <- dcant_type_box %>%
 dcant_type_box_stat <-
 left_join(
   dcant_type_box_stat,
-  dcant_budget_global_all %>%
-    filter(data_source == "obs") %>%
+  dcant_budget_basin_MLR_all %>%
+    filter(basin == "Global",
+             data_source == "obs") %>%
     mutate(
       dcant = dcant + 118,
       dcant = if_else(period == "2004 - 2014",
@@ -7231,7 +7733,7 @@ ggsave(path = here::here("output/publication"),
        height = 6,
        width = 9)
 
-p_tcant_ts_zoom + p_tcant_box + p_tcant_box_10 +
+p_tcant_ts_zoom + p_tcant_box_10 +
   plot_layout(ncol = 2, widths = c(6,1.8))
 
 ggsave(path = here::here("output/presentation"),
