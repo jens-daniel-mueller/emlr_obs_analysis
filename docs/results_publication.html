@@ -855,15 +855,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree9937e55c7d2bc4d302ed2df7f3d5bbcc5b13d053targetblank9937e55a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreec53fea0810f6044ab9fb18979452c3b76b3a8c6ctargetblankc53fea0a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/9937e55c7d2bc4d302ed2df7f3d5bbcc5b13d053" target="_blank">9937e55</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/c53fea0810f6044ab9fb18979452c3b76b3a8c6c" target="_blank">c53fea0</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree9937e55c7d2bc4d302ed2df7f3d5bbcc5b13d053targetblank9937e55a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreec53fea0810f6044ab9fb18979452c3b76b3a8c6ctargetblankc53fea0a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -873,7 +873,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/9937e55c7d2bc4d302ed2df7f3d5bbcc5b13d053" target="_blank">9937e55</a>.
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/c53fea0810f6044ab9fb18979452c3b76b3a8c6c" target="_blank">c53fea0</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -894,11 +894,6 @@ Ignored files:
     Ignored:    output/other/
     Ignored:    output/presentation/
     Ignored:    output/publication/
-
-Untracked files:
-    Untracked:  analysis/WOA18_budgets.Rmd
-    Untracked:  analysis/WOA18_column_inventories.Rmd
-    Untracked:  analysis/WOA18_zonal_sections.Rmd
 
 Unstaged changes:
     Modified:   analysis/_site.yml
@@ -948,6 +943,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/c53fea0810f6044ab9fb18979452c3b76b3a8c6c/analysis/results_publication.Rmd" target="_blank">c53fea0</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+<td>
+rebuild website with woa18 clim
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/6edad9b4873aee762207a88f58075ce728aab46f/docs/results_publication.html" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -6368,7 +6397,7 @@ plot hemisphere budgets and publication results
 <div id="read-files" class="section level1" number="2">
 <h1><span class="header-section-number">2</span> Read files</h1>
 <div id="integration-depth" class="section level2" number="2.1">
-<h2><span class="header-section-number">2.1</span> integration
+<h2><span class="header-section-number">2.1</span> Integration
 depth</h2>
 <pre class="r"><code>params_global$inventory_depth_standard &lt;- 1000</code></pre>
 </div>
@@ -7409,7 +7438,7 @@ df_regional &lt;-
                names_to = &quot;MLR_basins&quot;,
                values_to = &quot;dcant&quot;) %&gt;% 
   mutate(delta_dcant = dcant - !!sym(MLR_basins_reference)) %&gt;% 
-  select(-c(MLR_basins_reference, MLR_basins, dcant))
+  select(-c(all_of(MLR_basins_reference), MLR_basins, dcant))
 
 
 df_regional_stat &lt;-
@@ -7430,7 +7459,7 @@ df_configuration &lt;-
   pivot_wider(names_from = Version_ID_group,
               values_from = dcant) %&gt;%
   pivot_longer(
-    Version_ID_group_uncertainty,
+    all_of(Version_ID_group_uncertainty),
     names_to = &quot;Version_ID_group&quot;,
     values_to = &quot;dcant&quot;
   ) %&gt;% 
@@ -7644,9 +7673,6 @@ GLODAP_all_coverage &lt;- GLODAP_all %&gt;%
   group_by(lat, lon, era) %&gt;%
   summarise(tco2 = mean(tco2, na.rm = TRUE)) %&gt;% 
   ungroup()
-
-library(colorspace)
-
 
 coverage_map &lt;- map +
   geom_tile(data = GLODAP_all_coverage,
@@ -8571,18 +8597,18 @@ cases</h2>
          data_source != &quot;mod_truth&quot;) %&gt;%
   select(lon, lat, period, data_source, MLR_basins, Version_ID_group, dcant)
 
-dcant_inv_all_ensemble_sensitivity &lt;- 
-  m_grid_horizontal_coarse(dcant_inv_all_ensemble_sensitivity)
-
-dcant_inv_all_ensemble_sensitivity &lt;-
-  dcant_inv_all_ensemble_sensitivity %&gt;% 
-  group_by(lat_grid, lon_grid, data_source, period, MLR_basins, Version_ID_group) %&gt;% 
-  summarise(dcant = mean(dcant),
-            n = n()) %&gt;% 
-  ungroup() %&gt;% 
-  filter(n == 25) %&gt;% 
-  rename(lon = lon_grid,
-         lat = lat_grid)
+# dcant_inv_all_ensemble_sensitivity &lt;- 
+#   m_grid_horizontal_coarse(dcant_inv_all_ensemble_sensitivity)
+# 
+# dcant_inv_all_ensemble_sensitivity &lt;-
+#   dcant_inv_all_ensemble_sensitivity %&gt;% 
+#   group_by(lat, lon, data_source, period, MLR_basins, Version_ID_group) %&gt;% 
+#   summarise(dcant = mean(dcant),
+#             n = n()) %&gt;% 
+#   ungroup() %&gt;% 
+#   filter(n == 25) %&gt;%
+#   rename(lon = lon_grid,
+#          lat = lat_grid)
 
 dcant_inv_sensitivity &lt;- additive_uncertainty(dcant_inv_all_ensemble_sensitivity)
 
@@ -8599,31 +8625,105 @@ dcant_inv_sensitivity %&gt;%
     )
   ) %&gt;%
   p_map_cant_inv(var = &quot;sd&quot;,
-                 breaks = c(seq(0, 8, 1), Inf),
+                 breaks = c(seq(0, 16, 2), Inf),
                  title_text = NULL) +
   facet_grid(period ~ data_source) +
   theme(axis.text = element_blank(),
         axis.ticks = element_blank())</code></pre>
-<p><img src="figure/results_publication.Rmd/column_inventory_additive_uncertainty_x-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/results_publication.Rmd/column_inventory_additive_uncertainty_sensitivity_cases-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>dcant_inv_sensitivity_contributions %&gt;%
+  filter(data_source == &quot;obs&quot;,
+         Version_ID_group != &quot;Regional clustering&quot;) %&gt;% 
   mutate(
     data_source = case_when(
       data_source == &quot;mod&quot; ~ &quot;Synthetic data&quot;,
       data_source == &quot;obs&quot; ~ &quot;Observations&quot;
     )
   ) %&gt;%
-  p_map_cant_inv(var = &quot;sd&quot;,
+  rename(dcant_diff = sd) %&gt;% 
+  p_map_cant_inv(var = &quot;dcant_diff&quot;,
                  col = &quot;bias&quot;,
                  breaks = c(-Inf, seq(-2,2,1), Inf),
                  title_text = NULL) +
-  facet_nested(Version_ID_group ~ data_source + period) +
+  facet_grid(Version_ID_group ~ period) +
   theme(axis.text = element_blank(),
         axis.ticks = element_blank())</code></pre>
-<p><img src="figure/results_publication.Rmd/column_inventory_additive_uncertainty_x-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/results_publication.Rmd/column_inventory_additive_uncertainty_sensitivity_cases-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
+       filename = &quot;FigS_dcant_column_inventory_uncertainty_sensitivity_cases.png&quot;,
+       height = 5,
+       width = 8)</code></pre>
 </div>
-<div id="ensemble-uncertainty" class="section level2" number="10.2">
-<h2><span class="header-section-number">10.2</span> Ensemble
-uncertainty</h2>
+<div id="uncertainty-cases" class="section level2" number="10.2">
+<h2><span class="header-section-number">10.2</span> Uncertainty
+cases</h2>
+<pre class="r"><code>dcant_inv_all_ensemble_uncertainty &lt;-
+  dcant_inv_all_ensemble %&gt;%
+  filter(period %in% two_decades,
+         data_source != &quot;mod_truth&quot;) %&gt;%
+  select(lon, lat, period, data_source, MLR_basins, Version_ID_group, dcant)
+
+# dcant_inv_all_ensemble_uncertainty &lt;- 
+#   m_grid_horizontal_coarse(dcant_inv_all_ensemble_uncertainty)
+# 
+# dcant_inv_all_ensemble_uncertainty &lt;-
+#   dcant_inv_all_ensemble_uncertainty %&gt;% 
+#   group_by(lat_grid, lon_grid, data_source, period, MLR_basins, Version_ID_group) %&gt;% 
+#   summarise(dcant = mean(dcant),
+#             n = n()) %&gt;% 
+#   ungroup() %&gt;% 
+#   filter(n == 25) %&gt;% 
+#   rename(lon = lon_grid,
+#          lat = lat_grid)
+
+dcant_inv_uncertainty &lt;- additive_uncertainty(dcant_inv_all_ensemble_uncertainty)
+
+delta_dcant_inv_uncertainty &lt;- dcant_inv_uncertainty[[3]]
+dcant_inv_uncertainty_contributions &lt;- dcant_inv_uncertainty[[2]]
+dcant_inv_uncertainty &lt;- dcant_inv_uncertainty[[1]]
+
+
+dcant_inv_uncertainty %&gt;%
+  mutate(
+    data_source = case_when(
+      data_source == &quot;mod&quot; ~ &quot;Synthetic data&quot;,
+      data_source == &quot;obs&quot; ~ &quot;Observations&quot;
+    ),
+    sd = sd*sd_factor
+  ) %&gt;%
+  p_map_cant_inv(var = &quot;sd&quot;,
+                 breaks = c(seq(0, 16, 2), Inf),
+                 title_text = NULL) +
+  facet_grid(period ~ data_source) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())</code></pre>
+<p><img src="figure/results_publication.Rmd/column_inventory_additive_uncertainty_fine_grid-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
+       filename = &quot;FigS_dcant_column_inventory_uncertainty.png&quot;,
+       height = 4,
+       width = 7)
+
+dcant_inv_uncertainty_contributions %&gt;%
+  filter(data_source == &quot;obs&quot;) %&gt;% 
+  mutate(
+    data_source = case_when(
+      data_source == &quot;mod&quot; ~ &quot;Synthetic data&quot;,
+      data_source == &quot;obs&quot; ~ &quot;Observations&quot;
+    )
+  ) %&gt;%
+  rename(dcant_diff_uncertainty = sd) %&gt;% 
+  p_map_cant_inv(var = &quot;dcant_diff_uncertainty&quot;,
+                 col = &quot;bias&quot;,
+                 breaks = c(-Inf, seq(-2,2,1), Inf),
+                 title_text = NULL) +
+  facet_grid(Version_ID_group ~ period) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())</code></pre>
+<p><img src="figure/results_publication.Rmd/column_inventory_additive_uncertainty_fine_grid-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
+       filename = &quot;FigS_dcant_column_inventory_uncertainty_contributions.png&quot;,
+       height = 8,
+       width = 8)</code></pre>
 <pre class="r"><code>dcant_inv_all_ensemble_uncertainty &lt;-
   dcant_inv_all_ensemble %&gt;%
   filter(period %in% two_decades,
@@ -8663,22 +8763,7 @@ dcant_inv_uncertainty %&gt;%
   facet_grid(period ~ data_source) +
   theme(axis.text = element_blank(),
         axis.ticks = element_blank())</code></pre>
-<p><img src="figure/results_publication.Rmd/column_inventory_additive_uncertainty-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>dcant_inv_uncertainty_contributions %&gt;%
-  mutate(
-    data_source = case_when(
-      data_source == &quot;mod&quot; ~ &quot;Synthetic data&quot;,
-      data_source == &quot;obs&quot; ~ &quot;Observations&quot;
-    )
-  ) %&gt;%
-  p_map_cant_inv(var = &quot;sd&quot;,
-                 col = &quot;bias&quot;,
-                 breaks = c(-Inf, seq(-2,2,1), Inf),
-                 title_text = NULL) +
-  facet_nested(Version_ID_group ~ data_source + period) +
-  theme(axis.text = element_blank(),
-        axis.ticks = element_blank())</code></pre>
-<p><img src="figure/results_publication.Rmd/column_inventory_additive_uncertainty-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/results_publication.Rmd/column_inventory_additive_uncertainty_coarse_grid-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>delta_dcant_inv_uncertainty %&gt;% 
   p_map_cant_inv(var = &quot;delta_dcant&quot;,
                  col = &quot;bias&quot;,
@@ -8686,7 +8771,7 @@ dcant_inv_uncertainty %&gt;%
   facet_grid(data_source ~ .) +
   theme(axis.text = element_blank(),
         axis.ticks = element_blank())</code></pre>
-<p><img src="figure/results_publication.Rmd/column_inventory_additive_uncertainty-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/results_publication.Rmd/column_inventory_additive_uncertainty_coarse_grid-2.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>delta_dcant_inv_uncertainty %&gt;% 
   p_map_cant_inv(var = &quot;RSS&quot;,
                  breaks = c(seq(0, 8, 1), Inf),
@@ -8694,7 +8779,7 @@ dcant_inv_uncertainty %&gt;%
   facet_grid(data_source ~ .) +
   theme(axis.text = element_blank(),
         axis.ticks = element_blank())</code></pre>
-<p><img src="figure/results_publication.Rmd/column_inventory_additive_uncertainty-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/results_publication.Rmd/column_inventory_additive_uncertainty_coarse_grid-3.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>delta_dcant_inv_uncertainty %&gt;% 
   filter(signif == 1) %&gt;% 
   p_map_cant_inv(var = &quot;delta_dcant&quot;,
@@ -8703,7 +8788,7 @@ dcant_inv_uncertainty %&gt;%
   facet_grid(data_source ~ .) +
   theme(axis.text = element_blank(),
         axis.ticks = element_blank())</code></pre>
-<p><img src="figure/results_publication.Rmd/column_inventory_additive_uncertainty-5.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/results_publication.Rmd/column_inventory_additive_uncertainty_coarse_grid-4.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>dcant_inv_all_ensemble_sd &lt;-
   dcant_inv_all_ensemble %&gt;%
   filter(period %in% two_decades,
@@ -8881,6 +8966,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/inventory_maps_absolute_obs-1.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/inventory_maps_absolute_obs-1.png" target="_blank">16beb51</a>
 </td>
 <td>
@@ -8939,9 +9035,10 @@ jens-daniel-mueller
 
 p_CI_absolute_mod +
   theme(axis.text = element_blank(),
-        axis.ticks = element_blank())</code></pre>
-<p><img src="figure/results_publication.Rmd/inventory_maps_absolute_mod_x-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code># ggsave(path = here::here(&quot;output/presentation&quot;),
+        axis.ticks = element_blank())
+
+
+# ggsave(path = here::here(&quot;output/presentation&quot;),
 #        filename = &quot;Fig_dcant_column_inventory.png&quot;,
 #        height = 5,
 #        width = 6)</code></pre>
@@ -10885,6 +10982,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/inventory_maps_delta_dcant_mod_bias-1.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/inventory_maps_delta_dcant_mod_bias-1.png" target="_blank">16beb51</a>
 </td>
 <td>
@@ -11049,6 +11157,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/inventory_maps_absolute_delta-1.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/inventory_maps_absolute_delta-1.png" target="_blank">16beb51</a>
@@ -11436,6 +11555,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/inventory_maps_absolute_delta-2.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/inventory_maps_absolute_delta-2.png" target="_blank">16beb51</a>
@@ -11855,6 +11985,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/inventory_maps_absolute_mod-1.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/inventory_maps_absolute_mod-1.png" target="_blank">16beb51</a>
 </td>
 <td>
@@ -11934,6 +12075,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/invetory_maps_absolute_mod_bias-1.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/invetory_maps_absolute_mod_bias-1.png" target="_blank">16beb51</a>
@@ -12686,6 +12838,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/zonal_mean_storage_dcant-1.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/zonal_mean_storage_dcant-1.png" target="_blank">16beb51</a>
 </td>
 <td>
@@ -13043,6 +13206,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/zonal_mean_storage_dcant-2.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/zonal_mean_storage_dcant-2.png" target="_blank">16beb51</a>
 </td>
 <td>
@@ -13306,6 +13480,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/zonal_mean_storage_beta-1.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/zonal_mean_storage_beta-1.png" target="_blank">16beb51</a>
@@ -13587,6 +13772,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/zonal_mean_storage_beta-2.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/zonal_mean_storage_beta-2.png" target="_blank">16beb51</a>
 </td>
 <td>
@@ -13825,7 +14021,7 @@ jens-daniel-mueller
 </div>
 <div id="global-section" class="section level1" number="11">
 <h1><span class="header-section-number">11</span> Global section</h1>
-<div id="ensemble-uncertainty-1" class="section level2" number="11.1">
+<div id="ensemble-uncertainty" class="section level2" number="11.1">
 <h2><span class="header-section-number">11.1</span> Ensemble
 uncertainty</h2>
 <pre class="r"><code>delta_dcant_global_section_all &lt;-
@@ -13891,6 +14087,45 @@ dcant_global_section_all_uncertainty  %&gt;%
     col = &quot;div&quot;
   )</code></pre>
 <p><img src="figure/results_publication.Rmd/global_section_absolute_delta_RSS_additive_uncertainty-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-global_section_absolute_delta_RSS_additive_uncertainty-1">
+Past versions of
+global_section_absolute_delta_RSS_additive_uncertainty-1.png
+</button>
+</p>
+<div id="fig-global_section_absolute_delta_RSS_additive_uncertainty-1"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/global_section_absolute_delta_RSS_additive_uncertainty-1.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>dcant_global_section_all_uncertainty  %&gt;% 
   filter(data_source == &quot;obs&quot;,
          period == &quot;1994 - 2004&quot;) %&gt;% 
@@ -13902,6 +14137,45 @@ dcant_global_section_all_uncertainty  %&gt;%
     col = &quot;div&quot;
   )</code></pre>
 <p><img src="figure/results_publication.Rmd/global_section_absolute_delta_RSS_additive_uncertainty-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-global_section_absolute_delta_RSS_additive_uncertainty-2">
+Past versions of
+global_section_absolute_delta_RSS_additive_uncertainty-2.png
+</button>
+</p>
+<div id="fig-global_section_absolute_delta_RSS_additive_uncertainty-2"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/global_section_absolute_delta_RSS_additive_uncertainty-2.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code># dcant_global_section_all_uncertainty  %&gt;%
 #   filter(data_source == &quot;obs&quot;,
 #          period == &quot;1994 - 2004&quot;) %&gt;%
@@ -13924,6 +14198,45 @@ ggplot() +
   facet_grid(data_source~period) +
   scale_y_reverse()</code></pre>
 <p><img src="figure/results_publication.Rmd/global_section_absolute_delta_RSS_additive_uncertainty-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-global_section_absolute_delta_RSS_additive_uncertainty-3">
+Past versions of
+global_section_absolute_delta_RSS_additive_uncertainty-3.png
+</button>
+</p>
+<div id="fig-global_section_absolute_delta_RSS_additive_uncertainty-3"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/global_section_absolute_delta_RSS_additive_uncertainty-3.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>delta_dcant_global_section_all_uncertainty &lt;-
   delta_dcant_global_section_all_uncertainty %&gt;%
   mutate(band = &quot;dummy&quot;)
@@ -13938,6 +14251,45 @@ delta_dcant_global_section_all_uncertainty  %&gt;%
     col = &quot;div&quot;
   )</code></pre>
 <p><img src="figure/results_publication.Rmd/global_section_absolute_delta_RSS_additive_uncertainty-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-global_section_absolute_delta_RSS_additive_uncertainty-4">
+Past versions of
+global_section_absolute_delta_RSS_additive_uncertainty-4.png
+</button>
+</p>
+<div id="fig-global_section_absolute_delta_RSS_additive_uncertainty-4"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/global_section_absolute_delta_RSS_additive_uncertainty-4.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>delta_dcant_global_section_all_uncertainty  %&gt;% 
   filter(data_source == &quot;obs&quot;) %&gt;% 
   select(-delta_dcant) %&gt;% 
@@ -13950,6 +14302,45 @@ delta_dcant_global_section_all_uncertainty  %&gt;%
     col = &quot;div&quot;
   )</code></pre>
 <p><img src="figure/results_publication.Rmd/global_section_absolute_delta_RSS_additive_uncertainty-5.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-global_section_absolute_delta_RSS_additive_uncertainty-5">
+Past versions of
+global_section_absolute_delta_RSS_additive_uncertainty-5.png
+</button>
+</p>
+<div id="fig-global_section_absolute_delta_RSS_additive_uncertainty-5"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/global_section_absolute_delta_RSS_additive_uncertainty-5.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>ggplot() +
   geom_point(
     data = delta_dcant_global_section_all_uncertainty %&gt;%
@@ -13960,6 +14351,45 @@ delta_dcant_global_section_all_uncertainty  %&gt;%
   scale_y_reverse() +
   facet_grid(data_source~.)</code></pre>
 <p><img src="figure/results_publication.Rmd/global_section_absolute_delta_RSS_additive_uncertainty-6.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-global_section_absolute_delta_RSS_additive_uncertainty-6">
+Past versions of
+global_section_absolute_delta_RSS_additive_uncertainty-6.png
+</button>
+</p>
+<div id="fig-global_section_absolute_delta_RSS_additive_uncertainty-6"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/global_section_absolute_delta_RSS_additive_uncertainty-6.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code># delta_dcant_global_section_all_uncertainty &lt;-
 #   delta_dcant_global_section_all_uncertainty %&gt;%
 #   filter(signif == 0)</code></pre>
@@ -14249,6 +14679,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/global_sections_obs-1.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/global_sections_obs-1.png" target="_blank">16beb51</a>
 </td>
 <td>
@@ -14398,6 +14839,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/global_sections_mod-1.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/global_sections_mod-1.png" target="_blank">16beb51</a>
@@ -15411,6 +15863,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/penetration_depth-1.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/penetration_depth-1.png" target="_blank">16beb51</a>
 </td>
 <td>
@@ -15583,6 +16046,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/penetration_depth-2.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/penetration_depth-2.png" target="_blank">16beb51</a>
 </td>
 <td>
@@ -15741,6 +16215,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/penetration_depth-3.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/penetration_depth-3.png" target="_blank">16beb51</a>
 </td>
 <td>
@@ -15884,6 +16369,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/penetration_depth-4.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/penetration_depth-4.png" target="_blank">16beb51</a>
@@ -17011,6 +17507,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_individual-1.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_individual-1.png" target="_blank">16beb51</a>
@@ -19229,6 +19736,46 @@ p_dcant_profiles &lt;-
 
 p_dcant_profiles</code></pre>
 <p><img src="figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon_additive-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon_additive-1">
+Past versions of
+concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon_additive-1.png
+</button>
+</p>
+<div
+id="fig-concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon_additive-1"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon_additive-1.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>dcant_profile_basin_MLR_range &lt;- dcant_profile_basin_MLR_all_ensemble %&gt;%
   group_by(basin, depth, period, data_source) %&gt;% 
   summarise(dcant_sd = sd(dcant)*sd_factor) %&gt;%
@@ -19343,6 +19890,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon_mod-1.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon_mod-1.png" target="_blank">16beb51</a>
@@ -19557,6 +20115,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_basin_separation-1.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_basin_separation-1.png" target="_blank">16beb51</a>
@@ -19865,6 +20434,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_member-1.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_member-1.png" target="_blank">16beb51</a>
 </td>
 <td>
@@ -20135,6 +20715,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_member-2.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_member-2.png" target="_blank">16beb51</a>
@@ -20426,6 +21017,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/concentration_profiles_data_adjustments-1.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/23459354afb7989d5609c27c2c7e159805badf68/docs/figure/results_publication.Rmd/concentration_profiles_data_adjustments-1.png" target="_blank">2345935</a>
 </td>
 <td>
@@ -20523,6 +21125,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_offset-1.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_offset-1.png" target="_blank">16beb51</a>
@@ -21223,6 +21836,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_offset-3.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_offset-3.png" target="_blank">16beb51</a>
 </td>
 <td>
@@ -21536,6 +22160,43 @@ delta_dcant_budget_basin_MLR_all_uncertainty &lt;-
   # scale_y_continuous(expand = c(0,0)) +
   facet_nested_wrap( ~ basin + period, ncol = 6)</code></pre>
 <p><img src="figure/results_publication.Rmd/dcant_inventory_uncertainty_components-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-dcant_inventory_uncertainty_components-1">
+Past versions of dcant_inventory_uncertainty_components-1.png
+</button>
+</p>
+<div id="fig-dcant_inventory_uncertainty_components-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/dcant_inventory_uncertainty_components-1.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
        filename = &quot;FigS_dcant_inventory_additive_uncertainty_combined_contributions.png&quot;,
        height = 6,
@@ -21670,7 +22331,7 @@ tcant_budget_basin_MLR &lt;-
             tibble(basin = &quot;Global&quot;, beta_1994 = 118 / 78.3))</code></pre>
 <div id="scatterplots" class="section level2" number="15.1">
 <h2><span class="header-section-number">15.1</span> Scatterplots</h2>
-<div id="ensemble-uncertainty-2" class="section level3" number="15.1.1">
+<div id="ensemble-uncertainty-1" class="section level3" number="15.1.1">
 <h3><span class="header-section-number">15.1.1</span> Ensemble
 uncertainty</h3>
 <pre class="r"><code>dcant_budget_basin_MLR_all_ensemble %&gt;%
@@ -21703,6 +22364,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/dcant_budget_basin_hemisphere_ensemble_uncertainty-1.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/dcant_budget_basin_hemisphere_ensemble_uncertainty-1.png" target="_blank">16beb51</a>
@@ -21914,6 +22586,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/dcant_budget_basin_hemisphere_ensemble_uncertainty-2.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/dcant_budget_basin_hemisphere_ensemble_uncertainty-2.png" target="_blank">16beb51</a>
 </td>
 <td>
@@ -22079,6 +22762,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/dcant_budget_basin_hemisphere_additive_uncertainty-1.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/dcant_budget_basin_hemisphere_additive_uncertainty-1.png" target="_blank">16beb51</a>
@@ -23450,6 +24144,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/beta_dcant_budget_basin_hemisphere_additive_uncertainty-1.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/beta_dcant_budget_basin_hemisphere_additive_uncertainty-1.png" target="_blank">16beb51</a>
 </td>
 <td>
@@ -23578,6 +24283,43 @@ ggplot() +
   theme(legend.title = element_blank(),
         axis.title.x = element_blank())</code></pre>
 <p><img src="figure/results_publication.Rmd/budget_biases_additive-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-budget_biases_additive-1">
+Past versions of budget_biases_additive-1.png
+</button>
+</p>
+<div id="fig-budget_biases_additive-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/budget_biases_additive-1.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
        filename = &quot;FigS_delta_dcant_bias_inventories.png&quot;,
        height = 6,
@@ -24746,6 +25488,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/depth_layer_budget_basin_MLR_ensemble-1.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/depth_layer_budget_basin_MLR_ensemble-1.png" target="_blank">16beb51</a>
 </td>
 <td>
@@ -25007,6 +25760,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/depth_layer_budget_basin_MLR_ensemble-2.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/depth_layer_budget_basin_MLR_ensemble-2.png" target="_blank">16beb51</a>
 </td>
 <td>
@@ -25237,6 +26001,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/depth_layer_budget_basin_MLR_ensemble_mod-1.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/depth_layer_budget_basin_MLR_ensemble_mod-1.png" target="_blank">16beb51</a>
 </td>
 <td>
@@ -25387,6 +26162,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/depth_layer_budget_basin_MLR_ensemble_mod-2.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/depth_layer_budget_basin_MLR_ensemble_mod-2.png" target="_blank">16beb51</a>
@@ -26033,6 +26819,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/dcant_budget_time_series_member_connections-1.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/dcant_budget_time_series_member_connections-1.png" target="_blank">16beb51</a>
 </td>
 <td>
@@ -26311,6 +27108,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/dcant_budget_time_series_member_connections-2.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/dcant_budget_time_series_member_connections-2.png" target="_blank">16beb51</a>
@@ -26604,6 +27412,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/dcant_budget_time_series_member_connections-3.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/dcant_budget_time_series_member_connections-3.png" target="_blank">16beb51</a>
 </td>
 <td>
@@ -26892,6 +27711,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/dcant_budget_time_series_member_connections-4.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/dcant_budget_time_series_member_connections-4.png" target="_blank">16beb51</a>
@@ -27187,6 +28017,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/dcant_budget_time_series_member_connections-5.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/dcant_budget_time_series_member_connections-5.png" target="_blank">16beb51</a>
 </td>
 <td>
@@ -27431,6 +28272,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/mean_tcant_over_time-1.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/mean_tcant_over_time-1.png" target="_blank">16beb51</a>
@@ -28031,6 +28883,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/mean_tcant_over_time-2.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/mean_tcant_over_time-2.png" target="_blank">16beb51</a>
 </td>
 <td>
@@ -28534,6 +29397,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2-1.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2-1.png" target="_blank">16beb51</a>
@@ -29197,6 +30071,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2-2.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2-2.png" target="_blank">16beb51</a>
 </td>
 <td>
@@ -29657,6 +30542,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2-3.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2-3.png" target="_blank">16beb51</a>
@@ -30328,6 +31224,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes-1.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes-1.png" target="_blank">16beb51</a>
@@ -31087,6 +31994,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_boxplot-1.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_boxplot-1.png" target="_blank">16beb51</a>
 </td>
 <td>
@@ -31606,6 +32524,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_boxplot-2.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_boxplot-2.png" target="_blank">16beb51</a>
 </td>
 <td>
@@ -32120,6 +33049,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_mean-1.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_mean-1.png" target="_blank">16beb51</a>
 </td>
 <td>
@@ -32237,6 +33177,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_boxplot_ensemble-1.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_boxplot_ensemble-1.png" target="_blank">16beb51</a>
@@ -32923,6 +33874,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-5.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/7275091571a4fb4918e062f6aaec45ee96b099c6/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-5.png" target="_blank">7275091</a>
 </td>
 <td>
@@ -33178,6 +34140,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-8.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/7275091571a4fb4918e062f6aaec45ee96b099c6/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-8.png" target="_blank">7275091</a>
 </td>
 <td>
@@ -33259,6 +34232,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-9.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/7275091571a4fb4918e062f6aaec45ee96b099c6/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-9.png" target="_blank">7275091</a>
@@ -33362,6 +34346,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-10.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/7275091571a4fb4918e062f6aaec45ee96b099c6/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-10.png" target="_blank">7275091</a>
@@ -33791,6 +34786,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/GCB_net_land_sink_assesment-5.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/7275091571a4fb4918e062f6aaec45ee96b099c6/docs/figure/results_publication.Rmd/GCB_net_land_sink_assesment-5.png" target="_blank">7275091</a>
 </td>
 <td>
@@ -33886,6 +34892,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/GCB_net_land_sink_assesment-6.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/7275091571a4fb4918e062f6aaec45ee96b099c6/docs/figure/results_publication.Rmd/GCB_net_land_sink_assesment-6.png" target="_blank">7275091</a>
 </td>
 <td>
@@ -33967,6 +34984,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/GCB_net_land_sink_assesment-7.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/7275091571a4fb4918e062f6aaec45ee96b099c6/docs/figure/results_publication.Rmd/GCB_net_land_sink_assesment-7.png" target="_blank">7275091</a>
@@ -34070,6 +35098,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/GCB_net_land_sink_assesment-8.png" target="_blank">6edad9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/7275091571a4fb4918e062f6aaec45ee96b099c6/docs/figure/results_publication.Rmd/GCB_net_land_sink_assesment-8.png" target="_blank">7275091</a>

@@ -1,0 +1,5586 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Jens Daniel Müller" />
+
+
+<title>Budgets</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">emlr obs analysis</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="basics.html">Basics</a>
+</li>
+<li>
+  <a href="results_publication.html">Synopsis</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Adjustements
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Bulk</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="data_adjustment_bulk_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="data_adjustment_bulk_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="data_adjustment_bulk_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Cruise</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="data_adjustment_cruise_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="data_adjustment_cruise_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="data_adjustment_cruise_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">None</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="data_adjustment_none_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="data_adjustment_none_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="data_adjustment_none_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Filtering
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">No gap-filling</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="gaps_filter_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="gaps_filter_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="gaps_filter_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Reoccupation</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="reoccupation_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="reoccupation_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="reoccupation_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Rarefication</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="rarefication_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="rarefication_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="rarefication_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    MLR
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">predictor removal C(P)</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="MLR_predictor_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="MLR_predictor_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="MLR_predictor_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">predictor removal C(N)</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="MLR_predictor_nitrate_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="MLR_predictor_nitrate_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="MLR_predictor_nitrate_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">C(N) target</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="CN_target_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="CN_target_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="CN_target_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">C(AT) target</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="CAT_target_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="CAT_target_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="CAT_target_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Surface equilibrium</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="surface_equi_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="surface_equi_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="surface_equi_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MLR_target</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="MLR_target_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="MLR_target_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="MLR_target_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">WOA18 clim</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="WOA18_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="WOA18_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="WOA18_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">VIF</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="vif_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="vif_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="vif_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    MMA
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Five basins</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="multi_model_assesment_5_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="multi_model_assesment_5_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="multi_model_assesment_5_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Three basins</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="multi_model_assesment_AIP_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="multi_model_assesment_AIP_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="multi_model_assesment_AIP_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Robustness
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Indian Ocean</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="indian_test_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="indian_test_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="indian_test_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Gruber_2019</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="G19_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="G19_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="G19_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Moving eras</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="moving_eras_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="moving_eras_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="moving_eras_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis">
+    <span class="fa fa-github"></span>
+     
+    Source code
+  </a>
+</li>
+<li>
+  <a href="https://jens-daniel-mueller.github.io/">
+    <span class="fa fa-home"></span>
+     
+    Jens' homepage
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Budgets</h1>
+<h4 class="author">Jens Daniel Müller</h4>
+<h4 class="date">11 November, 2022</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2022-11-11
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong>
+<code>emlr_obs_analysis/analysis/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.0). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20210412code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20210412)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20210412code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20210412)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreec53fea0810f6044ab9fb18979452c3b76b3a8c6ctargetblankc53fea0a">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/c53fea0810f6044ab9fb18979452c3b76b3a8c6c" target="_blank">c53fea0</a>
+</a>
+</p>
+</div>
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreec53fea0810f6044ab9fb18979452c3b76b3a8c6ctargetblankc53fea0a"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/c53fea0810f6044ab9fb18979452c3b76b3a8c6c" target="_blank">c53fea0</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    data/
+    Ignored:    output/other/
+    Ignored:    output/presentation/
+    Ignored:    output/publication/
+
+Unstaged changes:
+    Modified:   analysis/_site.yml
+    Modified:   code/Workflowr_project_managment.R
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analysis/WOA18_budgets.Rmd</code>) and
+HTML (<code>docs/WOA18_budgets.html</code>) files. If you’ve configured
+a remote Git repository (see <code>?wflow_git_remote</code>), click on
+the hyperlinks in the table below to view the files as they were in that
+past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/c53fea0810f6044ab9fb18979452c3b76b3a8c6c/analysis/WOA18_budgets.Rmd" target="_blank">c53fea0</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+<td>
+rebuild website with woa18 clim
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<pre class="r"><code>version_id_pattern &lt;- &quot;n&quot;
+config &lt;- &quot;MLR_basins&quot;</code></pre>
+<div id="read-files" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Read files</h1>
+<pre class="r"><code>print(version_id_pattern)</code></pre>
+<pre><code>[1] &quot;n&quot;</code></pre>
+<pre class="r"><code># identify required version IDs
+
+Version_IDs_1 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
+                            pattern = paste0(&quot;v_1&quot;, &quot;n&quot;))
+
+Version_IDs_2 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
+                            pattern = paste0(&quot;v_2&quot;, &quot;n&quot;))
+
+Version_IDs_3 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
+                            pattern = paste0(&quot;v_3&quot;, &quot;n&quot;))
+
+Version_IDs &lt;- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
+
+# print(Version_IDs)</code></pre>
+<div id="global" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Global</h2>
+<pre class="r"><code>for (i_Version_IDs in Version_IDs) {
+  # i_Version_IDs &lt;- Version_IDs[1]
+  
+  # print(i_Version_IDs)
+  
+  path_version_data     &lt;-
+    paste(path_observations,
+          i_Version_IDs,
+          &quot;/data/&quot;,
+          sep = &quot;&quot;)
+  
+  # load and join data files
+  
+  dcant_budget_global &lt;-
+    read_csv(paste(path_version_data,
+                   &quot;dcant_budget_global.csv&quot;,
+                   sep = &quot;&quot;))
+  
+  dcant_budget_global_mod_truth &lt;-
+    read_csv(paste(
+      path_version_data,
+      &quot;dcant_budget_global_mod_truth.csv&quot;,
+      sep = &quot;&quot;
+    ))
+  
+  dcant_budget_global_bias &lt;-
+    read_csv(paste(path_version_data,
+                   &quot;dcant_budget_global_bias.csv&quot;,
+                   sep = &quot;&quot;))
+  
+  lm_best_predictor_counts &lt;-
+    read_csv(paste(path_version_data,
+                   &quot;lm_best_predictor_counts.csv&quot;,
+                   sep = &quot;&quot;))
+  
+  lm_best_dcant &lt;-
+    read_csv(paste(path_version_data,
+                   &quot;lm_best_dcant.csv&quot;,
+                   sep = &quot;&quot;))
+  
+  dcant_budget_global &lt;- bind_rows(dcant_budget_global,
+                                      dcant_budget_global_mod_truth)
+  
+  dcant_budget_global &lt;- dcant_budget_global %&gt;%
+    mutate(Version_ID = i_Version_IDs)
+  
+  dcant_budget_global_bias &lt;- dcant_budget_global_bias %&gt;%
+    mutate(Version_ID = i_Version_IDs)
+  
+  lm_best_predictor_counts &lt;- lm_best_predictor_counts %&gt;%
+    mutate(Version_ID = i_Version_IDs)
+  
+  lm_best_dcant &lt;- lm_best_dcant %&gt;%
+    mutate(Version_ID = i_Version_IDs)
+
+  params_local &lt;-
+    read_rds(paste(path_version_data,
+                   &quot;params_local.rds&quot;,
+                   sep = &quot;&quot;))
+  
+  params_local &lt;- bind_cols(
+    Version_ID = i_Version_IDs,
+    MLR_basins := str_c(params_local$MLR_basins, collapse = &quot;|&quot;),
+    tref1 = params_local$tref1,
+    tref2 = params_local$tref2)
+  
+  tref &lt;- read_csv(paste(path_version_data,
+                         &quot;tref.csv&quot;,
+                         sep = &quot;&quot;))
+  
+  params_local &lt;- params_local %&gt;%
+    mutate(
+      median_year_1 = sort(tref$median_year)[1],
+      median_year_2 = sort(tref$median_year)[2],
+      duration = median_year_2 - median_year_1,
+      period = paste(median_year_1, &quot;-&quot;, median_year_2)
+    )
+  
+  if (exists(&quot;dcant_budget_global_all&quot;)) {
+    dcant_budget_global_all &lt;-
+      bind_rows(dcant_budget_global_all, dcant_budget_global)
+  }
+  
+  if (!exists(&quot;dcant_budget_global_all&quot;)) {
+    dcant_budget_global_all &lt;- dcant_budget_global
+  }
+  
+  if (exists(&quot;dcant_budget_global_bias_all&quot;)) {
+    dcant_budget_global_bias_all &lt;-
+      bind_rows(dcant_budget_global_bias_all,
+                dcant_budget_global_bias)
+  }
+
+  if (!exists(&quot;dcant_budget_global_bias_all&quot;)) {
+    dcant_budget_global_bias_all &lt;- dcant_budget_global_bias
+  }
+  
+    
+  if (exists(&quot;lm_best_predictor_counts_all&quot;)) {
+    lm_best_predictor_counts_all &lt;-
+      bind_rows(lm_best_predictor_counts_all, lm_best_predictor_counts)
+  }
+  
+  if (!exists(&quot;lm_best_predictor_counts_all&quot;)) {
+    lm_best_predictor_counts_all &lt;- lm_best_predictor_counts
+  }
+    
+  if (exists(&quot;lm_best_dcant_all&quot;)) {
+    lm_best_dcant_all &lt;-
+      bind_rows(lm_best_dcant_all, lm_best_dcant)
+  }
+  
+  if (!exists(&quot;lm_best_dcant_all&quot;)) {
+    lm_best_dcant_all &lt;- lm_best_dcant
+  }
+  
+  if (exists(&quot;params_local_all&quot;)) {
+    params_local_all &lt;- bind_rows(params_local_all, params_local)
+  }
+  
+  if (!exists(&quot;params_local_all&quot;)) {
+    params_local_all &lt;- params_local
+  }
+  
+  
+}
+
+rm(
+  dcant_budget_global,
+  dcant_budget_global_bias,
+  dcant_budget_global_mod_truth,
+  lm_best_predictor_counts,
+  lm_best_dcant,
+  params_local,
+  tref
+)</code></pre>
+</div>
+<div id="basins" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> Basins</h2>
+<pre class="r"><code># Version_IDs &lt;- Version_IDs[1:length(Version_IDs)-1]
+
+for (i_Version_IDs in Version_IDs) {
+  # i_Version_IDs &lt;- Version_IDs[1]
+  
+  # print(i_Version_IDs)
+  
+  path_version_data     &lt;-
+    paste(path_observations,
+          i_Version_IDs,
+          &quot;/data/&quot;,
+          sep = &quot;&quot;)
+  
+  # load and join data files
+  
+  dcant_budget_basin_AIP &lt;-
+    read_csv(paste(path_version_data,
+                   &quot;dcant_budget_basin_AIP.csv&quot;,
+                   sep = &quot;&quot;))
+  
+  dcant_budget_basin_AIP_mod_truth &lt;-
+    read_csv(paste(
+      path_version_data,
+      &quot;dcant_budget_basin_AIP_mod_truth.csv&quot;,
+      sep = &quot;&quot;
+    ))
+  
+    
+  dcant_budget_basin_AIP &lt;- bind_rows(dcant_budget_basin_AIP,
+                                      dcant_budget_basin_AIP_mod_truth)
+  
+  dcant_budget_basin_AIP_bias &lt;-
+    read_csv(paste(path_version_data,
+                   &quot;dcant_budget_basin_AIP_bias.csv&quot;,
+                   sep = &quot;&quot;))
+  
+  dcant_slab_budget_bias &lt;-
+    read_csv(paste0(path_version_data,
+                    &quot;dcant_slab_budget_bias.csv&quot;))
+
+  dcant_slab_budget &lt;-
+    read_csv(paste0(path_version_data,
+                    &quot;dcant_slab_budget.csv&quot;))
+
+  dcant_budget_basin_AIP &lt;- dcant_budget_basin_AIP %&gt;%
+    mutate(Version_ID = i_Version_IDs)
+  
+  dcant_budget_basin_AIP_bias &lt;- dcant_budget_basin_AIP_bias %&gt;%
+    mutate(Version_ID = i_Version_IDs)
+  
+  dcant_slab_budget &lt;- dcant_slab_budget %&gt;%
+    mutate(Version_ID = i_Version_IDs)
+  
+  dcant_slab_budget_bias &lt;- dcant_slab_budget_bias %&gt;%
+    mutate(Version_ID = i_Version_IDs)
+  
+  if (exists(&quot;dcant_budget_basin_AIP_all&quot;)) {
+    dcant_budget_basin_AIP_all &lt;-
+      bind_rows(dcant_budget_basin_AIP_all, dcant_budget_basin_AIP)
+  }
+  
+  if (!exists(&quot;dcant_budget_basin_AIP_all&quot;)) {
+    dcant_budget_basin_AIP_all &lt;- dcant_budget_basin_AIP
+  }
+  
+  if (exists(&quot;dcant_budget_basin_AIP_bias_all&quot;)) {
+    dcant_budget_basin_AIP_bias_all &lt;-
+      bind_rows(dcant_budget_basin_AIP_bias_all,
+                dcant_budget_basin_AIP_bias)
+  }
+  
+  if (!exists(&quot;dcant_budget_basin_AIP_bias_all&quot;)) {
+    dcant_budget_basin_AIP_bias_all &lt;- dcant_budget_basin_AIP_bias
+  }
+  
+  if (exists(&quot;dcant_slab_budget_all&quot;)) {
+    dcant_slab_budget_all &lt;-
+      bind_rows(dcant_slab_budget_all, dcant_slab_budget)
+  }
+  
+  if (!exists(&quot;dcant_slab_budget_all&quot;)) {
+    dcant_slab_budget_all &lt;- dcant_slab_budget
+  }
+  
+  if (exists(&quot;dcant_slab_budget_bias_all&quot;)) {
+    dcant_slab_budget_bias_all &lt;-
+      bind_rows(dcant_slab_budget_bias_all,
+                dcant_slab_budget_bias)
+  }
+  
+  if (!exists(&quot;dcant_slab_budget_bias_all&quot;)) {
+    dcant_slab_budget_bias_all &lt;- dcant_slab_budget_bias
+  }
+  
+}
+
+rm(
+  dcant_budget_basin_AIP,
+  dcant_budget_basin_AIP_bias,
+  dcant_budget_basin_AIP_mod_truth,
+  dcant_slab_budget,
+  dcant_slab_budget_bias
+)</code></pre>
+</div>
+<div id="basins-hemisphere" class="section level2" number="1.3">
+<h2><span class="header-section-number">1.3</span> Basins
+hemisphere</h2>
+<pre class="r"><code># Version_IDs &lt;- Version_IDs[1:length(Version_IDs)-1]
+
+for (i_Version_IDs in Version_IDs) {
+  # i_Version_IDs &lt;- Version_IDs[1]
+  
+  # print(i_Version_IDs)
+  
+  path_version_data     &lt;-
+    paste(path_observations,
+          i_Version_IDs,
+          &quot;/data/&quot;,
+          sep = &quot;&quot;)
+  
+  # load and join data files
+  
+  dcant_budget_basin_MLR &lt;-
+    read_csv(paste(path_version_data,
+                   &quot;dcant_budget_basin_MLR.csv&quot;,
+                   sep = &quot;&quot;))
+  
+  dcant_budget_basin_MLR_mod_truth &lt;-
+    read_csv(paste(
+      path_version_data,
+      &quot;dcant_budget_basin_MLR_mod_truth.csv&quot;,
+      sep = &quot;&quot;
+    ))
+  
+    
+  dcant_budget_basin_MLR &lt;- bind_rows(dcant_budget_basin_MLR,
+                                      dcant_budget_basin_MLR_mod_truth)
+  
+
+  dcant_budget_basin_MLR &lt;- dcant_budget_basin_MLR %&gt;%
+    mutate(Version_ID = i_Version_IDs)
+
+  if (exists(&quot;dcant_budget_basin_MLR_all&quot;)) {
+    dcant_budget_basin_MLR_all &lt;-
+      bind_rows(dcant_budget_basin_MLR_all, dcant_budget_basin_MLR)
+  }
+  
+  if (!exists(&quot;dcant_budget_basin_MLR_all&quot;)) {
+    dcant_budget_basin_MLR_all &lt;- dcant_budget_basin_MLR
+  }
+
+  
+}
+
+rm(
+  dcant_budget_basin_MLR,
+  dcant_budget_basin_MLR_mod_truth
+)</code></pre>
+</div>
+<div id="steady-state" class="section level2" number="1.4">
+<h2><span class="header-section-number">1.4</span> Steady state</h2>
+<pre class="r"><code>for (i_Version_IDs in Version_IDs) {
+  # i_Version_IDs &lt;- Version_IDs[1]
+  
+  # print(i_Version_IDs)
+  
+  path_version_data     &lt;-
+    paste(path_observations,
+          i_Version_IDs,
+          &quot;/data/&quot;,
+          sep = &quot;&quot;)
+  
+  # load and join data files
+  
+  dcant_obs_budget &lt;-
+    read_csv(paste0(path_version_data,
+                    &quot;anom_dcant_obs_budget.csv&quot;))
+  
+  dcant_obs_budget &lt;- dcant_obs_budget %&gt;%
+    mutate(Version_ID = i_Version_IDs)
+  
+  if (exists(&quot;dcant_obs_budget_all&quot;)) {
+    dcant_obs_budget_all &lt;-
+      bind_rows(dcant_obs_budget_all, dcant_obs_budget)
+  }
+  
+  if (!exists(&quot;dcant_obs_budget_all&quot;)) {
+    dcant_obs_budget_all &lt;- dcant_obs_budget
+  }
+  
+}
+
+
+rm(dcant_obs_budget)</code></pre>
+</div>
+<div id="atm-co2" class="section level2" number="1.5">
+<h2><span class="header-section-number">1.5</span> Atm CO2</h2>
+<pre class="r"><code>co2_atm &lt;-
+  read_csv(paste(path_preprocessing,
+                 &quot;co2_atm.csv&quot;,
+                 sep = &quot;&quot;))</code></pre>
+<pre class="r"><code>all_predictors &lt;- c(&quot;saltempaouoxygenphosphatenitratesilicate&quot;)
+
+params_local_all &lt;- params_local_all %&gt;%
+  mutate(MLR_predictors = str_remove_all(all_predictors,
+                                         MLR_predictors))</code></pre>
+<pre class="r"><code>dcant_budget_global_all &lt;- dcant_budget_global_all %&gt;%
+  filter(estimate == &quot;dcant&quot;, 
+         method == &quot;total&quot;) %&gt;% 
+  select(-c(estimate, method)) %&gt;% 
+  rename(dcant = value)
+
+dcant_budget_global_all_depth &lt;- dcant_budget_global_all
+
+dcant_budget_global_all &lt;- dcant_budget_global_all %&gt;%
+  filter(inv_depth == params_global$inventory_depth_standard)
+
+dcant_budget_global_bias_all &lt;- dcant_budget_global_bias_all %&gt;%
+  filter(estimate == &quot;dcant&quot;) %&gt;%
+  select(-c(estimate))
+
+dcant_budget_global_bias_all_depth &lt;- dcant_budget_global_bias_all
+
+dcant_budget_global_bias_all &lt;- dcant_budget_global_bias_all %&gt;%
+  filter(inv_depth == params_global$inventory_depth_standard)</code></pre>
+<pre class="r"><code>dcant_budget_basin_AIP_all &lt;- dcant_budget_basin_AIP_all %&gt;%
+  filter(estimate == &quot;dcant&quot;, 
+         method == &quot;total&quot;) %&gt;% 
+  select(-c(estimate, method)) %&gt;% 
+  rename(dcant = value)
+
+dcant_budget_basin_AIP_all_depth &lt;- dcant_budget_basin_AIP_all
+
+dcant_budget_basin_AIP_all &lt;- dcant_budget_basin_AIP_all %&gt;%
+  filter(inv_depth == params_global$inventory_depth_standard)
+
+dcant_budget_basin_AIP_bias_all &lt;- dcant_budget_basin_AIP_bias_all %&gt;%
+  filter(estimate == &quot;dcant&quot;) %&gt;% 
+  select(-c(estimate))
+
+dcant_budget_basin_AIP_bias_all_depth &lt;- dcant_budget_basin_AIP_bias_all
+
+dcant_budget_basin_AIP_bias_all &lt;- dcant_budget_basin_AIP_bias_all %&gt;%
+  filter(inv_depth == params_global$inventory_depth_standard)</code></pre>
+<pre class="r"><code>dcant_budget_basin_MLR_all &lt;- dcant_budget_basin_MLR_all %&gt;%
+  filter(estimate == &quot;dcant&quot;, 
+         method == &quot;total&quot;) %&gt;% 
+  select(-c(estimate, method)) %&gt;% 
+  rename(dcant = value)
+
+# dcant_budget_basin_MLR_all_depth &lt;- dcant_budget_basin_MLR_all
+
+dcant_budget_basin_MLR_all &lt;- dcant_budget_basin_MLR_all %&gt;%
+  filter(inv_depth == params_global$inventory_depth_standard)
+
+# dcant_budget_basin_MLR_bias_all &lt;- dcant_budget_basin_MLR_bias_all %&gt;%
+#   filter(estimate == &quot;dcant&quot;) %&gt;% 
+#   select(-c(estimate))
+# 
+# dcant_budget_basin_MLR_bias_all_depth &lt;- dcant_budget_basin_MLR_bias_all
+# 
+# dcant_budget_basin_MLR_bias_all &lt;- dcant_budget_basin_MLR_bias_all %&gt;%
+#   filter(inv_depth == params_global$inventory_depth_standard)</code></pre>
+</div>
+</div>
+<div id="bias-thresholds" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Bias thresholds</h1>
+<pre class="r"><code>global_bias_rel_max &lt;- 10
+global_bias_rel_max</code></pre>
+<pre><code>[1] 10</code></pre>
+<pre class="r"><code>regional_bias_rel_max &lt;- 20
+regional_bias_rel_max</code></pre>
+<pre><code>[1] 20</code></pre>
+</div>
+<div id="individual-cases" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Individual cases</h1>
+<div id="global-1" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Global</h2>
+<div id="absoulte-values" class="section level3" number="3.1.1">
+<h3><span class="header-section-number">3.1.1</span> Absoulte
+values</h3>
+<pre class="r"><code>legend_title = expression(atop(Delta * C[ant],
+                               (mu * mol ~ kg ^ {
+                                 -1
+                               })))
+
+dcant_budget_global_all %&gt;%
+  ggplot(aes(period, dcant, col = MLR_basins)) +
+  geom_jitter(width = 0.05, height = 0) +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  facet_grid(. ~ data_source) +
+  ylim(0,NA) +
+  theme(axis.text.x = element_text(angle = 45, hjust=1),
+        axis.title.x = element_blank())</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/cases_absolute_global-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="biases" class="section level3" number="3.1.2">
+<h3><span class="header-section-number">3.1.2</span> Biases</h3>
+<pre class="r"><code>dcant_budget_global_bias_all %&gt;%
+  ggplot(aes(period, dcant_bias, col=MLR_basins)) +
+  geom_hline(yintercept = 0) +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  labs(y = expression(atop(Delta * C[ant] ~ bias,
+                               (PgC)))) +
+  geom_point() +
+  theme(axis.text.x = element_blank(),
+        axis.title.x = element_blank())</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/cases_bias_global-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>p_global_bias &lt;-
+  dcant_budget_global_bias_all %&gt;%
+  ggplot() +
+  geom_hline(yintercept = global_bias_rel_max * c(-1, 1),
+             linetype = 2) +
+  geom_hline(yintercept = 0) +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  labs(y = expression(Delta * C[ant] ~ bias ~ (&quot;%&quot;)),
+       title = &quot;Model-based assesment&quot;) +
+  theme(axis.title.x = element_blank()) +
+  geom_point(aes(period, dcant_bias_rel, col = MLR_basins),
+  alpha = 0.7) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        axis.title.x = element_blank())
+
+p_global_bias</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/cases_bias_global-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dcant_budget_global_bias_all %&gt;%
+  group_by(period) %&gt;%
+  summarise(
+    dcant_bias_sd = sd(dcant_bias),
+    dcant_bias = mean(dcant_bias),
+    dcant_bias_rel_sd = sd(dcant_bias_rel),
+    dcant_bias_rel = mean(dcant_bias_rel)
+  ) %&gt;%
+  ungroup() %&gt;%
+  kable() %&gt;%
+  kable_styling() %&gt;%
+  scroll_box(height = &quot;300px&quot;)</code></pre>
+<div
+style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; ">
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+period
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+dcant_bias_sd
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+dcant_bias
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+dcant_bias_rel_sd
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+dcant_bias_rel
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+1.205534
+</td>
+<td style="text-align:right;">
+0.8121667
+</td>
+<td style="text-align:right;">
+6.834093
+</td>
+<td style="text-align:right;">
+4.604119
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+1.971685
+</td>
+<td style="text-align:right;">
+2.2595000
+</td>
+<td style="text-align:right;">
+5.125520
+</td>
+<td style="text-align:right;">
+5.873713
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+1.195715
+</td>
+<td style="text-align:right;">
+1.4301667
+</td>
+<td style="text-align:right;">
+5.740904
+</td>
+<td style="text-align:right;">
+6.866558
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="basins-1" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Basins</h2>
+<div id="absoulte-values-1" class="section level3" number="3.2.1">
+<h3><span class="header-section-number">3.2.1</span> Absoulte
+values</h3>
+<pre class="r"><code>dcant_budget_basin_AIP_all %&gt;%
+  ggplot(aes(period, dcant, col = MLR_basins)) +
+  geom_jitter(width = 0.05, height = 0) +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  facet_grid(basin_AIP ~ data_source) +
+  ylim(0,NA) +
+  theme(axis.text.x = element_text(angle = 45, hjust=1),
+        axis.title.x = element_blank())</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/cases_absolute-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="biases-1" class="section level3" number="3.2.2">
+<h3><span class="header-section-number">3.2.2</span> Biases</h3>
+<pre class="r"><code>dcant_budget_basin_AIP_bias_all %&gt;%
+  ggplot(aes(period, dcant_bias, col=MLR_basins)) +
+  geom_hline(yintercept = 0) +
+  geom_point() +
+  facet_grid(basin_AIP ~ .)</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/cases_bias-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dcant_budget_basin_AIP_bias_all %&gt;%
+  ggplot() +
+  geom_tile(aes(y = 0, height = regional_bias_rel_max * 2,
+                x = &quot;2004 - 2014&quot;, width = Inf,
+                fill = &quot;bias\nthreshold&quot;), alpha = 0.5) +
+  geom_hline(yintercept = 0) +
+  scale_fill_manual(values = &quot;grey70&quot;, name = &quot;&quot;) +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  labs(y = expression(Delta ~ C[ant] ~ bias)) +
+  theme(axis.title.x = element_blank()) +
+  geom_jitter(aes(period, dcant_bias_rel, col = MLR_basins),
+              width = 0.05, height = 0) +
+  facet_grid(. ~ basin_AIP)</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/cases_bias-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>p_regional_bias &lt;- 
+  dcant_budget_basin_AIP_bias_all %&gt;%
+  ggplot() +
+  geom_hline(yintercept = regional_bias_rel_max * c(-1,1),
+             linetype = 2) +
+  geom_hline(yintercept = 0) +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  labs(y = expression(Delta * C[ant] ~ bias ~ (&quot;%&quot;)),
+       title = &quot;Model-based assesment&quot;) +
+  theme(axis.title.x = element_blank()) +
+  geom_point(aes(period, dcant_bias_rel, col = MLR_basins),
+             alpha = 0.7) +
+    theme(axis.text.x = element_text(angle = 45, hjust=1),
+        axis.title.x = element_blank()) +
+  facet_grid(. ~ basin_AIP) +
+  theme(
+  strip.background = element_blank(),
+  strip.text.x = element_blank()
+)
+
+p_regional_bias</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/cases_bias-3.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="slab-budgets" class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> Slab budgets</h2>
+<div id="absolute-values" class="section level3" number="3.3.1">
+<h3><span class="header-section-number">3.3.1</span> Absolute
+values</h3>
+<pre class="r"><code>dcant_slab_budget_all %&gt;%
+  filter(data_source == &quot;obs&quot;,
+         period != &quot;1994 - 2014&quot;) %&gt;% 
+  ggplot(aes(MLR_basins, dcant, fill = gamma_slab)) +
+  geom_hline(yintercept = 0, col = &quot;red&quot;) +
+  geom_col() +
+  scale_fill_scico_d(direction = -1) +
+  facet_grid(basin_AIP ~ period)</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/slab_budgets-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dcant_slab_budget_all %&gt;%
+  filter(data_source == &quot;obs&quot;,
+         period != &quot;1994 - 2014&quot;) %&gt;%
+  group_by(basin_AIP) %&gt;%
+  group_split() %&gt;%
+  map(
+    ~ ggplot(data = .x,
+             aes(MLR_basins, dcant, fill = gamma_slab)) +
+      geom_hline(yintercept = 0) +
+      geom_col() +
+      scale_fill_scico_d(direction = -1) +
+      labs(title = paste(&quot;data_source:&quot;, unique(.x$basin_AIP))) +
+      facet_grid(gamma_slab ~ period)
+  )</code></pre>
+<pre><code>[[1]]</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/slab_budgets_individual-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[2]]</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/slab_budgets_individual-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[3]]</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/slab_budgets_individual-3.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="bias" class="section level3" number="3.3.2">
+<h3><span class="header-section-number">3.3.2</span> Bias</h3>
+<pre class="r"><code>dcant_slab_budget_bias_all %&gt;%
+  filter(period != &quot;1994 - 2014&quot;) %&gt;%
+  group_by(basin_AIP) %&gt;%
+  group_split() %&gt;%
+  # head(1) %&gt;% 
+  map(
+    ~ ggplot(data = .x,
+             aes(gamma_slab, dcant_bias, fill = gamma_slab)) +
+      geom_col() +
+      coord_flip() +
+      scale_x_discrete(limits = rev) +
+      scale_fill_scico_d(direction = -1) +
+      facet_grid(period ~ MLR_basins) +
+      labs(title = paste(&quot;data_source:&quot;, unique(.x$basin_AIP)))
+    )</code></pre>
+<pre><code>[[1]]</code></pre>
+<pre><code>Warning: Removed 40 rows containing missing values (position_stack).</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/slab_budgets_bias-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[2]]</code></pre>
+<pre><code>Warning: Removed 24 rows containing missing values (position_stack).</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/slab_budgets_bias-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[3]]</code></pre>
+<pre><code>Warning: Removed 108 rows containing missing values (position_stack).</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/slab_budgets_bias-3.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="spread" class="section level3" number="3.3.3">
+<h3><span class="header-section-number">3.3.3</span> Spread</h3>
+<pre class="r"><code>dcant_slab_budget_all %&gt;%
+  filter(period != &quot;1994 - 2014&quot;,
+         data_source != &quot;mod_truth&quot;) %&gt;%
+  group_by(data_source, basin_AIP, gamma_slab, period) %&gt;%
+  summarise(dcant_range = max(dcant) - min(dcant)) %&gt;%
+  ungroup() %&gt;%
+  group_split(basin_AIP) %&gt;%
+  # head(1) %&gt;%
+  map(
+    ~ ggplot(data = .x,
+             aes(gamma_slab, dcant_range, fill = gamma_slab)) +
+      geom_col() +
+      coord_flip() +
+      scale_x_discrete(limits = rev) +
+      scale_fill_scico_d(direction = -1) +
+      facet_grid(period ~ data_source) +
+      labs(title = paste(&quot;data_source:&quot;, unique(.x$basin_AIP)))
+  )</code></pre>
+<pre><code>`summarise()` has grouped output by &#39;data_source&#39;, &#39;basin_AIP&#39;, &#39;gamma_slab&#39;.
+You can override using the `.groups` argument.</code></pre>
+<pre><code>[[1]]</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/slab_budgets_spread-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[2]]</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/slab_budgets_spread-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[3]]</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/slab_budgets_spread-3.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="basins-hemisphere-1" class="section level2" number="3.4">
+<h2><span class="header-section-number">3.4</span> Basins
+hemisphere</h2>
+<div id="absoulte-values-2" class="section level3" number="3.4.1">
+<h3><span class="header-section-number">3.4.1</span> Absoulte
+values</h3>
+<pre class="r"><code>dcant_budget_basin_MLR_all %&gt;%
+  ggplot(aes(period, dcant, col = MLR_basins)) +
+  geom_jitter(width = 0.05, height = 0) +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  facet_grid(basin ~ data_source) +
+  ylim(0,NA) +
+  theme(axis.text.x = element_text(angle = 45, hjust=1),
+        axis.title.x = element_blank())</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/cases_absolute_basins_hemisphere-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="biases-2" class="section level3" number="3.4.2">
+<h3><span class="header-section-number">3.4.2</span> Biases</h3>
+<pre class="r"><code>dcant_budget_basin_MLR_bias_all &lt;-
+  dcant_budget_basin_MLR_all %&gt;%
+  filter(data_source %in% c(&quot;mod&quot;, &quot;mod_truth&quot;)) %&gt;%
+  pivot_wider(names_from = data_source,
+              values_from = dcant) %&gt;%
+  mutate(dcant_bias = mod - mod_truth,
+         dcant_bias_rel = 100*(mod - mod_truth)/mod_truth)
+  
+dcant_budget_basin_MLR_bias_all %&gt;%   
+  ggplot(aes(period, dcant_bias, col=MLR_basins)) +
+  geom_hline(yintercept = 0) +
+  geom_point() +
+  facet_grid(basin ~ .)</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/cases_bias_basins_hemisphere-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dcant_budget_basin_MLR_bias_all %&gt;%
+  ggplot() +
+  geom_tile(aes(y = 0, height = regional_bias_rel_max * 2,
+                x = &quot;2004 - 2014&quot;, width = Inf,
+                fill = &quot;bias\nthreshold&quot;), alpha = 0.5) +
+  geom_hline(yintercept = 0) +
+  scale_fill_manual(values = &quot;grey70&quot;, name = &quot;&quot;) +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  labs(y = expression(Delta ~ C[ant] ~ bias)) +
+  theme(axis.title.x = element_blank()) +
+  geom_jitter(aes(period, dcant_bias_rel, col = MLR_basins),
+              width = 0.05, height = 0) +
+  facet_grid(. ~ basin)</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/cases_bias_basins_hemisphere-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>p_regional_bias &lt;- 
+  dcant_budget_basin_MLR_bias_all %&gt;%
+  ggplot() +
+  geom_hline(yintercept = regional_bias_rel_max * c(-1,1),
+             linetype = 2) +
+  geom_hline(yintercept = 0) +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  labs(y = expression(Delta * C[ant] ~ bias ~ (&quot;%&quot;)),
+       title = &quot;Model-based assesment&quot;) +
+  theme(axis.title.x = element_blank()) +
+  geom_point(aes(period, dcant_bias_rel, col = MLR_basins),
+             alpha = 0.7) +
+    theme(axis.text.x = element_text(angle = 45, hjust=1),
+        axis.title.x = element_blank()) +
+  facet_grid(. ~ basin) +
+  theme(
+  strip.background = element_blank(),
+  strip.text.x = element_blank()
+)
+
+p_regional_bias</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/cases_bias_basins_hemisphere-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dcant_budget_basin_MLR_bias_all %&gt;%
+  group_by(period, basin) %&gt;%
+  summarise(
+    dcant_bias_sd = sd(dcant_bias),
+    dcant_bias = mean(dcant_bias),
+    dcant_bias_rel_sd = sd(dcant_bias_rel),
+    dcant_bias_rel = mean(dcant_bias_rel)
+  ) %&gt;%
+  ungroup() %&gt;%
+  kable() %&gt;%
+  kable_styling() %&gt;%
+  scroll_box(height = &quot;300px&quot;)</code></pre>
+<pre><code>`summarise()` has grouped output by &#39;period&#39;. You can override using the
+`.groups` argument.</code></pre>
+<div
+style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; ">
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+period
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+basin
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+dcant_bias_sd
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+dcant_bias
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+dcant_bias_rel_sd
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+dcant_bias_rel
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:left;">
+Indian
+</td>
+<td style="text-align:right;">
+1.0503048
+</td>
+<td style="text-align:right;">
+-0.1976667
+</td>
+<td style="text-align:right;">
+21.786037
+</td>
+<td style="text-align:right;">
+-4.100117
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:left;">
+N_Atlantic
+</td>
+<td style="text-align:right;">
+0.2313883
+</td>
+<td style="text-align:right;">
+0.2191667
+</td>
+<td style="text-align:right;">
+11.859987
+</td>
+<td style="text-align:right;">
+11.233555
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:left;">
+N_Pacific
+</td>
+<td style="text-align:right;">
+0.1287438
+</td>
+<td style="text-align:right;">
+0.3811667
+</td>
+<td style="text-align:right;">
+4.740199
+</td>
+<td style="text-align:right;">
+14.034119
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:left;">
+S_Atlantic
+</td>
+<td style="text-align:right;">
+0.2640664
+</td>
+<td style="text-align:right;">
+0.1016667
+</td>
+<td style="text-align:right;">
+10.562656
+</td>
+<td style="text-align:right;">
+4.066667
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:left;">
+S_Pacific
+</td>
+<td style="text-align:right;">
+0.6414012
+</td>
+<td style="text-align:right;">
+0.3076667
+</td>
+<td style="text-align:right;">
+11.348216
+</td>
+<td style="text-align:right;">
+5.443501
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:left;">
+Indian
+</td>
+<td style="text-align:right;">
+1.4462500
+</td>
+<td style="text-align:right;">
+0.6233333
+</td>
+<td style="text-align:right;">
+13.842362
+</td>
+<td style="text-align:right;">
+5.966054
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:left;">
+N_Atlantic
+</td>
+<td style="text-align:right;">
+0.3299485
+</td>
+<td style="text-align:right;">
+-0.0550000
+</td>
+<td style="text-align:right;">
+7.680365
+</td>
+<td style="text-align:right;">
+-1.280261
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:left;">
+N_Pacific
+</td>
+<td style="text-align:right;">
+0.2252057
+</td>
+<td style="text-align:right;">
+0.4790000
+</td>
+<td style="text-align:right;">
+3.857583
+</td>
+<td style="text-align:right;">
+8.204865
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:left;">
+S_Atlantic
+</td>
+<td style="text-align:right;">
+0.3531661
+</td>
+<td style="text-align:right;">
+0.4323333
+</td>
+<td style="text-align:right;">
+6.677369
+</td>
+<td style="text-align:right;">
+8.174198
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:left;">
+S_Pacific
+</td>
+<td style="text-align:right;">
+1.3168015
+</td>
+<td style="text-align:right;">
+0.7796667
+</td>
+<td style="text-align:right;">
+10.453295
+</td>
+<td style="text-align:right;">
+6.189304
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:left;">
+Indian
+</td>
+<td style="text-align:right;">
+0.6139226
+</td>
+<td style="text-align:right;">
+0.6958333
+</td>
+<td style="text-align:right;">
+10.912240
+</td>
+<td style="text-align:right;">
+12.368172
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:left;">
+N_Atlantic
+</td>
+<td style="text-align:right;">
+0.1689966
+</td>
+<td style="text-align:right;">
+-0.1943333
+</td>
+<td style="text-align:right;">
+7.206680
+</td>
+<td style="text-align:right;">
+-8.287136
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:left;">
+N_Pacific
+</td>
+<td style="text-align:right;">
+0.2286564
+</td>
+<td style="text-align:right;">
+0.1311667
+</td>
+<td style="text-align:right;">
+7.324037
+</td>
+<td style="text-align:right;">
+4.201367
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:left;">
+S_Atlantic
+</td>
+<td style="text-align:right;">
+0.2021224
+</td>
+<td style="text-align:right;">
+0.3633333
+</td>
+<td style="text-align:right;">
+7.247128
+</td>
+<td style="text-align:right;">
+13.027369
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:left;">
+S_Pacific
+</td>
+<td style="text-align:right;">
+0.6209901
+</td>
+<td style="text-align:right;">
+0.4353333
+</td>
+<td style="text-align:right;">
+8.941542
+</td>
+<td style="text-align:right;">
+6.268299
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div id="ensemble" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Ensemble</h1>
+<div id="global-2" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Global</h2>
+<pre class="r"><code>dcant_budget_global_all_in &lt;- dcant_budget_global_all %&gt;% 
+  filter(data_source %in% c(&quot;mod&quot;, &quot;obs&quot;))
+
+dcant_budget_global_ensemble &lt;- dcant_budget_global_all_in %&gt;% 
+  group_by(data_source, period, tref2) %&gt;% 
+  summarise(dcant_mean = mean(dcant),
+            dcant_sd = sd(dcant),
+            dcant_range = max(dcant)- min(dcant)) %&gt;% 
+  ungroup()</code></pre>
+<pre><code>`summarise()` has grouped output by &#39;data_source&#39;, &#39;period&#39;. You can override
+using the `.groups` argument.</code></pre>
+<div id="mean" class="section level3" number="4.1.1">
+<h3><span class="header-section-number">4.1.1</span> Mean</h3>
+<pre class="r"><code>legend_title = expression(Delta * C[ant]~(PgC))
+
+ggplot() +
+  geom_col(data = dcant_budget_global_ensemble,
+           aes(x = period,
+               y = dcant_mean),
+           fill = &quot;darkgrey&quot;) +
+  geom_errorbar(
+    data = dcant_budget_global_ensemble,
+    aes(
+      x = period,
+      y = dcant_mean,
+      ymax = dcant_mean + dcant_sd,
+      ymin = dcant_mean - dcant_sd
+    ),
+    width = 0.1
+  ) +
+  geom_point(
+    data = dcant_budget_global_all,
+    aes(period, dcant, col = MLR_basins),
+    alpha = 0.7,
+    position = position_jitter(width = 0.2, height = 0)
+  ) +
+  scale_y_continuous(limits = c(0,70), expand = c(0,0)) +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  facet_grid(. ~ data_source) +
+  labs(y = legend_title) +
+  theme(axis.text.x = element_text(angle = 45, hjust=1),
+        axis.title.x = element_blank())</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/ensemble_mean_global-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>p_global_dcant &lt;- ggplot() +
+  geom_col(data = dcant_budget_global_ensemble %&gt;% 
+             filter(data_source == &quot;obs&quot;),
+           aes(x = period,
+               y = dcant_mean),
+           fill = &quot;darkgrey&quot;) +
+    geom_point(
+    data = dcant_budget_global_all %&gt;% 
+             filter(data_source == &quot;obs&quot;),
+    aes(period, dcant, col = MLR_basins),
+    alpha = 0.7,
+    position = position_jitter(width = 0.1, height = 0)
+  ) +
+  geom_errorbar(
+    data = dcant_budget_global_ensemble %&gt;% 
+             filter(data_source == &quot;obs&quot;),
+    aes(
+      x = period,
+      y = dcant_mean,
+      ymax = dcant_mean + dcant_sd,
+      ymin = dcant_mean - dcant_sd
+    ),
+    width = 0.1
+  ) +
+  scale_y_continuous(limits = c(0,70), expand = c(0,0)) +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  labs(y = legend_title,
+       title = &quot;Observation-based results&quot;) +
+  theme(axis.text.x = element_blank(),
+        axis.title.x = element_blank())
+
+p_global_dcant_bias &lt;-
+p_global_dcant / p_global_bias +
+  plot_layout(guides = &#39;collect&#39;,
+              heights = c(2,1))
+
+p_global_dcant_bias</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/ensemble_mean_global-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># ggsave(plot = p_global_dcant_bias,
+#        path = here::here(&quot;output/publication&quot;),
+#        filename = &quot;Fig_global_dcant_budget.png&quot;,
+#        height = 5,
+#        width = 5)
+
+rm(p_global_bias, p_global_dcant, p_global_dcant_bias)</code></pre>
+</div>
+<div id="mean-vs-atm-co2" class="section level3" number="4.1.2">
+<h3><span class="header-section-number">4.1.2</span> Mean vs atm
+CO2</h3>
+<pre class="r"><code>dcant_ensemble &lt;- dcant_budget_global_ensemble %&gt;% 
+  filter(data_source == &quot;obs&quot;,
+         period != &quot;1994 - 2014&quot;) %&gt;% 
+  select(year = tref2, dcant_mean, dcant_sd)
+
+tcant_S04 &lt;- bind_cols(year = 1994, dcant_mean = 118, dcant_sd = 19)
+
+tcant_ensemble &lt;- full_join(dcant_ensemble, tcant_S04)</code></pre>
+<pre><code>Joining, by = c(&quot;year&quot;, &quot;dcant_mean&quot;, &quot;dcant_sd&quot;)</code></pre>
+<pre class="r"><code>tcant_ensemble &lt;- left_join(tcant_ensemble, co2_atm)</code></pre>
+<pre><code>Joining, by = &quot;year&quot;</code></pre>
+<pre class="r"><code>co2_atm_pi &lt;- bind_cols(pCO2 = 280, dcant_mean = 0, year = 1750, dcant_sd = 0)
+
+tcant_ensemble &lt;- full_join(tcant_ensemble, co2_atm_pi)</code></pre>
+<pre><code>Joining, by = c(&quot;year&quot;, &quot;dcant_mean&quot;, &quot;dcant_sd&quot;, &quot;pCO2&quot;)</code></pre>
+<pre class="r"><code>tcant_ensemble &lt;- tcant_ensemble %&gt;% 
+  arrange(year) %&gt;% 
+  mutate(tcant = cumsum(dcant_mean),
+         tcant_sd = cumsum(dcant_sd))
+
+tcant_ensemble %&gt;% 
+  ggplot(aes(pCO2, tcant, ymin = tcant - tcant_sd, ymax = tcant + tcant_sd)) +
+  geom_ribbon(fill = &quot;grey80&quot;) +
+  geom_point() +
+  geom_line() +
+  scale_x_continuous(breaks = seq(280, 400, 30),
+                     sec.axis = dup_axis(labels =  c(1750, 1940, 1980, 2000, 2015),
+                                         name = &quot;Year&quot;)) +
+  geom_text(aes(label = year), nudge_x = -5, nudge_y = 5) +
+  labs(x = expression(Atmospheric~pCO[2]~(µatm)),
+       y = expression(Total~oceanic~C[ant]~(PgC)))</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/mean_tcant_over_atm_co2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># ggsave(path = &quot;output/publication&quot;,
+#        filename = &quot;Fig_global_dcant_budget_vs_atm_pCO2.png&quot;,
+#        height = 4,
+#        width = 7)</code></pre>
+</div>
+<div id="sum-decades" class="section level3" number="4.1.3">
+<h3><span class="header-section-number">4.1.3</span> Sum decades</h3>
+<pre class="r"><code>dcant_budget_global_all_in_sum &lt;-
+  dcant_budget_global_all_in %&gt;%
+  filter(period != &quot;1994 - 2014&quot;) %&gt;%
+  arrange(tref1) %&gt;%
+  group_by(data_source, MLR_basins) %&gt;%
+  mutate(dcant = dcant + lag(dcant)) %&gt;% 
+  ungroup() %&gt;%
+  drop_na() %&gt;% 
+  mutate(estimate = &quot;sum&quot;)
+
+dcant_budget_global_all_in_sum &lt;-
+  bind_rows(
+    dcant_budget_global_all_in_sum,
+    dcant_budget_global_all_in %&gt;%
+      filter(period == &quot;1994 - 2014&quot;) %&gt;%
+      mutate(estimate = &quot;direct&quot;)
+  )
+
+ggplot() +
+  geom_point(
+    data = dcant_budget_global_all_in_sum,
+    aes(estimate, dcant, col = MLR_basins),
+    alpha = 0.7,
+    position = position_jitter(width = 0, height = 0)
+  ) +
+  scale_y_continuous(limits = c(0,70), expand = c(0,0)) +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  facet_grid(. ~ data_source) +
+  theme(axis.text.x = element_text(angle = 45, hjust=1),
+        axis.title.x = element_blank())</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/summed_decades-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="mean-bias" class="section level3" number="4.1.4">
+<h3><span class="header-section-number">4.1.4</span> Mean bias</h3>
+<pre class="r"><code>dcant_budget_global_ensemble_bias &lt;- full_join(
+  dcant_budget_global_ensemble %&gt;%
+    filter(data_source == &quot;mod&quot;) %&gt;% 
+    select(period, dcant_mean, dcant_sd),
+  dcant_budget_global_all %&gt;%
+    filter(data_source == &quot;mod_truth&quot;,
+           MLR_basins == unique(dcant_budget_global_all$MLR_basins)[1]) %&gt;% 
+    select(period, dcant)
+)</code></pre>
+<pre><code>Joining, by = &quot;period&quot;</code></pre>
+<pre class="r"><code>dcant_budget_global_ensemble_bias &lt;- dcant_budget_global_ensemble_bias %&gt;% 
+  mutate(dcant_mean_bias = dcant_mean - dcant,
+         dcant_mean_bias_rel = 100 * dcant_mean_bias / dcant)
+
+dcant_budget_global_ensemble_bias %&gt;%
+  ggplot(aes(period, dcant_mean_bias)) +
+  geom_hline(yintercept = 0) +
+  geom_point()</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/ensemble_mean_bias_global-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dcant_budget_global_ensemble_bias %&gt;%
+  ggplot(aes(period, dcant_mean_bias_rel)) +
+  geom_hline(yintercept = 0) +
+  geom_point()</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/ensemble_mean_bias_global-2.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="vertical-patterns" class="section level3" number="4.1.5">
+<h3><span class="header-section-number">4.1.5</span> Vertical
+patterns</h3>
+<div id="absoulte-values-3" class="section level4" number="4.1.5.1">
+<h4><span class="header-section-number">4.1.5.1</span> Absoulte
+values</h4>
+<pre class="r"><code>dcant_budget_global_all_depth %&gt;%
+  filter(data_source != &quot;mod_truth&quot;) %&gt;% 
+  group_by(data_source) %&gt;%
+  group_split() %&gt;%
+  # head(1) %&gt;%
+  map(
+    ~  ggplot(data = .x,
+              aes(dcant, MLR_basins, fill=period)) +
+      geom_vline(xintercept = 0) +
+      geom_col(position = &quot;dodge&quot;) +
+      scale_fill_brewer(palette = &quot;Dark2&quot;) +
+      facet_grid(inv_depth ~ .) +
+      labs(title = paste(&quot;data_source:&quot;, unique(.x$data_source)))
+  )</code></pre>
+<pre><code>[[1]]</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/cases_absolute_depth_global-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[2]]</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/cases_absolute_depth_global-2.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="biases-3" class="section level4" number="4.1.5.2">
+<h4><span class="header-section-number">4.1.5.2</span> Biases</h4>
+<pre class="r"><code>dcant_budget_global_bias_all_depth %&gt;%
+  ggplot(aes(dcant_bias, MLR_basins, fill = period)) +
+  geom_vline(xintercept = 0) +
+  geom_col(position = &quot;dodge&quot;) +
+  scale_fill_brewer(palette = &quot;Dark2&quot;) +
+  facet_grid(inv_depth ~ .)</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/cases_bias_depth_global-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dcant_budget_global_bias_all_depth %&gt;%
+  ggplot(aes(dcant_bias_rel, MLR_basins, fill = period)) +
+  geom_vline(xintercept = 0) +
+  geom_col(position = &quot;dodge&quot;) +
+  scale_fill_brewer(palette = &quot;Dark2&quot;) +
+  facet_grid(inv_depth ~ .)</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/cases_bias_rel_depth_global-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>rm(dcant_budget_global_all,
+   dcant_budget_global_all_depth,
+   dcant_budget_global_bias_all,
+   dcant_budget_global_bias_all_depth,
+   dcant_budget_global_ensemble,
+   dcant_budget_global_ensemble_bias)</code></pre>
+</div>
+</div>
+</div>
+<div id="basins-2" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Basins</h2>
+<pre class="r"><code>dcant_budget_basin_AIP_ensemble &lt;- dcant_budget_basin_AIP_all %&gt;% 
+  filter(data_source %in% c(&quot;mod&quot;, &quot;obs&quot;)) %&gt;% 
+  group_by(basin_AIP, data_source, period) %&gt;% 
+  summarise(dcant_mean = mean(dcant),
+            dcant_sd = sd(dcant),
+            dcant_range = max(dcant)- min(dcant)) %&gt;% 
+  ungroup()</code></pre>
+<pre><code>`summarise()` has grouped output by &#39;basin_AIP&#39;, &#39;data_source&#39;. You can override
+using the `.groups` argument.</code></pre>
+<div id="mean-1" class="section level3" number="4.2.1">
+<h3><span class="header-section-number">4.2.1</span> Mean</h3>
+<pre class="r"><code>dcant_budget_basin_AIP_ensemble %&gt;%
+  ggplot(aes(period, dcant_mean, col=basin_AIP)) +
+  geom_pointrange(aes(ymax = dcant_mean + dcant_sd,
+                      ymin = dcant_mean - dcant_sd),
+                  shape = 21) +
+  facet_grid(. ~ data_source)</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/ensemble_mean-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>p_regional_dcant &lt;- ggplot() +
+  geom_col(
+    data = dcant_budget_basin_AIP_ensemble %&gt;%
+      filter(data_source == &quot;obs&quot;),
+    aes(x = period,
+        y = dcant_mean),
+    fill = &quot;darkgrey&quot;
+  ) +
+  geom_point(
+    data = dcant_budget_basin_AIP_all %&gt;%
+      filter(data_source == &quot;obs&quot;),
+    aes(period, dcant, col = MLR_basins),
+    position = position_jitter(width = 0.1, height = 0),
+    alpha = 0.7
+  ) +
+  geom_errorbar(
+    data = dcant_budget_basin_AIP_ensemble %&gt;%
+      filter(data_source == &quot;obs&quot;),
+    aes(
+      x = period,
+      y = dcant_mean,
+      ymax = dcant_mean + dcant_sd,
+      ymin = dcant_mean - dcant_sd
+    ),
+    width = 0.1
+  ) +
+  scale_y_continuous(limits = c(0, 35), expand = c(0, 0)) +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  labs(y = legend_title,
+       title = &quot;Observation-based results&quot;) +
+  theme(axis.text.x = element_blank(),
+        axis.title.x = element_blank()) +
+  facet_grid(. ~ basin_AIP)
+
+p_regional_dcant_bias &lt;-
+p_regional_dcant / p_regional_bias +
+  plot_layout(guides = &#39;collect&#39;,
+              heights = c(2,1))
+
+p_regional_dcant_bias</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/ensemble_mean-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># ggsave(plot = p_regional_dcant_bias,
+#        path = &quot;output/publication&quot;,
+#        filename = &quot;Fig_regional_dcant_budget.png&quot;,
+#        height = 5,
+#        width = 10)
+
+rm(p_regional_bias, p_regional_dcant, p_regional_dcant_bias)</code></pre>
+</div>
+<div id="mean-bias-1" class="section level3" number="4.2.2">
+<h3><span class="header-section-number">4.2.2</span> Mean bias</h3>
+<pre class="r"><code>dcant_budget_basin_AIP_ensemble_bias &lt;- full_join(
+  dcant_budget_basin_AIP_ensemble %&gt;%
+    filter(data_source == &quot;mod&quot;) %&gt;% 
+    select(basin_AIP, period, dcant_mean, dcant_sd),
+  dcant_budget_basin_AIP_all %&gt;%
+    filter(data_source == &quot;mod_truth&quot;,
+           MLR_basins == unique(dcant_budget_basin_AIP_all$MLR_basins)[1]) %&gt;% 
+    select(basin_AIP, period, dcant)
+)</code></pre>
+<pre><code>Joining, by = c(&quot;basin_AIP&quot;, &quot;period&quot;)</code></pre>
+<pre class="r"><code>dcant_budget_basin_AIP_ensemble_bias &lt;- dcant_budget_basin_AIP_ensemble_bias %&gt;% 
+  mutate(dcant_mean_bias = dcant_mean - dcant,
+         dcant_mean_bias_rel = 100 * dcant_mean_bias / dcant)
+
+
+dcant_budget_basin_AIP_ensemble_bias %&gt;%
+  ggplot(aes(period, dcant_mean_bias, col = basin_AIP)) +
+  geom_hline(yintercept = 0) +
+  geom_point()</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/ensemble_mean_bias-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dcant_budget_basin_AIP_ensemble_bias %&gt;%
+  ggplot(aes(period, dcant_mean_bias_rel, col = basin_AIP)) +
+  geom_hline(yintercept = 0) +
+  geom_point()</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/ensemble_mean_bias-2.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="vertical-patterns-1" class="section level3" number="4.2.3">
+<h3><span class="header-section-number">4.2.3</span> Vertical
+patterns</h3>
+<div id="absoulte-values-4" class="section level4" number="4.2.3.1">
+<h4><span class="header-section-number">4.2.3.1</span> Absoulte
+values</h4>
+<pre class="r"><code>dcant_budget_basin_AIP_all_depth %&gt;%
+  filter(data_source != &quot;mod_truth&quot;) %&gt;%
+  group_by(data_source) %&gt;%
+  group_split() %&gt;%
+  # head(1) %&gt;%
+  map(
+    ~  ggplot(data = .x,
+              aes(dcant, MLR_basins, fill = basin_AIP)) +
+      geom_vline(xintercept = 0) +
+      geom_col() +
+      scale_fill_brewer(palette = &quot;Dark2&quot;) +
+      facet_grid(inv_depth ~ period) +
+      labs(title = paste(&quot;data_source:&quot;, unique(.x$data_source)))
+  )</code></pre>
+<pre><code>[[1]]</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/cases_absolute_depth-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[2]]</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/cases_absolute_depth-2.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="biases-4" class="section level4" number="4.2.3.2">
+<h4><span class="header-section-number">4.2.3.2</span> Biases</h4>
+<pre class="r"><code>dcant_budget_basin_AIP_bias_all_depth %&gt;%
+  ggplot(aes(dcant_bias, MLR_basins, fill = basin_AIP)) +
+  geom_vline(xintercept = 0) +
+  geom_col() +
+  scale_fill_brewer(palette = &quot;Dark2&quot;) +
+  facet_grid(inv_depth ~ period)</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/cases_bias_depth-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dcant_budget_basin_AIP_bias_all_depth %&gt;%
+  ggplot(aes(dcant_bias_rel, MLR_basins, fill = basin_AIP)) +
+  geom_vline(xintercept = 0) +
+  geom_col(position = &quot;dodge&quot;) +
+  scale_fill_brewer(palette = &quot;Dark2&quot;) +
+  facet_grid(inv_depth ~ period)</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/cases_bias_rel_depth-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+</div>
+</div>
+<div id="steady-state-1" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Steady state</h1>
+<pre class="r"><code>dcant_obs_budget_all %&gt;%
+  group_by(inv_depth) %&gt;%
+  group_split() %&gt;%
+  # head(1) %&gt;% 
+  map(
+    ~ ggplot(data = .x,
+             aes(estimate, dcant_pos, fill = basin_AIP)) +
+      scale_fill_brewer(palette = &quot;Dark2&quot;) +
+      geom_col() +
+      facet_grid(MLR_basins ~ period) +
+      labs(title = paste(&quot;inventory depth:&quot;,unique(.x$inv_depth)))
+  )</code></pre>
+<pre><code>[[1]]</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/steady_state_comparison-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[2]]</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/steady_state_comparison-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[3]]</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/steady_state_comparison-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[4]]</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/steady_state_comparison-4.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[5]]</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/steady_state_comparison-5.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="predictor-analysis" class="section level1" number="6">
+<h1><span class="header-section-number">6</span> Predictor analysis</h1>
+<pre class="r"><code>lm_best_predictor_counts_all &lt;-
+  full_join(lm_best_predictor_counts_all,
+            params_local_all)</code></pre>
+<pre><code>Joining, by = &quot;Version_ID&quot;</code></pre>
+<pre class="r"><code>lm_best_predictor_counts_all &lt;- lm_best_predictor_counts_all %&gt;% 
+  mutate(n_predictors_total = rowSums(across(aou:temp), na.rm = TRUE)/10)
+
+lm_best_predictor_counts_all %&gt;%
+  ggplot(aes(x = MLR_basins, y = n_predictors_total)) +
+  # ggdist::stat_halfeye(
+  #   adjust = .5,
+  #   width = .6,
+  #   .width = 0,
+  #   justification = -.2,
+  #   point_colour = NA
+  # ) +
+  geom_boxplot(width = 0.5,
+               outlier.shape = NA) +
+  gghalves::geom_half_point(
+    side = &quot;l&quot;,
+    range_scale = .4,
+    alpha = .5,
+    aes(col = gamma_slab)
+  ) +
+  scale_color_viridis_d() +
+  facet_grid(basin ~ data_source)</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/predictor_analysis-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>lm_best_predictor_counts_all %&gt;%
+  pivot_longer(aou:temp,
+               names_to = &quot;predictor&quot;,
+               values_to = &quot;count&quot;) %&gt;%
+  group_split(predictor) %&gt;%
+  # head(1) %&gt;%
+  map(
+    ~ ggplot(data = .x,
+             aes(MLR_basins, count, color = gamma_slab)) +
+      geom_jitter(alpha = 0.5) +
+      scale_color_viridis_d() +
+      labs(title = paste0(&quot;predictor:&quot;, unique(.x$predictor))) +
+      coord_cartesian(ylim = c(0, 10)) +
+      facet_grid(basin ~ data_source)
+  )</code></pre>
+<pre><code>[[1]]</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/predictor_analysis-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[2]]</code></pre>
+<pre><code>Warning: Removed 23 rows containing missing values (geom_point).</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/predictor_analysis-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[3]]</code></pre>
+<pre><code>Warning: Removed 2 rows containing missing values (geom_point).</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/predictor_analysis-4.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[4]]</code></pre>
+<pre><code>Warning: Removed 23 rows containing missing values (geom_point).</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/predictor_analysis-5.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[5]]</code></pre>
+<pre><code>Warning: Removed 5 rows containing missing values (geom_point).</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/predictor_analysis-6.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[6]]</code></pre>
+<pre><code>Warning: Removed 6 rows containing missing values (geom_point).</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/predictor_analysis-7.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>
+[[7]]</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/predictor_analysis-8.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>lm_best_dcant_all &lt;-
+  full_join(lm_best_dcant_all,
+            params_local_all)</code></pre>
+<pre><code>Joining, by = &quot;Version_ID&quot;</code></pre>
+<pre class="r"><code>lm_best_dcant_all %&gt;%
+  count(basin, data_source, gamma_slab, MLR_basins, period) %&gt;%
+  ggplot(aes(MLR_basins, n)) +
+  geom_jitter(height = 0, alpha = 0.3) +
+  facet_grid(basin ~ data_source)</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/predictor_analysis-9.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="drift-and-bias" class="section level1" number="7">
+<h1><span class="header-section-number">7</span> Drift and bias</h1>
+<pre class="r"><code>dcant_budget_global_all_dissic %&gt;%
+  filter(estimate == &quot;dcant&quot;) %&gt;%
+  ggplot(aes(inv_depth, value, col = !!sym(config))) +
+  geom_hline(yintercept = 0) +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  geom_point() +
+  geom_path() +
+  labs(y = &quot;DIC change (PgC)&quot;) +
+  facet_grid(data_source ~ period, scales = &quot;free_y&quot;)</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/drift_bias_plots-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dcant_budget_global_bias_all_decomposition &lt;-
+  dcant_budget_global_bias_all_decomposition %&gt;%
+  filter(estimate == &quot;dcant&quot;) %&gt;%
+  select(inv_depth, dcant_bias, contribution, !!sym(config), period) %&gt;%
+  pivot_wider(names_from = contribution,
+              values_from = dcant_bias)
+
+dcant_budget_global_bias_all_decomposition &lt;-
+  full_join(
+    dcant_budget_global_bias_all_decomposition,
+    dcant_budget_global_bias_all_depth %&gt;%
+      select(inv_depth, !!sym(config), period, mod_truth)
+  )</code></pre>
+<pre><code>Joining, by = c(&quot;inv_depth&quot;, &quot;MLR_basins&quot;, &quot;period&quot;)</code></pre>
+<pre class="r"><code>dcant_budget_global_bias_all_decomposition %&gt;%
+  ggplot(aes(`dcant offset`, `delta C* - mod_truth`, col = !!sym(config))) +
+  geom_vline(xintercept = 0, col = &quot;grey50&quot;) +
+  geom_hline(yintercept = 0, col = &quot;grey50&quot;) +
+  geom_abline(intercept = 0, slope = 1) +
+  geom_point() +
+  coord_fixed() +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  facet_grid(inv_depth ~ period)</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/drift_bias_plots-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dcant_budget_global_bias_all_decomposition %&gt;%
+  ggplot(aes(`dcant offset`, `C* prediction error`, col = !!sym(config))) +
+  geom_vline(xintercept = 0, col = &quot;grey50&quot;) +
+  geom_hline(yintercept = 0, col = &quot;grey50&quot;) +
+  geom_abline(intercept = 0, slope = 1) +
+  geom_point() +
+  coord_fixed() +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  facet_grid(inv_depth ~ period)</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/drift_bias_plots-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dcant_budget_global_bias_all_decomposition %&gt;%
+  ggplot(aes(
+    `dcant offset`,
+    `C* prediction error` + `delta C* - mod_truth`,
+    col = !!sym(config)
+  )) +
+  geom_vline(xintercept = 0, col = &quot;grey50&quot;) +
+  geom_hline(yintercept = 0, col = &quot;grey50&quot;) +
+  geom_abline(intercept = 0, slope = 1) +
+  geom_point() +
+  coord_fixed() +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  facet_grid(inv_depth ~ period)</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/drift_bias_plots-4.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dcant_budget_global_bias_all_decomposition %&gt;%
+  ggplot(aes(`dcant offset`, `C* drift`, col = !!sym(config))) +
+  geom_vline(xintercept = 0, col = &quot;grey50&quot;) +
+  geom_hline(yintercept = 0, col = &quot;grey50&quot;) +
+  geom_abline(intercept = 0, slope = 1) +
+  geom_point() +
+  coord_fixed() +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  facet_grid(inv_depth ~ period)</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/drift_bias_plots-5.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dcant_budget_global_bias_all_decomposition %&gt;%
+  ggplot(aes(
+    `dcant offset` - `C* drift`,
+    `C* prediction error`,
+    col = !!sym(config)
+  )) +
+  geom_vline(xintercept = 0, col = &quot;grey50&quot;) +
+  geom_hline(yintercept = 0, col = &quot;grey50&quot;) +
+  geom_abline(intercept = 0, slope = 1) +
+  geom_point() +
+  coord_fixed() +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  facet_grid(inv_depth ~ period)</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/drift_bias_plots-6.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dcant_budget_global_bias_all_decomposition %&gt;%
+  ggplot(aes(
+    x = period,
+    fill = !!sym(config),
+    col = !!sym(config)
+  )) +
+  geom_hline(yintercept = 0) +
+  geom_point(
+    aes(y = `dcant offset`, shape = &quot;dcant offset&quot;),
+    position = position_nudge(x = -0.05),
+    alpha = 0.5
+  ) +
+  geom_point(
+    aes(y = `dcant offset` - `C* drift`, shape = &quot;dcant offset - C* drift&quot;),
+    position = position_nudge(x = 0.05),
+    alpha = 0.5
+  ) +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  scale_fill_brewer(palette = &quot;Dark2&quot;) +
+  scale_shape_manual(values = c(21,23)) +
+  facet_grid(inv_depth ~ .)</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/drift_bias_plots-7.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dcant_budget_global_bias_all_decomposition &lt;-
+  dcant_budget_global_bias_all_decomposition %&gt;%
+  mutate(
+    `dcant offset rel` = 100 * `dcant offset` / mod_truth,
+    `dcant offset rel corr` = 100 * (`dcant offset` - `C* drift`) / mod_truth,
+    `C* prediction error rel` = 100 * (`C* prediction error`) / mod_truth
+  )
+
+dcant_budget_global_bias_all_decomposition %&gt;%
+  ggplot(aes(
+    x = period,
+    fill = !!sym(config),
+    col = !!sym(config)
+  )) +
+  geom_hline(yintercept = 0) +
+  geom_point(
+    aes(y = `dcant offset rel`, shape = &quot;dcant offset&quot;),
+    position = position_nudge(x = -0.05),
+    alpha = 0.5
+  ) +
+  geom_point(
+    aes(y = `dcant offset rel corr`, shape = &quot;dcant offset - C* drift&quot;),
+    position = position_nudge(x = 0.05),
+    alpha = 0.5
+  ) +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  scale_fill_brewer(palette = &quot;Dark2&quot;) +
+  scale_shape_manual(values = c(21,23)) +
+  facet_grid(inv_depth ~ .)</code></pre>
+<p><img src="figure/WOA18_budgets.Rmd/drift_bias_plots-8.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dcant_budget_global_bias_all_decomposition &lt;-
+  dcant_budget_global_bias_all_decomposition %&gt;%
+  pivot_longer(-c(inv_depth:period),
+               names_to = &quot;estimate&quot;,
+               values_to = &quot;value&quot;)
+
+
+dcant_budget_global_bias_all_decomposition %&gt;%
+  group_by(inv_depth, estimate) %&gt;%
+  summarise(mean = mean(value),
+            sd = sd(value)) %&gt;%
+  ungroup() %&gt;%
+  kable() %&gt;%
+  kable_styling() %&gt;%
+  scroll_box(height = &quot;300px&quot;)</code></pre>
+<pre><code>`summarise()` has grouped output by &#39;inv_depth&#39;. You can override using the
+`.groups` argument.</code></pre>
+<div
+style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; ">
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+inv_depth
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+estimate
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+mean
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+sd
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+C* drift
+</td>
+<td style="text-align:right;">
+0.1286667
+</td>
+<td style="text-align:right;">
+0.0468113
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+C* prediction error
+</td>
+<td style="text-align:right;">
+-0.1510556
+</td>
+<td style="text-align:right;">
+0.2812768
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+C* prediction error rel
+</td>
+<td style="text-align:right;">
+-2.9194349
+</td>
+<td style="text-align:right;">
+6.8020742
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+dcant offset
+</td>
+<td style="text-align:right;">
+0.2374444
+</td>
+<td style="text-align:right;">
+0.1629793
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+dcant offset rel
+</td>
+<td style="text-align:right;">
+5.2630346
+</td>
+<td style="text-align:right;">
+4.1819014
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+dcant offset rel corr
+</td>
+<td style="text-align:right;">
+2.5497943
+</td>
+<td style="text-align:right;">
+4.0469449
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+delta C* - mod_truth
+</td>
+<td style="text-align:right;">
+-0.5213333
+</td>
+<td style="text-align:right;">
+0.2108844
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:right;">
+4.7563333
+</td>
+<td style="text-align:right;">
+1.7425592
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+C* drift
+</td>
+<td style="text-align:right;">
+0.8940000
+</td>
+<td style="text-align:right;">
+0.3252731
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+C* prediction error
+</td>
+<td style="text-align:right;">
+-0.2760556
+</td>
+<td style="text-align:right;">
+0.6051120
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+C* prediction error rel
+</td>
+<td style="text-align:right;">
+-1.4564125
+</td>
+<td style="text-align:right;">
+3.9388511
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+dcant offset
+</td>
+<td style="text-align:right;">
+0.3040556
+</td>
+<td style="text-align:right;">
+0.5528677
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+dcant offset rel
+</td>
+<td style="text-align:right;">
+2.0181420
+</td>
+<td style="text-align:right;">
+3.9211493
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+dcant offset rel corr
+</td>
+<td style="text-align:right;">
+-3.2716308
+</td>
+<td style="text-align:right;">
+3.6827364
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+delta C* - mod_truth
+</td>
+<td style="text-align:right;">
+-0.7573333
+</td>
+<td style="text-align:right;">
+0.2782179
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:right;">
+16.9600000
+</td>
+<td style="text-align:right;">
+6.2242462
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+C* drift
+</td>
+<td style="text-align:right;">
+2.2606667
+</td>
+<td style="text-align:right;">
+0.8224770
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+C* prediction error
+</td>
+<td style="text-align:right;">
+-1.5105000
+</td>
+<td style="text-align:right;">
+0.9391364
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+C* prediction error rel
+</td>
+<td style="text-align:right;">
+-6.5764080
+</td>
+<td style="text-align:right;">
+3.4588655
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+dcant offset
+</td>
+<td style="text-align:right;">
+0.2196111
+</td>
+<td style="text-align:right;">
+0.7040770
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+dcant offset rel
+</td>
+<td style="text-align:right;">
+1.0692998
+</td>
+<td style="text-align:right;">
+3.4684847
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+dcant offset rel corr
+</td>
+<td style="text-align:right;">
+-8.9125027
+</td>
+<td style="text-align:right;">
+3.2525472
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+delta C* - mod_truth
+</td>
+<td style="text-align:right;">
+0.3930000
+</td>
+<td style="text-align:right;">
+0.1726274
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:right;">
+22.7516667
+</td>
+<td style="text-align:right;">
+8.3557301
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+C* drift
+</td>
+<td style="text-align:right;">
+3.5240000
+</td>
+<td style="text-align:right;">
+1.2825060
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+C* prediction error
+</td>
+<td style="text-align:right;">
+-1.1812222
+</td>
+<td style="text-align:right;">
+1.4483787
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+C* prediction error rel
+</td>
+<td style="text-align:right;">
+-4.7454844
+</td>
+<td style="text-align:right;">
+5.5474568
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+dcant offset
+</td>
+<td style="text-align:right;">
+1.5006111
+</td>
+<td style="text-align:right;">
+1.5374143
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+dcant offset rel
+</td>
+<td style="text-align:right;">
+5.7814635
+</td>
+<td style="text-align:right;">
+5.6625770
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+dcant offset rel corr
+</td>
+<td style="text-align:right;">
+-8.0350395
+</td>
+<td style="text-align:right;">
+5.9629918
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+delta C* - mod_truth
+</td>
+<td style="text-align:right;">
+1.3360000
+</td>
+<td style="text-align:right;">
+0.4970814
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:right;">
+25.6453333
+</td>
+<td style="text-align:right;">
+9.4254881
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+C* drift
+</td>
+<td style="text-align:right;">
+3.5926667
+</td>
+<td style="text-align:right;">
+1.3076595
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+C* prediction error
+</td>
+<td style="text-align:right;">
+-0.4142222
+</td>
+<td style="text-align:right;">
+1.9411466
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+C* prediction error rel
+</td>
+<td style="text-align:right;">
+-1.7720957
+</td>
+<td style="text-align:right;">
+7.4422688
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+dcant offset
+</td>
+<td style="text-align:right;">
+1.8828333
+</td>
+<td style="text-align:right;">
+2.1175031
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+dcant offset rel
+</td>
+<td style="text-align:right;">
+7.1142306
+</td>
+<td style="text-align:right;">
+7.6395068
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+dcant offset rel corr
+</td>
+<td style="text-align:right;">
+-6.7598057
+</td>
+<td style="text-align:right;">
+7.9334250
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+delta C* - mod_truth
+</td>
+<td style="text-align:right;">
+0.9513333
+</td>
+<td style="text-align:right;">
+0.3587727
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:right;">
+26.0420000
+</td>
+<td style="text-align:right;">
+9.5725748
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<pre class="r"><code>dcant_budget_global_bias_all_decomposition %&gt;%
+  group_by(inv_depth, estimate, period) %&gt;%
+  summarise(mean = mean(value),
+            sd = sd(value)) %&gt;%
+  ungroup() %&gt;%
+  kable() %&gt;%
+  kable_styling() %&gt;%
+  scroll_box(height = &quot;300px&quot;)</code></pre>
+<pre><code>`summarise()` has grouped output by &#39;inv_depth&#39;, &#39;estimate&#39;. You can override
+using the `.groups` argument.</code></pre>
+<div
+style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; ">
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+inv_depth
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+estimate
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+period
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+mean
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+sd
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+C* drift
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+0.0960000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+C* drift
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+0.1930000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+C* drift
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+0.0970000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+C* prediction error
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+0.0608333
+</td>
+<td style="text-align:right;">
+0.2236725
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+C* prediction error
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+-0.2361667
+</td>
+<td style="text-align:right;">
+0.2569696
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+C* prediction error
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+-0.2778333
+</td>
+<td style="text-align:right;">
+0.2666041
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+C* prediction error rel
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+1.8328814
+</td>
+<td style="text-align:right;">
+6.7391520
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+C* prediction error rel
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+-3.3104383
+</td>
+<td style="text-align:right;">
+3.6020407
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+C* prediction error rel
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+-7.2807477
+</td>
+<td style="text-align:right;">
+6.9864816
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+dcant offset
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+0.3335000
+</td>
+<td style="text-align:right;">
+0.0715395
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+dcant offset
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+0.3435000
+</td>
+<td style="text-align:right;">
+0.0838493
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+dcant offset
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+0.0353333
+</td>
+<td style="text-align:right;">
+0.0676392
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+dcant offset rel
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+10.0482073
+</td>
+<td style="text-align:right;">
+2.1554534
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+dcant offset rel
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+4.8149706
+</td>
+<td style="text-align:right;">
+1.1753472
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+dcant offset rel
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+0.9259259
+</td>
+<td style="text-align:right;">
+1.7725167
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+dcant offset rel corr
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+7.1557698
+</td>
+<td style="text-align:right;">
+2.1554534
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+dcant offset rel corr
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+2.1096159
+</td>
+<td style="text-align:right;">
+1.1753472
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+dcant offset rel corr
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+-1.6160028
+</td>
+<td style="text-align:right;">
+1.7725167
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+delta C* - mod_truth
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+-0.5030000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+delta C* - mod_truth
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+-0.7810000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+delta C* - mod_truth
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+-0.2800000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+3.3190000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+7.1340000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+3.8160000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+C* drift
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+0.6650000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+C* drift
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+1.3410000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+C* drift
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+0.6760000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+C* prediction error
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+0.1786667
+</td>
+<td style="text-align:right;">
+0.4020839
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+C* prediction error
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+-0.4335000
+</td>
+<td style="text-align:right;">
+0.6483066
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+C* prediction error
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+-0.5733333
+</td>
+<td style="text-align:right;">
+0.5282525
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+C* prediction error rel
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+1.5212147
+</td>
+<td style="text-align:right;">
+3.4234475
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+C* prediction error rel
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+-1.7040094
+</td>
+<td style="text-align:right;">
+2.5483752
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+C* prediction error rel
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+-4.1864427
+</td>
+<td style="text-align:right;">
+3.8572652
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+dcant offset
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+0.6920000
+</td>
+<td style="text-align:right;">
+0.3209654
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+dcant offset
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+0.4286667
+</td>
+<td style="text-align:right;">
+0.5355661
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+dcant offset
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+-0.2085000
+</td>
+<td style="text-align:right;">
+0.3673046
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+dcant offset rel
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+5.8918689
+</td>
+<td style="text-align:right;">
+2.7327835
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+dcant offset rel
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+1.6850105
+</td>
+<td style="text-align:right;">
+2.1052127
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+dcant offset rel
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+-1.5224535
+</td>
+<td style="text-align:right;">
+2.6820346
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+dcant offset rel corr
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+0.2298851
+</td>
+<td style="text-align:right;">
+2.7327835
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+dcant offset rel corr
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+-3.5862159
+</td>
+<td style="text-align:right;">
+2.1052127
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+dcant offset rel corr
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+-6.4585615
+</td>
+<td style="text-align:right;">
+2.6820346
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+delta C* - mod_truth
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+-0.6140000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+delta C* - mod_truth
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+-1.1360000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+delta C* - mod_truth
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+-0.5220000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+11.7450000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+25.4400000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+13.6950000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+C* drift
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+1.7050000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+C* drift
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+3.3910000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+C* drift
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+1.6860000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+C* prediction error
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+-0.8715000
+</td>
+<td style="text-align:right;">
+0.7770932
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+C* prediction error
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+-2.2765000
+</td>
+<td style="text-align:right;">
+1.0015144
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+C* prediction error
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+-1.3835000
+</td>
+<td style="text-align:right;">
+0.4223386
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+C* prediction error rel
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+-5.5509554
+</td>
+<td style="text-align:right;">
+4.9496385
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+C* prediction error rel
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+-6.6706713
+</td>
+<td style="text-align:right;">
+2.9346687
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+C* prediction error rel
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+-7.5075971
+</td>
+<td style="text-align:right;">
+2.2918310
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+dcant offset
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+0.4351667
+</td>
+<td style="text-align:right;">
+0.7915171
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+dcant offset
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+0.3115000
+</td>
+<td style="text-align:right;">
+0.8971898
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+dcant offset
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+-0.0878333
+</td>
+<td style="text-align:right;">
+0.2733097
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+dcant offset rel
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+2.7717622
+</td>
+<td style="text-align:right;">
+5.0415104
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+dcant offset rel
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+0.9127670
+</td>
+<td style="text-align:right;">
+2.6289735
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+dcant offset rel
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+-0.4766298
+</td>
+<td style="text-align:right;">
+1.4831216
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+dcant offset rel corr
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+-8.0881104
+</td>
+<td style="text-align:right;">
+5.0415104
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+dcant offset rel corr
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+-9.0236470
+</td>
+<td style="text-align:right;">
+2.6289735
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+dcant offset rel corr
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+-9.6257507
+</td>
+<td style="text-align:right;">
+1.4831216
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+delta C* - mod_truth
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+0.1800000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+delta C* - mod_truth
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+0.5900000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+delta C* - mod_truth
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+0.4090000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+15.7000000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+34.1270000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+18.4280000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+C* drift
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+2.6840000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+C* drift
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+5.2860000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+C* drift
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+2.6020000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+C* prediction error
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+-1.2195000
+</td>
+<td style="text-align:right;">
+1.1000356
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+C* prediction error
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+-1.7421667
+</td>
+<td style="text-align:right;">
+1.9563941
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+C* prediction error
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+-0.5820000
+</td>
+<td style="text-align:right;">
+1.1334627
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+C* prediction error rel
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+-6.9132653
+</td>
+<td style="text-align:right;">
+6.2360294
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+C* prediction error rel
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+-4.5288725
+</td>
+<td style="text-align:right;">
+5.0857702
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+C* prediction error rel
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+-2.7943153
+</td>
+<td style="text-align:right;">
+5.4420139
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+dcant offset
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+0.8121667
+</td>
+<td style="text-align:right;">
+1.2055340
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+dcant offset
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+2.2595000
+</td>
+<td style="text-align:right;">
+1.9716848
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+dcant offset
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+1.4301667
+</td>
+<td style="text-align:right;">
+1.1957154
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+dcant offset rel
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+4.6041194
+</td>
+<td style="text-align:right;">
+6.8340928
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+dcant offset rel
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+5.8737132
+</td>
+<td style="text-align:right;">
+5.1255195
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+dcant offset rel
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+6.8665578
+</td>
+<td style="text-align:right;">
+5.7409037
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+dcant offset rel corr
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+-10.6113001
+</td>
+<td style="text-align:right;">
+6.8340928
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+dcant offset rel corr
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+-7.8675782
+</td>
+<td style="text-align:right;">
+5.1255195
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+dcant offset rel corr
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+-5.6262403
+</td>
+<td style="text-align:right;">
+5.7409037
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+delta C* - mod_truth
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+0.8780000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+delta C* - mod_truth
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+2.0040000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+delta C* - mod_truth
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+1.1260000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+17.6400000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+38.4680000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3000
+</td>
+<td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+20.8280000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+C* drift
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+2.7430000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+C* drift
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+5.3890000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+C* drift
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+2.6460000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+C* prediction error
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+-0.7830000
+</td>
+<td style="text-align:right;">
+1.5735600
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+C* prediction error
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+-0.5678333
+</td>
+<td style="text-align:right;">
+2.7881877
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+C* prediction error
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+0.1081667
+</td>
+<td style="text-align:right;">
+1.4290933
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+C* prediction error rel
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+-4.3738130
+</td>
+<td style="text-align:right;">
+8.7898561
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+C* prediction error rel
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+-1.4536347
+</td>
+<td style="text-align:right;">
+7.1376691
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+C* prediction error rel
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+0.5111605
+</td>
+<td style="text-align:right;">
+6.7534301
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+dcant offset
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+0.9718333
+</td>
+<td style="text-align:right;">
+1.6954329
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+dcant offset
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+2.8565000
+</td>
+<td style="text-align:right;">
+2.8245136
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+dcant offset
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+1.8201667
+</td>
+<td style="text-align:right;">
+1.5014549
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+dcant offset rel
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+5.4286299
+</td>
+<td style="text-align:right;">
+9.4706338
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+dcant offset rel
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+7.3125464
+</td>
+<td style="text-align:right;">
+7.2306623
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+dcant offset rel
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+8.6015154
+</td>
+<td style="text-align:right;">
+7.0953875
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+dcant offset rel corr
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+-9.8936804
+</td>
+<td style="text-align:right;">
+9.4706338
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+dcant offset rel corr
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+-6.4831170
+</td>
+<td style="text-align:right;">
+7.2306623
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+dcant offset rel corr
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+-3.9026196
+</td>
+<td style="text-align:right;">
+7.0953875
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+delta C* - mod_truth
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+0.6010000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+delta C* - mod_truth
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+1.4270000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+delta C* - mod_truth
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+0.8260000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:right;">
+17.9020000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:left;">
+1994 - 2014
+</td>
+<td style="text-align:right;">
+39.0630000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10000
+</td>
+<td style="text-align:left;">
+mod_truth
+</td>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:right;">
+21.1610000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.1.2 (2021-11-01)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: openSUSE Leap 15.3
+
+Matrix products: default
+BLAS:   /usr/local/R-4.1.2/lib64/R/lib/libRblas.so
+LAPACK: /usr/local/R-4.1.2/lib64/R/lib/libRlapack.so
+
+locale:
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] kableExtra_1.3.4   geomtextpath_0.1.0 colorspace_2.0-2   marelac_2.1.10    
+ [5] shape_1.4.6        ggforce_0.3.3      metR_0.11.0        scico_1.3.0       
+ [9] patchwork_1.1.1    collapse_1.7.0     forcats_0.5.1      stringr_1.4.0     
+[13] dplyr_1.0.7        purrr_0.3.4        readr_2.1.1        tidyr_1.1.4       
+[17] tibble_3.1.6       ggplot2_3.3.5      tidyverse_1.3.1    workflowr_1.7.0   
+
+loaded via a namespace (and not attached):
+ [1] fs_1.5.2           gghalves_0.1.1     bit64_4.0.5        lubridate_1.8.0   
+ [5] gsw_1.0-6          RColorBrewer_1.1-2 webshot_0.5.2      httr_1.4.2        
+ [9] rprojroot_2.0.2    tools_4.1.2        backports_1.4.1    bslib_0.3.1       
+[13] utf8_1.2.2         R6_2.5.1           DBI_1.1.2          withr_2.4.3       
+[17] tidyselect_1.1.1   processx_3.5.2     bit_4.0.4          compiler_4.1.2    
+[21] git2r_0.29.0       textshaping_0.3.6  cli_3.1.1          rvest_1.0.2       
+[25] xml2_1.3.3         labeling_0.4.2     sass_0.4.0         scales_1.1.1      
+[29] checkmate_2.0.0    SolveSAPHE_2.1.0   callr_3.7.0        systemfonts_1.0.3 
+[33] digest_0.6.29      svglite_2.0.0      rmarkdown_2.11     oce_1.5-0         
+[37] pkgconfig_2.0.3    htmltools_0.5.2    highr_0.9          dbplyr_2.1.1      
+[41] fastmap_1.1.0      rlang_1.0.2        readxl_1.3.1       rstudioapi_0.13   
+[45] jquerylib_0.1.4    generics_0.1.1     farver_2.1.0       jsonlite_1.7.3    
+[49] vroom_1.5.7        magrittr_2.0.1     Rcpp_1.0.8         munsell_0.5.0     
+[53] fansi_1.0.2        lifecycle_1.0.1    stringi_1.7.6      whisker_0.4       
+[57] yaml_2.2.1         MASS_7.3-55        grid_4.1.2         parallel_4.1.2    
+[61] promises_1.2.0.1   crayon_1.4.2       haven_2.4.3        hms_1.1.1         
+[65] seacarb_3.3.0      knitr_1.37         ps_1.6.0           pillar_1.6.4      
+[69] reprex_2.0.1       glue_1.6.0         evaluate_0.14      getPass_0.2-2     
+[73] data.table_1.14.2  modelr_0.1.8       vctrs_0.3.8        tzdb_0.2.0        
+[77] tweenr_1.0.2       httpuv_1.6.5       cellranger_1.1.0   gtable_0.3.0      
+[81] polyclip_1.10-0    assertthat_0.2.1   xfun_0.29          broom_0.7.11      
+[85] later_1.3.0        viridisLite_0.4.0  ellipsis_0.3.2     here_1.0.1        </code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
