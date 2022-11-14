@@ -273,7 +273,7 @@ rm(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 
 Version_IDs_ensemble <- c(
   Version_IDs_s, Version_IDs_c, Version_IDs_g, Version_IDs_n, Version_IDs_e, Version_IDs_w,
-  Version_IDs_d, Version_IDs_o, Version_IDs_a
+  Version_IDs_d, Version_IDs_o, Version_IDs_a, Version_IDs_x, Version_IDs_t
   )
 
 Version_IDs_ensemble_uncertainty <- c(
@@ -2269,7 +2269,7 @@ dcant_inv_sensitivity_contributions %>%
 
 ggsave(path = here::here("output/publication"),
        filename = "FigS_dcant_column_inventory_uncertainty_sensitivity_cases.png",
-       height = 5,
+       height = 8,
        width = 8)
 
 ```
@@ -4195,6 +4195,22 @@ dcant_budget_basin_MLR_all_uncertainty <- dcant_budget_basin_MLR_all_uncertainty
 
 ```
 
+```{r dcant_inventory_additive_uncertainty_incl_two_decades, eval=FALSE}
+
+dcant_budget_basin_MLR_all_uncertainty_two_decades <-
+  dcant_budget_basin_MLR_all_ensemble %>%
+  filter(data_source != "mod_truth") %>%
+  select(-c(inv_depth, Version_ID, tref1))
+
+dcant_budget_basin_MLR_all_uncertainty_two_decades <- additive_uncertainty(dcant_budget_basin_MLR_all_uncertainty_two_decades)
+
+delta_dcant_budget_basin_MLR_all_uncertainty_two_decades <- dcant_budget_basin_MLR_all_uncertainty_two_decades[[3]]
+dcant_budget_basin_MLR_all_uncertainty_contributions_two_decades <- dcant_budget_basin_MLR_all_uncertainty_two_decades[[2]]
+dcant_budget_basin_MLR_all_uncertainty_two_decades <- dcant_budget_basin_MLR_all_uncertainty_two_decades[[1]]
+
+
+```
+
 
 
 ```{r scale_dcant_inventories_and_uncertainties_to_global_coverage}
@@ -4487,7 +4503,7 @@ dcant_budget_basin_MLR_all_ensemble %>%
          period != "1994 - 2014") %>%
   mutate(ensemble_role = "Uncertainty cases") %>% 
   ggplot(aes(period, dcant)) +
-  scale_fill_muted(name = "ensemble group") +
+  # scale_fill_muted(name = "ensemble group") +
   scale_color_manual(values = c("grey", "black", "red"),
                      name = "Ensemble member") +
   geom_boxplot(
@@ -5946,18 +5962,37 @@ dcant_budget_global_ts <- dcant_budget_basin_MLR_all %>%
 
 
 dcant_budget_global_all_ensemble_summary <-
-  dcant_budget_basin_MLR_all_ensemble %>%
-  filter(period %in% c("1994 - 2004", "1994 - 2014"),
-         data_source == "obs",
+  dcant_budget_basin_MLR_all_uncertainty %>%
+  filter(data_source == "obs",
          basin == "Global") %>%
-  group_by(data_source, tref2, period) %>%
-  summarise(#dcant_mean = mean(dcant),
-            dcant_sd = sd(dcant)*sd_factor) %>%
-  ungroup()
+  mutate(
+    tref2 = as.numeric(str_sub(period, 8, 11)),
+    dcant_sd = sqrt(sd ^ 2 + lag(sd, default = 0) ^ 2) * sd_factor,
+    dcant_sd_int = sd * sd_factor
+  ) %>%
+  select(data_source, tref2, dcant_sd, dcant_sd_int)
+
+# dcant_budget_global_all_ensemble_summary <-
+#   dcant_budget_basin_MLR_all_uncertainty_two_decades %>%
+#   filter(period %in% c("1994 - 2004", "1994 - 2014"),
+#          data_source == "obs",
+#          basin == "Global") %>%
+#   select(data_source, tref2, period, sd) %>%
+#   mutate(dcant_sd = sd*sd_factor)
+
+# dcant_budget_global_all_ensemble_summary <-
+#   dcant_budget_basin_MLR_all_ensemble %>%
+#   filter(period %in% c("1994 - 2004", "1994 - 2014"),
+#          data_source == "obs",
+#          basin == "Global") %>%
+#   group_by(data_source, tref2, period) %>%
+#   summarise(#dcant_mean = mean(dcant),
+#             dcant_sd = sd(dcant)*sd_factor) %>%
+#   ungroup()
 
 dcant_budget_global_ts <- left_join(dcant_budget_global_ts,
                                     dcant_budget_global_all_ensemble_summary %>% 
-                                      select(year = tref2, dcant_sd))
+                                      select(year = tref2, dcant_sd, dcant_sd_int))
 
 
 tcant_S04 <- bind_cols(year = 1994, dcant_mean = 118, dcant_sd = 19)
@@ -5983,7 +6018,10 @@ tcant_ts <- tcant_ts %>%
       year == 1994 ~ dcant_sd,
       TRUE ~ tcant_sd
     ),
-    dcant_sd_int = dcant_sd,
+    dcant_sd_int = case_when(
+      year == 1994 ~ dcant_sd,
+      TRUE ~ dcant_sd_int
+    ),
     dcant_sd = case_when(
       year == 1994 ~ 0,
       TRUE ~ dcant_sd
@@ -6184,7 +6222,7 @@ Ocean_Sink_cum_1994 <- Ocean_Sink_cum_1994 %>%
 Ocean_Sink_cum_1994 %>% 
   filter(year == 2007) %>% 
   group_by(type) %>% 
-  summarise(dcant_sd = sd(fgco2_glob_cum)*2) %>% 
+  summarise(dcant_sd = sd(fgco2_glob_cum)*sd_factor) %>% 
   ungroup()
 
 
@@ -6364,8 +6402,13 @@ p_tcant_ts_zoom
 dcant_type_box <-
   bind_rows(
     dcant_budget_basin_MLR_all_ensemble %>%
-      filter(basin == "Global",
-             data_source == "obs") %>%
+      filter(
+        data_source == "obs",
+        basin == "Global",
+        !(Version_ID %in% Version_IDs),
+        MLR_basins == unique(params_local_all$MLR_basins) |
+        Version_ID_group == unique(params_local_all$Version_ID_group)
+      ) %>%
       select(period, dcant) %>%
       mutate(type = "eMLR(C*)",
              dcant = dcant,
@@ -6395,23 +6438,25 @@ dcant_type_box_stat <- dcant_type_box %>%
 dcant_type_box_stat <-
 left_join(
   dcant_type_box_stat,
-  dcant_budget_basin_MLR_all %>%
-    filter(basin == "Global",
-             data_source == "obs") %>%
+  dcant_budget_basin_MLR_all_uncertainty %>%
+    filter(data_source == "obs",
+           basin == "Global") %>% 
     mutate(
-      dcant = dcant,
-      dcant = if_else(period == "2004 - 2014",
-                      dcant + tcant_2004 - 118,
-                      dcant)
+      std_case = if_else(period == "2004 - 2014",
+                      std_case + tcant_2004 - 118,
+                      std_case)
     ) %>%
-    select(period, dcant_st_case = dcant)
+    select(period, std_case, sd)
 )
 
 dcant_type_box_stat <- dcant_type_box_stat %>% 
   mutate(dcant_mean = if_else(type == "eMLR(C*)",
-                              dcant_st_case,
+                              std_case,
                               dcant_mean)) %>% 
-  select(-dcant_st_case)
+  mutate(dcant_sd = if_else(type == "eMLR(C*)",
+                              sd,
+                              dcant_sd)) %>% 
+  select(-c(std_case, sd))
 
 p_tcant_box <-
 dcant_type_box %>%
@@ -6555,21 +6600,22 @@ ggsave(path = here::here("output/presentation"),
        width = 9)
 
 dcant_type_significance <- dcant_type_box_stat %>%
-  mutate(dcant_mean = dcant_mean - 118,
+  mutate(dcant_mean = dcant_mean,
          dcant_mean = if_else(period == "2004 - 2014",
                          dcant_mean - (tcant_2004 - 118),
                          dcant_mean),
-         dcant_sd = dcant_sd * 2) %>%
+         dcant_sd = dcant_sd * sd_factor) %>%
   group_by(period) %>%
   mutate(
     dcant_diff = dcant_mean - first(dcant_mean),
     dcant_diff_rel = 100 * dcant_diff / first(dcant_mean),
     dcant_diff_sd = sqrt(dcant_sd ^ 2 + first(dcant_sd) ^ 2),
-    dcant_diff_sd_comparison = dcant_diff_sd - abs(dcant_diff)
+    dcant_diff_sd_comparison = abs(dcant_diff_sd) - abs(dcant_diff)
   ) %>%
   ungroup()
 
 dcant_type_significance %>% 
+  drop_na() %>% 
   kable() %>%
   kable_styling() %>%
   scroll_box(height = "300px")
