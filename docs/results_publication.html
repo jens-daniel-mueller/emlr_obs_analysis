@@ -458,7 +458,7 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">predictor removal C(P)</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">predictor removal C(P,TA)</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="MLR_predictor_budgets.html">Budgets</a>
@@ -472,7 +472,7 @@ div.tocify {
       </ul>
     </li>
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">predictor removal C(N)</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">predictor removal C(N,TA)</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="MLR_predictor_nitrate_budgets.html">Budgets</a>
@@ -486,7 +486,7 @@ div.tocify {
       </ul>
     </li>
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">C(N) target</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">C(N,TA) target</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="CN_target_budgets.html">Budgets</a>
@@ -500,7 +500,7 @@ div.tocify {
       </ul>
     </li>
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">C(AT) target</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">C(TA) target</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="CAT_target_budgets.html">Budgets</a>
@@ -528,16 +528,30 @@ div.tocify {
       </ul>
     </li>
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MLR_target</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MLR_target tco2</a>
       <ul class="dropdown-menu" role="menu">
         <li>
-          <a href="MLR_target_budgets.html">Budgets</a>
+          <a href="MLR_target_tco2_budgets.html">Budgets</a>
         </li>
         <li>
-          <a href="MLR_target_column_inventories.html">Column inventories</a>
+          <a href="MLR_target_tco2_column_inventories.html">Column inventories</a>
         </li>
         <li>
-          <a href="MLR_target_zonal_sections.html">Zonal sections</a>
+          <a href="MLR_target_tco2_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MLR_target C*</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="MLR_target_cstar_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="MLR_target_cstar_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="MLR_target_cstar_zonal_sections.html">Zonal sections</a>
         </li>
       </ul>
     </li>
@@ -694,7 +708,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Results publication</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">11 November, 2022</h4>
+<h4 class="date">14 November, 2022</h4>
 
 </div>
 
@@ -723,7 +737,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-11-11
+<strong>Last updated:</strong> 2022-11-14
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -855,15 +869,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreec53fea0810f6044ab9fb18979452c3b76b3a8c6ctargetblankc53fea0a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreebeb709cc3e16b28a8b58e088914387761b4365b8targetblankbeb709ca">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/c53fea0810f6044ab9fb18979452c3b76b3a8c6c" target="_blank">c53fea0</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/beb709cc3e16b28a8b58e088914387761b4365b8" target="_blank">beb709c</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreec53fea0810f6044ab9fb18979452c3b76b3a8c6ctargetblankc53fea0a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreebeb709cc3e16b28a8b58e088914387761b4365b8targetblankbeb709ca"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -873,7 +887,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/c53fea0810f6044ab9fb18979452c3b76b3a8c6c" target="_blank">c53fea0</a>.
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/beb709cc3e16b28a8b58e088914387761b4365b8" target="_blank">beb709c</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -895,7 +909,19 @@ Ignored files:
     Ignored:    output/presentation/
     Ignored:    output/publication/
 
+Untracked files:
+    Untracked:  analysis/MLR_target_cstar_budgets.Rmd
+    Untracked:  analysis/MLR_target_cstar_column_inventories.Rmd
+    Untracked:  analysis/MLR_target_cstar_zonal_sections.Rmd
+    Untracked:  analysis/MLR_target_tco2_budgets.Rmd
+    Untracked:  analysis/MLR_target_tco2_column_inventories.Rmd
+    Untracked:  analysis/MLR_target_tco2_zonal_sections.Rmd
+    Untracked:  code/results_publication_backup_incl_ensemble_uncertainty_20221111.Rmd
+
 Unstaged changes:
+    Deleted:    analysis/MLR_target_budgets.Rmd
+    Deleted:    analysis/MLR_target_column_inventories.Rmd
+    Deleted:    analysis/MLR_target_zonal_sections.Rmd
     Modified:   analysis/_site.yml
     Modified:   code/Workflowr_project_managment.R
 
@@ -943,6 +969,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/beb709cc3e16b28a8b58e088914387761b4365b8/analysis/results_publication.Rmd" target="_blank">beb709c</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-14
+</td>
+<td>
+included C* and DIC target cases
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/cc337ddc80b983f5c1618c9e14288d9096eadb86/docs/results_publication.html" target="_blank">cc337dd</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -6553,7 +6613,39 @@ Version_IDs_3 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/
 Version_IDs_a &lt;- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 rm(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 
-# MLR target
+# C*
+
+version_id_pattern &lt;- &quot;x&quot;
+
+Version_IDs_1 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
+                            pattern = paste0(&quot;v_1&quot;, version_id_pattern))
+
+Version_IDs_2 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
+                            pattern = paste0(&quot;v_2&quot;, version_id_pattern))
+
+Version_IDs_3 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
+                            pattern = paste0(&quot;v_3&quot;, version_id_pattern))
+
+Version_IDs_x &lt;- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
+rm(Version_IDs_1, Version_IDs_2, Version_IDs_3)
+
+# TCO2 target
+
+version_id_pattern &lt;- &quot;t&quot;
+
+Version_IDs_1 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
+                            pattern = paste0(&quot;v_1&quot;, version_id_pattern))
+
+Version_IDs_2 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
+                            pattern = paste0(&quot;v_2&quot;, version_id_pattern))
+
+Version_IDs_3 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
+                            pattern = paste0(&quot;v_3&quot;, version_id_pattern))
+
+Version_IDs_t &lt;- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
+rm(Version_IDs_1, Version_IDs_2, Version_IDs_3)
+
+
 
 
 Version_IDs_ensemble &lt;- c(
@@ -6566,7 +6658,7 @@ Version_IDs_ensemble_uncertainty &lt;- c(
   )
 
 Version_IDs_ensemble_sensitivity &lt;- c(
-  Version_IDs_s, Version_IDs_d, Version_IDs_o, Version_IDs_a
+  Version_IDs_s, Version_IDs_d, Version_IDs_o, Version_IDs_a, Version_IDs_x, Version_IDs_t
   )
 
 
@@ -6579,7 +6671,9 @@ rm(
   Version_IDs_w,
   Version_IDs_d,
   Version_IDs_o,
-  Version_IDs_a
+  Version_IDs_a,
+  Version_IDs_x,
+  Version_IDs_t
 )</code></pre>
 <pre class="r"><code># subset Standard case
 Version_IDs &lt;- Version_IDs_ensemble[str_detect(Version_IDs_ensemble, &quot;103&quot;)]</code></pre>
@@ -6650,6 +6744,8 @@ params_local_all_ensemble &lt;-
       Version_ID_group == &quot;d&quot; ~ &quot;No data adjustments&quot;,
       Version_ID_group == &quot;o&quot; ~ &quot;Reoccupation filter&quot;,
       Version_ID_group == &quot;a&quot; ~ &quot;C* with PO4 only&quot;,
+      Version_ID_group == &quot;t&quot; ~ &quot;DIC target&quot;,
+      Version_ID_group == &quot;x&quot; ~ &quot;No tref adjustment&quot;,
       TRUE ~ Version_ID_group
     )
   )
@@ -7404,7 +7500,7 @@ Global_Carbon_Budget &lt;-
 </div>
 <div id="define-labels" class="section level1" number="3">
 <h1><span class="header-section-number">3</span> Define labels</h1>
-<pre class="r"><code>dcant_pgc_label &lt;- expression(Delta * C[&quot;ant&quot;]~(PgC))
+<pre class="r"><code>dcant_pgc_label &lt;- expression(Delta * C[&quot;ant&quot;]~inventory~(PgC))
 dcant_bias_pgc_label &lt;- expression(Delta * C[&quot;ant&quot;]~ bias ~(PgC))
 delta_dcant_bias_pgc_label &lt;- expression(Delta * Delta * C[&quot;ant&quot;]~bias~(PgC))
 dcant_pgc_scaled_label &lt;- expression(beta~(mol~m^{-2}~µatm^{-1}))
@@ -7413,7 +7509,7 @@ dcant_umol_label &lt;- expression(Delta * C[ant]~(mu * mol ~ kg ^ {-1}))
 ddcant_umol_label &lt;- expression(Delta * Delta * C[ant]~(mu * mol ~ kg ^ {-1}))
 
 dcant_layer_budget_label &lt;- 
-  expression(Delta ~ C[ant] ~ &quot;budget per 500m depth layer (PgC)&quot;)
+  expression(Delta ~ C[ant] ~ &quot;inventory per 500m depth layer (PgC)&quot;)
 
 dcant_CI_label &lt;- expression(Delta * C[ant]~(mol ~ m ^ {-2}))
 delta_dcant_CI_label &lt;- expression(Delta * Delta * C[ant]~(mol ~ m ^ {-2}))
@@ -8597,19 +8693,6 @@ cases</h2>
          data_source != &quot;mod_truth&quot;) %&gt;%
   select(lon, lat, period, data_source, MLR_basins, Version_ID_group, dcant)
 
-# dcant_inv_all_ensemble_sensitivity &lt;- 
-#   m_grid_horizontal_coarse(dcant_inv_all_ensemble_sensitivity)
-# 
-# dcant_inv_all_ensemble_sensitivity &lt;-
-#   dcant_inv_all_ensemble_sensitivity %&gt;% 
-#   group_by(lat, lon, data_source, period, MLR_basins, Version_ID_group) %&gt;% 
-#   summarise(dcant = mean(dcant),
-#             n = n()) %&gt;% 
-#   ungroup() %&gt;% 
-#   filter(n == 25) %&gt;%
-#   rename(lon = lon_grid,
-#          lat = lat_grid)
-
 dcant_inv_sensitivity &lt;- additive_uncertainty(dcant_inv_all_ensemble_sensitivity)
 
 delta_dcant_inv_sensitivity &lt;- dcant_inv_sensitivity[[3]]
@@ -8631,6 +8714,45 @@ dcant_inv_sensitivity %&gt;%
   theme(axis.text = element_blank(),
         axis.ticks = element_blank())</code></pre>
 <p><img src="figure/results_publication.Rmd/column_inventory_additive_uncertainty_sensitivity_cases-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-column_inventory_additive_uncertainty_sensitivity_cases-1">
+Past versions of
+column_inventory_additive_uncertainty_sensitivity_cases-1.png
+</button>
+</p>
+<div id="fig-column_inventory_additive_uncertainty_sensitivity_cases-1"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/cc337ddc80b983f5c1618c9e14288d9096eadb86/docs/figure/results_publication.Rmd/column_inventory_additive_uncertainty_sensitivity_cases-1.png" target="_blank">cc337dd</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>dcant_inv_sensitivity_contributions %&gt;%
   filter(data_source == &quot;obs&quot;,
          Version_ID_group != &quot;Regional clustering&quot;) %&gt;% 
@@ -8649,6 +8771,45 @@ dcant_inv_sensitivity %&gt;%
   theme(axis.text = element_blank(),
         axis.ticks = element_blank())</code></pre>
 <p><img src="figure/results_publication.Rmd/column_inventory_additive_uncertainty_sensitivity_cases-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-column_inventory_additive_uncertainty_sensitivity_cases-2">
+Past versions of
+column_inventory_additive_uncertainty_sensitivity_cases-2.png
+</button>
+</p>
+<div id="fig-column_inventory_additive_uncertainty_sensitivity_cases-2"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/cc337ddc80b983f5c1618c9e14288d9096eadb86/docs/figure/results_publication.Rmd/column_inventory_additive_uncertainty_sensitivity_cases-2.png" target="_blank">cc337dd</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
        filename = &quot;FigS_dcant_column_inventory_uncertainty_sensitivity_cases.png&quot;,
        height = 5,
@@ -8662,19 +8823,6 @@ cases</h2>
   filter(period %in% two_decades,
          data_source != &quot;mod_truth&quot;) %&gt;%
   select(lon, lat, period, data_source, MLR_basins, Version_ID_group, dcant)
-
-# dcant_inv_all_ensemble_uncertainty &lt;- 
-#   m_grid_horizontal_coarse(dcant_inv_all_ensemble_uncertainty)
-# 
-# dcant_inv_all_ensemble_uncertainty &lt;-
-#   dcant_inv_all_ensemble_uncertainty %&gt;% 
-#   group_by(lat_grid, lon_grid, data_source, period, MLR_basins, Version_ID_group) %&gt;% 
-#   summarise(dcant = mean(dcant),
-#             n = n()) %&gt;% 
-#   ungroup() %&gt;% 
-#   filter(n == 25) %&gt;% 
-#   rename(lon = lon_grid,
-#          lat = lat_grid)
 
 dcant_inv_uncertainty &lt;- additive_uncertainty(dcant_inv_all_ensemble_uncertainty)
 
@@ -8698,10 +8846,48 @@ dcant_inv_uncertainty %&gt;%
   theme(axis.text = element_blank(),
         axis.ticks = element_blank())</code></pre>
 <p><img src="figure/results_publication.Rmd/column_inventory_additive_uncertainty_fine_grid-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-column_inventory_additive_uncertainty_fine_grid-1">
+Past versions of column_inventory_additive_uncertainty_fine_grid-1.png
+</button>
+</p>
+<div id="fig-column_inventory_additive_uncertainty_fine_grid-1"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/cc337ddc80b983f5c1618c9e14288d9096eadb86/docs/figure/results_publication.Rmd/column_inventory_additive_uncertainty_fine_grid-1.png" target="_blank">cc337dd</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
        filename = &quot;FigS_dcant_column_inventory_uncertainty.png&quot;,
        height = 4,
-       width = 7)
+       width = 8)
 
 dcant_inv_uncertainty_contributions %&gt;%
   filter(data_source == &quot;obs&quot;) %&gt;% 
@@ -8720,9 +8906,47 @@ dcant_inv_uncertainty_contributions %&gt;%
   theme(axis.text = element_blank(),
         axis.ticks = element_blank())</code></pre>
 <p><img src="figure/results_publication.Rmd/column_inventory_additive_uncertainty_fine_grid-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-column_inventory_additive_uncertainty_fine_grid-2">
+Past versions of column_inventory_additive_uncertainty_fine_grid-2.png
+</button>
+</p>
+<div id="fig-column_inventory_additive_uncertainty_fine_grid-2"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/cc337ddc80b983f5c1618c9e14288d9096eadb86/docs/figure/results_publication.Rmd/column_inventory_additive_uncertainty_fine_grid-2.png" target="_blank">cc337dd</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
        filename = &quot;FigS_dcant_column_inventory_uncertainty_contributions.png&quot;,
-       height = 8,
+       height = 9,
        width = 8)</code></pre>
 <pre class="r"><code>dcant_inv_all_ensemble_uncertainty &lt;-
   dcant_inv_all_ensemble %&gt;%
@@ -8764,6 +8988,44 @@ dcant_inv_uncertainty %&gt;%
   theme(axis.text = element_blank(),
         axis.ticks = element_blank())</code></pre>
 <p><img src="figure/results_publication.Rmd/column_inventory_additive_uncertainty_coarse_grid-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-column_inventory_additive_uncertainty_coarse_grid-1">
+Past versions of column_inventory_additive_uncertainty_coarse_grid-1.png
+</button>
+</p>
+<div id="fig-column_inventory_additive_uncertainty_coarse_grid-1"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/cc337ddc80b983f5c1618c9e14288d9096eadb86/docs/figure/results_publication.Rmd/column_inventory_additive_uncertainty_coarse_grid-1.png" target="_blank">cc337dd</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>delta_dcant_inv_uncertainty %&gt;% 
   p_map_cant_inv(var = &quot;delta_dcant&quot;,
                  col = &quot;bias&quot;,
@@ -8772,6 +9034,44 @@ dcant_inv_uncertainty %&gt;%
   theme(axis.text = element_blank(),
         axis.ticks = element_blank())</code></pre>
 <p><img src="figure/results_publication.Rmd/column_inventory_additive_uncertainty_coarse_grid-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-column_inventory_additive_uncertainty_coarse_grid-2">
+Past versions of column_inventory_additive_uncertainty_coarse_grid-2.png
+</button>
+</p>
+<div id="fig-column_inventory_additive_uncertainty_coarse_grid-2"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/cc337ddc80b983f5c1618c9e14288d9096eadb86/docs/figure/results_publication.Rmd/column_inventory_additive_uncertainty_coarse_grid-2.png" target="_blank">cc337dd</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>delta_dcant_inv_uncertainty %&gt;% 
   p_map_cant_inv(var = &quot;RSS&quot;,
                  breaks = c(seq(0, 8, 1), Inf),
@@ -8780,6 +9080,44 @@ dcant_inv_uncertainty %&gt;%
   theme(axis.text = element_blank(),
         axis.ticks = element_blank())</code></pre>
 <p><img src="figure/results_publication.Rmd/column_inventory_additive_uncertainty_coarse_grid-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-column_inventory_additive_uncertainty_coarse_grid-3">
+Past versions of column_inventory_additive_uncertainty_coarse_grid-3.png
+</button>
+</p>
+<div id="fig-column_inventory_additive_uncertainty_coarse_grid-3"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/cc337ddc80b983f5c1618c9e14288d9096eadb86/docs/figure/results_publication.Rmd/column_inventory_additive_uncertainty_coarse_grid-3.png" target="_blank">cc337dd</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>delta_dcant_inv_uncertainty %&gt;% 
   filter(signif == 1) %&gt;% 
   p_map_cant_inv(var = &quot;delta_dcant&quot;,
@@ -8789,134 +9127,44 @@ dcant_inv_uncertainty %&gt;%
   theme(axis.text = element_blank(),
         axis.ticks = element_blank())</code></pre>
 <p><img src="figure/results_publication.Rmd/column_inventory_additive_uncertainty_coarse_grid-4.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>dcant_inv_all_ensemble_sd &lt;-
-  dcant_inv_all_ensemble %&gt;%
-  filter(period %in% two_decades,
-         data_source != &quot;mod_truth&quot;) %&gt;%
-  group_by(data_source, period, lon, lat) %&gt;%
-  summarise(dcant_sd = sd(dcant) * sd_factor) %&gt;%
-  ungroup()
-
-
-dcant_inv_all_ensemble_sd %&gt;%
-  mutate(
-    data_source = case_when(
-      data_source == &quot;mod&quot; ~ &quot;Synthetic data&quot;,
-      data_source == &quot;obs&quot; ~ &quot;Observations&quot;
-    )
-  ) %&gt;%
-  p_map_cant_inv(var = &quot;dcant_sd&quot;,
-                 breaks = c(seq(0, 8, 1), Inf),
-                 title_text = NULL) +
-  facet_grid(period ~ data_source) +
-  theme(axis.text = element_blank(),
-        axis.ticks = element_blank())
-
-delta_dcant_inv_all_ensemble_RSS &lt;-
-  dcant_inv_all_ensemble_sd %&gt;%
-  arrange(period) %&gt;%
-  group_by(data_source, lat, lon) %&gt;%
-  mutate(RSS = sqrt(dcant_sd ^ 2 + lag(dcant_sd ^ 2))) %&gt;%
-  ungroup() %&gt;%
-  drop_na()  
-
-delta_dcant_inv_all_ensemble_RSS %&gt;% 
-  p_map_cant_inv(var = &quot;RSS&quot;,
-                 breaks = c(seq(0, 8, 1), Inf),
-                 title_text = NULL) +
-  facet_grid(data_source ~ .) +
-  theme(axis.text = element_blank(),
-        axis.ticks = element_blank())
-
-delta_dcant_inv_all_ensemble_sd &lt;-
-  dcant_inv_all_ensemble %&gt;%
-  filter(period %in% two_decades,
-         data_source != &quot;mod_truth&quot;) %&gt;%
-  arrange(period) %&gt;%
-  group_by(MLR_basins, Version_ID_group, data_source, lat, lon) %&gt;%
-  mutate(delta_dcant = dcant - lag(dcant)) %&gt;%
-  ungroup()
-
-delta_dcant_inv_all_ensemble_sd &lt;-
-  delta_dcant_inv_all_ensemble_sd %&gt;%
-  filter(!is.na(delta_dcant)) %&gt;%
-  group_by(data_source, lon, lat) %&gt;%
-  summarise(delta_dcant_sd = sd(delta_dcant) * sd_factor,
-            delta_dcant = mean(delta_dcant)) %&gt;%
-  ungroup()
-
-
-delta_dcant_inv_all_ensemble_sd %&gt;% 
-  p_map_cant_inv(var = &quot;delta_dcant_sd&quot;,
-                 breaks = c(seq(0, 8, 1), Inf),
-                 title_text = NULL) +
-  facet_grid(data_source ~ .) +
-  theme(axis.text = element_blank(),
-        axis.ticks = element_blank())</code></pre>
-<pre class="r"><code>dcant_inv_all_uncertainty &lt;-
-  full_join(
-    dcant_inv_all %&gt;%
-      select(data_source, lon, lat, period, dcant),
-    dcant_inv_all_ensemble_sd %&gt;% select(data_source, lon, lat, period, dcant_sd)
-  )
-
-dcant_inv_all_uncertainty &lt;-dcant_inv_all_uncertainty %&gt;% 
-  filter(period %in%two_decades,
-         data_source %in% c(&quot;mod&quot;, &quot;obs&quot;))
-
-dcant_inv_all_uncertainty &lt;-
-  m_grid_horizontal_coarse(dcant_inv_all_uncertainty)
-
-dcant_inv_all_uncertainty &lt;-
-  dcant_inv_all_uncertainty %&gt;%
-  group_by(lat_grid, lon_grid, data_source, period) %&gt;% 
-  summarise(dcant = mean(dcant),
-            dcant_sd = mean(dcant_sd),
-            n = n()) %&gt;% 
-  ungroup() %&gt;% 
-  filter(n == 25) %&gt;% 
-  rename(lon = lon_grid,
-         lat = lat_grid) %&gt;% 
-  mutate(dcant_sign = abs(dcant) - dcant_sd)
-
-dcant_inv_all_uncertainty %&gt;% 
-  mutate(dcant = abs(dcant)) %&gt;% 
-  p_map_cant_inv(
-    var = &quot;dcant&quot;,
-    title_text = NULL,
-    subtitle_text = NULL,
-    col = &quot;bias&quot;
-  ) +
-  facet_grid(data_source~period)
-
-dcant_inv_all_uncertainty %&gt;% 
-  p_map_cant_inv(
-    var = &quot;dcant_sd&quot;,
-    title_text = NULL,
-    subtitle_text = NULL,
-    col = &quot;bias&quot;
-  ) +
-  facet_grid(data_source~period)
-
-dcant_inv_all_uncertainty %&gt;% 
-  p_map_cant_inv(
-    var = &quot;dcant_sign&quot;,
-    title_text = NULL,
-    subtitle_text = NULL,
-    col = &quot;bias&quot;
-  ) +
-  facet_grid(data_source~period)
-
-
-map +
-  geom_point(
-    data = dcant_inv_all_uncertainty %&gt;%
-      filter(signif == 0),
-    aes(lon, lat),
-    shape = 20,
-    size = 0.1
-  ) +
-  facet_grid(data_source ~ period)</code></pre>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-column_inventory_additive_uncertainty_coarse_grid-4">
+Past versions of column_inventory_additive_uncertainty_coarse_grid-4.png
+</button>
+</p>
+<div id="fig-column_inventory_additive_uncertainty_coarse_grid-4"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/cc337ddc80b983f5c1618c9e14288d9096eadb86/docs/figure/results_publication.Rmd/column_inventory_additive_uncertainty_coarse_grid-4.png" target="_blank">cc337dd</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="dcant---absolute" class="section level2" number="10.3">
 <h2><span class="header-section-number">10.3</span> dCant -
@@ -9016,32 +9264,6 @@ jens-daniel-mueller
        filename = &quot;Fig_dcant_column_inventory.png&quot;,
        height = 5,
        width = 6)</code></pre>
-<pre class="r"><code>p_CI_absolute_mod &lt;- dcant_inv_all %&gt;%
-  filter(period %in% two_decades,
-         data_source %in% c(&quot;mod&quot;)) %&gt;%
-  p_map_cant_inv(var = &quot;dcant&quot;,
-                 title_text = NULL) +
-  facet_wrap(~ period, ncol = 1) +
-  theme(axis.text.x = element_blank()) +
-  geom_point(
-    data = dcant_inv_uncertainty %&gt;%
-      filter(signif == 0,
-             data_source == &quot;mod&quot;),
-    aes(lon, lat),
-    shape = 20,
-    size = 0.1,
-    col = &quot;grey&quot;
-  )
-
-p_CI_absolute_mod +
-  theme(axis.text = element_blank(),
-        axis.ticks = element_blank())
-
-
-# ggsave(path = here::here(&quot;output/presentation&quot;),
-#        filename = &quot;Fig_dcant_column_inventory.png&quot;,
-#        height = 5,
-#        width = 6)</code></pre>
 </div>
 <div id="inventory-stats" class="section level2" number="10.4">
 <h2><span class="header-section-number">10.4</span> Inventory stats</h2>
@@ -10821,77 +11043,6 @@ obs
 </table>
 </div>
 <pre class="r"><code>rm(dcant_inv_stat, dcant_inv_stat_mean, dcant_inv_stat_ensemble)</code></pre>
-<pre class="r"><code>delta_dcant_inv_all &lt;-
-  dcant_inv_all %&gt;%
-  filter(data_source %in% c(&quot;obs&quot;, &quot;mod&quot;),
-         period %in% two_decades) %&gt;%
-  select(data_source, lon, lat, basin_AIP, period, dcant) %&gt;%
-  pivot_wider(names_from = period,
-              values_from = dcant) %&gt;%
-  mutate(dcant_offset = `2004 - 2014` - `1994 - 2004`,
-         period = &quot;(2004 - 2014) - (1994 - 2004)&quot;)
-
-
-delta_dcant_inv_all_uncertainty &lt;-
-  full_join(
-    delta_dcant_inv_all %&gt;% select(data_source, lon, lat, dcant_offset),
-    delta_dcant_inv_all_ensemble_RSS %&gt;% select(data_source, lon, lat, RSS)
-  )
-
-delta_dcant_inv_all_uncertainty &lt;-
-  m_grid_horizontal_coarse(delta_dcant_inv_all_uncertainty)
-
-delta_dcant_inv_all_uncertainty &lt;-
-  delta_dcant_inv_all_uncertainty %&gt;%
-  group_by(lat_grid, lon_grid, data_source) %&gt;% 
-  summarise(dcant_offset = mean(dcant_offset),
-            RSS = mean(RSS),
-            n = n()) %&gt;% 
-  ungroup() %&gt;% 
-  filter(n == 25) %&gt;% 
-  rename(lon = lon_grid,
-         lat = lat_grid) %&gt;% 
-  mutate(dcant_offset_sign = abs(dcant_offset) - RSS)
-
-delta_dcant_inv_all_uncertainty %&gt;% 
-  mutate(dcant_offset = abs(dcant_offset)) %&gt;% 
-  p_map_cant_inv(
-    var = &quot;dcant_offset&quot;,
-    title_text = NULL,
-    subtitle_text = NULL,
-    col = &quot;bias&quot;
-  ) +
-  facet_grid(data_source~.)
-
-delta_dcant_inv_all_uncertainty %&gt;% 
-  p_map_cant_inv(
-    var = &quot;RSS&quot;,
-    title_text = NULL,
-    subtitle_text = NULL,
-    col = &quot;bias&quot;
-  ) +
-  facet_grid(data_source~.)
-
-delta_dcant_inv_all_uncertainty %&gt;% 
-  p_map_cant_inv(
-    var = &quot;dcant_offset_sign&quot;,
-    title_text = NULL,
-    subtitle_text = NULL,
-    col = &quot;bias&quot;
-  ) +
-  facet_grid(data_source~.)
-
-
-map +
-  geom_point(
-    data = delta_dcant_inv_all_uncertainty %&gt;%
-      filter(signif == 0),
-    aes(lon, lat),
-    shape = 20,
-    size = 0.1,
-    col = &quot;black&quot;
-  ) + 
-  facet_wrap(~data_source)</code></pre>
 <pre class="r"><code>p_CI_absolute_mod_delta &lt;- dcant_inv_all %&gt;%
   filter(period %in% two_decades,
          data_source != &quot;obs&quot;) %&gt;%
@@ -11033,70 +11184,7 @@ jens-daniel-mueller
        height = 7,
        width = 8)
 
-rm(p_CI_absolute_mod_delta, p_CI_bias_delta)
-
-p_CI_bias_delta_delta &lt;-
-  dcant_inv_all %&gt;%
-  filter(period %in% two_decades,
-         data_source != &quot;obs&quot;) %&gt;%
-  select(data_source, lon, lat, basin_AIP, period, dcant) %&gt;%
-  pivot_wider(names_from = period,
-              values_from = dcant) %&gt;%
-  mutate(dcant_offset = `2004 - 2014` - `1994 - 2004`,
-         period = &quot;Decadal offset&quot;) %&gt;%
-  select(lon, lat, data_source, dcant_offset) %&gt;% 
-  pivot_wider(names_from = data_source,
-              values_from = dcant_offset) %&gt;% 
-  mutate(delta_dcant_bias = mod - mod_truth) %&gt;% 
-  p_map_cant_inv(
-    var = &quot;delta_dcant_bias&quot;,
-    title_text = NULL,
-    subtitle_text = NULL,
-    col = &quot;bias&quot;
-  )
-# theme(strip.text.x = element_blank(),
-#       strip.background.x = element_blank())
-
-p_CI_bias_delta_delta</code></pre>
-<p><img src="figure/results_publication.Rmd/inventory_maps_delta_dcant_mod_bias-2.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-inventory_maps_delta_dcant_mod_bias-2">
-Past versions of inventory_maps_delta_dcant_mod_bias-2.png
-</button>
-</p>
-<div id="fig-inventory_maps_delta_dcant_mod_bias-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/7275091571a4fb4918e062f6aaec45ee96b099c6/docs/figure/results_publication.Rmd/inventory_maps_delta_dcant_mod_bias-2.png" target="_blank">7275091</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-11-05
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre class="r"><code>rm(p_CI_bias_delta_delta)</code></pre>
+rm(p_CI_absolute_mod_delta, p_CI_bias_delta)</code></pre>
 </div>
 </div>
 <div id="dcant---delta" class="section level2" number="10.5">
@@ -12537,52 +12625,8 @@ jens-daniel-mueller
 #   width = 7
 # )</code></pre>
 </div>
-<div id="unadjusted-data" class="section level2" number="10.8">
-<h2><span class="header-section-number">10.8</span> Unadjusted data</h2>
-<pre class="r"><code>dcant_inv_all_unadjusted &lt;-
-  dcant_inv_all_ensemble %&gt;%
-  filter(period %in% two_decades,
-         data_source == &quot;obs&quot;,
-         MLR_basins == &quot;3&quot;,
-         Version_ID %in% Version_IDs |
-           Version_ID %in% Version_IDs_d)
-
-p_CI_unadjusted &lt;- 
-dcant_inv_all_unadjusted %&gt;%
-  p_map_cant_inv(var = &quot;dcant&quot;,
-                 title_text = NULL) +
-  facet_grid(Version_ID_group ~ period)
-
-p_CI_unadjusted_bias &lt;-
-  dcant_inv_all_unadjusted %&gt;%
-  select(Version_ID_group, lon, lat, basin_AIP, period, dcant) %&gt;%
-  pivot_wider(names_from = Version_ID_group,
-              values_from = dcant) %&gt;%
-  mutate(dcant_offset = `Bulk adjustment` - `No adjustment`,
-         data_source = &quot;Adjustment impact&quot;) %&gt;%
-  p_map_cant_inv(
-    var = &quot;dcant_offset&quot;,
-    title_text = NULL,
-    subtitle_text = NULL,
-    col = &quot;bias&quot;,
-    legend_title = 
-  ) +
-  facet_grid(data_source ~ period) +
-  theme(strip.text.x = element_blank(),
-        strip.background.x = element_blank())
-
-p_CI_unadjusted / p_CI_unadjusted_bias + 
-  plot_annotation(tag_levels = &#39;A&#39;)
-
-ggsave(path = here::here(&quot;output/publication&quot;),
-       filename = &quot;FigS_dcant_column_inventory_unadjusted_data.png&quot;,
-       height = 7,
-       width = 8)
-
-rm(p_CI_unadjusted, p_CI_unadjusted_bias)</code></pre>
-</div>
-<div id="beta" class="section level2" number="10.9">
-<h2><span class="header-section-number">10.9</span> Beta</h2>
+<div id="beta" class="section level2" number="10.8">
+<h2><span class="header-section-number">10.8</span> Beta</h2>
 <pre class="r"><code>dcant_inv_all %&gt;%
   filter(data_source %in% c(&quot;obs&quot;)) %&gt;% 
   p_map_cant_inv(var = &quot;beta&quot;,
@@ -12765,8 +12809,8 @@ jens-daniel-mueller
        height = 8,
        width = 6)</code></pre>
 </div>
-<div id="zonal-means" class="section level2" number="10.10">
-<h2><span class="header-section-number">10.10</span> Zonal means</h2>
+<div id="zonal-means" class="section level2" number="10.9">
+<h2><span class="header-section-number">10.9</span> Zonal means</h2>
 <pre class="r"><code>dcant_inv_all &lt;- m_grid_horizontal_coarse(dcant_inv_all)
 
 dcant_inv_all_lat_mean &lt;- dcant_inv_all %&gt;% 
@@ -12793,8 +12837,8 @@ dcant_inv_all_ensemble_lat_mean_average &lt;- dcant_inv_all_ensemble_lat_mean %&
 
 dcant_inv_all_lat_mean &lt;- full_join(dcant_inv_all_lat_mean,
                                     dcant_inv_all_ensemble_lat_mean_average)</code></pre>
-<div id="dcant" class="section level3" number="10.10.1">
-<h3><span class="header-section-number">10.10.1</span> dcant</h3>
+<div id="dcant" class="section level3" number="10.9.1">
+<h3><span class="header-section-number">10.9.1</span> dcant</h3>
 <pre class="r"><code>dcant_inv_all_lat_mean %&gt;%
   filter(period != &quot;1800 - 1994&quot;) %&gt;% 
   ggplot(aes(lat_grid, dcant, fill = period)) +
@@ -13440,8 +13484,8 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="beta-1" class="section level3" number="10.10.2">
-<h3><span class="header-section-number">10.10.2</span> beta</h3>
+<div id="beta-1" class="section level3" number="10.9.2">
+<h3><span class="header-section-number">10.9.2</span> beta</h3>
 <pre class="r"><code>dcant_inv_all_lat_mean %&gt;%
   ggplot(aes(lat_grid, beta, fill = period)) +
   geom_hline(yintercept = 0) +
@@ -14021,8 +14065,8 @@ jens-daniel-mueller
 </div>
 <div id="global-section" class="section level1" number="11">
 <h1><span class="header-section-number">11</span> Global section</h1>
-<div id="ensemble-uncertainty" class="section level2" number="11.1">
-<h2><span class="header-section-number">11.1</span> Ensemble
+<div id="additive-uncertainty-1" class="section level2" number="11.1">
+<h2><span class="header-section-number">11.1</span> Additive
 uncertainty</h2>
 <pre class="r"><code>delta_dcant_global_section_all &lt;-
   dcant_global_section_all %&gt;%
@@ -14055,14 +14099,17 @@ dcant_global_section_all_uncertainty &lt;-
     c(seq(50, 450, 100), seq(750, 10000, 500)),
     right = FALSE
   )))) %&gt;%
-    group_by(dist_grid, depth_grid, data_source, period, MLR_basins, Version_ID_group) %&gt;% 
+  group_by(dist_grid,
+           depth_grid,
+           data_source,
+           period,
+           MLR_basins,
+           Version_ID_group) %&gt;%
   summarise(dcant = mean(dcant),
-            n = n()) %&gt;% 
-  ungroup() %&gt;% 
+            n = n()) %&gt;%
+  ungroup() %&gt;%
   rename(dist = dist_grid,
          depth = depth_grid)
-
-# df &lt;- dcant_global_section_all_uncertainty
 
 dcant_global_section_all_uncertainty &lt;-
   additive_uncertainty(dcant_global_section_all_uncertainty)
@@ -14176,19 +14223,7 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
-<pre class="r"><code># dcant_global_section_all_uncertainty  %&gt;%
-#   filter(data_source == &quot;obs&quot;,
-#          period == &quot;1994 - 2004&quot;) %&gt;%
-#   rename(delta_dcant = dcant_sign) %&gt;%
-#   p_section_global(
-#     var = &quot;delta_dcant&quot;,
-#     plot_slabs = &quot;n&quot;,
-#     title_text = NULL,
-#     subtitle_text = NULL,
-#     col = &quot;div&quot;
-#   )
-
-ggplot() +
+<pre class="r"><code>ggplot() +
   geom_point(
     data = dcant_global_section_all_uncertainty %&gt;%
       filter(signif == 0),
@@ -14390,196 +14425,6 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
-<pre class="r"><code># delta_dcant_global_section_all_uncertainty &lt;-
-#   delta_dcant_global_section_all_uncertainty %&gt;%
-#   filter(signif == 0)</code></pre>
-<pre class="r"><code>delta_dcant_global_section_all &lt;-
-  dcant_global_section_all %&gt;%
-  filter(data_source %in% c(&quot;obs&quot;, &quot;mod&quot;),
-         period %in% two_decades) %&gt;%
-  select(data_source, dist, depth, period, dcant) %&gt;%
-  drop_na() %&gt;% 
-  pivot_wider(names_from = period,
-              values_from = dcant) %&gt;%
-  mutate(dcant_offset = `2004 - 2014` - `1994 - 2004`,
-         period = &quot;(2004 - 2014) - (1994 - 2004)&quot;)
-
-dcant_global_section_all_ensemble_sd &lt;-
-  dcant_global_section_all_ensemble %&gt;%
-  filter(period %in% two_decades,
-         data_source != &quot;mod_truth&quot;) %&gt;%
-  group_by(data_source, period, dist, depth) %&gt;%
-  summarise(dcant_sd = sd(dcant) * sd_factor) %&gt;%
-  ungroup()
-
-
-dcant_global_section_all_uncertainty &lt;-
-  left_join(
-    dcant_global_section_all %&gt;% select(data_source, period, dist, depth, dcant),
-    dcant_global_section_all_ensemble_sd %&gt;% select(data_source, period, dist, depth, dcant_sd)
-  )
-
-dcant_global_section_all_uncertainty &lt;-
-  dcant_global_section_all_uncertainty %&gt;%
-  mutate(dist_grid = as.numeric(as.character(cut(
-    dist, seq(0, 50, 2), seq(1, 49, 2)
-  ))),
-  depth_grid = as.numeric(as.character(cut(
-    depth,
-    c(seq(0, 500, 100), seq(1000, 10000, 500)),
-    c(seq(50, 450, 100), seq(750, 10000, 500)),
-    right = FALSE
-  ))))
-
-
-dcant_global_section_all_uncertainty &lt;-
-  dcant_global_section_all_uncertainty %&gt;%
-  group_by(dist_grid, period, depth_grid, data_source) %&gt;% 
-  summarise(dcant = mean(dcant),
-            dcant_sd = mean(dcant_sd),
-            n = n()) %&gt;% 
-  ungroup() %&gt;% 
-  rename(dist = dist_grid,
-         depth = depth_grid) %&gt;%
-  mutate(dcant_sign = abs(dcant) - dcant_sd,
-         band = &quot;dummy&quot;)
-
-
-dcant_global_section_all_uncertainty  %&gt;% 
-  filter(data_source == &quot;obs&quot;,
-         period == &quot;1994 - 2004&quot;) %&gt;% 
-  p_section_global(
-    var = &quot;dcant&quot;,
-    plot_slabs = &quot;n&quot;,
-    title_text = NULL,
-    subtitle_text = NULL,
-    col = &quot;div&quot;
-  )
-
-dcant_global_section_all_uncertainty  %&gt;% 
-  filter(data_source == &quot;obs&quot;,
-         period == &quot;1994 - 2004&quot;) %&gt;% 
-  p_section_global(
-    var = &quot;dcant_sd&quot;,
-    plot_slabs = &quot;n&quot;,
-    title_text = NULL,
-    subtitle_text = NULL,
-    col = &quot;div&quot;
-  )
-
-dcant_global_section_all_uncertainty  %&gt;%
-  filter(data_source == &quot;obs&quot;,
-         period == &quot;1994 - 2004&quot;) %&gt;%
-  rename(delta_dcant = dcant_sign) %&gt;%
-  p_section_global(
-    var = &quot;delta_dcant&quot;,
-    plot_slabs = &quot;n&quot;,
-    title_text = NULL,
-    subtitle_text = NULL,
-    col = &quot;div&quot;
-  )
-
-ggplot() +
-  geom_point(
-    data = dcant_global_section_all_uncertainty %&gt;%
-      filter(signif == 0),
-    aes(dist, depth),
-    shape = 4
-  ) +
-  facet_grid(data_source~period) +
-  scale_y_reverse()
-
-dcant_global_section_all_uncertainty &lt;-
-  dcant_global_section_all_uncertainty %&gt;%
-  filter(signif == 0)
-
-
-delta_dcant_global_section_all_ensemble_RSS &lt;-
-  dcant_global_section_all_ensemble_sd %&gt;%
-  arrange(period) %&gt;%
-  group_by(data_source, dist, depth) %&gt;%
-  mutate(RSS = sqrt(dcant_sd ^ 2 + lag(dcant_sd ^ 2))) %&gt;%
-  ungroup() %&gt;%
-  drop_na()
-
-delta_dcant_global_section_all_uncertainty &lt;-
-  left_join(
-    delta_dcant_global_section_all %&gt;% select(data_source, dist, depth, dcant_offset),
-    delta_dcant_global_section_all_ensemble_RSS %&gt;% select(data_source, dist, depth, RSS)
-  )
-
-delta_dcant_global_section_all_uncertainty &lt;-
-  delta_dcant_global_section_all_uncertainty %&gt;%
-  mutate(dist_grid = as.numeric(as.character(cut(
-    dist, seq(0, 50, 2), seq(1, 49, 2)
-  ))),
-  depth_grid = as.numeric(as.character(cut(
-    depth,
-    c(seq(0, 500, 100), seq(1000, 10000, 500)),
-    c(seq(50, 450, 100), seq(750, 10000, 500)),
-    right = FALSE
-  ))))
-
-delta_dcant_global_section_all_uncertainty &lt;-
-  delta_dcant_global_section_all_uncertainty %&gt;%
-  group_by(dist_grid, depth_grid, data_source) %&gt;% 
-  summarise(dcant_offset = mean(dcant_offset),
-            RSS = mean(RSS),
-            n = n()) %&gt;% 
-  ungroup() %&gt;% 
-  rename(dist = dist_grid,
-         depth = depth_grid) %&gt;%
-  mutate(dcant_offset_sign = abs(dcant_offset) - RSS,
-         band = &quot;dummy&quot;)
-
-
-delta_dcant_global_section_all_uncertainty  %&gt;% 
-  mutate(dcant_offset = dcant_offset) %&gt;% 
-  filter(data_source == &quot;obs&quot;) %&gt;% 
-  rename(delta_dcant = dcant_offset) %&gt;% 
-  p_section_global(
-    var = &quot;delta_dcant&quot;,
-    plot_slabs = &quot;n&quot;,
-    title_text = NULL,
-    subtitle_text = NULL,
-    col = &quot;div&quot;
-  )
-
-delta_dcant_global_section_all_uncertainty  %&gt;% 
-  filter(data_source == &quot;obs&quot;) %&gt;% 
-  rename(delta_dcant = RSS) %&gt;% 
-  p_section_global(
-    var = &quot;delta_dcant&quot;,
-    plot_slabs = &quot;n&quot;,
-    title_text = NULL,
-    subtitle_text = NULL,
-    col = &quot;div&quot;
-  )
-
-delta_dcant_global_section_all_uncertainty  %&gt;%
-  filter(data_source == &quot;obs&quot;) %&gt;%
-  rename(delta_dcant = dcant_offset_sign) %&gt;%
-  p_section_global(
-    var = &quot;delta_dcant&quot;,
-    plot_slabs = &quot;n&quot;,
-    title_text = NULL,
-    subtitle_text = NULL,
-    col = &quot;div&quot;
-  )
-
-ggplot() +
-  geom_point(
-    data = delta_dcant_global_section_all_uncertainty %&gt;%
-      filter(signif == 0),
-    aes(dist, depth),
-    shape = 4
-  ) +
-  scale_y_reverse() +
-  facet_grid(data_source~.)
-
-delta_dcant_global_section_all_uncertainty &lt;-
-  delta_dcant_global_section_all_uncertainty %&gt;%
-  filter(signif == 0)</code></pre>
 </div>
 <div id="observations" class="section level2" number="11.2">
 <h2><span class="header-section-number">11.2</span> Observations</h2>
@@ -15302,25 +15147,6 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
-<pre class="r"><code>dcant_zonal_all %&gt;%
-  filter(
-    data_source == &quot;obs&quot;,
-    period != &quot;1994 - 2014&quot;,
-    depth &lt;= params_global$inventory_depth_standard
-  ) %&gt;%
-  group_split(basin_AIP) %&gt;%
-  # head(1) %&gt;%
-  map(
-    ~ p_section_zonal_continous_depth(
-      df = .x,
-      var = &quot;dcant&quot;,
-      breaks = c(-Inf, -1, 0, 1, seq(2,16,2), Inf),
-      plot_slabs = &quot;n&quot;,
-      title_text = .x$basin_AIP,
-      subtitle_text = NULL
-    ) +
-      facet_grid(period ~ .)
-  )</code></pre>
 </div>
 <div id="dcant---absolute-delta" class="section level2" number="12.2">
 <h2><span class="header-section-number">12.2</span> dcant - absolute
@@ -15975,12 +15801,12 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
-<pre class="r"><code>ggsave(
-  path = here::here(&quot;output/publication&quot;),
-  filename = &quot;FigS_dcant_penetration_depth_synthetic_data.png&quot;,
-  height = 9,
-  width = 8
-)
+<pre class="r"><code># ggsave(
+#   path = here::here(&quot;output/publication&quot;),
+#   filename = &quot;FigS_dcant_penetration_depth_synthetic_data.png&quot;,
+#   height = 9,
+#   width = 8
+# )
 
 
 dcant_penetration_depth_all_lat_mean_all_ensemble %&gt;%
@@ -16158,12 +15984,12 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
-<pre class="r"><code>ggsave(
-  path = here::here(&quot;output/publication&quot;),
-  filename = &quot;FigS_dcant_penetration_depth_synthetic_data_MLR_basins.png&quot;,
-  height = 9,
-  width = 8
-)
+<pre class="r"><code># ggsave(
+#   path = here::here(&quot;output/publication&quot;),
+#   filename = &quot;FigS_dcant_penetration_depth_synthetic_data_MLR_basins.png&quot;,
+#   height = 9,
+#   width = 8
+# )
 
 
 dcant_penetration_depth_all_lat_mean_all_ensemble %&gt;%
@@ -16316,12 +16142,12 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
-<pre class="r"><code>ggsave(
-  path = here::here(&quot;output/publication&quot;),
-  filename = &quot;FigS_dcant_penetration_depth_synthetic_data_vs_observations.png&quot;,
-  height = 9,
-  width = 8
-)
+<pre class="r"><code># ggsave(
+#   path = here::here(&quot;output/publication&quot;),
+#   filename = &quot;FigS_dcant_penetration_depth_synthetic_data_vs_observations.png&quot;,
+#   height = 9,
+#   width = 8
+# )
 
 dcant_penetration_depth_all_lat_mean_all_ensemble %&gt;%
   filter(dcant_lim == 5,
@@ -19683,9 +19509,9 @@ obs
 </div>
 <pre class="r"><code>rm(mean_surface_dcant)</code></pre>
 </div>
-<div id="uncertainty-range" class="section level3" number="14.1.5">
-<h3><span class="header-section-number">14.1.5</span> Uncertainty
-range</h3>
+<div id="additive-uncertainty-2" class="section level3" number="14.1.5">
+<h3><span class="header-section-number">14.1.5</span> Additive
+uncertainty</h3>
 <pre class="r"><code># dcant_profile_basin_MLR_all_ensemble %&gt;% distinct(data_source)
 
 dcant_profile_basin_MLR_all_uncertainty &lt;- dcant_profile_basin_MLR_all_ensemble %&gt;%
@@ -19735,95 +19561,7 @@ p_dcant_profiles &lt;-
   theme(legend.position = c(0.9, 0.1))
 
 p_dcant_profiles</code></pre>
-<p><img src="figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon_additive-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon_additive-1">
-Past versions of
-concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon_additive-1.png
-</button>
-</p>
-<div
-id="fig-concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon_additive-1"
-class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon_additive-1.png" target="_blank">6edad9b</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-11-11
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre class="r"><code>dcant_profile_basin_MLR_range &lt;- dcant_profile_basin_MLR_all_ensemble %&gt;%
-  group_by(basin, depth, period, data_source) %&gt;% 
-  summarise(dcant_sd = sd(dcant)*sd_factor) %&gt;%
-  ungroup()
-
-dcant_profile_basin_MLR_all_ensemble &lt;-
-full_join(dcant_profile_basin_MLR_all_ensemble %&gt;% select(-dcant_sd),
-          dcant_profile_basin_MLR_range)
-
-p_dcant_profiles &lt;-
-  dcant_profile_basin_MLR_all_ensemble %&gt;%
-  arrange(depth) %&gt;%
-  filter(
-    period != &quot;1994 - 2014&quot;,
-    depth &lt;= params_global$inventory_depth_standard,
-    data_source == &quot;obs&quot;,
-    Version_ID %in% Version_IDs
-  ) %&gt;%
-  ggplot() +
-  geom_vline(xintercept = 0, size = 0.1) +
-  geom_hline(yintercept = 1000, size = 0.1) +
-  geom_ribbon(
-    aes(
-      xmin = dcant - dcant_sd,
-      xmax = dcant + dcant_sd,
-      y = depth,
-      fill = period,
-      group = Version_ID
-    ),
-    alpha = 0.5
-  ) +
-  geom_path(
-    aes(dcant,
-        depth,
-        col = period,
-        group = Version_ID,)
-  ) +
-  scale_y_continuous(trans = trans_reverser(&quot;sqrt&quot;),
-                     breaks = c(0, 100, 500, seq(1000, 5000, 1000))) +
-  coord_cartesian(expand = 0) +
-  scale_color_manual(values = c(&quot;#EE7733&quot;, &quot;#009988&quot;), name = &quot;Mean \u00B1 2σ&quot;) +
-  scale_fill_manual(values = c(&quot;#EE7733&quot;, &quot;#009988&quot;), name = &quot;Mean \u00B1 2σ&quot;) +
-  labs(y = &quot;Depth (m)&quot;,
-       x = dcant_umol_label) +
-  facet_wrap(~ basin, ncol = 3, dir = &quot;v&quot;) +
-  theme(legend.position = c(0.9, 0.1))
-
-p_dcant_profiles</code></pre>
+<p><img src="figure/results_publication.Rmd/concentration_profiles_MLR_basins_additive_uncertainty-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>p_dcant_profiles_mod &lt;-
   dcant_profile_basin_MLR_all_uncertainty %&gt;%
   arrange(depth) %&gt;%
@@ -19864,201 +19602,7 @@ p_dcant_profiles</code></pre>
   theme(legend.position = &quot;top&quot;)
 
 p_dcant_profiles_mod</code></pre>
-<p><img src="figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon_mod-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon_mod-1">
-Past versions of
-concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon_mod-1.png
-</button>
-</p>
-<div
-id="fig-concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon_mod-1"
-class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon_mod-1.png" target="_blank">6edad9b</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-11-11
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon_mod-1.png" target="_blank">16beb51</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-11-08
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/b92657d1b4c6b9b31fd96ffe5fdc40c3c61675ae/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon_mod-1.png" target="_blank">b92657d</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-11-08
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/7275091571a4fb4918e062f6aaec45ee96b099c6/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon_mod-1.png" target="_blank">7275091</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-11-05
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/99610ed6b950c23b9803a322424146e88269550c/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon_mod-1.png" target="_blank">99610ed</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-11-01
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/70608014fce51dfd0a897d7d8da4c887a922b9fd/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon_mod-1.png" target="_blank">7060801</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-10-31
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ecb84c18783853e7c1354692e93d28d5875f2423/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon_mod-1.png" target="_blank">ecb84c1</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-10-30
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/23459354afb7989d5609c27c2c7e159805badf68/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon_mod-1.png" target="_blank">2345935</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-10-29
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/91052ae08d184c74526d6228df7cee23c3dfbf06/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon_mod-1.png" target="_blank">91052ae</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-10-20
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/051b911ce2c0d5e0ff965644eb7e5085e631c928/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon_mod-1.png" target="_blank">051b911</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-09-07
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/75bd58c56c5e0dddd25543a2fb32f733e9060a2c/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon_mod-1.png" target="_blank">75bd58c</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-09-07
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1c6de0dfdcfaac33a76431f5547e01b3f0f80d5d/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon_mod-1.png" target="_blank">1c6de0d</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-09-07
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/78dbb278f7676a720458de4d76de560256155c9f/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon_mod-1.png" target="_blank">78dbb27</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-08-11
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/302d289d80b2eb9b74cd354ad968c126c229fb8c/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon_mod-1.png" target="_blank">302d289</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-08-11
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/318fefe1c5617f200d716e9df9e67744db6d98f1/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_ensemble_uncertainty_ribbon_mod-1.png" target="_blank">318fefe</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-08-11
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/results_publication.Rmd/concentration_profiles_MLR_basins_additive_uncertainty_mod-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>dcant_profile_basin_MLR_all_ensemble %&gt;%
   arrange(depth) %&gt;%
   filter(
@@ -20396,8 +19940,7 @@ jens-daniel-mueller
       scale_y_continuous(trans = trans_reverser(&quot;sqrt&quot;),
                          breaks = c(0, 100, 500, seq(1500, 5000, 1000))) +
       coord_cartesian(expand = 0) +
-      scale_color_brewer(
-        palette = &quot;Dark2&quot;,
+      scale_color_muted(
         name = &quot;configuration&quot;
       ) +
       labs(
@@ -21974,88 +21517,17 @@ jens-daniel-mueller
 </div>
 <div id="inventories-1" class="section level1" number="15">
 <h1><span class="header-section-number">15</span> Inventories</h1>
-<pre class="r"><code># dcant_budget_basin_MLR_all_ensemble %&gt;% distinct(Version_ID_group)
+<pre class="r"><code>dcant_budget_basin_MLR_all_uncertainty_sensitivity &lt;-
+  dcant_budget_basin_MLR_all_sensitivity %&gt;%
+  filter(data_source != &quot;mod_truth&quot;,
+         period != &quot;1994 - 2014&quot;) %&gt;%
+  select(-c(inv_depth, Version_ID, tref1, tref2))
 
-dcant_budget_ensemble_stat &lt;-
-  dcant_budget_basin_MLR_all_ensemble %&gt;% 
-  filter(period != &quot;1994 - 2014&quot;,
-         data_source != &quot;mod_truth&quot;) %&gt;%
-  group_by(period, basin, data_source) %&gt;%
-  summarise(
-    median = median(dcant),
-    sd = sd(dcant),
-    n = n()
-  ) %&gt;%
-  ungroup() 
+dcant_budget_basin_MLR_all_uncertainty_sensitivity &lt;- additive_uncertainty(dcant_budget_basin_MLR_all_uncertainty_sensitivity)
 
-
-dcant_budget_ensemble_stat &lt;-
-  full_join(
-    dcant_budget_ensemble_stat,
-    dcant_budget_basin_MLR_all_ensemble %&gt;%
-      filter(
-        Version_ID %in% Version_IDs,
-        period != &quot;1994 - 2014&quot;,
-        data_source != &quot;mod_truth&quot;
-      ) %&gt;%
-      select(period,
-             basin,
-             data_source,
-             std_case = dcant)
-  )
-
-dcant_budget_ensemble_significance &lt;- dcant_budget_ensemble_stat %&gt;% 
-  pivot_longer(c(median,std_case),
-               names_to = &quot;estimate&quot;,
-               values_to = &quot;dcant&quot;) %&gt;%
-  group_by(estimate, basin, data_source) %&gt;%
-  mutate(
-    delta_dcant = dcant - lag(dcant),
-    delta_dcant_uncert = sqrt(sd_factor * sd ^ 2 + lag(sd_factor * sd ^ 2)),
-    error_prop_ratio = abs(delta_dcant_uncert / delta_dcant),
-    ttest_p = tsum.test(
-      mean.x = dcant,
-      s.x = sd,
-      n.x = n,
-      mean.y = lag(dcant),
-      s.y = lag(sd),
-      n.y = lag(n)
-    )$p.value
-  ) %&gt;%
-  ungroup() %&gt;% 
-  drop_na()
-  
-dcant_budget_ensemble_stat_significance &lt;-
-  full_join(
-    dcant_budget_ensemble_stat %&gt;%
-      select(-n) %&gt;%
-      pivot_wider(
-        names_from = period,
-        values_from = median:std_case,
-        names_sep = &quot; &quot;
-      ),
-    dcant_budget_ensemble_significance %&gt;%
-      select(basin, estimate, delta_dcant, delta_dcant_uncert, ttest_p, data_source) %&gt;%
-      pivot_wider(names_from = estimate,
-                  values_from = delta_dcant:ttest_p) %&gt;%
-      rename(delta_dcant_uncert = delta_dcant_uncert_std_case) %&gt;%
-      select(-delta_dcant_uncert_median)
-  )
-
-
-dcant_budget_ensemble_stat_significance %&gt;% 
-  kable() %&gt;%
-  kable_styling() %&gt;%
-  scroll_box(height = &quot;300px&quot;)
-
-dcant_budget_ensemble_significance %&gt;% 
-  ggplot(aes(error_prop_ratio, ttest_p, col = basin)) +
-  geom_vline(xintercept = 1) +
-  geom_hline(yintercept = 0.05) +
-  geom_point() +
-  scale_y_log10() +
-  scale_color_brewer(palette = &quot;Dark2&quot;) +
-  facet_grid(data_source ~ estimate)</code></pre>
+delta_dcant_budget_basin_MLR_all_uncertainty_sensitivity &lt;- dcant_budget_basin_MLR_all_uncertainty_sensitivity[[3]]
+dcant_budget_basin_MLR_all_uncertainty_contributions_sensitivity &lt;- dcant_budget_basin_MLR_all_uncertainty_sensitivity[[2]]
+dcant_budget_basin_MLR_all_uncertainty_sensitivity &lt;- dcant_budget_basin_MLR_all_uncertainty_sensitivity[[1]]</code></pre>
 <pre class="r"><code>dcant_budget_basin_MLR_all_uncertainty &lt;-
   dcant_budget_basin_MLR_all_ensemble %&gt;%
   filter(data_source != &quot;mod_truth&quot;,
@@ -22118,6 +21590,24 @@ dcant_budget_basin_MLR_all_uncertainty &lt;-
 dcant_budget_basin_MLR_all_uncertainty_contributions &lt;-
   bind_rows(dcant_budget_basin_MLR_all_uncertainty_contributions,
             scaling_uncertainty)
+
+
+
+dcant_budget_basin_MLR_all_uncertainty_sensitivity &lt;-
+  dcant_budget_basin_MLR_all_uncertainty_sensitivity %&gt;%
+  mutate(
+    sd = if_else(basin == &quot;Global&quot;,
+                 sqrt(
+                   sd ^ 2 +
+                     (std_case * (dcant_scaling - 1) * dcant_scaling_uncertainty) ^
+                     2
+                 ),
+                 sd),
+    std_case = if_else(basin == &quot;Global&quot;,
+                       std_case * dcant_scaling,
+                       std_case)
+  )
+
 
 
 delta_dcant_budget_basin_MLR_all_uncertainty &lt;-
@@ -22198,7 +21688,42 @@ jens-daniel-mueller
 </div>
 </div>
 <pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
-       filename = &quot;FigS_dcant_inventory_additive_uncertainty_combined_contributions.png&quot;,
+       filename = &quot;FigS_dcant_inventory_uncertainty_contributions.png&quot;,
+       height = 6,
+       width = 8) </code></pre>
+<pre class="r"><code>dcant_budget_basin_MLR_all_uncertainty_contributions_sensitivity %&gt;%
+  filter(data_source == &quot;obs&quot;,
+         Version_ID_group != &quot;Regional clustering&quot;) %&gt;%
+  mutate(
+    basin = fct_relevel(
+      basin,
+      &quot;Global&quot;,
+      &quot;N. Pacific&quot;,
+      &quot;N. Atlantic&quot;,
+      &quot;Indian&quot;,
+      &quot;S. Pacific&quot;,
+      &quot;S. Atlantic&quot;
+    )
+  ) %&gt;%
+  ggplot(aes(&quot;x&quot;, abs(sd), fill = Version_ID_group)) +
+  geom_hline(yintercept = 0, col = &quot;grey10&quot;) +
+  geom_col(position = position_dodge(preserve = &quot;single&quot;),
+           col = &quot;grey10&quot;) +
+  scale_fill_bright(name = &quot;eMLR(C*)\nconfiguration\ncomponent&quot;) +
+  labs(y = expression(Delta*Cant~inventory~offset~from~standard~case~(PgC))) +
+  theme(
+    axis.title.x = element_blank(),
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank()
+  ) +
+  guides(pattern = guide_legend(override.aes = list(fill = &quot;white&quot;)),
+         fill = guide_legend(override.aes = list(pattern = &quot;none&quot;))) +
+  # expand_limits(y = c(0,2.2)) +
+  # scale_y_continuous(expand = c(0,0)) +
+  facet_nested_wrap( ~ basin + period, ncol = 6)</code></pre>
+<p><img src="figure/results_publication.Rmd/dcant_inventory_uncertainty_components_sensitivity_cases-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
+       filename = &quot;FigS_dcant_inventory_uncertainty_contributions_sensitivity.png&quot;,
        height = 6,
        width = 8) </code></pre>
 <pre class="r"><code># estimate area scaling factor to achieve identical coverage
@@ -22310,7 +21835,6 @@ tcant_budget_basin_MLR &lt;-
   select(-scaling_factor)
 
 
-
 tcant_budget_basin_MLR &lt;-
   left_join(tcant_budget_basin_MLR %&gt;%
               mutate(period = &quot;1800 - 1994&quot;),
@@ -22331,7 +21855,7 @@ tcant_budget_basin_MLR &lt;-
             tibble(basin = &quot;Global&quot;, beta_1994 = 118 / 78.3))</code></pre>
 <div id="scatterplots" class="section level2" number="15.1">
 <h2><span class="header-section-number">15.1</span> Scatterplots</h2>
-<div id="ensemble-uncertainty-1" class="section level3" number="15.1.1">
+<div id="ensemble-uncertainty" class="section level3" number="15.1.1">
 <h3><span class="header-section-number">15.1.1</span> Ensemble
 uncertainty</h3>
 <pre class="r"><code>dcant_budget_basin_MLR_all_ensemble %&gt;%
@@ -22432,95 +21956,7 @@ tcant_budget_basin_MLR &lt;- tcant_budget_basin_MLR %&gt;%
       &quot;S. Atlantic&quot;
     )
   )
-# 
-# dcant_budget_basin_MLR_all_ensemble %&gt;%
-#   filter(data_source == &quot;obs&quot;,
-#          period != &quot;1994 - 2014&quot;,
-#          !(Version_ID %in% Version_IDs)) %&gt;%
-#   ggplot(aes(period, dcant)) +
-#   geom_errorbar(
-#     data = tcant_budget_basin_MLR,
-#     aes(x = period,
-#         ymax = dcant, ymin = dcant,
-#         col = &quot;Scaled 1994\nestimate&quot;),
-#     width = 0.8,
-#     size = 1,
-#     linetype = 1,
-#     position = position_nudge(x = 0.05)
-#   ) +
-#   geom_jitter(
-#     data = dcant_budget_basin_MLR_all_sensitivity %&gt;%
-#       filter(data_source == &quot;obs&quot;,
-#              period != &quot;1994 - 2014&quot;),
-#     aes(fill = &quot;Unadjusted data&quot;,
-#         alpha = &quot;Unadjusted data&quot;),
-#     shape = 21,
-#     position = position_jitter(width = 0.1, height = 0)
-#   ) +
-#   geom_point(
-#     aes(fill = &quot;Ensemble member&quot;,
-#         alpha = &quot;Ensemble member&quot;),
-#     shape = 21,
-#     position = position_jitter(width = 0.1, height = 0)
-#   ) +
-#   geom_crossbar(
-#     data = dcant_budget_ensemble_stat %&gt;% filter(data_source == &quot;obs&quot;),
-#     aes(
-#       x = period,
-#       y = std_case,
-#       ymin = std_case - 2*sd,
-#       ymax = std_case + 2*sd,
-#       linetype = &quot;Ensemble SD&quot;
-#     ),
-#     width = 0.1,
-#     fill = &quot;#AA3377&quot;,
-#     alpha = 0.2,
-#     position = position_nudge(x = 0.2)
-#   ) +
-#   geom_crossbar(
-#     data = dcant_budget_ensemble_stat %&gt;% filter(data_source == &quot;obs&quot;),
-#     aes(
-#       x = period,
-#       y = std_case,
-#       ymin = std_case - sd,
-#       ymax = std_case + sd,
-#       alpha = &quot;Ensemble SD&quot;,
-#     ),
-#     width = 0.1,
-#     fill = &quot;#AA3377&quot;,
-#     alpha = 0.4,
-#     position = position_nudge(x = 0.2)
-#   ) +
-#   geom_point(
-#     data = dcant_budget_ensemble_stat %&gt;% filter(data_source == &quot;obs&quot;),
-#     aes(x = period,
-#         y = std_case,
-#         fill = &quot;Standard case&quot;,
-#         alpha = &quot;Standard case&quot;),
-#     size = 2,
-#     shape = 21,
-#     position = position_nudge(x = 0.2)
-#   ) +
-#   scale_fill_manual(name = &quot;group&quot;, values = c(&quot;#BB5566&quot;, &quot;white&quot;, &quot;#DDAA33&quot;)) +
-#   scale_color_manual(values = c(&quot;grey50&quot;), label = expression(Scaled~C[ant]~1994)) +
-#   scale_linetype(name = &quot;X&quot;) +
-#   scale_alpha_manual(name = &quot;group&quot;, values = c(0.7,1,0.7)) +
-#   scale_shape_manual(values = 95) +
-#   scale_y_continuous(name = dcant_pgc_label) +
-#   guides(
-#     fill = guide_legend(order = 1),
-#     linetype = guide_legend(order = 2),
-#     alpha = guide_legend(order = 1)
-#   ) +
-#   facet_wrap(~ basin, ncol = 3, dir = &quot;v&quot;, scales = &quot;free_y&quot;) +
-#   theme(legend.title = element_blank(),
-#         axis.title.x = element_blank())
-# 
-# 
-# ggsave(path = here::here(&quot;output/publication&quot;),
-#        filename = &quot;Fig_dcant_inventory_ensemble_uncertainty.png&quot;,
-#        height = 6,
-#        width = 8)
+
 
 dcant_budget_basin_MLR_all_ensemble %&gt;%
   filter(data_source == &quot;obs&quot;,
@@ -22632,25 +22068,8 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
-<pre class="r"><code># dcant_budget_basin_MLR_all_ensemble_summary &lt;- dcant_budget_basin_MLR_all_ensemble %&gt;% 
-#   group_by(data_source, basin, period) %&gt;% 
-#   summarise(dcant_mean = mean(dcant),
-#             dcant_sd = sd(dcant)*sd_factor) %&gt;% 
-#   ungroup()
-# 
-# dcant_budget_global_all_ensemble_summary &lt;-
-#   dcant_budget_basin_MLR_all_ensemble %&gt;%
-#   filter(period != &quot;1994 - 2014&quot;) %&gt;%
-#   group_by(data_source, Version_ID, tref1, tref2, period) %&gt;%
-#   summarise(dcant = sum(dcant)) %&gt;%
-#   ungroup() %&gt;%
-#   group_by(data_source, tref1, tref2, period) %&gt;%
-#   summarise(dcant_mean = mean(dcant),
-#             dcant_sd = sd(dcant)*sd_factor) %&gt;%
-#   ungroup() %&gt;%
-#   filter(data_source == &quot;obs&quot;)</code></pre>
 </div>
-<div id="additive-uncertainty-1" class="section level3" number="15.1.2">
+<div id="additive-uncertainty-3" class="section level3" number="15.1.2">
 <h3><span class="header-section-number">15.1.2</span> Additive
 uncertainty</h3>
 <pre class="r"><code>dcant_budget_basin_MLR_all_ensemble %&gt;%
@@ -22822,7 +22241,7 @@ jens-daniel-mueller
 </div>
 </div>
 <pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
-       filename = &quot;Fig_dcant_inventory_additive_uncertainty.png&quot;,
+       filename = &quot;Fig_dcant_inventory.png&quot;,
        height = 6,
        width = 8)</code></pre>
 </div>
@@ -22898,43 +22317,7 @@ beta_budget_basin_MLR_all_uncertainty_contributions &lt;-
     sd = sd * scaling_factor
     ) %&gt;% 
   select(-scaling_factor)</code></pre>
-<pre class="r"><code># beta_budget_ensemble_stat &lt;-
-#   beta_budget_basin_MLR_all_ensemble %&gt;% 
-#   filter(period != &quot;1994 - 2014&quot;,
-#          data_source != &quot;mod_truth&quot;) %&gt;%
-#   select(basin, period, dcant, beta, data_source) %&gt;% 
-#   pivot_longer(c(dcant, beta),
-#                values_to = &quot;value&quot;,
-#                names_to = &quot;estimate&quot;) %&gt;% 
-#   group_by(period, basin, estimate, data_source) %&gt;%
-#   summarise(
-#     median = median(value),
-#     sd = sd(value),
-#     n = n()
-#   ) %&gt;%
-#   ungroup() 
-# 
-# 
-# beta_budget_ensemble_stat &lt;-
-#   full_join(
-#     beta_budget_ensemble_stat,
-#     beta_budget_basin_MLR_all_ensemble %&gt;%
-#       filter(
-#         Version_ID %in% Version_IDs,
-#         period != &quot;1994 - 2014&quot;
-#       ) %&gt;%
-#       select(period,
-#              basin,
-#              data_source,
-#              dcant,
-#              beta) %&gt;% 
-#         pivot_longer(c(dcant, beta),
-#                values_to = &quot;std_case&quot;,
-#                names_to = &quot;estimate&quot;)
-#   )
-
-
-dcant_beta_basin_MLR_all_uncertainty &lt;-
+<pre class="r"><code>dcant_beta_basin_MLR_all_uncertainty &lt;-
   bind_rows(
     dcant_budget_basin_MLR_all_uncertainty %&gt;% mutate(estimate = &quot;dcant&quot;),
     beta_budget_basin_MLR_all_uncertainty %&gt;% mutate(estimate = &quot;beta&quot;)
@@ -22950,14 +22333,6 @@ dcant_beta_basin_MLR_all_uncertainty_significance &lt;-
     delta = std_case - lag(std_case),
     RSS = sqrt(sd_factor * sd ^ 2 + lag(sd_factor * sd ^ 2)),
     RSS_delta_ratio = abs(delta) / RSS
-    # ttest_p = tsum.test(
-    #   mean.x = std_case,
-    #   s.x = sd,
-    #   n.x = n,
-    #   mean.y = lag(std_case),
-    #   s.y = lag(sd),
-    #   n.y = lag(n)
-    # )$p.value
   ) %&gt;%
   ungroup() %&gt;% 
   filter(!is.na(delta))
@@ -23867,17 +23242,7 @@ beta
 </tbody>
 </table>
 </div>
-<pre class="r"><code># dcant_beta_budget_ensemble_stat_significance %&gt;% 
-#   ggplot(aes(abs(delta) / RSS, ttest_p, 
-#              col = basin, shape = uncertainty)) +
-#   geom_vline(xintercept = 1) +
-#   geom_hline(yintercept = 0.05) +
-#   geom_point() +
-#   scale_y_log10() +
-#   scale_color_brewer(palette = &quot;Dark2&quot;) +
-#   facet_grid(data_source ~ estimate)
-
-dcant_beta_basin_MLR_all_uncertainty_significance_table &lt;-
+<pre class="r"><code>dcant_beta_basin_MLR_all_uncertainty_significance_table &lt;-
 dcant_beta_basin_MLR_all_uncertainty_significance %&gt;%
   filter(data_source == &quot;obs&quot;) %&gt;% 
   select(-data_source) %&gt;% 
@@ -23888,149 +23253,14 @@ dcant_beta_basin_MLR_all_uncertainty_significance %&gt;%
   ) %&gt;%
   select(Region = basin,
          Estimate = estimate,
-         # Uncertainty = uncertainty,
          `1994 - 2004`,
          `2004 - 2014`,
          `Deacadal change`) %&gt;%
   arrange(Region) 
 
 dcant_beta_basin_MLR_all_uncertainty_significance_table %&gt;% 
-  # filter(Uncertainty == &quot;additive&quot;) %&gt;% 
-  # select(-Uncertainty) %&gt;% 
-  write_csv(here::here(&quot;output/publication/Table_budget_stats.csv&quot;))</code></pre>
+  write_csv(here::here(&quot;output/publication/Table_inventory_stats.csv&quot;))</code></pre>
 <pre class="r"><code>beta_budget_basin_MLR_all_ensemble %&gt;%
-  filter(data_source == &quot;obs&quot;,
-         period != &quot;1994 - 2014&quot;,
-         !(Version_ID %in% Version_IDs)) %&gt;%
-    mutate(
-    basin = fct_relevel(
-      basin,
-      &quot;Global&quot;,
-      &quot;Indian&quot;,
-      &quot;S. Pacific&quot;,
-      &quot;S. Atlantic&quot;,
-      &quot;N. Pacific&quot;,
-      &quot;N. Atlantic&quot;
-    )
-  ) %&gt;%
-  ggplot(aes(period, beta)) +
-  geom_errorbar(
-    data = tcant_budget_basin_MLR %&gt;% 
-      rename(beta = beta_1994),
-    aes(x = period,
-        ymax = beta, ymin = beta,
-        col = &quot;Scaled 1994\nestimate&quot;),
-    width = 0.8,
-    size = 1,
-    linetype = 1,
-    position = position_nudge(x = 0.05)
-  ) +
-  geom_jitter(
-    data = beta_budget_basin_MLR_all_sensitivity %&gt;%
-      filter(data_source == &quot;obs&quot;,
-             period != &quot;1994 - 2014&quot;),
-    aes(fill = &quot;Sensitivity cases&quot;,
-        alpha = &quot;Sensitivity cases&quot;),
-    shape = 21,
-    position = position_jitter(width = 0.1, height = 0)
-  ) +
-  geom_point(
-    aes(fill = &quot;Ensemble member&quot;,
-        alpha = &quot;Ensemble member&quot;),
-    shape = 21,
-    position = position_jitter(width = 0.1, height = 0)
-  ) +
-  geom_crossbar(
-    data = beta_budget_basin_MLR_all_uncertainty %&gt;%
-      filter(data_source == &quot;obs&quot;),
-    aes(
-      x = period,
-      y = std_case,
-      ymin = std_case - 2*sd,
-      ymax = std_case + 2*sd,
-      linetype = &quot;Ensemble SD&quot;
-    ),
-    width = 0.1,
-    fill = &quot;#AA3377&quot;,
-    alpha = 0.2,
-    position = position_nudge(x = 0.2)
-  ) +
-  geom_crossbar(
-    data = beta_budget_basin_MLR_all_uncertainty %&gt;%
-      filter(data_source == &quot;obs&quot;),
-    aes(
-      x = period,
-      y = std_case,
-      ymin = std_case - sd,
-      ymax = std_case + sd,
-      alpha = &quot;Ensemble SD&quot;,
-    ),
-    width = 0.1,
-    fill = &quot;#AA3377&quot;,
-    alpha = 0.4,
-    position = position_nudge(x = 0.2)
-  ) +
-  geom_point(
-    data = beta_budget_basin_MLR_all_uncertainty %&gt;%
-      filter(data_source == &quot;obs&quot;),
-    aes(x = period,
-        y = std_case,
-        fill = &quot;Standard case&quot;,
-        alpha = &quot;Standard case&quot;),
-    size = 2,
-    shape = 21,
-    position = position_nudge(x = 0.2)
-  ) +
-  scale_fill_manual(name = &quot;group&quot;, values = c(&quot;#BB5566&quot;, &quot;white&quot;, &quot;#BBBBBB&quot;)) +
-  scale_color_manual(values = c(&quot;grey50&quot;), label = expression(Scaled~C[ant]~1994)) +
-  scale_linetype(name = &quot;X&quot;) +
-  scale_alpha_manual(name = &quot;group&quot;, values = c(0.5,1,0.5)) +
-  scale_shape_manual(values = 95) +
-  scale_y_continuous(name = dcant_pgc_scaled_label) +
-  guides(
-    fill = guide_legend(order = 1),
-    linetype = guide_legend(order = 2),
-    alpha = guide_legend(order = 1)
-  ) +
-  facet_wrap(~ basin, dir = &quot;v&quot;, ncol = 3) +
-  theme(legend.title = element_blank(),
-        axis.title.x = element_blank())
-
-
-ggsave(path = here::here(&quot;output/publication&quot;),
-       filename = &quot;FigS_beta_budgets_ensemble_member.png&quot;,
-       height = 6,
-       width = 8)</code></pre>
-<pre class="r"><code># 
-# beta_budget_basin_MLR_all_uncertainty &lt;- 
-#   beta_budget_basin_MLR_all_uncertainty %&gt;% 
-#     mutate(
-#     basin = fct_relevel(
-#       basin,
-#       &quot;Global&quot;,
-#       &quot;Indian&quot;,
-#       &quot;N. Pacific&quot;,
-#       &quot;S. Pacific&quot;,
-#       &quot;N. Atlantic&quot;,
-#       &quot;S. Atlantic&quot;
-#     )
-#   )
-# 
-# beta_budget_basin_MLR_all_ensemble &lt;- 
-#   beta_budget_basin_MLR_all_ensemble %&gt;% 
-#     mutate(
-#     basin = fct_relevel(
-#       basin,
-#       &quot;Global&quot;,
-#       &quot;Indian&quot;,
-#       &quot;N. Pacific&quot;,
-#       &quot;S. Pacific&quot;,
-#       &quot;N. Atlantic&quot;,
-#       &quot;S. Atlantic&quot;
-#     )
-#   )
-
-beta_budget_basin_MLR_all_ensemble %&gt;%
   filter(
     data_source == &quot;obs&quot;,
     period != &quot;1994 - 2014&quot;,
@@ -24117,92 +23347,9 @@ beta_budget_basin_MLR_all_ensemble %&gt;%
   facet_wrap(~ basin, ncol = 3, dir = &quot;v&quot;) +
   theme(legend.title = element_blank(),
         axis.title.x = element_blank())</code></pre>
-<p><img src="figure/results_publication.Rmd/beta_dcant_budget_basin_hemisphere_additive_uncertainty-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-beta_dcant_budget_basin_hemisphere_additive_uncertainty-1">
-Past versions of
-beta_dcant_budget_basin_hemisphere_additive_uncertainty-1.png
-</button>
-</p>
-<div id="fig-beta_dcant_budget_basin_hemisphere_additive_uncertainty-1"
-class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/beta_dcant_budget_basin_hemisphere_additive_uncertainty-1.png" target="_blank">6edad9b</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-11-11
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/16beb518337f68f5f032eb8441557fc61013755e/docs/figure/results_publication.Rmd/beta_dcant_budget_basin_hemisphere_additive_uncertainty-1.png" target="_blank">16beb51</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-11-08
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/b92657d1b4c6b9b31fd96ffe5fdc40c3c61675ae/docs/figure/results_publication.Rmd/beta_dcant_budget_basin_hemisphere_additive_uncertainty-1.png" target="_blank">b92657d</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-11-08
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/0b939ca0288d388b224ee342bf29e5a7c95463dd/docs/figure/results_publication.Rmd/beta_dcant_budget_basin_hemisphere_additive_uncertainty-1.png" target="_blank">0b939ca</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-11-08
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/7275091571a4fb4918e062f6aaec45ee96b099c6/docs/figure/results_publication.Rmd/beta_dcant_budget_basin_hemisphere_additive_uncertainty-1.png" target="_blank">7275091</a>
-</td>
-<td>
-jens-daniel-mueller
-</td>
-<td>
-2022-11-05
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/results_publication.Rmd/beta_dcant_inventory_uncertainty-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
-       filename = &quot;Fig_beta_inventory_additive_uncertainty.png&quot;,
+       filename = &quot;FigS_beta_inventory.png&quot;,
        height = 6,
        width = 8)</code></pre>
 </div>
@@ -24232,48 +23379,72 @@ dcant_budget_basin_MLR_all_bias_uncertainty_contributions &lt;-
 dcant_budget_basin_MLR_all_bias_uncertainty &lt;-
   dcant_budget_basin_MLR_all_bias_uncertainty[[1]]
 
-ggplot() +
+
+
+dcant_budget_basin_MLR_all_bias  %&gt;%
+  filter(period != &quot;1994 - 2014&quot;,
+         MLR_basins == unique(params_local_all$MLR_basins)) %&gt;%
+  ggplot(aes(period, dcant)) +
   geom_hline(yintercept = 0) +
+  geom_jitter(
+    data = dcant_budget_basin_MLR_all_bias %&gt;%
+      filter(period != &quot;1994 - 2014&quot;,
+             Version_ID_group == unique(params_local_all$Version_ID_group)),
+    aes(fill = &quot;Regional clustering&quot;,
+        alpha = &quot;Regional clustering&quot;),
+    shape = 21,
+    position = position_jitter(width = 0.1, height = 0)
+  ) +
+  geom_point(
+    aes(fill = &quot;Configuration changes&quot;,
+        alpha = &quot;Configuration changes&quot;),
+    shape = 21,
+    position = position_jitter(width = 0.1, height = 0)
+  ) +
   geom_crossbar(
-    data = delta_dcant_budget_basin_MLR_all_bias_uncertainty,
+    data = dcant_budget_basin_MLR_all_bias_uncertainty,
     aes(
       x = period,
       y = std_case,
-      ymin = std_case - RSS,
-      ymax = std_case + RSS,
+      ymin = std_case - 2*sd,
+      ymax = std_case + 2*sd,
       linetype = &quot;Combined uncertainty&quot;
     ),
     width = 0.1,
     fill = &quot;#BBBBBB&quot;,
-    alpha = 0.2
+    alpha = 0.2,
+    position = position_nudge(x = 0.2)
   ) +
   geom_crossbar(
-    data = delta_dcant_budget_basin_MLR_all_bias_uncertainty,
+    data = dcant_budget_basin_MLR_all_bias_uncertainty,
     aes(
       x = period,
       y = std_case,
-      ymin = std_case - 0.5*RSS,
-      ymax = std_case + 0.5*RSS,
+      ymin = std_case - sd,
+      ymax = std_case + sd,
       alpha = &quot;Combined uncertainty&quot;,
     ),
     width = 0.1,
     fill = &quot;#BBBBBB&quot;,
-    alpha = 0.4
+    alpha = 0.4,
+    position = position_nudge(x = 0.2)
   ) +
   geom_point(
-    data = delta_dcant_budget_basin_MLR_all_bias_uncertainty,
+    data = dcant_budget_basin_MLR_all_bias_uncertainty,
     aes(x = period,
         y = std_case,
         fill = &quot;Standard case&quot;,
         alpha = &quot;Standard case&quot;),
     size = 2,
-    shape = 21
+    shape = 21,
+    position = position_nudge(x = 0.2)
   ) +
-  scale_fill_manual(name = &quot;group&quot;, values = c(&quot;white&quot;)) +
+  scale_fill_manual(name = &quot;group&quot;, values = c(&quot;#BB5566&quot;, &quot;#004488&quot;, &quot;white&quot;)) +
+  scale_color_manual(values = c(&quot;grey50&quot;), label = expression(Scaled~C[ant]~1994)) +
   scale_linetype(name = &quot;X&quot;) +
   scale_alpha_manual(name = &quot;group&quot;, values = c(0.7,0.7,1)) +
   scale_shape_manual(values = 95) +
-  scale_y_continuous(name = dcant_bias_pgc_label) +
+  scale_y_continuous(name = dcant_pgc_label) +
   guides(
     fill = guide_legend(order = 1),
     linetype = guide_legend(order = 2),
@@ -24321,327 +23492,9 @@ jens-daniel-mueller
 </div>
 </div>
 <pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
-       filename = &quot;FigS_delta_dcant_bias_inventories.png&quot;,
+       filename = &quot;FigS_dcant_bias_inventory_synthetic_data.png&quot;,
        height = 6,
        width = 8)</code></pre>
-<pre class="r"><code>dcant_budget_basin_MLR_all_ensemble_bias &lt;- 
-dcant_budget_basin_MLR_all_ensemble %&gt;%
-  filter(data_source %in% c(&quot;mod&quot;, &quot;mod_truth&quot;)) %&gt;% 
-  pivot_wider(names_from = data_source,
-              values_from = dcant) %&gt;% 
-  mutate(dcant_bias = mod - mod_truth,
-         dcant_bias_rel = 100 * dcant_bias / mod_truth)
-
-dcant_budget_basin_MLR_all_ensemble_bias &lt;- 
-dcant_budget_basin_MLR_all_ensemble_bias %&gt;%
-  mutate(ensemble_role = if_else(Version_ID %in% Version_IDs,
-                                 &quot;Standard case&quot;,
-                                 &quot;others&quot;))
-
-dcant_budget_basin_MLR_all_ensemble_bias %&gt;%
-  ggplot(aes(period, dcant_bias)) +
-  geom_hline(yintercept = 0) +
-  geom_point(
-    aes(fill = Version_ID_group,
-        col = ensemble_role),
-    size = 1.3,
-    alpha = .7,
-    shape = 21,
-    position = position_dodge2(width = 0.3)
-  ) +
-  stat_summary(
-    fun.data = &quot;mean_sdl&quot;,
-    fun.args = list(mult = 2),
-    position = position_nudge(x = -0.3),
-    col = &quot;grey&quot;
-  ) +
-  stat_summary(
-    fun.data = &quot;mean_sdl&quot;,
-    fun.args = list(mult = 1),
-    position = position_nudge(x = -0.3),
-    size = 0.1
-  ) +
-  scale_fill_brewer(palette = &quot;Dark2&quot;) +
-    scale_color_manual(values = c(&quot;transparent&quot;, &quot;black&quot;),
-                     name = &quot;Ensemble member&quot;) +
-  facet_grid(basin ~ .)
-
-
-dcant_budget_bias_ensemble_stat &lt;-
-  dcant_budget_basin_MLR_all_ensemble_bias %&gt;%
-  filter(period != &quot;1994 - 2014&quot;) %&gt;%
-  group_by(period, basin) %&gt;%
-  summarise(
-    median = median(dcant_bias),
-    sd = sd(dcant_bias),
-    n = n()
-  ) %&gt;%
-  ungroup() 
-
-
-dcant_budget_bias_ensemble_stat &lt;-
-  full_join(
-    dcant_budget_bias_ensemble_stat,
-    dcant_budget_basin_MLR_all_ensemble_bias %&gt;%
-        filter(Version_ID %in% Version_IDs,
-               period != &quot;1994 - 2014&quot;) %&gt;%
-        select(period,
-               basin,
-               std_case = dcant_bias)
-  )
-
-
-
-
-dcant_budget_basin_MLR_all_ensemble_bias %&gt;%
-  filter(period != &quot;1994 - 2014&quot;) %&gt;%
-  ggplot(aes(period, dcant_bias)) +
-  geom_hline(yintercept = 0) +
-  geom_point(
-    aes(fill = &quot;Ensemble member&quot;,
-        alpha = &quot;Ensemble member&quot;),
-    shape = 21,
-    position = position_jitter(width = 0.1, height = 0)
-  ) +
-  geom_crossbar(
-    data = dcant_budget_bias_ensemble_stat,
-    aes(
-      x = period,
-      y = std_case,
-      ymin = std_case - 2 * sd,
-      ymax = std_case + 2 * sd,
-      linetype = &quot;Ensemble SD&quot;
-    ),
-    width = 0.1,
-    fill = &quot;#AA3377&quot;,
-    alpha = 0.2,
-    position = position_nudge(x = 0.2)
-  ) +
-  geom_crossbar(
-    data = dcant_budget_bias_ensemble_stat,
-    aes(
-      x = period,
-      y = std_case,
-      ymin = std_case - sd,
-      ymax = std_case + sd,
-      alpha = &quot;Ensemble SD&quot;,
-    ),
-    width = 0.1,
-    fill = &quot;#AA3377&quot;,
-    alpha = 0.4,
-    position = position_nudge(x = 0.2)
-  ) +
-  geom_point(
-    data = dcant_budget_bias_ensemble_stat,
-    aes(
-      x = period,
-      y = std_case,
-      fill = &quot;Standard case&quot;,
-      alpha = &quot;Standard case&quot;
-    ),
-    size = 2,
-    shape = 21,
-    position = position_nudge(x = 0.2)
-  )+
-  scale_fill_manual(name = &quot;group&quot;, values = c(&quot;#BB5566&quot;, &quot;white&quot;, &quot;#BBBBBB&quot;)) +
-  scale_linetype(name = &quot;X&quot;) +
-  scale_alpha_manual(name = &quot;group&quot;, values = c(0.5,1,0.5)) +
-  scale_shape_manual(values = 95) +
-  scale_y_continuous(name = dcant_bias_pgc_label) +
-  guides(
-    fill = guide_legend(order = 1),
-    linetype = guide_legend(order = 2),
-    alpha = guide_legend(order = 1)
-  ) +
-  facet_wrap(~ basin, ncol = 3, dir = &quot;v&quot;, scales = &quot;free_y&quot;) +
-  theme(legend.title = element_blank(),
-        axis.title.x = element_blank())
-
-ggsave(path = here::here(&quot;output/publication&quot;),
-       filename = &quot;FigS_dcant_bias_budgets_ensemble_member.png&quot;,
-       height = 6,
-       width = 8)
-
-
-
-dcant_budget_basin_MLR_all_ensemble_bias %&gt;% 
-  ggplot(aes(period, dcant_bias_rel, col = Version_ID_group)) +
-  geom_hline(yintercept = 0) +
-  geom_jitter(alpha = 0.5) +
-  scale_color_brewer(palette = &quot;Dark2&quot;) +
-  facet_grid(basin ~ MLR_basins)
-
-
-delta_dcant_budget_basin_MLR_all_ensemble &lt;-
-dcant_budget_basin_MLR_all_ensemble_bias %&gt;%
-  filter(period %in% two_decades) %&gt;%
-  select(basin, period, MLR_basins, Version_ID_group, mod, mod_truth, Version_ID) %&gt;%
-  pivot_longer(cols = mod:mod_truth,
-               names_to = &quot;data_source&quot;,
-               values_to = &quot;dcant&quot;) %&gt;%
-  group_by(basin, MLR_basins, Version_ID_group, data_source) %&gt;%
-  arrange(period) %&gt;%
-  mutate(delta_dcant = dcant - lag(dcant)) %&gt;%
-  ungroup() %&gt;%
-  drop_na() %&gt;%
-  select(-dcant) 
-
-delta_dcant_budget_basin_MLR_all_ensemble_bias &lt;- 
-  delta_dcant_budget_basin_MLR_all_ensemble %&gt;%
-  pivot_wider(names_from = data_source,
-              values_from = delta_dcant) %&gt;%
-  mutate(delta_dcant_bias = mod - mod_truth,
-         delta_dcant_bias_rel = 100 * delta_dcant_bias / mod_truth)
-
-delta_dcant_budget_basin_MLR_all_ensemble %&gt;% 
-  ggplot(aes(data_source, delta_dcant, col = Version_ID_group)) +
-  geom_hline(yintercept = 0) +
-  geom_jitter(alpha = 0.5) +
-  scale_color_brewer(palette = &quot;Dark2&quot;) +
-  facet_grid(basin ~ MLR_basins)
-
-delta_dcant_budget_basin_MLR_all_ensemble_bias %&gt;% 
-  ggplot(aes(period, delta_dcant_bias, col = Version_ID_group)) +
-  geom_hline(yintercept = 0) +
-  geom_jitter(alpha = 0.5) +
-  scale_color_brewer(palette = &quot;Dark2&quot;) +
-  facet_grid(basin ~ MLR_basins)
-  
-
-delta_dcant_budget_bias_ensemble_stat &lt;-
-  delta_dcant_budget_basin_MLR_all_ensemble_bias %&gt;%
-  group_by(basin) %&gt;%
-  summarise(
-    median = median(delta_dcant_bias),
-    sd = sd(delta_dcant_bias),
-    n = n()
-  ) %&gt;%
-  ungroup() 
-
-
-delta_dcant_budget_bias_ensemble_stat &lt;-
-  full_join(
-    delta_dcant_budget_bias_ensemble_stat,
-    delta_dcant_budget_basin_MLR_all_ensemble_bias %&gt;%
-        filter(Version_ID %in% Version_IDs,
-               period != &quot;1994 - 2014&quot;) %&gt;%
-        select(period,
-               basin,
-               std_case = delta_dcant_bias)
-  )
-
-
-
-delta_dcant_budget_bias_ensemble_stat_RSS &lt;-
-  dcant_budget_bias_ensemble_stat %&gt;% 
-  arrange(period) %&gt;% 
-  group_by(basin) %&gt;% 
-  mutate(delta_std_case = std_case - lag(std_case),
-         RSS = sqrt(sd^2 + lag(sd)^2)) %&gt;% 
-  ungroup() %&gt;% 
-  drop_na()
-  
-
-
-
-delta_dcant_budget_basin_MLR_all_ensemble_bias %&gt;%
-  ggplot(aes(period, delta_dcant_bias)) +
-  geom_hline(yintercept = 0) +
-  geom_point(
-    aes(fill = &quot;Ensemble member&quot;,
-        alpha = &quot;Ensemble member&quot;),
-    shape = 21,
-    position = position_jitter(width = 0.1, height = 0)
-  ) +
-  # geom_crossbar(
-  #   data = delta_dcant_budget_bias_ensemble_stat,
-  #   aes(
-  #     x = period,
-  #     y = std_case,
-  #     ymin = std_case - 2 * sd,
-  #     ymax = std_case + 2 * sd,
-  #     linetype = &quot;Ensemble SD&quot;
-  #   ),
-  #   width = 0.1,
-  #   fill = &quot;#AA3377&quot;,
-  #   alpha = 0.2,
-  #   position = position_nudge(x = 0.2)
-  # ) +
-  # geom_crossbar(
-  #   data = delta_dcant_budget_bias_ensemble_stat,
-  #   aes(
-  #     x = period,
-  #     y = std_case,
-  #     ymin = std_case - sd,
-  #     ymax = std_case + sd,
-  #     alpha = &quot;Ensemble SD&quot;,
-  #   ),
-  #   width = 0.1,
-  #   fill = &quot;#AA3377&quot;,
-  #   alpha = 0.4,
-  #   position = position_nudge(x = 0.2)
-  # ) +
-  geom_crossbar(
-    data = delta_dcant_budget_bias_ensemble_stat_RSS,
-    aes(
-      x = period,
-      y = delta_std_case,
-      ymin = delta_std_case - 2 * RSS,
-      ymax = delta_std_case + 2 * RSS,
-      linetype = &quot;RSS&quot;
-    ),
-    width = 0.1,
-    fill = &quot;#AA3377&quot;,
-    alpha = 0.2,
-    position = position_nudge(x = 0.2)
-  ) +
-  geom_crossbar(
-    data = delta_dcant_budget_bias_ensemble_stat_RSS,
-    aes(
-      x = period,
-      y = delta_std_case,
-      ymin = delta_std_case - RSS,
-      ymax = delta_std_case + RSS,
-      alpha = &quot;RSS&quot;,
-    ),
-    width = 0.1,
-    fill = &quot;#AA3377&quot;,
-    alpha = 0.4,
-    position = position_nudge(x = 0.2)
-  ) +
-  geom_point(
-    data = delta_dcant_budget_bias_ensemble_stat,
-    aes(
-      x = period,
-      y = std_case,
-      fill = &quot;Standard case&quot;,
-      alpha = &quot;Standard case&quot;
-    ),
-    size = 2,
-    shape = 21,
-    position = position_nudge(x = 0.2)
-  )+
-  scale_fill_manual(name = &quot;group&quot;, values = c(&quot;#BB5566&quot;, &quot;white&quot;, &quot;#BBBBBB&quot;)) +
-  scale_linetype(name = &quot;X&quot;) +
-  scale_alpha_manual(name = &quot;group&quot;, values = c(0.5,1,0.5)) +
-  scale_shape_manual(values = 95) +
-  scale_y_continuous(name = delta_dcant_bias_pgc_label) +
-  guides(
-    fill = guide_legend(order = 1),
-    linetype = guide_legend(order = 2),
-    alpha = guide_legend(order = 1)
-  ) +
-  facet_wrap(~ basin, ncol = 3, dir = &quot;v&quot;, scales = &quot;free_y&quot;) +
-  theme(legend.title = element_blank(),
-        axis.title.x = element_blank(),
-        axis.text.x = element_blank(),
-        axis.ticks.x = element_blank(), 
-        panel.grid.major.x = element_blank())
-
-ggsave(path = here::here(&quot;output/publication&quot;),
-       filename = &quot;FigS_delta_dcant_bias_budgets_ensemble_member.png&quot;,
-       height = 6,
-       width = 6)</code></pre>
 </div>
 </div>
 <div id="flow-chart" class="section level2" number="15.2">
@@ -25939,7 +24792,7 @@ jens-daniel-mueller
 </div>
 </div>
 <pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
-       filename = &quot;Fig_dcant_profiles_and_depth_layer_budget.png&quot;,
+       filename = &quot;Fig_dcant_profiles_and_depth_layer_inventories.png&quot;,
        height = 12,
        width = 8)</code></pre>
 <pre class="r"><code>p_dcant_budget_depth_layer_mod &lt;- 
@@ -26332,49 +25185,9 @@ jens-daniel-mueller
 </div>
 </div>
 <pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
-       filename = &quot;FigS_dcant_profiles_and_depth_layer_budget_synthetic_data.png&quot;,
+       filename = &quot;FigS_dcant_profiles_and_depth_layer_inventories_synthetic_data.png&quot;,
        height = 10,
        width = 7)</code></pre>
-<pre class="r"><code>dcant_budget_basin_MLR_layer_all_ensemble_stat &lt;-
-dcant_budget_basin_MLR_layer_all_ensemble %&gt;%
-  filter(estimate == &quot;dcant&quot;,
-         data_source == &quot;obs&quot;,
-         inv_depth &lt; 3000,
-         period %in% two_decades) %&gt;% 
-  group_by(basin,
-           period,
-           inv_depth) %&gt;%
-  summarise(dcant_sd = sd(value) * 2) %&gt;%
-  ungroup()
-
-dcant_layer_budget_stat &lt;-
-  full_join(
-    dcant_budget_basin_MLR_layer_all %&gt;%
-      filter(
-        estimate == &quot;dcant&quot;,
-        data_source == &quot;obs&quot;,
-        inv_depth &lt; 3000,
-        period %in% two_decades
-      ) %&gt;% 
-      select(basin, period, inv_depth, dcant = value),
-    dcant_budget_basin_MLR_layer_all_ensemble_stat
-  )  
-
-rm(dcant_budget_basin_MLR_layer_all_ensemble_stat)  
-
-dcant_layer_budget_stat %&gt;%
-  filter(period %in% two_decades) %&gt;%
-  arrange(period) %&gt;% 
-  group_by(basin, inv_depth) %&gt;%
-  mutate(delta_dcant = dcant - lag(dcant),
-         RSS = sqrt(dcant_sd ^ 2 + lag(dcant_sd ^ 2))) %&gt;%
-  ungroup() %&gt;%
-  drop_na() %&gt;% 
-  filter(abs(delta_dcant) &gt;= RSS) %&gt;% 
-  select(basin, inv_depth, delta_dcant, RSS) %&gt;% 
-  kable() %&gt;%
-  kable_styling() %&gt;%
-  scroll_box(height = &quot;300px&quot;)</code></pre>
 <pre class="r"><code>dcant_budget_change &lt;- dcant_budget_basin_MLR_layer_all %&gt;%
   filter(estimate == &quot;dcant&quot;,
          period != &quot;1994 - 2014&quot;,
@@ -30040,7 +28853,7 @@ jens-daniel-mueller
 </div>
 </div>
 <pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
-       filename = &quot;Fig_dcant_budget_global_vs_atm_pCO2.png&quot;,
+       filename = &quot;Fig_dcant_inventory_global_vs_atm_pCO2.png&quot;,
        height = 6,
        width = 7)
 
@@ -31137,10 +29950,23 @@ Ocean_Sink_cum_2004 &lt;- Ocean_Sink_cum_2004 %&gt;%
 <pre class="r"><code>tcant_ts_zoom &lt;- tcant_ts %&gt;%
   filter(year != 1800)
 
+tcant_ts_zoom &lt;- 
+  tcant_ts_zoom %&gt;%
+  mutate(tcant = tcant - 118)
+
 tcant_min = tcant_ts_zoom %&gt;% pull(tcant) %&gt;% min()
 tcant_max =
   tcant_ts_zoom %&gt;% pull(tcant) %&gt;% max() +
-  tcant_ts_zoom %&gt;% pull(dcant_sd) %&gt;% max() + 0.2
+  tcant_ts_zoom %&gt;% pull(dcant_sd) %&gt;% max() + 1
+
+Ocean_Sink_cum_1994 &lt;- 
+  Ocean_Sink_cum_1994 %&gt;% 
+  mutate(fgco2_glob_cum_total = fgco2_glob_cum_total - 118)
+
+Ocean_Sink_cum_2004 &lt;- 
+  Ocean_Sink_cum_2004 %&gt;% 
+  mutate(fgco2_glob_cum_total = fgco2_glob_cum_total - 118)
+
 
 p_tcant_ts_zoom &lt;-
   tcant_ts_zoom %&gt;%
@@ -31796,7 +30622,7 @@ jens-daniel-mueller
              data_source == &quot;obs&quot;) %&gt;%
       select(period, dcant) %&gt;%
       mutate(type = &quot;eMLR(C*)&quot;,
-             dcant = dcant + 118,
+             dcant = dcant,
              dcant = if_else(period == &quot;2004 - 2014&quot;,
                              dcant + tcant_2004 - 118,
                              dcant)),
@@ -31827,7 +30653,7 @@ left_join(
     filter(basin == &quot;Global&quot;,
              data_source == &quot;obs&quot;) %&gt;%
     mutate(
-      dcant = dcant + 118,
+      dcant = dcant,
       dcant = if_else(period == &quot;2004 - 2014&quot;,
                       dcant + tcant_2004 - 118,
                       dcant)
@@ -32491,10 +31317,10 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
-<pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
-       filename = &quot;Fig_dcant_budget_global_vs_GCB_ocean_sink.png&quot;,
-       height = 6,
-       width = 9)
+<pre class="r"><code># ggsave(path = here::here(&quot;output/publication&quot;),
+#        filename = &quot;Fig_dcant_inventory_global_vs_GCB_ocean_sink.png&quot;,
+#        height = 6,
+#        width = 9)
 
 p_tcant_ts_zoom + p_tcant_box_10 +
   plot_layout(ncol = 2, widths = c(6,1.8))</code></pre>
@@ -32700,7 +31526,7 @@ dcant_diff_sd_comparison
 eMLR(C*)
 </td>
 <td style="text-align:right;">
-29.21111
+-88.78889
 </td>
 <td style="text-align:right;">
 3.502753
@@ -32709,7 +31535,7 @@ eMLR(C*)
 0.0000000
 </td>
 <td style="text-align:right;">
-0.000000
+0.0000000
 </td>
 <td style="text-align:right;">
 4.953641
@@ -32726,7 +31552,7 @@ eMLR(C*)
 Global Ocean Biogeochemical Models (GOBM)
 </td>
 <td style="text-align:right;">
-19.52578
+-98.47422
 </td>
 <td style="text-align:right;">
 5.403004
@@ -32735,7 +31561,7 @@ Global Ocean Biogeochemical Models (GOBM)
 -9.6853329
 </td>
 <td style="text-align:right;">
--33.156332
+10.9082713
 </td>
 <td style="text-align:right;">
 6.439079
@@ -32752,7 +31578,7 @@ Global Ocean Biogeochemical Models (GOBM)
 Observation-based surface flux products
 </td>
 <td style="text-align:right;">
-21.41458
+-96.58542
 </td>
 <td style="text-align:right;">
 5.597734
@@ -32761,7 +31587,7 @@ Observation-based surface flux products
 -7.7965292
 </td>
 <td style="text-align:right;">
--26.690286
+8.7809739
 </td>
 <td style="text-align:right;">
 6.603325
@@ -32778,7 +31604,7 @@ Observation-based surface flux products
 eMLR(C*)
 </td>
 <td style="text-align:right;">
-56.66132
+-61.33868
 </td>
 <td style="text-align:right;">
 3.634539
@@ -32787,7 +31613,7 @@ eMLR(C*)
 0.0000000
 </td>
 <td style="text-align:right;">
-0.000000
+0.0000000
 </td>
 <td style="text-align:right;">
 5.140015
@@ -32804,7 +31630,7 @@ eMLR(C*)
 Global Ocean Biogeochemical Models (GOBM)
 </td>
 <td style="text-align:right;">
-42.28477
+-75.71523
 </td>
 <td style="text-align:right;">
 10.974456
@@ -32813,7 +31639,7 @@ Global Ocean Biogeochemical Models (GOBM)
 -14.3765508
 </td>
 <td style="text-align:right;">
--25.372777
+23.4379860
 </td>
 <td style="text-align:right;">
 11.560647
@@ -32830,7 +31656,7 @@ Global Ocean Biogeochemical Models (GOBM)
 Observation-based surface flux products
 </td>
 <td style="text-align:right;">
-47.89526
+-70.10474
 </td>
 <td style="text-align:right;">
 7.743738
@@ -32839,7 +31665,7 @@ Observation-based surface flux products
 -8.7660658
 </td>
 <td style="text-align:right;">
--15.470987
+14.2912533
 </td>
 <td style="text-align:right;">
 8.554260
@@ -32856,7 +31682,7 @@ Observation-based surface flux products
 eMLR(C*)
 </td>
 <td style="text-align:right;">
-27.28596
+-90.71404
 </td>
 <td style="text-align:right;">
 2.338344
@@ -32865,7 +31691,7 @@ eMLR(C*)
 0.0000000
 </td>
 <td style="text-align:right;">
-0.000000
+0.0000000
 </td>
 <td style="text-align:right;">
 3.306918
@@ -32882,7 +31708,7 @@ eMLR(C*)
 Global Ocean Biogeochemical Models (GOBM)
 </td>
 <td style="text-align:right;">
-22.75899
+-95.24101
 </td>
 <td style="text-align:right;">
 5.576053
@@ -32891,7 +31717,7 @@ Global Ocean Biogeochemical Models (GOBM)
 -4.5269667
 </td>
 <td style="text-align:right;">
--16.590828
+4.9903705
 </td>
 <td style="text-align:right;">
 6.046505
@@ -32908,7 +31734,7 @@ Global Ocean Biogeochemical Models (GOBM)
 Observation-based surface flux products
 </td>
 <td style="text-align:right;">
-26.48067
+-91.51933
 </td>
 <td style="text-align:right;">
 2.612751
@@ -32917,7 +31743,7 @@ Observation-based surface flux products
 -0.8052855
 </td>
 <td style="text-align:right;">
--2.951282
+0.8877187
 </td>
 <td style="text-align:right;">
 3.506326
@@ -32929,16 +31755,6 @@ Observation-based surface flux products
 </tbody>
 </table>
 </div>
-<pre class="r"><code># Ocean_Sink %&gt;% 
-#   filter(between(year, 1994, 2007)) %&gt;% 
-#   arrange(year) %&gt;% 
-#   group_by(product) %&gt;% 
-#   mutate(GtC = cumsum(GtC_yr)) %&gt;% 
-#   ungroup() %&gt;% 
-#   # ggplot(aes(year, GtC, col=product)) +
-#   # geom_line() %&gt;% 
-#   filter(year == 2007) %&gt;% 
-#   summarise(sd(GtC)*2)</code></pre>
 <pre class="r"><code>Ocean_Sink_cum_1994_ensemble_mean &lt;- Ocean_Sink_cum_1994 %&gt;% 
   group_by(year, pCO2, type) %&gt;% 
   summarise(fgco2_glob_cum_total_mean = mean(fgco2_glob_cum_total),
@@ -32960,17 +31776,7 @@ tcant_ts_zoom %&gt;%
               fill = &quot;eMLR(C*)&quot;),
     alpha = 0.3
   ) +
-  # geom_ribbon(
-  #   data = Ocean_Sink_cum_1994_ensemble_mean,
-  #   aes(
-  #     pCO2,
-  #     ymin = fgco2_glob_cum_total_mean - fgco2_glob_cum_total_sd,
-  #     ymax = fgco2_glob_cum_total_mean + fgco2_glob_cum_total_sd,
-  #     fill = type
-  #   ),
-  #   alpha = 0.3
-  # ) +
-    geom_line(data = Ocean_Sink_cum_1994,
+  geom_line(data = Ocean_Sink_cum_1994,
             aes(pCO2, fgco2_glob_cum_total, group = product, col = type), size = 0.3) +
   geom_line(data = Ocean_Sink_cum_1994_ensemble_mean,
             aes(pCO2, fgco2_glob_cum_total_mean, col = type), size = 2) +
@@ -32986,16 +31792,6 @@ tcant_ts_zoom %&gt;%
     shape = 21,
     fill = &quot;white&quot;
   ) +
-  # geom_point(
-  #   data = Ocean_Sink_cum_1994 %&gt;% filter(year %in% c(2004, 2014)),
-  #   aes(
-  #     pCO2,
-  #     fgco2_glob_cum_total,
-  #     col = type
-  #   ),
-  #   fill = &quot;white&quot;,
-  #   shape = 21
-  # ) +
   geom_line(aes(pCO2, tcant, col = &quot;eMLR(C*)&quot;), size = 2) +
   geom_point(aes(pCO2, tcant, col = &quot;eMLR(C*)&quot;), size = 2,
              shape = 21,
@@ -33006,7 +31802,7 @@ tcant_ts_zoom %&gt;%
   scale_y_continuous(limits = c(tcant_min, tcant_max)) +
   labs(
     x = expression(Atmospheric ~ pCO[2] ~ (µatm)),
-    y = expression(Total ~ oceanic ~ carbon ~ storage ~ since ~ 1800 ~ (PgC))
+    y = expression(Cumulative ~ ocean ~ carbon ~ storage ~ (PgC))
   ) +
   guides(colour = guide_legend(order = 1),
          fill = &quot;none&quot;) +
@@ -33291,8 +32087,8 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
-<pre class="r"><code>ggsave(path = here::here(&quot;output/presentation&quot;),
-       filename = &quot;Fig_dcant_budget_global_vs_GCB_ocean_sink_ensemble.png&quot;,
+<pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
+       filename = &quot;Fig_dcant_inventory_global_vs_GCB_ocean_sink.png&quot;,
        height = 6,
        width = 9)</code></pre>
 </div>
@@ -35262,7 +34058,7 @@ dcant_per_emission_sd
 376.95
 </td>
 <td style="text-align:right;">
-147.2111
+29.21111
 </td>
 <td style="text-align:right;">
 19.32018
@@ -35294,7 +34090,7 @@ dcant_per_emission_sd
 397.34
 </td>
 <td style="text-align:right;">
-174.4971
+56.49707
 </td>
 <td style="text-align:right;">
 19.34451

@@ -374,7 +374,7 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">predictor removal C(P)</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">predictor removal C(P,TA)</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="MLR_predictor_budgets.html">Budgets</a>
@@ -388,7 +388,7 @@ $(document).ready(function () {
       </ul>
     </li>
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">predictor removal C(N)</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">predictor removal C(N,TA)</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="MLR_predictor_nitrate_budgets.html">Budgets</a>
@@ -402,7 +402,7 @@ $(document).ready(function () {
       </ul>
     </li>
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">C(N) target</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">C(N,TA) target</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="CN_target_budgets.html">Budgets</a>
@@ -416,7 +416,7 @@ $(document).ready(function () {
       </ul>
     </li>
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">C(AT) target</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">C(TA) target</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="CAT_target_budgets.html">Budgets</a>
@@ -444,16 +444,30 @@ $(document).ready(function () {
       </ul>
     </li>
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MLR_target</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MLR_target tco2</a>
       <ul class="dropdown-menu" role="menu">
         <li>
-          <a href="MLR_target_budgets.html">Budgets</a>
+          <a href="MLR_target_tco2_budgets.html">Budgets</a>
         </li>
         <li>
-          <a href="MLR_target_column_inventories.html">Column inventories</a>
+          <a href="MLR_target_tco2_column_inventories.html">Column inventories</a>
         </li>
         <li>
-          <a href="MLR_target_zonal_sections.html">Zonal sections</a>
+          <a href="MLR_target_tco2_zonal_sections.html">Zonal sections</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MLR_target C*</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="MLR_target_cstar_budgets.html">Budgets</a>
+        </li>
+        <li>
+          <a href="MLR_target_cstar_column_inventories.html">Column inventories</a>
+        </li>
+        <li>
+          <a href="MLR_target_cstar_zonal_sections.html">Zonal sections</a>
         </li>
       </ul>
     </li>
@@ -610,7 +624,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Home</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">11 November, 2022</h4>
+<h4 class="date">14 November, 2022</h4>
 
 </div>
 
@@ -639,7 +653,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-11-11
+<strong>Last updated:</strong> 2022-11-14
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -771,15 +785,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreec53fea0810f6044ab9fb18979452c3b76b3a8c6ctargetblankc53fea0a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreebeb709cc3e16b28a8b58e088914387761b4365b8targetblankbeb709ca">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/c53fea0810f6044ab9fb18979452c3b76b3a8c6c" target="_blank">c53fea0</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/beb709cc3e16b28a8b58e088914387761b4365b8" target="_blank">beb709c</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreec53fea0810f6044ab9fb18979452c3b76b3a8c6ctargetblankc53fea0a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreebeb709cc3e16b28a8b58e088914387761b4365b8targetblankbeb709ca"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -789,7 +803,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/c53fea0810f6044ab9fb18979452c3b76b3a8c6c" target="_blank">c53fea0</a>.
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/beb709cc3e16b28a8b58e088914387761b4365b8" target="_blank">beb709c</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -806,12 +820,25 @@ were generated:
 Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
+    Ignored:    analysis/figure/
     Ignored:    data/
     Ignored:    output/other/
     Ignored:    output/presentation/
     Ignored:    output/publication/
 
+Untracked files:
+    Untracked:  analysis/MLR_target_cstar_budgets.Rmd
+    Untracked:  analysis/MLR_target_cstar_column_inventories.Rmd
+    Untracked:  analysis/MLR_target_cstar_zonal_sections.Rmd
+    Untracked:  analysis/MLR_target_tco2_budgets.Rmd
+    Untracked:  analysis/MLR_target_tco2_column_inventories.Rmd
+    Untracked:  analysis/MLR_target_tco2_zonal_sections.Rmd
+    Untracked:  code/results_publication_backup_incl_ensemble_uncertainty_20221111.Rmd
+
 Unstaged changes:
+    Deleted:    analysis/MLR_target_budgets.Rmd
+    Deleted:    analysis/MLR_target_column_inventories.Rmd
+    Deleted:    analysis/MLR_target_zonal_sections.Rmd
     Modified:   analysis/_site.yml
     Modified:   code/Workflowr_project_managment.R
 
@@ -858,6 +885,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/cc337ddc80b983f5c1618c9e14288d9096eadb86/docs/index.html" target="_blank">cc337dd</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-11
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
