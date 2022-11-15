@@ -1544,16 +1544,16 @@ two_decades <- unique(params_local_all_ensemble$period)[1:2]
 
 ```{r define_legend_titles}
 
-dcant_pgc_label <- expression(Delta * C["ant"]~inventory~(PgC~dec^{-1}))
-dcant_bias_pgc_label <- expression(Delta * C["ant"]~inventory~ bias ~(PgC~dec^{-1}))
-delta_dcant_bias_pgc_label <- expression(Delta * Delta * C["ant"]~bias~(PgC~dec^{-1}))
+dcant_pgc_label <- expression(Delta * C["ant"]~inventory~(Pg~C~dec^{-1}))
+dcant_bias_pgc_label <- expression(Delta * C["ant"]~inventory~ bias ~(Pg~C~dec^{-1}))
+delta_dcant_bias_pgc_label <- expression(Delta * Delta * C["ant"]~bias~(Pg~C~dec^{-1}))
 dcant_pgc_scaled_label <- expression(beta~(mol~m^{-2}~µatm^{-1}~dec^{-1}))
 
 dcant_umol_label <- expression(Delta * C[ant]~(mu * mol ~ kg ^ {-1}~dec^{-1}))
 ddcant_umol_label <- expression(Delta * Delta * C[ant]~(mu * mol ~ kg ^ {-1}~dec^{-1}))
 
 dcant_layer_budget_label <- 
-  expression(Delta ~ C[ant] ~ "inventory per 500m depth layer"~(PgC~dec^{-1}))
+  expression(Delta ~ C[ant] ~ "inventory per 500m depth layer"~(Pg~C~dec^{-1}))
 
 dcant_CI_label <- expression(Delta * C[ant]~(mol ~ m ^ {-2}~dec^{-1}))
 delta_dcant_CI_label <- expression(Delta * Delta * C[ant]~(mol ~ m ^ {-2}~dec^{-1}))
@@ -1947,17 +1947,23 @@ lat_residual_all %>%
   ggplot(aes(first, second)) +
   geom_vline(xintercept = 0) +
   geom_hline(yintercept = 0) +
-  geom_bin2d(binwidth = 1) +
+  geom_bin2d(binwidth = 0.5) +
   geom_abline(slope = 1, col = "red") +
-  geom_smooth(method = "lm") +
-  scale_fill_viridis_c(trans = "log10") +
-  coord_fixed(ylim = c(-15, 15),
-              xlim = c(-15, 15)) +
+  # geom_smooth(method = "lm") +
+  scale_fill_viridis_c(trans = "log10", name = "n") +
+  coord_fixed(ylim = c(-10, 10),
+              xlim = c(-10, 10)) +
   labs(
-    y = "First sampling period\nmean MLR residual in 5° latitude bin (µmol/kg)",
-    x = "Second sampling period\nmean MLR residual in 5° latitude bin (µmol/kg)"
-    ) +
-  facet_wrap(~period)
+    y = expression(atop("First sampling period", "mean MLR residual in 5° latitude bin (µmol k"*g^{-1}*")")),
+    x = expression(atop("Second sampling period", "mean MLR residual in 5° latitude bin (µmol k"*g^{-1}*")"))
+    )
+  # facet_wrap(~period)
+
+ggsave(path = here::here("output/publication"),
+       filename = "FigS_MLR_residual_correlation_latitude_bin.png",
+       height = 5,
+       width = 5)
+
 
 lat_residual_all %>%
   filter(data_source == "obs",
@@ -2702,6 +2708,32 @@ ggsave(path = here::here("output/publication"),
        width = 8)
 
 rm(p_CI_absolute_mod, p_CI_bias)
+
+dcant_inv_all %>%
+  filter(period %in% two_decades,
+         data_source != "obs") %>%
+  select(data_source, lon, lat, basin_AIP, period, dcant) %>%
+  pivot_wider(names_from = data_source,
+              values_from = dcant) %>%
+  mutate(dcant_bias = mod - mod_truth,
+         data_source = "Reconstruction bias") %>% 
+  mutate(area = earth_surf(lat,lon),
+         dcant_bias_int = cut(abs(dcant_bias), c(-Inf,2,4,Inf))) %>% 
+  group_by(dcant_bias_int) %>% 
+  summarise(area = sum(area)) %>% 
+  ungroup() %>% 
+  mutate(area_fraction = 100 * area / sum(area))
+  
+dcant_inv_all %>%
+  filter(period %in% two_decades,
+         data_source == "mod_truth") %>%
+  mutate(area = earth_surf(lat,lon),
+         dcant_int = cut(abs(dcant), c(-Inf,2,4,Inf))) %>% 
+  group_by(dcant_int) %>% 
+  summarise(area = sum(area)) %>% 
+  ungroup() %>% 
+  mutate(area_fraction = 100 * area / sum(area))
+  
 
 ```
 
@@ -4307,7 +4339,7 @@ dcant_budget_basin_MLR_all_uncertainty_contributions %>%
   geom_col(position = position_dodge(preserve = "single"),
            col = "grey10") +
   scale_fill_bright(name = "eMLR(C*)\nconfiguration\ncomponent") +
-  labs(y = expression(Delta*Cant~inventory~offset~from~standard~case~(PgC~dec^{-1}))) +
+  labs(y = expression(Delta*Cant~inventory~offset~from~standard~case~(Pg~C~dec^{-1}))) +
   theme(
     axis.title.x = element_blank(),
     axis.text.x = element_blank(),
@@ -4350,7 +4382,7 @@ dcant_budget_basin_MLR_all_uncertainty_contributions_sensitivity %>%
   geom_col(position = position_dodge(preserve = "single"),
            col = "grey10") +
   scale_fill_bright(name = "eMLR(C*)\nconfiguration\ncomponent") +
-  labs(y = expression(Delta*Cant~inventory~offset~from~standard~case~(PgC~dec^{-1}))) +
+  labs(y = expression(Delta*Cant~inventory~offset~from~standard~case~(Pg~C~dec^{-1}))) +
   theme(
     axis.title.x = element_blank(),
     axis.text.x = element_blank(),
@@ -4752,13 +4784,13 @@ dcant_beta_basin_MLR_all_uncertainty_significance %>%
   mutate(
     `1994 - 2004` = paste(`std_case 1994 - 2004`, `sd 1994 - 2004`, sep = " ± "),
     `2004 - 2014` = paste(`std_case 2004 - 2014`, `sd 2004 - 2014`, sep = " ± "),
-    `Deacadal change` = paste0(delta, " ± ", RSS, if_else(abs(delta) > RSS, " *",""))
+    `Decadal change` = paste0(delta, " ± ", RSS, if_else(abs(delta) > RSS, " *",""))
   ) %>%
   select(Region = basin,
          Estimate = estimate,
          `1994 - 2004`,
          `2004 - 2014`,
-         `Deacadal change`) %>%
+         `Decadal change`) %>%
   arrange(Region) 
 
 dcant_beta_basin_MLR_all_uncertainty_significance_table %>% 
@@ -6031,7 +6063,7 @@ p_tcant_year <- tcant_ts %>%
   ), size = 1) +
   geom_point(fill = "white", shape = 21,
              aes(col = "Estimate\n±\ninterval\nuncertainty")) +
-  scale_y_continuous(name = expression(Total ~ oceanic ~ C[ant] ~ (PgC)),
+  scale_y_continuous(name = expression(Total ~ oceanic ~ C[ant] ~ (Pg~C)),
                      sec.axis = sec_axis( ~ (. / beta + co2_atm_pi_value),
                                           name = expression(Atm. ~ pCO[2] ~ (µatm)))) +
   scale_x_continuous(name = "Year", breaks = seq(1800, 2000, 50)) +
@@ -6065,7 +6097,7 @@ p_tcant_year_trans <- tcant_ts %>%
   ), size = 1) +
   geom_point(fill = "white", shape = 21,
              aes(col = "Estimate\n±\ninterval\nuncertainty")) +
-  scale_y_continuous(name = expression(Total ~ oceanic ~ C[ant] ~ (PgC)),
+  scale_y_continuous(name = expression(Total ~ oceanic ~ C[ant] ~ (Pg~C)),
                      sec.axis = sec_axis( ~ (. / beta + co2_atm_pi_value),
                                           name = expression(Atm. ~ pCO[2] ~ (µatm)))) +
   scale_x_continuous(name = "Year", breaks = seq(1800, 2000, 50)) +
@@ -6112,7 +6144,7 @@ p_tcant_atm_co2 <- tcant_ts %>%
   scale_color_manual(values = "black", name = "") +
   geom_text(aes(label = year), nudge_x = -6, nudge_y = 6) +
   labs(x = expression(Atmospheric ~ pCO[2] ~ (µatm)),
-       y = expression(Total ~ oceanic ~ C[ant] ~ (PgC))) +
+       y = expression(Total ~ oceanic ~ C[ant] ~ (Pg~C))) +
   theme(
     axis.title.y.left = element_text(color = tcant_col),
     axis.text.y.left = element_text(color = tcant_col),
@@ -6363,7 +6395,7 @@ p_tcant_ts_zoom <-
   scale_fill_highcontrast(name = "Data source") +
   scale_y_continuous(limits = c(tcant_min, tcant_max)) +
   labs(x = expression(Atmospheric ~ pCO[2] ~ (µatm)),
-       y = expression(Cumulative ~ ocean ~ carbon ~ storage ~ since ~ 1994 ~ (PgC))) +
+       y = expression(Cumulative ~ ocean ~ carbon ~ storage ~ since ~ 1994 ~ (Pg~C))) +
   guides(colour = guide_legend(order = 1),
          fill = "none") +
   theme_classic() +
@@ -6659,7 +6691,7 @@ tcant_ts_zoom %>%
   scale_y_continuous(limits = c(tcant_min, tcant_max)) +
   labs(
     x = expression(Atmospheric ~ pCO[2] ~ (µatm)),
-    y = expression(Cumulative ~ ocean ~ carbon ~ storage ~ since ~ 1994 (PgC))
+    y = expression(Cumulative ~ ocean ~ carbon ~ storage ~ since ~ 1994 (Pg~C))
   ) +
   guides(colour = guide_legend(order = 1),
          fill = "none") +
@@ -6742,7 +6774,7 @@ min(delta_revelle$delta_DIC_rel_cum / max(delta_revelle$delta_year))
 
 ```{r GCB_land_sink_assesment}
 
-flux_label <- expression(CO[2]~flux~(PgC~yr^{-1}))
+flux_label <- expression(CO[2]~flux~(Pg~C~yr^{-1}))
 
 flux_components <- Global_Carbon_Budget %>% 
   distinct(estimate) %>% 
@@ -7175,7 +7207,7 @@ rm(
 
 ```{r GCB_net_land_sink_assesment}
 
-flux_label <- expression(flux~(PgC~yr^{-1}))
+flux_label <- expression(flux~(Pg~C~yr^{-1}))
 
 Global_Carbon_Budget_net_land_sink <- Global_Carbon_Budget %>%
   select(year, estimate, GtC_yr) %>%
