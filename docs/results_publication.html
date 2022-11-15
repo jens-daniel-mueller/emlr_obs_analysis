@@ -708,7 +708,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Results publication</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">14 November, 2022</h4>
+<h4 class="date">15 November, 2022</h4>
 
 </div>
 
@@ -737,7 +737,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-11-14
+<strong>Last updated:</strong> 2022-11-15
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -869,15 +869,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree40f357d08533c7cf3c122fbb844db91402401c30targetblank40f357da">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeab89db35e46bcd812d069cbd24760409c95199d9targetblankab89db3a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/40f357d08533c7cf3c122fbb844db91402401c30" target="_blank">40f357d</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/ab89db35e46bcd812d069cbd24760409c95199d9" target="_blank">ab89db3</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree40f357d08533c7cf3c122fbb844db91402401c30targetblank40f357da"
+id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeab89db35e46bcd812d069cbd24760409c95199d9targetblankab89db3a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -887,7 +887,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/40f357d08533c7cf3c122fbb844db91402401c30" target="_blank">40f357d</a>.
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/ab89db35e46bcd812d069cbd24760409c95199d9" target="_blank">ab89db3</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -963,6 +963,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ab89db35e46bcd812d069cbd24760409c95199d9/analysis/results_publication.Rmd" target="_blank">ab89db3</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-15
+</td>
+<td>
+surface emlr extrapolated without surface obs
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/375300e4dac4c295c619c4c478ba15597cfec724/docs/results_publication.html" target="_blank">375300e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-14
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -6560,7 +6594,7 @@ rm(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 
 # Surface with eMLR(C*)
 
-version_id_pattern &lt;- &quot;e&quot;
+version_id_pattern &lt;- &quot;f&quot;
 
 Version_IDs_1 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/observations&quot;,
                             pattern = paste0(&quot;v_1&quot;, version_id_pattern))
@@ -6767,7 +6801,7 @@ params_local_all_ensemble &lt;-
       Version_ID_group == &quot;c&quot; ~ &quot;Cruise adjustment&quot;,
       Version_ID_group == &quot;g&quot; ~ &quot;Gap filling&quot;,
       Version_ID_group == &quot;n&quot; ~ &quot;C* with NO3,TA&quot;,
-      Version_ID_group == &quot;e&quot; ~ &quot;Surface eMLR(C*)&quot;,
+      Version_ID_group == &quot;f&quot; ~ &quot;Surface eMLR(C*)&quot;,
       Version_ID_group == &quot;w&quot; ~ &quot;WOA18 predictors&quot;,
       Version_ID_group == &quot;d&quot; ~ &quot;No data adjustments&quot;,
       Version_ID_group == &quot;o&quot; ~ &quot;Reoccupation filter&quot;,
@@ -6953,48 +6987,6 @@ rm(GLODAP_glanced,
 <h2><span class="header-section-number">2.5</span> Inventories</h2>
 <pre class="r"><code>for (i_Version_IDs in Version_IDs_ensemble) {
   # i_Version_IDs &lt;- Version_IDs[1]
-  
-  path_version_data     &lt;-
-    paste(path_observations,
-          i_Version_IDs,
-          &quot;/data/&quot;,
-          sep = &quot;&quot;)
-  
-  # load and join data files
-  
-  dcant_budget_global &lt;-
-    read_csv(paste(path_version_data,
-                   &quot;dcant_budget_global.csv&quot;,
-                   sep = &quot;&quot;))
-  
-  dcant_budget_global_mod_truth &lt;-
-    read_csv(paste(
-      path_version_data,
-      &quot;dcant_budget_global_mod_truth.csv&quot;,
-      sep = &quot;&quot;
-    ))
-  
-  dcant_budget_global &lt;- bind_rows(dcant_budget_global,
-                                   dcant_budget_global_mod_truth)
-  
-  dcant_budget_global &lt;- dcant_budget_global %&gt;%
-    mutate(Version_ID = i_Version_IDs)
-  
-  if (exists(&quot;dcant_budget_global_all&quot;)) {
-    dcant_budget_global_all &lt;-
-      bind_rows(dcant_budget_global_all, dcant_budget_global)
-  }
-  
-  if (!exists(&quot;dcant_budget_global_all&quot;)) {
-    dcant_budget_global_all &lt;- dcant_budget_global
-  }
-  
-}
-
-rm(dcant_budget_global,
-   dcant_budget_global_mod_truth)</code></pre>
-<pre class="r"><code>for (i_Version_IDs in Version_IDs_ensemble) {
-  # i_Version_IDs &lt;- Version_IDs[1]
 
   path_version_data     &lt;-
     paste(path_observations,
@@ -7069,19 +7061,14 @@ rm(
   dcant_budget_basin_MLR_mod_truth,
   dcant_budget_basin_MLR_bias_decomposition
 )</code></pre>
-<pre class="r"><code>dcant_budget_global_all &lt;- dcant_budget_global_all %&gt;%
-  filter(estimate == &quot;dcant&quot;, 
-         method == &quot;total&quot;) %&gt;% 
-  select(-c(estimate, method)) %&gt;% 
-  rename(dcant = value)
-
-dcant_budget_global_all &lt;- dcant_budget_global_all %&gt;%
-  filter(inv_depth == params_global$inventory_depth_standard)</code></pre>
 <pre class="r"><code>dcant_budget_basin_MLR_all &lt;- dcant_budget_basin_MLR_all %&gt;%
   filter(estimate == &quot;dcant&quot;, 
          method == &quot;total&quot;) %&gt;% 
   select(-c(estimate, method)) %&gt;% 
   rename(dcant = value)
+
+dcant_budget_basin_MLR_all_10000 &lt;- dcant_budget_basin_MLR_all %&gt;%
+  filter(inv_depth == 10000)
 
 dcant_budget_basin_MLR_all_1000 &lt;- dcant_budget_basin_MLR_all %&gt;%
   filter(inv_depth == 1000)
@@ -7181,7 +7168,10 @@ rm(dcant_inv,
    dcant_inv_mod_truth,
    dcant_budget_lat_grid,
    dcant_budget_lon_grid)</code></pre>
-<pre class="r"><code>dcant_inv_all &lt;- dcant_inv_all %&gt;%
+<pre class="r"><code>dcant_inv_all_10000 &lt;- dcant_inv_all %&gt;%
+  filter(inv_depth == 10000)
+
+dcant_inv_all &lt;- dcant_inv_all %&gt;%
   filter(inv_depth == params_global$inventory_depth_standard)
 
 dcant_budget_lat_grid_all &lt;- dcant_budget_lat_grid_all %&gt;% 
@@ -7529,7 +7519,7 @@ Global_Carbon_Budget &lt;-
 <div id="define-labels" class="section level1" number="3">
 <h1><span class="header-section-number">3</span> Define labels</h1>
 <pre class="r"><code>dcant_pgc_label &lt;- expression(Delta * C[&quot;ant&quot;]~inventory~(PgC))
-dcant_bias_pgc_label &lt;- expression(Delta * C[&quot;ant&quot;]~ bias ~(PgC))
+dcant_bias_pgc_label &lt;- expression(Delta * C[&quot;ant&quot;]~inventory~ bias ~(PgC))
 delta_dcant_bias_pgc_label &lt;- expression(Delta * Delta * C[&quot;ant&quot;]~bias~(PgC))
 dcant_pgc_scaled_label &lt;- expression(beta~(mol~m^{-2}~µatm^{-1}))
 
@@ -7999,7 +7989,7 @@ rm(co2_atm_roll)</code></pre>
 <li>Nordic Seas: +1%</li>
 <li>Arctic Ocean: +2%</li>
 </ul>
-<pre class="r"><code>dcant_scaling &lt;- 1.02*1.015*1.01*1.02
+<pre class="r"><code>dcant_scaling &lt;- 1.02*(1+0.02+0.015+0.01+0.003)
 dcant_scaling_uncertainty &lt;- 0.5</code></pre>
 </div>
 <div id="uncertainty-factor" class="section level1" number="8">
@@ -8768,6 +8758,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/375300e4dac4c295c619c4c478ba15597cfec724/docs/figure/results_publication.Rmd/column_inventory_additive_uncertainty_sensitivity_cases-1.png" target="_blank">375300e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-14
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/cc337ddc80b983f5c1618c9e14288d9096eadb86/docs/figure/results_publication.Rmd/column_inventory_additive_uncertainty_sensitivity_cases-1.png" target="_blank">cc337dd</a>
 </td>
 <td>
@@ -8823,6 +8824,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/375300e4dac4c295c619c4c478ba15597cfec724/docs/figure/results_publication.Rmd/column_inventory_additive_uncertainty_sensitivity_cases-2.png" target="_blank">375300e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-14
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/cc337ddc80b983f5c1618c9e14288d9096eadb86/docs/figure/results_publication.Rmd/column_inventory_additive_uncertainty_sensitivity_cases-2.png" target="_blank">cc337dd</a>
@@ -9292,6 +9304,22 @@ jens-daniel-mueller
        filename = &quot;Fig_dcant_column_inventory.png&quot;,
        height = 5,
        width = 6)</code></pre>
+<pre class="r"><code>p_CI_absolute_10000 &lt;- dcant_inv_all_10000 %&gt;%
+  filter(period %in% two_decades,
+         data_source %in% c(&quot;obs&quot;)) %&gt;%
+  p_map_cant_inv(var = &quot;dcant&quot;,
+                 title_text = NULL) +
+  facet_wrap(~ period, ncol = 1) +
+  theme(axis.text.x = element_blank())
+
+p_CI_absolute_10000 +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())</code></pre>
+<p><img src="figure/results_publication.Rmd/inventory_maps_absolute_obs_10000-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(path = here::here(&quot;output/presentation&quot;),
+       filename = &quot;FigS_dcant_column_inventory_10000.png&quot;,
+       height = 5,
+       width = 6)</code></pre>
 </div>
 <div id="inventory-stats" class="section level2" number="10.4">
 <h2><span class="header-section-number">10.4</span> Inventory stats</h2>
@@ -9377,7 +9405,7 @@ mod
 3.363703
 </td>
 <td style="text-align:right;">
-0.3678498
+0.4529314
 </td>
 <td style="text-align:right;">
 NA
@@ -9423,7 +9451,7 @@ obs
 3.076873
 </td>
 <td style="text-align:right;">
-1.9771682
+1.9422237
 </td>
 <td style="text-align:right;">
 NA
@@ -9446,13 +9474,13 @@ mod
 3.614817
 </td>
 <td style="text-align:right;">
-0.6679401
+0.4842637
 </td>
 <td style="text-align:right;">
 0.2511143
 </td>
 <td style="text-align:right;">
-0.7625336
+0.6630672
 </td>
 </tr>
 <tr>
@@ -9492,13 +9520,13 @@ obs
 3.415398
 </td>
 <td style="text-align:right;">
-1.6302164
+1.5054907
 </td>
 <td style="text-align:right;">
 0.3385254
 </td>
 <td style="text-align:right;">
-2.5625768
+2.4573838
 </td>
 </tr>
 <tr>
@@ -9515,7 +9543,7 @@ mod
 4.826130
 </td>
 <td style="text-align:right;">
-1.3153856
+1.3134693
 </td>
 <td style="text-align:right;">
 NA
@@ -9561,7 +9589,7 @@ obs
 7.482479
 </td>
 <td style="text-align:right;">
-1.2986879
+1.3201868
 </td>
 <td style="text-align:right;">
 NA
@@ -9584,13 +9612,13 @@ mod
 6.476528
 </td>
 <td style="text-align:right;">
-0.9050404
+0.8421390
 </td>
 <td style="text-align:right;">
 1.6503976
 </td>
 <td style="text-align:right;">
-1.5966645
+1.5602563
 </td>
 </tr>
 <tr>
@@ -9630,13 +9658,13 @@ obs
 6.402648
 </td>
 <td style="text-align:right;">
-1.5475725
+1.5330509
 </td>
 <td style="text-align:right;">
 -1.0798310
 </td>
 <td style="text-align:right;">
-2.0202898
+2.0231506
 </td>
 </tr>
 <tr>
@@ -9653,7 +9681,7 @@ mod
 4.616514
 </td>
 <td style="text-align:right;">
-0.9047032
+0.9936760
 </td>
 <td style="text-align:right;">
 NA
@@ -9699,7 +9727,7 @@ obs
 9.867769
 </td>
 <td style="text-align:right;">
-0.6384005
+0.6103370
 </td>
 <td style="text-align:right;">
 NA
@@ -9722,13 +9750,13 @@ mod
 5.075378
 </td>
 <td style="text-align:right;">
-0.7131514
+0.7626767
 </td>
 <td style="text-align:right;">
 0.4588643
 </td>
 <td style="text-align:right;">
-1.1519865
+1.2526244
 </td>
 </tr>
 <tr>
@@ -9768,13 +9796,13 @@ obs
 8.025765
 </td>
 <td style="text-align:right;">
-1.6034243
+1.6045228
 </td>
 <td style="text-align:right;">
 -1.8420048
 </td>
 <td style="text-align:right;">
-1.7258403
+1.7166841
 </td>
 </tr>
 <tr>
@@ -9791,7 +9819,7 @@ mod
 5.064488
 </td>
 <td style="text-align:right;">
-1.0369572
+1.0060015
 </td>
 <td style="text-align:right;">
 NA
@@ -9837,7 +9865,7 @@ obs
 7.252470
 </td>
 <td style="text-align:right;">
-1.6902681
+1.6387430
 </td>
 <td style="text-align:right;">
 NA
@@ -9860,13 +9888,13 @@ mod
 6.393315
 </td>
 <td style="text-align:right;">
-0.8143924
+0.9477905
 </td>
 <td style="text-align:right;">
 1.3288264
 </td>
 <td style="text-align:right;">
-1.3185277
+1.3821526
 </td>
 </tr>
 <tr>
@@ -9906,13 +9934,13 @@ obs
 9.960798
 </td>
 <td style="text-align:right;">
-2.0500092
+2.0334892
 </td>
 <td style="text-align:right;">
 2.7083280
 </td>
 <td style="text-align:right;">
-2.6569803
+2.6116196
 </td>
 </tr>
 <tr>
@@ -9929,7 +9957,7 @@ mod
 5.899824
 </td>
 <td style="text-align:right;">
-2.1402479
+2.1918824
 </td>
 <td style="text-align:right;">
 NA
@@ -9975,7 +10003,7 @@ obs
 8.154922
 </td>
 <td style="text-align:right;">
-1.6555256
+1.6123138
 </td>
 <td style="text-align:right;">
 NA
@@ -9998,13 +10026,13 @@ mod
 7.583920
 </td>
 <td style="text-align:right;">
-1.2668707
+1.2034671
 </td>
 <td style="text-align:right;">
 1.6840960
 </td>
 <td style="text-align:right;">
-2.4870912
+2.5005362
 </td>
 </tr>
 <tr>
@@ -10044,13 +10072,13 @@ obs
 6.519972
 </td>
 <td style="text-align:right;">
-0.9127417
+0.7327277
 </td>
 <td style="text-align:right;">
 -1.6349503
 </td>
 <td style="text-align:right;">
-1.8904662
+1.7710013
 </td>
 </tr>
 </tbody>
@@ -10148,7 +10176,7 @@ mod
 3.9084642
 </td>
 <td style="text-align:right;">
-0.3324832
+0.3635033
 </td>
 <td style="text-align:right;">
 NA
@@ -10200,7 +10228,7 @@ obs
 3.9829040
 </td>
 <td style="text-align:right;">
-1.7882376
+1.6900305
 </td>
 <td style="text-align:right;">
 NA
@@ -10226,13 +10254,13 @@ mod
 3.9223699
 </td>
 <td style="text-align:right;">
-1.0157592
+0.8476074
 </td>
 <td style="text-align:right;">
 0.0139057
 </td>
 <td style="text-align:right;">
-1.068790
+0.9222651
 </td>
 </tr>
 <tr>
@@ -10258,7 +10286,7 @@ mod_truth
 0.4059158
 </td>
 <td style="text-align:right;">
-0.000000
+0.0000000
 </td>
 </tr>
 <tr>
@@ -10278,13 +10306,13 @@ obs
 3.3833004
 </td>
 <td style="text-align:right;">
-2.1668333
+2.0478137
 </td>
 <td style="text-align:right;">
 -0.5996036
 </td>
 <td style="text-align:right;">
-2.809441
+2.6551354
 </td>
 </tr>
 <tr>
@@ -10304,7 +10332,7 @@ mod
 6.5209038
 </td>
 <td style="text-align:right;">
-1.4933878
+1.4549861
 </td>
 <td style="text-align:right;">
 NA
@@ -10356,7 +10384,7 @@ obs
 9.8048932
 </td>
 <td style="text-align:right;">
-2.1930517
+2.2634410
 </td>
 <td style="text-align:right;">
 NA
@@ -10382,13 +10410,13 @@ mod
 8.3203549
 </td>
 <td style="text-align:right;">
-0.9740294
+0.9296043
 </td>
 <td style="text-align:right;">
 1.7994510
 </td>
 <td style="text-align:right;">
-1.782958
+1.7266003
 </td>
 </tr>
 <tr>
@@ -10414,7 +10442,7 @@ mod_truth
 1.4859216
 </td>
 <td style="text-align:right;">
-0.000000
+0.0000000
 </td>
 </tr>
 <tr>
@@ -10434,13 +10462,13 @@ obs
 8.5667582
 </td>
 <td style="text-align:right;">
-2.3583548
+2.3684392
 </td>
 <td style="text-align:right;">
 -1.2381350
 </td>
 <td style="text-align:right;">
-3.220452
+3.2760753
 </td>
 </tr>
 <tr>
@@ -10460,7 +10488,7 @@ mod
 5.6510208
 </td>
 <td style="text-align:right;">
-1.0066900
+1.0533237
 </td>
 <td style="text-align:right;">
 NA
@@ -10512,7 +10540,7 @@ obs
 12.1361324
 </td>
 <td style="text-align:right;">
-0.9759978
+0.9970267
 </td>
 <td style="text-align:right;">
 NA
@@ -10538,13 +10566,13 @@ mod
 5.6292473
 </td>
 <td style="text-align:right;">
-0.8047142
+0.8409715
 </td>
 <td style="text-align:right;">
 -0.0217735
 </td>
 <td style="text-align:right;">
-1.288794
+1.3478590
 </td>
 </tr>
 <tr>
@@ -10570,7 +10598,7 @@ mod_truth
 1.5254338
 </td>
 <td style="text-align:right;">
-0.000000
+0.0000000
 </td>
 </tr>
 <tr>
@@ -10590,13 +10618,13 @@ obs
 8.4461849
 </td>
 <td style="text-align:right;">
-1.6593919
+1.7253646
 </td>
 <td style="text-align:right;">
 -3.6899474
 </td>
 <td style="text-align:right;">
-1.925137
+1.9927231
 </td>
 </tr>
 <tr>
@@ -10616,7 +10644,7 @@ mod
 7.7366367
 </td>
 <td style="text-align:right;">
-1.2891438
+1.2977590
 </td>
 <td style="text-align:right;">
 NA
@@ -10668,7 +10696,7 @@ obs
 8.4912458
 </td>
 <td style="text-align:right;">
-1.4529478
+1.3753561
 </td>
 <td style="text-align:right;">
 NA
@@ -10694,13 +10722,13 @@ mod
 8.3424057
 </td>
 <td style="text-align:right;">
-1.3131913
+1.9447820
 </td>
 <td style="text-align:right;">
 0.6057690
 </td>
 <td style="text-align:right;">
-1.840207
+2.3380238
 </td>
 </tr>
 <tr>
@@ -10726,7 +10754,7 @@ mod_truth
 0.8478205
 </td>
 <td style="text-align:right;">
-0.000000
+0.0000000
 </td>
 </tr>
 <tr>
@@ -10746,13 +10774,13 @@ obs
 13.1557314
 </td>
 <td style="text-align:right;">
-3.2202882
+3.2458158
 </td>
 <td style="text-align:right;">
 4.6644856
 </td>
 <td style="text-align:right;">
-3.532890
+3.5251843
 </td>
 </tr>
 <tr>
@@ -10772,7 +10800,7 @@ mod
 8.8067366
 </td>
 <td style="text-align:right;">
-2.0431364
+2.0360803
 </td>
 <td style="text-align:right;">
 NA
@@ -10798,7 +10826,7 @@ mod
 6.3172021
 </td>
 <td style="text-align:right;">
-5.8191506
+6.0692080
 </td>
 <td style="text-align:right;">
 NA
@@ -10876,7 +10904,7 @@ obs
 10.7970711
 </td>
 <td style="text-align:right;">
-0.7862691
+0.7000972
 </td>
 <td style="text-align:right;">
 NA
@@ -10902,7 +10930,7 @@ obs
 -0.3174586
 </td>
 <td style="text-align:right;">
-5.6461387
+5.1455596
 </td>
 <td style="text-align:right;">
 NA
@@ -10928,13 +10956,13 @@ mod
 10.2876458
 </td>
 <td style="text-align:right;">
-1.8284526
+1.7754131
 </td>
 <td style="text-align:right;">
 1.4809092
 </td>
 <td style="text-align:right;">
-2.741833
+2.7014282
 </td>
 </tr>
 <tr>
@@ -10954,13 +10982,13 @@ mod
 1.3781176
 </td>
 <td style="text-align:right;">
-2.6078655
+2.4759730
 </td>
 <td style="text-align:right;">
 -4.9390844
 </td>
 <td style="text-align:right;">
-6.376792
+6.5548247
 </td>
 </tr>
 <tr>
@@ -10986,7 +11014,7 @@ mod_truth
 1.2890983
 </td>
 <td style="text-align:right;">
-0.000000
+0.0000000
 </td>
 </tr>
 <tr>
@@ -11012,7 +11040,7 @@ mod_truth
 0.9443906
 </td>
 <td style="text-align:right;">
-0.000000
+0.0000000
 </td>
 </tr>
 <tr>
@@ -11032,13 +11060,13 @@ obs
 8.2468486
 </td>
 <td style="text-align:right;">
-1.7590444
+1.6813742
 </td>
 <td style="text-align:right;">
 -2.5502226
 </td>
 <td style="text-align:right;">
-1.926774
+1.8213059
 </td>
 </tr>
 <tr>
@@ -11058,13 +11086,13 @@ obs
 7.0876343
 </td>
 <td style="text-align:right;">
-3.6031698
+3.2202425
 </td>
 <td style="text-align:right;">
 7.4050929
 </td>
 <td style="text-align:right;">
-6.697889
+6.0701520
 </td>
 </tr>
 </tbody>
@@ -13166,21 +13194,21 @@ jens-daniel-mueller
  1 (-40,-30] mod              11.7 
  2 (-40,-30] mod_truth        10.9 
  3 (-40,-30] obs              14.0 
- 4 (-30,-10] mod               8.70
+ 4 (-30,-10] mod               8.64
  5 (-30,-10] mod_truth         7.73
  6 (-30,-10] obs              11.1 
- 7 (-10,10]  mod               4.63
+ 7 (-10,10]  mod               4.59
  8 (-10,10]  mod_truth         4.09
- 9 (-10,10]  obs               6.92
-10 (10,30]   mod               5.33
+ 9 (-10,10]  obs               6.86
+10 (10,30]   mod               5.29
 11 (10,30]   mod_truth         5.03
-12 (10,30]   obs               6.82
+12 (10,30]   obs               6.77
 13 (30,40]   mod               6.19
 14 (30,40]   mod_truth         6.46
 15 (30,40]   obs              10.6 
-16 &lt;NA&gt;      mod               5.54
+16 &lt;NA&gt;      mod               5.58
 17 &lt;NA&gt;      mod_truth         5.59
-18 &lt;NA&gt;      obs               7.08</code></pre>
+18 &lt;NA&gt;      obs               7.10</code></pre>
 <pre class="r"><code>dcant_inv_all_lat_mean %&gt;%
   filter(period != &quot;1800 - 1994&quot;) %&gt;% 
   mutate(lat_grid = cut(lat_grid, c(-40,-30,-10,10,30,40))) %&gt;% 
@@ -13190,16 +13218,16 @@ jens-daniel-mueller
 <pre><code># A tibble: 51 × 4
    lat_grid  basin_AIP data_source dcant_mean
    &lt;fct&gt;     &lt;chr&gt;     &lt;chr&gt;            &lt;dbl&gt;
- 1 (-40,-30] Atlantic  mod              11.3 
+ 1 (-40,-30] Atlantic  mod              11.4 
  2 (-40,-30] Atlantic  mod_truth        10.1 
- 3 (-40,-30] Atlantic  obs              15.1 
+ 3 (-40,-30] Atlantic  obs              15.2 
  4 (-40,-30] Indian    mod              13.3 
  5 (-40,-30] Indian    mod_truth        12.6 
- 6 (-40,-30] Indian    obs              13.9 
+ 6 (-40,-30] Indian    obs              13.8 
  7 (-40,-30] Pacific   mod              10.5 
  8 (-40,-30] Pacific   mod_truth         9.97
  9 (-40,-30] Pacific   obs              12.9 
-10 (-30,-10] Atlantic  mod               7.57
+10 (-30,-10] Atlantic  mod               7.51
 # … with 41 more rows</code></pre>
 <pre class="r"><code>dcant_inv_all_lat_mean %&gt;%
   filter(period != &quot;1800 - 1994&quot;) %&gt;% 
@@ -13210,16 +13238,16 @@ jens-daniel-mueller
 <pre><code># A tibble: 54 × 5
    lat_grid basin_AIP period      data_source dcant_mean
    &lt;fct&gt;    &lt;chr&gt;     &lt;chr&gt;       &lt;chr&gt;            &lt;dbl&gt;
- 1 (-90,0]  Atlantic  1994 - 2004 mod               4.14
+ 1 (-90,0]  Atlantic  1994 - 2004 mod               4.18
  2 (-90,0]  Atlantic  1994 - 2004 mod_truth         4.06
  3 (-90,0]  Atlantic  1994 - 2004 obs               6.73
- 4 (-90,0]  Atlantic  1994 - 2014 mod               9.48
+ 4 (-90,0]  Atlantic  1994 - 2014 mod               9.47
  5 (-90,0]  Atlantic  1994 - 2014 mod_truth         8.72
  6 (-90,0]  Atlantic  1994 - 2014 obs              14.4 
  7 (-90,0]  Atlantic  2004 - 2014 mod               5.37
  8 (-90,0]  Atlantic  2004 - 2014 mod_truth         4.66
  9 (-90,0]  Atlantic  2004 - 2014 obs               7.78
-10 (-90,0]  Indian    1994 - 2004 mod               5.81
+10 (-90,0]  Indian    1994 - 2004 mod               5.76
 # … with 44 more rows</code></pre>
 <pre class="r"><code>dcant_inv_all_lat_mean %&gt;%
   filter(period != &quot;1800 - 1994&quot;) %&gt;% 
@@ -13232,15 +13260,15 @@ jens-daniel-mueller
 <pre><code># A tibble: 36 × 5
    lat_grid  basin_AIP period      data_source dcant_mean
    &lt;fct&gt;     &lt;chr&gt;     &lt;chr&gt;       &lt;chr&gt;            &lt;dbl&gt;
- 1 (-50,-20] Atlantic  1994 - 2004 obs               8.55
- 2 (-50,-20] Atlantic  1994 - 2014 obs              19.9 
- 3 (-50,-20] Atlantic  2004 - 2014 obs              11.4 
- 4 (-20,20]  Atlantic  1994 - 2004 obs               5.29
- 5 (-20,20]  Atlantic  1994 - 2014 obs              14.0 
- 6 (-20,20]  Atlantic  2004 - 2014 obs               8.57
+ 1 (-50,-20] Atlantic  1994 - 2004 obs               8.59
+ 2 (-50,-20] Atlantic  1994 - 2014 obs              20.0 
+ 3 (-50,-20] Atlantic  2004 - 2014 obs              11.5 
+ 4 (-20,20]  Atlantic  1994 - 2004 obs               5.25
+ 5 (-20,20]  Atlantic  1994 - 2014 obs              13.8 
+ 6 (-20,20]  Atlantic  2004 - 2014 obs               8.50
  7 (20,50]   Atlantic  1994 - 2004 obs              12.0 
- 8 (20,50]   Atlantic  1994 - 2014 obs              20.0 
- 9 (20,50]   Atlantic  2004 - 2014 obs               8.03
+ 8 (20,50]   Atlantic  1994 - 2014 obs              20.1 
+ 9 (20,50]   Atlantic  2004 - 2014 obs               8.12
 10 &lt;NA&gt;      Atlantic  1994 - 2004 obs               7.44
 # … with 26 more rows</code></pre>
 <pre class="r"><code>dcant_inv_all_ensemble_lat_mean %&gt;% 
@@ -17666,7 +17694,7 @@ mod
 10.233057
 </td>
 <td style="text-align:right;">
-0.4982148
+1.7347144
 </td>
 </tr>
 <tr>
@@ -17700,7 +17728,7 @@ obs
 10.514606
 </td>
 <td style="text-align:right;">
-0.9990138
+2.8400224
 </td>
 </tr>
 <tr>
@@ -17717,7 +17745,7 @@ mod
 20.680491
 </td>
 <td style="text-align:right;">
-2.1853329
+3.2110303
 </td>
 </tr>
 <tr>
@@ -17751,7 +17779,7 @@ obs
 21.476974
 </td>
 <td style="text-align:right;">
-2.5727882
+3.6475735
 </td>
 </tr>
 <tr>
@@ -17768,7 +17796,7 @@ mod
 10.499135
 </td>
 <td style="text-align:right;">
-2.1687163
+2.2435897
 </td>
 </tr>
 <tr>
@@ -17802,7 +17830,7 @@ obs
 11.062672
 </td>
 <td style="text-align:right;">
-1.8342790
+0.8781308
 </td>
 </tr>
 <tr>
@@ -17819,7 +17847,7 @@ mod
 10.013093
 </td>
 <td style="text-align:right;">
-1.4139638
+2.3870587
 </td>
 </tr>
 <tr>
@@ -17853,7 +17881,7 @@ obs
 9.538497
 </td>
 <td style="text-align:right;">
-1.8206682
+6.2454478
 </td>
 </tr>
 <tr>
@@ -17870,7 +17898,7 @@ mod
 20.628019
 </td>
 <td style="text-align:right;">
-1.5156384
+3.2979724
 </td>
 </tr>
 <tr>
@@ -17904,7 +17932,7 @@ obs
 20.779644
 </td>
 <td style="text-align:right;">
-2.1030358
+3.9049264
 </td>
 </tr>
 <tr>
@@ -17921,7 +17949,7 @@ mod
 10.844700
 </td>
 <td style="text-align:right;">
-2.0089861
+1.9240077
 </td>
 </tr>
 <tr>
@@ -17955,7 +17983,7 @@ obs
 11.363610
 </td>
 <td style="text-align:right;">
-3.1495168
+3.5803242
 </td>
 </tr>
 <tr>
@@ -17972,7 +18000,7 @@ mod
 10.276179
 </td>
 <td style="text-align:right;">
-1.1125328
+2.7544451
 </td>
 </tr>
 <tr>
@@ -18006,7 +18034,7 @@ obs
 10.753290
 </td>
 <td style="text-align:right;">
-1.6283320
+4.5942099
 </td>
 </tr>
 <tr>
@@ -18023,7 +18051,7 @@ mod
 21.011574
 </td>
 <td style="text-align:right;">
-3.1421084
+4.4065777
 </td>
 </tr>
 <tr>
@@ -18057,7 +18085,7 @@ obs
 21.697415
 </td>
 <td style="text-align:right;">
-4.1458529
+6.3926515
 </td>
 </tr>
 <tr>
@@ -18074,7 +18102,7 @@ mod
 10.713098
 </td>
 <td style="text-align:right;">
-3.9781925
+2.2316294
 </td>
 </tr>
 <tr>
@@ -18108,7 +18136,7 @@ obs
 11.101775
 </td>
 <td style="text-align:right;">
-2.6983263
+1.8052331
 </td>
 </tr>
 <tr>
@@ -18125,7 +18153,7 @@ mod
 9.818618
 </td>
 <td style="text-align:right;">
-1.9855857
+3.2016168
 </td>
 </tr>
 <tr>
@@ -18159,7 +18187,7 @@ obs
 10.303636
 </td>
 <td style="text-align:right;">
-1.0392758
+1.6775042
 </td>
 </tr>
 <tr>
@@ -18176,7 +18204,7 @@ mod
 20.051396
 </td>
 <td style="text-align:right;">
-3.5002721
+4.3478396
 </td>
 </tr>
 <tr>
@@ -18210,7 +18238,7 @@ obs
 20.689650
 </td>
 <td style="text-align:right;">
-1.6806951
+2.7706049
 </td>
 </tr>
 <tr>
@@ -18227,7 +18255,7 @@ mod
 10.186799
 </td>
 <td style="text-align:right;">
-2.0685348
+3.2387943
 </td>
 </tr>
 <tr>
@@ -18261,7 +18289,7 @@ obs
 10.478757
 </td>
 <td style="text-align:right;">
-1.0974915
+1.3546080
 </td>
 </tr>
 <tr>
@@ -18278,7 +18306,7 @@ mod
 11.385040
 </td>
 <td style="text-align:right;">
-1.2045507
+4.2821039
 </td>
 </tr>
 <tr>
@@ -18312,7 +18340,7 @@ obs
 11.600352
 </td>
 <td style="text-align:right;">
-1.5865705
+1.7074340
 </td>
 </tr>
 <tr>
@@ -18329,7 +18357,7 @@ mod
 21.747759
 </td>
 <td style="text-align:right;">
-2.3615419
+2.2070775
 </td>
 </tr>
 <tr>
@@ -18363,7 +18391,7 @@ obs
 23.286845
 </td>
 <td style="text-align:right;">
-3.8137472
+3.0142939
 </td>
 </tr>
 <tr>
@@ -18380,7 +18408,7 @@ mod
 10.449947
 </td>
 <td style="text-align:right;">
-3.0250717
+5.7488519
 </td>
 </tr>
 <tr>
@@ -18414,7 +18442,7 @@ obs
 11.721643
 </td>
 <td style="text-align:right;">
-2.2965920
+3.1147423
 </td>
 </tr>
 <tr>
@@ -18431,7 +18459,7 @@ mod
 10.372162
 </td>
 <td style="text-align:right;">
-1.2438898
+1.0423000
 </td>
 </tr>
 <tr>
@@ -18465,7 +18493,7 @@ obs
 11.168167
 </td>
 <td style="text-align:right;">
-1.6229421
+1.1946288
 </td>
 </tr>
 <tr>
@@ -18482,7 +18510,7 @@ mod
 20.581578
 </td>
 <td style="text-align:right;">
-1.7857790
+3.9019613
 </td>
 </tr>
 <tr>
@@ -18516,7 +18544,7 @@ obs
 22.288130
 </td>
 <td style="text-align:right;">
-2.5005031
+2.5894662
 </td>
 </tr>
 <tr>
@@ -18533,7 +18561,7 @@ mod
 10.278645
 </td>
 <td style="text-align:right;">
-3.3857518
+12.4271671
 </td>
 </tr>
 <tr>
@@ -18567,7 +18595,7 @@ obs
 11.158470
 </td>
 <td style="text-align:right;">
-1.2261372
+1.6471859
 </td>
 </tr>
 </tbody>
@@ -18625,10 +18653,10 @@ Global
 mod
 </td>
 <td style="text-align:right;">
-60.31228
+57.79965
 </td>
 <td style="text-align:right;">
-319.5833
+323.0000
 </td>
 </tr>
 <tr>
@@ -18659,10 +18687,10 @@ Global
 obs
 </td>
 <td style="text-align:right;">
-56.06119
+46.46214
 </td>
 <td style="text-align:right;">
-308.3333
+305.5556
 </td>
 </tr>
 <tr>
@@ -18676,10 +18704,10 @@ Global
 mod
 </td>
 <td style="text-align:right;">
-37.03743
+33.97478
 </td>
 <td style="text-align:right;">
-331.5000
+333.3333
 </td>
 </tr>
 <tr>
@@ -18761,10 +18789,10 @@ Global
 obs
 </td>
 <td style="text-align:right;">
-16.66667
+0.00000
 </td>
 <td style="text-align:right;">
-298.6111
+300.0000
 </td>
 </tr>
 <tr>
@@ -18778,10 +18806,10 @@ Indian
 mod
 </td>
 <td style="text-align:right;">
-121.74399
+118.86650
 </td>
 <td style="text-align:right;">
-410.1667
+409.5556
 </td>
 </tr>
 <tr>
@@ -18812,10 +18840,10 @@ Indian
 obs
 </td>
 <td style="text-align:right;">
-118.58960
+110.84094
 </td>
 <td style="text-align:right;">
-463.8889
+458.3333
 </td>
 </tr>
 <tr>
@@ -18829,10 +18857,10 @@ Indian
 mod
 </td>
 <td style="text-align:right;">
-90.72029
+85.19490
 </td>
 <td style="text-align:right;">
-406.6667
+407.8333
 </td>
 </tr>
 <tr>
@@ -18863,10 +18891,10 @@ Indian
 obs
 </td>
 <td style="text-align:right;">
-84.89022
+75.59289
 </td>
 <td style="text-align:right;">
-386.1111
+383.3333
 </td>
 </tr>
 <tr>
@@ -18880,10 +18908,10 @@ Indian
 mod
 </td>
 <td style="text-align:right;">
-84.32701
+85.08013
 </td>
 <td style="text-align:right;">
-377.1944
+379.6667
 </td>
 </tr>
 <tr>
@@ -18914,10 +18942,10 @@ Indian
 obs
 </td>
 <td style="text-align:right;">
-77.40842
+76.63560
 </td>
 <td style="text-align:right;">
-276.3889
+280.5556
 </td>
 </tr>
 <tr>
@@ -18931,10 +18959,10 @@ N. Pacific
 mod
 </td>
 <td style="text-align:right;">
-69.68744
+66.90310
 </td>
 <td style="text-align:right;">
-255.5278
+255.2778
 </td>
 </tr>
 <tr>
@@ -18965,10 +18993,10 @@ N. Pacific
 obs
 </td>
 <td style="text-align:right;">
-84.09179
+86.69413
 </td>
 <td style="text-align:right;">
-245.8333
+243.0556
 </td>
 </tr>
 <tr>
@@ -18982,10 +19010,10 @@ N. Pacific
 mod
 </td>
 <td style="text-align:right;">
-40.32613
+38.59665
 </td>
 <td style="text-align:right;">
-256.7222
+257.4444
 </td>
 </tr>
 <tr>
@@ -19033,10 +19061,10 @@ N. Pacific
 mod
 </td>
 <td style="text-align:right;">
-24.03305
+23.53053
 </td>
 <td style="text-align:right;">
-256.0556
+257.4167
 </td>
 </tr>
 <tr>
@@ -19067,10 +19095,10 @@ N. Pacific
 obs
 </td>
 <td style="text-align:right;">
-60.87979
+53.15446
 </td>
 <td style="text-align:right;">
-198.6111
+202.7778
 </td>
 </tr>
 <tr>
@@ -19084,10 +19112,10 @@ S. Pacific
 mod
 </td>
 <td style="text-align:right;">
-66.80681
+68.76902
 </td>
 <td style="text-align:right;">
-370.3889
+372.8611
 </td>
 </tr>
 <tr>
@@ -19118,10 +19146,10 @@ S. Pacific
 obs
 </td>
 <td style="text-align:right;">
-148.21692
+149.81470
 </td>
 <td style="text-align:right;">
-372.2222
+369.4444
 </td>
 </tr>
 <tr>
@@ -19135,10 +19163,10 @@ S. Pacific
 mod
 </td>
 <td style="text-align:right;">
-61.02144
+62.56758
 </td>
 <td style="text-align:right;">
-380.1944
+380.3056
 </td>
 </tr>
 <tr>
@@ -19186,10 +19214,10 @@ S. Pacific
 mod
 </td>
 <td style="text-align:right;">
-80.54266
+83.77709
 </td>
 <td style="text-align:right;">
-402.1389
+402.4167
 </td>
 </tr>
 <tr>
@@ -19220,10 +19248,10 @@ S. Pacific
 obs
 </td>
 <td style="text-align:right;">
-102.66296
+80.27730
 </td>
 <td style="text-align:right;">
-327.7778
+319.4444
 </td>
 </tr>
 <tr>
@@ -19237,10 +19265,10 @@ N. Atlantic
 mod
 </td>
 <td style="text-align:right;">
-30.60345
+30.64492
 </td>
 <td style="text-align:right;">
-295.8333
+295.2778
 </td>
 </tr>
 <tr>
@@ -19288,10 +19316,10 @@ N. Atlantic
 mod
 </td>
 <td style="text-align:right;">
-24.22749
+24.71835
 </td>
 <td style="text-align:right;">
-313.0000
+314.2222
 </td>
 </tr>
 <tr>
@@ -19322,10 +19350,10 @@ N. Atlantic
 obs
 </td>
 <td style="text-align:right;">
-70.14724
+63.74553
 </td>
 <td style="text-align:right;">
-413.8889
+411.1111
 </td>
 </tr>
 <tr>
@@ -19339,10 +19367,10 @@ N. Atlantic
 mod
 </td>
 <td style="text-align:right;">
-42.07307
+39.78450
 </td>
 <td style="text-align:right;">
-330.4167
+334.8889
 </td>
 </tr>
 <tr>
@@ -19373,10 +19401,10 @@ N. Atlantic
 obs
 </td>
 <td style="text-align:right;">
-87.83101
+70.14724
 </td>
 <td style="text-align:right;">
-475.0000
+486.1111
 </td>
 </tr>
 <tr>
@@ -19475,10 +19503,10 @@ S. Atlantic
 obs
 </td>
 <td style="text-align:right;">
-97.42722
+98.88265
 </td>
 <td style="text-align:right;">
-336.1111
+338.8889
 </td>
 </tr>
 <tr>
@@ -19492,10 +19520,10 @@ S. Atlantic
 mod
 </td>
 <td style="text-align:right;">
-47.34403
+40.54341
 </td>
 <td style="text-align:right;">
-337.9167
+339.5278
 </td>
 </tr>
 <tr>
@@ -19526,7 +19554,7 @@ S. Atlantic
 obs
 </td>
 <td style="text-align:right;">
-196.07255
+190.15449
 </td>
 <td style="text-align:right;">
 480.5556
@@ -21690,16 +21718,42 @@ dcant_budget_basin_MLR_all_uncertainty &lt;- additive_uncertainty(dcant_budget_b
 delta_dcant_budget_basin_MLR_all_uncertainty &lt;- dcant_budget_basin_MLR_all_uncertainty[[3]]
 dcant_budget_basin_MLR_all_uncertainty_contributions &lt;- dcant_budget_basin_MLR_all_uncertainty[[2]]
 dcant_budget_basin_MLR_all_uncertainty &lt;- dcant_budget_basin_MLR_all_uncertainty[[1]]</code></pre>
-<pre class="r"><code>dcant_budget_basin_MLR_all_uncertainty_two_decades &lt;-
-  dcant_budget_basin_MLR_all_ensemble %&gt;%
-  filter(data_source != &quot;mod_truth&quot;) %&gt;%
-  select(-c(inv_depth, Version_ID, tref1))
+<div id="deep-ocean" class="section level2" number="15.1">
+<h2><span class="header-section-number">15.1</span> Deep Ocean</h2>
+<pre class="r"><code>dcant_budget_basin_MLR_all_ensemble_10000 &lt;-
+  bind_rows(
+    dcant_budget_basin_MLR_all_ensemble,
+    dcant_budget_basin_MLR_all_ensemble_10000)
 
-dcant_budget_basin_MLR_all_uncertainty_two_decades &lt;- additive_uncertainty(dcant_budget_basin_MLR_all_uncertainty_two_decades)
-
-delta_dcant_budget_basin_MLR_all_uncertainty_two_decades &lt;- dcant_budget_basin_MLR_all_uncertainty_two_decades[[3]]
-dcant_budget_basin_MLR_all_uncertainty_contributions_two_decades &lt;- dcant_budget_basin_MLR_all_uncertainty_two_decades[[2]]
-dcant_budget_basin_MLR_all_uncertainty_two_decades &lt;- dcant_budget_basin_MLR_all_uncertainty_two_decades[[1]]</code></pre>
+dcant_budget_basin_MLR_all_ensemble_10000 %&gt;% 
+  ggplot(aes(period,dcant, fill = as.factor(inv_depth))) +
+  geom_jitter(shape = 21, alpha = 0.8) +
+  facet_grid(basin ~ data_source, scales = &quot;free_y&quot;) +
+  scale_fill_highcontrast(name = &quot;Integration\ndepth (m)&quot;) +
+  scale_y_continuous(limits = c(0,NA))</code></pre>
+<p><img src="figure/results_publication.Rmd/deep_cant_accumulation-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dcant_budget_basin_MLR_all_ensemble_10000 %&gt;% 
+  arrange(inv_depth) %&gt;% 
+  group_by(basin, period, data_source, MLR_basins, Version_ID_group) %&gt;% 
+  summarise(deep_dcant = 100*((dcant / lag(dcant))-1)) %&gt;% 
+  ungroup() %&gt;% 
+  ggplot(aes(period,deep_dcant, fill = Version_ID_group)) +
+  geom_hline(yintercept = 0) +
+  geom_jitter(shape = 21, alpha = 0.8) +
+  scale_fill_muted() +
+  facet_grid(basin ~ data_source)</code></pre>
+<p><img src="figure/results_publication.Rmd/deep_cant_accumulation-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dcant_budget_basin_MLR_all_ensemble_10000 %&gt;% 
+  arrange(inv_depth) %&gt;% 
+  group_by(basin, period, data_source, MLR_basins, Version_ID_group) %&gt;% 
+  summarise(deep_dcant = 100*((dcant / lag(dcant))-1)) %&gt;% 
+  ungroup() %&gt;% 
+  ggplot(aes(period,deep_dcant, fill = MLR_basins)) +
+  geom_hline(yintercept = 0) +
+  geom_jitter(shape = 21, alpha = 0.8) +
+  scale_fill_bright() +
+  facet_grid(basin ~ data_source)</code></pre>
+<p><img src="figure/results_publication.Rmd/deep_cant_accumulation-3.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code># inventory scaling
 
 dcant_budget_basin_MLR_all_ensemble &lt;-
@@ -21909,6 +21963,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/375300e4dac4c295c619c4c478ba15597cfec724/docs/figure/results_publication.Rmd/dcant_inventory_uncertainty_components_sensitivity_cases-1.png" target="_blank">375300e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-14
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ebc85e25c1d16f8d67239eb46f1919bc96f502f3/docs/figure/results_publication.Rmd/dcant_inventory_uncertainty_components_sensitivity_cases-1.png" target="_blank">ebc85e2</a>
 </td>
 <td>
@@ -22053,10 +22118,11 @@ tcant_budget_basin_MLR &lt;- tcant_budget_basin_MLR %&gt;%
 tcant_budget_basin_MLR &lt;-
   bind_rows(tcant_budget_basin_MLR,
             tibble(basin = &quot;Global&quot;, beta_1994 = 118 / 78.3))</code></pre>
-<div id="scatterplots" class="section level2" number="15.1">
-<h2><span class="header-section-number">15.1</span> Scatterplots</h2>
-<div id="ensemble-uncertainty" class="section level3" number="15.1.1">
-<h3><span class="header-section-number">15.1.1</span> Ensemble
+</div>
+<div id="scatterplots" class="section level2" number="15.2">
+<h2><span class="header-section-number">15.2</span> Scatterplots</h2>
+<div id="ensemble-uncertainty" class="section level3" number="15.2.1">
+<h3><span class="header-section-number">15.2.1</span> Ensemble
 uncertainty</h3>
 <pre class="r"><code>dcant_budget_basin_MLR_all_ensemble %&gt;%
   ggplot(aes(period, dcant, col = Version_ID_group)) +
@@ -22222,6 +22288,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/375300e4dac4c295c619c4c478ba15597cfec724/docs/figure/results_publication.Rmd/dcant_budget_basin_hemisphere_ensemble_uncertainty-2.png" target="_blank">375300e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-14
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ebc85e25c1d16f8d67239eb46f1919bc96f502f3/docs/figure/results_publication.Rmd/dcant_budget_basin_hemisphere_ensemble_uncertainty-2.png" target="_blank">ebc85e2</a>
 </td>
 <td>
@@ -22280,8 +22357,8 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
-<div id="additive-uncertainty-3" class="section level3" number="15.1.2">
-<h3><span class="header-section-number">15.1.2</span> Additive
+<div id="additive-uncertainty-3" class="section level3" number="15.2.2">
+<h3><span class="header-section-number">15.2.2</span> Additive
 uncertainty</h3>
 <pre class="r"><code>dcant_budget_basin_MLR_all_ensemble %&gt;%
   filter(data_source == &quot;obs&quot;,
@@ -22467,8 +22544,8 @@ jens-daniel-mueller
        height = 6,
        width = 8)</code></pre>
 </div>
-<div id="beta-2" class="section level3" number="15.1.3">
-<h3><span class="header-section-number">15.1.3</span> Beta</h3>
+<div id="beta-2" class="section level3" number="15.2.3">
+<h3><span class="header-section-number">15.2.3</span> Beta</h3>
 <pre class="r"><code># determine scaling factor from dcant -&gt; beta inventories
 # including scaling for: delta pCO2 atm, basin area, PgC -&gt; molC
 
@@ -22632,10 +22709,10 @@ mod
 dcant
 </td>
 <td style="text-align:right;">
-1.600
+1.800
 </td>
 <td style="text-align:right;">
-2.000
+1.800
 </td>
 <td style="text-align:right;">
 20.00
@@ -22667,10 +22744,10 @@ obs
 dcant
 </td>
 <td style="text-align:right;">
-2.200
+2.600
 </td>
 <td style="text-align:right;">
-2.600
+2.400
 </td>
 <td style="text-align:right;">
 29.00
@@ -22685,10 +22762,10 @@ dcant
 -1.9000
 </td>
 <td style="text-align:right;">
-4.800
+5.000
 </td>
 <td style="text-align:right;">
-0.400
+0.380
 </td>
 </tr>
 <tr>
@@ -22702,7 +22779,7 @@ mod
 dcant
 </td>
 <td style="text-align:right;">
-0.770
+0.810
 </td>
 <td style="text-align:right;">
 0.680
@@ -22723,7 +22800,7 @@ dcant
 1.500
 </td>
 <td style="text-align:right;">
-1.000
+0.970
 </td>
 </tr>
 <tr>
@@ -22737,10 +22814,10 @@ obs
 dcant
 </td>
 <td style="text-align:right;">
-0.920
+1.100
 </td>
 <td style="text-align:right;">
-0.660
+0.670
 </td>
 <td style="text-align:right;">
 7.20
@@ -22755,10 +22832,10 @@ dcant
 -1.4000
 </td>
 <td style="text-align:right;">
-1.600
+1.800
 </td>
 <td style="text-align:right;">
-0.900
+0.790
 </td>
 </tr>
 <tr>
@@ -22772,10 +22849,10 @@ mod
 dcant
 </td>
 <td style="text-align:right;">
-0.280
+0.410
 </td>
 <td style="text-align:right;">
-0.850
+0.390
 </td>
 <td style="text-align:right;">
 3.10
@@ -22790,10 +22867,10 @@ dcant
 0.2300
 </td>
 <td style="text-align:right;">
-1.300
+0.800
 </td>
 <td style="text-align:right;">
-0.190
+0.290
 </td>
 </tr>
 <tr>
@@ -22807,10 +22884,10 @@ obs
 dcant
 </td>
 <td style="text-align:right;">
-0.730
+0.810
 </td>
 <td style="text-align:right;">
-1.800
+1.700
 </td>
 <td style="text-align:right;">
 2.90
@@ -22825,10 +22902,10 @@ dcant
 0.3200
 </td>
 <td style="text-align:right;">
-2.800
+2.700
 </td>
 <td style="text-align:right;">
-0.110
+0.120
 </td>
 </tr>
 <tr>
@@ -22842,10 +22919,10 @@ mod
 dcant
 </td>
 <td style="text-align:right;">
-0.940
+0.910
 </td>
 <td style="text-align:right;">
-0.540
+0.560
 </td>
 <td style="text-align:right;">
 5.50
@@ -22877,10 +22954,10 @@ obs
 dcant
 </td>
 <td style="text-align:right;">
-1.200
+1.100
 </td>
 <td style="text-align:right;">
-0.970
+0.940
 </td>
 <td style="text-align:right;">
 8.60
@@ -22895,10 +22972,10 @@ dcant
 -1.2000
 </td>
 <td style="text-align:right;">
-2.200
+2.100
 </td>
 <td style="text-align:right;">
-0.570
+0.590
 </td>
 </tr>
 <tr>
@@ -22912,10 +22989,10 @@ mod
 dcant
 </td>
 <td style="text-align:right;">
-0.180
+0.200
 </td>
 <td style="text-align:right;">
-0.380
+0.340
 </td>
 <td style="text-align:right;">
 2.20
@@ -22930,10 +23007,10 @@ dcant
 0.2200
 </td>
 <td style="text-align:right;">
-0.590
+0.560
 </td>
 <td style="text-align:right;">
-0.380
+0.400
 </td>
 </tr>
 <tr>
@@ -22947,10 +23024,10 @@ obs
 dcant
 </td>
 <td style="text-align:right;">
-0.150
+0.180
 </td>
 <td style="text-align:right;">
-0.330
+0.350
 </td>
 <td style="text-align:right;">
 4.80
@@ -22965,10 +23042,10 @@ dcant
 -0.9000
 </td>
 <td style="text-align:right;">
-0.520
+0.560
 </td>
 <td style="text-align:right;">
-1.700
+1.600
 </td>
 </tr>
 <tr>
@@ -22982,10 +23059,10 @@ mod
 dcant
 </td>
 <td style="text-align:right;">
-0.370
+0.230
 </td>
 <td style="text-align:right;">
-0.340
+0.240
 </td>
 <td style="text-align:right;">
 2.70
@@ -23000,10 +23077,10 @@ dcant
 0.7100
 </td>
 <td style="text-align:right;">
-0.710
+0.470
 </td>
 <td style="text-align:right;">
-1.000
+1.500
 </td>
 </tr>
 <tr>
@@ -23017,10 +23094,10 @@ obs
 dcant
 </td>
 <td style="text-align:right;">
-0.500
+0.510
 </td>
 <td style="text-align:right;">
-0.630
+0.610
 </td>
 <td style="text-align:right;">
 3.90
@@ -23052,10 +23129,10 @@ mod
 beta
 </td>
 <td style="text-align:right;">
-0.021
+0.023
 </td>
 <td style="text-align:right;">
-0.023
+0.021
 </td>
 <td style="text-align:right;">
 0.25
@@ -23073,7 +23150,7 @@ beta
 0.043
 </td>
 <td style="text-align:right;">
-0.780
+0.770
 </td>
 </tr>
 <tr>
@@ -23087,10 +23164,10 @@ obs
 beta
 </td>
 <td style="text-align:right;">
-0.027
+0.033
 </td>
 <td style="text-align:right;">
-0.030
+0.027
 </td>
 <td style="text-align:right;">
 0.37
@@ -23105,10 +23182,10 @@ beta
 -0.0540
 </td>
 <td style="text-align:right;">
-0.058
+0.061
 </td>
 <td style="text-align:right;">
-0.940
+0.890
 </td>
 </tr>
 <tr>
@@ -23122,7 +23199,7 @@ mod
 beta
 </td>
 <td style="text-align:right;">
-0.047
+0.049
 </td>
 <td style="text-align:right;">
 0.038
@@ -23140,10 +23217,10 @@ beta
 0.0540
 </td>
 <td style="text-align:right;">
-0.086
+0.088
 </td>
 <td style="text-align:right;">
-0.630
+0.610
 </td>
 </tr>
 <tr>
@@ -23157,7 +23234,7 @@ obs
 beta
 </td>
 <td style="text-align:right;">
-0.056
+0.068
 </td>
 <td style="text-align:right;">
 0.037
@@ -23175,10 +23252,10 @@ beta
 -0.1200
 </td>
 <td style="text-align:right;">
-0.095
+0.110
 </td>
 <td style="text-align:right;">
-1.200
+1.100
 </td>
 </tr>
 <tr>
@@ -23192,10 +23269,10 @@ mod
 beta
 </td>
 <td style="text-align:right;">
-0.016
+0.024
 </td>
 <td style="text-align:right;">
-0.044
+0.020
 </td>
 <td style="text-align:right;">
 0.18
@@ -23210,10 +23287,10 @@ beta
 -0.0033
 </td>
 <td style="text-align:right;">
-0.066
+0.044
 </td>
 <td style="text-align:right;">
-0.050
+0.076
 </td>
 </tr>
 <tr>
@@ -23227,10 +23304,10 @@ obs
 beta
 </td>
 <td style="text-align:right;">
-0.042
+0.046
 </td>
 <td style="text-align:right;">
-0.096
+0.091
 </td>
 <td style="text-align:right;">
 0.17
@@ -23245,10 +23322,10 @@ beta
 0.0023
 </td>
 <td style="text-align:right;">
-0.150
+0.140
 </td>
 <td style="text-align:right;">
-0.015
+0.016
 </td>
 </tr>
 <tr>
@@ -23262,10 +23339,10 @@ mod
 beta
 </td>
 <td style="text-align:right;">
-0.044
+0.042
 </td>
 <td style="text-align:right;">
-0.023
+0.024
 </td>
 <td style="text-align:right;">
 0.26
@@ -23280,10 +23357,10 @@ beta
 0.0580
 </td>
 <td style="text-align:right;">
-0.070
+0.069
 </td>
 <td style="text-align:right;">
-0.830
+0.840
 </td>
 </tr>
 <tr>
@@ -23297,10 +23374,10 @@ obs
 beta
 </td>
 <td style="text-align:right;">
-0.055
+0.053
 </td>
 <td style="text-align:right;">
-0.041
+0.040
 </td>
 <td style="text-align:right;">
 0.40
@@ -23315,10 +23392,10 @@ beta
 -0.0880
 </td>
 <td style="text-align:right;">
-0.097
+0.094
 </td>
 <td style="text-align:right;">
-0.900
+0.930
 </td>
 </tr>
 <tr>
@@ -23332,10 +23409,10 @@ mod
 beta
 </td>
 <td style="text-align:right;">
-0.020
+0.022
 </td>
 <td style="text-align:right;">
-0.038
+0.034
 </td>
 <td style="text-align:right;">
 0.24
@@ -23350,10 +23427,10 @@ beta
 0.0010
 </td>
 <td style="text-align:right;">
-0.060
+0.058
 </td>
 <td style="text-align:right;">
-0.017
+0.018
 </td>
 </tr>
 <tr>
@@ -23367,10 +23444,10 @@ obs
 beta
 </td>
 <td style="text-align:right;">
-0.017
+0.020
 </td>
 <td style="text-align:right;">
-0.034
+0.035
 </td>
 <td style="text-align:right;">
 0.53
@@ -23385,10 +23462,10 @@ beta
 -0.1400
 </td>
 <td style="text-align:right;">
-0.053
+0.057
 </td>
 <td style="text-align:right;">
-2.600
+2.400
 </td>
 </tr>
 <tr>
@@ -23402,10 +23479,10 @@ mod
 beta
 </td>
 <td style="text-align:right;">
-0.037
+0.023
 </td>
 <td style="text-align:right;">
-0.031
+0.022
 </td>
 <td style="text-align:right;">
 0.27
@@ -23420,10 +23497,10 @@ beta
 0.0410
 </td>
 <td style="text-align:right;">
-0.068
+0.045
 </td>
 <td style="text-align:right;">
-0.610
+0.910
 </td>
 </tr>
 <tr>
@@ -23437,10 +23514,10 @@ obs
 beta
 </td>
 <td style="text-align:right;">
-0.050
+0.051
 </td>
 <td style="text-align:right;">
-0.057
+0.056
 </td>
 <td style="text-align:right;">
 0.39
@@ -23458,7 +23535,7 @@ beta
 0.110
 </td>
 <td style="text-align:right;">
-0.920
+0.930
 </td>
 </tr>
 </tbody>
@@ -23612,8 +23689,8 @@ jens-daniel-mueller
        height = 6,
        width = 8)</code></pre>
 </div>
-<div id="biases" class="section level3" number="15.1.4">
-<h3><span class="header-section-number">15.1.4</span> Biases</h3>
+<div id="biases" class="section level3" number="15.2.4">
+<h3><span class="header-section-number">15.2.4</span> Biases</h3>
 <pre class="r"><code>dcant_budget_basin_MLR_all_bias &lt;-
   dcant_budget_basin_MLR_all_ensemble %&gt;%
   filter(data_source %in% c(&quot;mod&quot;, &quot;mod_truth&quot;)) %&gt;%
@@ -23703,7 +23780,7 @@ dcant_budget_basin_MLR_all_bias  %&gt;%
   scale_linetype(name = &quot;X&quot;) +
   scale_alpha_manual(name = &quot;group&quot;, values = c(0.7,0.7,1)) +
   scale_shape_manual(values = 95) +
-  scale_y_continuous(name = dcant_pgc_label) +
+  scale_y_continuous(name = dcant_bias_pgc_label) +
   guides(
     fill = guide_legend(order = 1),
     linetype = guide_legend(order = 2),
@@ -23767,8 +23844,8 @@ jens-daniel-mueller
        width = 8)</code></pre>
 </div>
 </div>
-<div id="flow-chart" class="section level2" number="15.2">
-<h2><span class="header-section-number">15.2</span> Flow chart</h2>
+<div id="flow-chart" class="section level2" number="15.3">
+<h2><span class="header-section-number">15.3</span> Flow chart</h2>
 <pre class="r"><code>dcant_budget_basin_MLR_all &lt;- 
   dcant_budget_basin_MLR_all %&gt;% 
   filter(basin != &quot;Global&quot;)
@@ -23824,8 +23901,8 @@ dcant_budget_basin_MLR_all_plot &lt;- bind_rows(
 dcant_budget_basin_MLR_all_plot &lt;-
   left_join(dcant_budget_basin_MLR_all_plot,
             dcant_budget_basin_MLR_all_ensemble_summary)</code></pre>
-<div id="absolute" class="section level3" number="15.2.1">
-<h3><span class="header-section-number">15.2.1</span> Absolute</h3>
+<div id="absolute" class="section level3" number="15.3.1">
+<h3><span class="header-section-number">15.3.1</span> Absolute</h3>
 <pre class="r"><code>g1 &lt;- dcant_budget_basin_MLR_all_plot %&gt;%
   filter(period != &quot;1800 - 1994&quot;) %&gt;% 
   ggplot(aes(
@@ -23985,8 +24062,8 @@ g2 +
             ),
             inherit.aes = FALSE)</code></pre>
 </div>
-<div id="scaled" class="section level3" number="15.2.2">
-<h3><span class="header-section-number">15.2.2</span> Scaled</h3>
+<div id="scaled" class="section level3" number="15.3.2">
+<h3><span class="header-section-number">15.3.2</span> Scaled</h3>
 <pre class="r"><code>dcant_budget_basin_MLR_all_plot &lt;- left_join(dcant_budget_basin_MLR_all_plot,
                            co2_atm %&gt;% rename(tref1 = year,
                                               pCO21 = pCO2))
@@ -24373,8 +24450,8 @@ g2 +
 #        width = 8)</code></pre>
 </div>
 </div>
-<div id="depth-layer" class="section level2" number="15.3">
-<h2><span class="header-section-number">15.3</span> Depth layer</h2>
+<div id="depth-layer" class="section level2" number="15.4">
+<h2><span class="header-section-number">15.4</span> Depth layer</h2>
 <pre class="r"><code>dcant_budget_change &lt;- dcant_budget_basin_MLR_layer_all %&gt;%
   filter(estimate == &quot;dcant&quot;,
          period != &quot;1994 - 2014&quot;,
@@ -27445,6 +27522,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/375300e4dac4c295c619c4c478ba15597cfec724/docs/figure/results_publication.Rmd/mean_tcant_over_time-1.png" target="_blank">375300e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-14
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/mean_tcant_over_time-1.png" target="_blank">6edad9b</a>
 </td>
 <td>
@@ -28054,6 +28142,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/375300e4dac4c295c619c4c478ba15597cfec724/docs/figure/results_publication.Rmd/mean_tcant_over_time-2.png" target="_blank">375300e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-14
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/mean_tcant_over_time-2.png" target="_blank">6edad9b</a>
 </td>
 <td>
@@ -28568,6 +28667,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/375300e4dac4c295c619c4c478ba15597cfec724/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2-1.png" target="_blank">375300e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-14
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2-1.png" target="_blank">6edad9b</a>
@@ -29242,6 +29352,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/375300e4dac4c295c619c4c478ba15597cfec724/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2-2.png" target="_blank">375300e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-14
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2-2.png" target="_blank">6edad9b</a>
 </td>
 <td>
@@ -29715,6 +29836,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/375300e4dac4c295c619c4c478ba15597cfec724/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2-3.png" target="_blank">375300e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-14
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6edad9b4873aee762207a88f58075ce728aab46f/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2-3.png" target="_blank">6edad9b</a>
 </td>
 <td>
@@ -29827,8 +29959,8 @@ jens-daniel-mueller
   &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
 1  1800        0      NA           NA     280     0       0   NA   
 2  1994      118       0           19     358.  118      19    1.51
-3  2004       29.2     4.32         4.32  377.  147.     19.5  1.57
-4  2014       27.3     6.82         5.28  397.  174.     20.2  1.34</code></pre>
+3  2004       29.3     5.26         5.26  377.  147.     19.7  1.57
+4  2014       27.3     7.10         4.77  397.  175.     20.3  1.34</code></pre>
 </div>
 <div id="incl-fluxes" class="section level2" number="16.2">
 <h2><span class="header-section-number">16.2</span> incl fluxes</h2>
@@ -30408,6 +30540,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/375300e4dac4c295c619c4c478ba15597cfec724/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes-1.png" target="_blank">375300e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-14
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ebc85e25c1d16f8d67239eb46f1919bc96f502f3/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes-1.png" target="_blank">ebc85e2</a>
@@ -31196,6 +31339,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/375300e4dac4c295c619c4c478ba15597cfec724/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_boxplot-1.png" target="_blank">375300e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-14
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ebc85e25c1d16f8d67239eb46f1919bc96f502f3/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_boxplot-1.png" target="_blank">ebc85e2</a>
 </td>
 <td>
@@ -31737,6 +31891,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/375300e4dac4c295c619c4c478ba15597cfec724/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_boxplot-2.png" target="_blank">375300e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-14
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ebc85e25c1d16f8d67239eb46f1919bc96f502f3/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_boxplot-2.png" target="_blank">ebc85e2</a>
 </td>
 <td>
@@ -31925,10 +32090,10 @@ dcant_diff_sd_comparison
 eMLR(C*)
 </td>
 <td style="text-align:right;">
-29.21111
+29.27668
 </td>
 <td style="text-align:right;">
-4.320463
+5.258325
 </td>
 <td style="text-align:right;">
 0.0000000
@@ -31937,10 +32102,10 @@ eMLR(C*)
 0.000000
 </td>
 <td style="text-align:right;">
-6.110057
+7.436395
 </td>
 <td style="text-align:right;">
-6.1100570
+7.4363952
 </td>
 </tr>
 <tr>
@@ -31957,16 +32122,16 @@ Global Ocean Biogeochemical Models (GOBM)
 5.403004
 </td>
 <td style="text-align:right;">
--9.6853329
+-9.7508981
 </td>
 <td style="text-align:right;">
--33.156332
+-33.306028
 </td>
 <td style="text-align:right;">
-6.918010
+7.539393
 </td>
 <td style="text-align:right;">
--2.7673234
+-2.2115053
 </td>
 </tr>
 <tr>
@@ -31983,16 +32148,16 @@ Observation-based surface flux products
 5.597734
 </td>
 <td style="text-align:right;">
--7.7965292
+-7.8620944
 </td>
 <td style="text-align:right;">
--26.690286
+-26.854464
 </td>
 <td style="text-align:right;">
-7.071140
+7.680144
 </td>
 <td style="text-align:right;">
--0.7253888
+-0.1819503
 </td>
 </tr>
 <tr>
@@ -32003,10 +32168,10 @@ Observation-based surface flux products
 eMLR(C*)
 </td>
 <td style="text-align:right;">
-27.28596
+27.34720
 </td>
 <td style="text-align:right;">
-5.279110
+4.770430
 </td>
 <td style="text-align:right;">
 0.0000000
@@ -32015,10 +32180,10 @@ eMLR(C*)
 0.000000
 </td>
 <td style="text-align:right;">
-7.465789
+6.746407
 </td>
 <td style="text-align:right;">
-7.4657891
+6.7464074
 </td>
 </tr>
 <tr>
@@ -32035,16 +32200,16 @@ Global Ocean Biogeochemical Models (GOBM)
 5.576053
 </td>
 <td style="text-align:right;">
--4.5269667
+-4.5882109
 </td>
 <td style="text-align:right;">
--16.590828
+-16.777624
 </td>
 <td style="text-align:right;">
-7.678631
+7.338214
 </td>
 <td style="text-align:right;">
-3.1516643
+2.7500026
 </td>
 </tr>
 <tr>
@@ -32061,16 +32226,16 @@ Observation-based surface flux products
 2.612751
 </td>
 <td style="text-align:right;">
--0.8052855
+-0.8665297
 </td>
 <td style="text-align:right;">
--2.951282
+-3.168623
 </td>
 <td style="text-align:right;">
-5.890286
+5.439069
 </td>
 <td style="text-align:right;">
-5.0850008
+4.5725398
 </td>
 </tr>
 </tbody>
@@ -32164,6 +32329,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/375300e4dac4c295c619c4c478ba15597cfec724/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_mean-1.png" target="_blank">375300e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-14
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ebc85e25c1d16f8d67239eb46f1919bc96f502f3/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_mean-1.png" target="_blank">ebc85e2</a>
@@ -32305,6 +32481,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/375300e4dac4c295c619c4c478ba15597cfec724/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_boxplot_ensemble-1.png" target="_blank">375300e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-14
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ebc85e25c1d16f8d67239eb46f1919bc96f502f3/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_boxplot_ensemble-1.png" target="_blank">ebc85e2</a>
@@ -34392,28 +34579,28 @@ dcant_per_emission_sd
 82.66365
 </td>
 <td style="text-align:right;">
-29.21111
+29.27668
 </td>
 <td style="text-align:right;">
-4.320463
+5.258325
 </td>
 <td style="text-align:right;">
-4.320463
+5.258325
 </td>
 <td style="text-align:right;">
 376.95
 </td>
 <td style="text-align:right;">
-29.21111
+29.27668
 </td>
 <td style="text-align:right;">
-19.48503
+19.71421
 </td>
 <td style="text-align:right;">
-35.33731
+35.41663
 </td>
 <td style="text-align:right;">
-5.226557
+6.361110
 </td>
 </tr>
 <tr>
@@ -34424,28 +34611,28 @@ dcant_per_emission_sd
 101.81399
 </td>
 <td style="text-align:right;">
-27.28596
+27.34720
 </td>
 <td style="text-align:right;">
-6.821686
+7.099788
 </td>
 <td style="text-align:right;">
-5.279110
+4.770430
 </td>
 <td style="text-align:right;">
 397.34
 </td>
 <td style="text-align:right;">
-56.49707
+56.62388
 </td>
 <td style="text-align:right;">
-20.18751
+20.28317
 </td>
 <td style="text-align:right;">
-26.79981
+26.85997
 </td>
 <td style="text-align:right;">
-6.700146
+6.973293
 </td>
 </tr>
 </tbody>
