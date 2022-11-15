@@ -4307,7 +4307,7 @@ dcant_budget_basin_MLR_all_uncertainty_contributions %>%
   geom_col(position = position_dodge(preserve = "single"),
            col = "grey10") +
   scale_fill_bright(name = "eMLR(C*)\nconfiguration\ncomponent") +
-  labs(y = expression(Delta*Cant~inventory~offset~from~standard~case~(PgC))) +
+  labs(y = expression(Delta*Cant~inventory~offset~from~standard~case~(PgC~dec^{-1}))) +
   theme(
     axis.title.x = element_blank(),
     axis.text.x = element_blank(),
@@ -4350,7 +4350,7 @@ dcant_budget_basin_MLR_all_uncertainty_contributions_sensitivity %>%
   geom_col(position = position_dodge(preserve = "single"),
            col = "grey10") +
   scale_fill_bright(name = "eMLR(C*)\nconfiguration\ncomponent") +
-  labs(y = expression(Delta*Cant~inventory~offset~from~standard~case~(PgC))) +
+  labs(y = expression(Delta*Cant~inventory~offset~from~standard~case~(PgC~dec^{-1}))) +
   theme(
     axis.title.x = element_blank(),
     axis.text.x = element_blank(),
@@ -6363,7 +6363,7 @@ p_tcant_ts_zoom <-
   scale_fill_highcontrast(name = "Data source") +
   scale_y_continuous(limits = c(tcant_min, tcant_max)) +
   labs(x = expression(Atmospheric ~ pCO[2] ~ (µatm)),
-       y = expression(Total ~ oceanic ~ carbon ~ storage ~ since ~ 1800 ~ (PgC))) +
+       y = expression(Cumulative ~ ocean ~ carbon ~ storage ~ since ~ 1994 ~ (PgC))) +
   guides(colour = guide_legend(order = 1),
          fill = "none") +
   theme_classic() +
@@ -6659,7 +6659,7 @@ tcant_ts_zoom %>%
   scale_y_continuous(limits = c(tcant_min, tcant_max)) +
   labs(
     x = expression(Atmospheric ~ pCO[2] ~ (µatm)),
-    y = expression(Cumulative ~ ocean ~ carbon ~ storage ~ (PgC))
+    y = expression(Cumulative ~ ocean ~ carbon ~ storage ~ since ~ 1994 (PgC))
   ) +
   guides(colour = guide_legend(order = 1),
          fill = "none") +
