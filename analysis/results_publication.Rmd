@@ -1544,19 +1544,19 @@ two_decades <- unique(params_local_all_ensemble$period)[1:2]
 
 ```{r define_legend_titles}
 
-dcant_pgc_label <- expression(Delta * C["ant"]~inventory~(PgC))
-dcant_bias_pgc_label <- expression(Delta * C["ant"]~inventory~ bias ~(PgC))
-delta_dcant_bias_pgc_label <- expression(Delta * Delta * C["ant"]~bias~(PgC))
-dcant_pgc_scaled_label <- expression(beta~(mol~m^{-2}~µatm^{-1}))
+dcant_pgc_label <- expression(Delta * C["ant"]~inventory~(PgC~dec^{-1}))
+dcant_bias_pgc_label <- expression(Delta * C["ant"]~inventory~ bias ~(PgC~dec^{-1}))
+delta_dcant_bias_pgc_label <- expression(Delta * Delta * C["ant"]~bias~(PgC~dec^{-1}))
+dcant_pgc_scaled_label <- expression(beta~(mol~m^{-2}~µatm^{-1}~dec^{-1}))
 
-dcant_umol_label <- expression(Delta * C[ant]~(mu * mol ~ kg ^ {-1}))
-ddcant_umol_label <- expression(Delta * Delta * C[ant]~(mu * mol ~ kg ^ {-1}))
+dcant_umol_label <- expression(Delta * C[ant]~(mu * mol ~ kg ^ {-1}~dec^{-1}))
+ddcant_umol_label <- expression(Delta * Delta * C[ant]~(mu * mol ~ kg ^ {-1}~dec^{-1}))
 
 dcant_layer_budget_label <- 
-  expression(Delta ~ C[ant] ~ "inventory per 500m depth layer (PgC)")
+  expression(Delta ~ C[ant] ~ "inventory per 500m depth layer"~(PgC~dec^{-1}))
 
-dcant_CI_label <- expression(Delta * C[ant]~(mol ~ m ^ {-2}))
-delta_dcant_CI_label <- expression(Delta * Delta * C[ant]~(mol ~ m ^ {-2}))
+dcant_CI_label <- expression(Delta * C[ant]~(mol ~ m ^ {-2}~dec^{-1}))
+delta_dcant_CI_label <- expression(Delta * Delta * C[ant]~(mol ~ m ^ {-2}~dec^{-1}))
 beta_CI_label <- expression(atop(beta,
                                  (mol ~ m ^ {-2} ~ µatm ^ {-1})))
 
