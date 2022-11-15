@@ -155,7 +155,7 @@ rm(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 
 # Surface with eMLR(C*)
 
-version_id_pattern <- "e"
+version_id_pattern <- "f"
 
 Version_IDs_1 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
                             pattern = paste0("v_1", version_id_pattern))
@@ -373,7 +373,7 @@ params_local_all_ensemble <-
       Version_ID_group == "c" ~ "Cruise adjustment",
       Version_ID_group == "g" ~ "Gap filling",
       Version_ID_group == "n" ~ "C* with NO3,TA",
-      Version_ID_group == "e" ~ "Surface eMLR(C*)",
+      Version_ID_group == "f" ~ "Surface eMLR(C*)",
       Version_ID_group == "w" ~ "WOA18 predictors",
       Version_ID_group == "d" ~ "No data adjustments",
       Version_ID_group == "o" ~ "Reoccupation filter",
@@ -648,53 +648,6 @@ lat_residual_offset_all <- lat_residual_offset_all %>%
 
 ## Inventories
 
-```{r read_budget_files_global_ensemble, eval=FALSE}
-
-for (i_Version_IDs in Version_IDs_ensemble) {
-  # i_Version_IDs <- Version_IDs[1]
-  
-  path_version_data     <-
-    paste(path_observations,
-          i_Version_IDs,
-          "/data/",
-          sep = "")
-  
-  # load and join data files
-  
-  dcant_budget_global <-
-    read_csv(paste(path_version_data,
-                   "dcant_budget_global.csv",
-                   sep = ""))
-  
-  dcant_budget_global_mod_truth <-
-    read_csv(paste(
-      path_version_data,
-      "dcant_budget_global_mod_truth.csv",
-      sep = ""
-    ))
-  
-  dcant_budget_global <- bind_rows(dcant_budget_global,
-                                   dcant_budget_global_mod_truth)
-  
-  dcant_budget_global <- dcant_budget_global %>%
-    mutate(Version_ID = i_Version_IDs)
-  
-  if (exists("dcant_budget_global_all")) {
-    dcant_budget_global_all <-
-      bind_rows(dcant_budget_global_all, dcant_budget_global)
-  }
-  
-  if (!exists("dcant_budget_global_all")) {
-    dcant_budget_global_all <- dcant_budget_global
-  }
-  
-}
-
-rm(dcant_budget_global,
-   dcant_budget_global_mod_truth)
-   
-```
-
 
 ```{r read_budget_files_basins_hemisphere_ensemble}
 
@@ -781,10 +734,6 @@ rm(
 ```{r join_budget_data_and_meta_data, include=FALSE}
 
 
-# dcant_budget_global_all <- full_join(dcant_budget_global_all,
-#                                      params_local_all_ensemble)
-
-
 dcant_budget_basin_MLR_all <- dcant_budget_basin_MLR_all %>%
   filter(MLR_basins %in% c("5", "1")) %>% 
   select(-MLR_basins)
@@ -815,7 +764,6 @@ dcant_budget_basin_MLR_bias_all_decomposition <-
   dcant_budget_basin_MLR_bias_all_decomposition %>%
   mutate(
     basin = str_replace(basin, "_", ". "),
-    # basin = str_replace(basin, "global", "Global"),
     basin = fct_relevel(
       basin,
       "N. Pacific",
@@ -830,19 +778,6 @@ dcant_budget_basin_MLR_bias_all_decomposition <-
 ```
 
 
-```{r filter_standard_inventory_depth_global, eval=FALSE}
-
-dcant_budget_global_all <- dcant_budget_global_all %>%
-  filter(estimate == "dcant", 
-         method == "total") %>% 
-  select(-c(estimate, method)) %>% 
-  rename(dcant = value)
-
-dcant_budget_global_all <- dcant_budget_global_all %>%
-  filter(inv_depth == params_global$inventory_depth_standard)
-
-```
-
 ```{r filter_standard_inventory_depth_basins_hemisphere}
 
 dcant_budget_basin_MLR_all <- dcant_budget_basin_MLR_all %>%
@@ -850,6 +785,9 @@ dcant_budget_basin_MLR_all <- dcant_budget_basin_MLR_all %>%
          method == "total") %>% 
   select(-c(estimate, method)) %>% 
   rename(dcant = value)
+
+dcant_budget_basin_MLR_all_10000 <- dcant_budget_basin_MLR_all %>%
+  filter(inv_depth == 10000)
 
 dcant_budget_basin_MLR_all_1000 <- dcant_budget_basin_MLR_all %>%
   filter(inv_depth == 1000)
@@ -866,21 +804,21 @@ dcant_budget_basin_MLR_bias_all_decomposition <-
 
 ```{r r distuinguish_standard_case_and_ensemble_budget, include=FALSE}
 
-# dcant_budget_global_all_ensemble <- dcant_budget_global_all %>% 
-#   filter(Version_ID %in% Version_IDs_ensemble_uncertainty)
-# 
-# dcant_budget_global_all_sensitivity <- dcant_budget_global_all %>% 
-#   filter(Version_ID %in% Version_IDs_ensemble_sensitivity)
-#   
-# dcant_budget_global_all <- dcant_budget_global_all %>%
-#   filter(Version_ID %in% Version_IDs)
-
-
 dcant_budget_basin_MLR_all_ensemble <- dcant_budget_basin_MLR_all %>% 
   filter(Version_ID %in% Version_IDs_ensemble_uncertainty)
 dcant_budget_basin_MLR_all_sensitivity <- dcant_budget_basin_MLR_all %>% 
   filter(Version_ID %in% Version_IDs_ensemble_sensitivity)
 dcant_budget_basin_MLR_all <- dcant_budget_basin_MLR_all %>%
+  filter(Version_ID %in% Version_IDs)
+
+dcant_budget_basin_MLR_all_ensemble_1000 <- dcant_budget_basin_MLR_all_1000 %>% 
+  filter(Version_ID %in% Version_IDs_ensemble_uncertainty)
+dcant_budget_basin_MLR_all_1000 <- dcant_budget_basin_MLR_all_1000 %>%
+  filter(Version_ID %in% Version_IDs)
+
+dcant_budget_basin_MLR_all_ensemble_10000 <- dcant_budget_basin_MLR_all_10000 %>% 
+  filter(Version_ID %in% Version_IDs_ensemble_uncertainty)
+dcant_budget_basin_MLR_all_10000 <- dcant_budget_basin_MLR_all_10000 %>%
   filter(Version_ID %in% Version_IDs)
 
 dcant_budget_basin_MLR_bias_all_decomposition_ensemble <- dcant_budget_basin_MLR_bias_all_decomposition %>% 
@@ -986,18 +924,6 @@ rm(dcant_inv,
 
 ```
 
-```{r filter_standard_inventory_depth_inventory}
-
-dcant_inv_all <- dcant_inv_all %>%
-  filter(inv_depth == params_global$inventory_depth_standard)
-
-dcant_budget_lat_grid_all <- dcant_budget_lat_grid_all %>% 
-  filter(inv_depth == params_global$inventory_depth_standard)
-
-dcant_budget_lon_grid_all <- dcant_budget_lon_grid_all %>% 
-  filter(inv_depth == params_global$inventory_depth_standard)
-
-```
 
 ```{r r join_iventory_data_and_meta_data, include=FALSE}
 
@@ -1014,6 +940,23 @@ dcant_budget_lat_grid_all <- full_join(dcant_budget_lat_grid_all,
 
 dcant_budget_lon_grid_all <- full_join(dcant_budget_lon_grid_all,
                                        params_local_all_ensemble)
+
+```
+
+
+```{r filter_standard_inventory_depth_inventory}
+
+dcant_inv_all_10000 <- dcant_inv_all %>%
+  filter(inv_depth == 10000)
+
+dcant_inv_all <- dcant_inv_all %>%
+  filter(inv_depth == params_global$inventory_depth_standard)
+
+dcant_budget_lat_grid_all <- dcant_budget_lat_grid_all %>% 
+  filter(inv_depth == params_global$inventory_depth_standard)
+
+dcant_budget_lon_grid_all <- dcant_budget_lon_grid_all %>% 
+  filter(inv_depth == params_global$inventory_depth_standard)
 
 ```
 
@@ -1037,19 +980,13 @@ dcant_budget_lon_grid_all <- dcant_budget_lon_grid_all %>%
 
 ```{r r distuinguish_standard_case_and_ensemble_inventories, include=FALSE}
 
-
-# dcant_inv_all_sensitivity <- dcant_inv_all %>% 
-#   filter(Version_ID %in% Version_IDs_ensemble_sensitivity)
-# dcant_inv_all_ensemble <- dcant_inv_all %>% 
-#   filter(Version_ID %in% Version_IDs_ensemble_uncertainty)
-# dcant_inv_all <- dcant_inv_all %>% 
-#   filter(Version_ID %in% Version_IDs)
+dcant_inv_all_10000 <- dcant_inv_all_10000 %>% 
+  filter(Version_ID %in% Version_IDs)
 
 dcant_inv_bias_all_ensemble <- dcant_inv_bias_all %>% 
   filter(Version_ID %in% Version_IDs_ensemble_uncertainty)
 dcant_inv_bias_all <- dcant_inv_bias_all %>% 
   filter(Version_ID %in% Version_IDs)
-
 
 dcant_budget_lat_grid_all_ensemble <- dcant_budget_lat_grid_all %>% 
   filter(Version_ID %in% Version_IDs_ensemble_uncertainty)
@@ -1608,7 +1545,7 @@ two_decades <- unique(params_local_all_ensemble$period)[1:2]
 ```{r define_legend_titles}
 
 dcant_pgc_label <- expression(Delta * C["ant"]~inventory~(PgC))
-dcant_bias_pgc_label <- expression(Delta * C["ant"]~ bias ~(PgC))
+dcant_bias_pgc_label <- expression(Delta * C["ant"]~inventory~ bias ~(PgC))
 delta_dcant_bias_pgc_label <- expression(Delta * Delta * C["ant"]~bias~(PgC))
 dcant_pgc_scaled_label <- expression(beta~(mol~m^{-2}~µatm^{-1}))
 
@@ -1904,7 +1841,7 @@ rm(co2_atm_roll)
 
 ```{r scaling_factor_budgets_to_global_coverage}
 
-dcant_scaling <- 1.02*1.015*1.01*1.02
+dcant_scaling <- 1.02*(1+0.02+0.015+0.01+0.003)
 dcant_scaling_uncertainty <- 0.5
 
 ```
@@ -2438,6 +2375,29 @@ p_CI_absolute +
 
 ggsave(path = here::here("output/presentation"),
        filename = "Fig_dcant_column_inventory.png",
+       height = 5,
+       width = 6)
+
+```
+
+```{r inventory_maps_absolute_obs_10000, fig.asp=1.2}
+
+
+p_CI_absolute_10000 <- dcant_inv_all_10000 %>%
+  filter(period %in% two_decades,
+         data_source %in% c("obs")) %>%
+  p_map_cant_inv(var = "dcant",
+                 title_text = NULL) +
+  facet_wrap(~ period, ncol = 1) +
+  theme(axis.text.x = element_blank())
+
+p_CI_absolute_10000 +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())
+
+
+ggsave(path = here::here("output/presentation"),
+       filename = "FigS_dcant_column_inventory_10000.png",
        height = 5,
        width = 6)
 
@@ -4195,21 +4155,47 @@ dcant_budget_basin_MLR_all_uncertainty <- dcant_budget_basin_MLR_all_uncertainty
 
 ```
 
-```{r dcant_inventory_additive_uncertainty_incl_two_decades, eval=FALSE}
+## Deep Ocean
 
-dcant_budget_basin_MLR_all_uncertainty_two_decades <-
-  dcant_budget_basin_MLR_all_ensemble %>%
-  filter(data_source != "mod_truth") %>%
-  select(-c(inv_depth, Version_ID, tref1))
+```{r deep_cant_accumulation}
 
-dcant_budget_basin_MLR_all_uncertainty_two_decades <- additive_uncertainty(dcant_budget_basin_MLR_all_uncertainty_two_decades)
+dcant_budget_basin_MLR_all_ensemble_10000 <-
+  bind_rows(
+    dcant_budget_basin_MLR_all_ensemble,
+    dcant_budget_basin_MLR_all_ensemble_10000)
 
-delta_dcant_budget_basin_MLR_all_uncertainty_two_decades <- dcant_budget_basin_MLR_all_uncertainty_two_decades[[3]]
-dcant_budget_basin_MLR_all_uncertainty_contributions_two_decades <- dcant_budget_basin_MLR_all_uncertainty_two_decades[[2]]
-dcant_budget_basin_MLR_all_uncertainty_two_decades <- dcant_budget_basin_MLR_all_uncertainty_two_decades[[1]]
+dcant_budget_basin_MLR_all_ensemble_10000 %>% 
+  ggplot(aes(period,dcant, fill = as.factor(inv_depth))) +
+  geom_jitter(shape = 21, alpha = 0.8) +
+  facet_grid(basin ~ data_source, scales = "free_y") +
+  scale_fill_highcontrast(name = "Integration\ndepth (m)") +
+  scale_y_continuous(limits = c(0,NA))
+
+dcant_budget_basin_MLR_all_ensemble_10000 %>% 
+  arrange(inv_depth) %>% 
+  group_by(basin, period, data_source, MLR_basins, Version_ID_group) %>% 
+  summarise(deep_dcant = 100*((dcant / lag(dcant))-1)) %>% 
+  ungroup() %>% 
+  ggplot(aes(period,deep_dcant, fill = Version_ID_group)) +
+  geom_hline(yintercept = 0) +
+  geom_jitter(shape = 21, alpha = 0.8) +
+  scale_fill_muted() +
+  facet_grid(basin ~ data_source)
+
+dcant_budget_basin_MLR_all_ensemble_10000 %>% 
+  arrange(inv_depth) %>% 
+  group_by(basin, period, data_source, MLR_basins, Version_ID_group) %>% 
+  summarise(deep_dcant = 100*((dcant / lag(dcant))-1)) %>% 
+  ungroup() %>% 
+  ggplot(aes(period,deep_dcant, fill = MLR_basins)) +
+  geom_hline(yintercept = 0) +
+  geom_jitter(shape = 21, alpha = 0.8) +
+  scale_fill_bright() +
+  facet_grid(basin ~ data_source)
 
 
 ```
+
 
 
 
@@ -4973,7 +4959,7 @@ dcant_budget_basin_MLR_all_bias  %>%
   scale_linetype(name = "X") +
   scale_alpha_manual(name = "group", values = c(0.7,0.7,1)) +
   scale_shape_manual(values = 95) +
-  scale_y_continuous(name = dcant_pgc_label) +
+  scale_y_continuous(name = dcant_bias_pgc_label) +
   guides(
     fill = guide_legend(order = 1),
     linetype = guide_legend(order = 2),
