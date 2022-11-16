@@ -1581,7 +1581,7 @@ df_regional <-
   pivot_longer(all_of(MLR_basins_sensitivity),
                names_to = "MLR_basins",
                values_to = "dcant") %>% 
-  mutate(delta_dcant = !!sym(MLR_basins_reference) - dcant) %>% 
+  mutate(delta_dcant = dcant - !!sym(MLR_basins_reference)) %>% 
   select(-c(all_of(MLR_basins_reference), MLR_basins, dcant))
 
 
@@ -1607,7 +1607,7 @@ df_configuration <-
     names_to = "Version_ID_group",
     values_to = "dcant"
   ) %>% 
-  mutate(delta_dcant = !!sym(unique(params_local_all$Version_ID_group)) - dcant)
+  mutate(delta_dcant = dcant - !!sym(unique(params_local_all$Version_ID_group)))
 
 
 df_configuration <-
@@ -1627,7 +1627,7 @@ df_factorial_stat <-
   df_factorial %>% 
   select(-Version_ID_group) %>% 
   group_by(across(-sd)) %>% 
-  summarise(sd = sqrt(sum(sd^2))) %>% 
+  summarise(sd = sqrt(sum(sd^2)) * sd_factor) %>% 
   ungroup()
 
 df_stat <-
@@ -1643,7 +1643,7 @@ df_stat <-
   )
 
 df_stat <- df_stat %>%
-  mutate(signif = if_else(abs(std_case) >= sd * sd_factor,
+  mutate(signif = if_else(abs(std_case) >= sd,
                           1,
                           0))
 
@@ -1653,7 +1653,6 @@ df_stat_delta <-
   arrange(period) %>%
   group_by(across(-c(period, sd, std_case))) %>%
   mutate(delta_dcant = std_case - lag(std_case),
-         sd = sd_factor * sd,
          RSS = sqrt(sd^ 2 + lag(sd ^ 2)),
          signif = if_else(abs(delta_dcant) >= RSS,
                           1,
@@ -1670,6 +1669,15 @@ return(df_out)
 
 
 ```
+
+## Uncertainty factor
+
+```{r define_uncertainty_factor}
+
+sd_factor <- 2
+
+```
+
 
 
 # Coverage maps
@@ -1843,14 +1851,6 @@ rm(co2_atm_roll)
 
 dcant_scaling <- 1.02*(1+0.02+0.015+0.01+0.003)
 dcant_scaling_uncertainty <- 0.5
-
-```
-
-# Uncertainty factor
-
-```{r define_uncertainty_factor}
-
-sd_factor <- 2
 
 ```
 
@@ -2240,11 +2240,10 @@ dcant_inv_uncertainty %>%
     data_source = case_when(
       data_source == "mod" ~ "Synthetic data",
       data_source == "obs" ~ "Observations"
-    ),
-    sd = sd*sd_factor
+    )
   ) %>%
   p_map_cant_inv(var = "sd",
-                 breaks = c(seq(0, 16, 2), Inf),
+                 breaks = c(seq(0, 8, 1), Inf),
                  title_text = NULL) +
   facet_grid(period ~ data_source) +
   theme(axis.text = element_blank(),
@@ -2402,10 +2401,10 @@ p_CI_absolute_10000 +
         axis.ticks = element_blank())
 
 
-ggsave(path = here::here("output/presentation"),
-       filename = "FigS_dcant_column_inventory_10000.png",
-       height = 5,
-       width = 6)
+# ggsave(path = here::here("output/presentation"),
+#        filename = "FigS_dcant_column_inventory_10000.png",
+#        height = 5,
+#        width = 6)
 
 ```
 
@@ -2870,12 +2869,12 @@ dcant_inv_all %>%
                  breaks = c(-Inf, seq(0, 1, 0.1), Inf),
                  title_text = NULL,
                  legend_title = beta_CI_label) +
-  facet_grid(period ~ .)
+  facet_wrap(~ period, ncol = 2)
 
 ggsave(path = here::here("output/publication"),
        filename = "FigS_beta_column_inventory.png",
-       height = 8,
-       width = 6)
+       height = 4,
+       width = 8)
 
 ```
 
@@ -3898,8 +3897,8 @@ p_dcant_profiles <-
   geom_vline(xintercept = 0, size = 0.1) +
   geom_ribbon(
     aes(
-      xmin = std_case - sd*sd_factor,
-      xmax = std_case + sd*sd_factor,
+      xmin = std_case - sd,
+      xmax = std_case + sd,
       y = depth,
       fill = period
     ),
@@ -3944,8 +3943,8 @@ p_dcant_profiles_mod <-
   # geom_hline(yintercept = 1000, size = 0.1) +
   geom_ribbon(
     aes(
-      xmin = std_case - sd*sd_factor,
-      xmax = std_case + sd*sd_factor,
+      xmin = std_case - sd,
+      xmax = std_case + sd,
       y = depth,
       fill = data_source
     ),
@@ -4170,6 +4169,22 @@ dcant_budget_basin_MLR_all_uncertainty_sensitivity <- dcant_budget_basin_MLR_all
 ```
 
 
+```{r dcant_inventory_additive_uncertainty_20yr, eval=FALSE}
+
+dcant_budget_basin_MLR_all_uncertainty <-
+  dcant_budget_basin_MLR_all_ensemble %>%
+  filter(data_source != "mod_truth",
+         period == "1994 - 2014") %>%
+  select(-c(inv_depth, Version_ID, tref1, tref2))
+
+dcant_budget_basin_MLR_all_uncertainty <- additive_uncertainty(dcant_budget_basin_MLR_all_uncertainty)
+
+delta_dcant_budget_basin_MLR_all_uncertainty <- dcant_budget_basin_MLR_all_uncertainty[[3]]
+dcant_budget_basin_MLR_all_uncertainty_contributions <- dcant_budget_basin_MLR_all_uncertainty[[2]]
+dcant_budget_basin_MLR_all_uncertainty <- dcant_budget_basin_MLR_all_uncertainty[[1]]
+
+```
+
 ```{r dcant_inventory_additive_uncertainty}
 
 dcant_budget_basin_MLR_all_uncertainty <-
@@ -4339,7 +4354,7 @@ dcant_budget_basin_MLR_all_uncertainty_contributions %>%
   geom_col(position = position_dodge(preserve = "single"),
            col = "grey10") +
   scale_fill_bright(name = "eMLR(C*)\nconfiguration\ncomponent") +
-  labs(y = expression(Delta*Cant~inventory~offset~from~standard~case~(Pg~C~dec^{-1}))) +
+  labs(y = expression(Absolute~Delta*Cant~inventory~offset~from~standard~case~(Pg~C~dec^{-1}))) +
   theme(
     axis.title.x = element_blank(),
     axis.text.x = element_blank(),
@@ -4382,7 +4397,7 @@ dcant_budget_basin_MLR_all_uncertainty_contributions_sensitivity %>%
   geom_col(position = position_dodge(preserve = "single"),
            col = "grey10") +
   scale_fill_bright(name = "eMLR(C*)\nconfiguration\ncomponent") +
-  labs(y = expression(Delta*Cant~inventory~offset~from~standard~case~(Pg~C~dec^{-1}))) +
+  labs(y = expression(Absolute~Delta*Cant~inventory~offset~from~standard~case~(Pg~C~dec^{-1}))) +
   theme(
     axis.title.x = element_blank(),
     axis.text.x = element_blank(),
@@ -4599,8 +4614,8 @@ dcant_budget_basin_MLR_all_ensemble %>%
     aes(
       x = period,
       y = std_case,
-      ymin = std_case - 2*sd,
-      ymax = std_case + 2*sd,
+      ymin = std_case - sd,
+      ymax = std_case + sd,
       linetype = "Combined uncertainty"
     ),
     width = 0.1,
@@ -4613,8 +4628,8 @@ dcant_budget_basin_MLR_all_ensemble %>%
     aes(
       x = period,
       y = std_case,
-      ymin = std_case - sd,
-      ymax = std_case + sd,
+      ymin = std_case - sd/sd_factor,
+      ymax = std_case + sd/sd_factor,
       alpha = "Combined uncertainty",
     ),
     width = 0.1,
@@ -4749,8 +4764,6 @@ dcant_beta_basin_MLR_all_uncertainty_significance <-
   group_by(estimate, basin, data_source) %>%
   mutate(
     delta = std_case - lag(std_case),
-    RSS_single = sqrt(sd ^ 2 + lag(sd ^ 2)),
-    sd = sd * sd_factor,
     RSS = sqrt(sd ^ 2 + lag(sd ^ 2)),
     RSS_delta_ratio = abs(delta) / RSS
   ) %>%
@@ -4761,7 +4774,6 @@ dcant_beta_basin_MLR_all_uncertainty_significance <-
 dcant_beta_basin_MLR_all_uncertainty_significance <-
   full_join(
     dcant_beta_basin_MLR_all_uncertainty %>%
-      mutate(sd = sd * sd_factor) %>% 
       pivot_wider(
         names_from = period,
         values_from = c(sd, std_case),
@@ -4788,7 +4800,7 @@ dcant_beta_basin_MLR_all_uncertainty_significance %>%
     `1994 - 2004` = paste(`std_case 1994 - 2004`, `sd 1994 - 2004`, sep = " ± "),
     `2004 - 2014` = paste(`std_case 2004 - 2014`, `sd 2004 - 2014`, sep = " ± "),
     `Decadal change` = paste0(delta, " ± ", RSS, 
-                              if_else(abs(delta) > RSS_single, " *",""), 
+                              if_else(abs(delta) > RSS/sd_factor, " *",""), 
                               if_else(abs(delta) > RSS, "*",""))
   ) %>%
   select(Region = basin,
@@ -4846,8 +4858,8 @@ beta_budget_basin_MLR_all_ensemble %>%
     aes(
       x = period,
       y = std_case,
-      ymin = std_case - 2*sd,
-      ymax = std_case + 2*sd,
+      ymin = std_case - sd,
+      ymax = std_case + sd,
       linetype = "Combined uncertainty"
     ),
     width = 0.1,
@@ -4860,8 +4872,8 @@ beta_budget_basin_MLR_all_ensemble %>%
     aes(
       x = period,
       y = std_case,
-      ymin = std_case - sd,
-      ymax = std_case + sd,
+      ymin = std_case - sd/sd_factor,
+      ymax = std_case + sd/sd_factor,
       alpha = "Combined uncertainty",
     ),
     width = 0.1,
@@ -4958,8 +4970,8 @@ dcant_budget_basin_MLR_all_bias  %>%
     aes(
       x = period,
       y = std_case,
-      ymin = std_case - 2*sd,
-      ymax = std_case + 2*sd,
+      ymin = std_case - sd,
+      ymax = std_case + sd,
       linetype = "Combined uncertainty"
     ),
     width = 0.1,
@@ -4972,8 +4984,8 @@ dcant_budget_basin_MLR_all_bias  %>%
     aes(
       x = period,
       y = std_case,
-      ymin = std_case - sd,
-      ymax = std_case + sd,
+      ymin = std_case - sd/sd_factor,
+      ymax = std_case + sd/sd_factor,
       alpha = "Combined uncertainty",
     ),
     width = 0.1,
@@ -5761,8 +5773,8 @@ dcant_budget_basin_MLR_layer_all_uncertainty %>%
     aes(
       xmin = inv_depth - 250,
       xmax = inv_depth + 250,
-      ymin = std_case - sd*sd_factor,
-      ymax = std_case + sd*sd_factor,
+      ymin = std_case - sd,
+      ymax = std_case + sd,
       fill = period
     ),
     alpha = 0.5
@@ -5807,8 +5819,8 @@ dcant_budget_basin_MLR_layer_all_uncertainty %>%
     aes(
       xmin = inv_depth - 250,
       xmax = inv_depth + 250,
-      ymin = std_case - sd*sd_factor,
-      ymax = std_case + sd*sd_factor,
+      ymin = std_case - sd,
+      ymax = std_case + sd,
       fill = data_source
     ),
     alpha = 0.5
@@ -5990,8 +6002,8 @@ dcant_budget_global_all_ensemble_summary <-
          basin == "Global") %>%
   mutate(
     tref2 = as.numeric(str_sub(period, 8, 11)),
-    dcant_sd = sqrt(sd ^ 2 + lag(sd, default = 0) ^ 2) * sd_factor,
-    dcant_sd_int = sd * sd_factor
+    dcant_sd = sqrt(sd ^ 2 + lag(sd, default = 0) ^ 2),
+    dcant_sd_int = sd
   ) %>%
   select(data_source, tref2, dcant_sd, dcant_sd_int)
 
@@ -6368,8 +6380,8 @@ p_tcant_ts_zoom <-
   ) +
   geom_ribbon(
     aes(
-      ymin = tcant - dcant_sd / 2,
-      ymax = tcant + dcant_sd / 2
+      ymin = tcant - dcant_sd / sd_factor,
+      ymax = tcant + dcant_sd / sd_factor
     ),
     alpha = 0.3,
     fill = tcant_col
@@ -6455,7 +6467,7 @@ dcant_type_box <-
 dcant_type_box_stat <- dcant_type_box %>% 
   group_by(period, type) %>% 
   summarise(dcant_mean = mean(dcant),
-            dcant_sd = sd(dcant)) %>% 
+            dcant_sd = sd(dcant)*sd_factor) %>% 
   ungroup()
 
 dcant_type_box_stat <-
@@ -6492,8 +6504,8 @@ dcant_type_box %>%
     aes(
       x = period,
       y = dcant_mean,
-      ymin = dcant_mean - dcant_sd,
-      ymax = dcant_mean + dcant_sd,
+      ymin = dcant_mean - dcant_sd/sd_factor,
+      ymax = dcant_mean + dcant_sd/sd_factor,
       col = type,
       fill = type
     ), width = 0.7, alpha = 0.4
@@ -6505,8 +6517,8 @@ dcant_type_box %>%
     aes(
       x = period,
       y = dcant_mean,
-      ymin = dcant_mean - dcant_sd*2,
-      ymax = dcant_mean + dcant_sd*2,
+      ymin = dcant_mean - dcant_sd,
+      ymax = dcant_mean + dcant_sd,
       col = type,
       fill = type
     ), width = 0.7, alpha = 0.2
@@ -6548,8 +6560,8 @@ p_tcant_box_10 <-
     aes(
       x = period,
       y = dcant_mean,
-      ymin = dcant_mean - dcant_sd,
-      ymax = dcant_mean + dcant_sd,
+      ymin = dcant_mean - dcant_sd/sd_factor,
+      ymax = dcant_mean + dcant_sd/sd_factor,
       col = type,
       fill = type
     ),
@@ -6563,8 +6575,8 @@ p_tcant_box_10 <-
     aes(
       x = period,
       y = dcant_mean,
-      ymin = dcant_mean - dcant_sd * 2,
-      ymax = dcant_mean + dcant_sd * 2,
+      ymin = dcant_mean - dcant_sd,
+      ymax = dcant_mean + dcant_sd,
       col = type,
       fill = type
     ),
@@ -6626,8 +6638,7 @@ dcant_type_significance <- dcant_type_box_stat %>%
   mutate(dcant_mean = dcant_mean,
          dcant_mean = if_else(period == "2004 - 2014",
                          dcant_mean - (tcant_2004 - 118),
-                         dcant_mean),
-         dcant_sd = dcant_sd * sd_factor) %>%
+                         dcant_mean)) %>%
   group_by(period) %>%
   mutate(
     dcant_diff = dcant_mean - first(dcant_mean),
@@ -6652,7 +6663,7 @@ dcant_type_significance %>%
 Ocean_Sink_cum_1994_ensemble_mean <- Ocean_Sink_cum_1994 %>% 
   group_by(year, pCO2, type) %>% 
   summarise(fgco2_glob_cum_total_mean = mean(fgco2_glob_cum_total),
-            fgco2_glob_cum_total_sd = sd(fgco2_glob_cum_total)) %>% 
+            fgco2_glob_cum_total_sd = sd(fgco2_glob_cum_total)*sd_factor) %>% 
   ungroup()
 
 p_tcant_ts_zoom <-
@@ -6665,8 +6676,8 @@ tcant_ts_zoom %>%
               alpha = 0.2) +
   geom_ribbon(
     aes(pCO2, tcant,
-        ymin = tcant - dcant_sd / 2,
-        ymax = tcant + dcant_sd / 2,
+        ymin = tcant - dcant_sd / sd_factor,
+        ymax = tcant + dcant_sd / sd_factor,
               fill = "eMLR(C*)"),
     alpha = 0.3
   ) +
@@ -6694,9 +6705,10 @@ tcant_ts_zoom %>%
   scale_color_highcontrast(name = "Data source") +
   scale_fill_highcontrast(name = "Data source") +
   scale_y_continuous(limits = c(tcant_min, tcant_max)) +
+  # coord_cartesian(expand = 0) +
   labs(
     x = expression(Atmospheric ~ pCO[2] ~ (µatm)),
-    y = expression(Cumulative ~ ocean ~ carbon ~ storage ~ since ~ 1994 (Pg~C))
+    y = expression(Cumulative ~ ocean ~ carbon ~ storage ~ since ~ 1994~(Pg~C))
   ) +
   guides(colour = guide_legend(order = 1),
          fill = "none") +
@@ -7554,15 +7566,26 @@ GCB_Cant_emissions <- Global_Carbon_Budget %>%
   summarise(cant_emissions = sum(GtC_yr)) %>%
   ungroup()
 
-left_join(GCB_Cant_emissions,
+dcant_per_emissions <- left_join(GCB_Cant_emissions,
           tcant_ts_zoom) %>%
   mutate(
-    dcant_per_emission = 100 * dcant_mean / cant_emissions,
-    dcant_per_emission_sd = 100 * dcant_sd / cant_emissions
+    cant_emissions_sd_rel = 0.05,
+    dcant_sd_rel = dcant_sd_int / dcant_mean,
+    dcant_per_emissions_sd_rel = sqrt(dcant_sd_rel^2 + cant_emissions_sd_rel^2),
+    dcant_per_emissions = 100 * dcant_mean / cant_emissions,
+    dcant_per_emissions_sd = dcant_per_emissions_sd_rel * dcant_per_emissions
   ) %>%
+  select(year, cant_emissions, dcant_mean, dcant_sd, dcant_per_emissions, dcant_per_emissions_sd)
+
+dcant_per_emissions %>% 
   kable() %>%
   kable_styling() %>%
   scroll_box(height = "300px")
+
+dcant_per_emissions %>% 
+  mutate(delta_dcant_per_emissions = dcant_per_emissions - lag(dcant_per_emissions),
+         delta_dcant_per_emissions_sd = sqrt(dcant_per_emissions_sd^2 + lag(dcant_per_emissions_sd)^2))
+
 
 ```
 
