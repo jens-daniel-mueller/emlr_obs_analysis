@@ -1547,7 +1547,7 @@ two_decades <- unique(params_local_all_ensemble$period)[1:2]
 dcant_pgc_label <- expression(Delta * C["ant"]~inventory~(Pg~C~dec^{-1}))
 dcant_bias_pgc_label <- expression(Delta * C["ant"]~inventory~ bias ~(Pg~C~dec^{-1}))
 delta_dcant_bias_pgc_label <- expression(Delta * Delta * C["ant"]~bias~(Pg~C~dec^{-1}))
-dcant_pgc_scaled_label <- expression(beta~(mol~m^{-2}~µatm^{-1}~dec^{-1}))
+beta_inv_label <- expression(beta~inventory~(mol~m^{-2}~µatm^{-1}))
 
 dcant_umol_label <- expression(Delta * C[ant]~(mu * mol ~ kg ^ {-1}~dec^{-1}))
 ddcant_umol_label <- expression(Delta * Delta * C[ant]~(mu * mol ~ kg ^ {-1}~dec^{-1}))
@@ -1581,7 +1581,7 @@ df_regional <-
   pivot_longer(all_of(MLR_basins_sensitivity),
                names_to = "MLR_basins",
                values_to = "dcant") %>% 
-  mutate(delta_dcant = dcant - !!sym(MLR_basins_reference)) %>% 
+  mutate(delta_dcant = !!sym(MLR_basins_reference) - dcant) %>% 
   select(-c(all_of(MLR_basins_reference), MLR_basins, dcant))
 
 
@@ -4749,7 +4749,9 @@ dcant_beta_basin_MLR_all_uncertainty_significance <-
   group_by(estimate, basin, data_source) %>%
   mutate(
     delta = std_case - lag(std_case),
-    RSS = sqrt(sd_factor * sd ^ 2 + lag(sd_factor * sd ^ 2)),
+    RSS_single = sqrt(sd ^ 2 + lag(sd ^ 2)),
+    sd = sd * sd_factor,
+    RSS = sqrt(sd ^ 2 + lag(sd ^ 2)),
     RSS_delta_ratio = abs(delta) / RSS
   ) %>%
   ungroup() %>% 
@@ -4759,6 +4761,7 @@ dcant_beta_basin_MLR_all_uncertainty_significance <-
 dcant_beta_basin_MLR_all_uncertainty_significance <-
   full_join(
     dcant_beta_basin_MLR_all_uncertainty %>%
+      mutate(sd = sd * sd_factor) %>% 
       pivot_wider(
         names_from = period,
         values_from = c(sd, std_case),
@@ -4784,7 +4787,9 @@ dcant_beta_basin_MLR_all_uncertainty_significance %>%
   mutate(
     `1994 - 2004` = paste(`std_case 1994 - 2004`, `sd 1994 - 2004`, sep = " ± "),
     `2004 - 2014` = paste(`std_case 2004 - 2014`, `sd 2004 - 2014`, sep = " ± "),
-    `Decadal change` = paste0(delta, " ± ", RSS, if_else(abs(delta) > RSS, " *",""))
+    `Decadal change` = paste0(delta, " ± ", RSS, 
+                              if_else(abs(delta) > RSS_single, " *",""), 
+                              if_else(abs(delta) > RSS, "*",""))
   ) %>%
   select(Region = basin,
          Estimate = estimate,
@@ -4879,7 +4884,7 @@ beta_budget_basin_MLR_all_ensemble %>%
   scale_linetype(name = "X") +
   scale_alpha_manual(name = "group", values = c(0.7,0.7,1)) +
   scale_shape_manual(values = 95) +
-  scale_y_continuous(name = dcant_pgc_label) +
+  scale_y_continuous(name = beta_inv_label) +
   guides(
     fill = guide_legend(order = 1),
     linetype = guide_legend(order = 2),
@@ -5321,7 +5326,7 @@ g2 <- dcant_budget_basin_MLR_all_plot %>%
   scale_color_brewer(palette = "Paired", guide = "none") +
   # scale_y_continuous(limits = c(0, 33), expand = c(0, 0)) +
   guides(y = "none") +
-  labs(title = dcant_pgc_scaled_label) +
+  labs(title = beta_inv_label) +
   theme_classic() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         axis.title.x = element_blank(),
@@ -5416,7 +5421,7 @@ g2 <- dcant_budget_basin_MLR_all_plot %>%
   scale_color_brewer(palette = "Paired", guide = "none") +
   scale_y_continuous(limits = c(0, 1.7), expand = c(0, 0)) +
   guides(y = "none") +
-  labs(title = dcant_pgc_scaled_label) +
+  labs(title = beta_inv_label) +
   theme_classic() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         axis.title.x = element_blank(),
@@ -5506,7 +5511,7 @@ g2 <- dcant_budget_basin_MLR_all_plot %>%
   scale_color_brewer(palette = "Paired", guide = "none") +
   scale_y_continuous(limits = c(0, 1.6), expand = c(0, 0)) +
   guides(y = "none") +
-  labs(title = dcant_pgc_scaled_label) +
+  labs(title = beta_inv_label) +
   theme_classic() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         axis.title.x = element_blank(),
@@ -6341,7 +6346,7 @@ tcant_ts_zoom <-
 tcant_min = tcant_ts_zoom %>% pull(tcant) %>% min()
 tcant_max =
   tcant_ts_zoom %>% pull(tcant) %>% max() +
-  tcant_ts_zoom %>% pull(dcant_sd) %>% max() + 1
+  tcant_ts_zoom %>% pull(dcant_sd) %>% max()
 
 Ocean_Sink_cum_1994 <- 
   Ocean_Sink_cum_1994 %>% 
@@ -6589,7 +6594,7 @@ p_tcant_box_10 <-
   scale_color_highcontrast(name = "Data source",
                            guide = "none") +
   scale_y_continuous(limits = c(tcant_min, tcant_max)) +
-  labs(x = "10yr periods") +
+  labs(x = "Decades") +
   theme_classic() +
   theme(
     axis.line.y.left = element_blank(),
@@ -6715,12 +6720,13 @@ p_tcant_ts_zoom
 ```{r mean_tcant_over_atm_co2_incl_fluxes_boxplot_ensemble, fig.asp=0.6}
 
 p_tcant_ts_zoom + p_tcant_box_10 +
-  plot_layout(ncol = 2, widths = c(6,1.8))
+  plot_layout(ncol = 2, widths = c(6,1.8)) + 
+  plot_annotation(tag_levels = 'A')
 
 ggsave(path = here::here("output/publication"),
        filename = "Fig_dcant_inventory_global_vs_GCB_ocean_sink.png",
        height = 6,
-       width = 9)
+       width = 8)
 
 ```
 
