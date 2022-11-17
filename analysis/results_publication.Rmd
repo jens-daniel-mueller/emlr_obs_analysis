@@ -4274,11 +4274,17 @@ scaling_uncertainty <-
   select(-c(sd, signif)) %>%
   filter(basin == "Global") %>%
   mutate(
-    sd = std_case * (dcant_scaling - 1) * dcant_scaling_uncertainty,
+    sd = std_case * (dcant_scaling - 1) * dcant_scaling_uncertainty / sd_factor,
     Version_ID_group = "scaling uncertainty"
   ) %>%
   select(-std_case)
 
+
+dcant_budget_basin_MLR_all_uncertainty_contributions <-
+  bind_rows(dcant_budget_basin_MLR_all_uncertainty_contributions,
+            scaling_uncertainty)
+
+rm(scaling_uncertainty)
 
 dcant_budget_basin_MLR_all_uncertainty <-
   dcant_budget_basin_MLR_all_uncertainty %>%
@@ -4296,9 +4302,6 @@ dcant_budget_basin_MLR_all_uncertainty <-
   )
 
 
-dcant_budget_basin_MLR_all_uncertainty_contributions <-
-  bind_rows(dcant_budget_basin_MLR_all_uncertainty_contributions,
-            scaling_uncertainty)
 
 
 
