@@ -2245,7 +2245,7 @@ dcant_inv_uncertainty %>%
   p_map_cant_inv(var = "sd",
                  breaks = c(seq(0, 8, 1), Inf),
                  title_text = NULL) +
-  facet_grid(period ~ data_source) +
+  facet_grid(data_source ~ period) +
   theme(axis.text = element_blank(),
         axis.ticks = element_blank())
 
@@ -7572,7 +7572,7 @@ GCB_Cant_emissions <- Global_Carbon_Budget %>%
 dcant_per_emissions <- left_join(GCB_Cant_emissions,
           tcant_ts_zoom) %>%
   mutate(
-    cant_emissions_sd_rel = 0.05,
+    cant_emissions_sd_rel = 0.09,
     dcant_sd_rel = dcant_sd_int / dcant_mean,
     dcant_per_emissions_sd_rel = sqrt(dcant_sd_rel^2 + cant_emissions_sd_rel^2),
     dcant_per_emissions = 100 * dcant_mean / cant_emissions,
