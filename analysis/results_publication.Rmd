@@ -20,7 +20,6 @@ editor_options:
 
 # Libraries
 
-
 ```{r load_libraries_specific, include = FALSE}
 library(patchwork)
 library(ggalluvial)
@@ -34,7 +33,6 @@ library(ggpattern)
 library(colorspace)
 ```
 
-
 # Read files
 
 ## Integration depth
@@ -44,7 +42,6 @@ library(colorspace)
 params_global$inventory_depth_standard <- 1000
 
 ```
-
 
 ## Paths and Versions
 
@@ -83,7 +80,6 @@ path_preprocessing_model    <-
   paste(path_root, "/model/preprocessing/", sep = "")
 
 ```
-
 
 ```{r define_Version_IDs_ensemble}
 
@@ -308,8 +304,6 @@ Version_IDs <- Version_IDs_ensemble[str_detect(Version_IDs_ensemble, "103")]
 
 ```
 
-
-
 ## Parameters
 
 ```{r read_parameters_ensemble}
@@ -404,7 +398,6 @@ params_local_all <- params_local_all_ensemble %>%
 
 ```
 
-
 ```{r read_example_params_local_file}
 
 
@@ -420,7 +413,6 @@ params_local <-
                  sep = ""))
 
 ```
-
 
 ## eMLR stats
 
@@ -574,7 +566,6 @@ rm(GLODAP_glanced,
    
 ```
 
-
 ```{r join_MLR_stats_and_meta_data, include=FALSE}
 
 
@@ -603,7 +594,6 @@ spatial_residual_offset_all <- full_join(spatial_residual_offset_all,
                                      params_local_all_ensemble)
 
 ```
-
 
 ```{r r distuinguish_standard_case_and_ensemble_MLR_stats, include=FALSE, eval=FALSE}
 
@@ -644,10 +634,7 @@ lat_residual_offset_all <- lat_residual_offset_all %>%
 
 ```
 
-
-
 ## Inventories
-
 
 ```{r read_budget_files_basins_hemisphere_ensemble}
 
@@ -777,7 +764,6 @@ dcant_budget_basin_MLR_bias_all_decomposition <-
 
 ```
 
-
 ```{r filter_standard_inventory_depth_basins_hemisphere}
 
 dcant_budget_basin_MLR_all <- dcant_budget_basin_MLR_all %>%
@@ -800,7 +786,6 @@ dcant_budget_basin_MLR_bias_all_decomposition <-
   filter(inv_depth == params_global$inventory_depth_standard)
 
 ```
-
 
 ```{r r distuinguish_standard_case_and_ensemble_budget, include=FALSE}
 
@@ -830,7 +815,6 @@ dcant_budget_basin_MLR_bias_all_decomposition <- dcant_budget_basin_MLR_bias_all
 
 
 ```
-
 
 ## Column inventories
 
@@ -924,7 +908,6 @@ rm(dcant_inv,
 
 ```
 
-
 ```{r r join_iventory_data_and_meta_data, include=FALSE}
 
 
@@ -942,7 +925,6 @@ dcant_budget_lon_grid_all <- full_join(dcant_budget_lon_grid_all,
                                        params_local_all_ensemble)
 
 ```
-
 
 ```{r filter_standard_inventory_depth_inventory}
 
@@ -977,7 +959,6 @@ dcant_budget_lon_grid_all <- dcant_budget_lon_grid_all %>%
 
 ```
 
-
 ```{r r distuinguish_standard_case_and_ensemble_inventories, include=FALSE}
 
 dcant_inv_all_10000 <- dcant_inv_all_10000 %>% 
@@ -1010,8 +991,6 @@ dcant_inv_all %>%
   write_csv(here::here("output/dcant_column_inventor_example.csv"))
 
 ```
-
-
 
 ## Sections / profiles
 
@@ -1314,7 +1293,6 @@ dcant_zonal_bias_all <- full_join(dcant_zonal_bias_all,
 
 ```
 
-
 ```{r r distuinguish_standard_case_and_ensemble_sections_and_profiles, include=FALSE}
 
 
@@ -1394,8 +1372,6 @@ dcant_penetration_depth_all_lat_mean_all <-
   filter(Version_ID %in% Version_IDs)
 
 ```
-
-
 
 ## Observations coverage
 
@@ -1479,8 +1455,6 @@ GLODAP_all <-
 
 ```
 
-
-
 ## Atm CO2
 
 ```{r read_atm_co2}
@@ -1538,7 +1512,6 @@ Global_Carbon_Budget <-
 two_decades <- unique(params_local_all_ensemble$period)[1:2]
 
 ```
-
 
 # Define labels
 
@@ -1677,8 +1650,6 @@ return(df_out)
 sd_factor <- 2
 
 ```
-
-
 
 # Coverage maps
 
@@ -1839,13 +1810,12 @@ rm(co2_atm_roll)
 
 ```
 
-
 # Globale scaling
 
-- storage beneath 3000m: +2%
-- unmapped regions south of 65N: +1.5%
-- Nordic Seas: +1%
-- Arctic Ocean: +2%
+-   storage beneath 3000m: +2%
+-   unmapped regions south of 65N: +1.5%
+-   Nordic Seas: +1%
+-   Arctic Ocean: +2%
 
 ```{r scaling_factor_budgets_to_global_coverage}
 
@@ -1853,7 +1823,6 @@ dcant_scaling <- 1.02*(1+0.02+0.015+0.01+0.003)
 dcant_scaling_uncertainty <- 0.5
 
 ```
-
 
 # eMLR stats
 
@@ -2122,11 +2091,7 @@ left_join(lm_best_target_all,
 
 ```
 
-
-
-
 # Column inventories
-
 
 ```{r calculate_beta_inventories}
 
@@ -2156,7 +2121,6 @@ dcant_inv_all <- dcant_inv_all %>%
   filter(Version_ID %in% Version_IDs | is.na(Version_ID))
 
 ```
-
 
 ## Sensitivity cases
 
@@ -2216,7 +2180,6 @@ ggsave(path = here::here("output/publication"),
        width = 8)
 
 ```
-
 
 ## Uncertainty cases
 
@@ -2350,7 +2313,6 @@ delta_dcant_inv_uncertainty %>%
 
 ```
 
-
 ## dCant - absolute
 
 ```{r inventory_maps_absolute_obs, fig.asp=1.2}
@@ -2458,51 +2420,48 @@ dcant_inv_stat %>%
 
 ```{r dcant_inventory_stats_gyres}
 
-dcant_inv_stat_mean <-
-  full_join(basinmask,
-            dcant_inv_all) %>%
-  mutate(surf_area = earth_surf(lat, lon),
-         lat_grid = cut(lat, c(-50, -20, 20, 50))) %>%
-  group_by(basin, period, data_source, lat_grid) %>%
-  summarise(dcant = weighted.mean(dcant, surf_area)) %>%
-  ungroup() %>%
-  filter(!is.na(dcant),
-         !is.na(lat_grid),
-         lat_grid != "(-20,20]")
-  
 dcant_inv_stat_ensemble <-
   full_join(basinmask,
             dcant_inv_all_ensemble) %>%
   mutate(surf_area = earth_surf(lat, lon),
          lat_grid = cut(lat, c(-50, -20, 20, 50))) %>%
-  group_by(basin, data_source, period, MLR_basins, Version_ID_group, lat_grid) %>%
+  group_by(basin,
+           data_source,
+           period,
+           MLR_basins,
+           Version_ID_group,
+           lat_grid) %>%
   summarise(dcant = weighted.mean(dcant, surf_area)) %>%
   ungroup() %>%
   filter(!is.na(dcant),
          !is.na(lat_grid),
-         lat_grid != "(-20,20]") %>%
-  group_by(basin, data_source, period, lat_grid) %>%
-  summarise(dcant_sd = sd(dcant) * 2) %>%
-  ungroup()
+         lat_grid != "(-20,20]")
 
-dcant_inv_stat <-
-  full_join(dcant_inv_stat_mean,
-            dcant_inv_stat_ensemble)
+dcant_inv_stat_uncertainty <- additive_uncertainty(dcant_inv_stat_ensemble %>%
+                                                     filter(period %in% two_decades))
 
-dcant_inv_stat %>%
-  filter(period %in% two_decades) %>%
-  group_by(data_source, basin, lat_grid) %>%
-  mutate(delta_dcant = dcant - lag(dcant),
-         RSS = sqrt(dcant_sd ^ 2 + lag(dcant_sd ^ 2))) %>%
-  ungroup() %>%
+delta_dcant_inv_stat_uncertainty <- dcant_inv_stat_uncertainty[[3]]
+dcant_inv_stat_uncertainty <- dcant_inv_stat_uncertainty[[1]]
+
+
+dcant_inv_stat_uncertainty %>%
+  filter(data_source == "obs") %>%
   kable() %>%
   kable_styling() %>%
   scroll_box(height = "300px")
 
-rm(dcant_inv_stat, dcant_inv_stat_mean, dcant_inv_stat_ensemble)
+delta_dcant_inv_stat_uncertainty %>%
+  filter(data_source == "obs") %>%
+  kable() %>%
+  kable_styling() %>%
+  scroll_box(height = "300px")
+
+
+rm(dcant_inv_stat_ensemble, 
+   dcant_inv_stat_uncertainty, 
+   delta_dcant_inv_stat_uncertainty)
 
 ```
-
 
 ```{r inventory_maps_delta_dcant_mod_bias, fig.asp=1.3}
 
@@ -2582,9 +2541,7 @@ rm(p_CI_absolute_mod_delta, p_CI_bias_delta)
 
 ```
 
-
 ## dCant - delta
-
 
 ```{r inventory_maps_absolute_delta, fig.asp=1.3}
 
@@ -2675,7 +2632,6 @@ p_CI_absolute_mod <- dcant_inv_all %>%
 p_CI_absolute_mod
 
 ```
-
 
 ```{r invetory_maps_absolute_mod_bias, fig.asp=1.3}
 
@@ -2809,8 +2765,6 @@ bind_rows(
 
 ```
 
-
-
 ```{r delta_dcant_column_inventory_density_distribution}
 
 bind_rows(
@@ -2857,8 +2811,6 @@ bind_rows(
 
 ```
 
-
-
 ## Beta
 
 ```{r beta_CI_maps, fig.asp=1.2}
@@ -2877,8 +2829,6 @@ ggsave(path = here::here("output/publication"),
        width = 8)
 
 ```
-
-
 
 ## Zonal means
 
@@ -2913,7 +2863,6 @@ dcant_inv_all_lat_mean <- full_join(dcant_inv_all_lat_mean,
 
 
 ```
-
 
 ### dcant
 
@@ -2960,7 +2909,8 @@ dcant_inv_all_lat_mean %>%
   ungroup()
 
 dcant_inv_all_lat_mean %>%
-  filter(period != "1800 - 1994") %>% 
+  filter(period %in%two_decades,
+         data_source == "obs") %>% 
   mutate(lat_grid = cut(lat_grid, c(-50,-20,20,50))) %>% 
   group_by(lat_grid, basin_AIP, period, data_source) %>% 
   summarise(dcant_mean = mean(dcant_mean, na_rm = TRUE)) %>% 
@@ -2981,7 +2931,6 @@ dcant_inv_all_ensemble_lat_mean %>%
        y = dcant_CI_label)
 
 ```
-
 
 ### beta
 
@@ -3014,7 +2963,6 @@ dcant_inv_all_ensemble_lat_mean %>%
   labs(x = "Latitude (°N)",
        y = beta_CI_label)
 ```
-
 
 # Global section
 
@@ -3332,7 +3280,6 @@ rm(p_dcant_global_section_dec1, p_dcant_global_section_dec2,
 
 ```
 
-
 # Zonal sections
 
 ## dcant - absolut
@@ -3450,7 +3397,6 @@ rm(p_dcant_zonal_absolute, p_dcant_zonal_delta)
 
 ## Bias
 
-
 ```{r zonal_sections_mod}
 
 p_dcant_zonal_absolute_mod <-
@@ -3486,7 +3432,6 @@ p_dcant_zonal_absolute_mod
 
 
 ```
-
 
 ```{r inventory_maps_absolute_bias}
 
@@ -3535,8 +3480,7 @@ rm(p_dcant_zonal_absolute_mod,
 
 ```
 
-
-# Penetration depth
+# Penetration depth spatial
 
 ```{r penetration_depth, fig.asp=1}
 
@@ -3692,7 +3636,6 @@ dcant_penetration_depth_all_lat_mean_all_ensemble %>%
 
 ```
 
-
 # Concentration profiles
 
 ## dCant, absolute
@@ -3825,12 +3768,23 @@ dcant_profile_basin_MLR_all_ensemble %>%
 
 ```{r surface_dcant}
 
-mean_surface_dcant <- dcant_profile_basin_MLR_all %>%
+mean_surface_dcant <- dcant_profile_basin_MLR_all_ensemble %>%
   arrange(depth) %>%
   filter(depth <= 50) %>%
-  group_by(basin, period, data_source) %>% 
+  group_by(period, basin, Version_ID_group, MLR_basins, data_source) %>%
   summarise(mean_surface_dcant = mean(dcant)) %>% 
   ungroup()
+
+
+mean_surface_dcant %>% 
+  filter(period %in% two_decades,
+         data_source == "obs") %>% 
+  ggplot(aes(x = period,
+             y = mean_surface_dcant,
+             fill = Version_ID_group)) +
+  geom_jitter(shape = 21, alpha = 0.8) +
+  scale_fill_muted() +
+  facet_wrap(~basin)
 
 full_join(dcant_profile_basin_MLR_all_ensemble %>%
             filter(depth <= 50),
@@ -3847,26 +3801,56 @@ full_join(dcant_profile_basin_MLR_all_ensemble %>%
 
 ```
 
-### Penetration depth
+### Halving depth
 
-```{r penetration_depth_profiles}
+```{r halving_depth_of_surface_dcant}
 
+dcant_profile_basin_MLR_all_ensemble_penetration_depth <-
 full_join(dcant_profile_basin_MLR_all_ensemble,
           mean_surface_dcant) %>%
+  filter(Version_ID_group != "Surface eMLR(C*)") %>%
   arrange(depth) %>%
   filter(dcant >= mean_surface_dcant / 2) %>%
-  group_by(period, basin, Version_ID, data_source) %>%
+  group_by(period, basin, Version_ID_group, MLR_basins, data_source) %>%
   summarise(max_depth = max(depth)) %>%
-  ungroup() %>%
-  group_by(basin, period, data_source) %>%
-  summarise(sd_max_depth = sd(max_depth) * 2,
-            mean_max_depth = mean(max_depth)) %>%
-  ungroup() %>%
+  ungroup()
+
+dcant_profile_basin_MLR_all_ensemble_penetration_depth %>% 
+  filter(period %in% two_decades,
+         data_source == "obs") %>% 
+  ggplot(aes(x = period,
+             y = max_depth,
+             fill = MLR_basins)) +
+  geom_jitter(shape = 21, alpha = 0.8) +
+  scale_fill_muted() +
+  facet_wrap(~basin)
+
+dcant_profile_basin_MLR_all_ensemble_penetration_depth_uncertainty <- 
+additive_uncertainty(
+  dcant_profile_basin_MLR_all_ensemble_penetration_depth %>% 
+    rename(dcant = max_depth))
+
+dcant_profile_basin_MLR_all_ensemble_penetration_depth_uncertainty <-
+  dcant_profile_basin_MLR_all_ensemble_penetration_depth_uncertainty[[1]]
+
+dcant_profile_basin_MLR_all_ensemble_penetration_depth_uncertainty %>% 
   kable() %>%
   kable_styling() %>%
   scroll_box(height = "300px")
 
-rm(mean_surface_dcant)
+dcant_profile_basin_MLR_all_ensemble_penetration_depth_uncertainty %>% 
+  filter(period %in% two_decades,
+         data_source == "obs") %>% 
+  ggplot(aes(x = period,
+             y = std_case,
+             ymin = std_case - sd,
+             ymax = std_case + sd)) +
+  geom_pointrange() +
+  facet_wrap(~basin)
+
+rm(mean_surface_dcant,
+   dcant_profile_basin_MLR_all_ensemble_penetration_depth,
+   dcant_profile_basin_MLR_all_ensemble_penetration_depth_uncertainty)
 ```
 
 ### Additive uncertainty
@@ -3969,9 +3953,6 @@ p_dcant_profiles_mod <-
 p_dcant_profiles_mod
 
 ```
-
-
-
 
 ```{r concentration_profiles_MLR_basins_ensemble_basin_separation, fig.asp=1.5}
 
@@ -4112,7 +4093,6 @@ ggsave(path = here::here("output/publication"),
 
 ## dCant - delta
 
-
 ```{r concentration_profiles_MLR_basins_offset}
 
 delta_dcant_profile_basin_MLR_all_uncertainty %>%
@@ -4147,9 +4127,7 @@ delta_dcant_profile_basin_MLR_all_uncertainty %>%
 
 ```
 
-
 # Inventories
-
 
 ```{r dcant_inventory_additive_uncertainty_sensitivity_cases}
 
@@ -4167,7 +4145,6 @@ dcant_budget_basin_MLR_all_uncertainty_sensitivity <- dcant_budget_basin_MLR_all
 
 
 ```
-
 
 ```{r dcant_inventory_additive_uncertainty_20yr, eval=FALSE}
 
@@ -4242,9 +4219,6 @@ dcant_budget_basin_MLR_all_ensemble_10000 %>%
 
 
 ```
-
-
-
 
 ```{r scale_dcant_inventories_and_uncertainties_to_global_coverage}
 
@@ -4421,8 +4395,6 @@ ggsave(path = here::here("output/publication"),
 
 ```
 
-
-
 ```{r budgets_basins_hemisphere_tcant_for_scatterplot}
 
 # estimate area scaling factor to achieve identical coverage
@@ -4497,7 +4469,6 @@ tcant_budget_basin_MLR <-
 
 
 ```
-
 
 ## Scatterplots
 
@@ -5031,7 +5002,6 @@ ggsave(path = here::here("output/publication"),
 
 ```
 
-
 ## Flow chart
 
 ```{r dcant_budgets_basins_hemisphere_flow_chart, fig.asp=1.2, eval=FALSE}
@@ -5175,7 +5145,6 @@ g1 +
 
 ```
 
-
 ```{r budgets_basins_hemisphere_alluvial_order_basin, fig.asp=0.9, eval=FALSE}
 
 g2 <- dcant_budget_basin_MLR_all_plot %>%
@@ -5308,7 +5277,6 @@ dcant_budget_global_all_ensemble_summary <- dcant_budget_global_all_ensemble_sum
 
 
 ```
-
 
 ```{r budgets_basins_hemisphere_alluvial_order_basin_scaled, fig.asp=0.9, eval=FALSE}
 
@@ -5500,7 +5468,6 @@ g2 +
 
 ```
 
-
 ```{r budgets_basins_hemisphere_alluvial_order_basin_scaled_incl_sabine_uncertainty, fig.asp=0.9, eval=FALSE}
 
 g2 <- dcant_budget_basin_MLR_all_plot %>%
@@ -5685,8 +5652,6 @@ g2 +
 
 
 ```
-
-
 
 ## Depth layer
 
@@ -5924,6 +5889,94 @@ dcant_budget_layer %>%
 
 ```
 
+# Penetration depth
+
+```{r pentration_depth_of_surface_dcant}
+
+mean_column_inventory <- beta_budget_basin_MLR_all_ensemble %>% 
+  mutate(dcant_area = dcant * 1e15 / 12 / area)
+
+mean_column_inventory %>% 
+  filter(period %in% two_decades,
+         data_source == "obs") %>% 
+  ggplot(aes(x = period,
+             y = dcant_area,
+             fill = MLR_basins)) +
+  geom_jitter(shape = 21, alpha = 0.8) +
+  scale_fill_muted() +
+  facet_wrap(~basin)
+
+mean_surface_dcant %>% 
+  filter(period %in% two_decades,
+         data_source == "obs") %>% 
+  ggplot(aes(x = period,
+             y = mean_surface_dcant,
+             fill = MLR_basins)) +
+  geom_jitter(shape = 21, alpha = 0.8) +
+  scale_fill_muted() +
+  facet_wrap(~basin)
+
+dcant_mean_penetration_depth <-
+full_join(mean_column_inventory,
+          mean_surface_dcant) %>%
+  filter(Version_ID_group != "Surface eMLR(C*)") %>%
+  mutate(mean_surface_dcant = mean_surface_dcant * 1e3 * 1.025 / 1e6,
+         penetration_depth = dcant_area/mean_surface_dcant)
+
+dcant_mean_penetration_depth %>% 
+  filter(period %in% two_decades,
+         data_source == "obs") %>% 
+  ggplot(aes(x = period,
+             y = penetration_depth,
+             fill = MLR_basins)) +
+  geom_jitter(shape = 21, alpha = 0.8) +
+  scale_fill_muted() +
+  facet_wrap(~basin)
+
+dcant_mean_penetration_depth_uncertainty <- 
+additive_uncertainty(
+  dcant_mean_penetration_depth %>% 
+    filter(period %in% two_decades) %>% 
+    select(data_source, period, Version_ID_group, MLR_basins, basin, penetration_depth) %>% 
+    rename(dcant = penetration_depth))
+
+delta_dcant_mean_penetration_depth_uncertainty <-
+  dcant_mean_penetration_depth_uncertainty[[3]]
+dcant_mean_penetration_depth_uncertainty <-
+  dcant_mean_penetration_depth_uncertainty[[1]]
+
+dcant_mean_penetration_depth_uncertainty %>% 
+  filter(data_source == "obs") %>% 
+  select(-c(data_source, signif)) %>% 
+  arrange(basin, period) %>% 
+  kable() %>%
+  kable_styling() %>%
+  scroll_box(height = "300px")
+
+delta_dcant_mean_penetration_depth_uncertainty %>% 
+  filter(data_source == "obs") %>% 
+  select(-c(data_source, sd, std_case)) %>% 
+  arrange(basin, period) %>% 
+  kable() %>%
+  kable_styling() %>%
+  scroll_box(height = "300px")
+
+
+dcant_mean_penetration_depth_uncertainty %>% 
+  filter(period %in% two_decades,
+         data_source == "obs") %>% 
+  ggplot(aes(x = period,
+             y = std_case,
+             ymin = std_case - sd,
+             ymax = std_case + sd,
+             col = basin)) +
+  geom_pointrange(position = position_dodge(width = 0.3))
+
+rm(mean_surface_dcant,
+   dcant_mean_penetration_depth,
+   dcant_mean_penetration_depth_uncertainty)
+```
+
 # Time series
 
 ## eMLR only
@@ -5988,7 +6041,6 @@ dcant_budget_global_all_ensemble %>%
   geom_point()
 
 ```
-
 
 ```{r mean_tcant_over_time, fig.asp=0.6}
 
@@ -6208,8 +6260,6 @@ tcant_ts %>%
 
 ```
 
-
-
 ## incl fluxes
 
 ```{r exclude_Watson_from_GCB}
@@ -6218,7 +6268,6 @@ Ocean_Sink <- Ocean_Sink %>%
   filter(product != "Watson")
 
 ```
-
 
 ```{r GCB_carbon_sink_cum_1994_2007_reference}
 
@@ -6346,8 +6395,6 @@ Ocean_Sink_cum_2004 <- Ocean_Sink_cum_2004 %>%
   ))
 
 ```
-
-
 
 ```{r mean_tcant_over_atm_co2_incl_fluxes, fig.asp=0.6}
 
@@ -6659,7 +6706,6 @@ dcant_type_significance %>%
 
 
 ```
-
 
 ```{r mean_tcant_over_atm_co2_incl_fluxes_mean, fig.asp=0.6}
 
@@ -7225,7 +7271,6 @@ rm(
 
 ## Net land sink
 
-
 ```{r GCB_net_land_sink_assesment}
 
 flux_label <- expression(flux~(Pg~C~yr^{-1}))
@@ -7552,7 +7597,6 @@ rm(
 
 ```
 
-
 # Emission removal
 
 ```{r removal_relative_to_emissions}
@@ -7591,8 +7635,6 @@ dcant_per_emissions %>%
 
 
 ```
-
-
 
 #### Map test color palettes
 
@@ -7795,5 +7837,3 @@ all_plots
 dev.off()
 
 ```
-
-
