@@ -151,7 +151,7 @@ rm(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 
 # Surface with eMLR(C*)
 
-version_id_pattern <- "f"
+version_id_pattern <- "h"
 
 Version_IDs_1 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observations",
                             pattern = paste0("v_1", version_id_pattern))
@@ -367,7 +367,7 @@ params_local_all_ensemble <-
       Version_ID_group == "c" ~ "Cruise adjustment",
       Version_ID_group == "g" ~ "Gap filling",
       Version_ID_group == "n" ~ "C* with NO3,TA",
-      Version_ID_group == "f" ~ "Surface eMLR(C*)",
+      Version_ID_group == "h" ~ "Surface eMLR(C*)",
       Version_ID_group == "w" ~ "WOA18 predictors",
       Version_ID_group == "d" ~ "No data adjustments",
       Version_ID_group == "o" ~ "Reoccupation filter",
@@ -3848,8 +3848,7 @@ dcant_profile_basin_MLR_all_ensemble_penetration_depth_uncertainty %>%
   geom_pointrange() +
   facet_wrap(~basin)
 
-rm(mean_surface_dcant,
-   dcant_profile_basin_MLR_all_ensemble_penetration_depth,
+rm(dcant_profile_basin_MLR_all_ensemble_penetration_depth,
    dcant_profile_basin_MLR_all_ensemble_penetration_depth_uncertainty)
 ```
 
