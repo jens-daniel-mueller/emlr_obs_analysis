@@ -1647,7 +1647,7 @@ return(df_out)
 
 ```{r define_uncertainty_factor}
 
-sd_factor <- 2
+sd_factor <- 1
 
 ```
 
