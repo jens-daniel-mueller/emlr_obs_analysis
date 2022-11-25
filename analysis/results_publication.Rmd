@@ -1600,7 +1600,7 @@ df_factorial_stat <-
   df_factorial %>% 
   select(-Version_ID_group) %>% 
   group_by(across(-sd)) %>% 
-  summarise(sd = sqrt(sum(sd^2)) * sd_factor) %>% 
+  summarise(sd = sqrt(sum(sd^2))) %>% 
   ungroup()
 
 df_stat <-
@@ -1616,20 +1616,28 @@ df_stat <-
   )
 
 df_stat <- df_stat %>%
-  mutate(signif = if_else(abs(std_case) >= sd,
+  mutate(signif_single = if_else(abs(std_case) >= sd,
+                          1,
+                          0),
+         signif_double = if_else(abs(std_case) >= sd*2,
                           1,
                           0))
 
 df_stat_delta <-
   df_stat %>%
-  select(-signif) %>% 
+  select(-starts_with("signif_")) %>%
   arrange(period) %>%
   group_by(across(-c(period, sd, std_case))) %>%
-  mutate(delta_dcant = std_case - lag(std_case),
-         RSS = sqrt(sd^ 2 + lag(sd ^ 2)),
-         signif = if_else(abs(delta_dcant) >= RSS,
-                          1,
-                          0)) %>%
+  mutate(
+    delta_dcant = std_case - lag(std_case),
+    RSS = sqrt(sd ^ 2 + lag(sd ^ 2)),
+    signif_single = if_else(abs(delta_dcant) >= RSS,
+                            1,
+                            0),
+    signif_double = if_else(abs(delta_dcant) >= RSS*2,
+                            1,
+                            0)
+  ) %>%
   ungroup() %>%
   drop_na()
 
@@ -2303,7 +2311,16 @@ delta_dcant_inv_uncertainty %>%
         axis.ticks = element_blank())
 
 delta_dcant_inv_uncertainty %>% 
-  filter(signif == 1) %>% 
+  filter(signif_single == 1) %>% 
+  p_map_cant_inv(var = "delta_dcant",
+                 col = "bias",
+                 title_text = NULL) +
+  facet_grid(data_source ~ .) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())
+
+delta_dcant_inv_uncertainty %>% 
+  filter(signif_double == 1) %>% 
   p_map_cant_inv(var = "delta_dcant",
                  col = "bias",
                  title_text = NULL) +
@@ -2327,7 +2344,16 @@ p_CI_absolute <- dcant_inv_all %>%
   theme(axis.text.x = element_blank()) +
   geom_point(
     data = dcant_inv_uncertainty %>%
-      filter(signif == 0,
+      filter(signif_single == 0,
+             data_source == "obs"),
+    aes(lon, lat),
+    shape = 20,
+    size = 1,
+    col = "grey"
+  ) +
+  geom_point(
+    data = dcant_inv_uncertainty %>%
+      filter(signif_double == 0,
              data_source == "obs"),
     aes(lon, lat),
     shape = 20,
@@ -2480,7 +2506,17 @@ p_CI_absolute_mod_delta <- dcant_inv_all %>%
   theme(axis.text.x = element_blank()) +
   geom_point(
     data = dcant_inv_uncertainty %>%
-      filter(signif == 0,
+      filter(signif_single == 0,
+             data_source == "mod") %>%
+      mutate(data_source = case_when(data_source == "mod" ~ "Reconstruction")),
+    aes(lon, lat),
+    shape = 20,
+    size = 1,
+    col = "grey"
+  ) +
+  geom_point(
+    data = dcant_inv_uncertainty %>%
+      filter(signif_double == 0,
              data_source == "mod") %>%
       mutate(data_source = case_when(data_source == "mod" ~ "Reconstruction")),
     aes(lon, lat),
@@ -2515,7 +2551,21 @@ p_CI_bias_delta <-
   facet_grid(period ~ data_source) +
   geom_point(
     data = delta_dcant_inv_uncertainty %>%
-      filter(signif == 0,
+      filter(signif_single == 0,
+             data_source == "mod") %>%
+      mutate(
+        data_source = case_when(data_source == "mod" ~ "Reconstruction"),
+        period = "Decadal offset"
+      ),
+    
+    aes(lon, lat),
+    shape = 20,
+    size = 1,
+    col = "black"
+  ) +
+  geom_point(
+    data = delta_dcant_inv_uncertainty %>%
+      filter(signif_double == 0,
              data_source == "mod") %>%
       mutate(
         data_source = case_when(data_source == "mod" ~ "Reconstruction"),
@@ -2566,7 +2616,17 @@ p_CI_delta <-
   ) +
   geom_point(
     data = delta_dcant_inv_uncertainty %>%
-      filter(signif == 0,
+      filter(signif_single == 0,
+             data_source == "obs") %>% 
+      mutate(period = "(2004 - 2014) - (1994 - 2004)"),
+    aes(lon, lat),
+    shape = 20,
+    size = 1,
+    col = "black"
+  ) +
+  geom_point(
+    data = delta_dcant_inv_uncertainty %>%
+      filter(signif_double == 0,
              data_source == "obs") %>% 
       mutate(period = "(2004 - 2014) - (1994 - 2004)"),
     aes(lon, lat),
@@ -2616,7 +2676,21 @@ p_CI_absolute_mod <- dcant_inv_all %>%
   theme(axis.text.x = element_blank()) +
   geom_point(
     data = dcant_inv_uncertainty %>%
-      filter(signif == 0,
+      filter(signif_single == 0,
+             data_source == "mod") %>%
+      mutate(
+        data_source = case_when(
+          data_source == "mod" ~ "Reconstruction"
+        )
+      ),
+    aes(lon, lat),
+    shape = 20,
+    size = 1,
+    col = "grey"
+  ) +
+  geom_point(
+    data = dcant_inv_uncertainty %>%
+      filter(signif_double == 0,
              data_source == "mod") %>%
       mutate(
         data_source = case_when(
@@ -2993,28 +3067,30 @@ dcant_global_section_all_uncertainty <-
          Version_ID_group,
          dcant) %>%
   mutate(dist_grid = as.numeric(as.character(cut(
-    dist, seq(0, 50, 2), seq(1, 49, 2)
+    dist, seq(0, 50, 1), seq(0.5, 49.5, 1)
   ))),
-  depth_grid = as.numeric(as.character(cut(
-    depth,
-    c(seq(0, 500, 100), seq(1000, 10000, 500)),
-    c(seq(50, 450, 100), seq(750, 10000, 500)),
-    right = FALSE
-  )))) %>%
+  depth_grid = depth
+  # depth_grid = as.numeric(as.character(cut(
+  #   depth,
+  #   c(seq(0, 500, 50), seq(750, 10000, 250)),
+  #   c(seq(25, 475, 50), seq(625, 10000, 250)),
+  #   right = FALSE
+  # )))
+  ) %>%
   group_by(dist_grid,
            depth_grid,
            data_source,
            period,
            MLR_basins,
            Version_ID_group) %>%
-  summarise(dcant = mean(dcant),
-            n = n()) %>%
+  summarise(dcant = mean(dcant)) %>%
   ungroup() %>%
   rename(dist = dist_grid,
          depth = depth_grid)
 
 dcant_global_section_all_uncertainty <-
   additive_uncertainty(dcant_global_section_all_uncertainty)
+
 
 delta_dcant_global_section_all_uncertainty <- dcant_global_section_all_uncertainty[[3]]
 dcant_global_section_all_uncertainty_contributions <- dcant_global_section_all_uncertainty[[2]]
@@ -3050,7 +3126,17 @@ dcant_global_section_all_uncertainty  %>%
 ggplot() +
   geom_point(
     data = dcant_global_section_all_uncertainty %>%
-      filter(signif == 0),
+      filter(signif_single == 0),
+    aes(dist, depth),
+    shape = 4
+  ) +
+  facet_grid(data_source~period) +
+  scale_y_reverse()
+
+ggplot() +
+  geom_point(
+    data = dcant_global_section_all_uncertainty %>%
+      filter(signif_double == 0),
     aes(dist, depth),
     shape = 4
   ) +
@@ -3086,7 +3172,17 @@ delta_dcant_global_section_all_uncertainty  %>%
 ggplot() +
   geom_point(
     data = delta_dcant_global_section_all_uncertainty %>%
-      filter(signif == 0),
+      filter(signif_single == 0),
+    aes(dist, depth),
+    shape = 4
+  ) +
+  scale_y_reverse() +
+  facet_grid(data_source~.)
+
+ggplot() +
+  geom_point(
+    data = delta_dcant_global_section_all_uncertainty %>%
+      filter(signif_double == 0),
     aes(dist, depth),
     shape = 4
   ) +
@@ -3108,8 +3204,7 @@ p_dcant_global_section_dec1 <-
                    title_text = "1994 - 2004",
                    df_uncertainty = dcant_global_section_all_uncertainty %>% 
                      filter(period %in% "1994 - 2004",
-                            data_source == "obs",
-                            signif == 0),
+                            data_source == "obs"),
                    col_uncertainty = "grey",
                    subtitle_text = NULL,
                    plot_slabs = "n",
@@ -3132,8 +3227,7 @@ p_dcant_global_section_dec2 <-
     contour_level = 5,
     df_uncertainty = dcant_global_section_all_uncertainty %>%
       filter(period %in% "2004 - 2014",
-             data_source == "obs",
-             signif == 0),
+             data_source == "obs"),
     col_uncertainty = "grey"
   ) &
   theme(legend.position = "none")
@@ -3151,8 +3245,7 @@ p_dcant_global_section_offset <-
   p_section_global(
     var = "delta_dcant",
     df_uncertainty = delta_dcant_global_section_all_uncertainty %>%
-      filter(data_source == "obs",
-             signif == 0),
+      filter(data_source == "obs"),
     plot_slabs = "y",
     col = "div",
     title_text = NULL,
@@ -3200,8 +3293,7 @@ p_dcant_global_section_dec1 <-
                    title_text = "1994 - 2004",
                    df_uncertainty = dcant_global_section_all_uncertainty %>% 
                      filter(period %in% "1994 - 2004",
-                            data_source == "mod",
-                            signif == 0),
+                            data_source == "mod"),
                    col_uncertainty = "grey",
                    subtitle_text = NULL,
                    plot_slabs = "n",
@@ -3224,8 +3316,7 @@ p_dcant_global_section_dec2 <-
     contour_level = 5,
     df_uncertainty = dcant_global_section_all_uncertainty %>%
       filter(period %in% "2004 - 2014",
-                            data_source == "mod",
-                            signif == 0),
+                            data_source == "mod"),
     col_uncertainty = "grey"
   ) &
   theme(
@@ -3248,8 +3339,7 @@ p_dcant_global_section_offset <-
   p_section_global(
     var = "delta_dcant",
     df_uncertainty = delta_dcant_global_section_all_uncertainty %>%
-      filter(data_source == "mod",
-                            signif == 0),
+      filter(data_source == "mod"),
     col = "div",
     plot_slabs = "y",
     title_text = NULL,
@@ -3880,12 +3970,21 @@ p_dcant_profiles <-
   geom_vline(xintercept = 0, size = 0.1) +
   geom_ribbon(
     aes(
+      xmin = std_case - sd*2,
+      xmax = std_case + sd*2,
+      y = depth,
+      fill = period
+    ),
+    alpha = 0.2
+  ) +
+  geom_ribbon(
+    aes(
       xmin = std_case - sd,
       xmax = std_case + sd,
       y = depth,
       fill = period
     ),
-    alpha = 0.5
+    alpha = 0.4
   ) +
   geom_path(
     aes(std_case,
@@ -3897,8 +3996,8 @@ p_dcant_profiles <-
   #   trans = trans_reverser("sqrt"),
   #   breaks = c(0, 100, 500, seq(1000, 5000, 1000)))+
   coord_cartesian(expand = 0, xlim = c(-2,14)) +
-  scale_color_manual(values = c("#EE7733", "#009988"), name = "Mean \u00B1 2σ") +
-  scale_fill_manual(values = c("#EE7733", "#009988"), name = "Mean \u00B1 2σ") +
+  scale_color_manual(values = c("#EE7733", "#009988"), name = "Mean \u00B1 1σ/2σ") +
+  scale_fill_manual(values = c("#EE7733", "#009988"), name = "Mean \u00B1 1σ/2σ") +
   labs(y = "Depth (m)",
        x = dcant_umol_label) +
   facet_wrap(~ basin, ncol = 3, dir = "v") +
@@ -3926,12 +4025,21 @@ p_dcant_profiles_mod <-
   # geom_hline(yintercept = 1000, size = 0.1) +
   geom_ribbon(
     aes(
+      xmin = std_case - sd*2,
+      xmax = std_case + sd*2,
+      y = depth,
+      fill = data_source
+    ),
+    alpha = 0.2
+  ) +
+  geom_ribbon(
+    aes(
       xmin = std_case - sd,
       xmax = std_case + sd,
       y = depth,
       fill = data_source
     ),
-    alpha = 0.5
+    alpha = 0.4
   ) +
   geom_path(
     aes(std_case,
@@ -3942,8 +4050,8 @@ p_dcant_profiles_mod <-
   # scale_y_continuous(trans = trans_reverser("sqrt"),
   #                    breaks = c(0, 100, 500, seq(1000, 5000, 1000))) +
   coord_cartesian(expand = 0, xlim = c(-2,14)) +
-  scale_color_manual(values = c("#009988", "#EE7733"), name = "Mean \u00B1 2σ") +
-  scale_fill_manual(values = c("#009988", "#EE7733"), name = "Mean \u00B1 2σ") +
+  scale_color_manual(values = c("#009988", "#EE7733"), name = "Mean \u00B1 1σ/2σ") +
+  scale_fill_manual(values = c("#009988", "#EE7733"), name = "Mean \u00B1 1σ/2σ") +
   labs(y = "Depth (m)",
        x = dcant_umol_label) +
   facet_grid(period ~ basin) +
@@ -4060,12 +4168,21 @@ bind_rows(
   geom_vline(xintercept = 0) +
   geom_ribbon(
     aes(
+      xmin = dcant - dcant_sd*2,
+      xmax = dcant + dcant_sd*2,
+      y = depth,
+      fill = Version_ID_group
+    ),
+    alpha = 0.2
+  )+
+  geom_ribbon(
+    aes(
       xmin = dcant - dcant_sd,
       xmax = dcant + dcant_sd,
       y = depth,
       fill = Version_ID_group
     ),
-    alpha = 0.5
+    alpha = 0.4
   )+
   geom_path(aes(dcant,
                 depth,
@@ -4075,9 +4192,9 @@ bind_rows(
                      breaks = c(0, 100, 500, seq(1500, 5000, 1000))) +
   coord_cartesian(expand = FALSE, xlim = c(-1,13)) +
   scale_color_manual(values = colour("high contrast", names = FALSE)(3)[c(1,3)],
-                     name = "Mean \u00B1 1σ") +
+                     name = "Mean \u00B1 1σ/2σ") +
   scale_fill_manual(values = colour("high contrast", names = FALSE)(3)[c(1,3)],
-                    name = "Mean \u00B1 1σ") +
+                    name = "Mean \u00B1 1σ/2σ") +
   labs(y = "Depth (m)",
        x = dcant_umol_label) +
   facet_nested_wrap(~ basin + period) +
@@ -4244,10 +4361,10 @@ dcant_budget_basin_MLR_all_sensitivity <-
 
 scaling_uncertainty <-
   dcant_budget_basin_MLR_all_uncertainty %>%
-  select(-c(sd, signif)) %>%
+  select(-c(sd, starts_with("signif_"))) %>%
   filter(basin == "Global") %>%
   mutate(
-    sd = std_case * (dcant_scaling - 1) * dcant_scaling_uncertainty / sd_factor,
+    sd = std_case * (dcant_scaling - 1) * dcant_scaling_uncertainty,
     Version_ID_group = "scaling uncertainty"
   ) %>%
   select(-std_case)
@@ -4587,8 +4704,8 @@ dcant_budget_basin_MLR_all_ensemble %>%
     aes(
       x = period,
       y = std_case,
-      ymin = std_case - sd,
-      ymax = std_case + sd,
+      ymin = std_case - sd*2,
+      ymax = std_case + sd*2,
       linetype = "Combined uncertainty"
     ),
     width = 0.1,
@@ -4601,8 +4718,8 @@ dcant_budget_basin_MLR_all_ensemble %>%
     aes(
       x = period,
       y = std_case,
-      ymin = std_case - sd/sd_factor,
-      ymax = std_case + sd/sd_factor,
+      ymin = std_case - sd,
+      ymax = std_case + sd,
       alpha = "Combined uncertainty",
     ),
     width = 0.1,
@@ -4728,7 +4845,7 @@ dcant_beta_basin_MLR_all_uncertainty <-
     dcant_budget_basin_MLR_all_uncertainty %>% mutate(estimate = "dcant"),
     beta_budget_basin_MLR_all_uncertainty %>% mutate(estimate = "beta")
   ) %>%
-  select(-c(area, signif))
+  select(-c(area, starts_with("signif_")))
   
 
 dcant_beta_basin_MLR_all_uncertainty_significance <- 
@@ -4737,8 +4854,7 @@ dcant_beta_basin_MLR_all_uncertainty_significance <-
   group_by(estimate, basin, data_source) %>%
   mutate(
     delta = std_case - lag(std_case),
-    RSS = sqrt(sd ^ 2 + lag(sd ^ 2)),
-    RSS_delta_ratio = abs(delta) / RSS
+    RSS = sqrt(sd ^ 2 + lag(sd ^ 2))
   ) %>%
   ungroup() %>% 
   filter(!is.na(delta))
@@ -4773,8 +4889,8 @@ dcant_beta_basin_MLR_all_uncertainty_significance %>%
     `1994 - 2004` = paste(`std_case 1994 - 2004`, `sd 1994 - 2004`, sep = " ± "),
     `2004 - 2014` = paste(`std_case 2004 - 2014`, `sd 2004 - 2014`, sep = " ± "),
     `Decadal change` = paste0(delta, " ± ", RSS, 
-                              if_else(abs(delta) > RSS/sd_factor, " *",""), 
-                              if_else(abs(delta) > RSS, "*",""))
+                              if_else(abs(delta) > RSS, " *",""), 
+                              if_else(abs(delta) > RSS*2, "*",""))
   ) %>%
   select(Region = basin,
          Estimate = estimate,
@@ -4831,8 +4947,8 @@ beta_budget_basin_MLR_all_ensemble %>%
     aes(
       x = period,
       y = std_case,
-      ymin = std_case - sd,
-      ymax = std_case + sd,
+      ymin = std_case - sd*2,
+      ymax = std_case + sd*2,
       linetype = "Combined uncertainty"
     ),
     width = 0.1,
@@ -4845,8 +4961,8 @@ beta_budget_basin_MLR_all_ensemble %>%
     aes(
       x = period,
       y = std_case,
-      ymin = std_case - sd/sd_factor,
-      ymax = std_case + sd/sd_factor,
+      ymin = std_case - sd,
+      ymax = std_case + sd,
       alpha = "Combined uncertainty",
     ),
     width = 0.1,
@@ -4943,8 +5059,8 @@ dcant_budget_basin_MLR_all_bias  %>%
     aes(
       x = period,
       y = std_case,
-      ymin = std_case - sd,
-      ymax = std_case + sd,
+      ymin = std_case - sd*2,
+      ymax = std_case + sd*2,
       linetype = "Combined uncertainty"
     ),
     width = 0.1,
@@ -4957,8 +5073,8 @@ dcant_budget_basin_MLR_all_bias  %>%
     aes(
       x = period,
       y = std_case,
-      ymin = std_case - sd/sd_factor,
-      ymax = std_case + sd/sd_factor,
+      ymin = std_case - sd,
+      ymax = std_case + sd,
       alpha = "Combined uncertainty",
     ),
     width = 0.1,
@@ -5740,18 +5856,28 @@ dcant_budget_basin_MLR_layer_all_uncertainty %>%
     aes(
       xmin = inv_depth - 250,
       xmax = inv_depth + 250,
+      ymin = std_case - sd*2,
+      ymax = std_case + sd*2,
+      fill = period
+    ),
+    alpha = 0.2
+  ) +
+  geom_rect(
+    aes(
+      xmin = inv_depth - 250,
+      xmax = inv_depth + 250,
       ymin = std_case - sd,
       ymax = std_case + sd,
       fill = period
     ),
-    alpha = 0.5
+    alpha = 0.4
   ) +
   geom_step(aes(inv_depth - 250, std_case, col = period), direction = "vh",
             size = 1) +
   coord_flip() +
   scale_x_reverse(breaks = seq(0, 3000, 500), limits = c(3000, 0), expand = c(0,0)) +
-  scale_color_manual(values = c("#EE7733", "#009988"), name = "Mean \u00B1 2σ") +
-  scale_fill_manual(values = c("#EE7733", "#009988"), name = "Mean \u00B1 2σ") +
+  scale_color_manual(values = c("#EE7733", "#009988"), name = "Mean \u00B1 1σ/2σ") +
+  scale_fill_manual(values = c("#EE7733", "#009988"), name = "Mean \u00B1 1σ/2σ") +
   labs(y = dcant_layer_budget_label,
        x = "Depth (m)") +
   facet_wrap(~ basin, ncol = 3, dir = "v", scales = "free_x") +
@@ -5790,7 +5916,17 @@ dcant_budget_basin_MLR_layer_all_uncertainty %>%
       ymax = std_case + sd,
       fill = data_source
     ),
-    alpha = 0.5
+    alpha = 0.2
+  ) +
+  geom_rect(
+    aes(
+      xmin = inv_depth - 250,
+      xmax = inv_depth + 250,
+      ymin = std_case - sd*2,
+      ymax = std_case + sd*2,
+      fill = data_source
+    ),
+    alpha = 0.4
   ) +
   geom_step(aes(inv_depth - 250, std_case, col = data_source), direction = "vh",
             size = 1) +
@@ -5946,7 +6082,7 @@ dcant_mean_penetration_depth_uncertainty <-
 
 dcant_mean_penetration_depth_uncertainty %>% 
   filter(data_source == "obs") %>% 
-  select(-c(data_source, signif)) %>% 
+  select(-c(data_source, starts_with("signif_"))) %>% 
   arrange(basin, period) %>% 
   kable() %>%
   kable_styling() %>%
@@ -6407,7 +6543,7 @@ tcant_ts_zoom <-
 tcant_min = tcant_ts_zoom %>% pull(tcant) %>% min()
 tcant_max =
   tcant_ts_zoom %>% pull(tcant) %>% max() +
-  tcant_ts_zoom %>% pull(dcant_sd) %>% max()
+  tcant_ts_zoom %>% pull(dcant_sd) %>% max()*2
 
 Ocean_Sink_cum_1994 <- 
   Ocean_Sink_cum_1994 %>% 
@@ -6422,15 +6558,15 @@ p_tcant_ts_zoom <-
   tcant_ts_zoom %>%
   ggplot(aes(pCO2, tcant)) +
   geom_ribbon(
-    aes(ymin = tcant - dcant_sd,
-        ymax = tcant + dcant_sd),
+    aes(ymin = tcant - dcant_sd*2,
+        ymax = tcant + dcant_sd*2),
     alpha = 0.2,
     fill = tcant_col
   ) +
   geom_ribbon(
     aes(
-      ymin = tcant - dcant_sd / sd_factor,
-      ymax = tcant + dcant_sd / sd_factor
+      ymin = tcant - dcant_sd,
+      ymax = tcant + dcant_sd
     ),
     alpha = 0.3,
     fill = tcant_col
@@ -6516,7 +6652,7 @@ dcant_type_box <-
 dcant_type_box_stat <- dcant_type_box %>% 
   group_by(period, type) %>% 
   summarise(dcant_mean = mean(dcant),
-            dcant_sd = sd(dcant)*sd_factor) %>% 
+            dcant_sd = sd(dcant)) %>% 
   ungroup()
 
 dcant_type_box_stat <-
@@ -6553,11 +6689,11 @@ dcant_type_box %>%
     aes(
       x = period,
       y = dcant_mean,
-      ymin = dcant_mean - dcant_sd/sd_factor,
-      ymax = dcant_mean + dcant_sd/sd_factor,
+      ymin = dcant_mean - dcant_sd*2,
+      ymax = dcant_mean + dcant_sd*2,
       col = type,
       fill = type
-    ), width = 0.7, alpha = 0.4
+    ), width = 0.7, alpha = 0.2
   ) +
   geom_crossbar(
     data = dcant_type_box_stat %>%
@@ -6570,7 +6706,7 @@ dcant_type_box %>%
       ymax = dcant_mean + dcant_sd,
       col = type,
       fill = type
-    ), width = 0.7, alpha = 0.2
+    ), width = 0.7, alpha = 0.4
   ) +
   geom_point(aes(fill = type),
               position = position_jitterdodge(
@@ -6609,13 +6745,13 @@ p_tcant_box_10 <-
     aes(
       x = period,
       y = dcant_mean,
-      ymin = dcant_mean - dcant_sd/sd_factor,
-      ymax = dcant_mean + dcant_sd/sd_factor,
+      ymin = dcant_mean - dcant_sd*2,
+      ymax = dcant_mean + dcant_sd*2,
       col = type,
       fill = type
     ),
     width = 0.7,
-    alpha = 0.4
+    alpha = 0.2
   ) +
   geom_crossbar(
     data = dcant_type_box_stat %>%
@@ -6630,7 +6766,7 @@ p_tcant_box_10 <-
       fill = type
     ),
     width = 0.7,
-    alpha = 0.2
+    alpha = 0.4
   ) +
   geom_point(
     aes(fill = type),
@@ -6711,7 +6847,7 @@ dcant_type_significance %>%
 Ocean_Sink_cum_1994_ensemble_mean <- Ocean_Sink_cum_1994 %>% 
   group_by(year, pCO2, type) %>% 
   summarise(fgco2_glob_cum_total_mean = mean(fgco2_glob_cum_total),
-            fgco2_glob_cum_total_sd = sd(fgco2_glob_cum_total)*sd_factor) %>% 
+            fgco2_glob_cum_total_sd = sd(fgco2_glob_cum_total)) %>% 
   ungroup()
 
 p_tcant_ts_zoom <-
@@ -6721,13 +6857,13 @@ tcant_ts_zoom %>%
                   ymin = tcant - dcant_sd,
                   ymax = tcant + dcant_sd,
               fill = "eMLR(C*)"),
-              alpha = 0.2) +
+              alpha = 0.4) +
   geom_ribbon(
     aes(pCO2, tcant,
-        ymin = tcant - dcant_sd / sd_factor,
-        ymax = tcant + dcant_sd / sd_factor,
+        ymin = tcant - dcant_sd*2,
+        ymax = tcant + dcant_sd*2,
               fill = "eMLR(C*)"),
-    alpha = 0.3
+    alpha = 0.2
   ) +
   geom_line(data = Ocean_Sink_cum_1994,
             aes(pCO2, fgco2_glob_cum_total, group = product, col = type), size = 0.3) +
