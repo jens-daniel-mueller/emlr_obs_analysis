@@ -2344,20 +2344,20 @@ p_CI_absolute <- dcant_inv_all %>%
   theme(axis.text.x = element_blank()) +
   geom_point(
     data = dcant_inv_uncertainty %>%
-      filter(signif_single == 0,
-             data_source == "obs"),
-    aes(lon, lat),
-    shape = 20,
-    size = 1,
-    col = "grey"
-  ) +
-  geom_point(
-    data = dcant_inv_uncertainty %>%
       filter(signif_double == 0,
              data_source == "obs"),
     aes(lon, lat),
     shape = 20,
     size = 0.1,
+    col = "grey"
+  ) +
+    geom_point(
+    data = dcant_inv_uncertainty %>%
+      filter(signif_single == 0,
+             data_source == "obs"),
+    aes(lon, lat),
+    shape = 20,
+    size = 1,
     col = "grey"
   )
 
@@ -2491,6 +2491,7 @@ rm(dcant_inv_stat_ensemble,
 
 ```{r inventory_maps_delta_dcant_mod_bias, fig.asp=1.3}
 
+
 p_CI_absolute_mod_delta <- dcant_inv_all %>%
   filter(period %in% two_decades,
          data_source != "obs") %>%
@@ -2506,22 +2507,22 @@ p_CI_absolute_mod_delta <- dcant_inv_all %>%
   theme(axis.text.x = element_blank()) +
   geom_point(
     data = dcant_inv_uncertainty %>%
-      filter(signif_single == 0,
-             data_source == "mod") %>%
-      mutate(data_source = case_when(data_source == "mod" ~ "Reconstruction")),
-    aes(lon, lat),
-    shape = 20,
-    size = 1,
-    col = "grey"
-  ) +
-  geom_point(
-    data = dcant_inv_uncertainty %>%
       filter(signif_double == 0,
              data_source == "mod") %>%
       mutate(data_source = case_when(data_source == "mod" ~ "Reconstruction")),
     aes(lon, lat),
     shape = 20,
     size = 0.1,
+    col = "grey"
+  ) +
+  geom_point(
+    data = dcant_inv_uncertainty %>%
+      filter(signif_single == 0,
+             data_source == "mod") %>%
+      mutate(data_source = case_when(data_source == "mod" ~ "Reconstruction")),
+    aes(lon, lat),
+    shape = 20,
+    size = 1,
     col = "grey"
   )
 
@@ -3069,13 +3070,13 @@ dcant_global_section_all_uncertainty <-
   mutate(dist_grid = as.numeric(as.character(cut(
     dist, seq(0, 50, 1), seq(0.5, 49.5, 1)
   ))),
-  depth_grid = depth
-  # depth_grid = as.numeric(as.character(cut(
-  #   depth,
-  #   c(seq(0, 500, 50), seq(750, 10000, 250)),
-  #   c(seq(25, 475, 50), seq(625, 10000, 250)),
-  #   right = FALSE
-  # )))
+  # depth_grid = depth
+  depth_grid = as.numeric(as.character(cut(
+    depth,
+    c(seq(0, 500, 100), seq(1000, 10000, 500)),
+    c(seq(50, 450, 100), seq(750, 10000, 500)),
+    right = FALSE
+  )))
   ) %>%
   group_by(dist_grid,
            depth_grid,
@@ -3372,6 +3373,158 @@ rm(p_dcant_global_section_dec1, p_dcant_global_section_dec2,
 
 # Zonal sections
 
+
+## Additive uncertainty
+
+```{r zonal_section_absolute_delta_RSS_additive_uncertainty}
+
+delta_dcant_zonal_all <-
+  dcant_zonal_all %>%
+  filter(data_source %in% c("obs", "mod"),
+         period %in% two_decades) %>%
+  select(data_source, lat, depth, period, basin_AIP, dcant) %>%
+  drop_na() %>% 
+  pivot_wider(names_from = period,
+              values_from = dcant) %>%
+  mutate(dcant_offset = `2004 - 2014` - `1994 - 2004`,
+         period = "(2004 - 2014) - (1994 - 2004)")
+
+dcant_zonal_all_uncertainty <-
+  dcant_zonal_all_ensemble %>%
+  filter(data_source %in% c("obs", "mod"),
+         period %in% two_decades) %>%
+  select(lat,
+         depth,
+         period,
+         basin_AIP,
+         data_source,
+         MLR_basins,
+         Version_ID_group,
+         dcant) %>%
+  mutate(lat_grid = as.numeric(as.character(cut(
+    lat, seq(-90, 90, 10), seq(-85, 85, 10)
+  ))),
+  # depth_grid = depth
+  depth_grid = as.numeric(as.character(cut(
+    depth,
+    c(seq(0, 500, 100), seq(1000, 10000, 500)),
+    c(seq(50, 450, 100), seq(750, 10000, 500)),
+    right = FALSE
+  )))
+  ) %>%
+  group_by(lat_grid,
+           depth_grid,
+           data_source,
+           period,
+           basin_AIP,
+           MLR_basins,
+           Version_ID_group) %>%
+  summarise(dcant = mean(dcant)) %>%
+  ungroup() %>%
+  rename(lat = lat_grid,
+         depth = depth_grid)
+
+dcant_zonal_all_uncertainty <-
+  additive_uncertainty(dcant_zonal_all_uncertainty)
+
+
+delta_dcant_zonal_all_uncertainty <- dcant_zonal_all_uncertainty[[3]]
+dcant_zonal_all_uncertainty <- dcant_zonal_all_uncertainty[[1]]
+
+dcant_zonal_all_uncertainty  %>% 
+  filter(data_source == "obs") %>% 
+  p_section_zonal_continous_depth(
+    var = "std_case",
+    plot_slabs = "n",
+    title_text = NULL,
+    subtitle_text = NULL,
+    col = "div"
+  ) + 
+  facet_grid(period~basin_AIP)
+
+dcant_zonal_all_uncertainty  %>%
+  filter(data_source == "obs") %>%
+  p_section_zonal_continous_depth(
+    var = "sd",
+    plot_slabs = "n",
+    title_text = NULL,
+    subtitle_text = NULL,
+    col = "div"
+  ) +
+  facet_grid(period ~ basin_AIP)
+
+ggplot() +
+  geom_point(
+    data = dcant_zonal_all_uncertainty %>%
+      filter(signif_single == 0,
+             data_source == "obs"),
+    aes(lat, depth),
+    shape = 4
+  ) +
+  facet_grid(period ~ basin_AIP) +
+  scale_y_reverse()
+
+ggplot() +
+  geom_point(
+    data = dcant_zonal_all_uncertainty %>%
+      filter(signif_double == 0,
+             data_source == "obs"),
+    aes(lat, depth),
+    shape = 4
+  ) +
+  facet_grid(period ~ basin_AIP) +
+  scale_y_reverse()
+
+
+delta_dcant_zonal_all_uncertainty  %>%
+  filter(data_source == "obs") %>%
+  p_section_zonal_continous_depth(
+    var = "delta_dcant",
+    plot_slabs = "n",
+    title_text = NULL,
+    subtitle_text = NULL,
+    col = "div"
+  ) +
+  facet_grid(. ~ basin_AIP)
+
+delta_dcant_zonal_all_uncertainty  %>% 
+  filter(data_source == "obs") %>% 
+  select(-delta_dcant) %>% 
+  rename(delta_dcant = RSS) %>% 
+  p_section_zonal_continous_depth(
+    var = "delta_dcant",
+    plot_slabs = "n",
+    title_text = NULL,
+    subtitle_text = NULL,
+    col = "div"
+  ) +
+  facet_grid(. ~ basin_AIP)
+
+ggplot() +
+  geom_point(
+    data = delta_dcant_zonal_all_uncertainty %>%
+      filter(signif_single == 0),
+    aes(lat, depth),
+    shape = 4
+  ) +
+  scale_y_reverse() +
+  facet_grid(data_source~basin_AIP)
+
+ggplot() +
+  geom_point(
+    data = delta_dcant_zonal_all_uncertainty %>%
+      filter(signif_double == 0),
+    aes(lat, depth),
+    shape = 4
+  ) +
+  scale_y_reverse() +
+  facet_grid(data_source~basin_AIP)
+
+
+```
+
+
+
 ## dcant - absolut
 
 ```{r zonal_sections}
@@ -3389,6 +3542,20 @@ p_dcant_zonal_absolute <-
   geom_contour(aes(lat, depth, z = dcant),
                breaks = 5,
                col = "white") +
+  # geom_point(
+  #   data = dcant_zonal_all_uncertainty %>% filter(signif_single == 0),
+  #   aes(lat, depth),
+  #   shape = 20,
+  #   size = 1,
+  #   col = "grey"
+  # ) +
+  # geom_point(
+  #   data = dcant_zonal_all_uncertainty %>% filter(signif_double == 0),
+  #   aes(lat, depth),
+  #   shape = 20,
+  #   size = 0.1,
+  #   col = "grey"
+  # )+
   # geom_text_contour(
   #   aes(lat, depth, z = dcant),
   #   breaks = 5,
@@ -3439,6 +3606,7 @@ dcant_zonal_all %>%
       facet_grid(basin_AIP ~ .)
   )
 
+
 p_dcant_zonal_delta <-
   dcant_zonal_all %>%
   filter(data_source %in% c("obs"),
@@ -3447,31 +3615,39 @@ p_dcant_zonal_delta <-
   pivot_wider(names_from = period,
               values_from = dcant) %>%
   mutate(delta_dcant = `2004 - 2014` - `1994 - 2004`) %>%
-  group_by(data_source) %>%
-  group_split() %>%
-  # head(1) %>%
-  map(
-    ~ p_section_zonal_continous_depth(
-      df = .x,
-      var = "delta_dcant",
-      plot_slabs = "y",
-      drop_slabs = 1,
-      subtitle_text = NULL,
-      title_text = NULL,
-      col = "bias"
-    ) +
-      facet_grid("Dec. diff." ~ basin_AIP) +
-      theme(
-        strip.text.x = element_blank(),
-        strip.background.x = element_blank(),
-        legend.position = "bottom"
-      ) +
-      guides(fill = guide_colorsteps(
-        barheight = unit(0.5, "cm"),
-        barwidth = unit(10, "cm"),
-        show.limits = FALSE
-      ))
-  )
+  p_section_zonal_continous_depth(
+    var = "delta_dcant",
+    plot_slabs = "y",
+    drop_slabs = 1,
+    subtitle_text = NULL,
+    title_text = NULL,
+    col = "bias"
+  ) +
+  # geom_point(
+  #   data = delta_dcant_zonal_all_uncertainty %>% filter(signif_single == 0),
+  #   aes(lat, depth),
+  #   shape = 20,
+  #   size = 1,
+  #   col = "black"
+  # ) +
+  # geom_point(
+  #   data = delta_dcant_zonal_all_uncertainty %>% filter(signif_double == 0),
+  #   aes(lat, depth),
+  #   shape = 20,
+  #   size = 0.1,
+  #   col = "black"
+  # )+
+  facet_grid("Dec. diff." ~ basin_AIP) +
+  theme(
+    strip.text.x = element_blank(),
+    strip.background.x = element_blank(),
+    legend.position = "bottom"
+  ) +
+  guides(fill = guide_colorsteps(
+    barheight = unit(0.5, "cm"),
+    barwidth = unit(10, "cm"),
+    show.limits = FALSE
+  ))
 
 p_dcant_zonal_absolute / p_dcant_zonal_delta + 
   plot_layout(heights = c(2,1)) +
@@ -3989,7 +4165,8 @@ p_dcant_profiles <-
   geom_path(
     aes(std_case,
         depth,
-        col = period)
+        col = period),
+    size = 1
   ) +
   scale_y_reverse(breaks = seq(0,3000,500))+
   # scale_y_continuous(
@@ -4044,7 +4221,8 @@ p_dcant_profiles_mod <-
   geom_path(
     aes(std_case,
         depth,
-        col = data_source)
+        col = data_source),
+    size = 1
   ) +
   scale_y_reverse(breaks = seq(0,3000,500)) +
   # scale_y_continuous(trans = trans_reverser("sqrt"),
@@ -4187,7 +4365,8 @@ bind_rows(
   geom_path(aes(dcant,
                 depth,
                 col = Version_ID_group,
-                group = Version_ID_group)) +
+                group = Version_ID_group),
+    size = 1) +
   scale_y_continuous(trans = trans_reverser("sqrt"),
                      breaks = c(0, 100, 500, seq(1500, 5000, 1000))) +
   coord_cartesian(expand = FALSE, xlim = c(-1,13)) +
@@ -6263,6 +6442,12 @@ p_tcant_year <- tcant_ts %>%
   geom_line(data = co2_atm_reccap2 %>% filter(year > 1790),
             aes(year, (pCO2 - co2_atm_pi_value) * beta),
             col = atm_co2_col) +
+  geom_linerange(data = tcant_ts %>% filter(year != 1994),
+                 aes(
+    ymin = tcant - dcant_sd_int*2,
+    ymax = tcant + dcant_sd_int*2,
+    col = "Estimate\n±\ninterval\nuncertainty"
+  ), size = 0.5) +
   geom_linerange(aes(
     ymin = tcant - dcant_sd_int,
     ymax = tcant + dcant_sd_int,
@@ -7786,7 +7971,7 @@ breaks_n <- length(breaks) - 1
 
 dcant_inv_all_color_test <- dcant_inv_all %>%
   filter(data_source %in% c("obs"),
-         period == "2004 - 2014") %>%
+         period %in% two_decades) %>%
   mutate(dcant_int = cut(dcant,
                          breaks,
                          right = FALSE))
@@ -7822,7 +8007,8 @@ p_test_scico <- function(df, i_palette) {
     ) +
     labs(title = i_palette) +
     theme(axis.text = element_blank(),
-          axis.ticks = element_blank())
+          axis.ticks = element_blank()) +
+    facet_grid(.~period)
   
   p_rev <- map +
     geom_raster(data = df,
@@ -7836,7 +8022,9 @@ p_test_scico <- function(df, i_palette) {
     ) +
     labs(title = paste(i_palette, "rev")) +
     theme(axis.text = element_blank(),
-          axis.ticks = element_blank())
+          axis.ticks = element_blank()) +
+    facet_grid(.~period)
+  
   
   p_comb <- p_reg / p_rev
   
@@ -7868,7 +8056,9 @@ p_test_viridis <- function(df, i_palette) {
     ) +
     labs(title = i_palette) +
     theme(axis.text = element_blank(),
-          axis.ticks = element_blank())
+          axis.ticks = element_blank()) +
+    facet_grid(.~period)
+  
   
   p_rev <- map +
     geom_raster(data = df,
@@ -7882,7 +8072,9 @@ p_test_viridis <- function(df, i_palette) {
     ) +
     labs(title = paste(i_palette, "rev")) +
     theme(axis.text = element_blank(),
-          axis.ticks = element_blank())
+          axis.ticks = element_blank()) +
+    facet_grid(.~period)
+  
   
   p_comb <- p_reg / p_rev
   
@@ -7934,7 +8126,9 @@ p_test_colorspace <- function(df, i_palette) {
     ) +
     labs(title = i_palette) +
     theme(axis.text = element_blank(),
-          axis.ticks = element_blank())
+          axis.ticks = element_blank()) +
+    facet_grid(.~period)
+  
   
   p_rev <- map +
     geom_raster(data = df,
@@ -7948,7 +8142,9 @@ p_test_colorspace <- function(df, i_palette) {
     ) +
     labs(title = paste(i_palette, "rev")) +
     theme(axis.text = element_blank(),
-          axis.ticks = element_blank())
+          axis.ticks = element_blank()) +
+    facet_grid(.~period)
+  
 
   p_comb <- p_reg / p_rev
   
@@ -7967,7 +8163,7 @@ all_plots_colorspace
 all_plots <- c(all_plots_colorspace, all_plots_viridis, all_plots_scico)
 
 pdf(here::here("output/publication/test_color_scales.pdf"),
-    width = 4, height = 4)
+    width = 8, height = 4)
 all_plots
 dev.off()
 
