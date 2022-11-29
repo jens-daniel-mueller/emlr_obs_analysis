@@ -7602,7 +7602,7 @@ p_BIM_ocean <- BIM_ocean %>%
   geom_hline(yintercept = 0) +
   geom_line(aes(year, BIM, col = ocean_sink_estimate)) +
   scale_x_continuous(expand = c(0, 0)) +
-  scale_color_brewer(palette = "Set1",
+  scale_color_brewer(palette = "Dark2",
                      name = "ocean sink\nestimate\nunderlying\nBIM") +
   labs(y = flux_label,
        title = "BIM estimates",
