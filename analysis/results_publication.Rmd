@@ -7172,8 +7172,7 @@ sink_components <- flux_components[3:5]
 
 estimates <- Global_Carbon_Budget %>%
   select(-GtC) %>%
-  filter(year >= 1994,
-         year < 2014) %>% 
+  filter(year >= 1990) %>% 
   pivot_wider(names_from = estimate,
               values_from = GtC_yr) %>%
   mutate(`fossil emissions` = 
@@ -7184,8 +7183,7 @@ estimates <- Global_Carbon_Budget %>%
                values_to = "GtC_yr")
 
 estimates <- estimates %>%
-  filter(!(estimate %in% c("budget imbalance")),
-         year >= 1960) %>%
+  filter(!(estimate %in% c("budget imbalance"))) %>%
   mutate(
     sign = if_else(estimate %in% sink_components,
                    "sinks",
@@ -7302,8 +7300,7 @@ p_land_sink_gcb
 # Ocean_Sink %>% distinct(product)
 
 Ocean_Sink_annual_mean <- Ocean_Sink %>%
-  filter(year >= 1994,
-         year < 2014) %>% 
+  filter(year >= 1990) %>% 
   group_by(year, type) %>%
   summarise(GtC_yr = -mean(GtC_yr)) %>%
   ungroup()
@@ -7358,7 +7355,7 @@ p_ocean_sinks <- estimates_wide %>%
   geom_path() +
   geom_point(size = 0.5) +
   scale_x_continuous(expand = c(0, 0)) +
-  scale_color_brewer(palette = "Set1", name = "ocean sink\nestimate") +
+  scale_color_brewer(palette = "Dark2", name = "ocean sink\nestimate") +
   labs(y = flux_label,
        title = "Ocean sink estimates",
        subtitle = "Note: Watson et al. (2020) is excluded in data products and GCB mean") +
@@ -7655,20 +7652,20 @@ p_BIM_ocean_decade
 
 
 pdf(
-  file = here::here("output/publication/GCB_land_sink_residual.pdf"),
-  height = 6,
-  width = 9
+  file = here::here("output/publication/GCB_land_sink_and_BIM.pdf"),
+  height = 4,
+  width = 8
 )
 
-p_stacked_fluxes
+# p_stacked_fluxes
 p_individual_fluxes
-p_BIM
-p_land_sink_gcb
+# p_BIM
+# p_land_sink_gcb
 p_ocean_sinks
 p_land_sink
 p_land_sink_decade
-p_land_sink_residual
-p_land_sink_residual_decade
+# p_land_sink_residual
+# p_land_sink_residual_decade
 p_BIM_ocean
 p_BIM_ocean_decade
 
@@ -7702,7 +7699,7 @@ rm(
 
 ## Net land sink
 
-```{r GCB_net_land_sink_assesment}
+```{r GCB_net_land_sink_assesment, eval=FALSE}
 
 flux_label <- expression(flux~(Pg~C~yr^{-1}))
 
