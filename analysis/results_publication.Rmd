@@ -7172,6 +7172,8 @@ sink_components <- flux_components[3:5]
 
 estimates <- Global_Carbon_Budget %>%
   select(-GtC) %>%
+  filter(year >= 1994,
+         year < 2014) %>% 
   pivot_wider(names_from = estimate,
               values_from = GtC_yr) %>%
   mutate(`fossil emissions` = 
@@ -7261,7 +7263,8 @@ BIM <- emissions_sinks %>%
 p_BIM <- ggplot() +
   geom_line(data = Global_Carbon_Budget %>%
               filter(estimate == "budget imbalance",
-                     year >= 1990),
+                     year >= 1994,
+                     year < 2014),
             aes(year, GtC_yr, col = "reported")) +
   geom_line(data = BIM, aes(year, BIM, col = "recalculated")) +
   geom_hline(yintercept = 0) +
@@ -7296,8 +7299,11 @@ p_land_sink_gcb <- estimates %>%
 
 p_land_sink_gcb
 
+# Ocean_Sink %>% distinct(product)
+
 Ocean_Sink_annual_mean <- Ocean_Sink %>%
-  filter(year >= 1990) %>%
+  filter(year >= 1994,
+         year < 2014) %>% 
   group_by(year, type) %>%
   summarise(GtC_yr = -mean(GtC_yr)) %>%
   ungroup()
@@ -7333,7 +7339,7 @@ estimates_wide <- estimates_wide %>%
     between(year, 2004, 2013) ~ -dcant_interior[2],
     TRUE ~ NaN
   )) %>% 
-  mutate(ocean_sink_interior_net = case_when(
+  mutate(ocean_sink_interior_Cnet = case_when(
     between(year, 1994, 2003) ~ -dcant_interior[1]-cnat[1],
     between(year, 2004, 2013) ~ -dcant_interior[2]-cnat[2],
     TRUE ~ NaN
@@ -7355,7 +7361,7 @@ p_ocean_sinks <- estimates_wide %>%
   scale_color_brewer(palette = "Set1", name = "ocean sink\nestimate") +
   labs(y = flux_label,
        title = "Ocean sink estimates",
-       subtitle = "Note: Watson et al. (2020) is included in data products and GCB mean") +
+       subtitle = "Note: Watson et al. (2020) is excluded in data products and GCB mean") +
   theme(axis.title.x = element_blank(),
         legend.title = element_blank())
 
@@ -7372,7 +7378,7 @@ estimates_long <- estimates_wide %>%
          year >= 1990)
 
 p_ocean_sinks_presentation <- estimates_long %>%
-  # mutate(estimate = str_replace(estimate, "_", " ")) %>% 
+  # mutate(estimate = str_replace(estimate, "_", " ")) %>%
   ggplot() +
   geom_path(data = Ocean_Sink %>% filter(year >= 1990),
             aes(year, GtC_yr, group = product, col = type), size = 0.3) +
@@ -7462,26 +7468,74 @@ land_sink <-
   mutate(land_sink = -emissions_atmosphere - ocean_sink)
 
 
-p_land_sink_residual <- land_sink %>%
+p_land_sink <- land_sink %>%
   mutate(ocean_sink_estimate = 
            str_replace(ocean_sink_estimate, "_", " ")) %>% 
   ggplot() +
-  geom_line(aes(year, land_sink, col = ocean_sink_estimate, linetype = "residual")) +
-  geom_line(data = estimates_wide %>%
-              filter(year >= 1990),
-            aes(year, `land sink`, linetype = "reported")) +
+  geom_hline(yintercept = 0) +
+  geom_line(aes(year, land_sink, col = ocean_sink_estimate, linetype = "residual\nestimate")) +
+  geom_line(data = estimates_wide,
+            aes(year, `land sink`, linetype = "direct\nestimate", col = "reported land sink")) +
   scale_x_continuous(expand = c(0, 0)) +
   scale_linetype_manual(values = c(2, 1), name = "land sink\nestimate") +
-  scale_color_brewer(palette = "Set1",
-                     name = "ocean sink\nestimate\nunderlying\nresidual") +
+  scale_color_brewer(palette = "Dark2",
+                     name = "ocean sink\nestimate\nunderlying\nresidual\nestimate") +
   guides(linetype = guide_legend(order = 1),
          color = guide_legend(order = 2)) +
   labs(y = flux_label,
        title = "Land sink estimates",
-       subtitle = "Note: Residuals are determined for a range of ocean sink estimates") +
+       subtitle = "Residuals estimates are determined for a range of ocean sink estimates") +
   theme(axis.title.x = element_blank())
 
-p_land_sink_residual
+p_land_sink
+
+
+land_sink_long <-
+  full_join(
+    land_sink %>% 
+      select(year, ocean_sink_estimate, land_sink),
+    estimates_wide %>%
+      select(year, land_sink = `land sink`) %>% 
+      mutate(ocean_sink_estimate = "reported_land_sink")
+  )
+
+land_sink_long_decade <- land_sink_long %>%
+  mutate(period = cut(year, c(1993, 2003, 2013),
+                      c("1994 - 2004", "2004 - 2014"))) %>%
+  filter(!is.na(period)) %>%
+  group_by(ocean_sink_estimate, period) %>%
+  summarise(across(starts_with("land_sink"), list(mean = mean, sd = sd))) %>%
+  ungroup() %>%
+  mutate(ocean_sink_estimate =
+           str_replace_all(ocean_sink_estimate, "_", " "))
+
+land_sink_long_decade
+  
+p_land_sink_decade <-   
+  land_sink_long_decade %>% 
+  ggplot() +
+  geom_hline(yintercept = 0) +
+  geom_pointrange(
+    aes(
+      period,
+      land_sink_mean,
+      ymin = land_sink_mean - land_sink_sd,
+      ymax = land_sink_mean + land_sink_sd,
+      col = ocean_sink_estimate
+    ),
+    position = position_dodge2(width = 0.5)
+  ) +
+  scale_color_brewer(palette = "Dark2",
+                     name = "ocean sink\nestimate\nunderlying\nresidual\nestimate") +
+  guides(shape = guide_legend(order = 1),
+         color = guide_legend(order = 2)) +
+  theme(axis.title.x = element_blank()) +
+  labs(y = flux_label,
+       title = "Decadal mean land sink estimates",
+       subtitle = "Errorbars indicate the StDev of the interannual variability") +
+  theme(axis.title.x = element_blank())
+
+p_land_sink_decade
 
 land_sink <-
   full_join(
@@ -7490,66 +7544,115 @@ land_sink <-
       select(year, land_sink_reported = `land sink`)
   )
 
-
-p_land_sink_residual_delta <- land_sink %>%
+p_land_sink_residual <- land_sink %>%
   mutate(ocean_sink_estimate =
            str_replace(ocean_sink_estimate, "_", " ")) %>%
   ggplot() +
   geom_hline(yintercept = 0) +
   geom_line(aes(year, land_sink - land_sink_reported, col = ocean_sink_estimate)) +
   scale_x_continuous(expand = c(0, 0)) +
-  scale_color_brewer(palette = "Set1",
+  scale_color_brewer(palette = "Dark2",
                      name = "ocean sink\nestimate\nunderlying\nresidual") +
   labs(y = flux_label,
        title = "Land sink estimates (reported - residual)",
-       subtitle = "Note: Residuals are determined for a range of ocean sink estimates") +
+       subtitle = "Residuals are determined for a range of ocean sink estimates") +
   theme(axis.title.x = element_blank())
 
-p_land_sink_residual_delta
+p_land_sink_residual
 
 p_land_sink_residual_decade <- land_sink %>%
   mutate(period = cut(year, c(1993, 2003, 2013),
                       c("1994 - 2004", "2004 - 2014"))) %>%
   filter(!is.na(period)) %>%
+  mutate(land_sink_residual = land_sink - land_sink_reported) %>% 
+  select(period, ocean_sink_estimate, land_sink_residual) %>% 
   group_by(ocean_sink_estimate, period) %>%
   summarise(across(starts_with("land_sink"), list(mean = mean, sd = sd))) %>%
   ungroup() %>%
   mutate(ocean_sink_estimate =
            str_replace(ocean_sink_estimate, "_", " ")) %>%
   ggplot() +
+    geom_hline(yintercept = 0) +
   geom_pointrange(
     aes(
       period,
-      land_sink_reported_mean,
-      ymin = land_sink_reported_mean - land_sink_reported_sd,
-      ymax = land_sink_reported_mean + land_sink_reported_sd,
-      shape = "reported"
-    ),
-    position = position_dodge2(width = 0.6)
-  ) +
-  geom_pointrange(
-    aes(
-      period,
-      land_sink_mean,
-      ymin = land_sink_mean - land_sink_sd,
-      ymax = land_sink_mean + land_sink_sd,
-      col = ocean_sink_estimate,
-      shape = "residual"
+      land_sink_residual_mean,
+      ymin = land_sink_residual_mean - land_sink_residual_sd,
+      ymax = land_sink_residual_mean + land_sink_residual_sd,
+      col = ocean_sink_estimate
     ),
     position = position_dodge2(width = 0.5)
   ) +
-  scale_color_brewer(palette = "Set1",
+  scale_color_brewer(palette = "Dark2",
                      name = "ocean sink\nestimate\nunderlying\nresidual") +
-  scale_shape_manual(values = c(17, 16), name = "land sink\nestimate") +
+  theme(axis.title.x = element_blank()) +
+  labs(y = flux_label,
+       title = "Decadal mean land sink estimates",
+       subtitle = "Errorbars indicate the StDev of the interannual variability") +
+  theme(axis.title.x = element_blank())
+
+p_land_sink_residual_decade
+
+
+BIM_ocean <- land_sink %>% 
+  mutate(BIM = emissions_atmosphere + ocean_sink + land_sink_reported)
+
+
+p_BIM_ocean <- BIM_ocean %>%
+  mutate(ocean_sink_estimate =
+           str_replace(ocean_sink_estimate, "_", " ")) %>%
+  ggplot() +
+  geom_hline(yintercept = 0) +
+  geom_line(aes(year, BIM, col = ocean_sink_estimate)) +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_color_brewer(palette = "Set1",
+                     name = "ocean sink\nestimate\nunderlying\nBIM") +
+  labs(y = flux_label,
+       title = "BIM estimates",
+       subtitle = "BIM estimates are determined for a range of ocean sink estimates") +
+  theme(axis.title.x = element_blank())
+
+p_BIM_ocean
+
+
+BIM_ocean_decade <- BIM_ocean %>%
+  mutate(period = cut(year, c(1993, 2003, 2013),
+                      c("1994 - 2004", "2004 - 2014"))) %>%
+  filter(!is.na(period)) %>%
+  group_by(ocean_sink_estimate, period) %>%
+  summarise(across(starts_with("BIM"), list(mean = mean, sd = sd))) %>%
+  ungroup() %>%
+  mutate(ocean_sink_estimate =
+           str_replace_all(ocean_sink_estimate, "_", " "))
+
+BIM_ocean_decade
+  
+p_BIM_ocean_decade <-   
+  BIM_ocean_decade %>% 
+  ggplot() +
+  geom_hline(yintercept = 0) +
+  geom_pointrange(
+    aes(
+      period,
+      BIM_mean,
+      ymin = BIM_mean - BIM_sd,
+      ymax = BIM_mean + BIM_sd,
+      col = ocean_sink_estimate
+    ),
+    position = position_dodge2(width = 0.5)
+  ) +
+  scale_color_brewer(palette = "Dark2",
+                     name = "ocean sink\nestimate\nunderlying\nBIM") +
   guides(shape = guide_legend(order = 1),
          color = guide_legend(order = 2)) +
   theme(axis.title.x = element_blank()) +
   labs(y = flux_label,
-       title = "Decadal mean land sink estimates",
-       subtitle = "Note: Errorbars indicate the StDev of the IAV") +
+       title = "Decadal mean BIM estimates",
+       subtitle = "Errorbars indicate the StDev of the interannual variability") +
   theme(axis.title.x = element_blank())
 
-p_land_sink_residual_decade
+p_BIM_ocean_decade
+
 
 pdf(
   file = here::here("output/publication/GCB_land_sink_residual.pdf"),
@@ -7562,9 +7665,12 @@ p_individual_fluxes
 p_BIM
 p_land_sink_gcb
 p_ocean_sinks
+p_land_sink
+p_land_sink_decade
 p_land_sink_residual
-p_land_sink_residual_delta
 p_land_sink_residual_decade
+p_BIM_ocean
+p_BIM_ocean_decade
 
 dev.off()
 
@@ -7574,12 +7680,17 @@ rm(
   p_BIM,
   p_land_sink_gcb,
   p_ocean_sinks,
+  p_land_sink,
+  p_land_sink_decade,
   p_land_sink_residual,
-  p_land_sink_residual_delta,
   p_land_sink_residual_decade,
+  p_BIM_ocean,
+  p_BIM_ocean_decade,
   estimates,
   estimates_wide,
   land_sink,
+  land_sink_long,
+  land_sink_long_decade,
   Ocean_Sink_annual_mean,
   flux_components,
   flux_label,
