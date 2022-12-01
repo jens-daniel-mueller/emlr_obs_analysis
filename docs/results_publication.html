@@ -708,7 +708,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Results publication</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">29 November, 2022</h4>
+<h4 class="date">02 December, 2022</h4>
 
 </div>
 
@@ -737,7 +737,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-11-29
+<strong>Last updated:</strong> 2022-12-02
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -869,15 +869,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree104a756b48a90c8d1c2554d042a83e6f75883375targetblank104a756a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeab1269e5b73ee786e22503b4dfa403956e10ceb0targetblankab1269ea">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/104a756b48a90c8d1c2554d042a83e6f75883375" target="_blank">104a756</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/ab1269e5b73ee786e22503b4dfa403956e10ceb0" target="_blank">ab1269e</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree104a756b48a90c8d1c2554d042a83e6f75883375targetblank104a756a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeab1269e5b73ee786e22503b4dfa403956e10ceb0targetblankab1269ea"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -887,7 +887,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/104a756b48a90c8d1c2554d042a83e6f75883375" target="_blank">104a756</a>.
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/ab1269e5b73ee786e22503b4dfa403956e10ceb0" target="_blank">ab1269e</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -963,6 +963,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ab1269e5b73ee786e22503b4dfa403956e10ceb0/analysis/results_publication.Rmd" target="_blank">ab1269e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-12-02
+</td>
+<td>
+GCB budget tables compiled
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/ef50aa613f40d25571236b86073a7a5d450b55e0/docs/results_publication.html" target="_blank">ef50aa6</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-30
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -7136,7 +7170,7 @@ Version_IDs_3 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/
 Version_IDs_e &lt;- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 rm(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 
-# Surface with eMLR(C*)
+# BGC predictors from WOA18
 
 version_id_pattern &lt;- &quot;w&quot;
 
@@ -7151,8 +7185,6 @@ Version_IDs_3 &lt;- list.files(path = &quot;/nfs/kryo/work/jenmueller/emlr_cant/
 
 Version_IDs_w &lt;- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 rm(Version_IDs_1, Version_IDs_2, Version_IDs_3)
-
-# BGC predictor choice
 
 
 ### cases considered as sensitivity tests but not in uncertainty budget
@@ -16612,23 +16644,134 @@ jens-daniel-mueller
 </div>
 <div id="observations" class="section level2" number="10.2">
 <h2><span class="header-section-number">10.2</span> Observations</h2>
+<pre class="r"><code>dcant_global_section_all_inv &lt;- dcant_global_section_all_ensemble %&gt;%
+  select(data_source, period, depth, lat = dist, basin_AIP = band,
+         dcant, dcant_pos, Version_ID_group, MLR_basins) %&gt;% 
+  mutate(lon = &quot;dummy&quot;) %&gt;% 
+  group_by(data_source, period, Version_ID_group, MLR_basins) %&gt;%
+  nest() %&gt;%
+  mutate(inv = map(.x = data, ~m_dcant_inv(.x))) %&gt;%
+  select(-data) %&gt;%
+  unnest(inv) %&gt;% 
+  rename(dist = lat, band = basin_AIP) %&gt;% 
+  select(-lon)
+
+# dcant_global_section_all_inv %&gt;% 
+#   filter(period %in% two_decades) %&gt;% 
+#   ggplot(aes(dist, dcant, col = as.factor(inv_depth))) +
+#   geom_path(size = 2) +
+#   scale_color_viridis_d(direction = -1) +
+#   coord_cartesian(ylim = c(0,20)) +
+#   facet_grid(data_source ~ period)
+
+dcant_global_section_all_inv %&gt;% 
+  filter(period %in% two_decades,
+         inv_depth == 3000) %&gt;% 
+  ggplot(aes(dist, dcant, col = MLR_basins, group = interaction(Version_ID_group, MLR_basins))) +
+  geom_path() +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  coord_cartesian(ylim = c(0,20)) +
+  facet_grid(data_source ~ period)
+
+dcant_global_section_all_surface &lt;- dcant_global_section_all_ensemble %&gt;%
+  select(data_source, period, depth, dist, band, dcant, Version_ID_group, MLR_basins) %&gt;% 
+  group_by(data_source) %&gt;% 
+  mutate(surface_depth = min(depth, na.rm = TRUE)) %&gt;% 
+  ungroup() %&gt;% 
+  filter(depth == surface_depth) %&gt;% 
+  select(-surface_depth) %&gt;% 
+  rename(dcant_surface = dcant)
+
+dcant_global_section_all_surface %&gt;% 
+  filter(period %in% two_decades) %&gt;% 
+  arrange(dist) %&gt;% 
+  ggplot(aes(dist, dcant_surface, col = Version_ID_group, group = interaction(Version_ID_group, MLR_basins))) +
+  geom_path() +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  # coord_cartesian(ylim = c(0,20)) +
+  facet_grid(data_source ~ period)
+
+dcant_global_section_all_penetration &lt;- 
+  full_join(dcant_global_section_all_surface,
+            dcant_global_section_all_inv)
+
+dcant_global_section_all_penetration &lt;-
+  dcant_global_section_all_penetration %&gt;% 
+  mutate(dcant_surface = dcant_surface * 1e3 * 1.025 / 1e6,
+         depth =  dcant / dcant_surface)
+
+dcant_global_section_all_penetration &lt;-
+  dcant_global_section_all_penetration %&gt;%
+  filter(period %in% two_decades,
+         inv_depth == 3000) %&gt;%
+  arrange(dist)
+
+dcant_global_section_all_penetration %&gt;% 
+  ggplot(aes(dist, depth, col = Version_ID_group, group = interaction(Version_ID_group, MLR_basins))) +
+  geom_path() +
+  scale_y_reverse(limits = c(3000,0)) +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  # coord_cartesian(ylim = c(0,20)) +
+  facet_grid(data_source ~ period)
+
+dcant_global_section_all_penetration_uncertainty &lt;- 
+  additive_uncertainty(dcant_global_section_all_penetration %&gt;% 
+          select(-c(dcant, dcant_pos, dcant_surface, inv_depth)) %&gt;% 
+            group_by(data_source, period, dist, Version_ID_group, MLR_basins) %&gt;% 
+            summarise(dcant = mean(depth, na.rm = TRUE)) %&gt;% 
+            ungroup())
+
+delta_dcant_global_section_all_penetration_uncertainty &lt;- dcant_global_section_all_penetration_uncertainty[[3]]
+dcant_global_section_all_penetration_uncertainty &lt;- dcant_global_section_all_penetration_uncertainty[[1]]
+
+
+dcant_global_section_all_penetration_uncertainty %&gt;%
+  ggplot(aes(dist,
+             std_case,
+             ymin = std_case - sd,
+             ymax = std_case + sd,
+             fill = period)) +
+  geom_ribbon(alpha = 0.3) +
+  geom_path(aes(col = period)) +
+  scale_y_reverse() +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  scale_fill_brewer(palette = &quot;Dark2&quot;) +
+  coord_cartesian(ylim = c(3000,0)) +
+  facet_grid(data_source ~ .)
+
+delta_dcant_global_section_all_penetration_uncertainty %&gt;%
+  ggplot(aes(dist,
+             delta_dcant,
+             ymin = delta_dcant - RSS,
+             ymax = delta_dcant + RSS)) +
+  geom_hline(yintercept = 0) +
+  geom_ribbon(alpha = 0.3) +
+  geom_path() +
+  scale_y_reverse() +
+  scale_color_brewer(palette = &quot;Dark2&quot;) +
+  scale_fill_brewer(palette = &quot;Dark2&quot;) +
+  coord_cartesian(ylim = c(1000,-1000)) +
+  facet_grid(data_source ~ period)</code></pre>
 <pre class="r"><code>p_dcant_global_section_dec1 &lt;-
   dcant_global_section_all %&gt;%
   filter(data_source == &quot;obs&quot;,
          period %in% &quot;1994 - 2004&quot;) %&gt;%
-  p_section_global(var = &quot;dcant&quot;,
-                   title_text = &quot;1994 - 2004&quot;,
-                   df_uncertainty = dcant_global_section_all_uncertainty %&gt;% 
-                     filter(period %in% &quot;1994 - 2004&quot;,
-                            data_source == &quot;obs&quot;),
-                   col_uncertainty = &quot;grey&quot;,
-                   subtitle_text = NULL,
-                   plot_slabs = &quot;n&quot;,
-                   contour_level = 5) +
-  theme(
-    axis.title.x = element_blank(),
-    axis.text.x.bottom = element_blank()
-  )
+  p_section_global(
+    var = &quot;dcant&quot;,
+    title_text = &quot;1994 - 2004&quot;,
+    df_uncertainty = dcant_global_section_all_uncertainty %&gt;%
+      filter(period %in% &quot;1994 - 2004&quot;,
+             data_source == &quot;obs&quot;),
+    # df_penetration = dcant_global_section_all_penetration %&gt;%
+    #   filter(data_source == &quot;obs&quot;,
+    #          period %in% &quot;1994 - 2004&quot;),
+    col_uncertainty = &quot;grey&quot;,
+    subtitle_text = NULL,
+    plot_slabs = &quot;n&quot;,
+    contour_level = 5
+  ) +
+  theme(axis.title.x = element_blank(),
+        axis.text.x.bottom = element_blank())
 
 
 p_dcant_global_section_dec2 &lt;-
@@ -16644,7 +16787,10 @@ p_dcant_global_section_dec2 &lt;-
     df_uncertainty = dcant_global_section_all_uncertainty %&gt;%
       filter(period %in% &quot;2004 - 2014&quot;,
              data_source == &quot;obs&quot;),
-    col_uncertainty = &quot;grey&quot;
+    col_uncertainty = &quot;grey&quot;,
+    # df_penetration = dcant_global_section_all_penetration %&gt;%
+    #   filter(data_source == &quot;obs&quot;,
+    #          period %in% &quot;2004 - 2014&quot;)
   ) &amp;
   theme(legend.position = &quot;none&quot;)
 
@@ -31832,11 +31978,12 @@ S. Atlantic
 <pre class="r"><code>dcant_mean_penetration_depth_uncertainty %&gt;% 
   filter(period %in% two_decades,
          data_source == &quot;obs&quot;) %&gt;% 
-  ggplot(aes(x = period,
+  ggplot(aes(x = basin,
              y = std_case,
              ymin = std_case - sd,
              ymax = std_case + sd,
-             col = basin)) +
+             col = period)) +
+  scale_y_reverse(limits = c(1000,0)) +
   geom_pointrange(position = position_dodge(width = 0.3))</code></pre>
 <p><img src="figure/results_publication.Rmd/pentration_depth_of_surface_dcant-4.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
@@ -40460,13 +40607,18 @@ cnat &lt;-
 
 estimates_wide &lt;- estimates_wide %&gt;% 
   mutate(ocean_sink_interior_Cant = case_when(
-    between(year, 1994, 2003) ~ -dcant_interior[1],
-    between(year, 2004, 2013) ~ -dcant_interior[2],
+    between(year, 1995, 2004) ~ -dcant_interior[1],
+    between(year, 2005, 2014) ~ -dcant_interior[2],
     TRUE ~ NaN
   )) %&gt;% 
   mutate(ocean_sink_interior_Cnet = case_when(
-    between(year, 1994, 2003) ~ -dcant_interior[1]-cnat[1],
-    between(year, 2004, 2013) ~ -dcant_interior[2]-cnat[2],
+    between(year, 1995, 2004) ~ -dcant_interior[1]-cnat[1],
+    between(year, 2005, 2014) ~ -dcant_interior[2]-cnat[2],
+    TRUE ~ NaN
+  )) %&gt;% 
+  mutate(ocean_sink_interior_Cnat = case_when(
+    between(year, 1995, 2004) ~ -cnat[1],
+    between(year, 2005, 2014) ~ -cnat[2],
     TRUE ~ NaN
   ))
 
@@ -41046,21 +41198,23 @@ land_sink_long_decade &lt;- land_sink_long %&gt;%
            str_replace_all(ocean_sink_estimate, &quot;_&quot;, &quot; &quot;))
 
 land_sink_long_decade</code></pre>
-<pre><code># A tibble: 12 × 4
+<pre><code># A tibble: 14 × 4
    ocean_sink_estimate period      land_sink_mean land_sink_sd
    &lt;chr&gt;               &lt;fct&gt;                &lt;dbl&gt;        &lt;dbl&gt;
  1 data products       1994 - 2004          -1.96        1.19 
  2 data products       2004 - 2014          -2.96        0.789
  3 gcb mean            1994 - 2004          -2.07        1.19 
  4 gcb mean            2004 - 2014          -3.16        0.800
- 5 interior Cant       1994 - 2004          -1.15        1.11 
- 6 interior Cant       2004 - 2014          -2.82        0.837
- 7 interior Cnet       1994 - 2004          -1.94        1.11 
- 8 interior Cnet       2004 - 2014          -2.91        0.837
- 9 models              1994 - 2004          -2.15        1.21 
-10 models              2004 - 2014          -3.32        0.818
-11 reported land sink  1994 - 2004          -2.33        0.892
-12 reported land sink  2004 - 2014          -2.94        0.578</code></pre>
+ 5 interior Cant       1994 - 2004         NaN          NA    
+ 6 interior Cant       2004 - 2014          -2.80        0.837
+ 7 interior Cnat       1994 - 2004         NaN          NA    
+ 8 interior Cnat       2004 - 2014          -5.71        0.876
+ 9 interior Cnet       1994 - 2004         NaN          NA    
+10 interior Cnet       2004 - 2014          -2.96        0.860
+11 models              1994 - 2004          -2.15        1.21 
+12 models              2004 - 2014          -3.32        0.818
+13 reported land sink  1994 - 2004          -2.33        0.892
+14 reported land sink  2004 - 2014          -2.94        0.578</code></pre>
 <pre class="r"><code>p_land_sink_decade &lt;-   
   land_sink_long_decade %&gt;% 
   ggplot() +
@@ -41463,6 +41617,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ef50aa613f40d25571236b86073a7a5d450b55e0/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-12.png" target="_blank">ef50aa6</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-30
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/439cb85a6a38a7ae7790e81cd684658038de9c39/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-12.png" target="_blank">439cb85</a>
 </td>
 <td>
@@ -41498,19 +41663,21 @@ jens-daniel-mueller
            str_replace_all(ocean_sink_estimate, &quot;_&quot;, &quot; &quot;))
 
 BIM_ocean_decade</code></pre>
-<pre><code># A tibble: 10 × 4
+<pre><code># A tibble: 12 × 4
    ocean_sink_estimate period      BIM_mean BIM_sd
    &lt;chr&gt;               &lt;fct&gt;          &lt;dbl&gt;  &lt;dbl&gt;
  1 data products       1994 - 2004  -0.361   0.703
  2 data products       2004 - 2014   0.0208  0.530
  3 gcb mean            1994 - 2004  -0.254   0.709
  4 gcb mean            2004 - 2014   0.215   0.535
- 5 interior Cant       1994 - 2004  -1.17    0.654
- 6 interior Cant       2004 - 2014  -0.124   0.559
- 7 interior Cnet       1994 - 2004  -0.387   0.654
- 8 interior Cnet       2004 - 2014  -0.0373  0.559
- 9 models              1994 - 2004  -0.177   0.734
-10 models              2004 - 2014   0.379   0.546</code></pre>
+ 5 interior Cant       1994 - 2004 NaN      NA    
+ 6 interior Cant       2004 - 2014  -0.143   0.570
+ 7 interior Cnat       1994 - 2004 NaN      NA    
+ 8 interior Cnat       2004 - 2014   2.77    0.573
+ 9 interior Cnet       1994 - 2004 NaN      NA    
+10 interior Cnet       2004 - 2014   0.0134  0.561
+11 models              1994 - 2004  -0.177   0.734
+12 models              2004 - 2014   0.379   0.546</code></pre>
 <pre class="r"><code>p_BIM_ocean_decade &lt;-   
   BIM_ocean_decade %&gt;% 
   ggplot() +
@@ -41608,7 +41775,7 @@ dev.off()</code></pre>
   p_BIM_ocean,
   p_BIM_ocean_decade,
   estimates,
-  estimates_wide,
+  # estimates_wide,
   land_sink,
   land_sink_long,
   land_sink_long_decade,
@@ -41618,6 +41785,124 @@ dev.off()</code></pre>
   emission_components,
   sink_components
 )</code></pre>
+<div id="decadal-budgets" class="section level3" number="18.1.1">
+<h3><span class="header-section-number">18.1.1</span> Decadal
+Budgets</h3>
+<pre class="r"><code>Decadal_GCB_budgets &lt;- estimates_wide %&gt;%
+  pivot_longer(-year,
+               names_to = &quot;CO2_sources_sinks&quot;,
+               values_to = &quot;GtC_yr&quot;) %&gt;% 
+  mutate(period = cut(year, c(1994, 2004, 2014), c(&quot;1994 - 2004&quot;, &quot;2004 - 2014&quot;))) %&gt;%
+  drop_na() %&gt;%
+  group_by(period, CO2_sources_sinks) %&gt;%
+  summarise(GtC = sum(GtC_yr)) %&gt;%
+  ungroup()
+
+Decadal_GCB_budgets &lt;- Decadal_GCB_budgets %&gt;%
+  filter(
+    !(CO2_sources_sinks %in% c(&quot;ocean_sink_data_products&quot;, &quot;ocean sink&quot;, &quot;ocean_sink_models&quot;))
+  ) %&gt;% 
+  mutate(CO2_sources_sinks = str_remove(CO2_sources_sinks, &quot;_interior&quot;))
+
+total_emissions &lt;- Decadal_GCB_budgets %&gt;% 
+  filter(
+    CO2_sources_sinks %in% c(&quot;fossil emissions&quot;, &quot;land-use change emissions&quot;)
+  ) %&gt;% 
+  group_by(period) %&gt;%
+  summarise(GtC = sum(GtC)) %&gt;%
+  ungroup() %&gt;% 
+  mutate(CO2_sources_sinks = &quot;total emissions&quot;)
+
+Decadal_GCB_budgets &lt;- full_join(Decadal_GCB_budgets, total_emissions)
+
+
+ocean_stats &lt;- dcant_type_box_stat %&gt;% 
+  filter(period %in% two_decades) %&gt;% 
+  mutate(type = case_when(
+    type == &quot;eMLR(C*)&quot; ~ &quot;ocean_sink_Cant&quot;,
+    type == &quot;Observation-based\nsurface flux\nproducts&quot; ~ &quot;ocean_sink_Cnet&quot;,
+    TRUE ~ &quot;x&quot;
+    )) %&gt;% 
+  filter(type != &quot;x&quot;) %&gt;% 
+  select(period, CO2_sources_sinks = type, GtC_sigma = dcant_sd)
+
+Decadal_GCB_budgets &lt;- 
+  full_join(Decadal_GCB_budgets,
+            ocean_stats)
+
+rm(ocean_stats)
+
+ocean_stats &lt;- dcant_type_significance %&gt;% 
+  filter(period %in% two_decades) %&gt;% 
+  mutate(type = case_when(
+    type == &quot;Observation-based\nsurface flux\nproducts&quot; ~ &quot;ocean_sink_Cnat&quot;,
+    TRUE ~ &quot;x&quot;
+    )) %&gt;% 
+  filter(type != &quot;x&quot;) %&gt;% 
+  select(period, CO2_sources_sinks = type, GtC_sigma = dcant_diff_sd)
+
+library(rqdatatable)
+
+Decadal_GCB_budgets &lt;-
+  natural_join(
+    Decadal_GCB_budgets,
+    ocean_stats,
+    by = c(&quot;period&quot;, &quot;CO2_sources_sinks&quot;),
+    jointype = &quot;FULL&quot;
+  )
+
+rm(ocean_stats)
+
+Decadal_GCB_budgets &lt;- Decadal_GCB_budgets %&gt;% 
+  mutate(GtC_sigma = case_when(
+    CO2_sources_sinks == &quot;fossil emissions&quot; ~ GtC * 0.4 / 7.7,
+    CO2_sources_sinks == &quot;land-use change emissions&quot; ~ GtC * 0.7 / 1.2,
+    CO2_sources_sinks == &quot;total emissions&quot; ~ GtC * 0.8 / 9.0,
+    CO2_sources_sinks == &quot;atmospheric growth&quot; ~ GtC * 0.02 / 4.0,
+    CO2_sources_sinks == &quot;land sink&quot; ~ GtC * 0.5 / 2.6,
+    TRUE ~ GtC_sigma
+  )) %&gt;% 
+  mutate(GtC_sigma = abs(GtC_sigma))
+
+Decadal_GCB_budgets %&gt;% 
+  ggplot(aes(period, GtC,
+             ymin = GtC - GtC_sigma,
+             ymax = GtC + GtC_sigma,
+             col = CO2_sources_sinks)) +
+  geom_hline(yintercept = 0) +
+  scale_color_muted() +
+  geom_pointrange(position = position_dodge2(width = 0.5),
+                  shape = 1)</code></pre>
+<p><img src="figure/results_publication.Rmd/decadal_budgets-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>Decadal_GCB_budgets %&gt;% 
+  mutate(across(where(is.numeric), round, 1)) %&gt;% 
+  mutate(GtC = paste(GtC, GtC_sigma, sep = &quot; ± &quot;)) %&gt;% 
+  select(-GtC_sigma) %&gt;% 
+  pivot_wider(names_from = period,
+              values_from = GtC) %&gt;% 
+  mutate(CO2_sources_sinks = str_replace_all(CO2_sources_sinks, &quot;_&quot;, &quot; &quot;)) %&gt;% 
+  write_csv(here::here(&quot;output/publication/Table_GCB.csv&quot;))
+
+Decadal_GCB_budgets %&gt;% 
+  filter(CO2_sources_sinks %in% c(&quot;atmospheric growth&quot;, &quot;land sink&quot;, 
+                                  &quot;ocean_sink_Cnet&quot;, &quot;ocean_sink_Cant&quot;,
+                                  &quot;total emissions&quot;)) %&gt;% 
+  group_by(period) %&gt;% 
+  mutate(fraction = abs(GtC / last(GtC))*100,
+         GtC_rel = abs(GtC_sigma / GtC),
+         fraction_rel = sqrt(GtC_rel^2 + last(GtC_rel)^2),
+         fraction_sigma = fraction_rel * fraction)  %&gt;% 
+  ungroup() %&gt;% 
+  select(period, CO2_sources_sinks, fraction, fraction_sigma) %&gt;% 
+  mutate(across(where(is.numeric), round, 0)) %&gt;% 
+  mutate(fraction = paste0(fraction, &quot; ± &quot;, fraction_sigma)) %&gt;% 
+  select(-fraction_sigma) %&gt;% 
+  filter(CO2_sources_sinks != &quot;total emissions&quot;) %&gt;% 
+  pivot_wider(names_from = period,
+              values_from = fraction) %&gt;% 
+  mutate(CO2_sources_sinks = str_replace_all(CO2_sources_sinks, &quot;_&quot;, &quot; &quot;)) %&gt;% 
+  write_csv(here::here(&quot;output/publication/Table_GCB_fraction.csv&quot;))</code></pre>
+</div>
 </div>
 <div id="net-land-sink" class="section level2" number="18.2">
 <h2><span class="header-section-number">18.2</span> Net land sink</h2>
@@ -42291,13 +42576,14 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] ggpattern_1.0.0    ggh4x_0.2.1        khroma_1.9.0       BSDA_1.2.1        
- [5] lattice_0.20-45    kableExtra_1.3.4   ggdist_3.1.1       ggalluvial_0.12.3 
- [9] geomtextpath_0.1.0 colorspace_2.0-2   marelac_2.1.10     shape_1.4.6       
-[13] ggforce_0.3.3      metR_0.11.0        scico_1.3.0        patchwork_1.1.1   
-[17] collapse_1.7.0     forcats_0.5.1      stringr_1.4.0      dplyr_1.0.7       
-[21] purrr_0.3.4        readr_2.1.1        tidyr_1.1.4        tibble_3.1.6      
-[25] ggplot2_3.3.5      tidyverse_1.3.1    workflowr_1.7.0   
+ [1] rqdatatable_1.3.0  rquery_1.4.7       wrapr_2.0.8        ggpattern_1.0.0   
+ [5] ggh4x_0.2.1        khroma_1.9.0       BSDA_1.2.1         lattice_0.20-45   
+ [9] kableExtra_1.3.4   ggdist_3.1.1       ggalluvial_0.12.3  geomtextpath_0.1.0
+[13] colorspace_2.0-2   marelac_2.1.10     shape_1.4.6        ggforce_0.3.3     
+[17] metR_0.11.0        scico_1.3.0        patchwork_1.1.1    collapse_1.7.0    
+[21] forcats_0.5.1      stringr_1.4.0      dplyr_1.0.7        purrr_0.3.4       
+[25] readr_2.1.1        tidyr_1.1.4        tibble_3.1.6       ggplot2_3.3.5     
+[29] tidyverse_1.3.1    workflowr_1.7.0   
 
 loaded via a namespace (and not attached):
   [1] ellipsis_0.3.2       class_7.3-20         rprojroot_2.0.2     
