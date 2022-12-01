@@ -165,7 +165,7 @@ Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observat
 Version_IDs_e <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 rm(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 
-# Surface with eMLR(C*)
+# BGC predictors from WOA18
 
 version_id_pattern <- "w"
 
@@ -180,8 +180,6 @@ Version_IDs_3 <- list.files(path = "/nfs/kryo/work/jenmueller/emlr_cant/observat
 
 Version_IDs_w <- c(Version_IDs_1, Version_IDs_2, Version_IDs_3)
 rm(Version_IDs_1, Version_IDs_2, Version_IDs_3)
-
-# BGC predictor choice
 
 
 ### cases considered as sensitivity tests but not in uncertainty budget
@@ -3195,25 +3193,144 @@ ggplot() +
 
 ## Observations
 
+```{r global_section_penetration_depth, eval=FALSE}
+
+dcant_global_section_all_inv <- dcant_global_section_all_ensemble %>%
+  select(data_source, period, depth, lat = dist, basin_AIP = band,
+         dcant, dcant_pos, Version_ID_group, MLR_basins) %>% 
+  mutate(lon = "dummy") %>% 
+  group_by(data_source, period, Version_ID_group, MLR_basins) %>%
+  nest() %>%
+  mutate(inv = map(.x = data, ~m_dcant_inv(.x))) %>%
+  select(-data) %>%
+  unnest(inv) %>% 
+  rename(dist = lat, band = basin_AIP) %>% 
+  select(-lon)
+
+# dcant_global_section_all_inv %>% 
+#   filter(period %in% two_decades) %>% 
+#   ggplot(aes(dist, dcant, col = as.factor(inv_depth))) +
+#   geom_path(size = 2) +
+#   scale_color_viridis_d(direction = -1) +
+#   coord_cartesian(ylim = c(0,20)) +
+#   facet_grid(data_source ~ period)
+
+dcant_global_section_all_inv %>% 
+  filter(period %in% two_decades,
+         inv_depth == 3000) %>% 
+  ggplot(aes(dist, dcant, col = MLR_basins, group = interaction(Version_ID_group, MLR_basins))) +
+  geom_path() +
+  scale_color_brewer(palette = "Dark2") +
+  coord_cartesian(ylim = c(0,20)) +
+  facet_grid(data_source ~ period)
+
+dcant_global_section_all_surface <- dcant_global_section_all_ensemble %>%
+  select(data_source, period, depth, dist, band, dcant, Version_ID_group, MLR_basins) %>% 
+  group_by(data_source) %>% 
+  mutate(surface_depth = min(depth, na.rm = TRUE)) %>% 
+  ungroup() %>% 
+  filter(depth == surface_depth) %>% 
+  select(-surface_depth) %>% 
+  rename(dcant_surface = dcant)
+
+dcant_global_section_all_surface %>% 
+  filter(period %in% two_decades) %>% 
+  arrange(dist) %>% 
+  ggplot(aes(dist, dcant_surface, col = Version_ID_group, group = interaction(Version_ID_group, MLR_basins))) +
+  geom_path() +
+  scale_color_brewer(palette = "Dark2") +
+  # coord_cartesian(ylim = c(0,20)) +
+  facet_grid(data_source ~ period)
+
+dcant_global_section_all_penetration <- 
+  full_join(dcant_global_section_all_surface,
+            dcant_global_section_all_inv)
+
+dcant_global_section_all_penetration <-
+  dcant_global_section_all_penetration %>% 
+  mutate(dcant_surface = dcant_surface * 1e3 * 1.025 / 1e6,
+         depth =  dcant / dcant_surface)
+
+dcant_global_section_all_penetration <-
+  dcant_global_section_all_penetration %>%
+  filter(period %in% two_decades,
+         inv_depth == 3000) %>%
+  arrange(dist)
+
+dcant_global_section_all_penetration %>% 
+  ggplot(aes(dist, depth, col = Version_ID_group, group = interaction(Version_ID_group, MLR_basins))) +
+  geom_path() +
+  scale_y_reverse(limits = c(3000,0)) +
+  scale_color_brewer(palette = "Dark2") +
+  # coord_cartesian(ylim = c(0,20)) +
+  facet_grid(data_source ~ period)
+
+dcant_global_section_all_penetration_uncertainty <- 
+  additive_uncertainty(dcant_global_section_all_penetration %>% 
+          select(-c(dcant, dcant_pos, dcant_surface, inv_depth)) %>% 
+            group_by(data_source, period, dist, Version_ID_group, MLR_basins) %>% 
+            summarise(dcant = mean(depth, na.rm = TRUE)) %>% 
+            ungroup())
+
+delta_dcant_global_section_all_penetration_uncertainty <- dcant_global_section_all_penetration_uncertainty[[3]]
+dcant_global_section_all_penetration_uncertainty <- dcant_global_section_all_penetration_uncertainty[[1]]
+
+
+dcant_global_section_all_penetration_uncertainty %>%
+  ggplot(aes(dist,
+             std_case,
+             ymin = std_case - sd,
+             ymax = std_case + sd,
+             fill = period)) +
+  geom_ribbon(alpha = 0.3) +
+  geom_path(aes(col = period)) +
+  scale_y_reverse() +
+  scale_color_brewer(palette = "Dark2") +
+  scale_fill_brewer(palette = "Dark2") +
+  coord_cartesian(ylim = c(3000,0)) +
+  facet_grid(data_source ~ .)
+
+delta_dcant_global_section_all_penetration_uncertainty %>%
+  ggplot(aes(dist,
+             delta_dcant,
+             ymin = delta_dcant - RSS,
+             ymax = delta_dcant + RSS)) +
+  geom_hline(yintercept = 0) +
+  geom_ribbon(alpha = 0.3) +
+  geom_path() +
+  scale_y_reverse() +
+  scale_color_brewer(palette = "Dark2") +
+  scale_fill_brewer(palette = "Dark2") +
+  coord_cartesian(ylim = c(1000,-1000)) +
+  facet_grid(data_source ~ period)
+
+
+
+```
+
+
 ```{r global_sections_obs, fig.asp=1}
 
 p_dcant_global_section_dec1 <-
   dcant_global_section_all %>%
   filter(data_source == "obs",
          period %in% "1994 - 2004") %>%
-  p_section_global(var = "dcant",
-                   title_text = "1994 - 2004",
-                   df_uncertainty = dcant_global_section_all_uncertainty %>% 
-                     filter(period %in% "1994 - 2004",
-                            data_source == "obs"),
-                   col_uncertainty = "grey",
-                   subtitle_text = NULL,
-                   plot_slabs = "n",
-                   contour_level = 5) +
-  theme(
-    axis.title.x = element_blank(),
-    axis.text.x.bottom = element_blank()
-  )
+  p_section_global(
+    var = "dcant",
+    title_text = "1994 - 2004",
+    df_uncertainty = dcant_global_section_all_uncertainty %>%
+      filter(period %in% "1994 - 2004",
+             data_source == "obs"),
+    # df_penetration = dcant_global_section_all_penetration %>%
+    #   filter(data_source == "obs",
+    #          period %in% "1994 - 2004"),
+    col_uncertainty = "grey",
+    subtitle_text = NULL,
+    plot_slabs = "n",
+    contour_level = 5
+  ) +
+  theme(axis.title.x = element_blank(),
+        axis.text.x.bottom = element_blank())
 
 
 p_dcant_global_section_dec2 <-
@@ -3229,7 +3346,10 @@ p_dcant_global_section_dec2 <-
     df_uncertainty = dcant_global_section_all_uncertainty %>%
       filter(period %in% "2004 - 2014",
              data_source == "obs"),
-    col_uncertainty = "grey"
+    col_uncertainty = "grey",
+    # df_penetration = dcant_global_section_all_penetration %>%
+    #   filter(data_source == "obs",
+    #          period %in% "2004 - 2014")
   ) &
   theme(legend.position = "none")
 
@@ -6279,11 +6399,12 @@ delta_dcant_mean_penetration_depth_uncertainty %>%
 dcant_mean_penetration_depth_uncertainty %>% 
   filter(period %in% two_decades,
          data_source == "obs") %>% 
-  ggplot(aes(x = period,
+  ggplot(aes(x = basin,
              y = std_case,
              ymin = std_case - sd,
              ymax = std_case + sd,
-             col = basin)) +
+             col = period)) +
+  scale_y_reverse(limits = c(1000,0)) +
   geom_pointrange(position = position_dodge(width = 0.3))
 
 rm(mean_surface_dcant,
@@ -7332,13 +7453,18 @@ cnat <-
 
 estimates_wide <- estimates_wide %>% 
   mutate(ocean_sink_interior_Cant = case_when(
-    between(year, 1994, 2003) ~ -dcant_interior[1],
-    between(year, 2004, 2013) ~ -dcant_interior[2],
+    between(year, 1995, 2004) ~ -dcant_interior[1],
+    between(year, 2005, 2014) ~ -dcant_interior[2],
     TRUE ~ NaN
   )) %>% 
   mutate(ocean_sink_interior_Cnet = case_when(
-    between(year, 1994, 2003) ~ -dcant_interior[1]-cnat[1],
-    between(year, 2004, 2013) ~ -dcant_interior[2]-cnat[2],
+    between(year, 1995, 2004) ~ -dcant_interior[1]-cnat[1],
+    between(year, 2005, 2014) ~ -dcant_interior[2]-cnat[2],
+    TRUE ~ NaN
+  )) %>% 
+  mutate(ocean_sink_interior_Cnat = case_when(
+    between(year, 1995, 2004) ~ -cnat[1],
+    between(year, 2005, 2014) ~ -cnat[2],
     TRUE ~ NaN
   ))
 
@@ -7684,7 +7810,7 @@ rm(
   p_BIM_ocean,
   p_BIM_ocean_decade,
   estimates,
-  estimates_wide,
+  # estimates_wide,
   land_sink,
   land_sink_long,
   land_sink_long_decade,
@@ -7696,6 +7822,129 @@ rm(
 )
 
 ```
+
+### Decadal Budgets
+
+```{r decadal_budgets}
+
+Decadal_GCB_budgets <- estimates_wide %>%
+  pivot_longer(-year,
+               names_to = "CO2_sources_sinks",
+               values_to = "GtC_yr") %>% 
+  mutate(period = cut(year, c(1994, 2004, 2014), c("1994 - 2004", "2004 - 2014"))) %>%
+  drop_na() %>%
+  group_by(period, CO2_sources_sinks) %>%
+  summarise(GtC = sum(GtC_yr)) %>%
+  ungroup()
+
+Decadal_GCB_budgets <- Decadal_GCB_budgets %>%
+  filter(
+    !(CO2_sources_sinks %in% c("ocean_sink_data_products", "ocean sink", "ocean_sink_models"))
+  ) %>% 
+  mutate(CO2_sources_sinks = str_remove(CO2_sources_sinks, "_interior"))
+
+total_emissions <- Decadal_GCB_budgets %>% 
+  filter(
+    CO2_sources_sinks %in% c("fossil emissions", "land-use change emissions")
+  ) %>% 
+  group_by(period) %>%
+  summarise(GtC = sum(GtC)) %>%
+  ungroup() %>% 
+  mutate(CO2_sources_sinks = "total emissions")
+
+Decadal_GCB_budgets <- full_join(Decadal_GCB_budgets, total_emissions)
+
+
+ocean_stats <- dcant_type_box_stat %>% 
+  filter(period %in% two_decades) %>% 
+  mutate(type = case_when(
+    type == "eMLR(C*)" ~ "ocean_sink_Cant",
+    type == "Observation-based\nsurface flux\nproducts" ~ "ocean_sink_Cnet",
+    TRUE ~ "x"
+    )) %>% 
+  filter(type != "x") %>% 
+  select(period, CO2_sources_sinks = type, GtC_sigma = dcant_sd)
+
+Decadal_GCB_budgets <- 
+  full_join(Decadal_GCB_budgets,
+            ocean_stats)
+
+rm(ocean_stats)
+
+ocean_stats <- dcant_type_significance %>% 
+  filter(period %in% two_decades) %>% 
+  mutate(type = case_when(
+    type == "Observation-based\nsurface flux\nproducts" ~ "ocean_sink_Cnat",
+    TRUE ~ "x"
+    )) %>% 
+  filter(type != "x") %>% 
+  select(period, CO2_sources_sinks = type, GtC_sigma = dcant_diff_sd)
+
+library(rqdatatable)
+
+Decadal_GCB_budgets <-
+  natural_join(
+    Decadal_GCB_budgets,
+    ocean_stats,
+    by = c("period", "CO2_sources_sinks"),
+    jointype = "FULL"
+  )
+
+rm(ocean_stats)
+
+Decadal_GCB_budgets <- Decadal_GCB_budgets %>% 
+  mutate(GtC_sigma = case_when(
+    CO2_sources_sinks == "fossil emissions" ~ GtC * 0.4 / 7.7,
+    CO2_sources_sinks == "land-use change emissions" ~ GtC * 0.7 / 1.2,
+    CO2_sources_sinks == "total emissions" ~ GtC * 0.8 / 9.0,
+    CO2_sources_sinks == "atmospheric growth" ~ GtC * 0.02 / 4.0,
+    CO2_sources_sinks == "land sink" ~ GtC * 0.5 / 2.6,
+    TRUE ~ GtC_sigma
+  )) %>% 
+  mutate(GtC_sigma = abs(GtC_sigma))
+
+Decadal_GCB_budgets %>% 
+  ggplot(aes(period, GtC,
+             ymin = GtC - GtC_sigma,
+             ymax = GtC + GtC_sigma,
+             col = CO2_sources_sinks)) +
+  geom_hline(yintercept = 0) +
+  scale_color_muted() +
+  geom_pointrange(position = position_dodge2(width = 0.5),
+                  shape = 1)
+
+Decadal_GCB_budgets %>% 
+  mutate(across(where(is.numeric), round, 1)) %>% 
+  mutate(GtC = paste(GtC, GtC_sigma, sep = " ± ")) %>% 
+  select(-GtC_sigma) %>% 
+  pivot_wider(names_from = period,
+              values_from = GtC) %>% 
+  mutate(CO2_sources_sinks = str_replace_all(CO2_sources_sinks, "_", " ")) %>% 
+  write_csv(here::here("output/publication/Table_GCB.csv"))
+
+Decadal_GCB_budgets %>% 
+  filter(CO2_sources_sinks %in% c("atmospheric growth", "land sink", 
+                                  "ocean_sink_Cnet", "ocean_sink_Cant",
+                                  "total emissions")) %>% 
+  group_by(period) %>% 
+  mutate(fraction = abs(GtC / last(GtC))*100,
+         GtC_rel = abs(GtC_sigma / GtC),
+         fraction_rel = sqrt(GtC_rel^2 + last(GtC_rel)^2),
+         fraction_sigma = fraction_rel * fraction)  %>% 
+  ungroup() %>% 
+  select(period, CO2_sources_sinks, fraction, fraction_sigma) %>% 
+  mutate(across(where(is.numeric), round, 0)) %>% 
+  mutate(fraction = paste0(fraction, " ± ", fraction_sigma)) %>% 
+  select(-fraction_sigma) %>% 
+  filter(CO2_sources_sinks != "total emissions") %>% 
+  pivot_wider(names_from = period,
+              values_from = fraction) %>% 
+  mutate(CO2_sources_sinks = str_replace_all(CO2_sources_sinks, "_", " ")) %>% 
+  write_csv(here::here("output/publication/Table_GCB_fraction.csv"))
+
+```
+
+
 
 ## Net land sink
 
