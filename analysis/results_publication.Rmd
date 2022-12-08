@@ -26,7 +26,6 @@ library(ggalluvial)
 library(marelac)
 library(ggdist)
 library(kableExtra)
-library(BSDA)
 library(khroma)
 library(ggh4x)
 library(ggpattern)
@@ -365,7 +364,7 @@ params_local_all_ensemble <-
       Version_ID_group == "c" ~ "Cruise adjustment",
       Version_ID_group == "g" ~ "Gap filling",
       Version_ID_group == "n" ~ "C* with NO3,TA",
-      Version_ID_group == "h" ~ "Surface eMLR(C*)",
+      Version_ID_group == "h" ~ "OceanSODA surface DIC",
       Version_ID_group == "w" ~ "WOA18 predictors",
       Version_ID_group == "d" ~ "No data adjustments",
       Version_ID_group == "o" ~ "Reoccupation filter",
@@ -2205,6 +2204,7 @@ dcant_inv_uncertainty <- dcant_inv_uncertainty[[1]]
 
 
 dcant_inv_uncertainty %>%
+  filter(data_source == "obs") %>%
   mutate(
     data_source = case_when(
       data_source == "mod" ~ "Synthetic data",
@@ -2214,13 +2214,13 @@ dcant_inv_uncertainty %>%
   p_map_cant_inv(var = "sd",
                  breaks = c(seq(0, 8, 1), Inf),
                  title_text = NULL) +
-  facet_grid(data_source ~ period) +
+  facet_grid(. ~ period) +
   theme(axis.text = element_blank(),
         axis.ticks = element_blank())
 
 ggsave(path = here::here("output/publication"),
        filename = "FigS_dcant_column_inventory_uncertainty.png",
-       height = 4,
+       height = 3.5,
        width = 8)
 
 dcant_inv_uncertainty_contributions %>%
@@ -2369,6 +2369,18 @@ ggsave(path = here::here("output/presentation"),
        height = 5,
        width = 6)
 
+dcant_inv_uncertainty %>%
+  select(data_source, lon, lat, period, starts_with("signif")) %>%
+  mutate(area = earth_surf(lat,lon)) %>% 
+  group_by(data_source, period, signif_single) %>% 
+  summarize(area_signif = sum(area)) %>% 
+  ungroup() %>% 
+  group_by(data_source, period) %>% 
+  mutate(area_total = sum(area_signif)) %>% 
+  ungroup() %>% 
+  mutate(area_fraction = 100 * area_signif / area_total)
+
+
 ```
 
 ```{r inventory_maps_absolute_obs_10000, fig.asp=1.2}
@@ -2502,27 +2514,27 @@ p_CI_absolute_mod_delta <- dcant_inv_all %>%
   p_map_cant_inv(var = "dcant",
                  title_text = NULL) +
   facet_grid(period ~ data_source) +
-  theme(axis.text.x = element_blank()) +
-  geom_point(
-    data = dcant_inv_uncertainty %>%
-      filter(signif_double == 0,
-             data_source == "mod") %>%
-      mutate(data_source = case_when(data_source == "mod" ~ "Reconstruction")),
-    aes(lon, lat),
-    shape = 20,
-    size = 0.1,
-    col = "grey"
-  ) +
-  geom_point(
-    data = dcant_inv_uncertainty %>%
-      filter(signif_single == 0,
-             data_source == "mod") %>%
-      mutate(data_source = case_when(data_source == "mod" ~ "Reconstruction")),
-    aes(lon, lat),
-    shape = 20,
-    size = 1,
-    col = "grey"
-  )
+  theme(axis.text.x = element_blank())
+  # geom_point(
+  #   data = dcant_inv_uncertainty %>%
+  #     filter(signif_double == 0,
+  #            data_source == "mod") %>%
+  #     mutate(data_source = case_when(data_source == "mod" ~ "Reconstruction")),
+  #   aes(lon, lat),
+  #   shape = 20,
+  #   size = 0.1,
+  #   col = "grey"
+  # ) +
+  # geom_point(
+  #   data = dcant_inv_uncertainty %>%
+  #     filter(signif_single == 0,
+  #            data_source == "mod") %>%
+  #     mutate(data_source = case_when(data_source == "mod" ~ "Reconstruction")),
+  #   aes(lon, lat),
+  #   shape = 20,
+  #   size = 1,
+  #   col = "grey"
+  # )
 
 
 
@@ -2547,35 +2559,35 @@ p_CI_bias_delta <-
     subtitle_text = NULL,
     col = "bias"
   ) +
-  facet_grid(period ~ data_source) +
-  geom_point(
-    data = delta_dcant_inv_uncertainty %>%
-      filter(signif_single == 0,
-             data_source == "mod") %>%
-      mutate(
-        data_source = case_when(data_source == "mod" ~ "Reconstruction"),
-        period = "Decadal offset"
-      ),
-    
-    aes(lon, lat),
-    shape = 20,
-    size = 1,
-    col = "black"
-  ) +
-  geom_point(
-    data = delta_dcant_inv_uncertainty %>%
-      filter(signif_double == 0,
-             data_source == "mod") %>%
-      mutate(
-        data_source = case_when(data_source == "mod" ~ "Reconstruction"),
-        period = "Decadal offset"
-      ),
-    
-    aes(lon, lat),
-    shape = 20,
-    size = 0.1,
-    col = "black"
-  )
+  facet_grid(. ~ data_source)
+  # geom_point(
+  #   data = delta_dcant_inv_uncertainty %>%
+  #     filter(signif_single == 0,
+  #            data_source == "mod") %>%
+  #     mutate(
+  #       data_source = case_when(data_source == "mod" ~ "Reconstruction"),
+  #       period = "Decadal offset"
+  #     ),
+  #   
+  #   aes(lon, lat),
+  #   shape = 20,
+  #   size = 1,
+  #   col = "black"
+  # ) +
+  # geom_point(
+  #   data = delta_dcant_inv_uncertainty %>%
+  #     filter(signif_double == 0,
+  #            data_source == "mod") %>%
+  #     mutate(
+  #       data_source = case_when(data_source == "mod" ~ "Reconstruction"),
+  #       period = "Decadal offset"
+  #     ),
+  #   
+  #   aes(lon, lat),
+  #   shape = 20,
+  #   size = 0.1,
+  #   col = "black"
+  # )
 
 p_CI_absolute_mod_delta / p_CI_bias_delta + 
   plot_annotation(tag_levels = 'A')
@@ -3756,7 +3768,7 @@ p_dcant_zonal_delta <-
   #   shape = 20,
   #   size = 0.1,
   #   col = "black"
-  # )+
+  # ) +
   facet_grid("Dec. diff." ~ basin_AIP) +
   theme(
     strip.text.x = element_blank(),
@@ -6710,6 +6722,16 @@ Ocean_Sink <- Ocean_Sink %>%
 
 ```
 
+```{r GCB_carbon_sink_cum_2010s}
+
+Ocean_Sink %>%
+  filter(year >= 2010, year <= 2019) %>%
+  group_by(type) %>%
+  summarise(GtC_yr_mean = mean(GtC_yr)) %>%
+  ungroup()
+
+```
+
 ```{r GCB_carbon_sink_cum_1994_2007_reference}
 
 Ocean_Sink_cum_1994 <-
@@ -7913,16 +7935,20 @@ Decadal_GCB_budgets %>%
   geom_pointrange(position = position_dodge2(width = 0.5),
                   shape = 1)
 
-Decadal_GCB_budgets %>% 
+Decadal_GCB_fractions <- Decadal_GCB_budgets
+
+Decadal_GCB_budgets <- Decadal_GCB_budgets %>% 
   mutate(across(where(is.numeric), round, 1)) %>% 
   mutate(GtC = paste(GtC, GtC_sigma, sep = " ± ")) %>% 
   select(-GtC_sigma) %>% 
   pivot_wider(names_from = period,
               values_from = GtC) %>% 
-  mutate(CO2_sources_sinks = str_replace_all(CO2_sources_sinks, "_", " ")) %>% 
-  write_csv(here::here("output/publication/Table_GCB.csv"))
+  mutate(CO2_sources_sinks = str_replace_all(CO2_sources_sinks, "_", " ")) 
 
 Decadal_GCB_budgets %>% 
+  write_csv(here::here("output/publication/Table_GCB.csv"))
+
+Decadal_GCB_fractions <- Decadal_GCB_fractions %>% 
   filter(CO2_sources_sinks %in% c("atmospheric growth", "land sink", 
                                   "ocean_sink_Cnet", "ocean_sink_Cant",
                                   "total emissions")) %>% 
@@ -7939,7 +7965,11 @@ Decadal_GCB_budgets %>%
   filter(CO2_sources_sinks != "total emissions") %>% 
   pivot_wider(names_from = period,
               values_from = fraction) %>% 
-  mutate(CO2_sources_sinks = str_replace_all(CO2_sources_sinks, "_", " ")) %>% 
+  mutate(CO2_sources_sinks = str_replace_all(CO2_sources_sinks, "_", " ")) 
+
+Decadal_GCB_fractions
+
+Decadal_GCB_fractions %>% 
   write_csv(here::here("output/publication/Table_GCB_fraction.csv"))
 
 ```
@@ -8271,45 +8301,6 @@ rm(
   emission_components,
   sink_components
 )
-
-```
-
-# Emission removal
-
-```{r removal_relative_to_emissions}
-
-GCB_Cant_emissions <- Global_Carbon_Budget %>%
-  mutate(year = cut(year, c(1994, 2004, 2014), c("2004", "2014")),
-         year = as.numeric(as.character(year))) %>%
-  drop_na() %>%
-  filter(estimate %in% c(
-    "fossil emissions excluding carbonation",
-    "land-use change emissions"
-  )) %>%
-  group_by(year) %>%
-  summarise(cant_emissions = sum(GtC_yr)) %>%
-  ungroup()
-
-dcant_per_emissions <- left_join(GCB_Cant_emissions,
-          tcant_ts_zoom) %>%
-  mutate(
-    cant_emissions_sd_rel = 0.09,
-    dcant_sd_rel = dcant_sd_int / dcant_mean,
-    dcant_per_emissions_sd_rel = sqrt(dcant_sd_rel^2 + cant_emissions_sd_rel^2),
-    dcant_per_emissions = 100 * dcant_mean / cant_emissions,
-    dcant_per_emissions_sd = dcant_per_emissions_sd_rel * dcant_per_emissions
-  ) %>%
-  select(year, cant_emissions, dcant_mean, dcant_sd, dcant_per_emissions, dcant_per_emissions_sd)
-
-dcant_per_emissions %>% 
-  kable() %>%
-  kable_styling() %>%
-  scroll_box(height = "300px")
-
-dcant_per_emissions %>% 
-  mutate(delta_dcant_per_emissions = dcant_per_emissions - lag(dcant_per_emissions),
-         delta_dcant_per_emissions_sd = sqrt(dcant_per_emissions_sd^2 + lag(dcant_per_emissions_sd)^2))
-
 
 ```
 
