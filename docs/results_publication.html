@@ -14,7 +14,7 @@
 
 <title>Results publication</title>
 
-<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -79,6 +79,7 @@ if (window.hljs) {
 
 
 
+
 <style type = "text/css">
 .main-container {
   max-width: 940px;
@@ -99,6 +100,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -156,11 +160,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -189,8 +197,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -198,16 +206,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -333,7 +334,7 @@ div.tocify {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -349,14 +350,14 @@ div.tocify {
   <a href="results_publication.html">Synopsis</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Adjustements
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Bulk</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Bulk</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="data_adjustment_bulk_budgets.html">Budgets</a>
@@ -370,7 +371,7 @@ div.tocify {
       </ul>
     </li>
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Cruise</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Cruise</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="data_adjustment_cruise_budgets.html">Budgets</a>
@@ -384,7 +385,7 @@ div.tocify {
       </ul>
     </li>
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">None</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">None</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="data_adjustment_none_budgets.html">Budgets</a>
@@ -400,14 +401,14 @@ div.tocify {
   </ul>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Filtering
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">No gap-filling</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">No gap-filling</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="gaps_filter_budgets.html">Budgets</a>
@@ -421,7 +422,7 @@ div.tocify {
       </ul>
     </li>
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Reoccupation</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Reoccupation</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="reoccupation_budgets.html">Budgets</a>
@@ -435,7 +436,7 @@ div.tocify {
       </ul>
     </li>
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Rarefication</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Rarefication</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="rarefication_budgets.html">Budgets</a>
@@ -451,14 +452,14 @@ div.tocify {
   </ul>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     MLR
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">predictor removal C(P,TA)</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">predictor removal C(P,TA)</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="MLR_predictor_budgets.html">Budgets</a>
@@ -472,7 +473,7 @@ div.tocify {
       </ul>
     </li>
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">predictor removal C(N,TA)</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">predictor removal C(N,TA)</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="MLR_predictor_nitrate_budgets.html">Budgets</a>
@@ -486,7 +487,7 @@ div.tocify {
       </ul>
     </li>
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">C(N,TA) target</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">C(N,TA) target</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="CN_target_budgets.html">Budgets</a>
@@ -500,7 +501,7 @@ div.tocify {
       </ul>
     </li>
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">C(TA) target</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">C(TA) target</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="CAT_target_budgets.html">Budgets</a>
@@ -514,7 +515,7 @@ div.tocify {
       </ul>
     </li>
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Surface equilibrium</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Surface equilibrium</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="surface_equi_budgets.html">Budgets</a>
@@ -528,7 +529,7 @@ div.tocify {
       </ul>
     </li>
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MLR_target tco2</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">MLR_target tco2</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="MLR_target_tco2_budgets.html">Budgets</a>
@@ -542,7 +543,7 @@ div.tocify {
       </ul>
     </li>
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MLR_target C*</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">MLR_target C*</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="MLR_target_cstar_budgets.html">Budgets</a>
@@ -556,7 +557,7 @@ div.tocify {
       </ul>
     </li>
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">WOA18 clim</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">WOA18 clim</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="WOA18_budgets.html">Budgets</a>
@@ -570,7 +571,7 @@ div.tocify {
       </ul>
     </li>
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">VIF</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">VIF</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="vif_budgets.html">Budgets</a>
@@ -586,14 +587,14 @@ div.tocify {
   </ul>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     MMA
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Five basins</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Five basins</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="multi_model_assesment_5_budgets.html">Budgets</a>
@@ -607,7 +608,7 @@ div.tocify {
       </ul>
     </li>
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Three basins</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Three basins</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="multi_model_assesment_AIP_budgets.html">Budgets</a>
@@ -623,14 +624,14 @@ div.tocify {
   </ul>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Robustness
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Indian Ocean</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Indian Ocean</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="indian_test_budgets.html">Budgets</a>
@@ -644,7 +645,7 @@ div.tocify {
       </ul>
     </li>
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Gruber_2019</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Gruber_2019</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="G19_budgets.html">Budgets</a>
@@ -658,7 +659,7 @@ div.tocify {
       </ul>
     </li>
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Moving eras</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Moving eras</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="moving_eras_budgets.html">Budgets</a>
@@ -697,7 +698,7 @@ div.tocify {
 <div id="header">
 
 <div class="btn-group pull-right float-right">
-<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
 <ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
 <li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
 <li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
@@ -708,7 +709,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Results publication</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">02 December, 2022</h4>
+<h4 class="date">08 December, 2022</h4>
 
 </div>
 
@@ -737,7 +738,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-12-02
+<strong>Last updated:</strong> 2022-12-08
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -869,15 +870,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeab1269e5b73ee786e22503b4dfa403956e10ceb0targetblankab1269ea">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeee5cdab046fd1d772e092150e9a2e49e978fdb6btargetblankee5cdaba">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/ab1269e5b73ee786e22503b4dfa403956e10ceb0" target="_blank">ab1269e</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/ee5cdab046fd1d772e092150e9a2e49e978fdb6b" target="_blank">ee5cdab</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeab1269e5b73ee786e22503b4dfa403956e10ceb0targetblankab1269ea"
+id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeee5cdab046fd1d772e092150e9a2e49e978fdb6btargetblankee5cdaba"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -887,7 +888,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/ab1269e5b73ee786e22503b4dfa403956e10ceb0" target="_blank">ab1269e</a>.
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/ee5cdab046fd1d772e092150e9a2e49e978fdb6b" target="_blank">ee5cdab</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -917,6 +918,7 @@ Unstaged changes:
     Deleted:    analysis/MLR_target_column_inventories.Rmd
     Deleted:    analysis/MLR_target_zonal_sections.Rmd
     Modified:   analysis/_site.yml
+    Modified:   analysis/basics.Rmd
     Modified:   code/Workflowr_project_managment.R
 
 </code></pre>
@@ -963,6 +965,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ee5cdab046fd1d772e092150e9a2e49e978fdb6b/analysis/results_publication.Rmd" target="_blank">ee5cdab</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-12-08
+</td>
+<td>
+minor figure updates
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/445761e207915584e537a94aefad3095f1bf2183/docs/results_publication.html" target="_blank">445761e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-12-02
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -7361,7 +7397,7 @@ params_local_all_ensemble &lt;-
       Version_ID_group == &quot;c&quot; ~ &quot;Cruise adjustment&quot;,
       Version_ID_group == &quot;g&quot; ~ &quot;Gap filling&quot;,
       Version_ID_group == &quot;n&quot; ~ &quot;C* with NO3,TA&quot;,
-      Version_ID_group == &quot;h&quot; ~ &quot;Surface eMLR(C*)&quot;,
+      Version_ID_group == &quot;h&quot; ~ &quot;OceanSODA surface DIC&quot;,
       Version_ID_group == &quot;w&quot; ~ &quot;WOA18 predictors&quot;,
       Version_ID_group == &quot;d&quot; ~ &quot;No data adjustments&quot;,
       Version_ID_group == &quot;o&quot; ~ &quot;Reoccupation filter&quot;,
@@ -9666,6 +9702,7 @@ dcant_inv_uncertainty &lt;- dcant_inv_uncertainty[[1]]
 
 
 dcant_inv_uncertainty %&gt;%
+  filter(data_source == &quot;obs&quot;) %&gt;%
   mutate(
     data_source = case_when(
       data_source == &quot;mod&quot; ~ &quot;Synthetic data&quot;,
@@ -9675,7 +9712,7 @@ dcant_inv_uncertainty %&gt;%
   p_map_cant_inv(var = &quot;sd&quot;,
                  breaks = c(seq(0, 8, 1), Inf),
                  title_text = NULL) +
-  facet_grid(data_source ~ period) +
+  facet_grid(. ~ period) +
   theme(axis.text = element_blank(),
         axis.ticks = element_blank())</code></pre>
 <p><img src="figure/results_publication.Rmd/column_inventory_additive_uncertainty_fine_grid-1.png" width="672" style="display: block; margin: auto;" /></p>
@@ -9818,7 +9855,7 @@ jens-daniel-mueller
 </div>
 <pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
        filename = &quot;FigS_dcant_column_inventory_uncertainty.png&quot;,
-       height = 4,
+       height = 3.5,
        width = 8)
 
 dcant_inv_uncertainty_contributions %&gt;%
@@ -10624,7 +10661,33 @@ jens-daniel-mueller
 <pre class="r"><code>ggsave(path = here::here(&quot;output/presentation&quot;),
        filename = &quot;Fig_dcant_column_inventory.png&quot;,
        height = 5,
-       width = 6)</code></pre>
+       width = 6)
+
+dcant_inv_uncertainty %&gt;%
+  select(data_source, lon, lat, period, starts_with(&quot;signif&quot;)) %&gt;%
+  mutate(area = earth_surf(lat,lon)) %&gt;% 
+  group_by(data_source, period, signif_single) %&gt;% 
+  summarize(area_signif = sum(area)) %&gt;% 
+  ungroup() %&gt;% 
+  group_by(data_source, period) %&gt;% 
+  mutate(area_total = sum(area_signif)) %&gt;% 
+  ungroup() %&gt;% 
+  mutate(area_fraction = 100 * area_signif / area_total)</code></pre>
+<pre><code># A tibble: 12 × 6
+   data_source period      signif_single area_signif area_total area_fraction
+   &lt;chr&gt;       &lt;chr&gt;               &lt;dbl&gt;       &lt;dbl&gt;      &lt;dbl&gt;         &lt;dbl&gt;
+ 1 mod         1994 - 2004             0     2.67e11    1.11e13        2.40  
+ 2 mod         1994 - 2004             1     1.09e13    1.11e13       97.5   
+ 3 mod         1994 - 2004            NA     1.65e10    1.11e13        0.148 
+ 4 mod         2004 - 2014             0     3.57e10    1.11e13        0.320 
+ 5 mod         2004 - 2014             1     1.11e13    1.11e13       99.5   
+ 6 mod         2004 - 2014            NA     1.65e10    1.11e13        0.148 
+ 7 obs         1994 - 2004             0     8.74e11    1.13e13        7.76  
+ 8 obs         1994 - 2004             1     1.04e13    1.13e13       92.2   
+ 9 obs         1994 - 2004            NA     9.81e 9    1.13e13        0.0872
+10 obs         2004 - 2014             0     1.07e12    1.13e13        9.48  
+11 obs         2004 - 2014             1     1.02e13    1.13e13       90.4   
+12 obs         2004 - 2014            NA     9.81e 9    1.13e13        0.0872</code></pre>
 <pre class="r"><code>p_CI_absolute_10000 &lt;- dcant_inv_all_10000 %&gt;%
   filter(period %in% two_decades,
          data_source %in% c(&quot;obs&quot;)) %&gt;%
@@ -12096,27 +12159,27 @@ obs
   p_map_cant_inv(var = &quot;dcant&quot;,
                  title_text = NULL) +
   facet_grid(period ~ data_source) +
-  theme(axis.text.x = element_blank()) +
-  geom_point(
-    data = dcant_inv_uncertainty %&gt;%
-      filter(signif_double == 0,
-             data_source == &quot;mod&quot;) %&gt;%
-      mutate(data_source = case_when(data_source == &quot;mod&quot; ~ &quot;Reconstruction&quot;)),
-    aes(lon, lat),
-    shape = 20,
-    size = 0.1,
-    col = &quot;grey&quot;
-  ) +
-  geom_point(
-    data = dcant_inv_uncertainty %&gt;%
-      filter(signif_single == 0,
-             data_source == &quot;mod&quot;) %&gt;%
-      mutate(data_source = case_when(data_source == &quot;mod&quot; ~ &quot;Reconstruction&quot;)),
-    aes(lon, lat),
-    shape = 20,
-    size = 1,
-    col = &quot;grey&quot;
-  )
+  theme(axis.text.x = element_blank())
+  # geom_point(
+  #   data = dcant_inv_uncertainty %&gt;%
+  #     filter(signif_double == 0,
+  #            data_source == &quot;mod&quot;) %&gt;%
+  #     mutate(data_source = case_when(data_source == &quot;mod&quot; ~ &quot;Reconstruction&quot;)),
+  #   aes(lon, lat),
+  #   shape = 20,
+  #   size = 0.1,
+  #   col = &quot;grey&quot;
+  # ) +
+  # geom_point(
+  #   data = dcant_inv_uncertainty %&gt;%
+  #     filter(signif_single == 0,
+  #            data_source == &quot;mod&quot;) %&gt;%
+  #     mutate(data_source = case_when(data_source == &quot;mod&quot; ~ &quot;Reconstruction&quot;)),
+  #   aes(lon, lat),
+  #   shape = 20,
+  #   size = 1,
+  #   col = &quot;grey&quot;
+  # )
 
 
 
@@ -12141,35 +12204,35 @@ p_CI_bias_delta &lt;-
     subtitle_text = NULL,
     col = &quot;bias&quot;
   ) +
-  facet_grid(period ~ data_source) +
-  geom_point(
-    data = delta_dcant_inv_uncertainty %&gt;%
-      filter(signif_single == 0,
-             data_source == &quot;mod&quot;) %&gt;%
-      mutate(
-        data_source = case_when(data_source == &quot;mod&quot; ~ &quot;Reconstruction&quot;),
-        period = &quot;Decadal offset&quot;
-      ),
-    
-    aes(lon, lat),
-    shape = 20,
-    size = 1,
-    col = &quot;black&quot;
-  ) +
-  geom_point(
-    data = delta_dcant_inv_uncertainty %&gt;%
-      filter(signif_double == 0,
-             data_source == &quot;mod&quot;) %&gt;%
-      mutate(
-        data_source = case_when(data_source == &quot;mod&quot; ~ &quot;Reconstruction&quot;),
-        period = &quot;Decadal offset&quot;
-      ),
-    
-    aes(lon, lat),
-    shape = 20,
-    size = 0.1,
-    col = &quot;black&quot;
-  )
+  facet_grid(. ~ data_source)
+  # geom_point(
+  #   data = delta_dcant_inv_uncertainty %&gt;%
+  #     filter(signif_single == 0,
+  #            data_source == &quot;mod&quot;) %&gt;%
+  #     mutate(
+  #       data_source = case_when(data_source == &quot;mod&quot; ~ &quot;Reconstruction&quot;),
+  #       period = &quot;Decadal offset&quot;
+  #     ),
+  #   
+  #   aes(lon, lat),
+  #   shape = 20,
+  #   size = 1,
+  #   col = &quot;black&quot;
+  # ) +
+  # geom_point(
+  #   data = delta_dcant_inv_uncertainty %&gt;%
+  #     filter(signif_double == 0,
+  #            data_source == &quot;mod&quot;) %&gt;%
+  #     mutate(
+  #       data_source = case_when(data_source == &quot;mod&quot; ~ &quot;Reconstruction&quot;),
+  #       period = &quot;Decadal offset&quot;
+  #     ),
+  #   
+  #   aes(lon, lat),
+  #   shape = 20,
+  #   size = 0.1,
+  #   col = &quot;black&quot;
+  # )
 
 p_CI_absolute_mod_delta / p_CI_bias_delta + 
   plot_annotation(tag_levels = &#39;A&#39;)</code></pre>
@@ -18283,7 +18346,7 @@ jens-daniel-mueller
   #   shape = 20,
   #   size = 0.1,
   #   col = &quot;black&quot;
-  # )+
+  # ) +
   facet_grid(&quot;Dec. diff.&quot; ~ basin_AIP) +
   theme(
     strip.text.x = element_blank(),
@@ -22037,7 +22100,7 @@ Global
 mod
 </td>
 <td style="text-align:right;">
-25.80000
+57.15453
 </td>
 <td style="text-align:right;">
 327
@@ -22083,7 +22146,7 @@ Global
 obs
 </td>
 <td style="text-align:right;">
-0.00000
+100.00000
 </td>
 <td style="text-align:right;">
 300
@@ -22106,7 +22169,7 @@ Indian
 mod
 </td>
 <td style="text-align:right;">
-56.60000
+179.17466
 </td>
 <td style="text-align:right;">
 409
@@ -22152,7 +22215,7 @@ Indian
 obs
 </td>
 <td style="text-align:right;">
-107.70330
+318.74755
 </td>
 <td style="text-align:right;">
 400
@@ -22161,7 +22224,7 @@ obs
 1
 </td>
 <td style="text-align:right;">
-1
+0
 </td>
 </tr>
 <tr>
@@ -22175,7 +22238,7 @@ N. Pacific
 mod
 </td>
 <td style="text-align:right;">
-40.53690
+58.37157
 </td>
 <td style="text-align:right;">
 285
@@ -22221,7 +22284,7 @@ N. Pacific
 obs
 </td>
 <td style="text-align:right;">
-50.00000
+70.71068
 </td>
 <td style="text-align:right;">
 250
@@ -22244,7 +22307,7 @@ S. Pacific
 mod
 </td>
 <td style="text-align:right;">
-54.38235
+79.50748
 </td>
 <td style="text-align:right;">
 351
@@ -22290,7 +22353,7 @@ S. Pacific
 obs
 </td>
 <td style="text-align:right;">
-100.00000
+223.60680
 </td>
 <td style="text-align:right;">
 300
@@ -22299,7 +22362,7 @@ obs
 1
 </td>
 <td style="text-align:right;">
-1
+0
 </td>
 </tr>
 <tr>
@@ -22313,7 +22376,7 @@ N. Atlantic
 mod
 </td>
 <td style="text-align:right;">
-21.69240
+29.50525
 </td>
 <td style="text-align:right;">
 285
@@ -22359,7 +22422,7 @@ N. Atlantic
 obs
 </td>
 <td style="text-align:right;">
-0.00000
+100.00000
 </td>
 <td style="text-align:right;">
 400
@@ -22382,7 +22445,7 @@ S. Atlantic
 mod
 </td>
 <td style="text-align:right;">
-20.00000
+31.24100
 </td>
 <td style="text-align:right;">
 327
@@ -22428,7 +22491,7 @@ S. Atlantic
 obs
 </td>
 <td style="text-align:right;">
-10.00000
+100.49876
 </td>
 <td style="text-align:right;">
 300
@@ -22451,7 +22514,7 @@ Global
 mod
 </td>
 <td style="text-align:right;">
-18.80000
+54.35476
 </td>
 <td style="text-align:right;">
 327
@@ -22497,7 +22560,7 @@ Global
 obs
 </td>
 <td style="text-align:right;">
-0.00000
+100.00000
 </td>
 <td style="text-align:right;">
 300
@@ -22520,7 +22583,7 @@ Indian
 mod
 </td>
 <td style="text-align:right;">
-38.20000
+141.26302
 </td>
 <td style="text-align:right;">
 443
@@ -22566,7 +22629,7 @@ Indian
 obs
 </td>
 <td style="text-align:right;">
-20.00000
+101.98039
 </td>
 <td style="text-align:right;">
 400
@@ -22589,7 +22652,7 @@ N. Pacific
 mod
 </td>
 <td style="text-align:right;">
-28.99034
+47.00468
 </td>
 <td style="text-align:right;">
 268
@@ -22635,7 +22698,7 @@ N. Pacific
 obs
 </td>
 <td style="text-align:right;">
-53.85165
+113.57817
 </td>
 <td style="text-align:right;">
 200
@@ -22644,7 +22707,7 @@ obs
 1
 </td>
 <td style="text-align:right;">
-1
+0
 </td>
 </tr>
 <tr>
@@ -22658,7 +22721,7 @@ S. Pacific
 mod
 </td>
 <td style="text-align:right;">
-43.57339
+53.47560
 </td>
 <td style="text-align:right;">
 378
@@ -22704,7 +22767,7 @@ S. Pacific
 obs
 </td>
 <td style="text-align:right;">
-80.00000
+215.40659
 </td>
 <td style="text-align:right;">
 300
@@ -22713,7 +22776,7 @@ obs
 1
 </td>
 <td style="text-align:right;">
-1
+0
 </td>
 </tr>
 <tr>
@@ -22773,7 +22836,7 @@ N. Atlantic
 obs
 </td>
 <td style="text-align:right;">
-0.00000
+200.00000
 </td>
 <td style="text-align:right;">
 400
@@ -22796,7 +22859,7 @@ S. Atlantic
 mod
 </td>
 <td style="text-align:right;">
-27.39051
+36.41758
 </td>
 <td style="text-align:right;">
 327
@@ -22842,7 +22905,7 @@ S. Atlantic
 obs
 </td>
 <td style="text-align:right;">
-116.61904
+153.62292
 </td>
 <td style="text-align:right;">
 400
@@ -22865,7 +22928,7 @@ Global
 mod
 </td>
 <td style="text-align:right;">
-27.78489
+58.07753
 </td>
 <td style="text-align:right;">
 327
@@ -22911,7 +22974,7 @@ Global
 obs
 </td>
 <td style="text-align:right;">
-0.00000
+100.00000
 </td>
 <td style="text-align:right;">
 300
@@ -22934,7 +22997,7 @@ Indian
 mod
 </td>
 <td style="text-align:right;">
-44.94841
+175.84186
 </td>
 <td style="text-align:right;">
 409
@@ -22980,7 +23043,7 @@ Indian
 obs
 </td>
 <td style="text-align:right;">
-50.99020
+112.24972
 </td>
 <td style="text-align:right;">
 300
@@ -23003,7 +23066,7 @@ N. Pacific
 mod
 </td>
 <td style="text-align:right;">
-9.80000
+38.27584
 </td>
 <td style="text-align:right;">
 268
@@ -23049,7 +23112,7 @@ N. Pacific
 obs
 </td>
 <td style="text-align:right;">
-50.99020
+112.24972
 </td>
 <td style="text-align:right;">
 200
@@ -23058,7 +23121,7 @@ obs
 1
 </td>
 <td style="text-align:right;">
-1
+0
 </td>
 </tr>
 <tr>
@@ -23072,7 +23135,7 @@ S. Pacific
 mod
 </td>
 <td style="text-align:right;">
-71.88769
+79.52258
 </td>
 <td style="text-align:right;">
 409
@@ -23118,7 +23181,7 @@ S. Pacific
 obs
 </td>
 <td style="text-align:right;">
-20.00000
+101.98039
 </td>
 <td style="text-align:right;">
 300
@@ -23187,7 +23250,7 @@ N. Atlantic
 obs
 </td>
 <td style="text-align:right;">
-101.98039
+224.49944
 </td>
 <td style="text-align:right;">
 500
@@ -23256,7 +23319,7 @@ S. Atlantic
 obs
 </td>
 <td style="text-align:right;">
-160.00000
+256.12497
 </td>
 <td style="text-align:right;">
 600
@@ -31656,7 +31719,7 @@ std_case
 Global
 </td>
 <td style="text-align:right;">
-44.92832
+195.1579
 </td>
 <td style="text-align:right;">
 635.7219
@@ -31670,7 +31733,7 @@ Global
 Global
 </td>
 <td style="text-align:right;">
-46.74197
+128.5704
 </td>
 <td style="text-align:right;">
 564.4056
@@ -31684,7 +31747,7 @@ Global
 Indian
 </td>
 <td style="text-align:right;">
-109.03612
+220.8476
 </td>
 <td style="text-align:right;">
 834.0676
@@ -31698,7 +31761,7 @@ Indian
 Indian
 </td>
 <td style="text-align:right;">
-70.86081
+101.2224
 </td>
 <td style="text-align:right;">
 559.8123
@@ -31712,7 +31775,7 @@ Indian
 N. Pacific
 </td>
 <td style="text-align:right;">
-65.89286
+100.3504
 </td>
 <td style="text-align:right;">
 279.0525
@@ -31726,7 +31789,7 @@ N. Pacific
 N. Pacific
 </td>
 <td style="text-align:right;">
-159.80891
+174.3395
 </td>
 <td style="text-align:right;">
 300.0561
@@ -31740,7 +31803,7 @@ N. Pacific
 S. Pacific
 </td>
 <td style="text-align:right;">
-90.06047
+227.9048
 </td>
 <td style="text-align:right;">
 708.5043
@@ -31754,7 +31817,7 @@ S. Pacific
 S. Pacific
 </td>
 <td style="text-align:right;">
-70.36656
+145.4462
 </td>
 <td style="text-align:right;">
 596.1376
@@ -31768,7 +31831,7 @@ S. Pacific
 N. Atlantic
 </td>
 <td style="text-align:right;">
-33.57014
+273.0824
 </td>
 <td style="text-align:right;">
 829.9681
@@ -31782,7 +31845,7 @@ N. Atlantic
 N. Atlantic
 </td>
 <td style="text-align:right;">
-46.16568
+169.2454
 </td>
 <td style="text-align:right;">
 668.0443
@@ -31796,7 +31859,7 @@ N. Atlantic
 S. Atlantic
 </td>
 <td style="text-align:right;">
-81.69326
+208.4508
 </td>
 <td style="text-align:right;">
 633.5340
@@ -31810,7 +31873,7 @@ S. Atlantic
 S. Atlantic
 </td>
 <td style="text-align:right;">
-97.39752
+230.6747
 </td>
 <td style="text-align:right;">
 870.9505
@@ -31863,10 +31926,10 @@ Global
 -71.31634
 </td>
 <td style="text-align:right;">
-64.83337
+233.7027
 </td>
 <td style="text-align:right;">
-1
+0
 </td>
 <td style="text-align:right;">
 0
@@ -31883,13 +31946,13 @@ Indian
 -274.25531
 </td>
 <td style="text-align:right;">
-130.03896
+242.9396
 </td>
 <td style="text-align:right;">
 1
 </td>
 <td style="text-align:right;">
-1
+0
 </td>
 </tr>
 <tr>
@@ -31903,7 +31966,7 @@ N. Pacific
 21.00356
 </td>
 <td style="text-align:right;">
-172.86051
+201.1578
 </td>
 <td style="text-align:right;">
 0
@@ -31923,7 +31986,7 @@ S. Pacific
 -112.36662
 </td>
 <td style="text-align:right;">
-114.29059
+270.3612
 </td>
 <td style="text-align:right;">
 0
@@ -31943,13 +32006,13 @@ N. Atlantic
 -161.92382
 </td>
 <td style="text-align:right;">
-57.08086
+321.2756
 </td>
 <td style="text-align:right;">
-1
+0
 </td>
 <td style="text-align:right;">
-1
+0
 </td>
 </tr>
 <tr>
@@ -31963,10 +32026,10 @@ S. Atlantic
 237.41652
 </td>
 <td style="text-align:right;">
-127.12225
+310.9060
 </td>
 <td style="text-align:right;">
-1
+0
 </td>
 <td style="text-align:right;">
 0
@@ -32008,6 +32071,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/445761e207915584e537a94aefad3095f1bf2183/docs/figure/results_publication.Rmd/pentration_depth_of_surface_dcant-4.png" target="_blank">445761e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-12-02
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/3a7bab0285d34f47224796ecb4a67f23cc100e1e/docs/figure/results_publication.Rmd/pentration_depth_of_surface_dcant-4.png" target="_blank">3a7bab0</a>
@@ -36644,6 +36718,16 @@ jens-daniel-mueller
 <h2><span class="header-section-number">16.2</span> incl fluxes</h2>
 <pre class="r"><code>Ocean_Sink &lt;- Ocean_Sink %&gt;%
   filter(product != &quot;Watson&quot;)</code></pre>
+<pre class="r"><code>Ocean_Sink %&gt;%
+  filter(year &gt;= 2010, year &lt;= 2019) %&gt;%
+  group_by(type) %&gt;%
+  summarise(GtC_yr_mean = mean(GtC_yr)) %&gt;%
+  ungroup()</code></pre>
+<pre><code># A tibble: 2 × 2
+  type          GtC_yr_mean
+  &lt;chr&gt;               &lt;dbl&gt;
+1 data_products        3.02
+2 models               2.46</code></pre>
 <pre class="r"><code>Ocean_Sink_cum_1994 &lt;-
   Ocean_Sink %&gt;%
   filter(year &gt;= 1994, year &lt;= 2007) %&gt;%
@@ -40668,6 +40752,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/445761e207915584e537a94aefad3095f1bf2183/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-5.png" target="_blank">445761e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-12-02
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/439cb85a6a38a7ae7790e81cd684658038de9c39/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-5.png" target="_blank">439cb85</a>
 </td>
 <td>
@@ -41077,6 +41172,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/445761e207915584e537a94aefad3095f1bf2183/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-8.png" target="_blank">445761e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-12-02
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/439cb85a6a38a7ae7790e81cd684658038de9c39/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-8.png" target="_blank">439cb85</a>
 </td>
 <td>
@@ -41265,6 +41371,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/445761e207915584e537a94aefad3095f1bf2183/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-9.png" target="_blank">445761e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-12-02
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9048dc40d3e160bd4651039e52c1337d6defdfe9/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-9.png" target="_blank">9048dc4</a>
 </td>
 <td>
@@ -41400,6 +41517,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/445761e207915584e537a94aefad3095f1bf2183/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-10.png" target="_blank">445761e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-12-02
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/439cb85a6a38a7ae7790e81cd684658038de9c39/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-10.png" target="_blank">439cb85</a>
@@ -41560,6 +41688,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/445761e207915584e537a94aefad3095f1bf2183/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-11.png" target="_blank">445761e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-12-02
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9048dc40d3e160bd4651039e52c1337d6defdfe9/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-11.png" target="_blank">9048dc4</a>
 </td>
 <td>
@@ -41615,6 +41754,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/445761e207915584e537a94aefad3095f1bf2183/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-12.png" target="_blank">445761e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-12-02
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ef50aa613f40d25571236b86073a7a5d450b55e0/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-12.png" target="_blank">ef50aa6</a>
@@ -41726,6 +41876,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/445761e207915584e537a94aefad3095f1bf2183/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-13.png" target="_blank">445761e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-12-02
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/9048dc40d3e160bd4651039e52c1337d6defdfe9/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-13.png" target="_blank">9048dc4</a>
@@ -41874,16 +42035,57 @@ Decadal_GCB_budgets %&gt;%
   geom_pointrange(position = position_dodge2(width = 0.5),
                   shape = 1)</code></pre>
 <p><img src="figure/results_publication.Rmd/decadal_budgets-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>Decadal_GCB_budgets %&gt;% 
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-decadal_budgets-1">
+Past versions of decadal_budgets-1.png
+</button>
+</p>
+<div id="fig-decadal_budgets-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/445761e207915584e537a94aefad3095f1bf2183/docs/figure/results_publication.Rmd/decadal_budgets-1.png" target="_blank">445761e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-12-02
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>Decadal_GCB_fractions &lt;- Decadal_GCB_budgets
+
+Decadal_GCB_budgets &lt;- Decadal_GCB_budgets %&gt;% 
   mutate(across(where(is.numeric), round, 1)) %&gt;% 
   mutate(GtC = paste(GtC, GtC_sigma, sep = &quot; ± &quot;)) %&gt;% 
   select(-GtC_sigma) %&gt;% 
   pivot_wider(names_from = period,
               values_from = GtC) %&gt;% 
-  mutate(CO2_sources_sinks = str_replace_all(CO2_sources_sinks, &quot;_&quot;, &quot; &quot;)) %&gt;% 
-  write_csv(here::here(&quot;output/publication/Table_GCB.csv&quot;))
+  mutate(CO2_sources_sinks = str_replace_all(CO2_sources_sinks, &quot;_&quot;, &quot; &quot;)) 
 
 Decadal_GCB_budgets %&gt;% 
+  write_csv(here::here(&quot;output/publication/Table_GCB.csv&quot;))
+
+Decadal_GCB_fractions &lt;- Decadal_GCB_fractions %&gt;% 
   filter(CO2_sources_sinks %in% c(&quot;atmospheric growth&quot;, &quot;land sink&quot;, 
                                   &quot;ocean_sink_Cnet&quot;, &quot;ocean_sink_Cant&quot;,
                                   &quot;total emissions&quot;)) %&gt;% 
@@ -41900,7 +42102,17 @@ Decadal_GCB_budgets %&gt;%
   filter(CO2_sources_sinks != &quot;total emissions&quot;) %&gt;% 
   pivot_wider(names_from = period,
               values_from = fraction) %&gt;% 
-  mutate(CO2_sources_sinks = str_replace_all(CO2_sources_sinks, &quot;_&quot;, &quot; &quot;)) %&gt;% 
+  mutate(CO2_sources_sinks = str_replace_all(CO2_sources_sinks, &quot;_&quot;, &quot; &quot;)) 
+
+Decadal_GCB_fractions</code></pre>
+<pre><code># A tibble: 4 × 3
+  CO2_sources_sinks  `1994 - 2004` `2004 - 2014`
+  &lt;chr&gt;              &lt;chr&gt;         &lt;chr&gt;        
+1 atmospheric growth 48 ± 4        44 ± 4       
+2 land sink          31 ± 6        30 ± 6       
+3 ocean sink Cant    36 ± 4        27 ± 4       
+4 ocean sink Cnet    26 ± 4        26 ± 3       </code></pre>
+<pre class="r"><code>Decadal_GCB_fractions %&gt;% 
   write_csv(here::here(&quot;output/publication/Table_GCB_fraction.csv&quot;))</code></pre>
 </div>
 </div>
@@ -42227,119 +42439,9 @@ rm(
   emission_components,
   sink_components
 )</code></pre>
-</div>
-</div>
-<div id="emission-removal" class="section level1" number="19">
-<h1><span class="header-section-number">19</span> Emission removal</h1>
-<pre class="r"><code>GCB_Cant_emissions &lt;- Global_Carbon_Budget %&gt;%
-  mutate(year = cut(year, c(1994, 2004, 2014), c(&quot;2004&quot;, &quot;2014&quot;)),
-         year = as.numeric(as.character(year))) %&gt;%
-  drop_na() %&gt;%
-  filter(estimate %in% c(
-    &quot;fossil emissions excluding carbonation&quot;,
-    &quot;land-use change emissions&quot;
-  )) %&gt;%
-  group_by(year) %&gt;%
-  summarise(cant_emissions = sum(GtC_yr)) %&gt;%
-  ungroup()
-
-dcant_per_emissions &lt;- left_join(GCB_Cant_emissions,
-          tcant_ts_zoom) %&gt;%
-  mutate(
-    cant_emissions_sd_rel = 0.09,
-    dcant_sd_rel = dcant_sd_int / dcant_mean,
-    dcant_per_emissions_sd_rel = sqrt(dcant_sd_rel^2 + cant_emissions_sd_rel^2),
-    dcant_per_emissions = 100 * dcant_mean / cant_emissions,
-    dcant_per_emissions_sd = dcant_per_emissions_sd_rel * dcant_per_emissions
-  ) %&gt;%
-  select(year, cant_emissions, dcant_mean, dcant_sd, dcant_per_emissions, dcant_per_emissions_sd)
-
-dcant_per_emissions %&gt;% 
-  kable() %&gt;%
-  kable_styling() %&gt;%
-  scroll_box(height = &quot;300px&quot;)</code></pre>
-<div
-style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; ">
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-year
-</th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-cant_emissions
-</th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-dcant_mean
-</th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-dcant_sd
-</th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-dcant_per_emissions
-</th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-dcant_per_emissions_sd
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:right;">
-2004
-</td>
-<td style="text-align:right;">
-82.66365
-</td>
-<td style="text-align:right;">
-29.27668
-</td>
-<td style="text-align:right;">
-2.527296
-</td>
-<td style="text-align:right;">
-35.41663
-</td>
-<td style="text-align:right;">
-4.416714
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-2014
-</td>
-<td style="text-align:right;">
-101.81399
-</td>
-<td style="text-align:right;">
-27.34720
-</td>
-<td style="text-align:right;">
-3.589907
-</td>
-<td style="text-align:right;">
-26.85997
-</td>
-<td style="text-align:right;">
-3.480583
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-<pre class="r"><code>dcant_per_emissions %&gt;% 
-  mutate(delta_dcant_per_emissions = dcant_per_emissions - lag(dcant_per_emissions),
-         delta_dcant_per_emissions_sd = sqrt(dcant_per_emissions_sd^2 + lag(dcant_per_emissions_sd)^2))</code></pre>
-<pre><code># A tibble: 2 × 8
-   year cant_emissions dcant_mean dcant_sd dcant_per_emissions dcant_per_emissi…
-  &lt;dbl&gt;          &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;               &lt;dbl&gt;             &lt;dbl&gt;
-1  2004           82.7       29.3     2.53                35.4              4.42
-2  2014          102.        27.3     3.59                26.9              3.48
-# … with 2 more variables: delta_dcant_per_emissions &lt;dbl&gt;,
-#   delta_dcant_per_emissions_sd &lt;dbl&gt;</code></pre>
 <div id="map-test-color-palettes" class="section level4"
-number="19.0.0.1">
-<h4><span class="header-section-number">19.0.0.1</span> Map test color
+number="18.2.0.1">
+<h4><span class="header-section-number">18.2.0.1</span> Map test color
 palettes</h4>
 <pre class="r"><code>breaks &lt;- c(-Inf, seq(0, 16, 2), Inf)
 
@@ -42556,13 +42658,13 @@ Session information
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>R version 4.1.2 (2021-11-01)
+<pre><code>R version 4.2.2 (2022-10-31)
 Platform: x86_64-pc-linux-gnu (64-bit)
-Running under: openSUSE Leap 15.3
+Running under: openSUSE Leap 15.4
 
 Matrix products: default
-BLAS:   /usr/local/R-4.1.2/lib64/R/lib/libRblas.so
-LAPACK: /usr/local/R-4.1.2/lib64/R/lib/libRlapack.so
+BLAS:   /usr/local/R-4.2.2/lib64/R/lib/libRblas.so
+LAPACK: /usr/local/R-4.2.2/lib64/R/lib/libRlapack.so
 
 locale:
  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
@@ -42576,50 +42678,51 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] rqdatatable_1.3.0  rquery_1.4.7       wrapr_2.0.8        ggpattern_1.0.0   
- [5] ggh4x_0.2.1        khroma_1.9.0       BSDA_1.2.1         lattice_0.20-45   
- [9] kableExtra_1.3.4   ggdist_3.1.1       ggalluvial_0.12.3  geomtextpath_0.1.0
-[13] colorspace_2.0-2   marelac_2.1.10     shape_1.4.6        ggforce_0.3.3     
-[17] metR_0.11.0        scico_1.3.0        patchwork_1.1.1    collapse_1.7.0    
-[21] forcats_0.5.1      stringr_1.4.0      dplyr_1.0.7        purrr_0.3.4       
-[25] readr_2.1.1        tidyr_1.1.4        tibble_3.1.6       ggplot2_3.3.5     
-[29] tidyverse_1.3.1    workflowr_1.7.0   
+ [1] rqdatatable_1.3.1  rquery_1.4.9       wrapr_2.0.9        ggpattern_1.0.1   
+ [5] ggh4x_0.2.3        khroma_1.9.0       kableExtra_1.3.4   ggdist_3.2.0      
+ [9] ggalluvial_0.12.3  geomtextpath_0.1.1 colorspace_2.0-3   marelac_2.1.10    
+[13] shape_1.4.6        ggforce_0.4.1      metR_0.13.0        scico_1.3.1       
+[17] patchwork_1.1.2    collapse_1.8.9     forcats_0.5.2      stringr_1.4.1     
+[21] dplyr_1.0.10       purrr_0.3.5        readr_2.1.3        tidyr_1.2.1       
+[25] tibble_3.1.8       ggplot2_3.4.0      tidyverse_1.3.2    workflowr_1.7.0   
 
 loaded via a namespace (and not attached):
-  [1] ellipsis_0.3.2       class_7.3-20         rprojroot_2.0.2     
-  [4] fs_1.5.2             rstudioapi_0.13      proxy_0.4-26        
-  [7] farver_2.1.0         bit64_4.0.5          fansi_1.0.2         
- [10] lubridate_1.8.0      xml2_1.3.3           splines_4.1.2       
- [13] cachem_1.0.6         knitr_1.37           polyclip_1.10-0     
- [16] jsonlite_1.7.3       gsw_1.0-6            broom_0.7.11        
- [19] dbplyr_2.1.1         compiler_4.1.2       httr_1.4.2          
- [22] backports_1.4.1      Matrix_1.4-0         assertthat_0.2.1    
- [25] fastmap_1.1.0        cli_3.1.1            later_1.3.0         
- [28] tweenr_1.0.2         htmltools_0.5.2      tools_4.1.2         
- [31] gtable_0.3.0         glue_1.6.0           Rcpp_1.0.8          
- [34] cellranger_1.1.0     jquerylib_0.1.4      vctrs_0.3.8         
- [37] nlme_3.1-155         svglite_2.0.0        xfun_0.29           
- [40] ps_1.6.0             rvest_1.0.2          lifecycle_1.0.1     
- [43] oce_1.5-0            zoo_1.8-9            getPass_0.2-2       
- [46] MASS_7.3-55          scales_1.1.1         vroom_1.5.7         
- [49] hms_1.1.1            promises_1.2.0.1     parallel_4.1.2      
- [52] RColorBrewer_1.1-2   yaml_2.2.1           memoise_2.0.1       
- [55] sass_0.4.0           stringi_1.7.6        highr_0.9           
- [58] e1071_1.7-9          checkmate_2.0.0      rlang_1.0.2         
- [61] pkgconfig_2.0.3      systemfonts_1.0.3    distributional_0.3.0
- [64] evaluate_0.14        SolveSAPHE_2.1.0     labeling_0.4.2      
- [67] bit_4.0.4            processx_3.5.2       tidyselect_1.1.1    
- [70] here_1.0.1           plyr_1.8.6           seacarb_3.3.0       
- [73] magrittr_2.0.1       R6_2.5.1             generics_0.1.1      
- [76] DBI_1.1.2            mgcv_1.8-38          pillar_1.6.4        
- [79] haven_2.4.3          whisker_0.4          withr_2.4.3         
- [82] modelr_0.1.8         crayon_1.4.2         utf8_1.2.2          
- [85] tzdb_0.2.0           rmarkdown_2.11       isoband_0.2.5       
- [88] grid_4.1.2           readxl_1.3.1         data.table_1.14.2   
- [91] callr_3.7.0          git2r_0.29.0         reprex_2.0.1        
- [94] digest_0.6.29        webshot_0.5.2        httpuv_1.6.5        
- [97] textshaping_0.3.6    munsell_0.5.0        viridisLite_0.4.0   
-[100] bslib_0.3.1         </code></pre>
+  [1] googledrive_2.0.0    ellipsis_0.3.2       rprojroot_2.0.3     
+  [4] fs_1.5.2             rstudioapi_0.14      farver_2.1.1        
+  [7] bit64_4.0.5          fansi_1.0.3          lubridate_1.9.0     
+ [10] xml2_1.3.3           splines_4.2.2        cachem_1.0.6        
+ [13] knitr_1.41           polyclip_1.10-4      jsonlite_1.8.3      
+ [16] gsw_1.1-1            broom_1.0.1          dbplyr_2.2.1        
+ [19] compiler_4.2.2       httr_1.4.4           backports_1.4.1     
+ [22] Matrix_1.5-3         assertthat_0.2.1     fastmap_1.1.0       
+ [25] gargle_1.2.1         cli_3.4.1            later_1.3.0         
+ [28] tweenr_2.0.2         htmltools_0.5.3      tools_4.2.2         
+ [31] gtable_0.3.1         glue_1.6.2           Rcpp_1.0.9          
+ [34] cellranger_1.1.0     jquerylib_0.1.4      vctrs_0.5.1         
+ [37] nlme_3.1-160         svglite_2.1.0        xfun_0.35           
+ [40] ps_1.7.2             rvest_1.0.3          timechange_0.1.1    
+ [43] lifecycle_1.0.3      googlesheets4_1.0.1  oce_1.7-10          
+ [46] zoo_1.8-11           getPass_0.2-2        MASS_7.3-58.1       
+ [49] scales_1.2.1         vroom_1.6.0          ragg_1.2.4          
+ [52] hms_1.1.2            promises_1.2.0.1     parallel_4.2.2      
+ [55] RColorBrewer_1.1-3   yaml_2.3.6           memoise_2.0.1       
+ [58] sass_0.4.4           stringi_1.7.8        highr_0.9           
+ [61] checkmate_2.1.0      rlang_1.0.6          pkgconfig_2.0.3     
+ [64] systemfonts_1.0.4    distributional_0.3.1 lattice_0.20-45     
+ [67] evaluate_0.18        SolveSAPHE_2.1.0     labeling_0.4.2      
+ [70] bit_4.0.5            processx_3.8.0       tidyselect_1.2.0    
+ [73] here_1.0.1           plyr_1.8.8           seacarb_3.3.1       
+ [76] magrittr_2.0.3       R6_2.5.1             generics_0.1.3      
+ [79] DBI_1.1.3            mgcv_1.8-41          pillar_1.8.1        
+ [82] haven_2.5.1          whisker_0.4          withr_2.5.0         
+ [85] modelr_0.1.10        crayon_1.5.2         utf8_1.2.2          
+ [88] tzdb_0.3.0           rmarkdown_2.18       isoband_0.2.6       
+ [91] grid_4.2.2           readxl_1.4.1         data.table_1.14.6   
+ [94] callr_3.7.3          git2r_0.30.1         reprex_2.0.2        
+ [97] digest_0.6.30        webshot_0.5.4        httpuv_1.6.6        
+[100] textshaping_0.3.6    munsell_0.5.0        viridisLite_0.4.1   
+[103] bslib_0.4.1         </code></pre>
+</div>
 </div>
 </div>
 </div>
