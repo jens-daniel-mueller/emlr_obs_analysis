@@ -2383,27 +2383,142 @@ dcant_inv_uncertainty %>%
 
 ```
 
-```{r inventory_maps_absolute_obs_10000, fig.asp=1.2}
+```{r inventory_maps_absolute_obs_equal_earth_Dominik, fig.asp=1.2, eval=FALSE}
 
+## Libraries
+# Vector of packages
+lib_vec <- c(
+   "rgdal", "fields", "raster", "maps",
+   "colorRamps", "RColorBrewer", "sfsmisc",
+   "matlab", "rasterVis", "sp", "ggplot2",
+   "plyr", "reshape2", "akima", "rworldmap",
+   "spatialEco", "viridis", "rgeos"
+)
+# Which packages are not installed
+new_packages <- lib_vec[!(lib_vec %in% installed.packages()[, "Package"])]
+# Install package if not insalled
+if (length(new_packages) > 0){install.packages(new_packages)}
+# Load libraries 
+sapply(lib_vec, library, character.only = TRUE)
 
-p_CI_absolute_10000 <- dcant_inv_all_10000 %>%
-  filter(period %in% two_decades,
-         data_source %in% c("obs")) %>%
-  p_map_cant_inv(var = "dcant",
-                 title_text = NULL) +
-  facet_wrap(~ period, ncol = 1) +
-  theme(axis.text.x = element_blank())
+library(rworldmap)
 
-p_CI_absolute_10000 +
-  theme(axis.text = element_blank(),
-        axis.ticks = element_blank())
+# Load Data
+raster_div <- brick(paste0(input_dir, "/", proj_type_dirName[p], "/", vec_fname[f])) [[1]] # nolint
 
+# With breaks
+brks <- c(3, 4, 5, 6, 7, 8, 9, 10, 11, 12)
+colors <- colorRampPalette(c("snow", "#CBDCE0", "#96B0E0", "#6284DF", "#385CC8", "#172451")) # own scale: lightyellow - blue *** CHOICE OWN BLUE SCALE   # nolint
 
-# ggsave(path = here::here("output/presentation"),
-#        filename = "FigS_dcant_column_inventory_10000.png",
-#        height = 5,
-#        width = 6)
+# skip if some infinity entries are present
+if(is.infinite(raster_div@data@max) == TRUE){next}
 
+# Save raster: current choice Robinson
+vec_proj <- c("winkeltripel", "eckert4", "mollweide", "robinson", "winkeltripel", "eckert4", "mollweide", "robinson") # nolint
+
+# STEP 0: DEFINE the DESIRED coordinate reference system
+prj <- CRS("+proj=eck4 +lon_0=-150 +x_0=-150 +y_0=0 +a=6371000 +b=6371000 +units=m +no_defs") # PACIFIC centered
+		# prj <- CRS("+proj=wintri +lon_0=-150 +x_0=0 +y_0=0") # PACIFIC centered
+		# prj <- CRS("+proj=moll +lon_0=-150 +x_0=0 +y_0=0 +ellps=WGS84") # PACIFIC centered
+		# prj <- CRS("+proj=robin +lon_0=-150 +x_0=-150 +y_0=0 +a=6371000 +b=6371000 +units=m +no_defs") # PACIFIC centered
+		
+		## STEP 2: PREPARE A WORLD SPATIAL-POLYGONS-DATA-FRAME (WITH  CORRECT PROJECTION AND EXTENT)
+		shape <- spTransform(getMap(), CRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"))
+		shape # a spatial polygons object
+		ext_west <- extent(-180, 29.9, -90, 90)
+		ext_east <- extent(30.1, 180, -90, 90)
+		shape_west <- crop(shape, ext_west)
+		shape_east <- crop(shape, ext_east)
+		world_west <- spTransform(shape_west, prj)
+		world_east <- spTransform(shape_east, prj)
+		world_bound <- bind(world_east, world_west)
+		
+		## STEP 3: Create EMPTY SPATIAL-POINTS-DATA-FRAME (WITH DESIRED RESOLUTION (e.g. 1/8 degree) AND  BASIC PROJECTION)
+		# At higher resolution
+		xs <- seq(-180, 180, by = 0.125) # intermediate resolutioin by = 0.25
+		ys <- seq(-90, 90, by = 0.125) # intermediate resolutioin by = 0.25
+		# Create a data frame
+		pts <- expand.grid(xs,ys) # A spatial points object - "expand.grid" creates a data frame for all combinations of variables
+		coordinates(pts) <- c(1,2) # A spatial points object
+		projection(pts) <- projection(dcant_raster) # Assign same BASIC projection to these prepared points as found in the raster_div
+
+		## STEP 4: EXTRACT THE DATA from the DIV RASTER into SPATIAL DATA, and ASSIGN DESIRED PROJECTION TO THE SPATIAL DATA
+		pts$div <- raster::extract(dcant_raster, pts) # A spatial points data frame
+		pts_proj <- spTransform(pts, prj) #
+		pts_proj <- pts_proj[!is.na(pts_proj$div), ] # Remove NA's
+		
+		## STEP 5: CREATE AN EMPTY RASTER TEMPLATE (WITH DESIRED RESOLUTION)
+		templ <- raster(extent(world_bound), nrows=180, ncols=360, crs = prj)
+		# also: wintri projection was lacking  proj4 data, so I went for Eckert IV
+		# (hope that's OK; looks even nicer in my opinion)
+		# project raster (Doing some tricks; not OK for analysis!!! But should be OK for illustration purposes)
+
+		# STEP 6: ASSING EXTENTS TO THE SPATIAL DATA AND CUT ACCORDING TO TEMPLATE: QUESTION - Why limit west to 100 and east to -100 -> we will see 200 degrees, not 360 ?!
+		ext_east <- ext_west <- extent(templ)
+		ext_west[2] <- 100
+		ext_east[1] <- 100
+		pts_proj.west <- crop(pts_proj, ext_west)
+		pts_proj.east <- crop(pts_proj, ext_east)
+
+		# STEP 7: RASTERIZE THE SPATIAL DATA
+		nras.west <- rasterize(pts_proj.west, templ, field = 'div')
+		nras.east <- rasterize(pts_proj.east, templ, field = 'div')
+		nras <- merge(nras.west, nras.east)
+
+		# Get color scale in place
+		# sel.col <- colorRampPalette(brewer.pal(9,'YlOrBr')) # reds with brown # STANDARD COLOR SCALE
+		# # Composite colors for richness: with greens at low end
+		# sel.col <- colorRampPalette(c("#FFFFD9", "#EDF8B1", colorRampPalette(brewer.pal(9,'YlOrBr'))(9)[3:9], "#023858")) # Greens at low end
+		# # Composite colors for richness: with blues at low end: works so so
+		# sel.col <- colorRampPalette(c("#F7FBFF", colorRampPalette(brewer.pal(9,'YlOrBr'))(9)[2:9], "#023858")) # blue at low end
+		# # Composite colors for richness: with grey at low end: works so so
+		# sel.col <- colorRampPalette(c("grey99", colorRampPalette(brewer.pal(9,'YlOrBr'))(9)[2:9], "#023858")) # grey at low end
+		# # Current color bar choice
+		# sel.col <- colorRampPalette(c("#FFFFD9", "#EDF8B1", colorRampPalette(brewer.pal(9,'YlOrBr'))(9)[3:9], "#023858")) # CURRENT CHOICE RICHNESS REDS
+		# # Slighly darker on top
+		# sel.col <- colorRampPalette(c( colorRampPalette(brewer.pal(9,'YlOrBr'))(9)[1:9], "#023858")) # *** FINAL  DECISION RICHNESS, original submission Scie Adv LETTER
+		# # For cover page of doctoral thesis: blue scales
+		# sel.col <-colorRampPalette(c("white", "#D7E1F3", "#96B0E0", "#6284DF", "#3455B8","#192A5B")) # smoothest blue ever3
+		# # Own blue scale
+		sel.col <- colorRampPalette(c("snow", "#CBDCE0", "#96B0E0", "#6284DF", "#385CC8", "#172451")) # own scale: lightyellow - blue *** CHOICE OWN BLUE SCALE
+		# Green to blue or blues
+		# sel.col <- colorRampPalette(brewer.pal(9,'Blues'))
+
+		# ------------------ STEP 9: PLOT RASTER WITH ADDED CONTOUR LINES - AS IN MAIN FIGURE 1 of LETTER (Sci. Adv. Righetti et al., 2019) WITH ADDED LATITUDINAL GRADIENTS ----------------
+		png(filename = paste0("/net/kryo/work/deriksson/Projects/Notion/Code/8_Map_richness/1_Output/richness_no_lat_grad/", vec_fname[f], ".png"), width = 3070, height = 1800, units = "px", pointsize = 80)
+
+		# Open frame
+		par(mfrow = c(1, 1), mar = c(1, 0, 0, 0), oma = c(0, 0, 0, 0), cex = 0.9)
+		plot(1, 1, ylab = "", xlab = "",  type = "n", cex.lab = 1, font.lab = 2, axes = FALSE, xlim = c(0, 1), ylim = c(0, 1))
+		text(0.085, 0.836, c(""), cex = 0.8, xpd = NA, font = 2)
+		# Reset the frame
+		par(mfrow=c(1,1),mar=c(1,3.4,0,0),oma=c(1,3.4,0,0),cex=0.9, new = T)
+		# plot(nras, col = sel.col(100)[1:100], main = "", axes = F, bty = "n", box = F, legend = F, zlim = c(0.17, 0.9741)) # gridded data, contoured
+		plot(nras, col = sel.col(100)[1:100], main = "", axes = F, bty = "n", box = F, legend = F, zlim = c(nras@data@min, nras@data@max)) # gridded data, contoured
+		# n.lev <- 20
+		n.lev <- 10
+		raster.help <- raster.gaussian.smooth(nras, sigma = 1, n = 3) # sigma is the standard deviation of the kernel, n the size of the focal matrix (pixels I guess; the larger - the smoother)
+		# raster.help <- nras # standard
+		contour(raster.help, add =T, drawlabels =F, nlevels = n.lev, col = "lightblue3", lwd = 1.5) # STANDARD IS LIGHTBLUE3, lwd 1 (but for taxon - corr map - lightblue 3 is best with lwd 1.0).
+		plot(world_bound, col = 'grey40', add = TRUE, lwd = 0.012) # world map
+
+		# Add legend
+		par(fig=c(0,0.065,0.28,0.72), new=TRUE) # for legend
+		# plot(nras, type = "n", axes = F, ann = F, legend.only =T, zlim = c(50, nras@data@max), col = sel.col(100),
+		plot(nras, type = "n", axes = F, ann = F, legend.only =T, zlim = c(0.17, 0.9741), col = sel.col(50)[1:50],
+		# plot(nras, type = "n", axes = F, ann = F, legend.only =T, zlim = c(min(as.data.frame(raster_div), na.rm = T), max(as.data.frame(raster_div), na.rm = T)), col = sel.col(50)[1:50],
+		# plot(nras, type = "n", axes = F, ann = F, legend.only =T, zlim = c(nras@data@min,nras@data@max), col = sel.col(50)[1:50],
+
+		legend.width = 17, axis.args = list(cex.axis = 0.5, tck = -0.2, mgp = c(1,0.27, 0)))
+
+		# Add legend text
+		par(fig=c(0,0.065,0.28,0.72), new=TRUE) # for legend
+		mtext("         Relative no.", side =1, line = -7, cex = 0.5)
+		mtext("       of taxa", side =1, line = -6.5, cex = 0.5)
+		
+		dev.off()
+		
+		
 ```
 
 ## Inventory stats
@@ -2667,6 +2782,692 @@ ggsave(path = here::here("output/presentation"),
 rm(p_CI_absolute, p_CI_delta)
 
 ```
+
+```{r inventory_maps_absolute_obs_equal_earth_SpatRaster, fig.asp=1}
+
+library(sf)
+library(terra)
+library(tidyterra)
+library(rnaturalearth)
+
+dcant_inv <- dcant_inv_all %>%
+  filter(data_source == "obs",
+         period == "1994 - 2004") %>%
+  select(lon, lat, dcant)
+
+dcant_inv_raster_dec1 <- rast(dcant_inv,
+                              crs = "+proj=longlat")
+
+raster_extend <- as.vector(ext(dcant_inv_raster_dec1), mode = "numeric")
+
+center <- 200
+target_crs <- paste0("+proj=robin +over +lon_0=", center)
+
+dcant_inv_raster_dec1 <- project(dcant_inv_raster_dec1, target_crs)
+
+dcant_inv <- dcant_inv_all %>%
+  filter(data_source == "obs",
+         period == "2004 - 2014") %>%
+  select(lon, lat, dcant)
+
+dcant_inv_raster_dec2 <- rast(dcant_inv,
+                              crs = "+proj=longlat")
+
+dcant_inv_raster_dec2 <- project(dcant_inv_raster_dec2, target_crs)
+
+dcant_inv <- delta_dcant_inv_all %>%
+  filter(data_source == "obs") %>%
+  select(lon, lat, dcant = dcant_offset)
+
+dcant_inv_raster_delta <- rast(dcant_inv,
+                              crs = "+proj=longlat")
+
+dcant_inv_raster_delta <- project(dcant_inv_raster_delta, target_crs)
+
+
+worldmap <- ne_countries(scale = 'small',
+                         type = 'map_units',
+                         returnclass = 'sf')
+
+offset <- 180 - center
+
+# define a long & slim polygon that overlaps the meridian line & set its CRS to match that of world
+polygon <- st_polygon(x = list(rbind(
+  c(-0.0001 - offset, 90),
+  c(0 - offset, 90),
+  c(0 - offset, -90),
+  c(-0.0001 - offset, -90),
+  c(-0.0001 - offset, 90)
+))) %>%
+  st_sfc() %>%
+  st_set_crs(4326)
+
+# modify world dataset to remove overlapping portions with world's polygons
+sf_use_s2(FALSE)
+worldmap <- worldmap %>% st_difference(polygon)
+
+worldmap_trans <- st_transform(worldmap, crs = target_crs)
+
+# plot
+ggplot() +
+  geom_sf(data = worldmap)
+
+ggplot() +
+  geom_sf(data = worldmap_trans)
+
+
+disp_win_wgs84 <- st_sfc(st_point(c(-180, 65)), st_point(c(180, -80)),
+                         crs = 4326)
+disp_win_wgs84
+
+disp_win_trans <- st_transform(disp_win_wgs84, crs = target_crs)
+disp_win_trans
+
+disp_win_coord <- st_coordinates(disp_win_trans)
+disp_win_coord
+
+disp_win_coord_raster <- ext(dcant_inv_raster_dec1)[c(1,2)]*1.01
+
+
+coastline <- ne_coastline(scale = 'small', returnclass = "sf")
+ggplot() +
+  geom_sf(data = coastline)
+coastline <- coastline %>% st_difference(polygon)
+coastline_trans <- st_transform(coastline, crs = target_crs)
+ggplot() +
+  geom_sf(data = coastline_trans)
+
+
+graticules <- ne_download(
+  scale = "small",
+  type = "graticules_30",
+  category = c("physical"),
+  destdir = tempdir(),
+  load = TRUE,
+  returnclass = c("sf")
+)
+
+ggplot() +
+  geom_sf(data = graticules)
+
+graticules <- graticules %>% st_difference(polygon)
+graticules_trans <- st_transform(graticules, crs = target_crs)
+ggplot() +
+  geom_sf(data = graticules_trans)
+
+graticules_1 <- ne_download(
+  scale = "small",
+  type = "graticules_1",
+  category = c("physical"),
+  destdir = tempdir(),
+  load = TRUE,
+  returnclass = c("sf")
+)
+
+
+ggplot() +
+  geom_sf(data = graticules_1) +
+  geom_sf(data = graticules_1 %>% filter(display %in% c("65 N", "80 S", "20 E", "21 E")), col="red")
+
+# graticules_1_temp <-
+# graticules_1 %>% filter(display %in% c("21 E"))
+#
+# graticules_1_temp <- graticules_1_temp %>% mutate(geometry = geometry + c(-1,0))
+
+graticules_1 <-
+graticules_1 %>% filter(display %in% c("65 N", "80 S", "20 E", "21 E"))
+
+# graticules_1 <- bind_rows(graticules_1, graticules_1_temp %>% st_set_crs(st_crs(graticules_1)))
+
+graticules_1 <- graticules_1 %>% st_difference(polygon)
+graticules_trans_1 <- st_transform(graticules_1, crs = target_crs)
+
+
+ggplot() +
+  geom_sf(data = graticules_trans_1)
+
+# grat_bb <-
+#   st_graticule(lat = c(-80, 65),
+#                lon = c(-180,180)) %>%
+#   st_transform(crs = target_crs)
+#
+# ggplot() +
+#   geom_sf(data = grat_bb)
+
+
+
+# dcant_inv_uncert <- dcant_inv_raster %>%
+#   filter(dcant < 5) %>%
+#   as.points() %>%
+#   st_as_sf()
+
+dcant_inv_uncert_dec1 <- dcant_inv_uncertainty %>%
+  filter(data_source == "obs",
+         period == "1994 - 2004") %>%
+  select(lon, lat, signif_single, signif_double) %>%
+  st_as_sf(coords = c("lon", "lat"), crs = "+proj=longlat")
+
+dcant_inv_uncert_dec2 <- dcant_inv_uncertainty %>%
+  filter(data_source == "obs",
+         period == "2004 - 2014") %>%
+  select(lon, lat, signif_single, signif_double) %>%
+  st_as_sf(coords = c("lon", "lat"), crs = "+proj=longlat")
+
+dcant_inv_uncert_delta <- delta_dcant_inv_uncertainty %>%
+  filter(data_source == "obs") %>%
+  select(lon, lat, signif_single, signif_double) %>%
+  st_as_sf(coords = c("lon", "lat"), crs = "+proj=longlat")
+
+
+# library(ggpattern)
+# geom_sf_pattern(data = worldmap_trans, pattern = "stripe") +
+
+legend_title <- expression(atop(Delta * C["ant"],
+                                (mol ~ m ^ {
+                                  -2
+                                } ~ dec ^ {
+                                  -1
+                                })))
+
+p_dcant_inv_dec1 <- ggplot() +
+  geom_sf(data = worldmap_trans, fill = "grey80", col = "grey80") +
+  geom_sf(data = coastline_trans, col = "grey20") +
+  geom_spatraster(data = dcant_inv_raster_dec1 %>% mutate(dcant = cut(dcant, c(
+    -Inf, seq(0, 16, 2), Inf
+  ))),
+  aes(fill = dcant)) +
+  geom_sf(
+    data = dcant_inv_uncert_dec1 %>% filter(signif_single == 0),
+    col = "grey60",
+    size = 0.5
+  ) +
+  geom_sf(
+    data = dcant_inv_uncert_dec1 %>% filter(signif_double == 0),
+    col = "grey60",
+    size = 0.01
+  ) +
+  geom_sf(data = graticules_trans_1,
+          col = "grey20",
+          linewidth = 1) +
+  coord_sf(xlim = disp_win_coord_raster,
+           ylim = disp_win_coord[, 'Y'] * 1.005,
+           expand = FALSE) +
+  scale_fill_viridis_d(na.value = "transparent",
+                       drop = FALSE,
+                       name = legend_title) +
+  labs(title = "1994 - 2004") +
+  guides(fill = guide_colorsteps(barheight = unit(6, "cm")))  +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    panel.border = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank()
+  )
+
+p_dcant_inv_dec2 <- ggplot() +
+  geom_sf(data = worldmap_trans, fill = "grey80", col = "grey80") +
+  geom_sf(data = coastline_trans, col = "grey20") +
+  geom_spatraster(data = dcant_inv_raster_dec2 %>% mutate(dcant = cut(dcant, c(
+    -Inf, seq(0, 16, 2), Inf
+  ))),
+  aes(fill = dcant)) +
+  geom_sf(
+    data = dcant_inv_uncert_dec2 %>% filter(signif_single == 0),
+    col = "grey60",
+    size = 0.5
+  ) +
+  geom_sf(
+    data = dcant_inv_uncert_dec2 %>% filter(signif_double == 0),
+    col = "grey60",
+    size = 0.01
+  ) +
+  geom_sf(data = graticules_trans_1,
+          col = "grey20",
+          linewidth = 1) +
+  coord_sf(xlim = disp_win_coord_raster,
+           ylim = disp_win_coord[, 'Y'] * 1.005,
+           expand = FALSE) +
+  scale_fill_viridis_d(na.value = "transparent",
+                       drop = FALSE,
+                       name = legend_title) +
+  labs(title = "2004 - 2014") +
+  guides(fill = guide_colorsteps(barheight = unit(6, "cm")))  +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    panel.border = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank()
+  )
+
+legend_title_delta <- expression(atop(Delta * Delta * C["ant"],
+                                (mol ~ m ^ {
+                                  -2
+                                } ~ dec ^ {
+                                  -1
+                                })))
+
+
+p_dcant_inv_delta <- ggplot() +
+  geom_spatraster(data = dcant_inv_raster_delta %>% mutate(dcant = cut(dcant, c(
+    -Inf, seq(-8, 8, 2), Inf
+  ))),
+  aes(fill = dcant)) +
+  geom_sf(
+    data = dcant_inv_uncert_delta %>% filter(signif_single == 0),
+    col = "grey20",
+    size = 0.5
+  ) +
+  geom_sf(
+    data = dcant_inv_uncert_delta %>% filter(signif_double == 0),
+    col = "grey20",
+    size = 0.01
+  ) +
+  geom_sf(data = worldmap_trans, fill = "grey80", col = "grey80") +
+  geom_sf(data = coastline_trans, col = "grey20") +
+  geom_sf(data = graticules_trans_1,
+          col = "grey20",
+          linewidth = 1) +
+  coord_sf(xlim = disp_win_coord_raster,
+           ylim = disp_win_coord[, 'Y'] * 1.005,
+           expand = FALSE) +
+  colorspace::scale_fill_discrete_divergingx(
+    palette = "RdBu",
+    na.value = "transparent",
+    drop = FALSE,
+    rev = TRUE,
+    name = legend_title_delta
+  )+
+  labs(title = "Decadal difference") +
+  guides(fill = guide_colorsteps(barheight = unit(6, "cm")))  +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    panel.border = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank()
+  )
+
+(p_dcant_inv_dec1 / p_dcant_inv_dec2 + plot_layout(guides = "collect")) /
+  p_dcant_inv_delta
+
+
+ggsave(path = here::here("output/publication"),
+       filename = "Fig_dcant_column_inventory_robinson.png",
+       height = 10,
+       width = 8)
+
+
+# ggplot() +
+#   geom_sf(data = worldmap_trans, fill = "grey80", col = "grey80") +
+#   geom_sf(data = coastline_trans, col = "grey20") +
+#   # geom_sf(data = graticules_trans, col = "grey20", linewidth = 0.1) +
+#   geom_spatraster_contour_filled(data = dcant_inv_raster_dec1,
+#                                  breaks = c(-Inf,seq(0,16,2),Inf)) +
+#   # geom_spatraster_contour(data = dcant_inv_raster_dec1,
+#   #                                breaks = c(-Inf,seq(0,16,2),Inf),
+#   #                         col = "grey60",
+#   #                         linewidth = 0.2) +
+#   geom_sf(data = dcant_inv_uncert_dec1 %>% filter(signif_single == 0),
+#           col = "grey60", size = 0.5) +
+#   geom_sf(data = dcant_inv_uncert_dec1 %>% filter(signif_double == 0),
+#           col = "grey60", size = 0.01) +
+#   geom_sf(data = graticules_trans_1, col = "grey20", linewidth = 1) +
+#   coord_sf(xlim = disp_win_coord_raster,
+#            ylim = disp_win_coord[, 'Y']*1.005,
+#            expand = FALSE) +
+#   scale_fill_viridis_d(na.value = "transparent",
+#                        drop = FALSE) +
+#   guides(fill = guide_colorsteps()) +
+#   theme_minimal() +
+#   theme(    plot.title = element_text(hjust = 0.5),
+#     panel.border = element_blank(),
+#         axis.text = element_blank(),
+#         axis.ticks = element_blank())
+
+rm(dcant_inv, dcant_inv_raster_dec1, dcant_inv_raster_dec2, dcant_inv_raster_delta,
+   dcant_inv_uncert_dec1, dcant_inv_uncert_dec2, dcant_inv_uncert_delta,
+   p_dcant_inv_dec1, p_dcant_inv_dec2, p_dcant_inv_delta,
+   worldmap, worldmap_trans, offset, center,
+   graticules, graticules_1, graticules_trans, graticules_trans_1,
+   disp_win_coord, disp_win_coord_raster, disp_win_trans, disp_win_wgs84)
+
+```
+
+```{r inventory_maps_absolute_obs_equal_earth_Donghe, fig.asp=1.2, eval=FALSE}
+
+# load libraries
+library(rnaturalearth)
+library(sp)
+library(rgdal)
+library(sf)
+library(raster)
+library(RColorBrewer)
+
+# projection CRS
+crs_raw <- '+proj=longlat'
+################### if want to change the map center, please provide longitude in (0, 360) ######################
+crs_eqearth <- '+proj=eqearth +lon_0=200'
+
+## use naturalearth map, see tutorial: https://pjbartlein.github.io/REarthSysSci/RMaps.html
+
+# load downloaded naturalearth shapefile for bounding box
+## download bounding box at: https://www.naturalearthdata.com/downloads/10m-physical-vectors/ -> 'Graticules' -> 'Download bounding box'
+shape_path <- '/home/donzhu/Scripts/'
+bb_lines <- readOGR(paste0(shape_path, 'ne_10m_wgs84_bounding_box/ne_10m_wgs84_bounding_box.shp'))
+
+# bb_lines@bbox
+
+bb_lines_proj <- spTransform(bb_lines,
+                          CRS('+proj=eqearth'))
+bb_lines_proj <- as(bb_lines_proj, 'SpatialLinesDataFrame')
+
+# load naturalearth coastline map
+coastline <- ne_coastline(scale = 'small', returnclass = "sf") %>%
+  st_make_valid()
+
+# centered at lon 160W (200)
+################### if want to change the map center, please provide longitude in (0, 360) ######################
+offset <- 180 - 200
+
+# define a long & slim polygon that overlaps the meridian line & set its CRS to match that of world
+polygon <- st_polygon(x = list(rbind(
+  c(-0.0001 - offset, 90),
+  c(0 - offset, 90),
+  c(0 - offset, -90),
+  c(-0.0001 - offset, -90),
+  c(-0.0001 - offset, 90)
+))) %>%
+  st_sfc() %>%
+  st_set_crs(4326)
+
+# modify coastline map to remove overlapping portions with world's polygons
+coastline_proj <- coastline %>% st_difference(polygon)
+#> Warning: attribute variables are assumed to be spatially constant throughout all geometries
+
+# transform coastline to eqearth projection
+coastline_proj <- coastline_proj %>% st_transform(crs = crs_eqearth)
+ggplot(data = coastline_proj) +
+  geom_sf()
+
+# transform sf to SpatialLinesDataFrame for ggplot geom_path
+coastline_proj <- as_Spatial(coastline_proj)
+
+# read dcant dataframe from csv file and transform coordinate
+dcant <- dcant_inv_all %>%
+  filter(period %in% "1994 - 2004",
+         data_source %in% c("obs")) %>%
+  mutate(lon = if_else(lon >= 360, lon - 360, lon))
+
+# transform dataframe to dcant raster
+dcant_raster <- rasterFromXYZ(dcant[, c('lon', 'lat', 'dcant')], crs = crs_raw)
+
+# extend extent to (0, 360,-90, 90), otherwise cause failure for later transform
+dcant_raster <- extend(dcant_raster, extent(0, 360, -90, 90))
+plot(dcant_raster)
+
+# plot(projectRaster(dcant_raster, crs = crs_eqearth))
+
+# rotate file to (-180, 180,-90, 90) and SPDF for later sf transform
+file_raw <- as(rotate(dcant_raster), "SpatialPolygonsDataFrame")
+
+# SPDF to sf
+dcant_sf <- as(file_raw, 'sf')
+
+# modify coastline map to remove overlapping portions with world's polygons
+dcant_sf_proj <- dcant_sf %>% st_difference(polygon)
+#> Warning: attribute variables are assumed to be spatially constant throughout all geometries
+
+# transform coastline to eqearth projection
+dcant_sf_proj_dec1 <- dcant_sf_proj %>% st_transform(crs = crs_eqearth)
+
+# library(stars)
+# st_rasterize(dcant_sf_proj)
+
+# final visualization
+p_dcant_CI_dec1 <- ggplot() +
+  geom_sf(data = dcant_sf_proj_dec1,
+          aes(fill = cut(dcant, c(-Inf,seq(0,16,2),Inf)),
+              col = cut(dcant, c(-Inf,seq(0,16,2),Inf))),
+          lwd = 0) +
+  # coord_sf(ylim = c(-8125803, 7331409*(65/90))) +
+  scale_fill_viridis_d(
+    drop = FALSE) +
+  scale_color_viridis_d(
+    drop = FALSE) +
+  geom_path(data = coastline_proj,
+            aes(x = long,
+                y = lat,
+                group = group),
+            linewidth = 0.3) +
+  geom_path(data = bb_lines_proj,
+            aes(x = long,
+                y = lat,
+                group = group),
+            linewidth = 0.3) +
+  labs(title = "1994 - 2004") +
+  theme(
+    legend.position = 'bottom',
+    legend.title.align = 0.5,
+    legend.margin = margin(t = -14),
+    plot.title = element_text(hjust = 0.5),
+    axis.line = element_blank(),
+    axis.title = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    panel.border = element_blank()
+  ) +
+  guides(
+    fill = "none",
+    color = "none"
+  )
+
+
+# read dcant dataframe from csv file and transform coordinate
+dcant <- dcant_inv_all %>%
+  filter(period %in% "2004 - 2014",
+         data_source %in% c("obs")) %>%
+  mutate(lon = if_else(lon >= 360, lon - 360, lon))
+
+# transform dataframe to dcant raster
+dcant_raster <- rasterFromXYZ(dcant[, c('lon', 'lat', 'dcant')], crs = crs_raw)
+
+# extend extent to (0, 360,-90, 90), otherwise cause failure for later transform
+dcant_raster <- extend(dcant_raster, extent(0, 360, -90, 90))
+plot(dcant_raster)
+
+# plot(projectRaster(dcant_raster, crs = crs_eqearth))
+
+# rotate file to (-180, 180,-90, 90) and SPDF for later sf transform
+file_raw <- as(rotate(dcant_raster), "SpatialPolygonsDataFrame")
+
+# SPDF to sf
+dcant_sf <- as(file_raw, 'sf')
+
+# modify coastline map to remove overlapping portions with world's polygons
+dcant_sf_proj <- dcant_sf %>% st_difference(polygon)
+#> Warning: attribute variables are assumed to be spatially constant throughout all geometries
+
+# transform coastline to eqearth projection
+dcant_sf_proj_dec2 <- dcant_sf_proj %>% st_transform(crs = crs_eqearth)
+
+# library(stars)
+# st_rasterize(dcant_sf_proj)
+
+# final visualization
+p_dcant_CI_dec2 <- ggplot() +
+  geom_sf(data = dcant_sf_proj_dec2,
+          aes(fill = cut(dcant, c(-Inf,seq(0,16,2),Inf)),
+              col = cut(dcant, c(-Inf,seq(0,16,2),Inf))),
+          lwd = 0) +
+  # coord_sf(ylim = c(-8125803, 7331409*(65/90))) +
+  scale_fill_viridis_d(
+    drop = FALSE) +
+  scale_color_viridis_d(
+    drop = FALSE) +
+  geom_path(data = coastline_proj,
+            aes(x = long,
+                y = lat,
+                group = group),
+            linewidth = 0.3) +
+  geom_path(data = bb_lines_proj,
+            aes(x = long,
+                y = lat,
+                group = group),
+            linewidth = 0.3) +
+  labs(title = "2004 - 2014") +
+  theme(
+    legend.position = 'bottom',
+    legend.title.align = 0.5,
+    # legend.margin = margin(t = -14),
+    plot.title = element_text(hjust = 0.5),
+    axis.line = element_blank(),
+    axis.title = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    panel.border = element_blank()
+  ) +
+  guides(
+    fill = guide_colorsteps(
+      title = bquote(Delta * .('Cant (µmol / kg)')),
+      #legend.position = "bottom",
+      title.position = "bottom",
+      title.vjust = 2,
+      label.vjust = 1.5,
+      frame.linewidth = 0.4,
+      show.limits = FALSE,
+      # draw border around the legend
+      frame.colour = "black",
+      barwidth = 10,
+      barheight = 0.4
+    ),
+    color = guide_colorsteps(
+      title = bquote(Delta * .('Cant (µmol / kg)')),
+      #legend.position = "bottom",
+      title.position = "bottom",
+      title.vjust = 2,
+      label.vjust = 1.5,
+      frame.linewidth = 0.4,
+      show.limits = FALSE,
+      # draw border around the legend
+      frame.colour = "black",
+      barwidth = 10,
+      barheight = 0.4
+    )
+  )
+
+
+# read dcant dataframe from csv file and transform coordinate
+dcant <- delta_dcant_inv_all %>%
+  filter(data_source %in% c("obs")) %>%
+  mutate(lon = if_else(lon >= 360, lon - 360, lon))
+
+# transform dataframe to dcant raster
+dcant_raster <- rasterFromXYZ(dcant[, c('lon', 'lat', 'dcant_offset')], crs = crs_raw)
+
+# extend extent to (0, 360,-90, 90), otherwise cause failure for later transform
+dcant_raster <- extend(dcant_raster, extent(0, 360, -90, 90))
+plot(dcant_raster)
+
+# plot(projectRaster(dcant_raster, crs = crs_eqearth))
+
+# rotate file to (-180, 180,-90, 90) and SPDF for later sf transform
+file_raw <- as(rotate(dcant_raster), "SpatialPolygonsDataFrame")
+
+# SPDF to sf
+dcant_sf <- as(file_raw, 'sf')
+
+# modify coastline map to remove overlapping portions with world's polygons
+dcant_sf_proj <- dcant_sf %>% st_difference(polygon)
+#> Warning: attribute variables are assumed to be spatially constant throughout all geometries
+
+# transform coastline to eqearth projection
+dcant_sf_proj_delta <- dcant_sf_proj %>% st_transform(crs = crs_eqearth)
+
+# library(stars)
+# st_rasterize(dcant_sf_proj)
+
+# final visualization
+p_dcant_CI_delta <- ggplot() +
+  geom_sf(data = dcant_sf_proj_delta,
+          aes(fill = cut(dcant_offset, c(-Inf,seq(-8,8,2),Inf)),
+              col = cut(dcant_offset, c(-Inf,seq(-8,8,2),Inf))),
+          lwd = 0) +
+  # coord_sf(ylim = c(-8125803, 7331409*(65/90))) +
+  colorspace::scale_fill_discrete_divergingx(
+    palette = "RdBu",
+    drop = FALSE,
+    rev = TRUE
+  )+
+  colorspace::scale_color_discrete_divergingx(
+    palette = "RdBu",
+    drop = FALSE,
+    rev = TRUE
+  )+
+  geom_path(data = coastline_proj,
+            aes(x = long,
+                y = lat,
+                group = group),
+            linewidth = 0.3) +
+  geom_path(data = bb_lines_proj,
+            aes(x = long,
+                y = lat,
+                group = group),
+            linewidth = 0.3) +
+  labs(title = "Decadal difference") +
+  theme(
+    legend.position = 'bottom',
+    legend.title.align = 0.5,
+    # legend.margin = margin(t = -14),
+    plot.title = element_text(hjust = 0.5),
+    axis.line = element_blank(),
+    axis.title = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    panel.border = element_blank()
+  ) +
+  guides(
+    fill = guide_colorsteps(
+      title = bquote(Delta * Delta * .('Cant (µmol / kg)')),
+      #legend.position = "bottom",
+      title.position = "bottom",
+      title.vjust = 2,
+      label.vjust = 1.5,
+      frame.linewidth = 0.4,
+      show.limits = FALSE,
+      # draw border around the legend
+      frame.colour = "black",
+      barwidth = 10,
+      barheight = 0.4
+    ),
+    color = guide_colorsteps(
+      title = bquote(Delta * Delta * .('Cant (µmol / kg)')),
+      #legend.position = "bottom",
+      title.position = "bottom",
+      title.vjust = 2,
+      label.vjust = 1.5,
+      frame.linewidth = 0.4,
+      show.limits = FALSE,
+      # draw border around the legend
+      frame.colour = "black",
+      barwidth = 10,
+      barheight = 0.4
+    )
+  )
+
+p_dcant_CI_delta
+
+p_dcant_CI_dec1 / p_dcant_CI_dec2 / p_dcant_CI_delta
+
+
+ggsave(path = here::here("output/publication"),
+       filename = "Fig_dcant_column_inventory_equal_earth.png",
+       height = 10,
+       width = 6)
+
+
+```
+
+
+
 
 ## Bias
 
@@ -7118,14 +7919,20 @@ p_tcant_box_10 <-
                           guide = "none") +
   scale_color_highcontrast(name = "Data source",
                            guide = "none") +
-  scale_y_continuous(limits = c(tcant_min, tcant_max)) +
+  scale_y_continuous(limits = c(tcant_min, tcant_max),
+                     # breaks = seq(0,30,10),
+                     sec.axis = sec_axis(~ . -(tcant_2004 - 118), 
+                                         name = expression(Cumulative ~ ocean ~ carbon ~ storage ~ since ~ 2004 ~ (Pg~C)),
+                                         guide = guide_axis_truncated(),
+                                         breaks = seq(0,30,10))) +
   labs(x = "Decades") +
   theme_classic() +
+  # guides(y.right = "axis_truncated") +
   theme(
     axis.line.y.left = element_blank(),
-    axis.text.y = element_blank(),
-    axis.ticks.y = element_blank(),
-    axis.title.y = element_blank(),
+    axis.text.y.left = element_blank(),
+    axis.ticks.y.left = element_blank(),
+    axis.title.y.left = element_blank(),
     panel.grid.major.y = element_line(colour = "black",
                                       size = 0.1)
   )
