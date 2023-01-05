@@ -476,12 +476,12 @@ p_time_histo_basin <-
   ggplot() +
   annotate("rect", xmin = 1999.5, xmax=2009.5,
                 ymin = 0, ymax = Inf,
-            fill = "black", alpha = 0.2, col="transparent") +
+            fill = "grey80", col="transparent") +
   geom_col(
     aes(year, n, fill = basin),
     col = "grey20",
     # fill = "grey50",
-    size = 0.3,
+    linewidth = 0.3,
     width = 0.7
   ) +
   scale_fill_brewer(palette = "Paired") +
@@ -492,7 +492,7 @@ p_time_histo_basin <-
   theme(axis.title.x = element_blank(),
         panel.grid.minor = element_blank(),
         legend.title = element_blank(),
-        legend.position = c(0.08,0.67),
+        legend.position = c(0.08,0.65),
         legend.background = element_rect(fill = "transparent"))
 
 p_time_histo_basin
@@ -518,7 +518,127 @@ GLODAP_all %>%
 
 ```
 
+
 # Coverage maps
+
+## Robinson
+
+```{r coverage_maps_robinson}
+
+cruises_phosphate_gap_fill <-
+  c("33MW19930704",
+    "33RO20030604",
+    "33RO20050111",
+    "33RO19980123")
+
+cruises_talk_gap_fill <-
+  c("06AQ19980328")
+
+cruises_talk_calc <-
+  c("06MT19900123",
+    "316N19920502",
+    "316N19921006")
+
+GLODAP_all_coverage <- GLODAP_all %>% 
+  distinct(lat, lon, era, cruise_expocode) %>% 
+  mutate(gap_filling = case_when(
+    cruise_expocode %in% cruises_phosphate_gap_fill ~ 1,
+    cruise_expocode %in% cruises_talk_gap_fill ~ 2,
+    cruise_expocode %in% cruises_talk_calc ~ 3,
+    cruise_expocode %in% "31DS19940126" ~ 4,
+    TRUE ~ 5
+  )) %>% 
+  distinct(lat, lon, era, gap_filling)
+
+GLODAP_all_coverage_raster <- rast(GLODAP_all_coverage %>% 
+                                     relocate(lon, lat) %>% 
+                                     pivot_wider(names_from = era,
+                                                 values_from = gap_filling,
+                                                 values_fn = ~first(.x)),
+                                   crs = "+proj=longlat")
+
+
+GLODAP_all_coverage_raster <- project(GLODAP_all_coverage_raster, target_crs,
+                                      method = "near")
+
+GLODAP_all_coverage_tibble <- GLODAP_all_coverage_raster %>%
+  as.data.frame(xy = TRUE, na.rm = FALSE) %>%
+  as_tibble() %>%
+  rename(lon = x, lat = y) %>%
+  pivot_longer(cols = -c("lon", "lat"),
+               names_to = "era",
+               values_to = "gap_filling") %>% 
+  drop_na()
+
+GLODAP_all_coverage_tibble <- GLODAP_all_coverage_tibble %>% 
+  mutate(gap_filling = case_when(
+    gap_filling == 1 ~ "Phosphate from CANYON-B",
+    gap_filling == 2 ~ "TA from CANYON-B",
+    gap_filling == 3 ~ "TA calculated from other variables",
+    gap_filling == 4 ~ "Nitrate qc-flag not met",
+    TRUE ~ "All quality criteria fulfilled"
+  ))
+
+
+coverage_map <- 
+  ggplot() +
+  geom_tile(
+    data = GLODAP_all_coverage_tibble %>%
+      filter(gap_filling == "All quality criteria fulfilled"),
+    aes(
+      x = lon,
+      y = lat,
+      height = 1.5e5,
+      width = 1.5e5,
+      fill = gap_filling
+    )
+  )+
+  geom_tile(
+    data = GLODAP_all_coverage_tibble %>%
+      filter(gap_filling != "All quality criteria fulfilled"),
+    aes(
+      x = lon,
+      y = lat,
+      height = 1.5e5,
+      width = 1.5e5,
+      fill = gap_filling
+    )
+  )+
+  geom_sf(data = worldmap_trans, fill = "grey90", col = "grey90") +
+  geom_sf(data = coastline_trans, linewidth = 0.3) +
+  geom_sf(data = bbox_graticules_trans, linewidth = 0.5) +
+  coord_sf(
+    crs = target_crs,
+    ylim = lat_lim,
+    xlim = lon_lim,
+    expand = FALSE
+  ) +
+  facet_wrap( ~ era, ncol = 2) +
+  scale_color_okabeito(guide = "none") +
+  scale_fill_okabeito() +
+  theme_void() +
+  theme(legend.position = c(0.8,0.25),
+        legend.title = element_blank())
+
+coverage_map
+
+wrap_plots(p_time_histo_basin,
+           coverage_map, ncol = 1) +
+  plot_layout(heights = c(1, 2))  +
+  plot_annotation(tag_levels = 'A')
+
+ggsave(
+  path = here::here("output/publication"),
+  filename = "Fig_observations_coverage.png",
+  height = 6,
+  width = 8,
+  dpi = 600
+)
+
+```
+
+
+## Mercator
 
 ```{r coverage_maps}
 
@@ -550,11 +670,18 @@ GLODAP_all_coverage <- GLODAP_all %>%
 colour("bright")(7)
 
 coverage_map <- map +
-  geom_tile(data = GLODAP_all_coverage,
+  geom_tile(data = GLODAP_all_coverage %>% 
+              filter(gap_filling == "All quality criteria fulfilled"),
             aes(lon, lat,
-            fill = gap_filling, col = gap_filling)) +
+            fill = gap_filling, col = gap_filling,
+                height = 2, width = 2)) +
+  geom_tile(data = GLODAP_all_coverage %>% 
+              filter(gap_filling != "All quality criteria fulfilled"),
+            aes(lon, lat,
+            fill = gap_filling, col = gap_filling,
+                height = 2, width = 2)) +
   facet_wrap( ~ era, ncol = 2) +
-  scale_color_okabeito() +
+  scale_color_okabeito(guide = "none") +
   scale_fill_okabeito() +
   theme(axis.text = element_blank(),
         axis.ticks = element_blank(),
@@ -565,13 +692,6 @@ wrap_plots(p_time_histo_basin,
            coverage_map, ncol = 1) +
   plot_layout(heights = c(1, 2))  +
   plot_annotation(tag_levels = 'A')
-
-ggsave(
-  path = here::here("output/publication"),
-  filename = "Fig_observations_coverage.png",
-  height = 7,
-  width = 9
-)
 
 rm(coverage_map, 
    GLODAP_all_coverage, GLODAP_expocodes,
@@ -612,9 +732,7 @@ basinmask <- basinmask %>%
   mutate(basin = as.character(as.numeric(as.factor(basin)))) %>% 
   ungroup()
 
-
-basin_maps <-
-  map +
+map +
   geom_raster(data = basinmask,
               aes(lon, lat, fill = basin)) +
   scale_fill_muted(guide = "none") +
@@ -622,13 +740,65 @@ basin_maps <-
   theme(axis.text = element_blank(),
         axis.ticks = element_blank())
 
+
+basinmask_robin <- basinmask %>% 
+  # mutate(basin = as.numeric(basin)) %>% 
+  select(-basin_AIP)
+
+basinmask_robin %>% distinct(basin) %>% pull()
+
+
+basinmask_robin_raster <- rast(basinmask_robin %>% 
+                                     relocate(lon, lat) %>% 
+                                     pivot_wider(names_from = MLR_basins,
+                                                 values_from = basin),
+                                   crs = "+proj=longlat")
+
+
+basinmask_robin_raster <- project(basinmask_robin_raster, target_crs, method = "near")
+
+basinmask_robin_tibble <- basinmask_robin_raster %>%
+  as.data.frame(xy = TRUE, na.rm = FALSE) %>%
+  as_tibble() %>%
+  rename(lon = x, lat = y) %>%
+  pivot_longer(cols = -c("lon", "lat"),
+               names_to = "MLR_basins",
+               values_to = "basin") %>% 
+  drop_na() %>% 
+  mutate(basin = as.character(basin))
+
+basin_maps <-
+  ggplot() +
+  geom_raster(
+    data = basinmask_robin_tibble,
+    aes(
+      x = lon,
+      y = lat,
+      fill = basin
+    )
+  ) +
+  geom_sf(data = worldmap_trans, fill = "grey90", col = "grey90") +
+  geom_sf(data = coastline_trans, linewidth = 0.3) +
+  geom_sf(data = bbox_graticules_trans, linewidth = 0.5) +
+  coord_sf(
+    crs = target_crs,
+    ylim = lat_lim,
+    xlim = lon_lim,
+    expand = FALSE
+  ) +
+  facet_wrap( ~ MLR_basins, ncol = 3) +
+  scale_fill_okabeito(guide = "none", reverse = TRUE) +
+  # scale_fill_muted(guide = "none") +
+  theme_void()
+
 basin_maps
 
 ggsave(plot = basin_maps,
        path = here::here("output/publication"),
        filename = "FigS_basin_masks.png",
-       height = 4,
-       width = 10)
+       height = 3,
+       width = 8,
+       dpi = 600)
 
 ```
 
@@ -700,7 +870,7 @@ mapped_ocean_mask <- full_join(
     select(lon, lat) %>% 
     mutate(mapped_ocean = "1")
 ) %>% 
-  mutate(mapped_ocean = replace_na(mapped_ocean, 0))
+  mutate(mapped_ocean = replace_na(mapped_ocean, "0"))
 
 
 map +
