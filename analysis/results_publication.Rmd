@@ -1517,7 +1517,7 @@ two_decades <- unique(params_local_all_ensemble$period)[1:2]
 dcant_pgc_label <- expression(Delta * C["ant"]~inventory~(Pg~C~dec^{-1}))
 dcant_bias_pgc_label <- expression(Delta * C["ant"]~inventory~ bias ~(Pg~C~dec^{-1}))
 delta_dcant_bias_pgc_label <- expression(Delta * Delta * C["ant"]~bias~(Pg~C~dec^{-1}))
-beta_inv_label <- expression(beta~inventory~(mol~m^{-2}~µatm^{-1}))
+beta_inv_label <- expression(Mean~beta~column~inventory~(mol~m^{-2}~µatm^{-1}))
 
 dcant_umol_label <- expression(Delta * C[ant]~(mu * mol ~ kg ^ {-1}~dec^{-1}))
 ddcant_umol_label <- expression(Delta * Delta * C[ant]~(mu * mol ~ kg ^ {-1}~dec^{-1}))
@@ -1713,7 +1713,7 @@ GLODAP_all_coverage <- GLODAP_all %>%
   summarise(tco2 = mean(tco2, na.rm = TRUE)) %>% 
   ungroup()
 
-coverage_map <- map +
+map +
   geom_tile(data = GLODAP_all_coverage,
             aes(lon, lat, fill = tco2, col = tco2,
                 height = 2, width = 2)) +
@@ -1727,13 +1727,67 @@ coverage_map <- map +
         axis.ticks = element_blank(),
         legend.position = "bottom")
 
+
+GLODAP_all_coverage_raster <- rast(GLODAP_all_coverage %>% 
+                                     relocate(lon, lat) %>% 
+                                     pivot_wider(names_from = era,
+                                                 values_from = tco2),
+                                   crs = "+proj=longlat")
+
+
+GLODAP_all_coverage_raster <- project(GLODAP_all_coverage_raster, target_crs,
+                                      method = "near")
+
+GLODAP_all_coverage_tibble <- GLODAP_all_coverage_raster %>%
+  as.data.frame(xy = TRUE, na.rm = FALSE) %>%
+  as_tibble() %>%
+  rename(lon = x, lat = y) %>%
+  pivot_longer(cols = -c("lon", "lat"),
+               names_to = "era",
+               values_to = "tco2") %>% 
+  drop_na()
+
+coverage_map <- 
+  ggplot() +
+  geom_tile(data = GLODAP_all_coverage_tibble,
+            aes(
+              x = lon,
+              y = lat,
+              height = 3e5,
+              width = 3e5,
+              fill = tco2
+            )) +
+  geom_sf(data = worldmap_trans, fill = "grey90", col = "grey90") +
+  geom_sf(data = coastline_trans, linewidth = 0.3) +
+  geom_sf(data = bbox_graticules_trans, linewidth = 0.5) +
+  coord_sf(
+    crs = target_crs,
+    ylim = lat_lim,
+    xlim = lon_lim,
+    expand = FALSE
+  ) +
+  scale_fill_viridis_c( expression(
+    atop(DIC~at~"500m",(µmol~kg^{-1})))) +
+  facet_wrap( ~ era, ncol = 1) +
+  theme(
+    axis.title = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    panel.border = element_rect(colour = "transparent"),
+    strip.background = element_blank(),
+    legend.position = "bottom"
+  )
+
+
+
 coverage_map
 
 ggsave(plot = coverage_map,
        path = here::here("output/presentation"),
        filename = "Fig_observations_coverage_map_dic.png",
-       height = 7,
-       width = 4)
+       height = 6,
+       width = 4,
+       dpi = 600)
 
 rm(coverage_map, 
    GLODAP_all, GLODAP_all_coverage, GLODAP_expocodes,
@@ -2801,6 +2855,149 @@ p_dcant_inv_delta
 ggsave(path = here::here("output/publication"),
        filename = "Fig_dcant_column_inventory.png",
        height = 10,
+       width = 8,
+       dpi = 600)
+
+```
+
+
+
+```{r dcant_column_inventory_maps_robinson_presentation}
+
+legend_title <- expression(atop(Delta * C["ant"],
+                                (mol ~ m ^ {
+                                  -2
+                                } ~ dec ^ {
+                                  -1
+                                })))
+
+
+p_dcant_inv_dec1 <-
+  p_map_mdim_robinson(df = dcant_inv_dec1,
+                      var = "dcant",
+                      legend_title = legend_title) +
+  geom_label(aes(
+    label = "1994 - 2004",
+    x = lon_lim[1] * 0.55,
+    y = lat_lim[2] * 0.85
+  ))
+
+
+p_dcant_inv_dec2 <-
+  p_map_mdim_robinson(df = dcant_inv_dec2,
+                      var = "dcant",
+                      legend_title = legend_title) +
+  geom_label(aes(
+    label = "2004 - 2014",
+    x = lon_lim[1] * 0.55,
+    y = lat_lim[2] * 0.85
+  ))
+
+
+p_dcant_inv_dec1 / p_dcant_inv_dec2 + 
+  plot_layout(guides = "collect") +
+  plot_layout(ncol = 1)
+
+
+ggsave(path = here::here("output/presentation"),
+       filename = "Fig_dcant_column_inventory.png",
+       height = 7,
+       width = 8,
+       dpi = 600)
+
+p_dcant_inv_dec1 <-
+  p_map_mdim_robinson(df = dcant_inv_dec1,
+                      df_uncertainty = dcant_inv_uncert_dec1,
+                      var = "dcant",
+                      legend_title = legend_title) +
+  geom_label(aes(
+    label = "1994 - 2004",
+    x = lon_lim[1] * 0.55,
+    y = lat_lim[2] * 0.85
+  ))
+
+
+p_dcant_inv_dec1
+
+
+p_dcant_inv_dec2 <-
+  p_map_mdim_robinson(df = dcant_inv_dec2,
+                      df_uncertainty = dcant_inv_uncert_dec2,
+                      var = "dcant",
+                      legend_title = legend_title) +
+  geom_label(aes(
+    label = "2004 - 2014",
+    x = lon_lim[1] * 0.55,
+    y = lat_lim[2] * 0.85
+  ))
+
+
+p_dcant_inv_dec2
+
+
+p_dcant_inv_dec1 / p_dcant_inv_dec2 + 
+  plot_layout(guides = "collect") +
+  plot_layout(ncol = 1)
+
+
+ggsave(path = here::here("output/presentation"),
+       filename = "Fig_dcant_column_inventory_uncertainty.png",
+       height = 7,
+       width = 8,
+       dpi = 600)
+
+
+
+
+legend_title <- expression(atop(Delta * Delta * C["ant"],
+                                (mol ~ m ^ {
+                                  -2
+                                } ~ dec ^ {
+                                  -1
+                                })))
+
+p_dcant_inv_delta <-
+  p_map_mdim_robinson(df = delta_dcant_inv,
+                      var = "dcant_offset",
+                      breaks = c(-Inf, seq(-8, 8, 2), Inf),
+                      legend_title = legend_title,
+                      col = "divergent") +
+  geom_label(aes(
+    label = "Decadal difference",
+    x = lon_lim[1] * 0.55,
+    y = lat_lim[2] * 0.85
+  ))
+
+
+p_dcant_inv_delta
+
+
+ggsave(path = here::here("output/presentation"),
+       filename = "Fig_delta_dcant_column_inventory.png",
+       height = 4,
+       width = 8,
+       dpi = 600)
+
+p_dcant_inv_delta <-
+  p_map_mdim_robinson(df = delta_dcant_inv,
+                      df_uncertainty = dcant_inv_uncert_delta,
+                      var = "dcant_offset",
+                      breaks = c(-Inf, seq(-8, 8, 2), Inf),
+                      legend_title = legend_title,
+                      col = "divergent") +
+  geom_label(aes(
+    label = "Decadal difference",
+    x = lon_lim[1] * 0.55,
+    y = lat_lim[2] * 0.85
+  ))
+
+
+p_dcant_inv_delta
+
+
+ggsave(path = here::here("output/presentation"),
+       filename = "Fig_delta_dcant_column_inventory_uncertainty.png",
+       height = 4,
        width = 8,
        dpi = 600)
 
@@ -6801,15 +6998,15 @@ p_tcant_year <- tcant_ts %>%
                  aes(
     ymin = tcant - dcant_sd_int*2,
     ymax = tcant + dcant_sd_int*2,
-    col = "Estimate\n±\ninterval\nuncertainty"
-  ), size = 0.5) +
+    col = "Central estimate\n \u00B1 1σ/2σ uncertainty"
+  ), linewidth = 0.5) +
   geom_linerange(aes(
     ymin = tcant - dcant_sd_int,
     ymax = tcant + dcant_sd_int,
-    col = "Estimate\n±\ninterval\nuncertainty"
-  ), size = 1) +
+    col = "Central estimate\n \u00B1 1σ/2σ uncertainty"
+  ), linewidth = 1) +
   geom_point(fill = "white", shape = 21,
-             aes(col = "Estimate\n±\ninterval\nuncertainty")) +
+             aes(col = "Central estimate\n \u00B1 1σ/2σ uncertainty")) +
   scale_y_continuous(name = expression(Total ~ oceanic ~ C[ant] ~ (Pg~C)),
                      sec.axis = sec_axis( ~ (. / beta + co2_atm_pi_value),
                                           name = expression(Atm. ~ pCO[2] ~ (µatm)))) +
@@ -6840,10 +7037,10 @@ p_tcant_year_trans <- tcant_ts %>%
   geom_linerange(aes(
     ymin = tcant - dcant_sd_int,
     ymax = tcant + dcant_sd_int,
-    col = "Estimate\n±\ninterval\nuncertainty"
+    col = "Central estimate\n \u00B1 1σ/2σ uncertainty"
   ), size = 1) +
   geom_point(fill = "white", shape = 21,
-             aes(col = "Estimate\n±\ninterval\nuncertainty")) +
+             aes(col = "Central estimate\n \u00B1 1σ/2σ uncertainty")) +
   scale_y_continuous(name = expression(Total ~ oceanic ~ C[ant] ~ (Pg~C)),
                      sec.axis = sec_axis( ~ (. / beta + co2_atm_pi_value),
                                           name = expression(Atm. ~ pCO[2] ~ (µatm)))) +
@@ -6886,9 +7083,8 @@ p_tcant_atm_co2 <- tcant_ts %>%
   geom_line(color = tcant_col) +
   geom_point(shape = 21, fill = "white", color = tcant_col) +
   scale_x_continuous(breaks = seq(280, 400, 30)) +
-  scale_fill_manual(values = c(tcant_col, tcant_col), name = "Cumulative\nuncertainty") +
-  scale_alpha_manual(values = c(0.2, 0.6), name = "Cumulative\nuncertainty") +
-  scale_color_manual(values = "black", name = "") +
+  scale_fill_manual(values = c(tcant_col, tcant_col), name = "Cumulative\n1σ-uncertainty") +
+  scale_alpha_manual(values = c(0.2, 0.6), name = "Cumulative\n1σ-uncertainty") +
   geom_text(aes(label = year), nudge_x = -6, nudge_y = 6) +
   labs(x = expression(Atmospheric ~ pCO[2] ~ (µatm)),
        y = expression(Total ~ oceanic ~ C[ant] ~ (Pg~C))) +
@@ -7285,6 +7481,10 @@ dcant_type_box %>%
                                       size = 0.1)
   )
 
+name_sec_axis <- expression(
+  atop(Cumulative ~ ocean ~ carbon ~ storage,
+       since ~ 2004 ~ (Pg ~ C)))
+
 p_tcant_box_10 <-
   dcant_type_box %>%
   filter(period != "1994 - 2014") %>%
@@ -7341,13 +7541,17 @@ p_tcant_box_10 <-
                           guide = "none") +
   scale_color_highcontrast(name = "Data source",
                            guide = "none") +
-  scale_y_continuous(limits = c(tcant_min, tcant_max),
-                     # breaks = seq(0,30,10),
-                     sec.axis = sec_axis(~ . -(tcant_2004 - 118), 
-                                         name = expression(Cumulative ~ ocean ~ carbon ~ storage ~ since ~ 2004 ~ (Pg~C)),
-                                         guide = guide_axis_truncated(),
-                                         breaks = seq(0,30,10))) +
-  labs(x = "Decades") +
+  scale_y_continuous(
+    limits = c(tcant_min, tcant_max),
+    sec.axis = sec_axis(
+      ~ . - (tcant_2004 - 118),
+      name = name_sec_axis,
+      guide = guide_axis_truncated(trunc_lower = tcant_2004 - 118,
+                                   trunc_upper = tcant_2004 - 118 + 35),
+      breaks = seq(0, 30, 10)
+    )
+  )+
+  labs(x = "Decades")+
   theme_classic() +
   # guides(y.right = "axis_truncated") +
   theme(
@@ -7358,6 +7562,8 @@ p_tcant_box_10 <-
     panel.grid.major.y = element_line(colour = "black",
                                       size = 0.1)
   )
+
+p_tcant_box_10
 
 p_tcant_ts_zoom + p_tcant_box + p_tcant_box_10 +
   plot_layout(ncol = 3, widths = c(6,1,1.8)) + 
@@ -7398,6 +7604,174 @@ dcant_type_significance %>%
 
 
 ```
+
+```{r panel_per_decade}
+
+p_tcant_box_10_dec1 <-
+  dcant_type_box %>%
+  filter(period == "1994 - 2004") %>%
+  ggplot(aes(period, dcant)) +
+  geom_crossbar(
+    data = dcant_type_box_stat %>%
+      filter(period == "1994 - 2004"),
+    position = position_dodge(width = 1),
+    aes(
+      x = period,
+      y = dcant_mean,
+      ymin = dcant_mean - dcant_sd*2,
+      ymax = dcant_mean + dcant_sd*2,
+      col = type,
+      fill = type
+    ),
+    width = 0.7,
+    alpha = 0.2
+  ) +
+  geom_crossbar(
+    data = dcant_type_box_stat %>%
+      filter(period == "1994 - 2004"),
+    position = position_dodge(width = 1),
+    aes(
+      x = period,
+      y = dcant_mean,
+      ymin = dcant_mean - dcant_sd,
+      ymax = dcant_mean + dcant_sd,
+      col = type,
+      fill = type
+    ),
+    width = 0.7,
+    alpha = 0.4
+  ) +
+  geom_point(
+    aes(fill = type),
+    position = position_jitterdodge(dodge.width = 1,
+                                    jitter.width = 0.1),
+    shape = 21,
+    alpha = 0.5
+  ) +
+  geom_point(
+    data = dcant_type_box_stat %>%
+      filter(period == "1994 - 2004"),
+    position = position_dodge(width = 1),
+    aes(x = period,
+        y = dcant_mean,
+        col = type),
+    fill = "white",
+    shape = 21,
+    size = 2
+  ) +
+  scale_fill_highcontrast(name = "Data source",
+                          guide = "none") +
+  scale_color_highcontrast(name = "Data source",
+                           guide = "none") +
+  scale_y_continuous(
+    limits = c(tcant_min, tcant_max),
+    breaks = seq(0,40,20)
+  )+
+  labs(x = "Decades")+
+  theme_classic() +
+  # guides(y.right = "axis_truncated") +
+  theme(
+    axis.line.y.left = element_blank(),
+    axis.text.y.left = element_blank(),
+    axis.title.x = element_blank(),
+    axis.ticks.y.left = element_blank(),
+    axis.title.y.left = element_blank(),
+    panel.grid.major.y = element_line(colour = "black",
+                                      size = 0.1)
+  )
+
+p_tcant_box_10_dec1
+
+p_tcant_box_10_dec2 <-
+  dcant_type_box %>%
+  filter(period == "2004 - 2014") %>%
+  ggplot(aes(period, dcant)) +
+  geom_crossbar(
+    data = dcant_type_box_stat %>%
+      filter(period == "2004 - 2014"),
+    position = position_dodge(width = 1),
+    aes(
+      x = period,
+      y = dcant_mean,
+      ymin = dcant_mean - dcant_sd*2,
+      ymax = dcant_mean + dcant_sd*2,
+      col = type,
+      fill = type
+    ),
+    width = 0.7,
+    alpha = 0.2
+  ) +
+  geom_crossbar(
+    data = dcant_type_box_stat %>%
+      filter(period == "2004 - 2014"),
+    position = position_dodge(width = 1),
+    aes(
+      x = period,
+      y = dcant_mean,
+      ymin = dcant_mean - dcant_sd,
+      ymax = dcant_mean + dcant_sd,
+      col = type,
+      fill = type
+    ),
+    width = 0.7,
+    alpha = 0.4
+  ) +
+  geom_point(
+    aes(fill = type),
+    position = position_jitterdodge(dodge.width = 1,
+                                    jitter.width = 0.1),
+    shape = 21,
+    alpha = 0.5
+  ) +
+  geom_point(
+    data = dcant_type_box_stat %>%
+      filter(period == "2004 - 2014"),
+    position = position_dodge(width = 1),
+    aes(x = period,
+        y = dcant_mean,
+        col = type),
+    fill = "white",
+    shape = 21,
+    size = 2
+  ) +
+  scale_fill_highcontrast(name = "Data source",
+                          guide = "none") +
+  scale_color_highcontrast(name = "Data source",
+                           guide = "none") +
+  scale_y_continuous(
+    limits = c(tcant_min, tcant_max),
+    breaks = seq(tcant_2004 - 118, tcant_2004 - 118 + 30, 20),
+    sec.axis = sec_axis(
+      ~ . - (tcant_2004 - 118),
+      name = name_sec_axis,
+      guide = guide_axis_truncated(trunc_lower = tcant_2004 - 118,
+                                   trunc_upper = tcant_2004 - 118 + 35),
+      breaks = seq(0, 30, 20)
+    )
+  )+
+  theme_classic() +
+  # guides(y.right = "axis_truncated") +
+  theme(
+    axis.line.y.left = element_blank(),
+    axis.text.y.left = element_blank(),
+    axis.title.y.right = element_text(angle = 90,
+                                      hjust = 0.9),
+    axis.title.x = element_blank(),
+    axis.ticks.y.left = element_blank(),
+    axis.title.y.left = element_blank(),
+    panel.grid.major.y = element_line(colour = "black",
+                                      size = 0.1)
+  )
+
+p_tcant_box_10_dec2
+
+
+```
+
+
+
+
+
 
 ```{r mean_tcant_over_atm_co2_incl_fluxes_mean, fig.asp=0.6}
 
@@ -7472,9 +7846,13 @@ p_tcant_ts_zoom
 
 ```{r mean_tcant_over_atm_co2_incl_fluxes_boxplot_ensemble, fig.asp=0.6}
 
-p_tcant_ts_zoom + p_tcant_box_10 +
-  plot_layout(ncol = 2, widths = c(6,1.8)) + 
+p_tcant_ts_zoom + p_tcant_box_10_dec1 + p_tcant_box_10_dec2 +
+  plot_layout(ncol = 3, widths = c(8,1,1)) + 
   plot_annotation(tag_levels = 'A')
+
+# p_tcant_ts_zoom + p_tcant_box_10 +
+#   plot_layout(ncol = 2, widths = c(6,1.8)) + 
+#   plot_annotation(tag_levels = 'A')
 
 ggsave(path = here::here("output/publication"),
        filename = "Fig_dcant_inventory_global_vs_GCB_ocean_sink.png",
