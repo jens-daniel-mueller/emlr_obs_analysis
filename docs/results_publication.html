@@ -709,7 +709,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Results publication</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">11 January, 2023</h4>
+<h4 class="date">17 January, 2023</h4>
 
 </div>
 
@@ -738,7 +738,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2023-01-11
+<strong>Last updated:</strong> 2023-01-17
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -870,15 +870,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree657f2050c8d5daae25a80a3956dc1b270572f109targetblank657f205a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree30b15de612fe691b5d80959d9e7dbb21c992dde5targetblank30b15dea">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/657f2050c8d5daae25a80a3956dc1b270572f109" target="_blank">657f205</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/30b15de612fe691b5d80959d9e7dbb21c992dde5" target="_blank">30b15de</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree657f2050c8d5daae25a80a3956dc1b270572f109targetblank657f205a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree30b15de612fe691b5d80959d9e7dbb21c992dde5targetblank30b15dea"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -888,7 +888,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/657f2050c8d5daae25a80a3956dc1b270572f109" target="_blank">657f205</a>.
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/30b15de612fe691b5d80959d9e7dbb21c992dde5" target="_blank">30b15de</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -974,6 +974,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/30b15de612fe691b5d80959d9e7dbb21c992dde5/analysis/results_publication.Rmd" target="_blank">30b15de</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-01-17
+</td>
+<td>
+changed label
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/fdf5f2250a3f4dfcb13341ccc2fd07ab3bcfb046/docs/results_publication.html" target="_blank">fdf5f22</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-01-11
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -17331,6 +17365,210 @@ jens-daniel-mueller
 </div>
 </div>
 </div>
+<div id="write-files" class="section level2" number="9.10">
+<h2><span class="header-section-number">9.10</span> Write files</h2>
+<pre class="r"><code>dcant_inv_out &lt;- dcant_inv_all_ensemble %&gt;%
+  filter(
+    period %in% two_decades &amp;
+      data_source == &quot;obs&quot; &amp;
+      (MLR_basins == &quot;3&quot; |
+         Version_ID_group == &quot;Standard case&quot;)
+  )
+
+Version_IDs_out &lt;- dcant_inv_out %&gt;% 
+  distinct(Version_ID, period, Version_ID_group, MLR_basins)
+
+dcant_inv_out &lt;- dcant_inv_out %&gt;%
+  select(lon,
+         lat,
+         period,
+         MLR_basins,
+         Version_ID_group,
+         dcant)
+
+# convert from tibble to stars object
+dcant_inv_out_stars &lt;- st_as_stars(dcant_inv_out,
+                                   dims = c(&quot;lon&quot;, &quot;lat&quot;, &quot;period&quot;, &quot;MLR_basins&quot;, &quot;Version_ID_group&quot;))
+
+# assign coordinate system to horizontal (lon, lat) coordinates
+# st_crs(dcant_inv_out_stars) &lt;- &quot;+proj=longlat&quot;
+st_crs(dcant_inv_out_stars) &lt;- st_crs(4326)
+
+# plot variable per depth level
+ggplot() +
+  geom_stars(data = dcant_inv_out_stars %&gt;% 
+               filter(period == &quot;1994 - 2004&quot;)) +
+  facet_grid(MLR_basins~Version_ID_group) +
+  scale_fill_viridis_b(breaks = c(-Inf, seq(0,16,2), Inf),
+                       na.value = &quot;transparent&quot;)
+
+file_out &lt;- paste0(path_out, &quot;inv_dcant_emlr_cstar_mueller_94-04-14.nc&quot;)
+
+# write stars object to .nc file
+dcant_inv_out_stars %&gt;%
+  write_mdim(file_out)
+
+
+
+# reopen .nc file with all available stars functions
+dcant_inv_read_ncdf &lt;-
+  read_ncdf(file_out)
+dcant_inv_read_mdim &lt;-
+  read_mdim(file_out)
+
+# plot variable in object reopened
+
+ggplot() +
+  geom_stars(data = dcant_inv_read_ncdf %&gt;% 
+               filter(period == &quot;1994 - 2004&quot;)) +
+  facet_grid(MLR_basins~Version_ID_group) +
+  scale_fill_viridis_b(breaks = c(-Inf, seq(0,16,2), Inf),
+                       na.value = &quot;transparent&quot;)
+
+ggplot() +
+  geom_stars(data = dcant_inv_read_mdim %&gt;% 
+               filter(period == &quot;1994 - 2004&quot;)) +
+  facet_grid(MLR_basins~Version_ID_group) +
+  scale_fill_viridis_b(breaks = c(-Inf, seq(0,16,2), Inf),
+                       na.value = &quot;transparent&quot;)
+
+ggplot() +
+  geom_stars(data = dcant_inv_read_ncdf %&gt;% 
+               filter(MLR_basins == &quot;3&quot;)) +
+  facet_grid(period~Version_ID_group) +
+  scale_fill_viridis_b(breaks = c(-Inf, seq(0,16,2), Inf),
+                       na.value = &quot;transparent&quot;) +
+  coord_quickmap()
+
+
+dcant_inv_read_tidync &lt;-
+  tidync::tidync(file_out)
+
+dcant_inv_read_tidync %&gt;%
+  tidync::hyper_tibble() %&gt;%
+  filter(period == &quot;1994 - 2004&quot;) %&gt;%
+  ggplot(aes(lon, lat, fill = dcant)) +
+  geom_raster() +
+  facet_grid(MLR_basins ~ Version_ID_group) +
+  scale_fill_viridis_b(breaks = c(-Inf, seq(0,16,2), Inf),
+                       na.value = &quot;transparent&quot;)
+
+# library(ncdf4)
+# 
+# nc &lt;- nc_open(file_out)
+# print(nc)
+# 
+# # get longitude and latitude
+# lon &lt;- ncvar_get(nc,&quot;period&quot;)
+# nlon &lt;- dim(lon)
+# 
+# 
+# ncatt_get(nc, &quot;period&quot;)
+# ncvar_get(nc)
+# 
+# nt &lt;- dim(time)
+# 
+# nc_close(nc)</code></pre>
+<pre class="r"><code>delta_dcant_inv_uncertainty_out &lt;- delta_dcant_inv_uncertainty %&gt;%
+  filter(data_source == &quot;obs&quot;) %&gt;%
+  mutate(period = &quot;decadal difference&quot;) %&gt;% 
+  select(lon, lat, period, dcant = delta_dcant, uncertainty = RSS)
+
+dcant_inv_uncertainty_out &lt;- dcant_inv_uncertainty %&gt;% 
+  filter(data_source == &quot;obs&quot;) %&gt;% 
+  select(lon, lat, period, dcant = std_case, uncertainty = sd)
+
+dcant_inv_uncertainty_out &lt;- bind_rows(dcant_inv_uncertainty_out,
+                                       delta_dcant_inv_uncertainty_out)
+
+
+# convert from tibble to stars object
+dcant_inv_uncertainty_out_stars &lt;- st_as_stars(
+  dcant_inv_uncertainty_out,
+  dims = c(&quot;lon&quot;, &quot;lat&quot;, &quot;period&quot;))
+
+# assign coordinate system to horizontal (lon, lat) coordinates
+# st_crs(dcant_inv_out_stars) &lt;- &quot;+proj=longlat&quot;
+st_crs(dcant_inv_uncertainty_out_stars) &lt;- st_crs(4326)
+
+# plot variable per depth level
+ggplot() +
+  geom_stars(data = dcant_inv_uncertainty_out_stars) +
+  facet_grid(period ~ .) +
+  scale_fill_binned_divergingx(
+    breaks = c(-Inf, seq(-16, 16, 4), Inf),
+    palette = &quot;RdBu&quot;,
+    rev = TRUE,
+    na.value = &quot;transparent&quot;
+  )
+
+ggplot() +
+  geom_stars(data = dcant_inv_uncertainty_out_stars,
+             aes(fill = abs(dcant) - uncertainty)) +
+  facet_grid(period ~ .) +
+  scale_fill_binned_divergingx(
+    breaks = c(-Inf, 0 , Inf),
+    palette = &quot;RdBu&quot;,
+    rev = TRUE,
+    na.value = &quot;transparent&quot;
+  )
+
+
+file_out &lt;- paste0(path_out,&quot;inv_dcant_emlr_cstar_mueller_94-04-14_uncertainty.nc&quot;)
+
+# write stars object to .nc file
+dcant_inv_uncertainty_out_stars %&gt;%
+  write_mdim(file_out)
+
+# reopen .nc file with all available stars functions
+dcant_inv_uncertainty_read_ncdf &lt;-
+  read_ncdf(file_out)
+dcant_inv_uncertainty_read_mdim &lt;-
+  read_mdim(file_out)
+
+# plot variable in object reopened
+
+ggplot() +
+  geom_stars(data = dcant_inv_uncertainty_read_ncdf,
+             aes(fill = abs(dcant) - uncertainty)) +
+  facet_grid(period ~ .) +
+  scale_fill_binned_divergingx(
+    breaks = c(-Inf, 0 , Inf),
+    palette = &quot;RdBu&quot;,
+    rev = TRUE,
+    na.value = &quot;transparent&quot;
+  )
+
+ggplot() +
+  geom_stars(data = dcant_inv_uncertainty_read_mdim,
+             aes(fill = abs(dcant) - uncertainty)) +
+  facet_grid(period ~ .) +
+  scale_fill_binned_divergingx(
+    breaks = c(-Inf, 0 , Inf),
+    palette = &quot;RdBu&quot;,
+    rev = TRUE,
+    na.value = &quot;transparent&quot;
+  )
+
+dcant_inv_uncertainty_read_tidync &lt;-
+  tidync::tidync(file_out)
+
+dcant_inv_uncertainty_read_tidync %&gt;%
+  tidync::hyper_tibble() %&gt;%
+  ggplot(aes(lon, lat)) +
+  geom_raster(aes(fill = abs(dcant) - uncertainty)) +
+  facet_grid(period ~ .) +
+  scale_fill_binned_divergingx(
+    breaks = c(-Inf, 0 , Inf),
+    palette = &quot;RdBu&quot;,
+    rev = TRUE,
+    na.value = &quot;transparent&quot;
+  )
+
+# library(ncdf4)
+# nc_open(file_out)
+# nc_close(file_out)</code></pre>
+</div>
 </div>
 <div id="global-section" class="section level1" number="10">
 <h1><span class="header-section-number">10</span> Global section</h1>
@@ -28161,7 +28399,7 @@ scaling_uncertainty &lt;-
   filter(basin == &quot;Global&quot;) %&gt;%
   mutate(
     sd = std_case * (dcant_scaling - 1) * dcant_scaling_uncertainty,
-    Version_ID_group = &quot;scaling uncertainty&quot;
+    Version_ID_group = &quot;Scaling uncertainty&quot;
   ) %&gt;%
   select(-std_case)
 
@@ -36645,6 +36883,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/fdf5f2250a3f4dfcb13341ccc2fd07ab3bcfb046/docs/figure/results_publication.Rmd/mean_tcant_over_time-2.png" target="_blank">fdf5f22</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-01-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2cca4eb498bcc71efd5d069dafa8f3631200b88f/docs/figure/results_publication.Rmd/mean_tcant_over_time-2.png" target="_blank">2cca4eb</a>
 </td>
 <td>
@@ -38656,6 +38905,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/fdf5f2250a3f4dfcb13341ccc2fd07ab3bcfb046/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2-3.png" target="_blank">fdf5f22</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-01-11
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/2cca4eb498bcc71efd5d069dafa8f3631200b88f/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2-3.png" target="_blank">2cca4eb</a>
@@ -45009,10 +45269,290 @@ rm(
   emission_components,
   sink_components
 )</code></pre>
-<div id="map-test-color-palettes" class="section level4"
-number="18.2.0.1">
-<h4><span class="header-section-number">18.2.0.1</span> Map test color
-palettes</h4>
+</div>
+</div>
+<div id="write-output-files" class="section level1" number="19">
+<h1><span class="header-section-number">19</span> Write output
+files</h1>
+<div id="ocean-interior-dcant" class="section level2" number="19.1">
+<h2><span class="header-section-number">19.1</span> Ocean interior
+dcant</h2>
+<pre class="r"><code>Version_IDs_out_vector &lt;- Version_IDs_out %&gt;% 
+  pull(Version_ID)
+
+
+for (i_Version_IDs in Version_IDs_out_vector) {
+  # i_Version_IDs &lt;- Version_IDs_out_vector[1]
+  
+  path_version_data     &lt;-
+    paste(path_observations,
+          i_Version_IDs,
+          &quot;/data/&quot;,
+          sep = &quot;&quot;)
+  
+  # load and join data files
+  
+  dcant_3d &lt;-
+    read_csv(paste(path_version_data,
+                   &quot;dcant_3d.csv&quot;,
+                   sep = &quot;&quot;))
+  
+  
+  dcant_3d &lt;- dcant_3d %&gt;%
+    filter(data_source == &quot;obs&quot;) %&gt;%
+    select(lon, lat, depth, dcant) %&gt;%
+    mutate(Version_ID = i_Version_IDs)
+  
+  if (exists(&quot;dcant_3d_all&quot;)) {
+    dcant_3d_all &lt;- bind_rows(dcant_3d_all, dcant_3d)
+  }
+  
+  if (!exists(&quot;dcant_3d_all&quot;)) {
+    dcant_3d_all &lt;- dcant_3d
+  }
+  
+}
+
+dcant_3d_all &lt;- full_join(dcant_3d_all, Version_IDs_out) %&gt;% 
+  select(-Version_ID)
+
+
+# convert from tibble to stars object
+dcant_3d_out_stars &lt;- st_as_stars(
+  dcant_3d_all,
+  dims = c(
+    &quot;lon&quot;,
+    &quot;lat&quot;,
+    &quot;depth&quot;,
+    &quot;period&quot;,
+    &quot;MLR_basins&quot;,
+    &quot;Version_ID_group&quot;
+  )
+)
+
+# assign coordinate system to horizontal (lon, lat) coordinates
+# st_crs(dcant_inv_out_stars) &lt;- &quot;+proj=longlat&quot;
+st_crs(dcant_3d_out_stars) &lt;- st_crs(4326)
+
+# plot variable per depth level
+ggplot() +
+  geom_stars(data = dcant_3d_out_stars %&gt;% 
+               filter(period == &quot;1994 - 2004&quot;,
+                      depth == 50)) +
+  facet_grid(MLR_basins~Version_ID_group) +
+  scale_fill_viridis_b(breaks = c(-Inf, seq(0,16,2), Inf),
+                       na.value = &quot;transparent&quot;)
+
+
+file_out &lt;- paste0(path_out, &quot;dcant_emlr_cstar_mueller_94-04-14.nc&quot;)
+
+# write stars object to .nc file
+dcant_3d_out_stars %&gt;%
+  write_mdim(file_out)
+
+# reopen .nc file with all available stars functions
+dcant_3d_read_ncdf &lt;-
+  read_ncdf(file_out)
+dcant_3d_read_mdim &lt;-
+  read_mdim(file_out)
+
+# plot variable in object reopened
+
+ggplot() +
+  geom_stars(data = dcant_3d_read_ncdf %&gt;% 
+               filter(period == &quot;1994 - 2004&quot;,
+                      depth == 50)) +
+  facet_grid(MLR_basins~Version_ID_group) +
+  scale_fill_viridis_b(breaks = c(-Inf, seq(0,16,2), Inf),
+                       na.value = &quot;transparent&quot;)
+
+ggplot() +
+  geom_stars(data = dcant_3d_read_mdim %&gt;% 
+               filter(period == &quot;1994 - 2004&quot;,
+                      depth == 50)) +
+  facet_grid(MLR_basins~Version_ID_group) +
+  scale_fill_viridis_b(breaks = c(-Inf, seq(0,16,2), Inf),
+                       na.value = &quot;transparent&quot;)
+
+
+dcant_3d_read_tidync &lt;-
+  tidync::tidync(file_out)
+
+dcant_3d_read_tidync %&gt;%
+  tidync::hyper_tibble() %&gt;%
+  filter(period == &quot;1994 - 2004&quot;,
+         depth == 50) %&gt;%
+  ggplot(aes(lon, lat, fill = dcant)) +
+  geom_raster() +
+  facet_grid(MLR_basins ~ Version_ID_group) +
+  scale_fill_viridis_b(breaks = c(-Inf, seq(0,16,2), Inf),
+                       na.value = &quot;transparent&quot;)
+
+
+# library(ncdf4)
+# nc &lt;- nc_open(file_out)
+# nc_close(nc)
+
+
+volume_mask &lt;- dcant_3d_all %&gt;% 
+  filter(MLR_basins == &quot;3&quot;,
+         Version_ID_group == &quot;Standard case&quot;,
+         period == &quot;1994 - 2004&quot;) %&gt;% 
+  select(lat, lon, depth)
+
+volume_mask &lt;- m_layer_thickness(volume_mask)
+
+volume_mask &lt;- volume_mask %&gt;% 
+  mutate(surface_area = earth_surf(lat = lat, lon = lon),
+         volume = surface_area * layer_thickness) %&gt;% 
+  select(lon, lat, depth, volume)
+
+# volume_mask %&gt;% 
+#   summarise(
+#     total_surface_area = sum(surface_area),
+#     total_volume = sum(volume))
+
+
+
+# convert from tibble to stars object
+volume_mask_out_stars &lt;- st_as_stars(
+  volume_mask,
+  dims = c(
+    &quot;lon&quot;,
+    &quot;lat&quot;,
+    &quot;depth&quot;
+  )
+)
+
+# assign coordinate system to horizontal (lon, lat) coordinates
+# st_crs(dcant_inv_out_stars) &lt;- &quot;+proj=longlat&quot;
+st_crs(volume_mask_out_stars) &lt;- st_crs(4326)
+
+
+file_out &lt;- paste0(path_out, &quot;volume_mask_emlr_cstar_mueller_94-04-14.nc&quot;)
+
+# write stars object to .nc file
+volume_mask_out_stars %&gt;%
+  write_mdim(file_out)
+
+# reopen .nc file with all available stars functions
+volume_mask_read_mdim &lt;-
+  read_mdim(file_out)
+
+# plot variable in object reopened
+
+# ggplot() +
+#   geom_stars(data = dcant_3d_read_ncdf %&gt;% 
+#                filter(period == &quot;1994 - 2004&quot;,
+#                       depth == 50)) +
+#   facet_grid(MLR_basins~Version_ID_group) +
+#   scale_fill_viridis_b(breaks = c(-Inf, seq(0,16,2), Inf),
+#                        na.value = &quot;transparent&quot;)</code></pre>
+</div>
+</div>
+<div id="basinmask" class="section level1" number="20">
+<h1><span class="header-section-number">20</span> basinmask</h1>
+<pre class="r"><code>basinmask_all &lt;- basinmask_all %&gt;%
+  mutate(
+    MLR_basins = case_when(
+      MLR_basins == &quot;AIP&quot; ~ &quot;3&quot;,
+      MLR_basins == &quot;SO_AIP&quot; ~ &quot;3+SO&quot;,
+      MLR_basins == &quot;SO_5&quot; ~ &quot;5+SO&quot;,
+      TRUE ~ MLR_basins
+    )
+  )
+
+
+basinmask_all %&gt;% 
+  ggplot(aes(lon, lat, fill = basin)) +
+  geom_raster() +
+  facet_wrap(~ MLR_basins)</code></pre>
+<p><img src="figure/results_publication.Rmd/basin_mask-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>basinmask_all &lt;- basinmask_all %&gt;%
+  filter(MLR_basins != &quot;SO_2&quot;)
+
+basinmask_all %&gt;% distinct(MLR_basins, basin)</code></pre>
+<pre><code># A tibble: 23 × 2
+   basin        MLR_basins
+   &lt;chr&gt;        &lt;chr&gt;     
+ 1 global       1         
+ 2 Indo-Pacific 2         
+ 3 Atlantic     2         
+ 4 S_Pacific    5         
+ 5 S_Atlantic   5         
+ 6 Indian       5         
+ 7 N_Atlantic   5         
+ 8 N_Pacific    5         
+ 9 S_Pacific    5+SO      
+10 S_Atlantic   5+SO      
+# … with 13 more rows</code></pre>
+<pre class="r"><code>basinmask_all &lt;- basinmask_all %&gt;% 
+  select(lon, lat, basin_mask = MLR_basins, basin_name = basin)
+
+basinmask_all &lt;- basinmask_all %&gt;% 
+  group_by(basin_mask) %&gt;% 
+  mutate(basin_name = as.numeric(as.factor(basin_name))) %&gt;% 
+  ungroup()
+
+# convert from tibble to stars object
+basinmask_all_out_stars &lt;- st_as_stars(
+  basinmask_all,
+  dims = c(
+    &quot;lon&quot;,
+    &quot;lat&quot;,
+    &quot;basin_mask&quot;
+  )
+)
+
+# assign coordinate system to horizontal (lon, lat) coordinates
+# st_crs(dcant_inv_out_stars) &lt;- &quot;+proj=longlat&quot;
+st_crs(basinmask_all_out_stars) &lt;- st_crs(4326)
+
+file_out &lt;- paste0(path_out, &quot;basin_mask_emlr_cstar_mueller_94-04-14.nc&quot;)
+
+# write stars object to .nc file
+basinmask_all_out_stars %&gt;%
+  write_mdim(file_out)
+
+# reopen .nc file with all available stars functions
+basinmask_all_read_mdim &lt;-
+  read_mdim(file_out)
+
+# plot variable in object reopened
+
+ggplot() +
+  geom_stars(data = basinmask_all_read_mdim,
+             aes(fill = as.factor(basin_name))) +
+  facet_wrap(~ basin_mask) +
+  scale_fill_muted(na.value = &quot;transparent&quot;)</code></pre>
+<p><img src="figure/results_publication.Rmd/basin_mask-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>surface_area_mask &lt;- basinmask_all %&gt;% 
+  filter(basin_mask == &quot;1&quot;) %&gt;% 
+  select(-starts_with(&quot;basin&quot;)) %&gt;% 
+  mutate(surface_area = earth_surf(lat = lat, lon = lon))
+  
+
+surface_area_mask_out_stars &lt;- st_as_stars(
+  surface_area_mask,
+  dims = c(
+    &quot;lon&quot;,
+    &quot;lat&quot;
+  )
+)
+
+# assign coordinate system to horizontal (lon, lat) coordinates
+# st_crs(dcant_inv_out_stars) &lt;- &quot;+proj=longlat&quot;
+st_crs(surface_area_mask_out_stars) &lt;- st_crs(4326)
+
+file_out &lt;- paste0(path_out, &quot;surface_area_mask_emlr_cstar_mueller_94-04-14.nc&quot;)
+
+# write stars object to .nc file
+surface_area_mask_out_stars %&gt;%
+  write_mdim(file_out)</code></pre>
+</div>
+<div id="map-test-color-palettes" class="section level1" number="21">
+<h1><span class="header-section-number">21</span> Map test color
+palettes</h1>
 <pre class="r"><code>breaks &lt;- c(-Inf, seq(0, 16, 2), Inf)
 
 legend_title &lt;- expression(atop(Delta * C[&quot;ant&quot;],
@@ -45249,58 +45789,56 @@ attached base packages:
 
 other attached packages:
  [1] rqdatatable_1.3.1   rquery_1.4.9        wrapr_2.0.9        
- [4] ggpattern_1.0.1     ggh4x_0.2.3         khroma_1.9.0       
- [7] kableExtra_1.3.4    ggdist_3.2.0        ggalluvial_0.12.3  
-[10] terra_1.6-41        sf_1.0-9            rnaturalearth_0.1.0
-[13] geomtextpath_0.1.1  colorspace_2.0-3    marelac_2.1.10     
-[16] shape_1.4.6         ggforce_0.4.1       metR_0.13.0        
-[19] scico_1.3.1         patchwork_1.1.2     collapse_1.8.9     
-[22] forcats_0.5.2       stringr_1.4.1       dplyr_1.0.10       
-[25] purrr_0.3.5         readr_2.1.3         tidyr_1.2.1        
-[28] tibble_3.1.8        ggplot2_3.4.0       tidyverse_1.3.2    
-[31] workflowr_1.7.0    
+ [4] stars_0.6-0         abind_1.4-5         ggpattern_1.0.1    
+ [7] ggh4x_0.2.3         khroma_1.9.0        kableExtra_1.3.4   
+[10] ggdist_3.2.0        ggalluvial_0.12.3   terra_1.6-41       
+[13] sf_1.0-9            rnaturalearth_0.1.0 geomtextpath_0.1.1 
+[16] colorspace_2.0-3    marelac_2.1.10      shape_1.4.6        
+[19] ggforce_0.4.1       metR_0.13.0         scico_1.3.1        
+[22] patchwork_1.1.2     collapse_1.8.9      forcats_0.5.2      
+[25] stringr_1.4.1       dplyr_1.0.10        purrr_0.3.5        
+[28] readr_2.1.3         tidyr_1.2.1         tibble_3.1.8       
+[31] ggplot2_3.4.0       tidyverse_1.3.2     workflowr_1.7.0    
 
 loaded via a namespace (and not attached):
   [1] readxl_1.4.1            backports_1.4.1         systemfonts_1.0.4      
-  [4] plyr_1.8.8              sp_1.5-1                splines_4.2.2          
-  [7] digest_0.6.30           htmltools_0.5.3         fansi_1.0.3            
- [10] magrittr_2.0.3          checkmate_2.1.0         memoise_2.0.1          
- [13] googlesheets4_1.0.1     tzdb_0.3.0              modelr_0.1.10          
- [16] vroom_1.6.0             svglite_2.1.0           timechange_0.1.1       
- [19] rvest_1.0.3             textshaping_0.3.6       haven_2.5.1            
- [22] xfun_0.35               callr_3.7.3             crayon_1.5.2           
- [25] jsonlite_1.8.3          zoo_1.8-11              glue_1.6.2             
- [28] polyclip_1.10-4         gtable_0.3.1            gargle_1.2.1           
- [31] webshot_0.5.4           distributional_0.3.1    scales_1.2.1           
- [34] DBI_1.1.3               Rcpp_1.0.9              isoband_0.2.6          
- [37] viridisLite_0.4.1       units_0.8-0             bit_4.0.5              
- [40] proxy_0.4-27            httr_1.4.4              seacarb_3.3.1          
- [43] RColorBrewer_1.1-3      ellipsis_0.3.2          pkgconfig_2.0.3        
- [46] farver_2.1.1            sass_0.4.4              dbplyr_2.2.1           
- [49] utf8_1.2.2              here_1.0.1              tidyselect_1.2.0       
- [52] labeling_0.4.2          rlang_1.0.6             later_1.3.0            
- [55] munsell_0.5.0           cellranger_1.1.0        tools_4.2.2            
- [58] cachem_1.0.6            cli_3.4.1               generics_0.1.3         
- [61] broom_1.0.1             evaluate_0.18           fastmap_1.1.0          
- [64] yaml_2.3.6              ragg_1.2.4              oce_1.7-10             
- [67] processx_3.8.0          knitr_1.41              bit64_4.0.5            
- [70] fs_1.5.2                nlme_3.1-160            whisker_0.4            
- [73] xml2_1.3.3              compiler_4.2.2          rstudioapi_0.14        
- [76] e1071_1.7-12            reprex_2.0.2            tweenr_2.0.2           
- [79] bslib_0.4.1             stringi_1.7.8           highr_0.9              
- [82] ps_1.7.2                lattice_0.20-45         Matrix_1.5-3           
- [85] classInt_0.4-8          vctrs_0.5.1             pillar_1.8.1           
- [88] lifecycle_1.0.3         jquerylib_0.1.4         gsw_1.1-1              
- [91] data.table_1.14.6       httpuv_1.6.6            R6_2.5.1               
- [94] promises_1.2.0.1        KernSmooth_2.23-20      codetools_0.2-18       
- [97] MASS_7.3-58.1           assertthat_0.2.1        rprojroot_2.0.3        
-[100] withr_2.5.0             SolveSAPHE_2.1.0        mgcv_1.8-41            
-[103] parallel_4.2.2          hms_1.1.2               grid_4.2.2             
-[106] rnaturalearthdata_0.1.0 class_7.3-20            rmarkdown_2.18         
-[109] googledrive_2.0.0       git2r_0.30.1            getPass_0.2-2          
-[112] lubridate_1.9.0        </code></pre>
-</div>
-</div>
+  [4] lwgeom_0.2-10           plyr_1.8.8              splines_4.2.2          
+  [7] sp_1.5-1                digest_0.6.30           htmltools_0.5.3        
+ [10] fansi_1.0.3             magrittr_2.0.3          checkmate_2.1.0        
+ [13] memoise_2.0.1           googlesheets4_1.0.1     tzdb_0.3.0             
+ [16] modelr_0.1.10           vroom_1.6.0             svglite_2.1.0          
+ [19] timechange_0.1.1        rvest_1.0.3             textshaping_0.3.6      
+ [22] haven_2.5.1             xfun_0.35               callr_3.7.3            
+ [25] crayon_1.5.2            jsonlite_1.8.3          zoo_1.8-11             
+ [28] glue_1.6.2              polyclip_1.10-4         gtable_0.3.1           
+ [31] gargle_1.2.1            webshot_0.5.4           distributional_0.3.1   
+ [34] scales_1.2.1            DBI_1.1.3               Rcpp_1.0.9             
+ [37] isoband_0.2.6           viridisLite_0.4.1       units_0.8-0            
+ [40] bit_4.0.5               proxy_0.4-27            httr_1.4.4             
+ [43] seacarb_3.3.1           RColorBrewer_1.1-3      ellipsis_0.3.2         
+ [46] pkgconfig_2.0.3         farver_2.1.1            sass_0.4.4             
+ [49] dbplyr_2.2.1            utf8_1.2.2              here_1.0.1             
+ [52] tidyselect_1.2.0        labeling_0.4.2          rlang_1.0.6            
+ [55] later_1.3.0             munsell_0.5.0           cellranger_1.1.0       
+ [58] tools_4.2.2             cachem_1.0.6            cli_3.4.1              
+ [61] generics_0.1.3          broom_1.0.1             evaluate_0.18          
+ [64] fastmap_1.1.0           yaml_2.3.6              ragg_1.2.4             
+ [67] oce_1.7-10              processx_3.8.0          knitr_1.41             
+ [70] bit64_4.0.5             fs_1.5.2                nlme_3.1-160           
+ [73] whisker_0.4             xml2_1.3.3              compiler_4.2.2         
+ [76] rstudioapi_0.14         e1071_1.7-12            reprex_2.0.2           
+ [79] tweenr_2.0.2            bslib_0.4.1             stringi_1.7.8          
+ [82] highr_0.9               ps_1.7.2                lattice_0.20-45        
+ [85] Matrix_1.5-3            classInt_0.4-8          vctrs_0.5.1            
+ [88] pillar_1.8.1            lifecycle_1.0.3         jquerylib_0.1.4        
+ [91] gsw_1.1-1               data.table_1.14.6       httpuv_1.6.6           
+ [94] R6_2.5.1                promises_1.2.0.1        KernSmooth_2.23-20     
+ [97] codetools_0.2-18        MASS_7.3-58.1           assertthat_0.2.1       
+[100] rprojroot_2.0.3         withr_2.5.0             SolveSAPHE_2.1.0       
+[103] mgcv_1.8-41             parallel_4.2.2          hms_1.1.2              
+[106] grid_4.2.2              rnaturalearthdata_0.1.0 class_7.3-20           
+[109] rmarkdown_2.18          googledrive_2.0.0       git2r_0.30.1           
+[112] getPass_0.2-2           lubridate_1.9.0        </code></pre>
 </div>
 </div>
 
