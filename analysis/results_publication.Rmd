@@ -7364,7 +7364,8 @@ tcant_ts %>%
 ```{r exclude_Watson_from_GCB}
 
 Ocean_Sink <- Ocean_Sink %>%
-  filter(product == "Watson")
+  filter(product == "Watson" |
+           type == "models")
 
 ```
 
