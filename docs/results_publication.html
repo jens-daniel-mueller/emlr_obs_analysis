@@ -709,7 +709,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Results publication</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">28 January, 2023</h4>
+<h4 class="date">30 March, 2023</h4>
 
 </div>
 
@@ -738,7 +738,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2023-01-28
+<strong>Last updated:</strong> 2023-03-30
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -870,15 +870,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree4acca4c67279e6d15d83be0e9f659ce233da098dtargetblank4acca4ca">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreec0e81855e8488cee9f721fa09fec8e9743ba8a84targetblankc0e8185a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/4acca4c67279e6d15d83be0e9f659ce233da098d" target="_blank">4acca4c</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/c0e81855e8488cee9f721fa09fec8e9743ba8a84" target="_blank">c0e8185</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree4acca4c67279e6d15d83be0e9f659ce233da098dtargetblank4acca4ca"
+id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreec0e81855e8488cee9f721fa09fec8e9743ba8a84targetblankc0e8185a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -888,7 +888,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/4acca4c67279e6d15d83be0e9f659ce233da098d" target="_blank">4acca4c</a>.
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/c0e81855e8488cee9f721fa09fec8e9743ba8a84" target="_blank">c0e8185</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -974,6 +974,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/c0e81855e8488cee9f721fa09fec8e9743ba8a84/analysis/results_publication.Rmd" target="_blank">c0e8185</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-03-30
+</td>
+<td>
+plot revision
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/292acccdc76f9515e082870b9fb3de580a6474cc/docs/results_publication.html" target="_blank">292accc</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-01-28
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -39225,8 +39259,7 @@ jens-daniel-mueller
 <div id="incl-fluxes" class="section level2" number="16.2">
 <h2><span class="header-section-number">16.2</span> incl fluxes</h2>
 <pre class="r"><code>Ocean_Sink &lt;- Ocean_Sink %&gt;%
-  filter(product == &quot;Watson&quot; |
-           type == &quot;models&quot;)</code></pre>
+  filter(product != &quot;Watson&quot;)</code></pre>
 <pre class="r"><code>Ocean_Sink %&gt;%
   filter(year &gt;= 2010, year &lt;= 2019) %&gt;%
   group_by(type) %&gt;%
@@ -39235,7 +39268,7 @@ jens-daniel-mueller
 <pre><code># A tibble: 2 × 2
   type          GtC_yr_mean
   &lt;chr&gt;               &lt;dbl&gt;
-1 data_products        3.55
+1 data_products        3.09
 2 models               2.46</code></pre>
 <pre class="r"><code>Ocean_Sink_cum_1994 &lt;-
   Ocean_Sink %&gt;%
@@ -39384,6 +39417,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/292acccdc76f9515e082870b9fb3de580a6474cc/docs/figure/results_publication.Rmd/GCB_carbon_sink_cum_1994_2007_reference-2.png" target="_blank">292accc</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-01-28
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/c019e1fbeb804b0d8eb00895cacb7a96ca05ae75/docs/figure/results_publication.Rmd/GCB_carbon_sink_cum_1994_2007_reference-2.png" target="_blank">c019e1f</a>
 </td>
 <td>
@@ -39438,7 +39482,7 @@ Ocean_Sink_cum_1994 %&gt;%
   type                                          dcant_sd
   &lt;chr&gt;                                            &lt;dbl&gt;
 1 &quot;Global Ocean\nBiogeochemical Models\n(GOBM)&quot;     6.99
-2 &quot;Observation-based\nsurface flux\nproducts&quot;      NA   </code></pre>
+2 &quot;Observation-based\nsurface flux\nproducts&quot;       6.63</code></pre>
 <pre class="r"><code>Ocean_Sink_cum_1994 &lt;-
   Ocean_Sink %&gt;%
   filter(year &gt;= 1994, year &lt;= 2014) %&gt;%
@@ -39592,6 +39636,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/292acccdc76f9515e082870b9fb3de580a6474cc/docs/figure/results_publication.Rmd/GCB_carbon_sink_cum_1994-2.png" target="_blank">292accc</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-01-28
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/c019e1fbeb804b0d8eb00895cacb7a96ca05ae75/docs/figure/results_publication.Rmd/GCB_carbon_sink_cum_1994-2.png" target="_blank">c019e1f</a>
@@ -39796,6 +39851,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/292acccdc76f9515e082870b9fb3de580a6474cc/docs/figure/results_publication.Rmd/GCB_carbon_sink_cum_2004-2.png" target="_blank">292accc</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-01-28
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/c019e1fbeb804b0d8eb00895cacb7a96ca05ae75/docs/figure/results_publication.Rmd/GCB_carbon_sink_cum_2004-2.png" target="_blank">c019e1f</a>
 </td>
 <td>
@@ -39943,6 +40009,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/292acccdc76f9515e082870b9fb3de580a6474cc/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes-1.png" target="_blank">292accc</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-01-28
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/c019e1fbeb804b0d8eb00895cacb7a96ca05ae75/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes-1.png" target="_blank">c019e1f</a>
@@ -40652,6 +40729,7 @@ jens-daniel-mueller
       ) %&gt;%
       select(period, dcant) %&gt;%
       mutate(type = &quot;eMLR(C*)&quot;,
+             product = &quot;Mueller&quot;,
              dcant = dcant,
              dcant = if_else(period == &quot;2004 - 2014&quot;,
                              dcant + tcant_2004 - 118,
@@ -40661,16 +40739,17 @@ jens-daniel-mueller
       mutate(period = if_else(year == 2004,
                               &quot;1994 - 2004&quot;,
                               &quot;1994 - 2014&quot;)) %&gt;%
-      select(period, dcant = fgco2_glob_cum_total, type),
+      select(period, dcant = fgco2_glob_cum_total, type, product),
     Ocean_Sink_cum_2004 %&gt;%
       filter(year %in% c(2014)) %&gt;%
       mutate(period = if_else(year == 2014,
                               &quot;2004 - 2014&quot;,
                               &quot;other&quot;)) %&gt;%
-      select(period, dcant = fgco2_glob_cum_total, type)
+      select(period, dcant = fgco2_glob_cum_total, type, product)
   )
 
 dcant_type_box_stat &lt;- dcant_type_box %&gt;% 
+  filter(product != &quot;Watson&quot;) %&gt;% 
   group_by(period, type) %&gt;% 
   summarise(dcant_mean = mean(dcant),
             dcant_sd = sd(dcant)) %&gt;% 
@@ -40761,7 +40840,8 @@ name_sec_axis &lt;- expression(
 
 p_tcant_box_10 &lt;-
   dcant_type_box %&gt;%
-  filter(period != &quot;1994 - 2014&quot;) %&gt;%
+  filter(period != &quot;1994 - 2014&quot;,
+         product != &quot;Watson&quot;) %&gt;%
   ggplot(aes(period, dcant)) +
   geom_crossbar(
     data = dcant_type_box_stat %&gt;%
@@ -40800,6 +40880,16 @@ p_tcant_box_10 &lt;-
     shape = 21,
     alpha = 0.5
   ) +
+  geom_point(
+    data =   dcant_type_box %&gt;%
+      filter(period != &quot;1994 - 2014&quot;,
+             product == &quot;Watson&quot;),
+    aes(col = type),
+    position = position_nudge(x = 0.35),
+    shape = 4,
+    size = 2,
+    alpha = 0.5
+  )+
   geom_point(
     data = dcant_type_box_stat %&gt;%
       filter(period != &quot;1994 - 2014&quot;),
@@ -40862,6 +40952,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/292acccdc76f9515e082870b9fb3de580a6474cc/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_boxplot-1.png" target="_blank">292accc</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-01-28
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/c019e1fbeb804b0d8eb00895cacb7a96ca05ae75/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_boxplot-1.png" target="_blank">c019e1f</a>
@@ -41555,6 +41656,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/292acccdc76f9515e082870b9fb3de580a6474cc/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_boxplot-2.png" target="_blank">292accc</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-01-28
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/c019e1fbeb804b0d8eb00895cacb7a96ca05ae75/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_boxplot-2.png" target="_blank">c019e1f</a>
 </td>
 <td>
@@ -41865,6 +41977,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/292acccdc76f9515e082870b9fb3de580a6474cc/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_boxplot-3.png" target="_blank">292accc</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-01-28
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/c019e1fbeb804b0d8eb00895cacb7a96ca05ae75/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_boxplot-3.png" target="_blank">c019e1f</a>
 </td>
 <td>
@@ -41959,10 +42082,10 @@ eMLR(C*)
 2.527296
 </td>
 <td style="text-align:right;">
-0.000000
+0.0000000
 </td>
 <td style="text-align:right;">
-0.00000
+0.000000
 </td>
 <td style="text-align:right;">
 3.574136
@@ -41985,16 +42108,42 @@ Global Ocean Biogeochemical Models (GOBM)
 2.701502
 </td>
 <td style="text-align:right;">
--9.750898
+-9.7508981
 </td>
 <td style="text-align:right;">
--33.30603
+-33.306028
 </td>
 <td style="text-align:right;">
 3.699370
 </td>
 <td style="text-align:right;">
 -6.0515281
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1994 - 2004
+</td>
+<td style="text-align:left;">
+Observation-based surface flux products
+</td>
+<td style="text-align:right;">
+21.41458
+</td>
+<td style="text-align:right;">
+2.798867
+</td>
+<td style="text-align:right;">
+-7.8620944
+</td>
+<td style="text-align:right;">
+-26.854464
+</td>
+<td style="text-align:right;">
+3.771058
+</td>
+<td style="text-align:right;">
+-4.0910360
 </td>
 </tr>
 <tr>
@@ -42011,10 +42160,10 @@ eMLR(C*)
 2.549551
 </td>
 <td style="text-align:right;">
-0.000000
+0.0000000
 </td>
 <td style="text-align:right;">
-0.00000
+0.000000
 </td>
 <td style="text-align:right;">
 3.605609
@@ -42037,16 +42186,42 @@ Global Ocean Biogeochemical Models (GOBM)
 2.788027
 </td>
 <td style="text-align:right;">
--4.588211
+-4.5882109
 </td>
 <td style="text-align:right;">
--16.77762
+-16.777624
 </td>
 <td style="text-align:right;">
 3.778002
 </td>
 <td style="text-align:right;">
 -0.8102086
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2004 - 2014
+</td>
+<td style="text-align:left;">
+Observation-based surface flux products
+</td>
+<td style="text-align:right;">
+26.48067
+</td>
+<td style="text-align:right;">
+1.306376
+</td>
+<td style="text-align:right;">
+-0.8665297
+</td>
+<td style="text-align:right;">
+-3.168623
+</td>
+<td style="text-align:right;">
+2.864756
+</td>
+<td style="text-align:right;">
+1.9982262
 </td>
 </tr>
 </tbody>
@@ -42094,6 +42269,16 @@ Global Ocean Biogeochemical Models (GOBM)
     alpha = 0.5
   ) +
   geom_point(
+    data =   dcant_type_box %&gt;%
+      filter(period == &quot;1994 - 2004&quot;,
+             product == &quot;Watson&quot;),
+    aes(col = type),
+    position = position_nudge(x = 0.6),
+    shape = 4,
+    size = 2,
+    alpha = 0.5
+  )+
+  geom_point(
     data = dcant_type_box_stat %&gt;%
       filter(period == &quot;1994 - 2004&quot;),
     position = position_dodge(width = 1),
@@ -42112,6 +42297,7 @@ Global Ocean Biogeochemical Models (GOBM)
     limits = c(tcant_min, tcant_max),
     breaks = seq(0,40,20)
   )+
+  scale_x_discrete(expand = c(0.4,0.4)) +
   labs(x = &quot;Decades&quot;)+
   theme_classic() +
   # guides(y.right = &quot;axis_truncated&quot;) +
@@ -42149,6 +42335,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/292acccdc76f9515e082870b9fb3de580a6474cc/docs/figure/results_publication.Rmd/panel_per_decade-1.png" target="_blank">292accc</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-01-28
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/c019e1fbeb804b0d8eb00895cacb7a96ca05ae75/docs/figure/results_publication.Rmd/panel_per_decade-1.png" target="_blank">c019e1f</a>
@@ -42217,6 +42414,16 @@ jens-daniel-mueller
     alpha = 0.5
   ) +
   geom_point(
+    data =   dcant_type_box %&gt;%
+      filter(period == &quot;2004 - 2014&quot;,
+             product == &quot;Watson&quot;),
+    aes(col = type),
+    position = position_nudge(x = 0.6),
+    shape = 4,
+    size = 2,
+    alpha = 0.5
+  )+
+  geom_point(
     data = dcant_type_box_stat %&gt;%
       filter(period == &quot;2004 - 2014&quot;),
     position = position_dodge(width = 1),
@@ -42241,7 +42448,8 @@ jens-daniel-mueller
                                    trunc_upper = tcant_2004 - 118 + 35),
       breaks = seq(0, 30, 20)
     )
-  )+
+  ) +
+  scale_x_discrete(expand = c(0.4,0.4)) +
   theme_classic() +
   # guides(y.right = &quot;axis_truncated&quot;) +
   theme(
@@ -42282,6 +42490,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/292acccdc76f9515e082870b9fb3de580a6474cc/docs/figure/results_publication.Rmd/panel_per_decade-2.png" target="_blank">292accc</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-01-28
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/c019e1fbeb804b0d8eb00895cacb7a96ca05ae75/docs/figure/results_publication.Rmd/panel_per_decade-2.png" target="_blank">c019e1f</a>
 </td>
 <td>
@@ -42307,6 +42526,7 @@ jens-daniel-mueller
 </div>
 </div>
 <pre class="r"><code>Ocean_Sink_cum_1994_ensemble_mean &lt;- Ocean_Sink_cum_1994 %&gt;% 
+  filter(product != &quot;Watson&quot;) %&gt;% 
   group_by(year, pCO2, type) %&gt;% 
   summarise(fgco2_glob_cum_total_mean = mean(fgco2_glob_cum_total),
             fgco2_glob_cum_total_sd = sd(fgco2_glob_cum_total)) %&gt;% 
@@ -42327,7 +42547,13 @@ tcant_ts_zoom %&gt;%
               fill = &quot;eMLR(C*)&quot;),
     alpha = 0.2
   ) +
-  geom_line(data = Ocean_Sink_cum_1994,
+  geom_line(data = Ocean_Sink_cum_1994 %&gt;% 
+              filter(product == &quot;Watson&quot;),
+            aes(pCO2, fgco2_glob_cum_total, group = product, col = type),
+            size = 0.3,
+            linetype = 5) +
+  geom_line(data = Ocean_Sink_cum_1994 %&gt;% 
+              filter(product != &quot;Watson&quot;),
             aes(pCO2, fgco2_glob_cum_total, group = product, col = type), size = 0.3) +
   geom_line(data = Ocean_Sink_cum_1994_ensemble_mean,
             aes(pCO2, fgco2_glob_cum_total_mean, col = type), size = 2) +
@@ -42347,11 +42573,16 @@ tcant_ts_zoom %&gt;%
   geom_point(aes(pCO2, tcant, col = &quot;eMLR(C*)&quot;), size = 2,
              shape = 21,
              fill = &quot;white&quot;) +
-  geom_text(aes(pCO2, tcant, label = year), nudge_x = -2, nudge_y = 3) +
+  geom_text(data = tcant_ts_zoom %&gt;%
+              filter(year != 1994),
+            aes(pCO2, tcant, label = year), nudge_x = -2, nudge_y = 3) +
+  geom_text(data = tcant_ts_zoom %&gt;%
+              filter(year == 1994),
+            aes(pCO2, tcant, label = year), nudge_x = 4, nudge_y = 1) +
   scale_color_highcontrast(name = &quot;Data source&quot;) +
   scale_fill_highcontrast(name = &quot;Data source&quot;) +
   scale_y_continuous(limits = c(tcant_min, tcant_max)) +
-  # coord_cartesian(expand = 0) +
+  scale_x_continuous(expand = c(0,0.5)) +
   labs(
     x = expression(Atmospheric ~ pCO[2] ~ (µatm)),
     y = expression(Cumulative ~ ocean ~ carbon ~ storage ~ since ~ 1994~(Pg~C))
@@ -42395,6 +42626,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/292acccdc76f9515e082870b9fb3de580a6474cc/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_mean-1.png" target="_blank">292accc</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-01-28
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/c019e1fbeb804b0d8eb00895cacb7a96ca05ae75/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_mean-1.png" target="_blank">c019e1f</a>
@@ -42631,7 +42873,7 @@ jens-daniel-mueller
 </div>
 </div>
 <pre class="r"><code>p_tcant_ts_zoom + p_tcant_box_10_dec1 + p_tcant_box_10_dec2 +
-  plot_layout(ncol = 3, widths = c(8,1,1)) + 
+  plot_layout(ncol = 3, widths = c(10,1.5,1.5)) + 
   plot_annotation(tag_levels = &#39;A&#39;)</code></pre>
 <p><img src="figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_boxplot_ensemble-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
@@ -42658,6 +42900,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/292acccdc76f9515e082870b9fb3de580a6474cc/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_boxplot_ensemble-1.png" target="_blank">292accc</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-01-28
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/c019e1fbeb804b0d8eb00895cacb7a96ca05ae75/docs/figure/results_publication.Rmd/mean_tcant_over_atm_co2_incl_fluxes_boxplot_ensemble-1.png" target="_blank">c019e1f</a>
@@ -43764,6 +44017,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/292acccdc76f9515e082870b9fb3de580a6474cc/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-5.png" target="_blank">292accc</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-01-28
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/c019e1fbeb804b0d8eb00895cacb7a96ca05ae75/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-5.png" target="_blank">c019e1f</a>
 </td>
 <td>
@@ -43939,6 +44203,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/292acccdc76f9515e082870b9fb3de580a6474cc/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-6.png" target="_blank">292accc</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-01-28
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/c019e1fbeb804b0d8eb00895cacb7a96ca05ae75/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-6.png" target="_blank">c019e1f</a>
 </td>
 <td>
@@ -44083,6 +44358,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/292acccdc76f9515e082870b9fb3de580a6474cc/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-7.png" target="_blank">292accc</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-01-28
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/c019e1fbeb804b0d8eb00895cacb7a96ca05ae75/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-7.png" target="_blank">c019e1f</a>
 </td>
 <td>
@@ -44215,6 +44501,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/292acccdc76f9515e082870b9fb3de580a6474cc/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-8.png" target="_blank">292accc</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-01-28
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/c019e1fbeb804b0d8eb00895cacb7a96ca05ae75/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-8.png" target="_blank">c019e1f</a>
@@ -44363,16 +44660,16 @@ land_sink_long_decade</code></pre>
 <pre><code># A tibble: 14 × 4
    ocean_sink_estimate period      land_sink_mean land_sink_sd
    &lt;chr&gt;               &lt;fct&gt;                &lt;dbl&gt;        &lt;dbl&gt;
- 1 data products       1994 - 2004          -1.70        1.22 
- 2 data products       2004 - 2014          -2.51        0.768
+ 1 data products       1994 - 2004          -1.93        1.19 
+ 2 data products       2004 - 2014          -2.91        0.785
  3 gcb mean            1994 - 2004          -2.07        1.19 
  4 gcb mean            2004 - 2014          -3.16        0.800
  5 interior Cant       1994 - 2004         NaN          NA    
  6 interior Cant       2004 - 2014          -2.80        0.837
  7 interior Cnat       1994 - 2004         NaN          NA    
- 8 interior Cnat       2004 - 2014          -5.25        0.902
+ 8 interior Cnat       2004 - 2014          -5.71        0.876
  9 interior Cnet       1994 - 2004         NaN          NA    
-10 interior Cnet       2004 - 2014          -2.49        0.881
+10 interior Cnet       2004 - 2014          -2.96        0.860
 11 models              1994 - 2004          -2.15        1.21 
 12 models              2004 - 2014          -3.32        0.818
 13 reported land sink  1994 - 2004          -2.33        0.892
@@ -44425,6 +44722,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/292acccdc76f9515e082870b9fb3de580a6474cc/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-9.png" target="_blank">292accc</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-01-28
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/c019e1fbeb804b0d8eb00895cacb7a96ca05ae75/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-9.png" target="_blank">c019e1f</a>
@@ -44584,6 +44892,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/292acccdc76f9515e082870b9fb3de580a6474cc/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-10.png" target="_blank">292accc</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-01-28
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/c019e1fbeb804b0d8eb00895cacb7a96ca05ae75/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-10.png" target="_blank">c019e1f</a>
@@ -44766,6 +45085,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/292acccdc76f9515e082870b9fb3de580a6474cc/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-11.png" target="_blank">292accc</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-01-28
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/c019e1fbeb804b0d8eb00895cacb7a96ca05ae75/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-11.png" target="_blank">c019e1f</a>
 </td>
 <td>
@@ -44845,6 +45175,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/292acccdc76f9515e082870b9fb3de580a6474cc/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-12.png" target="_blank">292accc</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-01-28
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/c019e1fbeb804b0d8eb00895cacb7a96ca05ae75/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-12.png" target="_blank">c019e1f</a>
 </td>
 <td>
@@ -44916,18 +45257,18 @@ BIM_ocean_decade</code></pre>
 <pre><code># A tibble: 12 × 4
    ocean_sink_estimate period      BIM_mean BIM_sd
    &lt;chr&gt;               &lt;fct&gt;          &lt;dbl&gt;  &lt;dbl&gt;
- 1 data products       1994 - 2004   -0.624  0.709
- 2 data products       2004 - 2014   -0.433  0.530
- 3 gcb mean            1994 - 2004   -0.254  0.709
- 4 gcb mean            2004 - 2014    0.215  0.535
- 5 interior Cant       1994 - 2004  NaN     NA    
- 6 interior Cant       2004 - 2014   -0.143  0.570
- 7 interior Cnat       1994 - 2004  NaN     NA    
- 8 interior Cnat       2004 - 2014    2.30   0.599
- 9 interior Cnet       1994 - 2004  NaN     NA    
-10 interior Cnet       2004 - 2014   -0.451  0.579
-11 models              1994 - 2004   -0.177  0.734
-12 models              2004 - 2014    0.379  0.546</code></pre>
+ 1 data products       1994 - 2004  -0.394   0.702
+ 2 data products       2004 - 2014  -0.0359  0.528
+ 3 gcb mean            1994 - 2004  -0.254   0.709
+ 4 gcb mean            2004 - 2014   0.215   0.535
+ 5 interior Cant       1994 - 2004 NaN      NA    
+ 6 interior Cant       2004 - 2014  -0.143   0.570
+ 7 interior Cnat       1994 - 2004 NaN      NA    
+ 8 interior Cnat       2004 - 2014   2.77    0.573
+ 9 interior Cnet       1994 - 2004 NaN      NA    
+10 interior Cnet       2004 - 2014   0.0134  0.561
+11 models              1994 - 2004  -0.177   0.734
+12 models              2004 - 2014   0.379   0.546</code></pre>
 <pre class="r"><code>p_BIM_ocean_decade &lt;-   
   BIM_ocean_decade %&gt;% 
   ggplot() +
@@ -44976,6 +45317,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/292acccdc76f9515e082870b9fb3de580a6474cc/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-13.png" target="_blank">292accc</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-01-28
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/c019e1fbeb804b0d8eb00895cacb7a96ca05ae75/docs/figure/results_publication.Rmd/GCB_land_sink_assesment-13.png" target="_blank">c019e1f</a>
@@ -45233,7 +45585,7 @@ Decadal_GCB_fractions</code></pre>
 1 atmospheric growth 48 ± 4        44 ± 4       
 2 land sink          31 ± 6        30 ± 6       
 3 ocean sink Cant    36 ± 4        27 ± 4       
-4 ocean sink Cnet    29 ± NA       31 ± NA      </code></pre>
+4 ocean sink Cnet    26 ± 4        26 ± 3       </code></pre>
 <pre class="r"><code>Decadal_GCB_fractions %&gt;% 
   write_csv(here::here(&quot;output/publication/Table_GCB_fraction.csv&quot;))</code></pre>
 </div>
