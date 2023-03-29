@@ -7361,11 +7361,10 @@ tcant_ts %>%
 
 ## incl fluxes
 
-```{r exclude_Watson_from_GCB}
+```{r seperate_Watson_from_GCB, eval=FALSE}
 
 Ocean_Sink <- Ocean_Sink %>%
-  filter(product == "Watson" |
-           type == "models")
+  filter(product != "Watson")
 
 ```
 
@@ -7606,6 +7605,7 @@ dcant_type_box <-
       ) %>%
       select(period, dcant) %>%
       mutate(type = "eMLR(C*)",
+             product = "Mueller",
              dcant = dcant,
              dcant = if_else(period == "2004 - 2014",
                              dcant + tcant_2004 - 118,
@@ -7615,16 +7615,17 @@ dcant_type_box <-
       mutate(period = if_else(year == 2004,
                               "1994 - 2004",
                               "1994 - 2014")) %>%
-      select(period, dcant = fgco2_glob_cum_total, type),
+      select(period, dcant = fgco2_glob_cum_total, type, product),
     Ocean_Sink_cum_2004 %>%
       filter(year %in% c(2014)) %>%
       mutate(period = if_else(year == 2014,
                               "2004 - 2014",
                               "other")) %>%
-      select(period, dcant = fgco2_glob_cum_total, type)
+      select(period, dcant = fgco2_glob_cum_total, type, product)
   )
 
 dcant_type_box_stat <- dcant_type_box %>% 
+  filter(product != "Watson") %>% 
   group_by(period, type) %>% 
   summarise(dcant_mean = mean(dcant),
             dcant_sd = sd(dcant)) %>% 
@@ -7715,7 +7716,8 @@ name_sec_axis <- expression(
 
 p_tcant_box_10 <-
   dcant_type_box %>%
-  filter(period != "1994 - 2014") %>%
+  filter(period != "1994 - 2014",
+         product != "Watson") %>%
   ggplot(aes(period, dcant)) +
   geom_crossbar(
     data = dcant_type_box_stat %>%
@@ -7754,6 +7756,16 @@ p_tcant_box_10 <-
     shape = 21,
     alpha = 0.5
   ) +
+  geom_point(
+    data =   dcant_type_box %>%
+      filter(period != "1994 - 2014",
+             product == "Watson"),
+    aes(col = type),
+    position = position_nudge(x = 0.35),
+    shape = 4,
+    size = 2,
+    alpha = 0.5
+  )+
   geom_point(
     data = dcant_type_box_stat %>%
       filter(period != "1994 - 2014"),
@@ -7877,6 +7889,16 @@ p_tcant_box_10_dec1 <-
     alpha = 0.5
   ) +
   geom_point(
+    data =   dcant_type_box %>%
+      filter(period == "1994 - 2004",
+             product == "Watson"),
+    aes(col = type),
+    position = position_nudge(x = 0.6),
+    shape = 4,
+    size = 2,
+    alpha = 0.5
+  )+
+  geom_point(
     data = dcant_type_box_stat %>%
       filter(period == "1994 - 2004"),
     position = position_dodge(width = 1),
@@ -7895,6 +7917,7 @@ p_tcant_box_10_dec1 <-
     limits = c(tcant_min, tcant_max),
     breaks = seq(0,40,20)
   )+
+  scale_x_discrete(expand = c(0.4,0.4)) +
   labs(x = "Decades")+
   theme_classic() +
   # guides(y.right = "axis_truncated") +
@@ -7952,6 +7975,16 @@ p_tcant_box_10_dec2 <-
     alpha = 0.5
   ) +
   geom_point(
+    data =   dcant_type_box %>%
+      filter(period == "2004 - 2014",
+             product == "Watson"),
+    aes(col = type),
+    position = position_nudge(x = 0.6),
+    shape = 4,
+    size = 2,
+    alpha = 0.5
+  )+
+  geom_point(
     data = dcant_type_box_stat %>%
       filter(period == "2004 - 2014"),
     position = position_dodge(width = 1),
@@ -7976,7 +8009,8 @@ p_tcant_box_10_dec2 <-
                                    trunc_upper = tcant_2004 - 118 + 35),
       breaks = seq(0, 30, 20)
     )
-  )+
+  ) +
+  scale_x_discrete(expand = c(0.4,0.4)) +
   theme_classic() +
   # guides(y.right = "axis_truncated") +
   theme(
@@ -8004,6 +8038,7 @@ p_tcant_box_10_dec2
 ```{r mean_tcant_over_atm_co2_incl_fluxes_mean, fig.asp=0.6}
 
 Ocean_Sink_cum_1994_ensemble_mean <- Ocean_Sink_cum_1994 %>% 
+  filter(product != "Watson") %>% 
   group_by(year, pCO2, type) %>% 
   summarise(fgco2_glob_cum_total_mean = mean(fgco2_glob_cum_total),
             fgco2_glob_cum_total_sd = sd(fgco2_glob_cum_total)) %>% 
@@ -8024,7 +8059,13 @@ tcant_ts_zoom %>%
               fill = "eMLR(C*)"),
     alpha = 0.2
   ) +
-  geom_line(data = Ocean_Sink_cum_1994,
+  geom_line(data = Ocean_Sink_cum_1994 %>% 
+              filter(product == "Watson"),
+            aes(pCO2, fgco2_glob_cum_total, group = product, col = type),
+            size = 0.3,
+            linetype = 5) +
+  geom_line(data = Ocean_Sink_cum_1994 %>% 
+              filter(product != "Watson"),
             aes(pCO2, fgco2_glob_cum_total, group = product, col = type), size = 0.3) +
   geom_line(data = Ocean_Sink_cum_1994_ensemble_mean,
             aes(pCO2, fgco2_glob_cum_total_mean, col = type), size = 2) +
@@ -8044,11 +8085,16 @@ tcant_ts_zoom %>%
   geom_point(aes(pCO2, tcant, col = "eMLR(C*)"), size = 2,
              shape = 21,
              fill = "white") +
-  geom_text(aes(pCO2, tcant, label = year), nudge_x = -2, nudge_y = 3) +
+  geom_text(data = tcant_ts_zoom %>%
+              filter(year != 1994),
+            aes(pCO2, tcant, label = year), nudge_x = -2, nudge_y = 3) +
+  geom_text(data = tcant_ts_zoom %>%
+              filter(year == 1994),
+            aes(pCO2, tcant, label = year), nudge_x = 4, nudge_y = 1) +
   scale_color_highcontrast(name = "Data source") +
   scale_fill_highcontrast(name = "Data source") +
   scale_y_continuous(limits = c(tcant_min, tcant_max)) +
-  # coord_cartesian(expand = 0) +
+  scale_x_continuous(expand = c(0,0.5)) +
   labs(
     x = expression(Atmospheric ~ pCO[2] ~ (µatm)),
     y = expression(Cumulative ~ ocean ~ carbon ~ storage ~ since ~ 1994~(Pg~C))
@@ -8075,7 +8121,7 @@ p_tcant_ts_zoom
 ```{r mean_tcant_over_atm_co2_incl_fluxes_boxplot_ensemble, fig.asp=0.6}
 
 p_tcant_ts_zoom + p_tcant_box_10_dec1 + p_tcant_box_10_dec2 +
-  plot_layout(ncol = 3, widths = c(8,1,1)) + 
+  plot_layout(ncol = 3, widths = c(10,1.5,1.5)) + 
   plot_annotation(tag_levels = 'A')
 
 # p_tcant_ts_zoom + p_tcant_box_10 +
