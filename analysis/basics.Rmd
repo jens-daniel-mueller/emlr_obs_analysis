@@ -787,20 +787,173 @@ basin_maps <-
     expand = FALSE
   ) +
   facet_wrap( ~ MLR_basins, ncol = 3) +
-  scale_fill_okabeito(guide = "none", reverse = TRUE) +
-  # scale_fill_muted(guide = "none") +
-  theme_void()
+  scale_fill_okabeito(guide = "none", reverse = TRUE)  +
+  theme(
+    axis.title = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    panel.border = element_rect(colour = "transparent"),
+    strip.background = element_blank()
+  )
 
 basin_maps
 
-ggsave(plot = basin_maps,
-       path = here::here("output/publication"),
-       filename = "FigS_basin_masks.png",
-       height = 3,
-       width = 8,
-       dpi = 600)
+# ggsave(plot = basin_maps,
+#        path = here::here("output/publication"),
+#        filename = "FigS_basin_masks.png",
+#        height = 3,
+#        width = 8,
+#        dpi = 600)
 
 ```
+
+
+```{r global_section_map}
+
+# prepare section basin files
+
+section_global_coordinates_basin_raster <-
+  rast(
+    section_global_coordinates_basin %>%
+      mutate(
+        dist = 1,
+        band = case_when(band == "Southern" ~ "Southern\nOcean",
+                         TRUE ~ band)
+      ) %>%
+      pivot_wider(names_from = band,
+                  values_from = dist),
+    crs = "+proj=longlat"
+  )
+
+# center <- -160
+# boundary <- center + 180
+# target_crs <- paste0("+proj=robin +over +lon_0=", center)
+
+section_global_coordinates_basin_raster <-
+  project(section_global_coordinates_basin_raster, target_crs, method = "near")
+
+section_global_coordinates_basin_tibble <-
+  section_global_coordinates_basin_raster %>%
+  as.data.frame(xy = TRUE, na.rm = FALSE) %>%
+  as_tibble() %>%
+  rename(lon = x, lat = y) %>%
+  pivot_longer(
+    cols = -c("lon", "lat"),
+    names_to = "band",
+    values_to = "coverage"
+  ) %>%
+  drop_na() %>%
+  mutate(band = as.character(band))
+
+# prepare section file
+
+section_global_coordinates_raster <-
+  rast(section_global_coordinates,
+       crs = "+proj=longlat")
+
+section_global_coordinates_raster <-
+  project(section_global_coordinates_raster, target_crs, method = "near")
+
+section_global_coordinates_tibble <-
+  section_global_coordinates_raster %>%
+  as.data.frame(xy = TRUE, na.rm = FALSE) %>%
+  as_tibble() %>%
+  rename(lon = x, lat = y) %>%
+  drop_na()
+
+section_global_coordinates_tibble <-
+  section_global_coordinates_tibble %>% 
+  group_by(dist) %>% 
+  summarise(lon = mean(lon),
+            lat = mean(lat)) %>% 
+  ungroup() %>% 
+  mutate(dist = cut(dist, seq(0,40,10),
+                    labels = c("0-10", "10-20", "20-30", "30-40")))
+
+
+global_section_map <-
+  ggplot() +
+  geom_raster(data = section_global_coordinates_basin_tibble %>%
+                filter(band == "Atlantic"),
+              aes(
+                x = lon,
+                y = lat,
+                fill = band,
+                alpha = 0.3
+              )) +
+  geom_raster(data = section_global_coordinates_basin_tibble %>%
+                filter(band == "Southern\nOcean"),
+              aes(
+                x = lon,
+                y = lat,
+                fill = band,
+                alpha = 0.3
+              )) +
+  geom_raster(data = section_global_coordinates_basin_tibble %>%
+                filter(band == "Pacific"),
+              aes(
+                x = lon,
+                y = lat,
+                fill = band,
+                alpha = 0.3
+              )) +
+  scale_fill_mediumcontrast(name = "Averaging\nareas") +
+  # scale_fill_grey() +
+  geom_path(
+    data = section_global_coordinates_tibble %>%
+      filter(lon > 0),
+    aes(x = lon,
+        y = lat,
+        color = dist),
+    linewidth = 1
+  ) +
+  geom_path(
+    data = section_global_coordinates_tibble %>%
+      filter(lon < 0),
+    aes(x = lon,
+        y = lat,
+        color = dist),
+    linewidth = 1
+  ) +
+  scale_color_grey(start = 0.7,end = 0, name = "Distance\nalong\nsection\n(1000 km)") +
+  geom_sf(data = worldmap_trans, fill = "grey90", col = "grey90") +
+  geom_sf(data = coastline_trans, linewidth = 0.3) +
+  geom_sf(data = bbox_graticules_trans, linewidth = 0.3) +
+  coord_sf(
+    crs = target_crs,
+    ylim = lat_lim,
+    xlim = lon_lim,
+    expand = FALSE
+  ) +
+  guides(fill = guide_legend(override.aes = list(alpha = 0.3)),
+         alpha = "none") +
+  theme(
+    axis.title = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    panel.border = element_rect(colour = "transparent"),
+    strip.background = element_blank(),
+    panel.grid.major = element_blank(),
+    legend.direction = "vertical", legend.box = "horizontal"
+  )
+
+design <- "AAAA
+           #BB#"
+
+wrap_plots(A = basin_maps, B = global_section_map, design = design) +
+  plot_layout(heights = c(3, 2))  +
+  plot_annotation(tag_levels = 'A')
+
+ggsave(path = here::here("output/publication"),
+       filename = "FigS_basin_masks.png",
+       height = 6,
+       width = 10,
+       dpi = 200)
+
+```
+
+
+
 
 ## 5 basins
 
