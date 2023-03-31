@@ -7626,6 +7626,7 @@ dcant_type_box <-
 
 dcant_type_box_stat <- dcant_type_box %>% 
   filter(product != "Watson") %>% 
+  # filter(product == "Watson" | type != "Observation-based\nsurface flux\nproducts") %>% 
   group_by(period, type) %>% 
   summarise(dcant_mean = mean(dcant),
             dcant_sd = sd(dcant)) %>% 
@@ -7837,7 +7838,7 @@ dcant_type_significance <- dcant_type_box_stat %>%
   ungroup()
 
 dcant_type_significance %>% 
-  drop_na() %>% 
+  # drop_na() %>% 
   kable() %>%
   kable_styling() %>%
   scroll_box(height = "300px")
