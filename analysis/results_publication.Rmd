@@ -31,6 +31,7 @@ library(ggh4x)
 library(ggpattern)
 library(colorspace)
 library(stars)
+library(ggtext)
 ```
 
 # Read files
@@ -2792,19 +2793,21 @@ dcant_inv_uncert_delta <- delta_dcant_inv_uncertainty %>%
   st_as_sf(coords = c("lon", "lat"), crs = "+proj=longlat")
 
 
-legend_title <- expression(atop(Delta * C["ant"],
-                                (mol ~ m ^ {
-                                  -2
-                                } ~ dec ^ {
-                                  -1
-                                })))
-
+# legend_title <- expression(atop(Delta * C["ant"],
+#                                 (mol ~ m ^ {
+#                                   -2
+#                                 } ~ dec ^ {
+#                                   -1
+#                                 })))
+legend_title <- "ΔC<sub>ant</sub><br>column inventory<br>(mol m<sup>-2</sup> dec<sup>-1</sup>)"
 
 p_dcant_inv_dec1 <-
   p_map_mdim_robinson(df = dcant_inv_dec1,
                       df_uncertainty = dcant_inv_uncert_dec1,
                       var = "dcant",
                       legend_title = legend_title) +
+  theme(legend.title = element_markdown(halign = 0.5,
+                                        lineheight = 1.5)) +
   geom_label(aes(
     label = "1994 - 2004",
     x = lon_lim[1] * 0.55,
@@ -2820,6 +2823,8 @@ p_dcant_inv_dec2 <-
                       df_uncertainty = dcant_inv_uncert_dec2,
                       var = "dcant",
                       legend_title = legend_title) +
+  theme(legend.title = element_markdown(halign = 0.5,
+                                        lineheight = 1.5)) +
   geom_label(aes(
     label = "2004 - 2014",
     x = lon_lim[1] * 0.55,
@@ -2829,12 +2834,13 @@ p_dcant_inv_dec2 <-
 
 p_dcant_inv_dec2
 
-legend_title <- expression(atop(Delta * Delta * C["ant"],
-                                (mol ~ m ^ {
-                                  -2
-                                } ~ dec ^ {
-                                  -1
-                                })))
+# legend_title <- expression(atop(Delta * Delta * C["ant"],
+#                                 (mol ~ m ^ {
+#                                   -2
+#                                 } ~ dec ^ {
+#                                   -1
+#                                 })))
+legend_title <- "ΔΔC<sub>ant</sub><br>column inventory<br>(mol m<sup>-2</sup> dec<sup>-1</sup>)"
 
 p_dcant_inv_delta <-
   p_map_mdim_robinson(df = delta_dcant_inv,
@@ -2843,6 +2849,8 @@ p_dcant_inv_delta <-
                       breaks = c(-Inf, seq(-8, 8, 2), Inf),
                       legend_title = legend_title,
                       col = "divergent") +
+  theme(legend.title = element_markdown(halign = 0.5,
+                                        lineheight = 1.5)) +
   geom_label(aes(
     label = "Decadal difference",
     x = lon_lim[1] * 0.55,
@@ -5374,7 +5382,13 @@ delta_dcant_budget_basin_MLR_all_uncertainty <-
 
 
 dcant_budget_basin_MLR_all_uncertainty_contributions %>%
+  distinct(Version_ID_group)
+
+dcant_budget_basin_MLR_all_uncertainty_contributions %>%
   filter(data_source == "obs") %>%
+  mutate(sign = if_else(sd > 0, "+", "-"),
+         sign = if_else(Version_ID_group %in% c("Regional clustering", "Scaling uncertainty"), 
+                        "", sign)) %>% 
   mutate(
     basin = fct_relevel(
       basin,
@@ -5386,12 +5400,16 @@ dcant_budget_basin_MLR_all_uncertainty_contributions %>%
       "S. Atlantic"
     )
   ) %>%
-  ggplot(aes("x", abs(sd), fill = Version_ID_group)) +
+  ggplot() +
   geom_hline(yintercept = 0, col = "grey10") +
-  geom_col(position = position_dodge(preserve = "single"),
-           col = "grey10") +
+  geom_col(aes("x", abs(sd), col = Version_ID_group, fill = Version_ID_group),
+           position = position_dodge(width = 1.5)) +
+  geom_text(aes("x", abs(sd)+ 0.07, group = Version_ID_group, label = sign),
+            position = position_dodge(width = 1.5),
+            col = "grey10")+
   scale_fill_bright(name = "eMLR(C*)\nconfiguration\ncomponent") +
-  labs(y = expression(Absolute~Delta*Cant~inventory~offset~from~standard~case~(Pg~C~dec^{-1}))) +
+  scale_color_bright(name = "eMLR(C*)\nconfiguration\ncomponent") +
+  labs(y = expression(Absolute~Delta*C[ant]~inventory~offset~from~standard~case~(Pg~C~dec^{-1}))) +
   theme(
     axis.title.x = element_blank(),
     axis.text.x = element_blank(),
@@ -5419,6 +5437,7 @@ ggsave(path = here::here("output/publication"),
 dcant_budget_basin_MLR_all_uncertainty_contributions_sensitivity %>%
   filter(data_source == "obs",
          Version_ID_group != "Regional clustering") %>%
+  mutate(sign = if_else(sd > 0, "+", "-")) %>% 
   mutate(
     basin = fct_relevel(
       basin,
@@ -5430,11 +5449,15 @@ dcant_budget_basin_MLR_all_uncertainty_contributions_sensitivity %>%
       "S. Atlantic"
     )
   ) %>%
-  ggplot(aes("x", abs(sd), fill = Version_ID_group)) +
+  ggplot() +
   geom_hline(yintercept = 0, col = "grey10") +
-  geom_col(position = position_dodge(preserve = "single"),
-           col = "grey10") +
+  geom_col(aes("x", abs(sd), col = Version_ID_group, fill = Version_ID_group),
+           position = position_dodge(width = 1.5)) +
+  geom_text(aes("x", abs(sd)+ 0.18, group = Version_ID_group, label = sign),
+            position = position_dodge(width = 1.5),
+            col = "grey10")+
   scale_fill_bright(name = "eMLR(C*)\nconfiguration\ncomponent") +
+  scale_color_bright(name = "eMLR(C*)\nconfiguration\ncomponent") +
   labs(y = expression(Absolute~Delta*Cant~inventory~offset~from~standard~case~(Pg~C~dec^{-1}))) +
   theme(
     axis.title.x = element_blank(),
@@ -5443,8 +5466,6 @@ dcant_budget_basin_MLR_all_uncertainty_contributions_sensitivity %>%
   ) +
   guides(pattern = guide_legend(override.aes = list(fill = "white")),
          fill = guide_legend(override.aes = list(pattern = "none"))) +
-  # expand_limits(y = c(0,2.2)) +
-  # scale_y_continuous(expand = c(0,0)) +
   facet_nested_wrap( ~ basin + period, ncol = 6)
 
 
