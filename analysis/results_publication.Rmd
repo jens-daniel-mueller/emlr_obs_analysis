@@ -5404,7 +5404,7 @@ dcant_budget_basin_MLR_all_uncertainty_contributions %>%
   geom_hline(yintercept = 0, col = "grey10") +
   geom_col(aes("x", abs(sd), col = Version_ID_group, fill = Version_ID_group),
            position = position_dodge(width = 1.5)) +
-  geom_text(aes("x", abs(sd)+ 0.07, group = Version_ID_group, label = sign),
+  geom_text(aes("x", abs(sd) + 0.07, group = Version_ID_group, label = sign),
             position = position_dodge(width = 1.5),
             col = "grey10")+
   scale_fill_bright(name = "eMLR(C*)\nconfiguration\ncomponent") +
@@ -5458,7 +5458,7 @@ dcant_budget_basin_MLR_all_uncertainty_contributions_sensitivity %>%
             col = "grey10")+
   scale_fill_bright(name = "eMLR(C*)\nconfiguration\ncomponent") +
   scale_color_bright(name = "eMLR(C*)\nconfiguration\ncomponent") +
-  labs(y = expression(Absolute~Delta*Cant~inventory~offset~from~standard~case~(Pg~C~dec^{-1}))) +
+  labs(y = expression(Absolute~Delta*C[ant]~inventory~offset~from~standard~case~(Pg~C~dec^{-1}))) +
   theme(
     axis.title.x = element_blank(),
     axis.text.x = element_blank(),
@@ -5723,6 +5723,198 @@ dcant_budget_basin_MLR_all_ensemble %>%
 ggsave(path = here::here("output/publication"),
        filename = "Fig_dcant_inventory.png",
        height = 6,
+       width = 8,
+       dpi = 600)
+
+```
+
+```{r dcant_budget_basin_hemisphere_additive_uncertainty_scaled, fig.asp=1}
+
+dcant_budget_basin_MLR_all_ensemble %>%
+  filter(data_source == "obs",
+         period != "1994 - 2014",
+         !(Version_ID %in% Version_IDs),
+         MLR_basins == unique(params_local_all$MLR_basins)) %>%
+  ggplot(aes(period, dcant)) +
+  geom_errorbar(
+    data = tcant_budget_basin_MLR,
+    aes(x = period,
+        ymax = dcant, ymin = dcant,
+        col = "Scaled 1994\nestimate"),
+    width = 0.8,
+    size = 1,
+    linetype = 1,
+    position = position_nudge(x = 0.05)
+  ) +
+  geom_jitter(
+    data = dcant_budget_basin_MLR_all_ensemble %>%
+      filter(data_source == "obs",
+             period != "1994 - 2014",
+             Version_ID_group == unique(params_local_all$Version_ID_group)),
+    aes(fill = "Regional clustering",
+        alpha = "Regional clustering"),
+    shape = 21,
+    position = position_jitter(width = 0.1, height = 0)
+  ) +
+  geom_point(
+    aes(fill = "Configuration changes",
+        alpha = "Configuration changes"),
+    shape = 21,
+    position = position_jitter(width = 0.1, height = 0)
+  ) +
+  geom_crossbar(
+    data = dcant_budget_basin_MLR_all_uncertainty %>% filter(data_source == "obs"),
+    aes(
+      x = period,
+      y = std_case,
+      ymin = std_case - sd*2,
+      ymax = std_case + sd*2,
+      linetype = "Combined uncertainty"
+    ),
+    width = 0.1,
+    fill = "#BBBBBB",
+    alpha = 0.2,
+    position = position_nudge(x = 0.2)
+  ) +
+  geom_crossbar(
+    data = dcant_budget_basin_MLR_all_uncertainty %>% filter(data_source == "obs"),
+    aes(
+      x = period,
+      y = std_case,
+      ymin = std_case - sd,
+      ymax = std_case + sd,
+      alpha = "Combined uncertainty",
+    ),
+    width = 0.1,
+    fill = "#BBBBBB",
+    alpha = 0.4,
+    position = position_nudge(x = 0.2)
+  ) +
+  geom_point(
+    data = dcant_budget_basin_MLR_all_uncertainty %>% filter(data_source == "obs"),
+    aes(x = period,
+        y = std_case,
+        fill = "Standard case",
+        alpha = "Standard case"),
+    size = 2,
+    shape = 21,
+    position = position_nudge(x = 0.2)
+  ) +
+  scale_fill_manual(name = "group", values = c("#BB5566", "#004488", "white")) +
+  scale_color_manual(values = c("grey50"), label = expression(Scaled~C[ant]~1994)) +
+  scale_linetype(name = "X") +
+  scale_alpha_manual(name = "group", values = c(0.7,0.7,1)) +
+  scale_shape_manual(values = 95) +
+  labs(y = dcant_pgc_label) +
+  guides(
+    fill = guide_legend(order = 1),
+    linetype = guide_legend(order = 2),
+    alpha = guide_legend(order = 1)
+  ) +
+  facet_wrap(~ basin, ncol = 3, dir = "v", scales = "free_y") +
+  facetted_pos_scales(
+    y = list(
+      scale_y_continuous(limits = c(-5, 35), breaks = seq(-5, 35, 5)),
+      scale_y_continuous(limits = c(-3, 12), breaks = seq(-3, 12, 3)),
+      scale_y_continuous(limits = c(-3, 12), breaks = seq(-3, 12, 3)),
+      scale_y_continuous(limits = c(-3, 12), breaks = seq(-3, 12, 3)),
+      scale_y_continuous(limits = c(-3, 12), breaks = seq(-3, 12, 3)),
+      scale_y_continuous(limits = c(-3, 12), breaks = seq(-3, 12, 3))
+    )
+  )+
+  theme(legend.title = element_blank(),
+        axis.title.x = element_blank())
+
+
+ggsave(path = here::here("output/publication"),
+       filename = "Fig_dcant_inventory_scaled.png",
+       height = 6,
+       width = 8,
+       dpi = 600)
+
+```
+
+```{r dcant_budget_basin_hemisphere_additive_uncertainty_waterfall, fig.asp=1}
+
+dcant_budget_waterfall <-
+  bind_rows(
+    dcant_budget_basin_MLR_all_uncertainty %>% filter(data_source == "obs") %>%
+      select(basin, period, dcant = std_case, uncert = sd),
+    delta_dcant_budget_basin_MLR_all_uncertainty %>% filter(data_source == "obs") %>%
+      select(basin, period, dcant = delta_dcant, uncert = RSS) %>%
+      mutate(period = "Dec. diff.")
+  )
+
+
+
+dcant_budget_waterfall <-
+  dcant_budget_waterfall %>%
+  mutate(
+    fill = if_else(dcant > 0, "red", "blue"),
+    fill = if_else(period != "Dec. diff.", "grey", fill)
+  )
+
+dcant_budget_waterfall %>%
+  ggplot() +
+  geom_hline(yintercept = 0) +
+  geom_errorbar(
+    data = tcant_budget_basin_MLR,
+    aes(
+      period,
+      dcant,
+      ymax = dcant,
+      ymin = dcant,
+      col = "Scaled 1994\nestimate"
+    ),
+    width = 0.8,
+    size = 1,
+    linetype = 1
+  ) +
+  geom_col(
+    aes(x = period,
+        y = dcant,
+        fill = fill),
+    width = 0.5,
+    col = "Grey20"
+  ) +
+  geom_errorbar(
+    aes(
+      x = period,
+      y = dcant,
+      ymin = dcant - uncert,
+      ymax = dcant + uncert
+    ),
+    width = 0.1,
+    col = "black"
+  ) +
+  scale_fill_manual(name = "group",
+                    values = c("#BB5566", "grey80", "#004488"), guide = "none") +
+  scale_color_manual(values = c("#009988"), label = expression(Scaled ~ C[ant] ~
+                                                              1994)) +
+  scale_linetype(name = "X") +
+  labs(y = dcant_pgc_label) +
+  facet_wrap(~ basin, ncol = 3, dir = "v", scales = "free_y") +
+  facetted_pos_scales(
+    y = list(
+      scale_y_continuous(limits = c(-5, 35), breaks = seq(-5,35,5)),
+      scale_y_continuous(limits = c(-3, 12), breaks = seq(-3,12,3)),
+      scale_y_continuous(limits = c(-3, 12), breaks = seq(-3,12,3)),
+      scale_y_continuous(limits = c(-3, 12), breaks = seq(-3,12,3)),
+      scale_y_continuous(limits = c(-3, 12), breaks = seq(-3,12,3)),
+      scale_y_continuous(limits = c(-3, 12), breaks = seq(-3,12,3))
+    )
+  ) +
+  theme(
+    legend.title = element_blank(),
+    axis.text.x = element_text(angle = 90, hjust = 1),
+    axis.title.x = element_blank(),
+    axis.ticks.x = element_blank()
+  )
+
+
+ggsave(path = here::here("output/publication"),
+       filename = "Fig_dcant_inventory_bars.png",
+       height = 8,
        width = 8,
        dpi = 600)
 
