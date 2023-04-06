@@ -870,15 +870,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreef7db51bf84e4890e95717c0d100d0e2749a9058ctargetblankf7db51ba">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreede24c9b79263826c1234b1a7f71b11bdd93dbeadtargetblankde24c9ba">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/f7db51bf84e4890e95717c0d100d0e2749a9058c" target="_blank">f7db51b</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/de24c9b79263826c1234b1a7f71b11bdd93dbead" target="_blank">de24c9b</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreef7db51bf84e4890e95717c0d100d0e2749a9058ctargetblankf7db51ba"
+id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreede24c9b79263826c1234b1a7f71b11bdd93dbeadtargetblankde24c9ba"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -888,7 +888,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/f7db51bf84e4890e95717c0d100d0e2749a9058c" target="_blank">f7db51b</a>.
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/de24c9b79263826c1234b1a7f71b11bdd93dbead" target="_blank">de24c9b</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -973,6 +973,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/de24c9b79263826c1234b1a7f71b11bdd93dbead/analysis/results_publication.Rmd" target="_blank">de24c9b</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-04-06
+</td>
+<td>
+revised inventory figure
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/138b3f47f729b0e6b631e02aac46cd71595edb25/docs/results_publication.html" target="_blank">138b3f4</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-04-06
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -30275,13 +30309,7 @@ dcant_waterfall &lt;-
 dcant_waterfall &lt;-
   dcant_waterfall %&gt;%
   mutate(
-    fill = if_else(
-      period == &quot;Dec. diff.&quot; &amp;
-        start_bar &lt;= end_bar,
-      &quot;Dec. increase&quot;,
-      &quot;Dec. decrease&quot;
-    ),
-    fill = if_else(period != &quot;Dec. diff.&quot;, period, fill),
+    fill = if_else(period != &quot;Dec. diff.&quot;, period, &quot;Dec. difference&quot;),
     group_id = case_when(period == &quot;1994 - 2004&quot; ~ 1,
                          period == &quot;2004 - 2014&quot; ~ 3,
                          TRUE ~ 2)
@@ -30291,7 +30319,7 @@ bar_width &lt;- 0.3
 fill_scale &lt;- c(
   &quot;1994 - 2004&quot; = &quot;#EE7733&quot;,
   &quot;2004 - 2014&quot; = &quot;#009988&quot;,
-  &quot;Dec. decrease&quot; = &quot;#BB5566&quot;,
+  &quot;Dec. difference&quot; = &quot;#BBBBBB&quot;,
   &quot;Dec. increase&quot; = &quot;#004488&quot;
 )
 
@@ -30328,13 +30356,36 @@ dcant_waterfall %&gt;%
       fill = fill,
     ),
     color = &quot;black&quot;,
-    alpha = 0.95
+    alpha = 0.7
   ) +
-  geom_errorbar(
+geom_errorbar(
+    data = . %&gt;% filter(start_bar == 0),
     aes(
       y = end_bar,
-      ymin = end_bar - uncert,
+      ymin = end_bar,
       ymax = end_bar + uncert
+    ),
+    width = 0.1,
+    col = &quot;black&quot;
+  ) +
+  geom_errorbar(
+    data = . %&gt;% filter(start_bar != 0,
+                        start_bar &lt; end_bar),
+    aes(
+      y = end_bar,
+      ymin = end_bar,
+      ymax = end_bar + uncert
+    ),
+    width = 0.1,
+    col = &quot;black&quot;
+  ) +
+  geom_errorbar(
+    data = . %&gt;% filter(start_bar != 0,
+                        start_bar &gt; end_bar),
+    aes(
+      y = end_bar,
+      ymin = end_bar,
+      ymax = end_bar - uncert
     ),
     width = 0.1,
     col = &quot;black&quot;
@@ -30342,11 +30393,13 @@ dcant_waterfall %&gt;%
   scale_fill_manual(
     name = &quot;group&quot;,
     values = fill_scale,
-    limits = dcant_waterfall %&gt;% distinct(fill) %&gt;% pull
+    # limits = dcant_waterfall %&gt;% distinct(fill) %&gt;% pull,
+    label = c(&quot;Dec. difference&quot; = expression(Delta*Delta*C[ant]))
   ) +
   scale_color_manual(values = c(&quot;#BBBBBB&quot;),
                      label = expression(Scaled ~ C[ant] ~
                                           1994)) +
+  guides(colour = guide_legend(order = 2), fill = guide_legend(order = 1)) +
   scale_y_continuous(limits = c(0,32), breaks = seq(0,35,3), expand = c(0,0.3)) +
   scale_linetype(name = &quot;X&quot;) +
   labs(y = dcant_pgc_label) +
@@ -30355,98 +30408,11 @@ dcant_waterfall %&gt;%
     legend.title = element_blank(),
     axis.text.x = element_blank(),
     axis.title.x = element_blank(),
-    axis.ticks.x = element_blank()
+    axis.ticks.x = element_blank(),
+    legend.text.align = 0
   )
 
-dcant_waterfall %&gt;% distinct(fill)</code></pre>
-<pre><code># A tibble: 4 × 1
-  fill         
-  &lt;chr&gt;        
-1 1994 - 2004  
-2 2004 - 2014  
-3 Dec. decrease
-4 Dec. increase</code></pre>
-<pre class="r"><code>p_inv_regional &lt;-
-dcant_waterfall %&gt;%
-  filter(basin != &quot;Global&quot;) %&gt;%
-  group_split(basin) %&gt;% 
-  # head(1) %&gt;% 
-  map(
-    ~ggplot(data = .x,
-            aes(x = group_id)) +
-  geom_hline(yintercept = 0) +
-  geom_errorbar(
-    aes(
-      y = vert_line,
-      ymax = vert_line,
-      ymin = vert_line,
-      col = &quot;Scaled 1994\nestimate&quot;
-    ),
-    width = 0.8,
-    size = 1,
-    linetype = 1
-  ) +
-  geom_segment(
-    data = . %&gt;% filter(group_id != 3),
-    aes(
-      xend = group_id + 1,
-      y = end_bar,
-      yend = end_bar
-    )
-  ) +
-  geom_rect(
-    aes(
-      xmin = group_id - bar_width,
-      xmax = group_id + bar_width,
-      ymin = end_bar,
-      ymax = start_bar,
-      fill = fill,
-    ),
-    color = &quot;black&quot;,
-    alpha = 0.95
-  ) +
-  geom_errorbar(
-    aes(
-      y = end_bar,
-      ymin = end_bar - uncert,
-      ymax = end_bar + uncert
-    ),
-    width = 0.1,
-    col = &quot;black&quot;
-  ) +
-  scale_fill_manual(
-    name = &quot;group&quot;,
-    values = fill_scale,
-    limits = dcant_waterfall %&gt;% distinct(fill) %&gt;% pull
-  ) +
-  scale_color_manual(values = c(&quot;#BBBBBB&quot;),
-                     label = expression(Scaled ~ C[ant] ~
-                                          1994)) +
-  scale_y_continuous(limits = c(0,14.5), breaks = seq(0,15,3), expand = c(0,0.3)) +
-  scale_linetype(name = &quot;X&quot;) +
-  labs(y = dcant_pgc_label) +
-  facet_wrap( ~ basin, ncol = 3, dir = &quot;v&quot;) +
-  theme(
-    legend.title = element_blank(),
-    axis.text.x = element_blank(),
-    axis.title = element_blank(),
-    axis.ticks.x = element_blank()
-  ))
-
-
-layout &lt;- &quot;
-ABCD
-AEFG
-&quot;
-p_inv_global +
-  p_inv_regional[2] +
-  p_inv_regional[4] + theme(axis.text.y = element_blank()) + 
-  guide_area() +
-  p_inv_regional[3] + 
-  p_inv_regional[5] + theme(axis.text.y = element_blank()) + 
-  p_inv_regional[1] + theme(axis.text.y = element_blank()) + 
-  plot_layout(design = layout,
-              guides = &quot;collect&quot;)</code></pre>
+p_inv_global</code></pre>
 <p><img src="figure/results_publication.Rmd/dcant_budget_basin_hemisphere_additive_uncertainty_waterfall_new-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-dcant_budget_basin_hemisphere_additive_uncertainty_waterfall_new-1">
@@ -30488,9 +30454,123 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
+<pre class="r"><code>dcant_waterfall %&gt;% distinct(fill)</code></pre>
+<pre><code># A tibble: 3 × 1
+  fill           
+  &lt;chr&gt;          
+1 1994 - 2004    
+2 2004 - 2014    
+3 Dec. difference</code></pre>
+<pre class="r"><code>p_inv_regional &lt;-
+dcant_waterfall %&gt;%
+  filter(basin != &quot;Global&quot;) %&gt;%
+  group_split(basin) %&gt;% 
+  # head(1) %&gt;% 
+  map(
+    ~ggplot(data = .x,
+            aes(x = group_id)) +
+  geom_hline(yintercept = 0) +
+  geom_errorbar(
+    aes(
+      y = vert_line,
+      ymax = vert_line,
+      ymin = vert_line,
+      col = &quot;Scaled 1994\nestimate&quot;
+    ),
+    width = 0.8,
+    size = 1,
+    linetype = 1
+  ) +
+  geom_segment(
+    data = . %&gt;% filter(group_id != 3),
+    aes(
+      xend = group_id + 1,
+      y = end_bar,
+      yend = end_bar
+    )
+  ) +
+  geom_rect(
+    aes(
+      xmin = group_id - bar_width,
+      xmax = group_id + bar_width,
+      ymin = end_bar,
+      ymax = start_bar,
+      fill = fill,
+    ),
+    color = &quot;black&quot;,
+    alpha = 0.7
+  ) +
+geom_errorbar(
+    data = . %&gt;% filter(start_bar == 0),
+    aes(
+      y = end_bar,
+      ymin = end_bar,
+      ymax = end_bar + uncert
+    ),
+    width = 0.1,
+    col = &quot;black&quot;
+  ) +
+  geom_errorbar(
+    data = . %&gt;% filter(start_bar != 0,
+                        start_bar &lt; end_bar),
+    aes(
+      y = end_bar,
+      ymin = end_bar,
+      ymax = end_bar + uncert
+    ),
+    width = 0.1,
+    col = &quot;black&quot;
+  ) +
+  geom_errorbar(
+    data = . %&gt;% filter(start_bar != 0,
+                        start_bar &gt; end_bar),
+    aes(
+      y = end_bar,
+      ymin = end_bar,
+      ymax = end_bar - uncert
+    ),
+    width = 0.1,
+    col = &quot;black&quot;
+  ) +
+  scale_fill_manual(
+    name = &quot;group&quot;,
+    values = fill_scale,
+    label = c(&quot;Dec. difference&quot; = expression(Delta*Delta*C[ant]))
+  ) +
+  scale_color_manual(values = c(&quot;#BBBBBB&quot;),
+                     label = expression(Scaled ~ C[ant] ~
+                                          1994)) +
+    guides(colour = guide_legend(order = 2), fill = guide_legend(order = 1)) +
+  scale_y_continuous(limits = c(0,14.5), breaks = seq(0,15,3), expand = c(0,0.3)) +
+  scale_linetype(name = &quot;X&quot;) +
+  labs(y = dcant_pgc_label) +
+  facet_wrap( ~ basin, ncol = 3, dir = &quot;v&quot;) +
+  theme(
+    legend.title = element_blank(),
+    axis.text.x = element_blank(),
+    axis.title = element_blank(),
+    axis.ticks.x = element_blank(),
+    legend.text.align = 0
+  ))
+
+
+layout &lt;- &quot;
+ABCD
+AEFG
+&quot;
+p_inv_global +
+  p_inv_regional[2] +
+  p_inv_regional[4] + theme(axis.text.y = element_blank()) + 
+  guide_area() +
+  p_inv_regional[3] + 
+  p_inv_regional[5] + theme(axis.text.y = element_blank()) + 
+  p_inv_regional[1] + theme(axis.text.y = element_blank()) + 
+  plot_layout(design = layout,
+              guides = &quot;collect&quot;)</code></pre>
+<p><img src="figure/results_publication.Rmd/dcant_budget_basin_hemisphere_additive_uncertainty_waterfall_new-2.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
        filename = &quot;Fig_dcant_inventory_bars.png&quot;,
-       height = 6,
+       height = 5,
        width = 8,
        dpi = 600)</code></pre>
 <pre class="r"><code>dcant_bars &lt;-
