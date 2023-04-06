@@ -5894,13 +5894,7 @@ dcant_waterfall <-
 dcant_waterfall <-
   dcant_waterfall %>%
   mutate(
-    fill = if_else(
-      period == "Dec. diff." &
-        start_bar <= end_bar,
-      "Dec. increase",
-      "Dec. decrease"
-    ),
-    fill = if_else(period != "Dec. diff.", period, fill),
+    fill = if_else(period != "Dec. diff.", period, "Dec. difference"),
     group_id = case_when(period == "1994 - 2004" ~ 1,
                          period == "2004 - 2014" ~ 3,
                          TRUE ~ 2)
@@ -5910,7 +5904,7 @@ bar_width <- 0.3
 fill_scale <- c(
   "1994 - 2004" = "#EE7733",
   "2004 - 2014" = "#009988",
-  "Dec. decrease" = "#BB5566",
+  "Dec. difference" = "#BBBBBB",
   "Dec. increase" = "#004488"
 )
 
@@ -5947,13 +5941,36 @@ dcant_waterfall %>%
       fill = fill,
     ),
     color = "black",
-    alpha = 0.95
+    alpha = 0.7
   ) +
-  geom_errorbar(
+geom_errorbar(
+    data = . %>% filter(start_bar == 0),
     aes(
       y = end_bar,
-      ymin = end_bar - uncert,
+      ymin = end_bar,
       ymax = end_bar + uncert
+    ),
+    width = 0.1,
+    col = "black"
+  ) +
+  geom_errorbar(
+    data = . %>% filter(start_bar != 0,
+                        start_bar < end_bar),
+    aes(
+      y = end_bar,
+      ymin = end_bar,
+      ymax = end_bar + uncert
+    ),
+    width = 0.1,
+    col = "black"
+  ) +
+  geom_errorbar(
+    data = . %>% filter(start_bar != 0,
+                        start_bar > end_bar),
+    aes(
+      y = end_bar,
+      ymin = end_bar,
+      ymax = end_bar - uncert
     ),
     width = 0.1,
     col = "black"
@@ -5961,11 +5978,13 @@ dcant_waterfall %>%
   scale_fill_manual(
     name = "group",
     values = fill_scale,
-    limits = dcant_waterfall %>% distinct(fill) %>% pull
+    # limits = dcant_waterfall %>% distinct(fill) %>% pull,
+    label = c("Dec. difference" = expression(Delta*Delta*C[ant]))
   ) +
   scale_color_manual(values = c("#BBBBBB"),
                      label = expression(Scaled ~ C[ant] ~
                                           1994)) +
+  guides(colour = guide_legend(order = 2), fill = guide_legend(order = 1)) +
   scale_y_continuous(limits = c(0,32), breaks = seq(0,35,3), expand = c(0,0.3)) +
   scale_linetype(name = "X") +
   labs(y = dcant_pgc_label) +
@@ -5974,8 +5993,11 @@ dcant_waterfall %>%
     legend.title = element_blank(),
     axis.text.x = element_blank(),
     axis.title.x = element_blank(),
-    axis.ticks.x = element_blank()
+    axis.ticks.x = element_blank(),
+    legend.text.align = 0
   )
+
+p_inv_global
 
 dcant_waterfall %>% distinct(fill)
 
@@ -6016,13 +6038,36 @@ dcant_waterfall %>%
       fill = fill,
     ),
     color = "black",
-    alpha = 0.95
+    alpha = 0.7
   ) +
-  geom_errorbar(
+geom_errorbar(
+    data = . %>% filter(start_bar == 0),
     aes(
       y = end_bar,
-      ymin = end_bar - uncert,
+      ymin = end_bar,
       ymax = end_bar + uncert
+    ),
+    width = 0.1,
+    col = "black"
+  ) +
+  geom_errorbar(
+    data = . %>% filter(start_bar != 0,
+                        start_bar < end_bar),
+    aes(
+      y = end_bar,
+      ymin = end_bar,
+      ymax = end_bar + uncert
+    ),
+    width = 0.1,
+    col = "black"
+  ) +
+  geom_errorbar(
+    data = . %>% filter(start_bar != 0,
+                        start_bar > end_bar),
+    aes(
+      y = end_bar,
+      ymin = end_bar,
+      ymax = end_bar - uncert
     ),
     width = 0.1,
     col = "black"
@@ -6030,11 +6075,12 @@ dcant_waterfall %>%
   scale_fill_manual(
     name = "group",
     values = fill_scale,
-    limits = dcant_waterfall %>% distinct(fill) %>% pull
+    label = c("Dec. difference" = expression(Delta*Delta*C[ant]))
   ) +
   scale_color_manual(values = c("#BBBBBB"),
                      label = expression(Scaled ~ C[ant] ~
                                           1994)) +
+    guides(colour = guide_legend(order = 2), fill = guide_legend(order = 1)) +
   scale_y_continuous(limits = c(0,14.5), breaks = seq(0,15,3), expand = c(0,0.3)) +
   scale_linetype(name = "X") +
   labs(y = dcant_pgc_label) +
@@ -6043,7 +6089,8 @@ dcant_waterfall %>%
     legend.title = element_blank(),
     axis.text.x = element_blank(),
     axis.title = element_blank(),
-    axis.ticks.x = element_blank()
+    axis.ticks.x = element_blank(),
+    legend.text.align = 0
   ))
 
 
@@ -6063,7 +6110,7 @@ p_inv_global +
 
 ggsave(path = here::here("output/publication"),
        filename = "Fig_dcant_inventory_bars.png",
-       height = 6,
+       height = 5,
        width = 8,
        dpi = 600)
 
