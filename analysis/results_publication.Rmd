@@ -1524,7 +1524,7 @@ two_decades <- unique(params_local_all_ensemble$period)[1:2]
 dcant_pgc_label <- expression(Delta * C["ant"]~inventory~(Pg~C~dec^{-1}))
 dcant_bias_pgc_label <- expression(Delta * C["ant"]~inventory~ bias ~(Pg~C~dec^{-1}))
 delta_dcant_bias_pgc_label <- expression(Delta * Delta * C["ant"]~bias~(Pg~C~dec^{-1}))
-beta_inv_label <- expression(Mean~beta~column~inventory~(mol~m^{-2}~µatm^{-1}))
+beta_inv_label <- expression(Mean~beta~column~inventory~(mol~m^{-2}~ppm^{-1}))
 
 dcant_umol_label <- expression(Delta * C[ant]~(mu * mol ~ kg ^ {-1}~dec^{-1}))
 ddcant_umol_label <- expression(Delta * Delta * C[ant]~(mu * mol ~ kg ^ {-1}~dec^{-1}))
@@ -1535,7 +1535,7 @@ dcant_layer_budget_label <-
 dcant_CI_label <- expression(Delta * C[ant]~(mol ~ m ^ {-2}~dec^{-1}))
 delta_dcant_CI_label <- expression(Delta * Delta * C[ant]~(mol ~ m ^ {-2}~dec^{-1}))
 beta_CI_label <- expression(atop(beta,
-                                 (mol ~ m ^ {-2} ~ µatm ^ {-1})))
+                                 (mol ~ m ^ {-2} ~ ppm ^ {-1})))
 
 
 ```
@@ -3334,6 +3334,163 @@ ggsave(path = here::here("output/publication"),
        dpi = 600)
 
 ```
+
+## Zonal integrals
+
+```{r zonal_integrals}
+
+dcant_budget_lat_grid_all_ensemble_uncertainty <-
+  dcant_budget_lat_grid_all_ensemble %>%
+  filter(period %in% two_decades,
+         data_source != "mod_truth") %>%
+  select(lat_grid, period, data_source, basin_AIP, MLR_basins, Version_ID_group, dcant)
+
+
+dcant_budget_lat_grid_all_ensemble_uncertainty_global <-
+  dcant_budget_lat_grid_all_ensemble_uncertainty %>%
+  group_by(lat_grid, period, data_source, MLR_basins, Version_ID_group) %>%
+  summarise(dcant = sum(dcant)) %>%
+  ungroup() %>%
+  mutate(basin_AIP = "Global")
+
+
+dcant_budget_lat_grid_all_ensemble_uncertainty <-
+  bind_rows(
+    dcant_budget_lat_grid_all_ensemble_uncertainty_global,
+    dcant_budget_lat_grid_all_ensemble_uncertainty
+  )
+
+rm(dcant_budget_lat_grid_all_ensemble_uncertainty_global)
+  
+dcant_budget_lat_grid_uncertainty <- additive_uncertainty(dcant_budget_lat_grid_all_ensemble_uncertainty)
+
+delta_dcant_budget_lat_grid_uncertainty <- dcant_budget_lat_grid_uncertainty[[3]]
+dcant_budget_lat_grid_uncertainty_contributions <- dcant_budget_lat_grid_uncertainty[[2]]
+dcant_budget_lat_grid_uncertainty <- dcant_budget_lat_grid_uncertainty[[1]]
+
+
+fill_scale <- c(
+  "1994 - 2004" = "#EE7733",
+  "2004 - 2014" = "#009988"
+)
+
+p_lat_int_basin <-
+dcant_budget_lat_grid_uncertainty %>%
+  filter(data_source == "obs") %>%
+  arrange(lat_grid) %>%
+  ggplot(aes(std_case, lat_grid,
+             xmin = std_case - sd,
+             xmax = std_case + sd)) +
+  geom_path(aes(col = period)) +
+  geom_ribbon(aes(fill = period), alpha = 0.3) +
+  scale_y_continuous(limits = c(-78,65), breaks = seq(-80, 80, 20),
+                     expand = c(0,0)) +
+  scale_fill_manual(values = fill_scale) +
+  scale_color_manual(values = fill_scale) +
+  labs(y = "Latitude (°N)",
+       x = expression(Delta*C[ant]~inventory~per~"5°"~latitude~bin~(Pg~C~dec^{-1}))) +
+  facet_wrap( ~ basin_AIP, scales = "free_x") +
+  theme(legend.title = element_blank(),
+        legend.position = "bottom")
+
+
+p_lat_int_basin_delta <-
+  delta_dcant_budget_lat_grid_uncertainty %>%
+  filter(data_source == "obs") %>%
+  arrange(lat_grid) %>%
+  ggplot(aes(delta_dcant, lat_grid,
+             xmin = delta_dcant - RSS,
+             xmax = delta_dcant + RSS)) +
+  geom_vline(xintercept = 0) +
+  geom_path() +
+  geom_ribbon(alpha = 0.3) +
+  scale_y_continuous(limits = c(-78,65), breaks = seq(-80, 80, 20),
+                     expand = c(0,0)) +
+  labs(y = "Latitude (°N)",
+       x = expression(Delta*Delta*C[ant]~inventory~per~"5°"~latitude~bin~(Pg~C~dec^{-1}))) +
+  facet_wrap( ~ basin_AIP, scales = "free_x") +
+  theme(legend.title = element_blank())
+
+p_lat_int_basin + p_lat_int_basin_delta
+
+ggsave(path = here::here("output/publication"),
+       filename = "Fig_dcant_zonal_integrals_basin.png",
+       height = 6,
+       width = 8,
+       dpi = 600)
+
+p_lat_int_basin <-
+dcant_budget_lat_grid_uncertainty %>%
+  filter(data_source == "obs") %>%
+  complete(lat_grid, period, basin_AIP, fill = list(std_case = 0)) %>%
+  mutate(std_case = if_else(std_case < 0, 0, std_case)) %>% 
+  ggplot(aes(std_case, lat_grid,
+             xmin = std_case - sd,
+             xmax = std_case + sd)) +
+  geom_area(data = . %>% filter(basin_AIP != "Global"),
+            aes(fill = basin_AIP), orientation = "y") +
+  geom_path(data = . %>% filter(basin_AIP == "Global"),
+            aes(col = basin_AIP)) +
+  # geom_path(data = . %>% filter(basin_AIP == "Global"),
+  #           aes(x = std_case + sd), linetype = 3) +
+  # geom_path(data = . %>% filter(basin_AIP == "Global"),
+  #           aes(x = std_case - sd), linetype = 3) +
+  # geom_ribbon(data = . %>% filter(basin_AIP == "Global"),
+  #             alpha = 0.3) +
+  scale_y_continuous(limits = c(-78,65), breaks = seq(-80, 80, 20),
+                     expand = c(0,0)) +
+  scale_fill_mediumcontrast() +
+  scale_color_manual(values = "grey20") +
+  labs(y = "Latitude (°N)",
+       x = expression(Delta*C[ant]~inventory~per~"5°"~latitude~bin~(Pg~C~dec^{-1}))) +
+  facet_wrap(~ period, ncol = 1) +
+  theme(legend.title = element_blank())
+
+p_lat_int_basin_delta <- 
+delta_dcant_budget_lat_grid_uncertainty %>%
+  filter(data_source == "obs") %>%
+  complete(lat_grid, period, basin_AIP, fill = list(std_case = 0)) %>%
+  # mutate(std_case = if_else(std_case < 0, 0, std_case)) %>% 
+  ggplot(aes(delta_dcant, lat_grid,
+             xmin = delta_dcant - RSS,
+             xmax = delta_dcant + RSS)) +
+  geom_area(data = . %>% filter(basin_AIP != "Global"),
+            aes(fill = basin_AIP), orientation = "y") +
+  geom_path(data = . %>% filter(basin_AIP == "Global"),
+            aes(col = basin_AIP)) +
+  # geom_path(data = . %>% filter(basin_AIP == "Global"),
+  #           aes(x = std_case + sd), linetype = 3) +
+  # geom_path(data = . %>% filter(basin_AIP == "Global"),
+  #           aes(x = std_case - sd), linetype = 3) +
+  # geom_ribbon(data = . %>% filter(basin_AIP == "Global"),
+  #             alpha = 0.3) +
+  scale_y_continuous(limits = c(-78,65), breaks = seq(-80, 80, 20),
+                     expand = c(0,0)) +
+  scale_fill_mediumcontrast() +
+  scale_color_manual(values = "grey20") +
+  labs(y = "Latitude (°N)",
+       x = expression(Delta*Delta*C[ant]~inventory~per~"5°"~latitude~bin~(Pg~C~dec^{-1}))) +
+  theme(legend.title = element_blank())
+
+layout <- "
+AB
+AC
+"
+
+p_lat_int_basin + guide_area() + p_lat_int_basin_delta +
+  plot_layout(guides = "collect",
+              design = layout)
+
+ggsave(path = here::here("output/publication"),
+       filename = "Fig_dcant_zonal_integrals_global.png",
+       height = 8,
+       width = 8,
+       dpi = 600)
+
+
+```
+
+
 
 ## Zonal means
 
@@ -7798,7 +7955,7 @@ p_tcant_year <- tcant_ts %>%
              aes(col = "Central estimate")) +
   scale_y_continuous(name = expression(Total ~ oceanic ~ C[ant] ~ (Pg~C)),
                      sec.axis = sec_axis( ~ (. / beta + co2_atm_pi_value),
-                                          name = expression(Atm. ~ pCO[2] ~ (µatm)))) +
+                                          name = expression(Atm. ~ CO[2] ~ (ppm)))) +
   scale_x_continuous(name = "Year", breaks = seq(1800, 2000, 50)) +
   scale_linewidth(range = c(0.5,1), breaks = c(0.5,1),
                   labels = c("\u00B1 2σ uncertainty", "\u00B1 1σ uncertainty")) +
@@ -7885,7 +8042,7 @@ p_tcant_atm_co2 <- tcant_ts %>%
   scale_fill_manual(values = c(tcant_col, tcant_col), name = "Cumulative\n1σ-uncertainty") +
   scale_alpha_manual(values = c(0.2, 0.6), name = "Cumulative\n1σ-uncertainty") +
   geom_text(aes(label = year), nudge_x = -6, nudge_y = 6) +
-  labs(x = expression(Atmospheric ~ pCO[2] ~ (µatm)),
+  labs(x = expression(Atmospheric ~ CO[2] ~ (ppm)),
        y = expression(Total ~ oceanic ~ C[ant] ~ (Pg~C))) +
   theme(
     axis.title.y.left = element_text(color = tcant_col),
@@ -8142,7 +8299,7 @@ p_tcant_ts_zoom <-
   scale_color_highcontrast(name = "Data source") +
   scale_fill_highcontrast(name = "Data source") +
   scale_y_continuous(limits = c(tcant_min, tcant_max)) +
-  labs(x = expression(Atmospheric ~ pCO[2] ~ (µatm)),
+  labs(x = expression(Atmospheric ~ CO[2] ~ (ppm)),
        y = expression(Cumulative ~ ocean ~ carbon ~ storage ~ since ~ 1994 ~ (Pg~C))) +
   guides(colour = guide_legend(order = 1),
          fill = "none") +
@@ -8669,7 +8826,7 @@ tcant_ts_zoom %>%
   scale_y_continuous(limits = c(tcant_min, tcant_max)) +
   scale_x_continuous(expand = c(0,0.5)) +
   labs(
-    x = expression(Atmospheric ~ pCO[2] ~ (µatm)),
+    x = expression(Atmospheric ~ CO[2] ~ (ppm)),
     y = expression(Cumulative ~ ocean ~ carbon ~ storage ~ since ~ 1994~(Pg~C))
   ) +
   guides(colour = guide_legend(order = 1),
