@@ -1524,7 +1524,7 @@ two_decades <- unique(params_local_all_ensemble$period)[1:2]
 dcant_pgc_label <- expression(Delta * C["ant"]~inventory~(Pg~C~dec^{-1}))
 dcant_bias_pgc_label <- expression(Delta * C["ant"]~inventory~ bias ~(Pg~C~dec^{-1}))
 delta_dcant_bias_pgc_label <- expression(Delta * Delta * C["ant"]~bias~(Pg~C~dec^{-1}))
-beta_inv_label <- expression(Mean~beta~column~inventory~(mol~m^{-2}~ppm^{-1}))
+beta_inv_label <- expression(beta[area]~inventory~(mol~m^{-2}~ppm^{-1}))
 
 dcant_umol_label <- expression(Delta * C[ant]~(mu * mol ~ kg ^ {-1}~dec^{-1}))
 ddcant_umol_label <- expression(Delta * Delta * C[ant]~(mu * mol ~ kg ^ {-1}~dec^{-1}))
@@ -1534,7 +1534,7 @@ dcant_layer_budget_label <-
 
 dcant_CI_label <- expression(Delta * C[ant]~(mol ~ m ^ {-2}~dec^{-1}))
 delta_dcant_CI_label <- expression(Delta * Delta * C[ant]~(mol ~ m ^ {-2}~dec^{-1}))
-beta_CI_label <- expression(atop(beta,
+beta_CI_label <- expression(atop(beta[area],
                                  (mol ~ m ^ {-2} ~ ppm ^ {-1})))
 
 
@@ -2759,6 +2759,9 @@ rm(p_CI_absolute, p_CI_delta)
 
 ```
 
+
+
+
 ## Zonal integrals
 
 ```{r zonal_integrals}
@@ -2922,43 +2925,49 @@ dcant_budget_lat_grid_uncertainty %>%
              xmax = std_case + sd)) +
   geom_path() +
   geom_ribbon(alpha = 0.3) +
-  scale_y_continuous(limits = c(-78,65), breaks = seq(-80, 80, 20),
-                     expand = c(0,0)) +
-  scale_x_continuous(limits = c(0,2.5), breaks = seq(0, 3, 1),
-                     expand = c(0,0)) +
+  scale_y_continuous(limits = c(-78,65),
+                     breaks = seq(-60, 60, 30),
+                     labels = c("60°S","30°S","Eq.","30°N","60°N"),
+                     expand = c(0,0),
+                     position = "right") +
+  scale_x_continuous(limits = c(-0.1,2.5), breaks = seq(0, 3, 1),
+                     expand = c(0,0),
+                     position = "top") +
   scale_fill_manual(values = fill_scale) +
   scale_color_manual(values = fill_scale) +
-  labs(y = "Latitude (°N)",
-       x = expression(atop(Delta*C[ant]~inventory~per~"5°"~latitude~bin,
-                           (Pg~C~dec^{-1})))) +
+  labs(x = expression(atop(Delta*Delta*C[ant]~inventory,
+                           (Pg~C~dec^{-1}~"5°lat"^{-1})))) +
   theme_classic() +
-  theme(legend.title = element_blank(),
-        legend.position = "bottom",
-        axis.title.x = element_blank())
+  theme(axis.title.y = element_blank())
+
+p_zonal_int_dec1
 
 p_zonal_int_dec2 <- 
 dcant_budget_lat_grid_uncertainty %>%
   filter(data_source == "obs",
          basin_AIP == "Global",
          period == "2004 - 2014") %>%
-  arrange(lat_grid) %>%
+   arrange(lat_grid) %>%
   ggplot(aes(std_case, lat_grid,
              xmin = std_case - sd,
              xmax = std_case + sd)) +
   geom_path() +
   geom_ribbon(alpha = 0.3) +
-  scale_y_continuous(limits = c(-78,65), breaks = seq(-80, 80, 20),
-                     expand = c(0,0)) +
-  scale_x_continuous(limits = c(0,2.5), breaks = seq(0, 3, 1),
-                     expand = c(0,0)) +
+  scale_y_continuous(limits = c(-78,65),
+                     breaks = seq(-60, 60, 30),
+                     labels = c("60°S","30°S","Eq.","30°N","60°N"),
+                     expand = c(0,0),
+                     position = "right") +
+  scale_x_continuous(limits = c(-0.1,2.5), breaks = seq(0, 3, 1),
+                     expand = c(0,0),
+                     position = "top") +
   scale_fill_manual(values = fill_scale) +
   scale_color_manual(values = fill_scale) +
-  labs(y = "Latitude (°N)",
-       x = expression(atop(Delta*C[ant]~inventory,
+  labs(x = expression(atop(Delta*Delta*C[ant]~inventory,
                            (Pg~C~dec^{-1}~"5°lat"^{-1})))) +
   theme_classic() +
-  theme(legend.title = element_blank(),
-        legend.position = "bottom")
+  theme(axis.title = element_blank(),
+        axis.text.x = element_blank())
 
 p_zonal_int_delta <- 
 delta_dcant_budget_lat_grid_uncertainty %>%
@@ -2971,16 +2980,19 @@ delta_dcant_budget_lat_grid_uncertainty %>%
   geom_vline(xintercept = 0, linewidth = 0.1) +
   geom_path() +
   geom_ribbon(alpha = 0.3) +
-  scale_y_continuous(limits = c(-78,65), breaks = seq(-80, 80, 20),
+  scale_y_continuous(limits = c(-78,65),
+                     breaks = seq(-60, 60, 30),
+                     labels = c("60°S","30°S","Eq.","30°N","60°N"),
+                     expand = c(0,0),
+                     position = "right") +
+  scale_x_continuous(limits = c(-0.65,0.65), breaks = seq(-0.6, 0.6, 0.3),
                      expand = c(0,0)) +
-  scale_x_continuous(limits = c(-0.6,0.6), breaks = seq(-0.6, 0.6, 0.3),
-                     expand = c(0,0)) +
-  labs(y = "Latitude (°N)",
-       x = expression(atop(Delta*Delta*C[ant]~inventory,
+  labs(x = expression(atop(Delta*Delta*C[ant]~inventory,
                            (Pg~C~dec^{-1}~"5°lat"^{-1})))) +
   theme_classic() +
   theme(legend.title = element_blank(),
-        legend.position = "bottom")
+        legend.position = "bottom",
+        axis.title.y = element_blank())
 
 p_zonal_int_dec1 / p_zonal_int_dec2 / p_zonal_int_delta
 
@@ -2988,12 +3000,80 @@ p_zonal_int_dec1 / p_zonal_int_dec2 / p_zonal_int_delta
 ggsave(path = here::here("output/publication"),
        filename = "Fig_dcant_column_inventory_zonal_integral.png",
        height = 10,
-       width = 2,
+       width = 1.8,
        dpi = 600)
 
 ```
 
 
+
+```{r test_color_scale, eval=FALSE}
+
+library(gtable)
+library(grid)
+
+my_triangle_colourbar <- function(...) {
+  guide <- guide_colourbar(...)
+  class(guide) <- c("my_triangle_colourbar", class(guide))
+  guide
+}
+
+guide_gengrob.my_triangle_colourbar <- function(...) {
+  # First draw normal colourbar
+  guide <- NextMethod()
+  # Extract bar / colours
+  is_bar <- grep("^bar$", guide$layout$name)
+  bar <- guide$grobs[[is_bar]]
+  extremes <- c(bar$raster[1], bar$raster[length(bar$raster)])
+  # Extract size
+  width  <- guide$widths[guide$layout$l[is_bar]]
+  height <- guide$heights[guide$layout$t[is_bar]]
+  short  <- min(convertUnit(width, "cm",  valueOnly = TRUE),
+                convertUnit(height, "cm", valueOnly = TRUE))
+  # Make space for triangles
+  guide <- gtable_add_rows(guide, unit(short, "cm"),
+                           guide$layout$t[is_bar] - 1)
+  guide <- gtable_add_rows(guide, unit(short, "cm"),
+                           guide$layout$t[is_bar])
+  
+  # Draw triangles
+  top <- polygonGrob(
+    x = unit(c(0, 0.5, 1), "npc"),
+    y = unit(c(0, 1, 0), "npc"),
+    gp = gpar(fill = extremes[1], col = NA)
+  )
+  bottom <- polygonGrob(
+    x = unit(c(0, 0.5, 1), "npc"),
+    y = unit(c(1, 0, 1), "npc"),
+    gp = gpar(fill = extremes[2], col = NA)
+  )
+  # Add triangles to guide
+  guide <- gtable_add_grob(
+    guide, top, 
+    t = guide$layout$t[is_bar] - 1,
+    l = guide$layout$l[is_bar]
+  )
+  guide <- gtable_add_grob(
+    guide, bottom,
+    t = guide$layout$t[is_bar] + 1,
+    l = guide$layout$l[is_bar]
+  )
+  
+  return(guide)
+}
+
+dcant_inv_all %>%
+  filter(data_source == "obs",
+         period == "1994 - 2004") %>%
+  select(lon, lat, dcant) %>% 
+  ggplot(aes(lon, lat, fill = cut(dcant, breaks))) +
+  geom_tile() +
+  scale_fill_viridis_d(
+    # oob = scales::oob_squish,
+    guide = my_triangle_colourbar()
+  )
+
+```
 
 
 
@@ -6801,7 +6881,8 @@ beta_budget_basin_MLR_all_ensemble %>%
   ) +
   facet_wrap(~ basin, ncol = 3, dir = "v") +
   theme(legend.title = element_blank(),
-        axis.title.x = element_blank())
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank())
 
 
 ggsave(path = here::here("output/publication"),
