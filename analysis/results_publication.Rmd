@@ -2766,11 +2766,30 @@ rm(p_CI_absolute, p_CI_delta)
 
 ```{r zonal_integrals}
 
+# dcant_budget_lat_grid_all_ensemble_uncertainty <-
+#   dcant_budget_lat_grid_all_ensemble %>%
+#   filter(period %in% two_decades,
+#          data_source != "mod_truth") %>%
+#   select(lat_grid, period, data_source, basin_AIP, MLR_basins, Version_ID_group, dcant)
+
 dcant_budget_lat_grid_all_ensemble_uncertainty <-
-  dcant_budget_lat_grid_all_ensemble %>%
+  full_join(dcant_inv_all_ensemble,
+            basinmask %>% mutate(area = earth_surf(lat, lon)) %>% select(-basin))
+  
+dcant_budget_lat_grid_all_ensemble_uncertainty <-
+  dcant_budget_lat_grid_all_ensemble_uncertainty %>%
   filter(period %in% two_decades,
          data_source != "mod_truth") %>%
-  select(lat_grid, period, data_source, basin_AIP, MLR_basins, Version_ID_group, dcant)
+  mutate(dcant = dcant * area * 12 * 1e-15) %>%
+  group_by(data_source,
+           basin_AIP,
+           lat,
+           period,
+           MLR_basins,
+           Version_ID_group) %>%
+  summarise(dcant = sum(dcant, na.rm = TRUE)) %>%
+  ungroup() %>%
+  rename(lat_grid = lat)
 
 
 dcant_budget_lat_grid_all_ensemble_uncertainty_global <-
@@ -2788,6 +2807,7 @@ dcant_budget_lat_grid_all_ensemble_uncertainty <-
   )
 
 rm(dcant_budget_lat_grid_all_ensemble_uncertainty_global)
+
   
 dcant_budget_lat_grid_uncertainty <- additive_uncertainty(dcant_budget_lat_grid_all_ensemble_uncertainty)
 
@@ -2815,7 +2835,7 @@ dcant_budget_lat_grid_uncertainty %>%
   scale_fill_manual(values = fill_scale) +
   scale_color_manual(values = fill_scale) +
   labs(y = "Latitude (°N)",
-       x = expression(Delta*C[ant]~inventory~per~"5°"~latitude~bin~(Pg~C~dec^{-1}))) +
+       x = expression(Delta*C[ant]~inventory~per~"1°"~latitude~bin~(Pg~C~dec^{-1}))) +
   facet_wrap( ~ basin_AIP, scales = "free_x") +
   theme(legend.title = element_blank(),
         legend.position = "bottom")
@@ -2834,7 +2854,7 @@ p_lat_int_basin_delta <-
   scale_y_continuous(limits = c(-78,65), breaks = seq(-80, 80, 20),
                      expand = c(0,0)) +
   labs(y = "Latitude (°N)",
-       x = expression(Delta*Delta*C[ant]~inventory~per~"5°"~latitude~bin~(Pg~C~dec^{-1}))) +
+       x = expression(Delta*Delta*C[ant]~inventory~per~"1°"~latitude~bin~(Pg~C~dec^{-1}))) +
   facet_wrap( ~ basin_AIP, scales = "free_x") +
   theme(legend.title = element_blank())
 
@@ -2928,15 +2948,14 @@ dcant_budget_lat_grid_uncertainty %>%
   scale_y_continuous(limits = c(-78,65),
                      breaks = seq(-60, 60, 30),
                      labels = c("60°S","30°S","Eq.","30°N","60°N"),
-                     expand = c(0,0),
-                     position = "right") +
-  scale_x_continuous(limits = c(-0.1,2.5), breaks = seq(0, 3, 1),
+                     expand = c(0,0)) +
+  scale_x_continuous(limits = c(-0.05,0.55), breaks = seq(0, 3, 0.2),
                      expand = c(0,0),
                      position = "top") +
   scale_fill_manual(values = fill_scale) +
   scale_color_manual(values = fill_scale) +
-  labs(x = expression(atop(Delta*Delta*C[ant]~inventory,
-                           (Pg~C~dec^{-1}~"5°lat"^{-1})))) +
+  labs(x = expression(atop(Zonal~integral,
+                           (Pg~C~dec^{-1}~"°lat"^{-1})))) +
   theme_classic() +
   theme(axis.title.y = element_blank())
 
@@ -2956,15 +2975,14 @@ dcant_budget_lat_grid_uncertainty %>%
   scale_y_continuous(limits = c(-78,65),
                      breaks = seq(-60, 60, 30),
                      labels = c("60°S","30°S","Eq.","30°N","60°N"),
-                     expand = c(0,0),
-                     position = "right") +
-  scale_x_continuous(limits = c(-0.1,2.5), breaks = seq(0, 3, 1),
+                     expand = c(0,0)) +
+  scale_x_continuous(limits = c(-0.05,0.55), breaks = seq(0, 3, 0.2),
                      expand = c(0,0),
                      position = "top") +
   scale_fill_manual(values = fill_scale) +
   scale_color_manual(values = fill_scale) +
-  labs(x = expression(atop(Delta*Delta*C[ant]~inventory,
-                           (Pg~C~dec^{-1}~"5°lat"^{-1})))) +
+  labs(x = expression(atop(Zonal~integral,
+                           (Pg~C~dec^{-1}~"°lat"^{-1})))) +
   theme_classic() +
   theme(axis.title = element_blank(),
         axis.text.x = element_blank())
@@ -2983,16 +3001,16 @@ delta_dcant_budget_lat_grid_uncertainty %>%
   scale_y_continuous(limits = c(-78,65),
                      breaks = seq(-60, 60, 30),
                      labels = c("60°S","30°S","Eq.","30°N","60°N"),
-                     expand = c(0,0),
-                     position = "right") +
-  scale_x_continuous(limits = c(-0.65,0.65), breaks = seq(-0.6, 0.6, 0.3),
                      expand = c(0,0)) +
-  labs(x = expression(atop(Delta*Delta*C[ant]~inventory,
-                           (Pg~C~dec^{-1}~"5°lat"^{-1})))) +
+  scale_x_continuous(limits = c(-0.14,0.14), breaks = seq(-0.5, 0.6, 0.1),
+                     expand = c(0,0)) +
+  labs(x = expression((Pg~C~dec^{-1}~"1°lat"^{-1}))) +
   theme_classic() +
   theme(legend.title = element_blank(),
         legend.position = "bottom",
         axis.title.y = element_blank())
+
+p_zonal_int_delta
 
 p_zonal_int_dec1 / p_zonal_int_dec2 / p_zonal_int_delta
 
@@ -3121,14 +3139,14 @@ dcant_inv_uncert_delta <- delta_dcant_inv_uncertainty %>%
 #                                 } ~ dec ^ {
 #                                   -1
 #                                 })))
-legend_title <- "ΔC<sub>ant</sub><br>column inventory<br>(mol m<sup>-2</sup> dec<sup>-1</sup>)"
+legend_title <- "ΔC<sub>ant</sub> column inventory<br>(mol m<sup>-2</sup> dec<sup>-1</sup>)"
 
 p_dcant_inv_dec1 <-
   p_map_mdim_robinson(df = dcant_inv_dec1,
                       df_uncertainty = dcant_inv_uncert_dec1,
                       var = "dcant",
                       legend_title = legend_title) +
-  theme(legend.title = element_markdown(halign = 0.5,
+  theme(legend.title = element_markdown(halign = 1,
                                         lineheight = 1.5)) +
   geom_label(aes(
     label = "1994 - 2004",
@@ -3145,8 +3163,9 @@ p_dcant_inv_dec2 <-
                       df_uncertainty = dcant_inv_uncert_dec2,
                       var = "dcant",
                       legend_title = legend_title) +
-  theme(legend.title = element_markdown(halign = 0.5,
-                                        lineheight = 1.5)) +
+  theme(legend.title = element_markdown(halign = 1,
+                                        lineheight = 1.5),
+        legend.position = "none") +
   geom_label(aes(
     label = "2004 - 2014",
     x = lon_lim[1] * 0.55,
@@ -3162,7 +3181,7 @@ p_dcant_inv_dec2
 #                                 } ~ dec ^ {
 #                                   -1
 #                                 })))
-legend_title <- "ΔΔC<sub>ant</sub><br>column inventory<br>(mol m<sup>-2</sup> dec<sup>-1</sup>)"
+legend_title <- "ΔΔC<sub>ant</sub> column inventory<br>(mol m<sup>-2</sup> dec<sup>-1</sup>)"
 
 p_dcant_inv_delta <-
   p_map_mdim_robinson(df = delta_dcant_inv,
@@ -3171,7 +3190,7 @@ p_dcant_inv_delta <-
                       breaks = c(-Inf, seq(-8, 8, 2), Inf),
                       legend_title = legend_title,
                       col = "divergent") +
-  theme(legend.title = element_markdown(halign = 0.5,
+  theme(legend.title = element_markdown(halign = 1,
                                         lineheight = 1.5)) +
   geom_label(aes(
     label = "Decadal difference",
@@ -3182,15 +3201,19 @@ p_dcant_inv_delta <-
 
 p_dcant_inv_delta
 
-(p_dcant_inv_dec1 / p_dcant_inv_dec2 + plot_layout(guides = "collect")) -
-  p_dcant_inv_delta +
+p_dcant_inv_dec1 + p_dcant_inv_dec2 + p_dcant_inv_delta +
   plot_layout(ncol = 1) +
   plot_annotation(tag_levels = 'A')
+# 
+# (p_dcant_inv_dec1 / p_dcant_inv_dec2 + plot_layout(guides = "collect")) -
+#   p_dcant_inv_delta +
+#   plot_layout(ncol = 1) +
+#   plot_annotation(tag_levels = 'A')
 
 ggsave(path = here::here("output/publication"),
        filename = "Fig_dcant_column_inventory.png",
        height = 10,
-       width = 8,
+       width = 7,
        dpi = 600)
 
 # wrap_plots(
