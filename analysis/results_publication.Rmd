@@ -7644,7 +7644,7 @@ ggsave(
   path = here::here("output/publication"),
   filename = "Fig_dcant_profiles_and_depth_layer_inventories.png",
   height = 230,
-  width = 190,
+  width = 175,
   units = "mm",
   dpi = 600,
   bg = "white"
