@@ -707,7 +707,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Basics</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">31 March, 2023</h4>
+<h4 class="date">17 April, 2023</h4>
 
 </div>
 
@@ -736,7 +736,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2023-03-31
+<strong>Last updated:</strong> 2023-04-17
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -868,15 +868,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree98b33930c285c6a3f1c04fb4843c55c479a0a5d3targetblank98b3393a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeba396c99998a68a731ba268989481f57b37cdcf4targetblankba396c9a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/98b33930c285c6a3f1c04fb4843c55c479a0a5d3" target="_blank">98b3393</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/ba396c99998a68a731ba268989481f57b37cdcf4" target="_blank">ba396c9</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree98b33930c285c6a3f1c04fb4843c55c479a0a5d3targetblank98b3393a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreeba396c99998a68a731ba268989481f57b37cdcf4targetblankba396c9a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -886,7 +886,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/98b33930c285c6a3f1c04fb4843c55c479a0a5d3" target="_blank">98b3393</a>.
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/ba396c99998a68a731ba268989481f57b37cdcf4" target="_blank">ba396c9</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -925,6 +925,7 @@ Unstaged changes:
     Deleted:    analysis/MLR_target_column_inventories.Rmd
     Deleted:    analysis/MLR_target_zonal_sections.Rmd
     Modified:   analysis/_site.yml
+    Modified:   analysis/results_publication.Rmd
     Modified:   code/Workflowr_project_managment.R
 
 </code></pre>
@@ -970,6 +971,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/ba396c99998a68a731ba268989481f57b37cdcf4/analysis/basics.Rmd" target="_blank">ba396c9</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-04-17
+</td>
+<td>
+tag levels small letters
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/66bb18a9d4a5d72622fec26259f692b358467550/docs/basics.html" target="_blank">66bb18a</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-03-31
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -2249,10 +2284,14 @@ worldmap &lt;- ne_countries(scale = &#39;small&#39;,
 worldmap &lt;- worldmap %&gt;% st_break_antimeridian(lon_0 = center)
 worldmap_trans &lt;- st_transform(worldmap, crs = target_crs)
 
-# ggplot() +
-#   geom_sf(data = worldmap_trans)
-
-coastline &lt;- ne_coastline(scale = &#39;small&#39;, returnclass = &quot;sf&quot;)
+ggplot() +
+  geom_sf(data = worldmap_trans)</code></pre>
+<img src="figure/setup.Rmd/create_robinson_basemap_world_pacific_centered-1.png" width="672" style="display: block; margin: auto;" />
+<div class="alert alert-warning">
+<strong>Warning!</strong> The custom <code>fig.path</code> you set was
+ignored by workflowr.
+</div>
+<pre class="r"><code>coastline &lt;- ne_coastline(scale = &#39;small&#39;, returnclass = &quot;sf&quot;)
 coastline &lt;- st_break_antimeridian(coastline, lon_0 = 200)
 coastline_trans &lt;- st_transform(coastline, crs = target_crs)
 
@@ -2276,7 +2315,7 @@ bbox_graticules &lt;- st_graticule(
 )
 
 bbox_graticules_trans &lt;- st_transform(bbox_graticules, crs = target_crs)
-rm(worldmap, coastline, bbox, bbox_trans, bbox_graticules)
+rm(worldmap, coastline, bbox, bbox_trans)
 
 # ggplot() +
 #   geom_sf(data = worldmap_trans, fill = &quot;grey&quot;, col=&quot;grey&quot;) +
@@ -2298,7 +2337,40 @@ lon_lim &lt;- ext(bbox_graticules_trans)[c(1,2)]*1.005
 #     panel.border = element_blank(),
 #     axis.text = element_blank(),
 #     axis.ticks = element_blank()
-#   )</code></pre>
+#   )
+
+latitude_graticules &lt;- st_graticule(
+  x = bbox_graticules,
+  crs = st_crs(bbox_graticules),
+  datum = st_crs(bbox_graticules),
+  lon = c(20, 20.001),
+  lat = c(-60,-30,0,30,60),
+  ndiscr = 1e3,
+  margin = 0.001
+)
+
+latitude_graticules_trans &lt;- st_transform(latitude_graticules, crs = target_crs)
+
+latitude_labels &lt;- data.frame(lat_label = c(&quot;60°N&quot;,&quot;30°N&quot;,&quot;Eq.&quot;,&quot;30°S&quot;,&quot;60°S&quot;),
+                 lat = c(60,30,0,-30,-60)-4, lon = c(35)-c(0,2,4,2,0))
+
+latitude_labels &lt;- st_as_sf(x = latitude_labels,
+               coords = c(&quot;lon&quot;, &quot;lat&quot;),
+               crs = &quot;+proj=longlat&quot;)
+
+latitude_labels_trans &lt;- st_transform(latitude_labels, crs = target_crs)
+
+# ggplot() +
+#   geom_sf(data = worldmap_trans, fill = &quot;grey&quot;, col = &quot;grey&quot;) +
+#   geom_sf(data = coastline_trans) +
+#   geom_sf(data = bbox_graticules_trans) +
+#   geom_sf(data = latitude_graticules_trans,
+#           col = &quot;grey60&quot;,
+#           linewidth = 0.2) +
+#   geom_sf_text(data = latitude_labels_trans,
+#                aes(label = lat_label),
+#                size = 3,
+#                col = &quot;grey60&quot;)</code></pre>
 <div id="read-files" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Read files</h1>
 <pre class="r"><code>version_id_pattern &lt;- &quot;103&quot;
@@ -2989,7 +3061,7 @@ jens-daniel-mueller
 <pre class="r"><code>wrap_plots(p_time_histo_basin,
            coverage_map, ncol = 1) +
   plot_layout(heights = c(1, 2))  +
-  plot_annotation(tag_levels = &#39;A&#39;)</code></pre>
+  plot_annotation(tag_levels = &#39;a&#39;)</code></pre>
 <p><img src="figure/basics.Rmd/coverage_maps_robinson-2.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-coverage_maps_robinson-2">
@@ -3090,7 +3162,7 @@ attr(,&quot;missing&quot;)
 wrap_plots(p_time_histo_basin,
            coverage_map, ncol = 1) +
   plot_layout(heights = c(1, 2))  +
-  plot_annotation(tag_levels = &#39;A&#39;)</code></pre>
+  plot_annotation(tag_levels = &#39;a&#39;)</code></pre>
 <p><img src="figure/basics.Rmd/coverage_maps-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-coverage_maps-1">
@@ -3465,6 +3537,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/66bb18a9d4a5d72622fec26259f692b358467550/docs/figure/basics.Rmd/basin_maps-2.png" target="_blank">66bb18a</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-03-31
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/5650987eacf045a8149afdc92cee073db36211f9/docs/figure/basics.Rmd/basin_maps-2.png" target="_blank">5650987</a>
 </td>
 <td>
@@ -3592,6 +3675,13 @@ global_section_map &lt;-
   scale_color_grey(start = 0.7,end = 0, name = &quot;Distance\nalong\nsection\n(1000 km)&quot;) +
   geom_sf(data = worldmap_trans, fill = &quot;grey90&quot;, col = &quot;grey90&quot;) +
   geom_sf(data = coastline_trans, linewidth = 0.3) +
+  geom_sf(data = latitude_graticules_trans,
+          col = &quot;grey60&quot;,
+          linewidth = 0.2) +
+  geom_sf_text(data = latitude_labels_trans,
+               aes(label = lat_label),
+               size = 2,
+               col = &quot;grey60&quot;)+
   geom_sf(data = bbox_graticules_trans, linewidth = 0.3) +
   coord_sf(
     crs = target_crs,
@@ -3616,8 +3706,45 @@ design &lt;- &quot;AAAA
 
 wrap_plots(A = basin_maps, B = global_section_map, design = design) +
   plot_layout(heights = c(3, 2))  +
-  plot_annotation(tag_levels = &#39;A&#39;)</code></pre>
+  plot_annotation(tag_levels = &#39;a&#39;)</code></pre>
 <p><img src="figure/basics.Rmd/global_section_map-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-global_section_map-1">
+Past versions of global_section_map-1.png
+</button>
+</p>
+<div id="fig-global_section_map-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/66bb18a9d4a5d72622fec26259f692b358467550/docs/figure/basics.Rmd/global_section_map-1.png" target="_blank">66bb18a</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-03-31
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
        filename = &quot;FigS_basin_masks.png&quot;,
        height = 6,
@@ -3977,8 +4104,8 @@ other attached packages:
  [7] marelac_2.1.10      shape_1.4.6         ggforce_0.4.1      
 [10] metR_0.13.0         scico_1.3.1         patchwork_1.1.2    
 [13] collapse_1.8.9      forcats_0.5.2       stringr_1.4.1      
-[16] dplyr_1.0.10        purrr_0.3.5         readr_2.1.3        
-[19] tidyr_1.2.1         tibble_3.1.8        ggplot2_3.4.0      
+[16] dplyr_1.1.1         purrr_0.3.5         readr_2.1.3        
+[19] tidyr_1.2.1         tibble_3.2.1        ggplot2_3.4.0      
 [22] tidyverse_1.3.2     workflowr_1.7.0    
 
 loaded via a namespace (and not attached):
@@ -3994,7 +4121,7 @@ loaded via a namespace (and not attached):
  [28] later_1.3.0             tweenr_2.0.2            htmltools_0.5.3        
  [31] tools_4.2.2             rnaturalearthdata_0.1.0 gtable_0.3.1           
  [34] glue_1.6.2              Rcpp_1.0.9              cellranger_1.1.0       
- [37] jquerylib_0.1.4         vctrs_0.5.1             xfun_0.35              
+ [37] jquerylib_0.1.4         vctrs_0.6.1             xfun_0.35              
  [40] ps_1.7.2                rvest_1.0.3             timechange_0.1.1       
  [43] lifecycle_1.0.3         googlesheets4_1.0.1     oce_1.7-10             
  [46] getPass_0.2-2           MASS_7.3-58.1           scales_1.2.1           
@@ -4002,7 +4129,7 @@ loaded via a namespace (and not attached):
  [52] promises_1.2.0.1        parallel_4.2.2          RColorBrewer_1.1-3     
  [55] yaml_2.3.6              memoise_2.0.1           sass_0.4.4             
  [58] stringi_1.7.8           highr_0.9               e1071_1.7-12           
- [61] checkmate_2.1.0         rlang_1.0.6             pkgconfig_2.0.3        
+ [61] checkmate_2.1.0         rlang_1.1.0             pkgconfig_2.0.3        
  [64] systemfonts_1.0.4       evaluate_0.18           lattice_0.20-45        
  [67] SolveSAPHE_2.1.0        labeling_0.4.2          bit_4.0.5              
  [70] processx_3.8.0          tidyselect_1.2.0        here_1.0.1             
