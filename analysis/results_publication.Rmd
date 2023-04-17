@@ -2685,7 +2685,7 @@ p_CI_bias_delta <- p_map_mdim_robinson(
 )
 
 p_CI_absolute_mod_delta / p_CI_bias_delta + 
-  plot_annotation(tag_levels = 'A')
+  plot_annotation(tag_levels = 'a')
 
 ggsave(path = here::here("output/publication"),
        filename = "FigS_delta_dcant_column_inventory_synthetic_data.png",
@@ -2744,7 +2744,7 @@ p_CI_delta <-
   facet_wrap(~ period)
 
 p_CI_absolute / p_CI_delta + 
-  plot_annotation(tag_levels = 'A')
+  plot_annotation(tag_levels = 'a')
 
 p_CI_delta +
   theme(axis.text = element_blank(),
@@ -2766,30 +2766,37 @@ rm(p_CI_absolute, p_CI_delta)
 
 ```{r zonal_integrals}
 
-# dcant_budget_lat_grid_all_ensemble_uncertainty <-
-#   dcant_budget_lat_grid_all_ensemble %>%
-#   filter(period %in% two_decades,
-#          data_source != "mod_truth") %>%
-#   select(lat_grid, period, data_source, basin_AIP, MLR_basins, Version_ID_group, dcant)
-
 dcant_budget_lat_grid_all_ensemble_uncertainty <-
-  full_join(dcant_inv_all_ensemble,
-            basinmask %>% mutate(area = earth_surf(lat, lon)) %>% select(-basin))
-  
-dcant_budget_lat_grid_all_ensemble_uncertainty <-
-  dcant_budget_lat_grid_all_ensemble_uncertainty %>%
+  dcant_budget_lat_grid_all_ensemble %>%
   filter(period %in% two_decades,
          data_source != "mod_truth") %>%
-  mutate(dcant = dcant * area * 12 * 1e-15) %>%
-  group_by(data_source,
-           basin_AIP,
-           lat,
-           period,
-           MLR_basins,
-           Version_ID_group) %>%
-  summarise(dcant = sum(dcant, na.rm = TRUE)) %>%
-  ungroup() %>%
-  rename(lat_grid = lat)
+  select(lat_grid,
+         period,
+         data_source,
+         basin_AIP,
+         MLR_basins,
+         Version_ID_group,
+         dcant) %>%
+  mutate(dcant = dcant / 5)
+
+# dcant_budget_lat_grid_all_ensemble_uncertainty <-
+#   full_join(dcant_inv_all_ensemble,
+#             basinmask %>% mutate(area = earth_surf(lat, lon)) %>% select(-basin))
+#   
+# dcant_budget_lat_grid_all_ensemble_uncertainty <-
+#   dcant_budget_lat_grid_all_ensemble_uncertainty %>%
+#   filter(period %in% two_decades,
+#          data_source != "mod_truth") %>%
+#   mutate(dcant = dcant * area * 12 * 1e-15) %>%
+#   group_by(data_source,
+#            basin_AIP,
+#            lat,
+#            period,
+#            MLR_basins,
+#            Version_ID_group) %>%
+#   summarise(dcant = sum(dcant, na.rm = TRUE)) %>%
+#   ungroup() %>%
+#   rename(lat_grid = lat)
 
 
 dcant_budget_lat_grid_all_ensemble_uncertainty_global <-
@@ -2934,17 +2941,22 @@ ggsave(path = here::here("output/publication"),
        width = 8,
        dpi = 600)
 
+
 p_zonal_int_dec1 <- 
 dcant_budget_lat_grid_uncertainty %>%
   filter(data_source == "obs",
          basin_AIP == "Global",
          period == "1994 - 2004") %>%
   arrange(lat_grid) %>%
-  ggplot(aes(std_case, lat_grid,
-             xmin = std_case - sd,
-             xmax = std_case + sd)) +
-  geom_path() +
-  geom_ribbon(alpha = 0.3) +
+  arrange(lat_grid) %>%
+  ggplot(aes(std_case, lat_grid)) +
+  geom_ribbon(aes(xmin = std_case - 2*sd,
+                  xmax = std_case + 2*sd),
+              alpha = 0.2) +
+  geom_ribbon(aes(xmin = std_case - sd,
+                  xmax = std_case + sd),
+              alpha = 0.4) +
+  geom_path()+
   scale_y_continuous(limits = c(-78,65),
                      breaks = seq(-60, 60, 30),
                      labels = c("60°S","30°S","Eq.","30°N","60°N"),
@@ -2954,8 +2966,8 @@ dcant_budget_lat_grid_uncertainty %>%
                      position = "top") +
   scale_fill_manual(values = fill_scale) +
   scale_color_manual(values = fill_scale) +
-  labs(x = expression(atop(Zonal~integral,
-                           (Pg~C~dec^{-1}~"°lat"^{-1})))) +
+  labs(x = expression(atop(Zonal~integrals,
+                           (Pg~C~"°lat"^{-1}~dec^{-1})))) +
   theme_classic() +
   theme(axis.title.y = element_blank())
 
@@ -2966,12 +2978,15 @@ dcant_budget_lat_grid_uncertainty %>%
   filter(data_source == "obs",
          basin_AIP == "Global",
          period == "2004 - 2014") %>%
-   arrange(lat_grid) %>%
-  ggplot(aes(std_case, lat_grid,
-             xmin = std_case - sd,
-             xmax = std_case + sd)) +
-  geom_path() +
-  geom_ribbon(alpha = 0.3) +
+  arrange(lat_grid) %>%
+  ggplot(aes(std_case, lat_grid)) +
+  geom_ribbon(aes(xmin = std_case - 2*sd,
+                  xmax = std_case + 2*sd),
+              alpha = 0.2) +
+  geom_ribbon(aes(xmin = std_case - sd,
+                  xmax = std_case + sd),
+              alpha = 0.4) +
+  geom_path()+
   scale_y_continuous(limits = c(-78,65),
                      breaks = seq(-60, 60, 30),
                      labels = c("60°S","30°S","Eq.","30°N","60°N"),
@@ -2987,39 +3002,53 @@ dcant_budget_lat_grid_uncertainty %>%
   theme(axis.title = element_blank(),
         axis.text.x = element_blank())
 
-p_zonal_int_delta <- 
-delta_dcant_budget_lat_grid_uncertainty %>%
+p_zonal_int_delta <-
+  delta_dcant_budget_lat_grid_uncertainty %>%
   filter(data_source == "obs",
          basin_AIP == "Global") %>%
   arrange(lat_grid) %>%
-  ggplot(aes(delta_dcant, lat_grid,
-             xmin = delta_dcant - RSS,
-             xmax = delta_dcant + RSS)) +
-  geom_vline(xintercept = 0, linewidth = 0.1) +
+  ggplot(aes(delta_dcant, lat_grid)) +
+  geom_vline(xintercept = 0,
+             linewidth = 0.5,
+             col = "grey50") +
+  geom_ribbon(aes(xmin = delta_dcant - 2 * RSS,
+                  xmax = delta_dcant + 2 * RSS),
+              alpha = 0.2) +
+  geom_ribbon(aes(xmin = delta_dcant - RSS,
+                  xmax = delta_dcant + RSS),
+              alpha = 0.4) +
   geom_path() +
-  geom_ribbon(alpha = 0.3) +
-  scale_y_continuous(limits = c(-78,65),
-                     breaks = seq(-60, 60, 30),
-                     labels = c("60°S","30°S","Eq.","30°N","60°N"),
-                     expand = c(0,0)) +
-  scale_x_continuous(limits = c(-0.14,0.14), breaks = seq(-0.5, 0.6, 0.1),
-                     expand = c(0,0)) +
-  labs(x = expression((Pg~C~dec^{-1}~"1°lat"^{-1}))) +
+  scale_y_continuous(
+    limits = c(-78, 65),
+    breaks = seq(-60, 60, 30),
+    labels = c("60°S", "30°S", "Eq.", "30°N", "60°N"),
+    expand = c(0, 0)
+  ) +
+  scale_x_continuous(
+    limits = c(-0.18, 0.18),
+    breaks = seq(-0.5, 0.6, 0.1),
+    expand = c(0, 0),
+    position = "top"
+  ) +
+  labs(x = " ") +
   theme_classic() +
-  theme(legend.title = element_blank(),
-        legend.position = "bottom",
-        axis.title.y = element_blank())
+  theme(axis.title = element_blank())
 
 p_zonal_int_delta
 
-p_zonal_int_dec1 / p_zonal_int_dec2 / p_zonal_int_delta
+wrap_plots(p_zonal_int_dec1,
+           p_zonal_int_dec2,
+           p_zonal_int_delta,
+           ncol = 1)
 
 
 ggsave(path = here::here("output/publication"),
        filename = "Fig_dcant_column_inventory_zonal_integral.png",
-       height = 10,
-       width = 1.8,
-       dpi = 600)
+       height = 200,
+       width = 42,
+       units = "mm",
+       dpi = 600,
+       bg = "white")
 
 ```
 
@@ -3133,12 +3162,8 @@ dcant_inv_uncert_delta <- delta_dcant_inv_uncertainty %>%
 
 
 
-# legend_title <- expression(atop(Delta * C["ant"],
-#                                 (mol ~ m ^ {
-#                                   -2
-#                                 } ~ dec ^ {
-#                                   -1
-#                                 })))
+# legend_title <- expression(atop(Delta * C["ant"]~column~inventory,
+#                                 (mol ~ m ^ {-2} ~ dec ^ {-1})))
 legend_title <- "ΔC<sub>ant</sub> column inventory<br>(mol m<sup>-2</sup> dec<sup>-1</sup>)"
 
 p_dcant_inv_dec1 <-
@@ -3146,13 +3171,12 @@ p_dcant_inv_dec1 <-
                       df_uncertainty = dcant_inv_uncert_dec1,
                       var = "dcant",
                       legend_title = legend_title) +
-  theme(legend.title = element_markdown(halign = 1,
-                                        lineheight = 1.5)) +
   geom_label(aes(
     label = "1994 - 2004",
-    x = lon_lim[1] * 0.55,
+    x = lon_lim[1] * 0.95,
     y = lat_lim[2] * 0.85
-  ))
+  ),
+  hjust = 0)
 
 
 p_dcant_inv_dec1
@@ -3163,19 +3187,18 @@ p_dcant_inv_dec2 <-
                       df_uncertainty = dcant_inv_uncert_dec2,
                       var = "dcant",
                       legend_title = legend_title) +
-  theme(legend.title = element_markdown(halign = 1,
-                                        lineheight = 1.5),
-        legend.position = "none") +
+  theme(legend.position = "none") +
   geom_label(aes(
     label = "2004 - 2014",
-    x = lon_lim[1] * 0.55,
+    x = lon_lim[1] * 0.95,
     y = lat_lim[2] * 0.85
-  ))
+  ),
+  hjust = 0)
 
 
 p_dcant_inv_dec2
 
-# legend_title <- expression(atop(Delta * Delta * C["ant"],
+# legend_title <- expression(atop(Delta * Delta * C["ant"]~column~inventory,
 #                                 (mol ~ m ^ {
 #                                   -2
 #                                 } ~ dec ^ {
@@ -3190,31 +3213,32 @@ p_dcant_inv_delta <-
                       breaks = c(-Inf, seq(-8, 8, 2), Inf),
                       legend_title = legend_title,
                       col = "divergent") +
-  theme(legend.title = element_markdown(halign = 1,
-                                        lineheight = 1.5)) +
   geom_label(aes(
     label = "Decadal difference",
-    x = lon_lim[1] * 0.55,
+    x = lon_lim[1] * 0.95,
     y = lat_lim[2] * 0.85
-  ))
+  ),
+  hjust = 0)
 
 
 p_dcant_inv_delta
 
 p_dcant_inv_dec1 + p_dcant_inv_dec2 + p_dcant_inv_delta +
   plot_layout(ncol = 1) +
-  plot_annotation(tag_levels = 'A')
+  plot_annotation(tag_levels = 'a')
 # 
 # (p_dcant_inv_dec1 / p_dcant_inv_dec2 + plot_layout(guides = "collect")) -
 #   p_dcant_inv_delta +
 #   plot_layout(ncol = 1) +
-#   plot_annotation(tag_levels = 'A')
+#   plot_annotation(tag_levels = 'a')
 
 ggsave(path = here::here("output/publication"),
        filename = "Fig_dcant_column_inventory.png",
-       height = 10,
-       width = 7,
-       dpi = 600)
+       height = 200,
+       width = 190,
+       units = "mm",
+       dpi = 600,
+       bg = "white")
 
 # wrap_plots(
 #   wrap_plots(
@@ -3225,7 +3249,7 @@ ggsave(path = here::here("output/publication"),
 #   (p_zonal_int_dec1 | p_dcant_inv_delta) + plot_layout(widths = c(1, 8))) +
 #   plot_layout(ncol = 1,
 #               heights = c(2,1)) +
-#   plot_annotation(tag_levels = 'A')
+#   plot_annotation(tag_levels = 'a')
 # 
 # 
 # ggsave(path = here::here("output/publication"),
@@ -3400,12 +3424,13 @@ dcant_inv_all %>%
   theme(axis.text.x = element_blank())
 
 
-legend_title <- expression(atop(Delta * C["ant"],
-                                (mol ~ m ^ {
-                                  -2
-                                } ~ dec ^ {
-                                  -1
-                                })))
+# legend_title <- expression(atop(Delta * C["ant"],
+#                                 (mol ~ m ^ {
+#                                   -2
+#                                 } ~ dec ^ {
+#                                   -1
+#                                 })))
+legend_title <- "ΔC<sub>ant</sub> column inventory<br>(mol m<sup>-2</sup> dec<sup>-1</sup>)"
 
  p_CI_absolute_mod <- p_map_mdim_robinson(
   df = dcant_inv_all %>%
@@ -3451,12 +3476,13 @@ dcant_inv_all %>%
 
 
 
-legend_title <- expression(atop(Delta * C["ant"] ~ bias,
-                                (mol ~ m ^ {
-                                  -2
-                                } ~ dec ^ {
-                                  -1
-                                })))
+# legend_title <- expression(atop(Delta * C["ant"] ~ bias,
+#                                 (mol ~ m ^ {
+#                                   -2
+#                                 } ~ dec ^ {
+#                                   -1
+#                                 })))
+legend_title <- "ΔΔC<sub>ant</sub> column inventory bias<br>(mol m<sup>-2</sup> dec<sup>-1</sup>)"
 
 p_CI_bias <- p_map_mdim_robinson(
   df = dcant_inv_all %>%
@@ -3477,13 +3503,16 @@ p_CI_bias <- p_map_mdim_robinson(
 )
 
 p_CI_absolute_mod / p_CI_bias + 
-  plot_annotation(tag_levels = 'A')
+  plot_layout(heights = c(2,1)) +
+  plot_annotation(tag_levels = 'a')
 
 ggsave(path = here::here("output/publication"),
        filename = "FigS_dcant_column_inventory_synthetic_data.png",
-       height = 7,
-       width = 8,
-       dpi = 600)
+       height = 160,
+       width = 190,
+       units = "mm",
+       dpi = 600,
+       bg = "white")
 
 rm(p_CI_absolute_mod, p_CI_bias)
 
@@ -3527,8 +3556,7 @@ dcant_inv_all %>%
          data_source = "Reconstruction bias") %>%
   arrange(period) %>% 
   group_by(lon, lat) %>% 
-  summarise(delta_dcant_bias = dcant_bias - lag(dcant_bias)) %>% 
-  ungroup() %>% 
+  reframe(delta_dcant_bias = dcant_bias - lag(dcant_bias)) %>% 
   drop_na() %>% 
   p_map_cant_inv(
     var = "delta_dcant_bias",
@@ -3539,12 +3567,13 @@ dcant_inv_all %>%
   theme(strip.text.x = element_blank(),
         strip.background.x = element_blank())
 
-legend_title <- expression(atop(Delta * Delta * C["ant"] ~ bias,
-                                (mol ~ m ^ {
-                                  -2
-                                } ~ dec ^ {
-                                  -1
-                                })))
+# legend_title <- expression(atop(Delta * Delta * C["ant"] ~ bias,
+#                                 (mol ~ m ^ {
+#                                   -2
+#                                 } ~ dec ^ {
+#                                   -1
+#                                 })))
+legend_title <- "ΔΔC<sub>ant</sub> column inventory bias<br>(mol m<sup>-2</sup> dec<sup>-1</sup>)"
 
 p_CI_bias_decade <-
   p_map_mdim_robinson(
@@ -3558,7 +3587,7 @@ p_CI_bias_decade <-
              data_source = "Reconstruction bias") %>%
       arrange(period) %>%
       group_by(lon, lat) %>%
-      summarise(delta_dcant_bias = dcant_bias - lag(dcant_bias)) %>%
+      reframe(delta_dcant_bias = dcant_bias - lag(dcant_bias)) %>%
       ungroup() %>%
       drop_na(),
     var = "delta_dcant_bias",
@@ -3573,9 +3602,11 @@ p_CI_bias_decade
 
 ggsave(path = here::here("output/publication"),
        filename = "FigS_delta_dcant_column_inventory_synthetic_data_bias.png",
-       height = 3.5,
-       width = 5,
-       dpi = 600)
+       height = 50,
+       width = 190,
+       units = "mm",
+       dpi = 600,
+       bg = "white")
 
 rm(p_CI_bias_decade)
 
@@ -3677,23 +3708,37 @@ dcant_inv_all %>%
   facet_wrap(~ period, ncol = 2)
 
 
+legend_title <- "β<sub>area</sub><br>(mol m<sup>-2</sup> ppm<sup>-1</sup>)"
 
 p_map_mdim_robinson(
   df = dcant_inv_all %>%
     filter(data_source %in% c("obs")) %>%
     select(lon, lat, period, beta),
-  legend_title = beta_CI_label,
+  legend_title = legend_title,
   var = "beta",
   breaks = c(-Inf, seq(0, 1, 0.1), Inf),
   dim_row = "period"
-)
+) +
+  guides(
+    fill = guide_colorsteps(
+      barheight = unit(0.3, "cm"),
+      barwidth = unit(9, "cm"),
+      ticks = TRUE,
+      ticks.colour = "grey20",
+      frame.colour = "grey20",
+      label.position = "top",
+      direction = "horizontal"
+    )
+  )
 
 
 ggsave(path = here::here("output/publication"),
        filename = "FigS_beta_column_inventory.png",
-       height = 10,
-       width = 8,
-       dpi = 600)
+       height = 230,
+       width = 190,
+       units = "mm",
+       dpi = 600,
+       bg = "white")
 
 ```
 
@@ -4354,7 +4399,7 @@ p_dcant_global_section_dec1 <-
          period %in% "1994 - 2004") %>%
   p_section_global(
     var = "dcant",
-    title_text = "A   1994 – 2004",
+    title_text = "a   1994 – 2004",
     df_uncertainty = dcant_global_section_all_uncertainty %>%
       filter(period %in% "1994 - 2004",
              data_source == "obs"),
@@ -4377,7 +4422,7 @@ p_dcant_global_section_dec2 <-
          period %in% "2004 - 2014") %>%
   p_section_global(
     var = "dcant",
-    title_text = "B   2004 – 2014",
+    title_text = "b   2004 – 2014",
     subtitle_text = NULL,
     plot_slabs = "n",
     contour_level = 5,
@@ -4409,7 +4454,7 @@ p_dcant_global_section_offset <-
       filter(data_source == "obs"),
     plot_slabs = "y",
     col = "div",
-    title_text = "C   Decadal difference",
+    title_text = "c   Decadal difference",
     subtitle_text = NULL
   )
 
@@ -4431,15 +4476,17 @@ wrap_plots(
 
 ggsave(path = here::here("output/publication"),
        filename = "Fig_dcant_global_section.png",
-       height = 10,
-       width = 8,
-       dpi = 600)
+       height = 250,
+       width = 190,
+       units = "mm",
+       dpi = 600,
+       bg = "white")
 
-ggsave(path = here::here("output/presentation"),
-       filename = "Fig_dcant_global_section.png",
-       height = 9,
-       width = 10,
-       dpi = 600)
+# ggsave(path = here::here("output/presentation"),
+#        filename = "Fig_dcant_global_section.png",
+#        height = 9,
+#        width = 10,
+#        dpi = 600)
 
 rm(p_dcant_global_section_dec1, p_dcant_global_section_dec2,
    p_dcant_global_section_offset)
@@ -4694,6 +4741,8 @@ ggplot() +
 
 ```{r zonal_sections}
 
+legend_title <- "ΔC<sub>ant</sub><br>(µmol kg<sup>-1</sup> dec<sup>-1</sup>)"
+
 p_dcant_zonal_absolute <-
   dcant_zonal_all %>%
   filter(
@@ -4703,43 +4752,31 @@ p_dcant_zonal_absolute <-
   ) %>%
   p_section_zonal_continous_depth(var = "dcant",
                                   plot_slabs = "n",
-                                  title_text = NULL) +
+                                  title_text = NULL,
+                                  legend_title = legend_title) +
   geom_contour(aes(lat, depth, z = dcant),
                breaks = 5,
                col = "white") +
-  # geom_point(
-  #   data = dcant_zonal_all_uncertainty %>% filter(signif_single == 0),
-  #   aes(lat, depth),
-  #   shape = 20,
-  #   size = 1,
-  #   col = "grey"
-  # ) +
-  # geom_point(
-  #   data = dcant_zonal_all_uncertainty %>% filter(signif_double == 0),
-  #   aes(lat, depth),
-  #   shape = 20,
-  #   size = 0.1,
-  #   col = "grey"
-  # )+
-  # geom_text_contour(
-  #   aes(lat, depth, z = dcant),
-  #   breaks = 5,
-  #   stroke = 0.2,
-  #   stroke.colour = "white",
-  #   rotate = FALSE,
-  #   label.placer = label_placer_n(n = 1)
-  # ) +
   facet_grid(period ~ basin_AIP) +
-  theme(
-    axis.text.x = element_blank(),
-    axis.title.x = element_blank(),
-    legend.position = "top"
+  guides(
+    fill = guide_colorsteps(
+      barheight = unit(0.3, "cm"),
+      barwidth = unit(6, "cm"),
+      ticks = TRUE,
+      ticks.colour = "grey20",
+      frame.colour = "grey20",
+      label.position = "top",
+      direction = "horizontal"
+    )
   ) +
-  guides(fill = guide_colorsteps(
-    barheight = unit(0.5, "cm"),
-    barwidth = unit(7, "cm"),
-    show.limits = FALSE
-  ))
+  theme(
+    legend.position = "top",
+    legend.justification = "right",
+    legend.title.align = 1,
+    legend.box.spacing = unit(0.1, "cm"),
+    legend.title = element_markdown(halign = 1,
+                                    lineheight = 1.5)
+  )
 
 p_dcant_zonal_absolute
 
@@ -4771,6 +4808,7 @@ dcant_zonal_all %>%
       facet_grid(basin_AIP ~ .)
   )
 
+legend_title <- "ΔΔC<sub>ant</sub><br>(µmol kg<sup>-1</sup> dec<sup>-1</sup>)"
 
 p_dcant_zonal_delta <-
   dcant_zonal_all %>%
@@ -4786,7 +4824,8 @@ p_dcant_zonal_delta <-
     drop_slabs = 1,
     subtitle_text = NULL,
     title_text = NULL,
-    col = "bias"
+    col = "bias",
+    legend_title = legend_title
   ) +
   # geom_point(
   #   data = delta_dcant_zonal_all_uncertainty %>% filter(signif_single == 0),
@@ -4803,26 +4842,37 @@ p_dcant_zonal_delta <-
   #   col = "black"
   # ) +
   facet_grid("Dec. diff." ~ basin_AIP) +
-  theme(
-    strip.text.x = element_blank(),
-    strip.background.x = element_blank(),
-    legend.position = "bottom"
+  guides(
+    fill = guide_colorsteps(
+      barheight = unit(0.3, "cm"),
+      barwidth = unit(6, "cm"),
+      ticks = TRUE,
+      ticks.colour = "grey20",
+      frame.colour = "grey20",
+      label.position = "top",
+      direction = "horizontal"
+    )
   ) +
-  guides(fill = guide_colorsteps(
-    barheight = unit(0.5, "cm"),
-    barwidth = unit(10, "cm"),
-    show.limits = FALSE
-  ))
+  theme(
+    legend.position = "top",
+    legend.justification = "right",
+    legend.title.align = 1,
+    legend.box.spacing = unit(0.1, "cm"),
+    legend.title = element_markdown(halign = 1,
+                                    lineheight = 1.5)
+  )
 
 p_dcant_zonal_absolute / p_dcant_zonal_delta + 
   plot_layout(heights = c(2,1)) +
-  plot_annotation(tag_levels = 'A')
+  plot_annotation(tag_levels = 'a')
 
 ggsave(path = here::here("output/publication"),
        filename = "FigS_dcant_zonal_mean_section.png",
-       height = 6,
-       width = 8,
-       dpi = 600)
+       height = 150,
+       width = 190,
+       units = "mm",
+       dpi = 600,
+       bg = "white")
 
 rm(p_dcant_zonal_absolute, p_dcant_zonal_delta)
 ```
@@ -4830,6 +4880,8 @@ rm(p_dcant_zonal_absolute, p_dcant_zonal_delta)
 ## Bias
 
 ```{r zonal_sections_mod}
+
+legend_title <- "ΔC<sub>ant</sub><br>(µmol kg<sup>-1</sup> dec<sup>-1</sup>)"
 
 p_dcant_zonal_absolute_mod <-
   dcant_zonal_all %>%
@@ -4844,21 +4896,31 @@ p_dcant_zonal_absolute_mod <-
   )) %>%  
   p_section_zonal_continous_depth(var = "dcant",
                                   plot_slabs = "n",
-                                  title_text = NULL) +
+                                  title_text = NULL,
+                                  legend_title = legend_title) +
   geom_contour(aes(lat, depth, z = dcant),
                breaks = 5,
                col = "white") +
   facet_nested(data_source+period ~ basin_AIP) +
-  theme(
-    axis.text.x = element_blank(),
-    axis.title.x = element_blank(),
-    legend.position = "top"
+  guides(
+    fill = guide_colorsteps(
+      barheight = unit(0.3, "cm"),
+      barwidth = unit(6, "cm"),
+      ticks = TRUE,
+      ticks.colour = "grey20",
+      frame.colour = "grey20",
+      label.position = "top",
+      direction = "horizontal"
+    )
   ) +
-  guides(fill = guide_colorsteps(
-    barheight = unit(0.5, "cm"),
-    barwidth = unit(7, "cm"),
-    show.limits = FALSE
-  ))
+  theme(
+    legend.position = "top",
+    legend.justification = "right",
+    legend.title.align = 1,
+    legend.box.spacing = unit(0.1, "cm"),
+    legend.title = element_markdown(halign = 1,
+                                    lineheight = 1.5)
+  )
 
 p_dcant_zonal_absolute_mod
 
@@ -4884,29 +4946,41 @@ p_dcant_zonal_bias <-
     col = "bias"
   ) +
   facet_grid(period ~ basin_AIP) +
-  theme(
-    strip.text.x = element_blank(),
-    strip.background.x = element_blank(),
-    legend.position = "bottom"
+  guides(
+    fill = guide_colorsteps(
+      barheight = unit(0.3, "cm"),
+      barwidth = unit(6, "cm"),
+      ticks = TRUE,
+      ticks.colour = "grey20",
+      frame.colour = "grey20",
+      label.position = "top",
+      direction = "horizontal"
+    )
   ) +
-  guides(fill = guide_colorsteps(
-    barheight = unit(0.5, "cm"),
-    barwidth = unit(10, "cm"),
-    show.limits = FALSE
-  ))
+  theme(
+    legend.position = "top",
+    legend.justification = "right",
+    legend.title.align = 1,
+    legend.box.spacing = unit(0.1, "cm"),
+    legend.title = element_markdown(halign = 1,
+                                    lineheight = 1.5)
+  )
 
 p_dcant_zonal_absolute_mod / p_dcant_zonal_bias + 
   plot_layout(heights = c(2,1)) +
-  plot_annotation(tag_levels = 'A')
+  plot_annotation(tag_levels = 'a')
 
 
 ggsave(
   path = here::here("output/publication"),
   filename = "FigS_dcant_zonal_mean_section_synthetic_data.png",
-  height = 9,
-  width = 8,
-  dpi = 600
+  height = 210,
+  width = 190,
+  units = "mm",
+  dpi = 600,
+  bg = "white"
 )
+
 
 rm(p_dcant_zonal_absolute_mod, 
    p_dcant_zonal_bias)
@@ -5345,7 +5419,8 @@ p_dcant_profiles <-
   labs(y = "Depth (m)",
        x = dcant_umol_label) +
   facet_wrap(~ basin, ncol = 3, dir = "v") +
-  theme(legend.position = c(0.9, 0.1))
+  theme(legend.position = c(0.91, 0.13),
+        legend.background = element_rect(fill = "transparent"))
 
 p_dcant_profiles
 
@@ -5547,11 +5622,15 @@ bind_rows(
   theme(legend.position = c(0.85,0.15))
 
 
-ggsave(path = here::here("output/publication"),
-       filename = "FigS_dcant_profiles_data_adjustments.png",
-       height = 6,
-       width = 8,
-       dpi = 600)
+ggsave(
+  path = here::here("output/publication"),
+  filename = "FigS_dcant_profiles_data_adjustments.png",
+  height = 130,
+  width = 190,
+  units = "mm",
+  dpi = 600,
+  bg = "white"
+)
 ```
 
 ## dCant - delta
@@ -5804,7 +5883,7 @@ dcant_budget_basin_MLR_all_uncertainty_contributions %>%
             col = "grey10")+
   scale_fill_bright(name = "eMLR(C*)\nconfiguration\ncomponent") +
   scale_color_bright(name = "eMLR(C*)\nconfiguration\ncomponent") +
-  labs(y = expression(Absolute~Delta*C[ant]~inventory~offset~from~standard~case~(Pg~C~dec^{-1}))) +
+  labs(y = expression(Absolute~Delta*C[ant]~inventory~offset~(Pg~C~dec^{-1}))) +
   theme(
     axis.title.x = element_blank(),
     axis.text.x = element_blank(),
@@ -5818,11 +5897,15 @@ dcant_budget_basin_MLR_all_uncertainty_contributions %>%
 
 
 
-ggsave(path = here::here("output/publication"),
-       filename = "FigS_dcant_inventory_uncertainty_contributions.png",
-       height = 6,
-       width = 8,
-       dpi = 600) 
+ggsave(
+  path = here::here("output/publication"),
+  filename = "Fig_dcant_inventory_uncertainty_contributions.png",
+  height = 130,
+  width = 190,
+  units = "mm",
+  dpi = 600,
+  bg = "white"
+)
 
 ```
 
@@ -5853,7 +5936,7 @@ dcant_budget_basin_MLR_all_uncertainty_contributions_sensitivity %>%
             col = "grey10")+
   scale_fill_bright(name = "eMLR(C*)\nconfiguration\ncomponent") +
   scale_color_bright(name = "eMLR(C*)\nconfiguration\ncomponent") +
-  labs(y = expression(Absolute~Delta*C[ant]~inventory~offset~from~standard~case~(Pg~C~dec^{-1}))) +
+  labs(y = expression(Absolute~Delta*C[ant]~inventory~offset~(Pg~C~dec^{-1}))) +
   theme(
     axis.title.x = element_blank(),
     axis.text.x = element_blank(),
@@ -5865,11 +5948,15 @@ dcant_budget_basin_MLR_all_uncertainty_contributions_sensitivity %>%
 
 
 
-ggsave(path = here::here("output/publication"),
-       filename = "FigS_dcant_inventory_uncertainty_contributions_sensitivity.png",
-       height = 6,
-       width = 8,
-       dpi = 600) 
+ggsave(
+  path = here::here("output/publication"),
+  filename = "FigS_dcant_inventory_uncertainty_contributions_sensitivity.png",
+  height = 130,
+  width = 190,
+  units = "mm",
+  dpi = 600,
+  bg = "white"
+)
 
 ```
 
@@ -6115,151 +6202,15 @@ dcant_budget_basin_MLR_all_ensemble %>%
         axis.title.x = element_blank())
 
 
-ggsave(path = here::here("output/publication"),
-       filename = "Fig_dcant_inventory.png",
-       height = 6,
-       width = 8,
-       dpi = 600)
+# ggsave(path = here::here("output/publication"),
+#        filename = "Fig_dcant_inventory.png",
+#        height = 6,
+#        width = 8,
+#        dpi = 600)
 
 ```
 
 ```{r dcant_budget_basin_hemisphere_additive_uncertainty_waterfall, fig.asp=1}
-
-dcant_budget_waterfall <-
-  bind_rows(
-    dcant_budget_basin_MLR_all_uncertainty %>% filter(data_source == "obs") %>%
-      select(basin, period, dcant = std_case, uncert = sd),
-    delta_dcant_budget_basin_MLR_all_uncertainty %>% filter(data_source == "obs") %>%
-      select(basin, period, dcant = delta_dcant, uncert = RSS) %>%
-      mutate(period = "Dec. diff.")
-  )
-
-
-dcant_budget_waterfall <-
-  dcant_budget_waterfall %>%
-  mutate(
-    fill = if_else(dcant > 0, "red", "blue"),
-    fill = if_else(period != "Dec. diff.", "grey", fill)
-  )
-
-p_inv_global <- 
-  dcant_budget_waterfall %>%
-  filter(basin == "Global") %>% 
-  ggplot() +
-  geom_hline(yintercept = 0) +
-  geom_errorbar(
-    data = tcant_budget_basin_MLR %>% filter(basin == "Global"),
-    aes(
-      period,
-      dcant,
-      ymax = dcant,
-      ymin = dcant,
-      col = "Scaled 1994\nestimate"
-    ),
-    width = 0.8,
-    size = 1,
-    linetype = 1
-  ) +
-  geom_col(
-    aes(x = period,
-        y = dcant,
-        fill = fill),
-    width = 0.5,
-    col = "Grey20"
-  ) +
-  geom_errorbar(
-    aes(
-      x = period,
-      y = dcant,
-      ymin = dcant - uncert,
-      ymax = dcant + uncert
-    ),
-    width = 0.1,
-    col = "black"
-  ) +
-  scale_fill_manual(name = "group",
-                    values = c("#BB5566", "grey80", "#004488"), guide = "none") +
-  scale_color_manual(values = c("#009988"), label = expression(Scaled ~ C[ant] ~
-                                                              1994)) +
-  scale_linetype(name = "X") +
-  labs(y = dcant_pgc_label) +
-  facet_wrap(~ basin, ncol = 3, dir = "v") +
-  theme(
-    legend.title = element_blank(),
-    axis.text.x = element_blank(),
-    axis.title.x = element_blank(),
-    axis.ticks.x = element_blank()
-  )
-
-p_inv_regional <- dcant_budget_waterfall %>%
-  filter(basin == "Indian") %>% 
-  ggplot() +
-  geom_hline(yintercept = 0) +
-  geom_errorbar(
-    data = tcant_budget_basin_MLR %>% filter(basin == "Indian"),
-    aes(
-      period,
-      dcant,
-      ymax = dcant,
-      ymin = dcant,
-      col = "Scaled 1994\nestimate"
-    ),
-    width = 0.8,
-    size = 1,
-    linetype = 1
-  ) +
-  geom_col(
-    aes(x = period,
-        y = dcant,
-        fill = fill),
-    width = 0.5,
-    col = "Grey20"
-  ) +
-  geom_errorbar(
-    aes(
-      x = period,
-      y = dcant,
-      ymin = dcant - uncert,
-      ymax = dcant + uncert
-    ),
-    width = 0.1,
-    col = "black"
-  ) +
-  scale_fill_manual(name = "group",
-                    values = c("#BB5566", "grey80", "#004488"), guide = "none") +
-  scale_color_manual(values = c("#009988"), label = expression(Scaled ~ C[ant] ~
-                                                              1994)) +
-  scale_linetype(name = "X") +
-  labs(y = dcant_pgc_label) +
-  facet_wrap(~ basin, ncol = 3, dir = "v") +
-  theme(
-    legend.title = element_blank(),
-    axis.text.x = element_blank(),
-    axis.title.y = element_blank(),
-    axis.title.x = element_blank(),
-    axis.ticks.x = element_blank()
-  )
-
-
-layout <- "
-ABCD
-AEFG
-"
-p_inv_global + 
-  p_inv_regional + p_inv_regional + guide_area() +
-  p_inv_regional + p_inv_regional + p_inv_regional + 
-  plot_layout(design = layout,
-              guides = "collect")
-
-ggsave(path = here::here("output/publication"),
-       filename = "Fig_dcant_inventory_bars.png",
-       height = 8,
-       width = 8,
-       dpi = 600)
-
-```
-
-```{r dcant_budget_basin_hemisphere_additive_uncertainty_waterfall_new, fig.asp=1}
 
 dcant_bars <-
   dcant_budget_basin_MLR_all_uncertainty %>% filter(data_source == "obs") %>%
@@ -6336,7 +6287,7 @@ dcant_waterfall %>%
       fill = fill,
     ),
     color = "black",
-    alpha = 0.7
+    alpha = 0.6
   ) +
 geom_errorbar(
     data = . %>% filter(start_bar == 0),
@@ -6376,7 +6327,7 @@ geom_errorbar(
     # limits = dcant_waterfall %>% distinct(fill) %>% pull,
     label = c("Dec. difference" = expression(Delta*Delta*C[ant]))
   ) +
-  scale_color_manual(values = c("#BBBBBB"),
+  scale_color_manual(values = c("grey50"),
                      label = expression(Scaled ~ C[ant] ~
                                           1994)) +
   guides(colour = guide_legend(order = 2), fill = guide_legend(order = 1)) +
@@ -6433,7 +6384,7 @@ dcant_waterfall %>%
       fill = fill,
     ),
     color = "black",
-    alpha = 0.7
+    alpha = 0.6
   ) +
 geom_errorbar(
     data = . %>% filter(start_bar == 0),
@@ -6472,7 +6423,7 @@ geom_errorbar(
     values = fill_scale,
     label = c("Dec. difference" = expression(Delta*Delta*C[ant]))
   ) +
-  scale_color_manual(values = c("#BBBBBB"),
+  scale_color_manual(values = c("grey50"),
                      label = expression(Scaled ~ C[ant] ~
                                           1994)) +
     guides(colour = guide_legend(order = 2), fill = guide_legend(order = 1)) +
@@ -6503,161 +6454,16 @@ p_inv_global +
   plot_layout(design = layout,
               guides = "collect")
 
-ggsave(path = here::here("output/publication"),
-       filename = "Fig_dcant_inventory_bars.png",
-       height = 5,
-       width = 8,
-       dpi = 600)
-
-```
-
-```{r dcant_budget_basin_hemisphere_additive_uncertainty_waterfall_new2, fig.asp=1}
-
-dcant_bars <-
-  dcant_budget_basin_MLR_all_uncertainty %>% filter(data_source == "obs") %>%
-  select(basin, period, end_bar = std_case, uncert = sd) %>%
-  mutate(start_bar = 0)
-
-delta_dcant_bars <-
-full_join(
-  dcant_bars %>%
-    select(-c(uncert, start_bar)) %>%
-    pivot_wider(names_from = period, values_from = end_bar) %>%
-    rename(start_bar = `1994 - 2004`, end_bar = `2004 - 2014`),
-  delta_dcant_budget_basin_MLR_all_uncertainty %>% filter(data_source == "obs") %>%
-    select(basin, uncert = RSS)
-) %>%
-  mutate(period = "Dec. diff.")
-
-tcant_lines <- tcant_budget_basin_MLR %>% 
-  select(basin, period, vert_line = dcant)
-
-dcant_waterfall <- 
-  full_join(
-    bind_rows(dcant_bars, delta_dcant_bars),
-    tcant_lines
-  )
-
-dcant_waterfall <-
-  dcant_waterfall %>%
-  mutate(
-    sign = if_else(start_bar <= end_bar, -1, 1),
-    fill = if_else(
-      period == "Dec. diff." &
-        start_bar <= end_bar,
-      "Dec. increase",
-      "Dec. decrease"
-    ),
-    fill = if_else(period != "Dec. diff.", period, fill),
-    group_id = case_when(period == "1994 - 2004" ~ 1,
-                         period == "2004 - 2014" ~ 3,
-                         TRUE ~ 2)
-  )
-
-bar_width <- 0.3
-fill_scale <- c(
-  "1994 - 2004" = "#EE7733",
-  "2004 - 2014" = "#009988",
-  "Dec. decrease" = "#BB5566",
-  "Dec. increase" = "#004488"
+ggsave(
+  path = here::here("output/publication"),
+  filename = "Fig_dcant_inventory.png",
+  height = 120,
+  width = 190,
+  units = "mm",
+  dpi = 600,
+  bg = "white"
 )
 
-# p_inv_global <- 
-dcant_waterfall %>%
-  ggplot(aes(x = group_id)) +
-  geom_hline(yintercept = 0) +
-  geom_errorbar(
-    aes(
-      y = vert_line,
-      ymax = vert_line,
-      ymin = vert_line,
-      col = "Scaled 1994\nestimate"
-    ),
-    width = 0.8,
-    size = 1,
-    linetype = 1
-  ) +
-  geom_segment(
-    data = . %>% filter(group_id != 3),
-    aes(
-      xend = group_id + 1,
-      y = end_bar,
-      yend = end_bar
-    )
-  ) +
-  geom_rect(
-    aes(
-      xmin = group_id - bar_width,
-      xmax = group_id + bar_width,
-      ymin = end_bar,
-      ymax = start_bar,
-      fill = fill,
-    ),
-    color = "black",
-    alpha = 0.95
-  ) +
-  geom_errorbar(
-    data = . %>% filter(start_bar == 0),
-    aes(
-      y = end_bar,
-      ymin = end_bar,
-      ymax = end_bar + uncert
-    ),
-    width = 0.1,
-    col = "black"
-  ) +
-  geom_errorbar(
-    data = . %>% filter(start_bar != 0,
-                        start_bar < end_bar),
-    aes(
-      y = end_bar,
-      ymin = end_bar,
-      ymax = end_bar + uncert
-    ),
-    width = 0.1,
-    col = "black"
-  ) +
-  geom_errorbar(
-    data = . %>% filter(start_bar != 0,
-                        start_bar > end_bar),
-    aes(
-      y = end_bar,
-      ymin = end_bar,
-      ymax = end_bar - uncert
-    ),
-    width = 0.1,
-    col = "black"
-  ) +
-  scale_fill_manual(
-    name = "group",
-    values = fill_scale,
-    limits = dcant_waterfall %>% distinct(fill) %>% pull
-  ) +
-  scale_color_manual(values = c("#BBBBBB"),
-                     label = expression(Scaled ~ C[ant] ~
-                                          1994)) +
-  scale_y_continuous(limits = c(0,32), breaks = seq(0,35,3), expand = c(0,0.3)) +
-  scale_linetype(name = "X") +
-  labs(y = dcant_pgc_label) +
-  facet_wrap( ~ basin, ncol = 6, strip.position = "bottom") +
-  theme_classic() +
-  theme(
-    legend.title = element_blank(),
-    axis.line.x = element_blank(),
-    axis.text.x = element_blank(),
-    axis.title.x = element_blank(),
-    axis.ticks.x = element_blank(),
-    strip.background = element_blank(),
-    legend.position = c(0.5,0.8),
-    # legend.direction = "horizontal",
-    legend.box = "horizontal"
-  )
-
-ggsave(path = here::here("output/publication"),
-       filename = "Fig_dcant_inventory_bars_horizontal.png",
-       height = 4,
-       width = 8,
-       dpi = 600)
 
 ```
 
@@ -6903,16 +6709,24 @@ beta_budget_basin_MLR_all_ensemble %>%
     alpha = guide_legend(order = 1)
   ) +
   facet_wrap(~ basin, ncol = 3, dir = "v") +
-  theme(legend.title = element_blank(),
-        axis.title.x = element_blank(),
-        axis.ticks.x = element_blank())
+  theme(
+    legend.title = element_blank(),
+    legend.position = "top",
+    legend.direction = "vertical",
+    axis.title.x = element_blank(),
+    axis.ticks.x = element_blank()
+  )
 
 
-ggsave(path = here::here("output/publication"),
-       filename = "FigS_beta_inventory.png",
-       height = 6,
-       width = 8,
-       dpi = 600)
+ggsave(
+  path = here::here("output/publication"),
+  filename = "FigS_beta_inventory.png",
+  height = 180,
+  width = 190,
+  units = "mm",
+  dpi = 600,
+  bg = "white"
+)
 
 ```
 
@@ -7018,14 +6832,21 @@ dcant_budget_basin_MLR_all_bias  %>%
   ) +
   facet_wrap(~ basin, ncol = 3, dir = "v", scales = "free_y") +
   theme(legend.title = element_blank(),
-        axis.title.x = element_blank())
+        legend.position = "top",
+        legend.direction = "vertical",
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank())
 
 
-ggsave(path = here::here("output/publication"),
-       filename = "FigS_dcant_bias_inventory_synthetic_data.png",
-       height = 6,
-       width = 8,
-       dpi = 600)
+ggsave(
+  path = here::here("output/publication"),
+  filename = "FigS_dcant_bias_inventory_synthetic_data.png",
+  height = 180,
+  width = 190,
+  units = "mm",
+  dpi = 600,
+  bg = "white"
+)
 
 
 
@@ -7795,19 +7616,24 @@ dcant_budget_basin_MLR_layer_all_uncertainty %>%
   labs(y = dcant_layer_budget_label,
        x = "Depth (m)") +
   facet_wrap(~ basin, ncol = 3, dir = "v", scales = "free_x") +
-  theme(legend.position = c(0.9, 0.1))
+  theme(legend.position = c(0.91, 0.13),
+        legend.background = element_rect(fill = "transparent"))
 
 p_dcant_budget_depth_layer
 
 p_dcant_profiles + p_dcant_budget_depth_layer +
   plot_layout(ncol = 1) +
-  plot_annotation(tag_levels = 'A')
+  plot_annotation(tag_levels = 'a')
 
-ggsave(path = here::here("output/publication"),
-       filename = "Fig_dcant_profiles_and_depth_layer_inventories.png",
-       height = 12,
-       width = 8,
-       dpi = 600)
+ggsave(
+  path = here::here("output/publication"),
+  filename = "Fig_dcant_profiles_and_depth_layer_inventories.png",
+  height = 230,
+  width = 190,
+  units = "mm",
+  dpi = 600,
+  bg = "white"
+)
 
 ```
 
@@ -7860,13 +7686,17 @@ p_dcant_budget_depth_layer_mod
 
 p_dcant_profiles_mod + p_dcant_budget_depth_layer_mod +
   plot_layout(ncol = 1) +
-  plot_annotation(tag_levels = 'A')
+  plot_annotation(tag_levels = 'a')
 
-ggsave(path = here::here("output/publication"),
-       filename = "FigS_dcant_profiles_and_depth_layer_inventories_synthetic_data.png",
-       height = 10,
-       width = 7,
-       dpi = 600)
+ggsave(
+  path = here::here("output/publication"),
+  filename = "FigS_dcant_profiles_and_depth_layer_inventories_synthetic_data.png",
+  height = 230,
+  width = 190,
+  units = "mm",
+  dpi = 600,
+  bg = "white"
+)
 
 ```
 
@@ -8195,11 +8025,16 @@ p_tcant_year <- tcant_ts %>%
              aes(col = "Central estimate")) +
   scale_y_continuous(name = expression(Total ~ oceanic ~ C[ant] ~ (Pg~C)),
                      sec.axis = sec_axis( ~ (. / beta + co2_atm_pi_value),
-                                          name = expression(Atm. ~ CO[2] ~ (ppm)))) +
+                                          name = expression(Atmospheric ~ CO[2] ~ (ppm)))) +
   scale_x_continuous(name = "Year", breaks = seq(1800, 2000, 50)) +
-  scale_linewidth(range = c(0.5,1), breaks = c(0.5,1),
-                  labels = c("\u00B1 2σ uncertainty", "\u00B1 1σ uncertainty")) +
-  scale_color_manual(values = tcant_col) +
+  scale_linewidth(
+    range = c(0.5, 1),
+    breaks = c(0.5, 1),
+    labels = c("\u00B1 2σ", "\u00B1 1σ"),
+    name = "Interval uncertainty"
+  )+
+  scale_color_manual(values = tcant_col,
+                     name = "") +
   guides(color = guide_legend(order = 1)) +
   theme(
     axis.title.y.right = element_text(color = atm_co2_col),
@@ -8209,9 +8044,8 @@ p_tcant_year <- tcant_ts %>%
     axis.text.y.left = element_text(color = tcant_col),
     axis.ticks.y.left = element_line(color = tcant_col), 
     legend.background = element_rect(fill = "transparent"),
-    legend.position = c(0.15, 0.7),
-    legend.spacing.y = unit(0, "cm"),
-    legend.title = element_blank()
+    legend.position = c(0.2, 0.7),
+    legend.spacing.y = unit(0, "cm")
   )
 
 p_tcant_year
@@ -8296,13 +8130,17 @@ p_tcant_atm_co2 <- tcant_ts %>%
   )
 
 p_tcant_year / p_tcant_atm_co2 + 
-  plot_annotation(tag_levels = 'A')
+  plot_annotation(tag_levels = 'a')
 
-ggsave(path = here::here("output/publication"),
-       filename = "Fig_dcant_inventory_global_vs_atm_pCO2.png",
-       height = 6,
-       width = 7,
-       dpi = 600)
+ggsave(
+  path = here::here("output/publication"),
+  filename = "Fig_dcant_inventory_global_vs_atm_pCO2.png",
+  height = 150,
+  width = 150,
+  units = "mm",
+  dpi = 600,
+  bg = "white"
+)
 
 
 p_tcant_year / p_tcant_atm_co2
@@ -8777,7 +8615,7 @@ p_tcant_box_10
 
 p_tcant_ts_zoom + p_tcant_box + p_tcant_box_10 +
   plot_layout(ncol = 3, widths = c(6,1,1.8)) + 
-  plot_annotation(tag_levels = 'A')
+  plot_annotation(tag_levels = 'a')
 
 # ggsave(path = here::here("output/publication"),
 #        filename = "Fig_dcant_inventory_global_vs_GCB_ocean_sink.png",
@@ -8898,7 +8736,8 @@ p_tcant_box_10_dec1 <-
     axis.ticks.y.left = element_blank(),
     axis.title.y.left = element_blank(),
     panel.grid.major.y = element_line(colour = "black",
-                                      size = 0.1)
+                                      size = 0.1),
+    plot.margin = margin(5.5, 1, 5.5, 1,"pt")
   )
 
 p_tcant_box_10_dec1
@@ -8992,7 +8831,8 @@ p_tcant_box_10_dec2 <-
     axis.ticks.y.left = element_blank(),
     axis.title.y.left = element_blank(),
     panel.grid.major.y = element_line(colour = "black",
-                                      size = 0.1)
+                                      size = 0.1),
+    plot.margin = margin(5.5, 5.5, 5.5, 1,"pt")
   )
 
 p_tcant_box_10_dec2
@@ -9080,7 +8920,8 @@ tcant_ts_zoom %>%
     legend.box = "horizontal",
     legend.key.size = unit(2.5, 'lines'),
     panel.grid.major.y = element_line(colour = "black",
-                                      size = 0.1)
+                                      size = 0.1),
+    plot.margin = margin(5.5, 1, 5.5, 5.5,"pt")
   )
 
 p_tcant_ts_zoom
@@ -9092,17 +8933,17 @@ p_tcant_ts_zoom
 
 p_tcant_ts_zoom + p_tcant_box_10_dec1 + p_tcant_box_10_dec2 +
   plot_layout(ncol = 3, widths = c(10,1.5,1.5)) + 
-  plot_annotation(tag_levels = 'A')
+  plot_annotation(tag_levels = 'a')
 
-# p_tcant_ts_zoom + p_tcant_box_10 +
-#   plot_layout(ncol = 2, widths = c(6,1.8)) + 
-#   plot_annotation(tag_levels = 'A')
-
-ggsave(path = here::here("output/publication"),
-       filename = "Fig_dcant_inventory_global_vs_GCB_ocean_sink.png",
-       height = 6,
-       width = 8,
-       dpi = 600)
+ggsave(
+  path = here::here("output/publication"),
+  filename = "Fig_dcant_inventory_global_vs_GCB_ocean_sink.png",
+  height = 150,
+  width = 190,
+  units = "mm",
+  dpi = 600,
+  bg = "white"
+)
 
 ```
 
