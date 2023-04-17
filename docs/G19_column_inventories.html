@@ -14,7 +14,7 @@
 
 <title>Column inventories</title>
 
-<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -77,6 +77,7 @@ if (window.hljs) {
 
 
 
+
 <style type = "text/css">
 .main-container {
   max-width: 940px;
@@ -97,6 +98,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -154,11 +158,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -187,8 +195,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -196,16 +204,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -331,7 +332,7 @@ div.tocify {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -347,14 +348,14 @@ div.tocify {
   <a href="results_publication.html">Synopsis</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Adjustements
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Bulk</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Bulk</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="data_adjustment_bulk_budgets.html">Budgets</a>
@@ -368,7 +369,7 @@ div.tocify {
       </ul>
     </li>
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Cruise</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Cruise</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="data_adjustment_cruise_budgets.html">Budgets</a>
@@ -382,7 +383,7 @@ div.tocify {
       </ul>
     </li>
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">None</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">None</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="data_adjustment_none_budgets.html">Budgets</a>
@@ -398,14 +399,14 @@ div.tocify {
   </ul>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Filtering
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">No gap-filling</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">No gap-filling</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="gaps_filter_budgets.html">Budgets</a>
@@ -419,7 +420,7 @@ div.tocify {
       </ul>
     </li>
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Reoccupation</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Reoccupation</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="reoccupation_budgets.html">Budgets</a>
@@ -433,7 +434,7 @@ div.tocify {
       </ul>
     </li>
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Rarefication</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Rarefication</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="rarefication_budgets.html">Budgets</a>
@@ -449,14 +450,14 @@ div.tocify {
   </ul>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     MLR
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">predictor removal C(P,TA)</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">predictor removal C(P,TA)</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="MLR_predictor_budgets.html">Budgets</a>
@@ -470,7 +471,7 @@ div.tocify {
       </ul>
     </li>
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">predictor removal C(N,TA)</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">predictor removal C(N,TA)</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="MLR_predictor_nitrate_budgets.html">Budgets</a>
@@ -484,7 +485,7 @@ div.tocify {
       </ul>
     </li>
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">C(N,TA) target</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">C(N,TA) target</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="CN_target_budgets.html">Budgets</a>
@@ -498,7 +499,7 @@ div.tocify {
       </ul>
     </li>
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">C(TA) target</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">C(TA) target</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="CAT_target_budgets.html">Budgets</a>
@@ -512,7 +513,7 @@ div.tocify {
       </ul>
     </li>
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Surface equilibrium</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Surface equilibrium</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="surface_equi_budgets.html">Budgets</a>
@@ -526,7 +527,7 @@ div.tocify {
       </ul>
     </li>
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MLR_target tco2</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">MLR_target tco2</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="MLR_target_tco2_budgets.html">Budgets</a>
@@ -540,7 +541,7 @@ div.tocify {
       </ul>
     </li>
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MLR_target C*</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">MLR_target C*</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="MLR_target_cstar_budgets.html">Budgets</a>
@@ -554,7 +555,7 @@ div.tocify {
       </ul>
     </li>
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">WOA18 clim</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">WOA18 clim</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="WOA18_budgets.html">Budgets</a>
@@ -568,7 +569,7 @@ div.tocify {
       </ul>
     </li>
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">VIF</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">VIF</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="vif_budgets.html">Budgets</a>
@@ -584,14 +585,14 @@ div.tocify {
   </ul>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     MMA
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Five basins</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Five basins</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="multi_model_assesment_5_budgets.html">Budgets</a>
@@ -605,7 +606,7 @@ div.tocify {
       </ul>
     </li>
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Three basins</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Three basins</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="multi_model_assesment_AIP_budgets.html">Budgets</a>
@@ -621,14 +622,14 @@ div.tocify {
   </ul>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Robustness
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Indian Ocean</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Indian Ocean</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="indian_test_budgets.html">Budgets</a>
@@ -642,7 +643,7 @@ div.tocify {
       </ul>
     </li>
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Gruber_2019</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Gruber_2019</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="G19_budgets.html">Budgets</a>
@@ -656,7 +657,7 @@ div.tocify {
       </ul>
     </li>
     <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Moving eras</a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Moving eras</a>
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="moving_eras_budgets.html">Budgets</a>
@@ -695,7 +696,7 @@ div.tocify {
 <div id="header">
 
 <div class="btn-group pull-right float-right">
-<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
 <ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
 <li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
 <li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
@@ -706,7 +707,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Column inventories</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">14 November, 2022</h4>
+<h4 class="date">18 April, 2023</h4>
 
 </div>
 
@@ -735,7 +736,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-11-14
+<strong>Last updated:</strong> 2023-04-18
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -867,15 +868,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree40f357d08533c7cf3c122fbb844db91402401c30targetblank40f357da">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree8fbd4b12aca445c546406d0ba6eff35c5298376ctargetblank8fbd4b1a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/40f357d08533c7cf3c122fbb844db91402401c30" target="_blank">40f357d</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/8fbd4b12aca445c546406d0ba6eff35c5298376c" target="_blank">8fbd4b1</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree40f357d08533c7cf3c122fbb844db91402401c30targetblank40f357da"
+id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree8fbd4b12aca445c546406d0ba6eff35c5298376ctargetblank8fbd4b1a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -885,7 +886,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/40f357d08533c7cf3c122fbb844db91402401c30" target="_blank">40f357d</a>.
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/8fbd4b12aca445c546406d0ba6eff35c5298376c" target="_blank">8fbd4b1</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -908,13 +909,22 @@ Ignored files:
     Ignored:    output/publication/
 
 Untracked files:
+    Untracked:  code/RScript_Jens_globalMap.R
+    Untracked:  code/choky-barb_reprex.R
+    Untracked:  code/choky-barb_reprex.md
+    Untracked:  code/choky-barb_reprex_files/
+    Untracked:  code/raster_dataframe.R
     Untracked:  code/results_publication_backup_incl_ensemble_uncertainty_20221111.Rmd
+    Untracked:  code/tidyterra_spatRaster.R
+    Untracked:  code/write_ocean_raster_netcdf.R
+    Untracked:  ok-coqui_reprex_files/
 
 Unstaged changes:
     Deleted:    analysis/MLR_target_budgets.Rmd
     Deleted:    analysis/MLR_target_column_inventories.Rmd
     Deleted:    analysis/MLR_target_zonal_sections.Rmd
     Modified:   analysis/_site.yml
+    Modified:   analysis/results_publication.Rmd
     Modified:   code/Workflowr_project_managment.R
 
 </code></pre>
@@ -962,6 +972,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/8fbd4b12aca445c546406d0ba6eff35c5298376c/analysis/G19_column_inventories.Rmd" target="_blank">8fbd4b1</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-04-18
+</td>
+<td>
+tag levels small letters
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/375300e4dac4c295c619c4c478ba15597cfec724/docs/G19_column_inventories.html" target="_blank">375300e</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2022-11-14
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -1530,6 +1574,107 @@ rebuild with G19 runs
 </div>
 </div>
 </div>
+<pre class="r"><code>center &lt;- -160
+boundary &lt;- center + 180
+target_crs &lt;- paste0(&quot;+proj=robin +over +lon_0=&quot;, center)
+# target_crs &lt;- paste0(&quot;+proj=eqearth +over +lon_0=&quot;, center)
+# target_crs &lt;- paste0(&quot;+proj=eqearth +lon_0=&quot;, center)
+# target_crs &lt;- paste0(&quot;+proj=igh_o +lon_0=&quot;, center)
+
+worldmap &lt;- ne_countries(scale = &#39;small&#39;,
+                         type = &#39;map_units&#39;,
+                         returnclass = &#39;sf&#39;)
+
+worldmap &lt;- worldmap %&gt;% st_break_antimeridian(lon_0 = center)
+worldmap_trans &lt;- st_transform(worldmap, crs = target_crs)
+
+ggplot() +
+  geom_sf(data = worldmap_trans)</code></pre>
+<img src="figure/setup.Rmd/create_robinson_basemap_world_pacific_centered-1.png" width="672" style="display: block; margin: auto;" />
+<div class="alert alert-warning">
+<strong>Warning!</strong> The custom <code>fig.path</code> you set was
+ignored by workflowr.
+</div>
+<pre class="r"><code>coastline &lt;- ne_coastline(scale = &#39;small&#39;, returnclass = &quot;sf&quot;)
+coastline &lt;- st_break_antimeridian(coastline, lon_0 = 200)
+coastline_trans &lt;- st_transform(coastline, crs = target_crs)
+
+# ggplot() +
+#   geom_sf(data = worldmap_trans, fill = &quot;grey&quot;, col=&quot;grey&quot;) +
+#   geom_sf(data = coastline_trans)
+
+
+bbox &lt;- st_bbox(c(xmin = -180, xmax = 180, ymax = 65, ymin = -78), crs = st_crs(4326))
+bbox &lt;- st_as_sfc(bbox)
+bbox_trans &lt;- st_break_antimeridian(bbox, lon_0 = center)
+
+bbox_graticules &lt;- st_graticule(
+  x = bbox_trans,
+  crs = st_crs(bbox_trans),
+  datum = st_crs(bbox_trans),
+  lon = c(20, 20.001),
+  lat = c(-78,65),
+  ndiscr = 1e3,
+  margin = 0.001
+)
+
+bbox_graticules_trans &lt;- st_transform(bbox_graticules, crs = target_crs)
+rm(worldmap, coastline, bbox, bbox_trans)
+
+# ggplot() +
+#   geom_sf(data = worldmap_trans, fill = &quot;grey&quot;, col=&quot;grey&quot;) +
+#   geom_sf(data = coastline_trans) +
+#   geom_sf(data = bbox_graticules_trans)
+
+lat_lim &lt;- ext(bbox_graticules_trans)[c(3,4)]*1.002
+lon_lim &lt;- ext(bbox_graticules_trans)[c(1,2)]*1.005
+
+# ggplot() +
+#   geom_sf(data = worldmap_trans, fill = &quot;grey90&quot;, col = &quot;grey90&quot;) +
+#   geom_sf(data = coastline_trans) +
+#   geom_sf(data = bbox_graticules_trans, linewidth = 1) +
+#   coord_sf(crs = target_crs,
+#            ylim = lat_lim,
+#            xlim = lon_lim,
+#            expand = FALSE) +
+#   theme(
+#     panel.border = element_blank(),
+#     axis.text = element_blank(),
+#     axis.ticks = element_blank()
+#   )
+
+latitude_graticules &lt;- st_graticule(
+  x = bbox_graticules,
+  crs = st_crs(bbox_graticules),
+  datum = st_crs(bbox_graticules),
+  lon = c(20, 20.001),
+  lat = c(-60,-30,0,30,60),
+  ndiscr = 1e3,
+  margin = 0.001
+)
+
+latitude_graticules_trans &lt;- st_transform(latitude_graticules, crs = target_crs)
+
+latitude_labels &lt;- data.frame(lat_label = c(&quot;60°N&quot;,&quot;30°N&quot;,&quot;Eq.&quot;,&quot;30°S&quot;,&quot;60°S&quot;),
+                 lat = c(60,30,0,-30,-60)-4, lon = c(35)-c(0,2,4,2,0))
+
+latitude_labels &lt;- st_as_sf(x = latitude_labels,
+               coords = c(&quot;lon&quot;, &quot;lat&quot;),
+               crs = &quot;+proj=longlat&quot;)
+
+latitude_labels_trans &lt;- st_transform(latitude_labels, crs = target_crs)
+
+# ggplot() +
+#   geom_sf(data = worldmap_trans, fill = &quot;grey&quot;, col = &quot;grey&quot;) +
+#   geom_sf(data = coastline_trans) +
+#   geom_sf(data = bbox_graticules_trans) +
+#   geom_sf(data = latitude_graticules_trans,
+#           col = &quot;grey60&quot;,
+#           linewidth = 0.2) +
+#   geom_sf_text(data = latitude_labels_trans,
+#                aes(label = lat_label),
+#                size = 3,
+#                col = &quot;grey60&quot;)</code></pre>
 <div id="read-files" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Read files</h1>
 <pre class="r"><code># identify required version IDs
@@ -1863,37 +2008,18 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
-<pre class="r"><code>dcant_inv_join &lt;- 
+<pre class="r"><code>library(ggtext)
+
+dcant_inv_join &lt;- 
 dcant_inv_join %&gt;% 
   filter(MLR_basins %in% c(&quot;2&quot;, &quot;5&quot;))
 
 
-p_CI_absolute &lt;- dcant_inv_join %&gt;%
+dcant_inv_join %&gt;%
   p_map_cant_inv(var = &quot;dcant&quot;,
                  title_text = NULL) +
   facet_grid(source ~ MLR_basins) +
-  theme(axis.text.x = element_blank()) 
-
-dcant_inv_join_offset &lt;- dcant_inv_join %&gt;% 
-  arrange(source) %&gt;% 
-  group_by(lon, lat, MLR_basins) %&gt;% 
-  mutate(dcant_offset = dcant - lag(dcant)) %&gt;% 
-  ungroup()
-  
-
-
-p_CI_delta &lt;-
-  dcant_inv_join_offset  %&gt;%
-  p_map_cant_inv(
-    var = &quot;dcant_offset&quot;,
-    title_text = NULL,
-    subtitle_text = NULL,
-    col = &quot;bias&quot;
-  ) +
-  facet_grid(. ~ MLR_basins)
-
-p_CI_absolute / p_CI_delta + 
-  plot_annotation(tag_levels = &#39;A&#39;)</code></pre>
+  theme(axis.text.x = element_blank()) </code></pre>
 <p><img src="figure/G19_column_inventories.Rmd/plot_only_2_5-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot_only_2_5-1">
@@ -1943,10 +2069,71 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
+<pre class="r"><code># legend_title &lt;- expression(atop(Delta * C[&quot;ant&quot;],
+#                                 (mol ~ m ^ {
+#                                   -2
+#                                 } ~ dec ^ {
+#                                   -1
+#                                 })))
+legend_title &lt;- &quot;ΔC&lt;sub&gt;ant&lt;/sub&gt; column inventory&lt;br&gt;(mol m&lt;sup&gt;-2&lt;/sup&gt; dec&lt;sup&gt;-1&lt;/sup&gt;)&quot;
+
+p_CI_absolute &lt;- 
+  p_map_mdim_robinson(
+    df = dcant_inv_join,
+    var = &quot;dcant&quot;,
+    dim_row = &quot;source&quot;,
+    dim_col = &quot;MLR_basins&quot;,
+    legend_title = legend_title
+  )
+
+dcant_inv_join_offset &lt;- dcant_inv_join %&gt;% 
+  arrange(source) %&gt;% 
+  group_by(lon, lat, MLR_basins) %&gt;% 
+  mutate(dcant_offset = dcant - lag(dcant)) %&gt;% 
+  ungroup()
+  
+
+
+dcant_inv_join_offset  %&gt;%
+  p_map_cant_inv(
+    var = &quot;dcant_offset&quot;,
+    title_text = NULL,
+    subtitle_text = NULL,
+    col = &quot;bias&quot;
+  ) +
+  facet_grid(. ~ MLR_basins)</code></pre>
+<p><img src="figure/G19_column_inventories.Rmd/plot_only_2_5-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># legend_title &lt;- expression(atop(Delta * C[&quot;ant&quot;] ~ offset,
+#                                 (mol ~ m ^ {
+#                                   -2
+#                                 } ~ dec ^ {
+#                                   -1
+#                                 })))
+legend_title &lt;- &quot;ΔC&lt;sub&gt;ant&lt;/sub&gt; column inventory offset&lt;br&gt;(mol m&lt;sup&gt;-2&lt;/sup&gt; dec&lt;sup&gt;-1&lt;/sup&gt;)&quot;
+
+p_CI_delta &lt;-
+  p_map_mdim_robinson(
+    df = dcant_inv_join_offset %&gt;%
+      filter(!is.na(dcant_offset)) %&gt;%
+      select(lon, lat, dcant_offset, MLR_basins),
+    var = &quot;dcant_offset&quot;,
+    breaks = c(-Inf, seq(-8, 8, 2), Inf),
+    dim_col = &quot;MLR_basins&quot;,
+    legend_title = legend_title,
+    col = &quot;divergent&quot;
+  )  
+
+p_CI_absolute / p_CI_delta + 
+  plot_layout(heights = c(2,1)) +
+  plot_annotation(tag_levels = &#39;a&#39;)</code></pre>
+<p><img src="figure/G19_column_inventories.Rmd/plot_only_2_5-3.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>ggsave(path = here::here(&quot;output/publication&quot;),
        filename = &quot;FigS_dcant_column_inventory_1994_2007_vs_Gruber_2019.png&quot;,
-       height = 7,
-       width = 8)</code></pre>
+       height = 160,
+       width = 190,
+       units = &quot;mm&quot;,
+       dpi = 600,
+       bg = &quot;white&quot;)</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1956,13 +2143,13 @@ Session information
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>R version 4.1.2 (2021-11-01)
+<pre><code>R version 4.2.2 (2022-10-31)
 Platform: x86_64-pc-linux-gnu (64-bit)
-Running under: openSUSE Leap 15.3
+Running under: openSUSE Leap 15.4
 
 Matrix products: default
-BLAS:   /usr/local/R-4.1.2/lib64/R/lib/libRblas.so
-LAPACK: /usr/local/R-4.1.2/lib64/R/lib/libRlapack.so
+BLAS:   /usr/local/R-4.2.2/lib64/R/lib/libRblas.so
+LAPACK: /usr/local/R-4.2.2/lib64/R/lib/libRlapack.so
 
 locale:
  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
@@ -1976,34 +2163,51 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] geomtextpath_0.1.0 colorspace_2.0-2   marelac_2.1.10     shape_1.4.6       
- [5] ggforce_0.3.3      metR_0.11.0        scico_1.3.0        patchwork_1.1.1   
- [9] collapse_1.7.0     forcats_0.5.1      stringr_1.4.0      dplyr_1.0.7       
-[13] purrr_0.3.4        readr_2.1.1        tidyr_1.1.4        tibble_3.1.6      
-[17] ggplot2_3.3.5      tidyverse_1.3.1    workflowr_1.7.0   
+ [1] ggtext_0.1.2        terra_1.6-41        sf_1.0-9           
+ [4] rnaturalearth_0.1.0 geomtextpath_0.1.1  colorspace_2.0-3   
+ [7] marelac_2.1.10      shape_1.4.6         ggforce_0.4.1      
+[10] metR_0.13.0         scico_1.3.1         patchwork_1.1.2    
+[13] collapse_1.8.9      forcats_0.5.2       stringr_1.4.1      
+[16] dplyr_1.1.1         purrr_0.3.5         readr_2.1.3        
+[19] tidyr_1.2.1         tibble_3.2.1        ggplot2_3.4.0      
+[22] tidyverse_1.3.2     workflowr_1.7.0    
 
 loaded via a namespace (and not attached):
- [1] fs_1.5.2          bit64_4.0.5       lubridate_1.8.0   gsw_1.0-6        
- [5] httr_1.4.2        rprojroot_2.0.2   tools_4.1.2       backports_1.4.1  
- [9] bslib_0.3.1       utf8_1.2.2        R6_2.5.1          DBI_1.1.2        
-[13] withr_2.4.3       tidyselect_1.1.1  processx_3.5.2    bit_4.0.4        
-[17] compiler_4.1.2    git2r_0.29.0      textshaping_0.3.6 cli_3.1.1        
-[21] rvest_1.0.2       xml2_1.3.3        labeling_0.4.2    sass_0.4.0       
-[25] scales_1.1.1      checkmate_2.0.0   SolveSAPHE_2.1.0  callr_3.7.0      
-[29] systemfonts_1.0.3 digest_0.6.29     rmarkdown_2.11    oce_1.5-0        
-[33] pkgconfig_2.0.3   htmltools_0.5.2   highr_0.9         dbplyr_2.1.1     
-[37] fastmap_1.1.0     rlang_1.0.2       readxl_1.3.1      rstudioapi_0.13  
-[41] jquerylib_0.1.4   generics_0.1.1    farver_2.1.0      jsonlite_1.7.3   
-[45] vroom_1.5.7       magrittr_2.0.1    Rcpp_1.0.8        munsell_0.5.0    
-[49] fansi_1.0.2       lifecycle_1.0.1   stringi_1.7.6     whisker_0.4      
-[53] yaml_2.2.1        MASS_7.3-55       grid_4.1.2        parallel_4.1.2   
-[57] promises_1.2.0.1  crayon_1.4.2      haven_2.4.3       hms_1.1.1        
-[61] seacarb_3.3.0     knitr_1.37        ps_1.6.0          pillar_1.6.4     
-[65] reprex_2.0.1      glue_1.6.0        evaluate_0.14     getPass_0.2-2    
-[69] data.table_1.14.2 modelr_0.1.8      vctrs_0.3.8       tzdb_0.2.0       
-[73] tweenr_1.0.2      httpuv_1.6.5      cellranger_1.1.0  gtable_0.3.0     
-[77] polyclip_1.10-0   assertthat_0.2.1  xfun_0.29         broom_0.7.11     
-[81] later_1.3.0       viridisLite_0.4.0 ellipsis_0.3.2    here_1.0.1       </code></pre>
+  [1] googledrive_2.0.0       ellipsis_0.3.2          class_7.3-20           
+  [4] rprojroot_2.0.3         markdown_1.4            fs_1.5.2               
+  [7] gridtext_0.1.5          rstudioapi_0.14         proxy_0.4-27           
+ [10] farver_2.1.1            bit64_4.0.5             fansi_1.0.3            
+ [13] lubridate_1.9.0         xml2_1.3.3              codetools_0.2-18       
+ [16] cachem_1.0.6            knitr_1.41              polyclip_1.10-4        
+ [19] jsonlite_1.8.3          gsw_1.1-1               broom_1.0.1            
+ [22] dbplyr_2.2.1            compiler_4.2.2          httr_1.4.4             
+ [25] backports_1.4.1         assertthat_0.2.1        fastmap_1.1.0          
+ [28] gargle_1.2.1            cli_3.4.1               later_1.3.0            
+ [31] tweenr_2.0.2            htmltools_0.5.3         tools_4.2.2            
+ [34] rnaturalearthdata_0.1.0 gtable_0.3.1            glue_1.6.2             
+ [37] Rcpp_1.0.9              cellranger_1.1.0        jquerylib_0.1.4        
+ [40] vctrs_0.6.1             xfun_0.35               ps_1.7.2               
+ [43] rvest_1.0.3             timechange_0.1.1        lifecycle_1.0.3        
+ [46] googlesheets4_1.0.1     oce_1.7-10              getPass_0.2-2          
+ [49] MASS_7.3-58.1           scales_1.2.1            vroom_1.6.0            
+ [52] ragg_1.2.4              hms_1.1.2               promises_1.2.0.1       
+ [55] parallel_4.2.2          yaml_2.3.6              memoise_2.0.1          
+ [58] sass_0.4.4              stringi_1.7.8           highr_0.9              
+ [61] e1071_1.7-12            checkmate_2.1.0         commonmark_1.8.1       
+ [64] rlang_1.1.0             pkgconfig_2.0.3         systemfonts_1.0.4      
+ [67] evaluate_0.18           lattice_0.20-45         SolveSAPHE_2.1.0       
+ [70] labeling_0.4.2          bit_4.0.5               processx_3.8.0         
+ [73] tidyselect_1.2.0        here_1.0.1              seacarb_3.3.1          
+ [76] magrittr_2.0.3          R6_2.5.1                generics_0.1.3         
+ [79] DBI_1.1.3               pillar_1.8.1            haven_2.5.1            
+ [82] whisker_0.4             withr_2.5.0             units_0.8-0            
+ [85] sp_1.5-1                modelr_0.1.10           crayon_1.5.2           
+ [88] KernSmooth_2.23-20      utf8_1.2.2              tzdb_0.3.0             
+ [91] rmarkdown_2.18          grid_4.2.2              readxl_1.4.1           
+ [94] data.table_1.14.6       callr_3.7.3             git2r_0.30.1           
+ [97] reprex_2.0.2            digest_0.6.30           classInt_0.4-8         
+[100] httpuv_1.6.6            textshaping_0.3.6       munsell_0.5.0          
+[103] viridisLite_0.4.1       bslib_0.4.1            </code></pre>
 </div>
 </div>
 </div>
