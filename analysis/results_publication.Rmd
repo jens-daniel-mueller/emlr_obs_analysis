@@ -2236,12 +2236,13 @@ dcant_inv_sensitivity_contributions %>%
         axis.ticks = element_blank())
 
 
-legend_title <- expression(atop(Delta * C["ant"] ~ offset,
-                                (mol ~ m ^ {
-                                  -2
-                                } ~ dec ^ {
-                                  -1
-                                })))
+# legend_title <- expression(atop(Delta * C["ant"] ~ offset,
+#                                 (mol ~ m ^ {
+#                                   -2
+#                                 } ~ dec ^ {
+#                                   -1
+#                                 })))
+legend_title <- "ΔC<sub>ant</sub> column inventory offset<br>(mol m<sup>-2</sup> dec<sup>-1</sup>)"
 
 p_map_mdim_robinson(
   df = dcant_inv_sensitivity_contributions %>%
@@ -2259,9 +2260,12 @@ p_map_mdim_robinson(
 
 ggsave(path = here::here("output/publication"),
        filename = "FigS_dcant_column_inventory_uncertainty_sensitivity_cases.png",
-       height = 8,
-       width = 8,
-       dpi = 600)
+       height = 230,
+       width = 190,
+       units = "mm",
+       dpi = 600,
+       bg = "white")
+
 
 ```
 
@@ -2300,13 +2304,14 @@ dcant_inv_uncertainty %>%
   theme(axis.text = element_blank(),
         axis.ticks = element_blank())
 
-legend_title <- expression(atop(Delta * C["ant"],
-                                atop("1" * sigma ~ -uncertainty,
-                                     (mol ~ m ^ {
-                                       -2
-                                     } ~ dec ^ {
-                                       -1
-                                     }))))
+# legend_title <- expression(atop(Delta * C["ant"],
+#                                 atop("1" * sigma ~ -uncertainty,
+#                                      (mol ~ m ^ {
+#                                        -2
+#                                      } ~ dec ^ {
+#                                        -1
+#                                      }))))
+legend_title <- "ΔC<sub>ant</sub> column inventory<br>1σ uncertainty<br>(mol m<sup>-2</sup> dec<sup>-1</sup>)"
 
 p_map_mdim_robinson(
   df = dcant_inv_uncertainty %>%
@@ -2320,9 +2325,11 @@ p_map_mdim_robinson(
 
 ggsave(path = here::here("output/publication"),
        filename = "FigS_dcant_column_inventory_uncertainty.png",
-       height = 3.5,
-       width = 8,
-       dpi = 600)
+       height = 70,
+       width = 190,
+       units = "mm",
+       dpi = 600,
+       bg = "white")
 
 dcant_inv_uncertainty_contributions %>%
   filter(data_source == "obs") %>% 
@@ -2341,12 +2348,14 @@ dcant_inv_uncertainty_contributions %>%
   theme(axis.text = element_blank(),
         axis.ticks = element_blank())
 
-legend_title <- expression(atop(Delta * C["ant"] ~ offset,
-                                (mol ~ m ^ {
-                                  -2
-                                } ~ dec ^ {
-                                  -1
-                                })))
+# legend_title <- expression(atop(Delta * C["ant"] ~ offset,
+#                                 (mol ~ m ^ {
+#                                   -2
+#                                 } ~ dec ^ {
+#                                   -1
+#                                 })))
+legend_title <- "ΔC<sub>ant</sub> column inventory offset<br>(mol m<sup>-2</sup> dec<sup>-1</sup>)"
+
 
 p_map_mdim_robinson(
   df = dcant_inv_uncertainty_contributions %>%
@@ -2362,11 +2371,15 @@ p_map_mdim_robinson(
 
 
 
-ggsave(path = here::here("output/publication"),
-       filename = "FigS_dcant_column_inventory_uncertainty_contributions.png",
-       height = 9,
-       width = 8,
-       dpi = 600)
+ggsave(
+  path = here::here("output/publication"),
+  filename = "FigS_dcant_column_inventory_uncertainty_contributions.png",
+  height = 230,
+  width = 190,
+  units = "mm",
+  dpi = 600,
+  bg = "white"
+)
 
 
 ```
@@ -2612,12 +2625,14 @@ dcant_inv_all %>%
   facet_grid(period ~ data_source) +
   theme(axis.text.x = element_blank())
 
-legend_title <- expression(atop(Delta * C["ant"],
-                                (mol ~ m ^ {
-                                  -2
-                                } ~ dec ^ {
-                                  -1
-                                })))
+# legend_title <- expression(atop(Delta * C["ant"],
+#                                 (mol ~ m ^ {
+#                                   -2
+#                                 } ~ dec ^ {
+#                                   -1
+#                                 })))
+legend_title <- "ΔC<sub>ant</sub> column inventory<br>(mol m<sup>-2</sup> dec<sup>-1</sup>)"
+
 
 p_CI_absolute_mod_delta <- p_map_mdim_robinson(
   df = dcant_inv_all %>%
@@ -2658,8 +2673,15 @@ dcant_inv_all %>%
   ) +
   facet_grid(. ~ data_source)
 
-        legend_title <- expression(atop(Delta * Delta * C["ant"],
-                                        (mol ~ m ^ {-2}~dec^{-1})))
+# legend_title <- expression(atop(Delta * Delta * C["ant"],
+#                                 (mol ~ m ^ {
+#                                   -2
+#                                 } ~ dec ^ {
+#                                   -1
+#                                 })))
+legend_title <-
+  "ΔΔC<sub>ant</sub> column inventory<br>(mol m<sup>-2</sup> dec<sup>-1</sup>)"
+
 
 p_CI_bias_delta <- p_map_mdim_robinson(
   df = dcant_inv_all %>%
@@ -2684,14 +2706,19 @@ p_CI_bias_delta <- p_map_mdim_robinson(
   col = "divergent"
 )
 
-p_CI_absolute_mod_delta / p_CI_bias_delta + 
+p_CI_absolute_mod_delta / p_CI_bias_delta +
+  plot_layout(heights = c(2, 1)) +
   plot_annotation(tag_levels = 'a')
 
-ggsave(path = here::here("output/publication"),
-       filename = "FigS_delta_dcant_column_inventory_synthetic_data.png",
-       height = 7,
-       width = 8,
-       dpi = 600)
+ggsave(
+  path = here::here("output/publication"),
+  filename = "FigS_delta_dcant_column_inventory_synthetic_data.png",
+  height = 160,
+  width = 190,
+  units = "mm",
+  dpi = 600,
+  bg = "white"
+)
 
 rm(p_CI_absolute_mod_delta, p_CI_bias_delta)
 
@@ -2867,11 +2894,6 @@ p_lat_int_basin_delta <-
 
 p_lat_int_basin + p_lat_int_basin_delta
 
-ggsave(path = here::here("output/publication"),
-       filename = "Fig_dcant_zonal_integrals_basin.png",
-       height = 6,
-       width = 8,
-       dpi = 600)
 
 p_lat_int_basin <-
 dcant_budget_lat_grid_uncertainty %>%
@@ -2934,13 +2956,6 @@ AC
 p_lat_int_basin + guide_area() + p_lat_int_basin_delta +
   plot_layout(guides = "collect",
               design = layout)
-
-ggsave(path = here::here("output/publication"),
-       filename = "Fig_dcant_zonal_integrals_global.png",
-       height = 8,
-       width = 8,
-       dpi = 600)
-
 
 p_zonal_int_dec1 <- 
 dcant_budget_lat_grid_uncertainty %>%
@@ -6499,8 +6514,8 @@ beta_scaling <-
             by = character())
 
 beta_scaling <- beta_scaling %>% 
-  # mutate(scaling_factor = 1e15 / 12 / delta_pCO2 / area) %>% 
-  mutate(scaling_factor = 1 / delta_pCO2) %>% 
+  mutate(scaling_factor = 1e15 / 12 / delta_pCO2 / area) %>%
+  # mutate(scaling_factor = 1 / delta_pCO2) %>% 
   select(period, basin, scaling_factor, area)
 
 beta_scaling <- beta_scaling %>%
