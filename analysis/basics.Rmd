@@ -625,7 +625,7 @@ coverage_map
 wrap_plots(p_time_histo_basin,
            coverage_map, ncol = 1) +
   plot_layout(heights = c(1, 2))  +
-  plot_annotation(tag_levels = 'A')
+  plot_annotation(tag_levels = 'a')
 
 ggsave(
   path = here::here("output/publication"),
@@ -691,7 +691,7 @@ coverage_map <- map +
 wrap_plots(p_time_histo_basin,
            coverage_map, ncol = 1) +
   plot_layout(heights = c(1, 2))  +
-  plot_annotation(tag_levels = 'A')
+  plot_annotation(tag_levels = 'a')
 
 rm(coverage_map, 
    GLODAP_all_coverage, GLODAP_expocodes,
@@ -918,6 +918,13 @@ global_section_map <-
   scale_color_grey(start = 0.7,end = 0, name = "Distance\nalong\nsection\n(1000 km)") +
   geom_sf(data = worldmap_trans, fill = "grey90", col = "grey90") +
   geom_sf(data = coastline_trans, linewidth = 0.3) +
+  geom_sf(data = latitude_graticules_trans,
+          col = "grey60",
+          linewidth = 0.2) +
+  geom_sf_text(data = latitude_labels_trans,
+               aes(label = lat_label),
+               size = 2,
+               col = "grey60")+
   geom_sf(data = bbox_graticules_trans, linewidth = 0.3) +
   coord_sf(
     crs = target_crs,
@@ -942,7 +949,7 @@ design <- "AAAA
 
 wrap_plots(A = basin_maps, B = global_section_map, design = design) +
   plot_layout(heights = c(3, 2))  +
-  plot_annotation(tag_levels = 'A')
+  plot_annotation(tag_levels = 'a')
 
 ggsave(path = here::here("output/publication"),
        filename = "FigS_basin_masks.png",
