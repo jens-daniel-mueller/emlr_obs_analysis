@@ -709,7 +709,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Results publication</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">18 April, 2023</h4>
+<h4 class="date">25 April, 2023</h4>
 
 </div>
 
@@ -738,7 +738,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2023-04-18
+<strong>Last updated:</strong> 2023-04-25
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -870,15 +870,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree5f080d5486cb2cfa1f2ee7dd5fb493c886e1cbe1targetblank5f080d5a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree6ec9bb04031d35ed86a7d3d0da3fae8ab4e43517targetblank6ec9bb0a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/5f080d5486cb2cfa1f2ee7dd5fb493c886e1cbe1" target="_blank">5f080d5</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/6ec9bb04031d35ed86a7d3d0da3fae8ab4e43517" target="_blank">6ec9bb0</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree5f080d5486cb2cfa1f2ee7dd5fb493c886e1cbe1targetblank5f080d5a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree6ec9bb04031d35ed86a7d3d0da3fae8ab4e43517targetblank6ec9bb0a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -888,7 +888,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/5f080d5486cb2cfa1f2ee7dd5fb493c886e1cbe1" target="_blank">5f080d5</a>.
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/6ec9bb04031d35ed86a7d3d0da3fae8ab4e43517" target="_blank">6ec9bb0</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -972,6 +972,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6ec9bb04031d35ed86a7d3d0da3fae8ab4e43517/analysis/results_publication.Rmd" target="_blank">6ec9bb0</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-04-25
+</td>
+<td>
+updated presentation plots
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/df7bcd03b096b3a70bb331a68be96a39a3d2f5c0/docs/results_publication.html" target="_blank">df7bcd0</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-04-18
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -15823,12 +15857,7 @@ ggsave(path = here::here(&quot;output/publication&quot;),
 #        height = 10,
 #        width = 8,
 #        dpi = 600)</code></pre>
-<pre class="r"><code>legend_title &lt;- expression(atop(Delta * C[&quot;ant&quot;],
-                                (mol ~ m ^ {
-                                  -2
-                                } ~ dec ^ {
-                                  -1
-                                })))
+<pre class="r"><code>legend_title &lt;- &quot;ΔC&lt;sub&gt;ant&lt;/sub&gt; column inventory&lt;br&gt;(mol m&lt;sup&gt;-2&lt;/sup&gt; dec&lt;sup&gt;-1&lt;/sup&gt;)&quot;
 
 
 p_dcant_inv_dec1 &lt;-
@@ -15846,6 +15875,8 @@ p_dcant_inv_dec2 &lt;-
   p_map_mdim_robinson(df = dcant_inv_dec2,
                       var = &quot;dcant&quot;,
                       legend_title = legend_title) +
+  theme(legend.position = &quot;none&quot;,
+        plot.margin = margin(10, 0, 0, 0)) +
   geom_label(aes(
     label = &quot;2004 - 2014&quot;,
     x = lon_lim[1] * 0.55,
@@ -15853,9 +15884,7 @@ p_dcant_inv_dec2 &lt;-
   ))
 
 
-p_dcant_inv_dec1 / p_dcant_inv_dec2 + 
-  plot_layout(guides = &quot;collect&quot;) +
-  plot_layout(ncol = 1)</code></pre>
+p_dcant_inv_dec1 / p_dcant_inv_dec2</code></pre>
 <p><img src="figure/results_publication.Rmd/dcant_column_inventory_maps_robinson_presentation-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-dcant_column_inventory_maps_robinson_presentation-1">
@@ -15919,15 +15948,18 @@ jens-daniel-mueller
 </div>
 <pre class="r"><code>ggsave(path = here::here(&quot;output/presentation&quot;),
        filename = &quot;Fig_dcant_column_inventory.png&quot;,
-       height = 7,
-       width = 8,
-       dpi = 600)
+       height = 150,
+       width = 140,
+       units = &quot;mm&quot;,
+       dpi = 600,
+       bg = &quot;white&quot;)
 
 p_dcant_inv_dec1 &lt;-
   p_map_mdim_robinson(df = dcant_inv_dec1,
                       df_uncertainty = dcant_inv_uncert_dec1,
                       var = &quot;dcant&quot;,
                       legend_title = legend_title) +
+  theme(plot.margin = margin(10, 0, 0, 0))+
   geom_label(aes(
     label = &quot;1994 - 2004&quot;,
     x = lon_lim[1] * 0.55,
@@ -15998,10 +16030,14 @@ jens-daniel-mueller
 </div>
 </div>
 <pre class="r"><code>p_dcant_inv_dec2 &lt;-
-  p_map_mdim_robinson(df = dcant_inv_dec2,
-                      df_uncertainty = dcant_inv_uncert_dec2,
-                      var = &quot;dcant&quot;,
-                      legend_title = legend_title) +
+  p_map_mdim_robinson(
+    df = dcant_inv_dec2,
+    df_uncertainty = dcant_inv_uncert_dec2,
+    var = &quot;dcant&quot;,
+    legend_title = legend_title
+  ) +
+  theme(legend.position = &quot;none&quot;,
+        plot.margin = margin(10, 0, 0, 0)) +
   geom_label(aes(
     label = &quot;2004 - 2014&quot;,
     x = lon_lim[1] * 0.55,
@@ -16071,9 +16107,7 @@ jens-daniel-mueller
 </table>
 </div>
 </div>
-<pre class="r"><code>p_dcant_inv_dec1 / p_dcant_inv_dec2 + 
-  plot_layout(guides = &quot;collect&quot;) +
-  plot_layout(ncol = 1)</code></pre>
+<pre class="r"><code>p_dcant_inv_dec1 / p_dcant_inv_dec2</code></pre>
 <p><img src="figure/results_publication.Rmd/dcant_column_inventory_maps_robinson_presentation-4.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-dcant_column_inventory_maps_robinson_presentation-4">
@@ -16137,19 +16171,16 @@ jens-daniel-mueller
 </div>
 <pre class="r"><code>ggsave(path = here::here(&quot;output/presentation&quot;),
        filename = &quot;Fig_dcant_column_inventory_uncertainty.png&quot;,
-       height = 7,
-       width = 8,
-       dpi = 600)
+       height = 150,
+       width = 140,
+       units = &quot;mm&quot;,
+       dpi = 600,
+       bg = &quot;white&quot;)
 
 
 
+legend_title &lt;- &quot;ΔΔC&lt;sub&gt;ant&lt;/sub&gt; column inventory&lt;br&gt;(mol m&lt;sup&gt;-2&lt;/sup&gt; dec&lt;sup&gt;-1&lt;/sup&gt;)&quot;
 
-legend_title &lt;- expression(atop(Delta * Delta * C[&quot;ant&quot;],
-                                (mol ~ m ^ {
-                                  -2
-                                } ~ dec ^ {
-                                  -1
-                                })))
 
 p_dcant_inv_delta &lt;-
   p_map_mdim_robinson(df = delta_dcant_inv,
@@ -16157,6 +16188,7 @@ p_dcant_inv_delta &lt;-
                       breaks = c(-Inf, seq(-8, 8, 2), Inf),
                       legend_title = legend_title,
                       col = &quot;divergent&quot;) +
+    theme(plot.margin = margin(10, 0, 0, 0))+
   geom_label(aes(
     label = &quot;Decadal difference&quot;,
     x = lon_lim[1] * 0.55,
@@ -16228,9 +16260,11 @@ jens-daniel-mueller
 </div>
 <pre class="r"><code>ggsave(path = here::here(&quot;output/presentation&quot;),
        filename = &quot;Fig_delta_dcant_column_inventory.png&quot;,
-       height = 4,
-       width = 8,
-       dpi = 600)
+       height = 90,
+       width = 140,
+       units = &quot;mm&quot;,
+       dpi = 600,
+       bg = &quot;white&quot;)
 
 p_dcant_inv_delta &lt;-
   p_map_mdim_robinson(df = delta_dcant_inv,
@@ -16238,7 +16272,8 @@ p_dcant_inv_delta &lt;-
                       var = &quot;dcant_offset&quot;,
                       breaks = c(-Inf, seq(-8, 8, 2), Inf),
                       legend_title = legend_title,
-                      col = &quot;divergent&quot;) +
+                      col = &quot;divergent&quot;) +  
+  theme(plot.margin = margin(10, 0, 0, 0))+
   geom_label(aes(
     label = &quot;Decadal difference&quot;,
     x = lon_lim[1] * 0.55,
@@ -16310,9 +16345,11 @@ jens-daniel-mueller
 </div>
 <pre class="r"><code>ggsave(path = here::here(&quot;output/presentation&quot;),
        filename = &quot;Fig_delta_dcant_column_inventory_uncertainty.png&quot;,
-       height = 4,
-       width = 8,
-       dpi = 600)</code></pre>
+       height = 90,
+       width = 140,
+       units = &quot;mm&quot;,
+       dpi = 600,
+       bg = &quot;white&quot;)</code></pre>
 </div>
 <div id="bias" class="section level2" number="9.7">
 <h2><span class="header-section-number">9.7</span> Bias</h2>
@@ -20241,11 +20278,14 @@ jens-daniel-mueller
        dpi = 600,
        bg = &quot;white&quot;)
 
-# ggsave(path = here::here(&quot;output/presentation&quot;),
-#        filename = &quot;Fig_dcant_global_section.png&quot;,
-#        height = 9,
-#        width = 10,
-#        dpi = 600)
+
+ggsave(path = here::here(&quot;output/presentation&quot;),
+       filename = &quot;Fig_dcant_global_section.png&quot;,
+       height = 210,
+       width = 170,
+       units = &quot;mm&quot;,
+       dpi = 600,
+       bg = &quot;white&quot;)
 
 rm(p_dcant_global_section_dec1, p_dcant_global_section_dec2,
    p_dcant_global_section_offset)</code></pre>
@@ -27000,6 +27040,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/df7bcd03b096b3a70bb331a68be96a39a3d2f5c0/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_additive_uncertainty-1.png" target="_blank">df7bcd0</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-04-18
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/af4daaca04140fd87b6b350d627e08e879b0eee3/docs/figure/results_publication.Rmd/concentration_profiles_MLR_basins_additive_uncertainty-1.png" target="_blank">af4daac</a>
@@ -34091,6 +34142,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/df7bcd03b096b3a70bb331a68be96a39a3d2f5c0/docs/figure/results_publication.Rmd/depth_layer_budget_basin_MLR_ensemble-1.png" target="_blank">df7bcd0</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-04-18
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/af4daaca04140fd87b6b350d627e08e879b0eee3/docs/figure/results_publication.Rmd/depth_layer_budget_basin_MLR_ensemble-1.png" target="_blank">af4daac</a>
 </td>
 <td>
@@ -38833,30 +38895,38 @@ p_tcant_year_trans &lt;- tcant_ts %&gt;%
                  aes(
     ymin = tcant - dcant_sd_int*2,
     ymax = tcant + dcant_sd_int*2,
-    col = &quot;Central estimate\n \u00B1 1σ/2σ uncertainty&quot;
-  ), linewidth = 0.5) +
+    linewidth = 0.5),
+    col = tcant_col) +
   geom_linerange(aes(
     ymin = tcant - dcant_sd_int,
     ymax = tcant + dcant_sd_int,
-    col = &quot;Central estimate\n \u00B1 1σ/2σ uncertainty&quot;
-  ), linewidth = 1) +
+    linewidth = 1),
+    col = tcant_col) +
   geom_point(fill = &quot;white&quot;, shape = 21,
-             aes(col = &quot;Central estimate\n \u00B1 1σ/2σ uncertainty&quot;)) +
+             aes(col = &quot;Central estimate&quot;)) +
   scale_y_continuous(name = expression(Total ~ oceanic ~ C[ant] ~ (Pg~C)),
                      sec.axis = sec_axis( ~ (. / beta + co2_atm_pi_value),
-                                          name = expression(Atm. ~ pCO[2] ~ (µatm)))) +
+                                          name = expression(Atmospheric ~ CO[2] ~ (ppm)))) +
   scale_x_continuous(name = &quot;Year&quot;, breaks = seq(1800, 2000, 50)) +
-  scale_color_manual(values = tcant_col) +
+  scale_linewidth(
+    range = c(0.5, 1),
+    breaks = c(0.5, 1),
+    labels = c(&quot;\u00B1 2σ&quot;, &quot;\u00B1 1σ&quot;),
+    name = &quot;Interval uncertainty&quot;
+  )+
+  scale_color_manual(values = tcant_col,
+                     name = &quot;&quot;) +
+  guides(color = guide_legend(order = 1)) +
   theme(
     axis.title.y.right = element_text(color = atm_co2_col),
     axis.text.y.right = element_text(color = atm_co2_col),
-    axis.ticks.y.right = element_line(color = atm_co2_col),
+    axis.ticks.y.right = element_line(color = atm_co2_col), 
     axis.title.y.left = element_text(color = tcant_col),
     axis.text.y.left = element_text(color = tcant_col),
-    axis.ticks.y.left = element_line(color = tcant_col),
+    axis.ticks.y.left = element_line(color = tcant_col), 
     legend.background = element_rect(fill = &quot;transparent&quot;),
-    legend.position = c(0.85, 0.2),
-    legend.title = element_blank()
+    legend.position = c(0.2, 0.7),
+    legend.spacing.y = unit(0, &quot;cm&quot;)
   )
 
 p_tcant_year_trans</code></pre>
