@@ -3279,12 +3279,7 @@ ggsave(path = here::here("output/publication"),
 
 ```{r dcant_column_inventory_maps_robinson_presentation}
 
-legend_title <- expression(atop(Delta * C["ant"],
-                                (mol ~ m ^ {
-                                  -2
-                                } ~ dec ^ {
-                                  -1
-                                })))
+legend_title <- "ΔC<sub>ant</sub> column inventory<br>(mol m<sup>-2</sup> dec<sup>-1</sup>)"
 
 
 p_dcant_inv_dec1 <-
@@ -3302,6 +3297,8 @@ p_dcant_inv_dec2 <-
   p_map_mdim_robinson(df = dcant_inv_dec2,
                       var = "dcant",
                       legend_title = legend_title) +
+  theme(legend.position = "none",
+        plot.margin = margin(10, 0, 0, 0)) +
   geom_label(aes(
     label = "2004 - 2014",
     x = lon_lim[1] * 0.55,
@@ -3309,22 +3306,23 @@ p_dcant_inv_dec2 <-
   ))
 
 
-p_dcant_inv_dec1 / p_dcant_inv_dec2 + 
-  plot_layout(guides = "collect") +
-  plot_layout(ncol = 1)
+p_dcant_inv_dec1 / p_dcant_inv_dec2
 
 
 ggsave(path = here::here("output/presentation"),
        filename = "Fig_dcant_column_inventory.png",
-       height = 7,
-       width = 8,
-       dpi = 600)
+       height = 150,
+       width = 140,
+       units = "mm",
+       dpi = 600,
+       bg = "white")
 
 p_dcant_inv_dec1 <-
   p_map_mdim_robinson(df = dcant_inv_dec1,
                       df_uncertainty = dcant_inv_uncert_dec1,
                       var = "dcant",
                       legend_title = legend_title) +
+  theme(plot.margin = margin(10, 0, 0, 0))+
   geom_label(aes(
     label = "1994 - 2004",
     x = lon_lim[1] * 0.55,
@@ -3336,10 +3334,14 @@ p_dcant_inv_dec1
 
 
 p_dcant_inv_dec2 <-
-  p_map_mdim_robinson(df = dcant_inv_dec2,
-                      df_uncertainty = dcant_inv_uncert_dec2,
-                      var = "dcant",
-                      legend_title = legend_title) +
+  p_map_mdim_robinson(
+    df = dcant_inv_dec2,
+    df_uncertainty = dcant_inv_uncert_dec2,
+    var = "dcant",
+    legend_title = legend_title
+  ) +
+  theme(legend.position = "none",
+        plot.margin = margin(10, 0, 0, 0)) +
   geom_label(aes(
     label = "2004 - 2014",
     x = lon_lim[1] * 0.55,
@@ -3350,26 +3352,20 @@ p_dcant_inv_dec2 <-
 p_dcant_inv_dec2
 
 
-p_dcant_inv_dec1 / p_dcant_inv_dec2 + 
-  plot_layout(guides = "collect") +
-  plot_layout(ncol = 1)
-
+p_dcant_inv_dec1 / p_dcant_inv_dec2
 
 ggsave(path = here::here("output/presentation"),
        filename = "Fig_dcant_column_inventory_uncertainty.png",
-       height = 7,
-       width = 8,
-       dpi = 600)
+       height = 150,
+       width = 140,
+       units = "mm",
+       dpi = 600,
+       bg = "white")
 
 
 
+legend_title <- "ΔΔC<sub>ant</sub> column inventory<br>(mol m<sup>-2</sup> dec<sup>-1</sup>)"
 
-legend_title <- expression(atop(Delta * Delta * C["ant"],
-                                (mol ~ m ^ {
-                                  -2
-                                } ~ dec ^ {
-                                  -1
-                                })))
 
 p_dcant_inv_delta <-
   p_map_mdim_robinson(df = delta_dcant_inv,
@@ -3377,6 +3373,7 @@ p_dcant_inv_delta <-
                       breaks = c(-Inf, seq(-8, 8, 2), Inf),
                       legend_title = legend_title,
                       col = "divergent") +
+    theme(plot.margin = margin(10, 0, 0, 0))+
   geom_label(aes(
     label = "Decadal difference",
     x = lon_lim[1] * 0.55,
@@ -3389,9 +3386,11 @@ p_dcant_inv_delta
 
 ggsave(path = here::here("output/presentation"),
        filename = "Fig_delta_dcant_column_inventory.png",
-       height = 4,
-       width = 8,
-       dpi = 600)
+       height = 90,
+       width = 140,
+       units = "mm",
+       dpi = 600,
+       bg = "white")
 
 p_dcant_inv_delta <-
   p_map_mdim_robinson(df = delta_dcant_inv,
@@ -3399,7 +3398,8 @@ p_dcant_inv_delta <-
                       var = "dcant_offset",
                       breaks = c(-Inf, seq(-8, 8, 2), Inf),
                       legend_title = legend_title,
-                      col = "divergent") +
+                      col = "divergent") +  
+  theme(plot.margin = margin(10, 0, 0, 0))+
   geom_label(aes(
     label = "Decadal difference",
     x = lon_lim[1] * 0.55,
@@ -3412,9 +3412,11 @@ p_dcant_inv_delta
 
 ggsave(path = here::here("output/presentation"),
        filename = "Fig_delta_dcant_column_inventory_uncertainty.png",
-       height = 4,
-       width = 8,
-       dpi = 600)
+       height = 90,
+       width = 140,
+       units = "mm",
+       dpi = 600,
+       bg = "white")
 
 ```
 
@@ -4497,11 +4499,14 @@ ggsave(path = here::here("output/publication"),
        dpi = 600,
        bg = "white")
 
-# ggsave(path = here::here("output/presentation"),
-#        filename = "Fig_dcant_global_section.png",
-#        height = 9,
-#        width = 10,
-#        dpi = 600)
+
+ggsave(path = here::here("output/presentation"),
+       filename = "Fig_dcant_global_section.png",
+       height = 210,
+       width = 170,
+       units = "mm",
+       dpi = 600,
+       bg = "white")
 
 rm(p_dcant_global_section_dec1, p_dcant_global_section_dec2,
    p_dcant_global_section_offset)
@@ -8076,30 +8081,38 @@ p_tcant_year_trans <- tcant_ts %>%
                  aes(
     ymin = tcant - dcant_sd_int*2,
     ymax = tcant + dcant_sd_int*2,
-    col = "Central estimate\n \u00B1 1σ/2σ uncertainty"
-  ), linewidth = 0.5) +
+    linewidth = 0.5),
+    col = tcant_col) +
   geom_linerange(aes(
     ymin = tcant - dcant_sd_int,
     ymax = tcant + dcant_sd_int,
-    col = "Central estimate\n \u00B1 1σ/2σ uncertainty"
-  ), linewidth = 1) +
+    linewidth = 1),
+    col = tcant_col) +
   geom_point(fill = "white", shape = 21,
-             aes(col = "Central estimate\n \u00B1 1σ/2σ uncertainty")) +
+             aes(col = "Central estimate")) +
   scale_y_continuous(name = expression(Total ~ oceanic ~ C[ant] ~ (Pg~C)),
                      sec.axis = sec_axis( ~ (. / beta + co2_atm_pi_value),
-                                          name = expression(Atm. ~ pCO[2] ~ (µatm)))) +
+                                          name = expression(Atmospheric ~ CO[2] ~ (ppm)))) +
   scale_x_continuous(name = "Year", breaks = seq(1800, 2000, 50)) +
-  scale_color_manual(values = tcant_col) +
+  scale_linewidth(
+    range = c(0.5, 1),
+    breaks = c(0.5, 1),
+    labels = c("\u00B1 2σ", "\u00B1 1σ"),
+    name = "Interval uncertainty"
+  )+
+  scale_color_manual(values = tcant_col,
+                     name = "") +
+  guides(color = guide_legend(order = 1)) +
   theme(
     axis.title.y.right = element_text(color = atm_co2_col),
     axis.text.y.right = element_text(color = atm_co2_col),
-    axis.ticks.y.right = element_line(color = atm_co2_col),
+    axis.ticks.y.right = element_line(color = atm_co2_col), 
     axis.title.y.left = element_text(color = tcant_col),
     axis.text.y.left = element_text(color = tcant_col),
-    axis.ticks.y.left = element_line(color = tcant_col),
+    axis.ticks.y.left = element_line(color = tcant_col), 
     legend.background = element_rect(fill = "transparent"),
-    legend.position = c(0.85, 0.2),
-    legend.title = element_blank()
+    legend.position = c(0.2, 0.7),
+    legend.spacing.y = unit(0, "cm")
   )
 
 p_tcant_year_trans
