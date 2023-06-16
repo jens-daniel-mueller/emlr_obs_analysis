@@ -3896,7 +3896,10 @@ dcant_inv_all_ensemble_lat_mean %>%
 
 ## Write files
 
-```{r write_dcant_column_inventory_files_for_submission, eval=FALSE}
+```{r write_dcant_column_inventory_files_for_submission}
+
+library(units)
+install_unit(symbol = "decade", def = "10 years")
 
 dcant_inv_out <- dcant_inv_all_ensemble %>%
   filter(
@@ -3915,11 +3918,18 @@ dcant_inv_out <- dcant_inv_out %>%
          period,
          MLR_basins,
          Version_ID_group,
-         dcant)
+         dcant) %>%
+  rename(MLR_basin_mask = MLR_basins,
+         MLR_configuration = Version_ID_group)
+
+dcant_inv_out <- dcant_inv_out %>%
+  mutate(lon = if_else(lon > 180,
+                       lon - 360,
+                       lon))
 
 # convert from tibble to stars object
 dcant_inv_out_stars <- st_as_stars(dcant_inv_out,
-                                   dims = c("lon", "lat", "period", "MLR_basins", "Version_ID_group"))
+                                   dims = c("lon", "lat", "period", "MLR_basin_mask", "MLR_configuration"))
 
 # assign coordinate system to horizontal (lon, lat) coordinates
 # st_crs(dcant_inv_out_stars) <- "+proj=longlat"
@@ -3927,11 +3937,15 @@ st_crs(dcant_inv_out_stars) <- st_crs(4326)
 
 # plot variable per depth level
 ggplot() +
-  geom_stars(data = dcant_inv_out_stars %>% 
+  geom_stars(data = dcant_inv_out_stars %>%
                filter(period == "1994 - 2004")) +
-  facet_grid(MLR_basins~Version_ID_group) +
-  scale_fill_viridis_b(breaks = c(-Inf, seq(0,16,2), Inf),
+  facet_grid(MLR_basin_mask ~ MLR_configuration) +
+  scale_fill_viridis_b(breaks = c(-Inf, seq(0, 16, 2), Inf),
                        na.value = "transparent")
+
+dcant_inv_out_stars <-
+  dcant_inv_out_stars %>%
+  mutate(dcant = set_units(dcant, mol / m ^ 2 / decade))
 
 file_out <- paste0(path_out, "inv_dcant_emlr_cstar_mueller_94-04-14.nc")
 
@@ -3952,21 +3966,21 @@ dcant_inv_read_mdim <-
 ggplot() +
   geom_stars(data = dcant_inv_read_ncdf %>% 
                filter(period == "1994 - 2004")) +
-  facet_grid(MLR_basins~Version_ID_group) +
+  facet_grid(MLR_basin_mask ~ MLR_configuration) +
   scale_fill_viridis_b(breaks = c(-Inf, seq(0,16,2), Inf),
                        na.value = "transparent")
 
 ggplot() +
   geom_stars(data = dcant_inv_read_mdim %>% 
                filter(period == "1994 - 2004")) +
-  facet_grid(MLR_basins~Version_ID_group) +
+  facet_grid(MLR_basin_mask ~ MLR_configuration) +
   scale_fill_viridis_b(breaks = c(-Inf, seq(0,16,2), Inf),
                        na.value = "transparent")
 
 ggplot() +
   geom_stars(data = dcant_inv_read_ncdf %>% 
-               filter(MLR_basins == "3")) +
-  facet_grid(period~Version_ID_group) +
+               filter(MLR_basin_mask == "3")) +
+  facet_grid(period ~ MLR_configuration) +
   scale_fill_viridis_b(breaks = c(-Inf, seq(0,16,2), Inf),
                        na.value = "transparent") +
   coord_quickmap()
@@ -3980,7 +3994,7 @@ dcant_inv_read_tidync %>%
   filter(period == "1994 - 2004") %>%
   ggplot(aes(lon, lat, fill = dcant)) +
   geom_raster() +
-  facet_grid(MLR_basins ~ Version_ID_group) +
+  facet_grid(MLR_basin_mask ~ MLR_configuration) +
   scale_fill_viridis_b(breaks = c(-Inf, seq(0,16,2), Inf),
                        na.value = "transparent")
 
@@ -4004,7 +4018,7 @@ dcant_inv_read_tidync %>%
 ```
 
 
-```{r write_dcant_column_inventory_uncertainty_files_for_submission, eval=FALSE}
+```{r write_dcant_column_inventory_uncertainty_files_for_submission}
 
 delta_dcant_inv_uncertainty_out <- delta_dcant_inv_uncertainty %>%
   filter(data_source == "obs") %>%
@@ -4018,6 +4032,10 @@ dcant_inv_uncertainty_out <- dcant_inv_uncertainty %>%
 dcant_inv_uncertainty_out <- bind_rows(dcant_inv_uncertainty_out,
                                        delta_dcant_inv_uncertainty_out)
 
+dcant_inv_uncertainty_out <- dcant_inv_uncertainty_out %>% 
+  mutate(lon = if_else(lon > 180,
+                       lon - 360,
+                       lon))
 
 # convert from tibble to stars object
 dcant_inv_uncertainty_out_stars <- st_as_stars(
@@ -4028,6 +4046,15 @@ dcant_inv_uncertainty_out_stars <- st_as_stars(
 # st_crs(dcant_inv_out_stars) <- "+proj=longlat"
 st_crs(dcant_inv_uncertainty_out_stars) <- st_crs(4326)
 
+dcant_inv_uncertainty_out_stars
+
+dcant_inv_uncertainty_out_stars <-
+  dcant_inv_uncertainty_out_stars %>%
+  mutate(
+    dcant = set_units(dcant, mol / m ^ 2 / decade),
+    uncertainty = set_units(uncertainty, mol / m ^ 2 / decade)
+  )
+
 # plot variable per depth level
 ggplot() +
   geom_stars(data = dcant_inv_uncertainty_out_stars) +
@@ -4036,6 +4063,15 @@ ggplot() +
     breaks = c(-Inf, seq(-16, 16, 4), Inf),
     palette = "RdBu",
     rev = TRUE,
+    na.value = "transparent"
+  )
+
+ggplot() +
+  geom_stars(data = dcant_inv_uncertainty_out_stars,
+             aes(fill = uncertainty)) +
+  facet_grid(period ~ .) +
+  scale_fill_viridis_b(
+    breaks = c(seq(0, 8, 2), Inf),
     na.value = "transparent"
   )
 
@@ -10029,7 +10065,7 @@ rm(
 
 ## Ocean interior dcant
 
-```{r write_ocean_interior_dcant, eval=FALSE}
+```{r write_ocean_interior_dcant}
 
 Version_IDs_out_vector <- Version_IDs_out %>% 
   pull(Version_ID)
@@ -10070,6 +10106,17 @@ for (i_Version_IDs in Version_IDs_out_vector) {
 dcant_3d_all <- full_join(dcant_3d_all, Version_IDs_out) %>% 
   select(-Version_ID)
 
+dcant_3d_all <- dcant_3d_all %>%
+  mutate(lon = if_else(lon > 180,
+                       lon - 360,
+                       lon))
+
+dcant_3d_all <- dcant_3d_all %>%
+  mutate(
+    depth = set_units(depth, m)
+  ) %>% 
+  rename(MLR_basin_mask = MLR_basins,
+         MLR_configuration = Version_ID_group)
 
 # convert from tibble to stars object
 dcant_3d_out_stars <- st_as_stars(
@@ -10079,8 +10126,8 @@ dcant_3d_out_stars <- st_as_stars(
     "lat",
     "depth",
     "period",
-    "MLR_basins",
-    "Version_ID_group"
+    "MLR_basin_mask",
+    "MLR_configuration"
   )
 )
 
@@ -10088,12 +10135,18 @@ dcant_3d_out_stars <- st_as_stars(
 # st_crs(dcant_inv_out_stars) <- "+proj=longlat"
 st_crs(dcant_3d_out_stars) <- st_crs(4326)
 
+dcant_3d_out_stars <-
+  dcant_3d_out_stars %>%
+  mutate(
+    dcant = set_units(dcant, µmol / kg / decade)
+  )
+
 # plot variable per depth level
 ggplot() +
   geom_stars(data = dcant_3d_out_stars %>% 
                filter(period == "1994 - 2004",
-                      depth == 50)) +
-  facet_grid(MLR_basins~Version_ID_group) +
+                      depth == set_units(50,m))) +
+  facet_grid(MLR_basin_mask~MLR_configuration) +
   scale_fill_viridis_b(breaks = c(-Inf, seq(0,16,2), Inf),
                        na.value = "transparent")
 
@@ -10105,26 +10158,26 @@ dcant_3d_out_stars %>%
   write_mdim(file_out)
 
 # reopen .nc file with all available stars functions
-dcant_3d_read_ncdf <-
-  read_ncdf(file_out)
+# dcant_3d_read_ncdf <-
+#   read_ncdf(file_out)
 dcant_3d_read_mdim <-
   read_mdim(file_out)
 
 # plot variable in object reopened
 
-ggplot() +
-  geom_stars(data = dcant_3d_read_ncdf %>% 
-               filter(period == "1994 - 2004",
-                      depth == 50)) +
-  facet_grid(MLR_basins~Version_ID_group) +
-  scale_fill_viridis_b(breaks = c(-Inf, seq(0,16,2), Inf),
-                       na.value = "transparent")
+# ggplot() +
+#   geom_stars(data = dcant_3d_read_ncdf %>% 
+#                filter(period == "1994 - 2004",
+#                       depth == 50)) +
+#   facet_grid(MLR_basin_mask~MLR_configuration) +
+#   scale_fill_viridis_b(breaks = c(-Inf, seq(0,16,2), Inf),
+#                        na.value = "transparent")
 
 ggplot() +
   geom_stars(data = dcant_3d_read_mdim %>% 
                filter(period == "1994 - 2004",
-                      depth == 50)) +
-  facet_grid(MLR_basins~Version_ID_group) +
+                      depth == set_units(50,m))) +
+  facet_grid(MLR_basin_mask~MLR_configuration) +
   scale_fill_viridis_b(breaks = c(-Inf, seq(0,16,2), Inf),
                        na.value = "transparent")
 
@@ -10138,7 +10191,7 @@ dcant_3d_read_tidync %>%
          depth == 50) %>%
   ggplot(aes(lon, lat, fill = dcant)) +
   geom_raster() +
-  facet_grid(MLR_basins ~ Version_ID_group) +
+  facet_grid(MLR_basin_mask ~ MLR_configuration) +
   scale_fill_viridis_b(breaks = c(-Inf, seq(0,16,2), Inf),
                        na.value = "transparent")
 
@@ -10149,17 +10202,30 @@ dcant_3d_read_tidync %>%
 
 
 volume_mask <- dcant_3d_all %>% 
-  filter(MLR_basins == "3",
-         Version_ID_group == "Standard case",
+  filter(MLR_basin_mask == "3",
+         MLR_configuration == "Standard case",
          period == "1994 - 2004") %>% 
-  select(lat, lon, depth)
+  select(lat, lon, depth) %>% 
+  mutate(depth = drop_units(depth))
 
 volume_mask <- m_layer_thickness(volume_mask)
 
+volume_mask <- volume_mask %>%
+  mutate(lon = if_else(lon > 180,
+                       lon - 360,
+                       lon))
+
+  
 volume_mask <- volume_mask %>% 
   mutate(surface_area = earth_surf(lat = lat, lon = lon),
          volume = surface_area * layer_thickness) %>% 
   select(lon, lat, depth, volume)
+  
+volume_mask <- volume_mask %>% 
+  mutate(
+    depth = set_units(depth, m)
+  )
+
 
 # volume_mask %>% 
 #   summarise(
@@ -10182,6 +10248,9 @@ volume_mask_out_stars <- st_as_stars(
 # st_crs(dcant_inv_out_stars) <- "+proj=longlat"
 st_crs(volume_mask_out_stars) <- st_crs(4326)
 
+
+volume_mask_out_stars <- volume_mask_out_stars %>%
+  mutate(volume = set_units(volume, m ^ 3))
 
 file_out <- paste0(path_out, "volume_mask_emlr_cstar_mueller_94-04-14.nc")
 
@@ -10206,7 +10275,7 @@ volume_mask_read_mdim <-
 
 ```
 
-# basinmask
+## basinmask
 
 ```{r basin_mask}
 
@@ -10232,12 +10301,17 @@ basinmask_all <- basinmask_all %>%
 basinmask_all %>% distinct(MLR_basins, basin)
 
 basinmask_all <- basinmask_all %>% 
-  select(lon, lat, basin_mask = MLR_basins, basin_name = basin)
+  select(lon, lat, MLR_basin_mask = MLR_basins, sub_basin_name = basin)
 
 basinmask_all <- basinmask_all %>% 
-  group_by(basin_mask) %>% 
-  mutate(basin_name = as.numeric(as.factor(basin_name))) %>% 
+  group_by(MLR_basin_mask) %>% 
+  mutate(sub_basin_name = as.numeric(as.factor(sub_basin_name))) %>% 
   ungroup()
+
+basinmask_all <- basinmask_all %>%
+  mutate(lon = if_else(lon > 180,
+                       lon - 360,
+                       lon))
 
 # convert from tibble to stars object
 basinmask_all_out_stars <- st_as_stars(
@@ -10245,7 +10319,7 @@ basinmask_all_out_stars <- st_as_stars(
   dims = c(
     "lon",
     "lat",
-    "basin_mask"
+    "MLR_basin_mask"
   )
 )
 
@@ -10267,13 +10341,20 @@ basinmask_all_read_mdim <-
 
 ggplot() +
   geom_stars(data = basinmask_all_read_mdim,
-             aes(fill = as.factor(basin_name))) +
-  facet_wrap(~ basin_mask) +
+             aes(fill = as.factor(sub_basin_name))) +
+  facet_wrap(~ MLR_basin_mask) +
   scale_fill_muted(na.value = "transparent")
 
 surface_area_mask <- basinmask_all %>% 
-  filter(basin_mask == "1") %>% 
-  select(-starts_with("basin")) %>% 
+  filter(MLR_basin_mask == "1") %>% 
+  select(-c(sub_basin_name,MLR_basin_mask))
+
+surface_area_mask <- surface_area_mask %>%
+  mutate(lon = if_else(lon > 180,
+                       lon - 360,
+                       lon))
+
+surface_area_mask <- surface_area_mask %>%
   mutate(surface_area = earth_surf(lat = lat, lon = lon))
   
 
@@ -10288,6 +10369,9 @@ surface_area_mask_out_stars <- st_as_stars(
 # assign coordinate system to horizontal (lon, lat) coordinates
 # st_crs(dcant_inv_out_stars) <- "+proj=longlat"
 st_crs(surface_area_mask_out_stars) <- st_crs(4326)
+
+surface_area_mask_out_stars <- surface_area_mask_out_stars %>% 
+  mutate(surface_area = set_units(surface_area, m ^ 2))
 
 file_out <- paste0(path_out, "surface_area_mask_emlr_cstar_mueller_94-04-14.nc")
 
