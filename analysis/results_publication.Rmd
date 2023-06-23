@@ -3900,6 +3900,7 @@ dcant_inv_all_ensemble_lat_mean %>%
 
 library(units)
 install_unit(symbol = "decade", def = "10 years")
+# remove_unit(symbol = "decade")
 
 dcant_inv_out <- dcant_inv_all_ensemble %>%
   filter(
@@ -3912,6 +3913,12 @@ dcant_inv_out <- dcant_inv_all_ensemble %>%
 Version_IDs_out <- dcant_inv_out %>% 
   distinct(Version_ID, period, Version_ID_group, MLR_basins)
 
+dcant_inv_out %>% 
+  distinct(Version_ID_group, MLR_basins)
+
+dcant_inv_out %>% 
+  distinct(period)
+
 dcant_inv_out <- dcant_inv_out %>%
   select(lon,
          lat,
@@ -3920,7 +3927,8 @@ dcant_inv_out <- dcant_inv_out %>%
          Version_ID_group,
          dcant) %>%
   rename(MLR_basin_mask = MLR_basins,
-         MLR_configuration = Version_ID_group)
+         MLR_configuration = Version_ID_group,
+         dcant_inv = dcant)
 
 dcant_inv_out <- dcant_inv_out %>%
   mutate(lon = if_else(lon > 180,
@@ -3945,7 +3953,7 @@ ggplot() +
 
 dcant_inv_out_stars <-
   dcant_inv_out_stars %>%
-  mutate(dcant = set_units(dcant, mol / m ^ 2 / decade))
+  mutate(dcant_inv = set_units(dcant_inv, mol / m ^ 2 / decade))
 
 file_out <- paste0(path_out, "inv_dcant_emlr_cstar_mueller_94-04-14.nc")
 
@@ -3992,7 +4000,7 @@ dcant_inv_read_tidync <-
 dcant_inv_read_tidync %>%
   tidync::hyper_tibble() %>%
   filter(period == "1994 - 2004") %>%
-  ggplot(aes(lon, lat, fill = dcant)) +
+  ggplot(aes(lon, lat, fill = dcant_inv)) +
   geom_raster() +
   facet_grid(MLR_basin_mask ~ MLR_configuration) +
   scale_fill_viridis_b(breaks = c(-Inf, seq(0,16,2), Inf),
@@ -4037,6 +4045,10 @@ dcant_inv_uncertainty_out <- dcant_inv_uncertainty_out %>%
                        lon - 360,
                        lon))
 
+dcant_inv_uncertainty_out <- dcant_inv_uncertainty_out %>% 
+  rename(dcant_inv = dcant,
+         dcant_inv_uncertainty = uncertainty)
+
 # convert from tibble to stars object
 dcant_inv_uncertainty_out_stars <- st_as_stars(
   dcant_inv_uncertainty_out,
@@ -4051,8 +4063,8 @@ dcant_inv_uncertainty_out_stars
 dcant_inv_uncertainty_out_stars <-
   dcant_inv_uncertainty_out_stars %>%
   mutate(
-    dcant = set_units(dcant, mol / m ^ 2 / decade),
-    uncertainty = set_units(uncertainty, mol / m ^ 2 / decade)
+    dcant_inv = set_units(dcant_inv, mol / m ^ 2 / decade),
+    dcant_inv_uncertainty = set_units(dcant_inv_uncertainty, mol / m ^ 2 / decade)
   )
 
 # plot variable per depth level
@@ -4068,7 +4080,7 @@ ggplot() +
 
 ggplot() +
   geom_stars(data = dcant_inv_uncertainty_out_stars,
-             aes(fill = uncertainty)) +
+             aes(fill = dcant_inv_uncertainty)) +
   facet_grid(period ~ .) +
   scale_fill_viridis_b(
     breaks = c(seq(0, 8, 2), Inf),
@@ -4077,7 +4089,7 @@ ggplot() +
 
 ggplot() +
   geom_stars(data = dcant_inv_uncertainty_out_stars,
-             aes(fill = abs(dcant) - uncertainty)) +
+             aes(fill = abs(dcant_inv) - dcant_inv_uncertainty)) +
   facet_grid(period ~ .) +
   scale_fill_binned_divergingx(
     breaks = c(-Inf, 0 , Inf),
@@ -4099,11 +4111,14 @@ dcant_inv_uncertainty_read_ncdf <-
 dcant_inv_uncertainty_read_mdim <-
   read_mdim(file_out)
 
+st_get_dimension_values(dcant_inv_uncertainty_read_mdim,
+                        "lat")
+
 # plot variable in object reopened
 
 ggplot() +
   geom_stars(data = dcant_inv_uncertainty_read_ncdf,
-             aes(fill = abs(dcant) - uncertainty)) +
+             aes(fill = abs(dcant_inv) - dcant_inv_uncertainty)) +
   facet_grid(period ~ .) +
   scale_fill_binned_divergingx(
     breaks = c(-Inf, 0 , Inf),
@@ -4114,7 +4129,7 @@ ggplot() +
 
 ggplot() +
   geom_stars(data = dcant_inv_uncertainty_read_mdim,
-             aes(fill = abs(dcant) - uncertainty)) +
+             aes(fill = abs(dcant_inv) - dcant_inv_uncertainty)) +
   facet_grid(period ~ .) +
   scale_fill_binned_divergingx(
     breaks = c(-Inf, 0 , Inf),
@@ -4129,7 +4144,7 @@ dcant_inv_uncertainty_read_tidync <-
 dcant_inv_uncertainty_read_tidync %>%
   tidync::hyper_tibble() %>%
   ggplot(aes(lon, lat)) +
-  geom_raster(aes(fill = abs(dcant) - uncertainty)) +
+  geom_raster(aes(fill = abs(dcant_inv) - dcant_inv_uncertainty)) +
   facet_grid(period ~ .) +
   scale_fill_binned_divergingx(
     breaks = c(-Inf, 0 , Inf),
@@ -10093,7 +10108,10 @@ for (i_Version_IDs in Version_IDs_out_vector) {
     select(lon, lat, depth, dcant) %>%
     mutate(Version_ID = i_Version_IDs)
   
-  if (exists("dcant_3d_all")) {
+  dcant_3d %>% 
+    distinct(depth)
+    
+    if (exists("dcant_3d_all")) {
     dcant_3d_all <- bind_rows(dcant_3d_all, dcant_3d)
   }
   
