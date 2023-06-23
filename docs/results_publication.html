@@ -709,7 +709,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Results publication</h1>
 <h4 class="author">Jens Daniel Müller</h4>
-<h4 class="date">16 June, 2023</h4>
+<h4 class="date">23 June, 2023</h4>
 
 </div>
 
@@ -738,7 +738,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2023-06-16
+<strong>Last updated:</strong> 2023-06-23
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -870,15 +870,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreef6ba15db6e42728f6e0939610615bf692a5c4d3atargetblankf6ba15da">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree0386a6874c343ed0fdce5fe1fbf5d8afe4d093cctargetblank0386a68a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/f6ba15db6e42728f6e0939610615bf692a5c4d3a" target="_blank">f6ba15d</a>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/0386a6874c343ed0fdce5fe1fbf5d8afe4d093cc" target="_blank">0386a68</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistreef6ba15db6e42728f6e0939610615bf692a5c4d3atargetblankf6ba15da"
+id="strongRepositoryversionstrongahrefhttpsgithubcomjensdanielmuelleremlrobsanalysistree0386a6874c343ed0fdce5fe1fbf5d8afe4d093cctargetblank0386a68a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -888,7 +888,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/f6ba15db6e42728f6e0939610615bf692a5c4d3a" target="_blank">f6ba15d</a>.
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/tree/0386a6874c343ed0fdce5fe1fbf5d8afe4d093cc" target="_blank">0386a68</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -1052,6 +1052,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/0386a6874c343ed0fdce5fe1fbf5d8afe4d093cc/analysis/results_publication.Rmd" target="_blank">0386a68</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-06-23
+</td>
+<td>
+updated output files
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jens-daniel-mueller/emlr_obs_analysis/1293a877b22318d0c9c7f366c374df103d111b19/docs/results_publication.html" target="_blank">1293a87</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-06-16
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -19470,6 +19504,7 @@ jens-daniel-mueller
 <h2><span class="header-section-number">9.11</span> Write files</h2>
 <pre class="r"><code>library(units)
 install_unit(symbol = &quot;decade&quot;, def = &quot;10 years&quot;)
+# remove_unit(symbol = &quot;decade&quot;)
 
 dcant_inv_out &lt;- dcant_inv_all_ensemble %&gt;%
   filter(
@@ -19482,7 +19517,30 @@ dcant_inv_out &lt;- dcant_inv_all_ensemble %&gt;%
 Version_IDs_out &lt;- dcant_inv_out %&gt;% 
   distinct(Version_ID, period, Version_ID_group, MLR_basins)
 
-dcant_inv_out &lt;- dcant_inv_out %&gt;%
+dcant_inv_out %&gt;% 
+  distinct(Version_ID_group, MLR_basins)</code></pre>
+<pre><code># A tibble: 11 × 2
+   Version_ID_group  MLR_basins
+   &lt;chr&gt;             &lt;chr&gt;     
+ 1 Standard case     1         
+ 2 Standard case     2         
+ 3 Standard case     3         
+ 4 Standard case     5         
+ 5 Standard case     5+SO      
+ 6 Standard case     3+SO      
+ 7 Cruise adjustment 3         
+ 8 Gap filling       3         
+ 9 C* with NO3,TA    3         
+10 OceanSODA DIC     3         
+11 WOA18 predictors  3         </code></pre>
+<pre class="r"><code>dcant_inv_out %&gt;% 
+  distinct(period)</code></pre>
+<pre><code># A tibble: 2 × 1
+  period     
+  &lt;chr&gt;      
+1 2004 - 2014
+2 1994 - 2004</code></pre>
+<pre class="r"><code>dcant_inv_out &lt;- dcant_inv_out %&gt;%
   select(lon,
          lat,
          period,
@@ -19490,7 +19548,8 @@ dcant_inv_out &lt;- dcant_inv_out %&gt;%
          Version_ID_group,
          dcant) %&gt;%
   rename(MLR_basin_mask = MLR_basins,
-         MLR_configuration = Version_ID_group)
+         MLR_configuration = Version_ID_group,
+         dcant_inv = dcant)
 
 dcant_inv_out &lt;- dcant_inv_out %&gt;%
   mutate(lon = if_else(lon &gt; 180,
@@ -19513,9 +19572,47 @@ ggplot() +
   scale_fill_viridis_b(breaks = c(-Inf, seq(0, 16, 2), Inf),
                        na.value = &quot;transparent&quot;)</code></pre>
 <p><img src="figure/results_publication.Rmd/write_dcant_column_inventory_files_for_submission-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-write_dcant_column_inventory_files_for_submission-1">
+Past versions of write_dcant_column_inventory_files_for_submission-1.png
+</button>
+</p>
+<div id="fig-write_dcant_column_inventory_files_for_submission-1"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1293a877b22318d0c9c7f366c374df103d111b19/docs/figure/results_publication.Rmd/write_dcant_column_inventory_files_for_submission-1.png" target="_blank">1293a87</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-06-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>dcant_inv_out_stars &lt;-
   dcant_inv_out_stars %&gt;%
-  mutate(dcant = set_units(dcant, mol / m ^ 2 / decade))
+  mutate(dcant_inv = set_units(dcant_inv, mol / m ^ 2 / decade))
 
 file_out &lt;- paste0(path_out, &quot;inv_dcant_emlr_cstar_mueller_94-04-14.nc&quot;)
 
@@ -19540,6 +19637,44 @@ ggplot() +
   scale_fill_viridis_b(breaks = c(-Inf, seq(0,16,2), Inf),
                        na.value = &quot;transparent&quot;)</code></pre>
 <p><img src="figure/results_publication.Rmd/write_dcant_column_inventory_files_for_submission-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-write_dcant_column_inventory_files_for_submission-2">
+Past versions of write_dcant_column_inventory_files_for_submission-2.png
+</button>
+</p>
+<div id="fig-write_dcant_column_inventory_files_for_submission-2"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1293a877b22318d0c9c7f366c374df103d111b19/docs/figure/results_publication.Rmd/write_dcant_column_inventory_files_for_submission-2.png" target="_blank">1293a87</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-06-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>ggplot() +
   geom_stars(data = dcant_inv_read_mdim %&gt;% 
                filter(period == &quot;1994 - 2004&quot;)) +
@@ -19547,6 +19682,44 @@ ggplot() +
   scale_fill_viridis_b(breaks = c(-Inf, seq(0,16,2), Inf),
                        na.value = &quot;transparent&quot;)</code></pre>
 <p><img src="figure/results_publication.Rmd/write_dcant_column_inventory_files_for_submission-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-write_dcant_column_inventory_files_for_submission-3">
+Past versions of write_dcant_column_inventory_files_for_submission-3.png
+</button>
+</p>
+<div id="fig-write_dcant_column_inventory_files_for_submission-3"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1293a877b22318d0c9c7f366c374df103d111b19/docs/figure/results_publication.Rmd/write_dcant_column_inventory_files_for_submission-3.png" target="_blank">1293a87</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-06-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>ggplot() +
   geom_stars(data = dcant_inv_read_ncdf %&gt;% 
                filter(MLR_basin_mask == &quot;3&quot;)) +
@@ -19555,18 +19728,94 @@ ggplot() +
                        na.value = &quot;transparent&quot;) +
   coord_quickmap()</code></pre>
 <p><img src="figure/results_publication.Rmd/write_dcant_column_inventory_files_for_submission-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-write_dcant_column_inventory_files_for_submission-4">
+Past versions of write_dcant_column_inventory_files_for_submission-4.png
+</button>
+</p>
+<div id="fig-write_dcant_column_inventory_files_for_submission-4"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1293a877b22318d0c9c7f366c374df103d111b19/docs/figure/results_publication.Rmd/write_dcant_column_inventory_files_for_submission-4.png" target="_blank">1293a87</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-06-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>dcant_inv_read_tidync &lt;-
   tidync::tidync(file_out)
 
 dcant_inv_read_tidync %&gt;%
   tidync::hyper_tibble() %&gt;%
   filter(period == &quot;1994 - 2004&quot;) %&gt;%
-  ggplot(aes(lon, lat, fill = dcant)) +
+  ggplot(aes(lon, lat, fill = dcant_inv)) +
   geom_raster() +
   facet_grid(MLR_basin_mask ~ MLR_configuration) +
   scale_fill_viridis_b(breaks = c(-Inf, seq(0,16,2), Inf),
                        na.value = &quot;transparent&quot;)</code></pre>
 <p><img src="figure/results_publication.Rmd/write_dcant_column_inventory_files_for_submission-5.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-write_dcant_column_inventory_files_for_submission-5">
+Past versions of write_dcant_column_inventory_files_for_submission-5.png
+</button>
+</p>
+<div id="fig-write_dcant_column_inventory_files_for_submission-5"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1293a877b22318d0c9c7f366c374df103d111b19/docs/figure/results_publication.Rmd/write_dcant_column_inventory_files_for_submission-5.png" target="_blank">1293a87</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-06-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code># library(ncdf4)
 # 
 # nc &lt;- nc_open(file_out)
@@ -19600,6 +19849,10 @@ dcant_inv_uncertainty_out &lt;- dcant_inv_uncertainty_out %&gt;%
                        lon - 360,
                        lon))
 
+dcant_inv_uncertainty_out &lt;- dcant_inv_uncertainty_out %&gt;% 
+  rename(dcant_inv = dcant,
+         dcant_inv_uncertainty = uncertainty)
+
 # convert from tibble to stars object
 dcant_inv_uncertainty_out_stars &lt;- st_as_stars(
   dcant_inv_uncertainty_out,
@@ -19612,9 +19865,12 @@ st_crs(dcant_inv_uncertainty_out_stars) &lt;- st_crs(4326)
 dcant_inv_uncertainty_out_stars</code></pre>
 <pre><code>stars object with 3 dimensions and 2 attributes
 attribute(s):
-                    Min.   1st Qu.   Median     Mean  3rd Qu.      Max. NA&#39;s
-dcant        -10.1303472 0.5618754 4.469650 4.270453 8.119695 16.886397 2554
-uncertainty    0.4205639 1.4015153 1.999632 2.166165 2.680855  8.674772 2556
+                              Min.   1st Qu.   Median     Mean  3rd Qu.
+dcant_inv              -10.1303472 0.5618754 4.469650 4.270453 8.119695
+dcant_inv_uncertainty    0.4205639 1.4015153 1.999632 2.166165 2.680855
+                            Max. NA&#39;s
+dcant_inv              16.886397 2554
+dcant_inv_uncertainty   8.674772 2556
 dimension(s):
        from to offset delta refsys
 lon       1 72   -180     5 WGS 84
@@ -19627,8 +19883,8 @@ period 1994 - 2004       , 2004 - 2014       , decadal difference    </code></pr
 <pre class="r"><code>dcant_inv_uncertainty_out_stars &lt;-
   dcant_inv_uncertainty_out_stars %&gt;%
   mutate(
-    dcant = set_units(dcant, mol / m ^ 2 / decade),
-    uncertainty = set_units(uncertainty, mol / m ^ 2 / decade)
+    dcant_inv = set_units(dcant_inv, mol / m ^ 2 / decade),
+    dcant_inv_uncertainty = set_units(dcant_inv_uncertainty, mol / m ^ 2 / decade)
   )
 
 # plot variable per depth level
@@ -19642,18 +19898,98 @@ ggplot() +
     na.value = &quot;transparent&quot;
   )</code></pre>
 <p><img src="figure/results_publication.Rmd/write_dcant_column_inventory_uncertainty_files_for_submission-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-write_dcant_column_inventory_uncertainty_files_for_submission-1">
+Past versions of
+write_dcant_column_inventory_uncertainty_files_for_submission-1.png
+</button>
+</p>
+<div
+id="fig-write_dcant_column_inventory_uncertainty_files_for_submission-1"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1293a877b22318d0c9c7f366c374df103d111b19/docs/figure/results_publication.Rmd/write_dcant_column_inventory_uncertainty_files_for_submission-1.png" target="_blank">1293a87</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-06-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>ggplot() +
   geom_stars(data = dcant_inv_uncertainty_out_stars,
-             aes(fill = uncertainty)) +
+             aes(fill = dcant_inv_uncertainty)) +
   facet_grid(period ~ .) +
   scale_fill_viridis_b(
     breaks = c(seq(0, 8, 2), Inf),
     na.value = &quot;transparent&quot;
   )</code></pre>
 <p><img src="figure/results_publication.Rmd/write_dcant_column_inventory_uncertainty_files_for_submission-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-write_dcant_column_inventory_uncertainty_files_for_submission-2">
+Past versions of
+write_dcant_column_inventory_uncertainty_files_for_submission-2.png
+</button>
+</p>
+<div
+id="fig-write_dcant_column_inventory_uncertainty_files_for_submission-2"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1293a877b22318d0c9c7f366c374df103d111b19/docs/figure/results_publication.Rmd/write_dcant_column_inventory_uncertainty_files_for_submission-2.png" target="_blank">1293a87</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-06-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>ggplot() +
   geom_stars(data = dcant_inv_uncertainty_out_stars,
-             aes(fill = abs(dcant) - uncertainty)) +
+             aes(fill = abs(dcant_inv) - dcant_inv_uncertainty)) +
   facet_grid(period ~ .) +
   scale_fill_binned_divergingx(
     breaks = c(-Inf, 0 , Inf),
@@ -19662,6 +19998,46 @@ ggplot() +
     na.value = &quot;transparent&quot;
   )</code></pre>
 <p><img src="figure/results_publication.Rmd/write_dcant_column_inventory_uncertainty_files_for_submission-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-write_dcant_column_inventory_uncertainty_files_for_submission-3">
+Past versions of
+write_dcant_column_inventory_uncertainty_files_for_submission-3.png
+</button>
+</p>
+<div
+id="fig-write_dcant_column_inventory_uncertainty_files_for_submission-3"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1293a877b22318d0c9c7f366c374df103d111b19/docs/figure/results_publication.Rmd/write_dcant_column_inventory_uncertainty_files_for_submission-3.png" target="_blank">1293a87</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-06-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>file_out &lt;- paste0(path_out,&quot;inv_dcant_emlr_cstar_mueller_94-04-14_uncertainty.nc&quot;)
 
 # write stars object to .nc file
@@ -19674,11 +20050,16 @@ dcant_inv_uncertainty_read_ncdf &lt;-
 dcant_inv_uncertainty_read_mdim &lt;-
   read_mdim(file_out)
 
-# plot variable in object reopened
+st_get_dimension_values(dcant_inv_uncertainty_read_mdim,
+                        &quot;lat&quot;)</code></pre>
+<pre><code> [1]  62.5  57.5  52.5  47.5  42.5  37.5  32.5  27.5  22.5  17.5  12.5   7.5
+[13]   2.5  -2.5  -7.5 -12.5 -17.5 -22.5 -27.5 -32.5 -37.5 -42.5 -47.5 -52.5
+[25] -57.5 -62.5 -67.5 -72.5</code></pre>
+<pre class="r"><code># plot variable in object reopened
 
 ggplot() +
   geom_stars(data = dcant_inv_uncertainty_read_ncdf,
-             aes(fill = abs(dcant) - uncertainty)) +
+             aes(fill = abs(dcant_inv) - dcant_inv_uncertainty)) +
   facet_grid(period ~ .) +
   scale_fill_binned_divergingx(
     breaks = c(-Inf, 0 , Inf),
@@ -19687,9 +20068,49 @@ ggplot() +
     na.value = &quot;transparent&quot;
   )</code></pre>
 <p><img src="figure/results_publication.Rmd/write_dcant_column_inventory_uncertainty_files_for_submission-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-write_dcant_column_inventory_uncertainty_files_for_submission-4">
+Past versions of
+write_dcant_column_inventory_uncertainty_files_for_submission-4.png
+</button>
+</p>
+<div
+id="fig-write_dcant_column_inventory_uncertainty_files_for_submission-4"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1293a877b22318d0c9c7f366c374df103d111b19/docs/figure/results_publication.Rmd/write_dcant_column_inventory_uncertainty_files_for_submission-4.png" target="_blank">1293a87</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-06-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>ggplot() +
   geom_stars(data = dcant_inv_uncertainty_read_mdim,
-             aes(fill = abs(dcant) - uncertainty)) +
+             aes(fill = abs(dcant_inv) - dcant_inv_uncertainty)) +
   facet_grid(period ~ .) +
   scale_fill_binned_divergingx(
     breaks = c(-Inf, 0 , Inf),
@@ -19698,13 +20119,53 @@ ggplot() +
     na.value = &quot;transparent&quot;
   )</code></pre>
 <p><img src="figure/results_publication.Rmd/write_dcant_column_inventory_uncertainty_files_for_submission-5.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-write_dcant_column_inventory_uncertainty_files_for_submission-5">
+Past versions of
+write_dcant_column_inventory_uncertainty_files_for_submission-5.png
+</button>
+</p>
+<div
+id="fig-write_dcant_column_inventory_uncertainty_files_for_submission-5"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1293a877b22318d0c9c7f366c374df103d111b19/docs/figure/results_publication.Rmd/write_dcant_column_inventory_uncertainty_files_for_submission-5.png" target="_blank">1293a87</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-06-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>dcant_inv_uncertainty_read_tidync &lt;-
   tidync::tidync(file_out)
 
 dcant_inv_uncertainty_read_tidync %&gt;%
   tidync::hyper_tibble() %&gt;%
   ggplot(aes(lon, lat)) +
-  geom_raster(aes(fill = abs(dcant) - uncertainty)) +
+  geom_raster(aes(fill = abs(dcant_inv) - dcant_inv_uncertainty)) +
   facet_grid(period ~ .) +
   scale_fill_binned_divergingx(
     breaks = c(-Inf, 0 , Inf),
@@ -19713,6 +20174,46 @@ dcant_inv_uncertainty_read_tidync %&gt;%
     na.value = &quot;transparent&quot;
   )</code></pre>
 <p><img src="figure/results_publication.Rmd/write_dcant_column_inventory_uncertainty_files_for_submission-6.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-write_dcant_column_inventory_uncertainty_files_for_submission-6">
+Past versions of
+write_dcant_column_inventory_uncertainty_files_for_submission-6.png
+</button>
+</p>
+<div
+id="fig-write_dcant_column_inventory_uncertainty_files_for_submission-6"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1293a877b22318d0c9c7f366c374df103d111b19/docs/figure/results_publication.Rmd/write_dcant_column_inventory_uncertainty_files_for_submission-6.png" target="_blank">1293a87</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-06-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code># library(ncdf4)
 # nc_open(file_out)
 # nc_close(file_out)</code></pre>
@@ -20050,6 +20551,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1293a877b22318d0c9c7f366c374df103d111b19/docs/figure/results_publication.Rmd/global_sections_obs-1.png" target="_blank">1293a87</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-06-16
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/af4daaca04140fd87b6b350d627e08e879b0eee3/docs/figure/results_publication.Rmd/global_sections_obs-1.png" target="_blank">af4daac</a>
@@ -20390,6 +20902,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1293a877b22318d0c9c7f366c374df103d111b19/docs/figure/results_publication.Rmd/global_sections_obs-3.png" target="_blank">1293a87</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-06-16
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/af4daaca04140fd87b6b350d627e08e879b0eee3/docs/figure/results_publication.Rmd/global_sections_obs-3.png" target="_blank">af4daac</a>
 </td>
 <td>
@@ -20460,6 +20983,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1293a877b22318d0c9c7f366c374df103d111b19/docs/figure/results_publication.Rmd/global_sections_obs-4.png" target="_blank">1293a87</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-06-16
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/af4daaca04140fd87b6b350d627e08e879b0eee3/docs/figure/results_publication.Rmd/global_sections_obs-4.png" target="_blank">af4daac</a>
@@ -20615,6 +21149,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1293a877b22318d0c9c7f366c374df103d111b19/docs/figure/results_publication.Rmd/global_sections_mod-1.png" target="_blank">1293a87</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-06-16
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/af4daaca04140fd87b6b350d627e08e879b0eee3/docs/figure/results_publication.Rmd/global_sections_mod-1.png" target="_blank">af4daac</a>
@@ -48901,7 +49446,10 @@ for (i_Version_IDs in Version_IDs_out_vector) {
     select(lon, lat, depth, dcant) %&gt;%
     mutate(Version_ID = i_Version_IDs)
   
-  if (exists(&quot;dcant_3d_all&quot;)) {
+  dcant_3d %&gt;% 
+    distinct(depth)
+    
+    if (exists(&quot;dcant_3d_all&quot;)) {
     dcant_3d_all &lt;- bind_rows(dcant_3d_all, dcant_3d)
   }
   
@@ -48958,6 +49506,43 @@ ggplot() +
   scale_fill_viridis_b(breaks = c(-Inf, seq(0,16,2), Inf),
                        na.value = &quot;transparent&quot;)</code></pre>
 <p><img src="figure/results_publication.Rmd/write_ocean_interior_dcant-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-write_ocean_interior_dcant-1">
+Past versions of write_ocean_interior_dcant-1.png
+</button>
+</p>
+<div id="fig-write_ocean_interior_dcant-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1293a877b22318d0c9c7f366c374df103d111b19/docs/figure/results_publication.Rmd/write_ocean_interior_dcant-1.png" target="_blank">1293a87</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-06-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>file_out &lt;- paste0(path_out, &quot;dcant_emlr_cstar_mueller_94-04-14.nc&quot;)
 
 # write stars object to .nc file
@@ -48988,6 +49573,43 @@ ggplot() +
   scale_fill_viridis_b(breaks = c(-Inf, seq(0,16,2), Inf),
                        na.value = &quot;transparent&quot;)</code></pre>
 <p><img src="figure/results_publication.Rmd/write_ocean_interior_dcant-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-write_ocean_interior_dcant-2">
+Past versions of write_ocean_interior_dcant-2.png
+</button>
+</p>
+<div id="fig-write_ocean_interior_dcant-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1293a877b22318d0c9c7f366c374df103d111b19/docs/figure/results_publication.Rmd/write_ocean_interior_dcant-2.png" target="_blank">1293a87</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-06-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>dcant_3d_read_tidync &lt;-
   tidync::tidync(file_out)
 
@@ -49001,6 +49623,43 @@ dcant_3d_read_tidync %&gt;%
   scale_fill_viridis_b(breaks = c(-Inf, seq(0,16,2), Inf),
                        na.value = &quot;transparent&quot;)</code></pre>
 <p><img src="figure/results_publication.Rmd/write_ocean_interior_dcant-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-write_ocean_interior_dcant-3">
+Past versions of write_ocean_interior_dcant-3.png
+</button>
+</p>
+<div id="fig-write_ocean_interior_dcant-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1293a877b22318d0c9c7f366c374df103d111b19/docs/figure/results_publication.Rmd/write_ocean_interior_dcant-3.png" target="_blank">1293a87</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-06-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code># library(ncdf4)
 # nc &lt;- nc_open(file_out)
 # nc_close(nc)
@@ -49217,6 +49876,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/1293a877b22318d0c9c7f366c374df103d111b19/docs/figure/results_publication.Rmd/basin_mask-2.png" target="_blank">1293a87</a>
+</td>
+<td>
+jens-daniel-mueller
+</td>
+<td>
+2023-06-16
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/jens-daniel-mueller/emlr_obs_analysis/blob/6d5aa438e3f633d1b9ef373354a6b6e6948b8e03/docs/figure/results_publication.Rmd/basin_mask-2.png" target="_blank">6d5aa43</a>
